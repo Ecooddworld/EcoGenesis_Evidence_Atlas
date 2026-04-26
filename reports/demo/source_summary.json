@@ -1,0 +1,8 @@
+{
+  "requested_source_mode": "fixture",
+  "used_source_mode": "fixture",
+  "gbif_api_status": "not_called",
+  "fallback_used": false,
+  "warnings": [],
+  "gbif_base_url": "https://api.gbif.org/v1"
+}

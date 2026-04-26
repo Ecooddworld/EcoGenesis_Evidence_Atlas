@@ -1,0 +1,15 @@
+.env
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.venv/
+node_modules/
+dist/
+build/
+.DS_Store
+data/*
+!data/.gitkeep
+backend/app/__pycache__/
+backend/app/evidence/__pycache__/
+backend/tests/__pycache__/
+

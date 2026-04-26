@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>GBIF Evidence Passport</title>
+  <style>
+    :root { color: #17201a; font-family: Inter, Arial, sans-serif; }
+    body { background: #f4f7f1; margin: 0; line-height: 1.55; }
+    main { margin: 0 auto; max-width: 1120px; padding: 36px 24px; }
+    header, section { background: #fff; border: 1px solid #dce5dd; border-radius: 8px; margin-bottom: 18px; padding: 22px; }
+    h1, h2, h3 { margin: 0; }
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.05rem; margin-bottom: 12px; }
+    .eyebrow { color: #5f6f68; font-size: .76rem; font-weight: 800; text-transform: uppercase; }
+    .hero { align-items: center; display: flex; gap: 20px; justify-content: space-between; }
+    .score { background: #e4f2e7; border: 1px solid #bcd8c5; border-radius: 8px; color: #1d6147; font-size: 2.2rem; font-weight: 800; padding: 16px 18px; }
+    .kpis { display: grid; gap: 12px; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .kpi { background: #f7f9f5; border: 1px solid #e1e9e2; border-radius: 8px; padding: 14px; }
+    .kpi strong { display: block; font-size: 1.3rem; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border-bottom: 1px solid #e7ece8; padding: 9px; text-align: left; vertical-align: top; }
+    th { color: #4a5b53; font-size: .82rem; }
+    .claims { display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .map-wrap { background: #e8f1f4; border: 1px solid #bfd0d6; border-radius: 8px; overflow: hidden; position: relative; }
+    .map-wrap svg { display: block; height: auto; width: 100%; }
+    .map-thesis { background: #f6faf7; border: 1px solid #dce8df; border-radius: 8px; font-weight: 700; padding: 12px; }
+    .legend { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; }
+    .legend span { align-items: center; color: #4e5f56; display: inline-flex; font-size: .84rem; gap: 6px; }
+    .dot, .cell { background: #206b4f; border-radius: 50%; display: inline-block; height: 10px; width: 10px; }
+    .dot.issue { background: #bd553d; }
+    .cell { background: #e4a24e; border-radius: 2px; }
+    .cell.empty { background: #8ca0ad; }
+    ul { margin: 0; padding-left: 20px; }
+    li + li { margin-top: 6px; }
+    .warning { background: #fff6de; border: 1px solid #ead493; border-radius: 8px; padding: 12px; }
+    @media (max-width: 760px) { .hero, .claims { display: block; } .kpis { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header class="hero">
+      <div>
+        <p class="eyebrow">GBIF Evidence Passport</p>
+        <h1>Aedes albopictus</h1>
+        <p>Spain demo bbox · Invasive watch</p>
+      </div>
+      <div class="score">74.03/100</div>
+    </header>
+    <section class="kpis" aria-label="Evidence summary">
+      <div class="kpi"><span>Records</span><strong>12</strong></div>
+      <div class="kpi"><span>Datasets</span><strong>4</strong></div>
+      <div class="kpi"><span>Missing dates</span><strong>2</strong></div>
+      <div class="kpi"><span>High uncertainty</span><strong>4</strong></div>
+    </section>
+    <section>
+      <h2>Scientific Evidence Map</h2>
+      <p class="map-thesis">The evidence is useful for regional screening, while 4 high-uncertainty records need geospatial review.</p>
+      <div class="map-wrap">
+        <svg role="img" aria-label="Static scientific evidence map" viewBox="0 0 100 68" preserveAspectRatio="xMidYMid meet">
+          <style>
+            .sea { fill: #d5e7ed; }
+            .land { fill: #dce5cd; stroke: #7c986f; stroke-width: .45; vector-effect: non-scaling-stroke; }
+            .grid-line { stroke: rgba(53,87,99,.22); stroke-dasharray: 1.2 1.2; stroke-width: .25; vector-effect: non-scaling-stroke; }
+            .bbox { fill: none; stroke: rgba(28,72,91,.78); stroke-width: .55; vector-effect: non-scaling-stroke; }
+            .grid-cell { stroke: rgba(36,69,59,.42); stroke-width: .36; vector-effect: non-scaling-stroke; }
+            .grid-cell.empty { fill: rgba(63,90,110,.14); stroke-dasharray: 1.1 .9; }
+            .grid-cell.under { fill: rgba(224,143,57,.36); stroke: rgba(160,83,29,.72); }
+            .grid-cell.occupied { fill: rgba(44,125,83,.28); stroke: rgba(32,94,69,.72); }
+            .record { fill: #176b4f; stroke: #fff; stroke-width: .55; vector-effect: non-scaling-stroke; }
+            .record.issue { fill: #bd553d; }
+            .label { fill: rgba(43,65,57,.7); font-size: 2.1px; font-weight: 800; letter-spacing: 0; paint-order: stroke; stroke: rgba(255,255,255,.82); stroke-width: .65; text-anchor: middle; }
+          </style>
+          <rect class="sea" x="0" y="0" width="100" height="68"></rect>
+          <polygon class="land" points="3.45,5.73 13.10,8.23 26.21,5.58 51.72,7.37 73.79,12.53 90.69,18.25 91.38,28.99 76.90,37.58 68.97,42.09 64.48,48.10 53.45,55.47 34.48,60.27 23.10,60.70 18.07,53.33 7.93,53.68 4.83,42.95 5.86,31.14 2.62,20.76 3.45,5.73"><title>Iberian Peninsula</title></polygon>
+          <line class="grid-line" x1="25" x2="25" y1="0" y2="68"></line>
+          <line class="grid-line" x1="50" x2="50" y1="0" y2="68"></line>
+          <line class="grid-line" x1="75" x2="75" y1="0" y2="68"></line>
+          <line class="grid-line" x1="0" x2="100" y1="17.00" y2="17.00"></line>
+          <line class="grid-line" x1="0" x2="100" y1="34.00" y2="34.00"></line>
+          <line class="grid-line" x1="0" x2="100" y1="51.00" y2="51.00"></line>
+          <text class="label" x="44" y="28">Iberian Peninsula</text>
+          <text class="label" x="46" y="37">Spain</text>
+          <rect class="bbox" x=".6" y=".6" width="98.8" height="66.80"></rect>
+          <rect class="grid-cell empty" x="0.00" y="51.00" width="25.00" height="17.00"><title>grid:4:0:0: 0 records, coverage 0.0</title></rect><rect class="grid-cell empty" x="0.00" y="34.00" width="25.00" height="17.00"><title>grid:4:0:1: 0 records, coverage 0.0</title></rect><rect class="grid-cell empty" x="0.00" y="17.00" width="25.00" height="17.00"><title>grid:4:0:2: 0 records, coverage 0.0</title></rect><rect class="grid-cell under" x="0.00" y="0.00" width="25.00" height="17.00"><title>grid:4:0:3: 1 records, coverage 0.2</title></rect><rect class="grid-cell under" x="25.00" y="51.00" width="25.00" height="17.00"><title>grid:4:1:0: 1 records, coverage 0.2</title></rect><rect class="grid-cell under" x="25.00" y="34.00" width="25.00" height="17.00"><title>grid:4:1:1: 1 records, coverage 0.2</title></rect><rect class="grid-cell under" x="25.00" y="17.00" width="25.00" height="17.00"><title>grid:4:1:2: 1 records, coverage 0.2</title></rect><rect class="grid-cell under" x="25.00" y="0.00" width="25.00" height="17.00"><title>grid:4:1:3: 1 records, coverage 0.2</title></rect><rect class="grid-cell empty" x="50.00" y="51.00" width="25.00" height="17.00"><title>grid:4:2:0: 0 records, coverage 0.0</title></rect><rect class="grid-cell under" x="50.00" y="34.00" width="25.00" height="17.00"><title>grid:4:2:1: 2 records, coverage 0.4</title></rect><rect class="grid-cell under" x="50.00" y="17.00" width="25.00" height="17.00"><title>grid:4:2:2: 2 records, coverage 0.4</title></rect><rect class="grid-cell empty" x="50.00" y="0.00" width="25.00" height="17.00"><title>grid:4:2:3: 0 records, coverage 0.0</title></rect><rect class="grid-cell empty" x="75.00" y="51.00" width="25.00" height="17.00"><title>grid:4:3:0: 0 records, coverage 0.0</title></rect><rect class="grid-cell under" x="75.00" y="34.00" width="25.00" height="17.00"><title>grid:4:3:1: 1 records, coverage 0.2</title></rect><rect class="grid-cell under" x="75.00" y="17.00" width="25.00" height="17.00"><title>grid:4:3:2: 2 records, coverage 0.4</title></rect><rect class="grid-cell empty" x="75.00" y="0.00" width="25.00" height="17.00"><title>grid:4:3:3: 0 records, coverage 0.0</title></rect>
+          <circle class="record " cx="83.92" cy="22.28" r="1.25"><title>1001 · spain-mosquito-watch · 2.169, 41.387</title></circle><circle class="record " cx="84.28" cy="21.83" r="1.25"><title>1002 · spain-mosquito-watch · 2.220, 41.450</title></circle><circle class="record " cx="66.37" cy="36.00" r="1.25"><title>1003 · spain-mosquito-watch · -0.376, 39.470</title></circle><circle class="record issue" cx="65.65" cy="44.06" r="1.25"><title>1004 · spain-mosquito-watch · -0.481, 38.345</title></circle><circle class="record " cx="43.42" cy="29.23" r="1.25"><title>1005 · iberian-vector-survey · -3.704, 40.417</title></circle><circle class="record " cx="27.69" cy="50.90" r="1.25"><title>1006 · iberian-vector-survey · -5.984, 37.389</title></circle><circle class="record " cx="48.72" cy="8.85" r="1.25"><title>1007 · iberian-vector-survey · -2.935, 43.263</title></circle><circle class="record issue" cx="38.47" cy="55.68" r="1.25"><title>1008 · legacy-mosquito-import · -4.421, 36.721</title></circle><circle class="record issue" cx="10.04" cy="11.61" r="1.25"><title>1009 · legacy-mosquito-import · -8.545, 42.878</title></circle><circle class="record " cx="62.83" cy="20.40" r="1.25"><title>1010 · legacy-mosquito-import · -0.889, 41.650</title></circle><circle class="record " cx="87.24" cy="35.29" r="1.25"><title>1011 · legacy-mosquito-import · 2.650, 39.570</title></circle><circle class="record issue" cx="62.07" cy="32.21" r="1.25"><title>1012 · unknown_dataset · -1.000, 40.000</title></circle>
+        </svg>
+    </div>
+      <div class="legend">
+        <span><i class="dot"></i>occurrence record</span>
+        <span><i class="dot issue"></i>quality caveat</span>
+        <span><i class="cell empty"></i>no-evidence cell</span>
+        <span><i class="cell"></i>under-sampled occupied</span>
+      </div>
+    </section>
+    <section>
+      <h2>Source & Provenance</h2>
+      <table><tbody>
+        <tr><th>Requested source mode</th><td>fixture</td></tr>
+        <tr><th>Used source mode</th><td>fixture</td></tr>
+        <tr><th>GBIF API status</th><td>not_called</td></tr>
+        <tr><th>Fallback used</th><td>False</td></tr>
+        <tr><th>Taxon key</th><td>5844304</td></tr>
+        <tr><th>Match confidence</th><td>97</td></tr>
+      </tbody></table>
+      <p>No source warnings.</p>
+    </section>
+    <section class="kpis" aria-label="Grid summary">
+      <div class="kpi"><span>Total cells</span><strong>16</strong></div>
+      <div class="kpi"><span>Occupied cells</span><strong>9</strong></div>
+      <div class="kpi"><span>No-evidence cells</span><strong>7</strong></div>
+      <div class="kpi"><span>Survey priorities</span><strong>16</strong></div>
+    </section>
+    <section>
+      <h2>Readiness Components</h2>
+      <table><thead><tr><th>Component</th><th>Score</th><th>Purpose weight</th></tr></thead><tbody>
+        <tr>
+          <td>Spatial Accuracy</td>
+          <td>88.33</td>
+          <td>0.25</td>
+        </tr>
+        <tr>
+          <td>Temporal Recency</td>
+          <td>75.83</td>
+          <td>0.35</td>
+        </tr>
+        <tr>
+          <td>Taxonomic Confidence</td>
+          <td>93.27</td>
+          <td>0.15</td>
+        </tr>
+        <tr>
+          <td>Sampling Coverage</td>
+          <td>15.0</td>
+          <td>0.15</td>
+        </tr>
+        <tr>
+          <td>Citation Provenance</td>
+          <td>91.67</td>
+          <td>0.1</td>
+        </tr>
+        <tr>
+          <td>Issue Explainability</td>
+          <td>100.0</td>
+          <td>0.0</td>
+        </tr></tbody></table>
+    </section>
+    <section>
+      <h2>Purpose Comparison</h2>
+      <table><thead><tr><th>Purpose</th><th>Score</th></tr></thead><tbody>
+        <tr>
+          <td>Conservation brief</td>
+          <td>72.49</td>
+        </tr>
+        <tr>
+          <td>Invasive watch</td>
+          <td>74.03</td>
+        </tr>
+        <tr>
+          <td>Sampling gap analysis</td>
+          <td>55.16</td>
+        </tr>
+        <tr>
+          <td>Dataset quality review</td>
+          <td>83.15</td>
+        </tr></tbody></table>
+    </section>
+    <section>
+      <h2>Main Risks</h2>
+      <ul><li>4 records have coordinate uncertainty above 10 km.</li><li>2 records are missing eventDate/year.</li><li>9 occupied grid cells are under-sampled by the coverage proxy.</li><li>7 grid cells have no retained records; they are no-evidence cells, not absences.</li><li>No GBIF download DOI is attached to this evidence pack yet.</li></ul>
+    </section>
+    <section class="claims">
+      <div><h2>Supported Claims</h2><ul><li>GBIF-mediated records matching the selected taxon and region are present in the evidence pack.</li><li>Dataset provenance is preserved through datasetKey-level contribution summaries.</li></ul></div>
+      <div><h2>Weak Claims</h2><ul><li>Record clusters can indicate areas of observation activity, but they may also reflect observer effort.</li><li>The selected-purpose readiness score is 74.03/100 and should be interpreted with the component scores.</li></ul></div>
+      <div><h2>Unsupported Claims</h2><ul><li>Absence cannot be inferred from empty or low-evidence grid cells.</li><li>Observed GBIF distribution must not be treated as the true species distribution.</li><li>Population trend cannot be inferred without temporal sampling-bias correction.</li></ul></div>
+      <div><h2>Required Verification</h2><ul><li>Create a DOI-backed GBIF occurrence download or derived dataset before formal publication.</li><li>Inspect high coordinate-uncertainty records before using them in fine-scale decisions.</li><li>Review records missing eventDate/year before temporal claims.</li><li>Treat undersampled occupied cells as survey priorities, not confirmed absences.</li><li>Treat empty grid cells as no-evidence cells, not absence evidence.</li></ul></div>
+    </section>
+    <section>
+      <h2>Citation Guidance</h2>
+      <p class="warning">This evidence pack does not include a GBIF download DOI. For publication, create and cite a DOI-backed GBIF occurrence download or derived dataset. Fixture or fallback packs are demo artifacts, not publication evidence.</p>
+      <p>Occurrence evidence for Aedes albopictus in Spain demo bbox was assembled from GBIF-mediated occurrence-style records using bbox [-10.0, 35.0, 4.5, 44.5]. The workflow retained datasetKey provenance, record counts per contributing dataset, coordinate uncertainty, event dates, licenses and GBIF issue flags. The evidence readiness score was computed for purpose &#x27;invasive_watch&#x27; from spatial, temporal, taxonomic, sampling and provenance components. Empty grid cells were treated as no-evidence cells rather than absences.</p>
+    </section>
+    <section>
+      <h2>Dataset Contributions</h2>
+      <table><thead><tr><th>datasetKey</th><th>Records</th><th>License</th><th>Main issues</th></tr></thead><tbody>
+        <tr>
+          <td>spain-mosquito-watch</td>
+          <td>4</td>
+          <td>CC_BY_4_0</td>
+          <td>COORDINATE_ROUNDED, HIGH_COORDINATE_UNCERTAINTY</td>
+        </tr>
+        <tr>
+          <td>legacy-mosquito-import</td>
+          <td>4</td>
+          <td>CC_BY_NC_4_0</td>
+          <td>HIGH_COORDINATE_UNCERTAINTY, GEODETIC_DATUM_ASSUMED_WGS84, MISSING_EVENT_DATE</td>
+        </tr>
+        <tr>
+          <td>iberian-vector-survey</td>
+          <td>3</td>
+          <td>CC0_1_0</td>
+          <td>none_detected</td>
+        </tr>
+        <tr>
+          <td>unknown_dataset</td>
+          <td>1</td>
+          <td>unknown</td>
+          <td>TAXON_MATCH_HIGHERRANK, MISSING_EVENT_DATE, HIGH_COORDINATE_UNCERTAINTY</td>
+        </tr></tbody></table>
+    </section>
+    <section>
+      <h2>Next Actions</h2>
+      <ul><li>Create a DOI-backed GBIF occurrence download or derived dataset before publication.</li><li>Preserve datasetKey and run.json with any downstream analysis.</li><li>Avoid absence claims for empty or low-effort grid cells.</li><li>Review records with coordinate uncertainty above 10 km.</li><li>Review records missing eventDate/year before temporal interpretation.</li><li>Prioritize survey design around no-evidence and under-sampled grid cells.</li><li>Share the Publisher Feedback Pack with dataset managers for prioritized fixes.</li></ul>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,5 @@
+datasetKey,datasetTitle,publisher,license,record_count,main_issues
+spain-mosquito-watch,Spain Mosquito Watch Demo,Demo Public Health Node,CC_BY_4_0,4,"COORDINATE_ROUNDED, HIGH_COORDINATE_UNCERTAINTY"
+legacy-mosquito-import,Legacy Mosquito Import Demo,Demo Legacy Publisher,CC_BY_NC_4_0,4,"HIGH_COORDINATE_UNCERTAINTY, GEODETIC_DATUM_ASSUMED_WGS84, MISSING_EVENT_DATE"
+iberian-vector-survey,Iberian Vector Survey Demo,Demo University Collection,CC0_1_0,3,none_detected
+unknown_dataset,Unresolved Demo Upload,Unknown Demo Publisher,,1,"TAXON_MATCH_HIGHERRANK, MISSING_EVENT_DATE, HIGH_COORDINATE_UNCERTAINTY"

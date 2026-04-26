@@ -1,0 +1,99 @@
+from __future__ import annotations
+
+from collections import Counter
+import zipfile
+
+import requests
+
+from app.evidence.gbif import GBIFClient, normalize_occurrences
+from app.evidence.pipeline import run_evidence_passport
+from app.evidence.schemas import EvidenceRunRequest
+from app.evidence.science import hill_metrics
+from app.evidence.storage import artifact_path
+
+
+def test_gbif_normalization_preserves_provenance() -> None:
+    payload = GBIFClient(mode="fixture").occurrence_search(
+        taxon_key=5844304,
+        bbox=[-10.0, 35.0, 4.5, 44.5],
+        limit=300,
+        use_fixture=True,
+    )
+    records = normalize_occurrences(payload, max_records=300)
+
+    first = records[0]
+    assert first.gbif_id == "1001"
+    assert first.dataset_key == "spain-mosquito-watch"
+    assert first.license == "CC_BY_4_0"
+    assert first.accepted_taxon_key == "5844304"
+    assert first.has_valid_coordinate is True
+
+
+def test_hill_metrics_flags_under_sampled_community() -> None:
+    metrics = hill_metrics(Counter({"taxon:a": 2, "taxon:b": 1, "taxon:c": 1}))
+
+    assert metrics["occurrence_count"] == 4
+    assert metrics["species_count"] == 3
+    assert metrics["good_coverage"] == 0.5
+    assert metrics["coverage_status"] == "under_sampled"
+
+
+def test_purpose_aware_score_changes_by_purpose(tmp_path, monkeypatch) -> None:
+    monkeypatch.setenv("EVIDENCE_DATA_DIR", str(tmp_path))
+    common = {
+        "taxon": "Aedes albopictus",
+        "region_name": "Spain demo bbox",
+        "bbox": [-10.0, 35.0, 4.5, 44.5],
+        "use_fixture": True,
+    }
+
+    invasive = run_evidence_passport(EvidenceRunRequest(**common, purpose="invasive_watch"))
+    sampling = run_evidence_passport(EvidenceRunRequest(**common, purpose="sampling_gaps"))
+
+    assert invasive["evidence_readiness"]["score"] != sampling["evidence_readiness"]["score"]
+    assert invasive["evidence_readiness"]["weights"]["temporal_recency"] > sampling["evidence_readiness"]["weights"]["temporal_recency"]
+    assert sampling["evidence_readiness"]["weights"]["sampling_coverage"] > invasive["evidence_readiness"]["weights"]["sampling_coverage"]
+
+
+def test_source_mode_compatibility_grid_and_exports(tmp_path, monkeypatch) -> None:
+    monkeypatch.setenv("EVIDENCE_DATA_DIR", str(tmp_path))
+    monkeypatch.setattr("app.evidence.gbif.requests.get", lambda *_, **__: (_ for _ in ()).throw(requests.Timeout("offline")))
+    pack = run_evidence_passport(EvidenceRunRequest(use_fixture=False))
+
+    assert pack["source_summary"]["requested_source_mode"] == "online_with_fixture_fallback"
+    assert pack["source_summary"]["fallback_used"] is True
+    assert pack["grid_metrics"]["meta"]["cell_count"] == 16
+    assert pack["grid_metrics"]["meta"]["empty_cell_count"] == 7
+    assert set(pack["purpose_score_matrix"]) == {
+        "conservation_brief",
+        "invasive_watch",
+        "sampling_gaps",
+        "dataset_quality_review",
+    }
+
+    export_names = {item["name"] for item in pack["exports"]}
+    assert {
+        "claim_guardrails.md",
+        "readiness_scorecard.csv",
+        "source_summary.json",
+        "demo_scenario.json",
+        "evidence_pack.zip",
+    } <= export_names
+
+    with zipfile.ZipFile(artifact_path(pack["run"]["run_id"], "evidence_pack.zip")) as archive:
+        assert {
+            "claim_guardrails.md",
+            "readiness_scorecard.csv",
+            "source_summary.json",
+            "demo_scenario.json",
+        } <= set(archive.namelist())
+
+
+def test_claim_guardrails_and_publisher_feedback(tmp_path, monkeypatch) -> None:
+    monkeypatch.setenv("EVIDENCE_DATA_DIR", str(tmp_path))
+    pack = run_evidence_passport(EvidenceRunRequest(use_fixture=True, purpose="dataset_quality_review"))
+
+    assert any("Absence cannot be inferred" in claim for claim in pack["claim_guardrails"]["unsupported_claims"])
+    assert any(row["datasetKey"] == "legacy-mosquito-import" for row in pack["publisher_feedback"])
+    assert any(row["main_issue"] == "High coordinate uncertainty" for row in pack["publisher_feedback"])
+    assert pack["citation_autopilot"]["derived_dataset_recipe"]["group_by"] == "datasetKey"

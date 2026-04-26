@@ -1,0 +1,30 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      - EVIDENCE_MODE=${EVIDENCE_MODE:-fixture}
+      - EVIDENCE_DATA_DIR=/data/evidence
+      - GBIF_BASE_URL=${GBIF_BASE_URL:-https://api.gbif.org/v1}
+      - CORS_ALLOW_ORIGINS=${CORS_ALLOW_ORIGINS:-http://localhost:13100,http://127.0.0.1:13100}
+    ports:
+      - "${BACKEND_PORT:-18100}:8000"
+    volumes:
+      - ./data:/data/evidence
+      - ./reports:/app/reports
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    environment:
+      - VITE_API_BASE_URL=${VITE_API_BASE_URL:-http://localhost:18100}
+    ports:
+      - "${FRONTEND_PORT:-13100}:5173"
+    command: npm run dev -- --host 0.0.0.0
+    depends_on:
+      - backend
+    restart: unless-stopped
+

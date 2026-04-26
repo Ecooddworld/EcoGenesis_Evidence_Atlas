@@ -1,0 +1,60 @@
+{
+  "run_id": "e9ba719920034da8ac17c74a021cdeaf",
+  "started_at": "2026-04-26T23:38:02.984154+00:00",
+  "finished_at": "2026-04-26T23:38:02.985602+00:00",
+  "source_mode": "fixture",
+  "request": {
+    "taxon": "Aedes albopictus",
+    "region_name": "Spain demo bbox",
+    "bbox": [
+      -10.0,
+      35.0,
+      4.5,
+      44.5
+    ],
+    "purpose": "invasive_watch",
+    "source_mode": null,
+    "use_fixture": true,
+    "max_records": 300
+  },
+  "gbif_species_match": {
+    "usageKey": 5844304,
+    "scientificName": "Aedes albopictus",
+    "canonicalName": "Aedes albopictus",
+    "rank": "SPECIES",
+    "status": "ACCEPTED",
+    "confidence": 97,
+    "matchType": "EXACT",
+    "source": "fixture"
+  },
+  "steps": [
+    {
+      "name": "species_match",
+      "status": "completed",
+      "duration_ms": 0.0
+    },
+    {
+      "name": "occurrence_fetch",
+      "status": "completed",
+      "duration_ms": 0.19
+    },
+    {
+      "name": "normalize",
+      "status": "completed",
+      "duration_ms": 0.05
+    },
+    {
+      "name": "score",
+      "status": "completed",
+      "duration_ms": 0.2
+    },
+    {
+      "name": "exports",
+      "status": "completed",
+      "duration_ms": 5.12,
+      "details": {
+        "artifact_count": 14
+      }
+    }
+  ]
+}

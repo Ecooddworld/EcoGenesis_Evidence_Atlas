@@ -1,0 +1,9 @@
+{
+  "taxon": "Aedes albopictus",
+  "region_name": "Spain demo bbox",
+  "bbox": [-10.0, 35.0, 4.5, 44.5],
+  "purpose": "invasive_watch",
+  "use_fixture": true,
+  "max_records": 300
+}
+

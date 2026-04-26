@@ -1,0 +1,2058 @@
+{
+  "run": {
+    "run_id": "e9ba719920034da8ac17c74a021cdeaf",
+    "started_at": "2026-04-26T23:38:02.984154+00:00",
+    "finished_at": "2026-04-26T23:38:02.985602+00:00",
+    "source_mode": "fixture",
+    "request": {
+      "taxon": "Aedes albopictus",
+      "region_name": "Spain demo bbox",
+      "bbox": [
+        -10.0,
+        35.0,
+        4.5,
+        44.5
+      ],
+      "purpose": "invasive_watch",
+      "source_mode": null,
+      "use_fixture": true,
+      "max_records": 300
+    },
+    "gbif_species_match": {
+      "usageKey": 5844304,
+      "scientificName": "Aedes albopictus",
+      "canonicalName": "Aedes albopictus",
+      "rank": "SPECIES",
+      "status": "ACCEPTED",
+      "confidence": 97,
+      "matchType": "EXACT",
+      "source": "fixture"
+    },
+    "steps": [
+      {
+        "name": "species_match",
+        "status": "completed",
+        "duration_ms": 0.0
+      },
+      {
+        "name": "occurrence_fetch",
+        "status": "completed",
+        "duration_ms": 0.19
+      },
+      {
+        "name": "normalize",
+        "status": "completed",
+        "duration_ms": 0.05
+      },
+      {
+        "name": "score",
+        "status": "completed",
+        "duration_ms": 0.2
+      },
+      {
+        "name": "exports",
+        "status": "completed",
+        "duration_ms": 5.12,
+        "details": {
+          "artifact_count": 14
+        }
+      }
+    ]
+  },
+  "passport": {
+    "title": "GBIF Evidence Passport",
+    "taxon": "Aedes albopictus",
+    "accepted_name": "Aedes albopictus",
+    "taxonKey": 5844304,
+    "match_confidence": 97,
+    "region_name": "Spain demo bbox",
+    "bbox": [
+      -10.0,
+      35.0,
+      4.5,
+      44.5
+    ],
+    "purpose": "invasive_watch",
+    "records_used": 12,
+    "datasets_used": 4
+  },
+  "source_summary": {
+    "requested_source_mode": "fixture",
+    "used_source_mode": "fixture",
+    "gbif_api_status": "not_called",
+    "fallback_used": false,
+    "warnings": [],
+    "gbif_base_url": "https://api.gbif.org/v1"
+  },
+  "evidence_readiness": {
+    "purpose": "invasive_watch",
+    "purpose_label": "Invasive watch",
+    "score": 74.03,
+    "components": {
+      "spatial_accuracy": 88.33,
+      "temporal_recency": 75.83,
+      "taxonomic_confidence": 93.27,
+      "sampling_coverage": 15.0,
+      "citation_provenance": 91.67,
+      "issue_explainability": 100.0
+    },
+    "weights": {
+      "spatial_accuracy": 0.25,
+      "temporal_recency": 0.35,
+      "taxonomic_confidence": 0.15,
+      "sampling_coverage": 0.15,
+      "citation_provenance": 0.1,
+      "issue_explainability": 0.0
+    },
+    "interpretation": "Moderate readiness: useful evidence, but caveats and verification steps matter."
+  },
+  "purpose_score_matrix": {
+    "conservation_brief": {
+      "purpose": "conservation_brief",
+      "purpose_label": "Conservation brief",
+      "score": 72.49,
+      "components": {
+        "spatial_accuracy": 88.33,
+        "temporal_recency": 75.83,
+        "taxonomic_confidence": 93.27,
+        "sampling_coverage": 15.0,
+        "citation_provenance": 91.67,
+        "issue_explainability": 100.0
+      },
+      "weights": {
+        "spatial_accuracy": 0.3,
+        "temporal_recency": 0.2,
+        "taxonomic_confidence": 0.2,
+        "sampling_coverage": 0.2,
+        "citation_provenance": 0.1,
+        "issue_explainability": 0.0
+      },
+      "interpretation": "Moderate readiness: useful evidence, but caveats and verification steps matter."
+    },
+    "invasive_watch": {
+      "purpose": "invasive_watch",
+      "purpose_label": "Invasive watch",
+      "score": 74.03,
+      "components": {
+        "spatial_accuracy": 88.33,
+        "temporal_recency": 75.83,
+        "taxonomic_confidence": 93.27,
+        "sampling_coverage": 15.0,
+        "citation_provenance": 91.67,
+        "issue_explainability": 100.0
+      },
+      "weights": {
+        "spatial_accuracy": 0.25,
+        "temporal_recency": 0.35,
+        "taxonomic_confidence": 0.15,
+        "sampling_coverage": 0.15,
+        "citation_provenance": 0.1,
+        "issue_explainability": 0.0
+      },
+      "interpretation": "Moderate readiness: useful evidence, but caveats and verification steps matter."
+    },
+    "sampling_gaps": {
+      "purpose": "sampling_gaps",
+      "purpose_label": "Sampling gap analysis",
+      "score": 55.16,
+      "components": {
+        "spatial_accuracy": 88.33,
+        "temporal_recency": 75.83,
+        "taxonomic_confidence": 93.27,
+        "sampling_coverage": 15.0,
+        "citation_provenance": 91.67,
+        "issue_explainability": 100.0
+      },
+      "weights": {
+        "spatial_accuracy": 0.2,
+        "temporal_recency": 0.1,
+        "taxonomic_confidence": 0.15,
+        "sampling_coverage": 0.45,
+        "citation_provenance": 0.1,
+        "issue_explainability": 0.0
+      },
+      "interpretation": "Limited readiness: use for triage and planning, not as a standalone conclusion."
+    },
+    "dataset_quality_review": {
+      "purpose": "dataset_quality_review",
+      "purpose_label": "Dataset quality review",
+      "score": 83.15,
+      "components": {
+        "spatial_accuracy": 88.33,
+        "temporal_recency": 75.83,
+        "taxonomic_confidence": 93.27,
+        "sampling_coverage": 15.0,
+        "citation_provenance": 91.67,
+        "issue_explainability": 100.0
+      },
+      "weights": {
+        "spatial_accuracy": 0.25,
+        "temporal_recency": 0.1,
+        "taxonomic_confidence": 0.2,
+        "sampling_coverage": 0.1,
+        "citation_provenance": 0.2,
+        "issue_explainability": 0.15
+      },
+      "interpretation": "High readiness: evidence is strong for the selected purpose, with remaining caveats documented."
+    }
+  },
+  "quality_metrics": {
+    "total_records": 12,
+    "valid_coordinate_rate": 1.0,
+    "date_present_rate": 0.8333,
+    "recent_record_rate": 0.5833,
+    "taxon_key_rate": 0.9167,
+    "dataset_key_rate": 0.9167,
+    "license_rate": 0.9167,
+    "high_uncertainty_rate": 0.3333,
+    "missing_date_count": 2,
+    "high_uncertainty_count": 4,
+    "invalid_coordinate_count": 0,
+    "country_coordinate_mismatch_count": 1
+  },
+  "dataset_contributions": [
+    {
+      "datasetKey": "spain-mosquito-watch",
+      "datasetTitle": "Spain Mosquito Watch Demo",
+      "publisher": "Demo Public Health Node",
+      "license": "CC_BY_4_0",
+      "record_count": 4,
+      "main_issues": "COORDINATE_ROUNDED, HIGH_COORDINATE_UNCERTAINTY"
+    },
+    {
+      "datasetKey": "legacy-mosquito-import",
+      "datasetTitle": "Legacy Mosquito Import Demo",
+      "publisher": "Demo Legacy Publisher",
+      "license": "CC_BY_NC_4_0",
+      "record_count": 4,
+      "main_issues": "HIGH_COORDINATE_UNCERTAINTY, GEODETIC_DATUM_ASSUMED_WGS84, MISSING_EVENT_DATE"
+    },
+    {
+      "datasetKey": "iberian-vector-survey",
+      "datasetTitle": "Iberian Vector Survey Demo",
+      "publisher": "Demo University Collection",
+      "license": "CC0_1_0",
+      "record_count": 3,
+      "main_issues": "none_detected"
+    },
+    {
+      "datasetKey": "unknown_dataset",
+      "datasetTitle": "Unresolved Demo Upload",
+      "publisher": "Unknown Demo Publisher",
+      "license": null,
+      "record_count": 1,
+      "main_issues": "TAXON_MATCH_HIGHERRANK, MISSING_EVENT_DATE, HIGH_COORDINATE_UNCERTAINTY"
+    }
+  ],
+  "claim_guardrails": {
+    "supported_claims": [
+      "GBIF-mediated records matching the selected taxon and region are present in the evidence pack.",
+      "Dataset provenance is preserved through datasetKey-level contribution summaries."
+    ],
+    "weak_claims": [
+      "Record clusters can indicate areas of observation activity, but they may also reflect observer effort.",
+      "The selected-purpose readiness score is 74.03/100 and should be interpreted with the component scores."
+    ],
+    "unsupported_claims": [
+      "Absence cannot be inferred from empty or low-evidence grid cells.",
+      "Observed GBIF distribution must not be treated as the true species distribution.",
+      "Population trend cannot be inferred without temporal sampling-bias correction."
+    ],
+    "required_verification": [
+      "Create a DOI-backed GBIF occurrence download or derived dataset before formal publication.",
+      "Inspect high coordinate-uncertainty records before using them in fine-scale decisions.",
+      "Review records missing eventDate/year before temporal claims.",
+      "Treat undersampled occupied cells as survey priorities, not confirmed absences.",
+      "Treat empty grid cells as no-evidence cells, not absence evidence."
+    ]
+  },
+  "citation_autopilot": {
+    "citation_status": "fixture_demo_not_for_publication",
+    "record_count": 12,
+    "dataset_count": 4,
+    "gbif_download_warning": "This evidence pack does not include a GBIF download DOI. For publication, create and cite a DOI-backed GBIF occurrence download or derived dataset. Fixture or fallback packs are demo artifacts, not publication evidence.",
+    "derived_dataset_recipe": {
+      "preserve_fields": [
+        "datasetKey",
+        "gbifID",
+        "scientificName",
+        "decimalLatitude",
+        "decimalLongitude",
+        "eventDate"
+      ],
+      "group_by": "datasetKey",
+      "include_counts": true
+    },
+    "methods_text": "Occurrence evidence for Aedes albopictus in Spain demo bbox was assembled from GBIF-mediated occurrence-style records using bbox [-10.0, 35.0, 4.5, 44.5]. The workflow retained datasetKey provenance, record counts per contributing dataset, coordinate uncertainty, event dates, licenses and GBIF issue flags. The evidence readiness score was computed for purpose 'invasive_watch' from spatial, temporal, taxonomic, sampling and provenance components. Empty grid cells were treated as no-evidence cells rather than absences."
+  },
+  "publisher_feedback": [
+    {
+      "datasetKey": "legacy-mosquito-import",
+      "main_issue": "Country-coordinate mismatch",
+      "records_affected": 1,
+      "suggested_fix": "Check countryCode and coordinates for transposition or georeferencing errors."
+    },
+    {
+      "datasetKey": "legacy-mosquito-import",
+      "main_issue": "High coordinate uncertainty",
+      "records_affected": 2,
+      "suggested_fix": "Improve georeferencing or flag coarse records for coarse-scale use only."
+    },
+    {
+      "datasetKey": "legacy-mosquito-import",
+      "main_issue": "Missing eventDate/year",
+      "records_affected": 1,
+      "suggested_fix": "Add eventDate or at least year where available."
+    },
+    {
+      "datasetKey": "spain-mosquito-watch",
+      "main_issue": "High coordinate uncertainty",
+      "records_affected": 1,
+      "suggested_fix": "Improve georeferencing or flag coarse records for coarse-scale use only."
+    },
+    {
+      "datasetKey": "unknown_dataset",
+      "main_issue": "High coordinate uncertainty",
+      "records_affected": 1,
+      "suggested_fix": "Improve georeferencing or flag coarse records for coarse-scale use only."
+    },
+    {
+      "datasetKey": "unknown_dataset",
+      "main_issue": "Missing eventDate/year",
+      "records_affected": 1,
+      "suggested_fix": "Add eventDate or at least year where available."
+    },
+    {
+      "datasetKey": "unknown_dataset",
+      "main_issue": "Unresolved taxon match",
+      "records_affected": 1,
+      "suggested_fix": "Review scientificName, taxonID and backbone mapping."
+    }
+  ],
+  "grid_metrics": {
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -10.0,
+                35.0
+              ],
+              [
+                -6.375,
+                35.0
+              ],
+              [
+                -6.375,
+                37.375
+              ],
+              [
+                -10.0,
+                37.375
+              ],
+              [
+                -10.0,
+                35.0
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "cell_id": "grid:4:0:0",
+          "occurrence_count": 0,
+          "dataset_count": 0,
+          "min_year": null,
+          "max_year": null,
+          "sampling_coverage_proxy": 0.0,
+          "empty_cell": true,
+          "no_evidence_cell": true,
+          "under_sampled": false,
+          "survey_priority": true,
+          "detection_effort_proxy": 0.0,
+          "non_detection_risk": 1.0,
+          "species_count": 0,
+          "hill_q0": 0.0,
+          "hill_q1": 0.0,
+          "hill_q2": 0.0,
+          "shannon_entropy": 0.0,
+          "simpson_concentration": 0.0,
+          "good_coverage": 0.0,
+          "singletons": 0,
+          "doubletons": 0,
+          "chao1_richness": 0.0,
+          "coverage_status": "empty"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -10.0,
+                37.375
+              ],
+              [
+                -6.375,
+                37.375
+              ],
+              [
+                -6.375,
+                39.75
+              ],
+              [
+                -10.0,
+                39.75
+              ],
+              [
+                -10.0,
+                37.375
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "cell_id": "grid:4:0:1",
+          "occurrence_count": 0,
+          "dataset_count": 0,
+          "min_year": null,
+          "max_year": null,
+          "sampling_coverage_proxy": 0.0,
+          "empty_cell": true,
+          "no_evidence_cell": true,
+          "under_sampled": false,
+          "survey_priority": true,
+          "detection_effort_proxy": 0.0,
+          "non_detection_risk": 1.0,
+          "species_count": 0,
+          "hill_q0": 0.0,
+          "hill_q1": 0.0,
+          "hill_q2": 0.0,
+          "shannon_entropy": 0.0,
+          "simpson_concentration": 0.0,
+          "good_coverage": 0.0,
+          "singletons": 0,
+          "doubletons": 0,
+          "chao1_richness": 0.0,
+          "coverage_status": "empty"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -10.0,
+                39.75
+              ],
+              [
+                -6.375,
+                39.75
+              ],
+              [
+                -6.375,
+                42.125
+              ],
+              [
+                -10.0,
+                42.125
+              ],
+              [
+                -10.0,
+                39.75
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "cell_id": "grid:4:0:2",
+          "occurrence_count": 0,
+          "dataset_count": 0,
+          "min_year": null,
+          "max_year": null,
+          "sampling_coverage_proxy": 0.0,
+          "empty_cell": true,
+          "no_evidence_cell": true,
+          "under_sampled": false,
+          "survey_priority": true,
+          "detection_effort_proxy": 0.0,
+          "non_detection_risk": 1.0,
+          "species_count": 0,
+          "hill_q0": 0.0,
+          "hill_q1": 0.0,
+          "hill_q2": 0.0,
+          "shannon_entropy": 0.0,
+          "simpson_concentration": 0.0,
+          "good_coverage": 0.0,
+          "singletons": 0,
+          "doubletons": 0,
+          "chao1_richness": 0.0,
+          "coverage_status": "empty"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -10.0,
+                42.125
+              ],
+              [
+                -6.375,
+                42.125
+              ],
+              [
+                -6.375,
+                44.5
+              ],
+              [
+                -10.0,
+                44.5
+              ],
+              [
+                -10.0,
+                42.125
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "cell_id": "grid:4:0:3",
+          "occurrence_count": 1,
+          "dataset_count": 1,
+          "min_year": 2015,
+          "max_year": 2015,
+          "sampling_coverage_proxy": 0.2,
+          "empty_cell": false,
+          "no_evidence_cell": false,
+          "under_sampled": true,
+          "survey_priority": true,
+          "detection_effort_proxy": 0.6309,
+          "non_detection_risk": 0.3691,
+          "species_count": 1,
+          "hill_q0": 1.0,
+          "hill_q1": 1.0,
+          "hill_q2": 1.0,
+          "shannon_entropy": -0.0,
+          "simpson_concentration": 1.0,
+          "good_coverage": 0.0,
+          "singletons": 1,
+          "doubletons": 0,
+          "chao1_richness": 1.0,
+          "coverage_status": "under_sampled"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -6.375,
+                35.0
+              ],
+              [
+                -2.75,
+                35.0
+              ],
+              [
+                -2.75,
+                37.375
+              ],
+              [
+                -6.375,
+                37.375
+              ],
+              [
+                -6.375,
+                35.0
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "cell_id": "grid:4:1:0",
+          "occurrence_count": 1,
+          "dataset_count": 1,
+          "min_year": null,
+          "max_year": null,
+          "sampling_coverage_proxy": 0.2,
+          "empty_cell": false,
+          "no_evidence_cell": false,
+          "under_sampled": true,
+          "survey_priority": true,
+          "detection_effort_proxy": 0.6309,
+          "non_detection_risk": 0.3691,
+          "species_count": 1,
+          "hill_q0": 1.0,
+          "hill_q1": 1.0,
+          "hill_q2": 1.0,
+          "shannon_entropy": -0.0,
+          "simpson_concentration": 1.0,
+          "good_coverage": 0.0,
+          "singletons": 1,
+          "doubletons": 0,
+          "chao1_richness": 1.0,
+          "coverage_status": "under_sampled"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -6.375,
+                37.375
+              ],
+              [
+                -2.75,
+                37.375
+              ],
+              [
+                -2.75,
+                39.75
+              ],
+              [
+                -6.375,
+                39.75
+              ],
+              [
+                -6.375,
+                37.375
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "cell_id": "grid:4:1:1",
+          "occurrence_count": 1,
+          "dataset_count": 1,
+          "min_year": 2018,
+          "max_year": 2018,
+          "sampling_coverage_proxy": 0.2,
+          "empty_cell": false,
+          "no_evidence_cell": false,
+          "under_sampled": true,
+          "survey_priority": true,
+          "detection_effort_proxy": 0.6309,
+          "non_detection_risk": 0.3691,
+          "species_count": 1,
+          "hill_q0": 1.0,
+          "hill_q1": 1.0,
+          "hill_q2": 1.0,
+          "shannon_entropy": -0.0,
+          "simpson_concentration": 1.0,
+          "good_coverage": 0.0,
+          "singletons": 1,
+          "doubletons": 0,
+          "chao1_richness": 1.0,
+          "coverage_status": "under_sampled"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -6.375,
+                39.75
+              ],
+              [
+                -2.75,
+                39.75
+              ],
+              [
+                -2.75,
+                42.125
+              ],
+              [
+                -6.375,
+                42.125
+              ],
+              [
+                -6.375,
+                39.75
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "cell_id": "grid:4:1:2",
+          "occurrence_count": 1,
+          "dataset_count": 1,
+          "min_year": 2021,
+          "max_year": 2021,
+          "sampling_coverage_proxy": 0.2,
+          "empty_cell": false,
+          "no_evidence_cell": false,
+          "under_sampled": true,
+          "survey_priority": true,
+          "detection_effort_proxy": 0.6309,
+          "non_detection_risk": 0.3691,
+          "species_count": 1,
+          "hill_q0": 1.0,
+          "hill_q1": 1.0,
+          "hill_q2": 1.0,
+          "shannon_entropy": -0.0,
+          "simpson_concentration": 1.0,
+          "good_coverage": 0.0,
+          "singletons": 1,
+          "doubletons": 0,
+          "chao1_richness": 1.0,
+          "coverage_status": "under_sampled"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -6.375,
+                42.125
+              ],
+              [
+                -2.75,
+                42.125
+              ],
+              [
+                -2.75,
+                44.5
+              ],
+              [
+                -6.375,
+                44.5
+              ],
+              [
+                -6.375,
+                42.125
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "cell_id": "grid:4:1:3",
+          "occurrence_count": 1,
+          "dataset_count": 1,
+          "min_year": 2016,
+          "max_year": 2016,
+          "sampling_coverage_proxy": 0.2,
+          "empty_cell": false,
+          "no_evidence_cell": false,
+          "under_sampled": true,
+          "survey_priority": true,
+          "detection_effort_proxy": 0.6309,
+          "non_detection_risk": 0.3691,
+          "species_count": 1,
+          "hill_q0": 1.0,
+          "hill_q1": 1.0,
+          "hill_q2": 1.0,
+          "shannon_entropy": -0.0,
+          "simpson_concentration": 1.0,
+          "good_coverage": 0.0,
+          "singletons": 1,
+          "doubletons": 0,
+          "chao1_richness": 1.0,
+          "coverage_status": "under_sampled"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -2.75,
+                35.0
+              ],
+              [
+                0.875,
+                35.0
+              ],
+              [
+                0.875,
+                37.375
+              ],
+              [
+                -2.75,
+                37.375
+              ],
+              [
+                -2.75,
+                35.0
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "cell_id": "grid:4:2:0",
+          "occurrence_count": 0,
+          "dataset_count": 0,
+          "min_year": null,
+          "max_year": null,
+          "sampling_coverage_proxy": 0.0,
+          "empty_cell": true,
+          "no_evidence_cell": true,
+          "under_sampled": false,
+          "survey_priority": true,
+          "detection_effort_proxy": 0.0,
+          "non_detection_risk": 1.0,
+          "species_count": 0,
+          "hill_q0": 0.0,
+          "hill_q1": 0.0,
+          "hill_q2": 0.0,
+          "shannon_entropy": 0.0,
+          "simpson_concentration": 0.0,
+          "good_coverage": 0.0,
+          "singletons": 0,
+          "doubletons": 0,
+          "chao1_richness": 0.0,
+          "coverage_status": "empty"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -2.75,
+                37.375
+              ],
+              [
+                0.875,
+                37.375
+              ],
+              [
+                0.875,
+                39.75
+              ],
+              [
+                -2.75,
+                39.75
+              ],
+              [
+                -2.75,
+                37.375
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "cell_id": "grid:4:2:1",
+          "occurrence_count": 2,
+          "dataset_count": 1,
+          "min_year": 2022,
+          "max_year": 2023,
+          "sampling_coverage_proxy": 0.4,
+          "empty_cell": false,
+          "no_evidence_cell": false,
+          "under_sampled": true,
+          "survey_priority": true,
+          "detection_effort_proxy": 1.0,
+          "non_detection_risk": 0.0,
+          "species_count": 1,
+          "hill_q0": 1.0,
+          "hill_q1": 1.0,
+          "hill_q2": 1.0,
+          "shannon_entropy": -0.0,
+          "simpson_concentration": 1.0,
+          "good_coverage": 1.0,
+          "singletons": 0,
+          "doubletons": 1,
+          "chao1_richness": 1.0,
+          "coverage_status": "coverage_ok"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -2.75,
+                39.75
+              ],
+              [
+                0.875,
+                39.75
+              ],
+              [
+                0.875,
+                42.125
+              ],
+              [
+                -2.75,
+                42.125
+              ],
+              [
+                -2.75,
+                39.75
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "cell_id": "grid:4:2:2",
+          "occurrence_count": 2,
+          "dataset_count": 2,
+          "min_year": 2014,
+          "max_year": 2014,
+          "sampling_coverage_proxy": 0.4,
+          "empty_cell": false,
+          "no_evidence_cell": false,
+          "under_sampled": true,
+          "survey_priority": true,
+          "detection_effort_proxy": 1.0,
+          "non_detection_risk": 0.0,
+          "species_count": 2,
+          "hill_q0": 2.0,
+          "hill_q1": 2.0,
+          "hill_q2": 2.0,
+          "shannon_entropy": 0.6931,
+          "simpson_concentration": 0.5,
+          "good_coverage": 0.0,
+          "singletons": 2,
+          "doubletons": 0,
+          "chao1_richness": 3.0,
+          "coverage_status": "under_sampled"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -2.75,
+                42.125
+              ],
+              [
+                0.875,
+                42.125
+              ],
+              [
+                0.875,
+                44.5
+              ],
+              [
+                -2.75,
+                44.5
+              ],
+              [
+                -2.75,
+                42.125
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "cell_id": "grid:4:2:3",
+          "occurrence_count": 0,
+          "dataset_count": 0,
+          "min_year": null,
+          "max_year": null,
+          "sampling_coverage_proxy": 0.0,
+          "empty_cell": true,
+          "no_evidence_cell": true,
+          "under_sampled": false,
+          "survey_priority": true,
+          "detection_effort_proxy": 0.0,
+          "non_detection_risk": 1.0,
+          "species_count": 0,
+          "hill_q0": 0.0,
+          "hill_q1": 0.0,
+          "hill_q2": 0.0,
+          "shannon_entropy": 0.0,
+          "simpson_concentration": 0.0,
+          "good_coverage": 0.0,
+          "singletons": 0,
+          "doubletons": 0,
+          "chao1_richness": 0.0,
+          "coverage_status": "empty"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                0.875,
+                35.0
+              ],
+              [
+                4.5,
+                35.0
+              ],
+              [
+                4.5,
+                37.375
+              ],
+              [
+                0.875,
+                37.375
+              ],
+              [
+                0.875,
+                35.0
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "cell_id": "grid:4:3:0",
+          "occurrence_count": 0,
+          "dataset_count": 0,
+          "min_year": null,
+          "max_year": null,
+          "sampling_coverage_proxy": 0.0,
+          "empty_cell": true,
+          "no_evidence_cell": true,
+          "under_sampled": false,
+          "survey_priority": true,
+          "detection_effort_proxy": 0.0,
+          "non_detection_risk": 1.0,
+          "species_count": 0,
+          "hill_q0": 0.0,
+          "hill_q1": 0.0,
+          "hill_q2": 0.0,
+          "shannon_entropy": 0.0,
+          "simpson_concentration": 0.0,
+          "good_coverage": 0.0,
+          "singletons": 0,
+          "doubletons": 0,
+          "chao1_richness": 0.0,
+          "coverage_status": "empty"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                0.875,
+                37.375
+              ],
+              [
+                4.5,
+                37.375
+              ],
+              [
+                4.5,
+                39.75
+              ],
+              [
+                0.875,
+                39.75
+              ],
+              [
+                0.875,
+                37.375
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "cell_id": "grid:4:3:1",
+          "occurrence_count": 1,
+          "dataset_count": 1,
+          "min_year": 2013,
+          "max_year": 2013,
+          "sampling_coverage_proxy": 0.2,
+          "empty_cell": false,
+          "no_evidence_cell": false,
+          "under_sampled": true,
+          "survey_priority": true,
+          "detection_effort_proxy": 0.6309,
+          "non_detection_risk": 0.3691,
+          "species_count": 1,
+          "hill_q0": 1.0,
+          "hill_q1": 1.0,
+          "hill_q2": 1.0,
+          "shannon_entropy": -0.0,
+          "simpson_concentration": 1.0,
+          "good_coverage": 0.0,
+          "singletons": 1,
+          "doubletons": 0,
+          "chao1_richness": 1.0,
+          "coverage_status": "under_sampled"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                0.875,
+                39.75
+              ],
+              [
+                4.5,
+                39.75
+              ],
+              [
+                4.5,
+                42.125
+              ],
+              [
+                0.875,
+                42.125
+              ],
+              [
+                0.875,
+                39.75
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "cell_id": "grid:4:3:2",
+          "occurrence_count": 2,
+          "dataset_count": 1,
+          "min_year": 2024,
+          "max_year": 2025,
+          "sampling_coverage_proxy": 0.4,
+          "empty_cell": false,
+          "no_evidence_cell": false,
+          "under_sampled": true,
+          "survey_priority": true,
+          "detection_effort_proxy": 1.0,
+          "non_detection_risk": 0.0,
+          "species_count": 1,
+          "hill_q0": 1.0,
+          "hill_q1": 1.0,
+          "hill_q2": 1.0,
+          "shannon_entropy": -0.0,
+          "simpson_concentration": 1.0,
+          "good_coverage": 1.0,
+          "singletons": 0,
+          "doubletons": 1,
+          "chao1_richness": 1.0,
+          "coverage_status": "coverage_ok"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                0.875,
+                42.125
+              ],
+              [
+                4.5,
+                42.125
+              ],
+              [
+                4.5,
+                44.5
+              ],
+              [
+                0.875,
+                44.5
+              ],
+              [
+                0.875,
+                42.125
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "cell_id": "grid:4:3:3",
+          "occurrence_count": 0,
+          "dataset_count": 0,
+          "min_year": null,
+          "max_year": null,
+          "sampling_coverage_proxy": 0.0,
+          "empty_cell": true,
+          "no_evidence_cell": true,
+          "under_sampled": false,
+          "survey_priority": true,
+          "detection_effort_proxy": 0.0,
+          "non_detection_risk": 1.0,
+          "species_count": 0,
+          "hill_q0": 0.0,
+          "hill_q1": 0.0,
+          "hill_q2": 0.0,
+          "shannon_entropy": 0.0,
+          "simpson_concentration": 0.0,
+          "good_coverage": 0.0,
+          "singletons": 0,
+          "doubletons": 0,
+          "chao1_richness": 0.0,
+          "coverage_status": "empty"
+        }
+      }
+    ],
+    "meta": {
+      "grid_size": 4,
+      "cell_count": 16,
+      "occupied_cell_count": 9,
+      "empty_cell_count": 7,
+      "under_sampled_cells": 9,
+      "under_sampled_occupied_cells": 9,
+      "survey_priority_cells": 16,
+      "method": "Taxon-focused grid: occurrence density, sampling coverage proxy and non-detection risk. Empty cells are not absences."
+    }
+  },
+  "records_geojson": {
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            2.1686,
+            41.3874
+          ]
+        },
+        "properties": {
+          "gbif_id": "1001",
+          "datasetKey": "spain-mosquito-watch",
+          "datasetTitle": "Spain Mosquito Watch Demo",
+          "scientificName": "Aedes albopictus (Skuse, 1894)",
+          "eventDate": "2025-08-14",
+          "year": 2025,
+          "coordinateUncertaintyInMeters": 120.0,
+          "license": "CC_BY_4_0",
+          "issues": []
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            2.22,
+            41.45
+          ]
+        },
+        "properties": {
+          "gbif_id": "1002",
+          "datasetKey": "spain-mosquito-watch",
+          "datasetTitle": "Spain Mosquito Watch Demo",
+          "scientificName": "Aedes albopictus (Skuse, 1894)",
+          "eventDate": "2024-09-02",
+          "year": 2024,
+          "coordinateUncertaintyInMeters": 80.0,
+          "license": "CC_BY_4_0",
+          "issues": []
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -0.3763,
+            39.4699
+          ]
+        },
+        "properties": {
+          "gbif_id": "1003",
+          "datasetKey": "spain-mosquito-watch",
+          "datasetTitle": "Spain Mosquito Watch Demo",
+          "scientificName": "Aedes albopictus (Skuse, 1894)",
+          "eventDate": "2023-07-18",
+          "year": 2023,
+          "coordinateUncertaintyInMeters": 300.0,
+          "license": "CC_BY_4_0",
+          "issues": []
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -0.481,
+            38.3452
+          ]
+        },
+        "properties": {
+          "gbif_id": "1004",
+          "datasetKey": "spain-mosquito-watch",
+          "datasetTitle": "Spain Mosquito Watch Demo",
+          "scientificName": "Aedes albopictus (Skuse, 1894)",
+          "eventDate": "2022-08-01",
+          "year": 2022,
+          "coordinateUncertaintyInMeters": 24000.0,
+          "license": "CC_BY_4_0",
+          "issues": [
+            "COORDINATE_ROUNDED"
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -3.7038,
+            40.4168
+          ]
+        },
+        "properties": {
+          "gbif_id": "1005",
+          "datasetKey": "iberian-vector-survey",
+          "datasetTitle": "Iberian Vector Survey Demo",
+          "scientificName": "Aedes albopictus (Skuse, 1894)",
+          "eventDate": "2021-07-11",
+          "year": 2021,
+          "coordinateUncertaintyInMeters": 500.0,
+          "license": "CC0_1_0",
+          "issues": []
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -5.9845,
+            37.3891
+          ]
+        },
+        "properties": {
+          "gbif_id": "1006",
+          "datasetKey": "iberian-vector-survey",
+          "datasetTitle": "Iberian Vector Survey Demo",
+          "scientificName": "Aedes albopictus (Skuse, 1894)",
+          "eventDate": "2018-06-20",
+          "year": 2018,
+          "coordinateUncertaintyInMeters": 1500.0,
+          "license": "CC0_1_0",
+          "issues": []
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -2.935,
+            43.263
+          ]
+        },
+        "properties": {
+          "gbif_id": "1007",
+          "datasetKey": "iberian-vector-survey",
+          "datasetTitle": "Iberian Vector Survey Demo",
+          "scientificName": "Aedes albopictus (Skuse, 1894)",
+          "eventDate": "2016-09-09",
+          "year": 2016,
+          "coordinateUncertaintyInMeters": 600.0,
+          "license": "CC0_1_0",
+          "issues": []
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -4.4214,
+            36.7213
+          ]
+        },
+        "properties": {
+          "gbif_id": "1008",
+          "datasetKey": "legacy-mosquito-import",
+          "datasetTitle": "Legacy Mosquito Import Demo",
+          "scientificName": "Aedes albopictus",
+          "eventDate": null,
+          "year": null,
+          "coordinateUncertaintyInMeters": 11000.0,
+          "license": "CC_BY_NC_4_0",
+          "issues": [
+            "GEODETIC_DATUM_ASSUMED_WGS84"
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -8.5448,
+            42.8782
+          ]
+        },
+        "properties": {
+          "gbif_id": "1009",
+          "datasetKey": "legacy-mosquito-import",
+          "datasetTitle": "Legacy Mosquito Import Demo",
+          "scientificName": "Aedes albopictus",
+          "eventDate": "2015-07-05",
+          "year": 2015,
+          "coordinateUncertaintyInMeters": 14000.0,
+          "license": "CC_BY_NC_4_0",
+          "issues": [
+            "COUNTRY_COORDINATE_MISMATCH"
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -0.8891,
+            41.65
+          ]
+        },
+        "properties": {
+          "gbif_id": "1010",
+          "datasetKey": "legacy-mosquito-import",
+          "datasetTitle": "Legacy Mosquito Import Demo",
+          "scientificName": "Aedes albopictus",
+          "eventDate": "2014-05-19",
+          "year": 2014,
+          "coordinateUncertaintyInMeters": 900.0,
+          "license": "CC_BY_NC_4_0",
+          "issues": []
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            2.65,
+            39.57
+          ]
+        },
+        "properties": {
+          "gbif_id": "1011",
+          "datasetKey": "legacy-mosquito-import",
+          "datasetTitle": "Legacy Mosquito Import Demo",
+          "scientificName": "Aedes albopictus",
+          "eventDate": "2013-08-23",
+          "year": 2013,
+          "coordinateUncertaintyInMeters": 700.0,
+          "license": "CC_BY_NC_4_0",
+          "issues": []
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -1.0,
+            40.0
+          ]
+        },
+        "properties": {
+          "gbif_id": "1012",
+          "datasetKey": "unknown_dataset",
+          "datasetTitle": "Unresolved Demo Upload",
+          "scientificName": "Aedes albopictus",
+          "eventDate": null,
+          "year": null,
+          "coordinateUncertaintyInMeters": 20000.0,
+          "license": null,
+          "issues": [
+            "TAXON_MATCH_HIGHERRANK"
+          ]
+        }
+      }
+    ]
+  },
+  "normalized_records": [
+    {
+      "gbif_id": "1001",
+      "dataset_key": "spain-mosquito-watch",
+      "dataset_title": "Spain Mosquito Watch Demo",
+      "publisher": "Demo Public Health Node",
+      "license": "CC_BY_4_0",
+      "scientific_name": "Aedes albopictus (Skuse, 1894)",
+      "accepted_taxon_key": "5844304",
+      "taxon_key": "5844304",
+      "latitude": 41.3874,
+      "longitude": 2.1686,
+      "event_date": "2025-08-14",
+      "year": 2025,
+      "coordinate_uncertainty_m": 120.0,
+      "country": "Spain",
+      "country_code": "ES",
+      "basis_of_record": "HUMAN_OBSERVATION",
+      "issues": [],
+      "raw": {
+        "key": 1001,
+        "datasetKey": "spain-mosquito-watch",
+        "datasetName": "Spain Mosquito Watch Demo",
+        "publisher": "Demo Public Health Node",
+        "license": "CC_BY_4_0",
+        "scientificName": "Aedes albopictus (Skuse, 1894)",
+        "taxonKey": 5844304,
+        "speciesKey": 5844304,
+        "acceptedTaxonKey": 5844304,
+        "decimalLatitude": 41.3874,
+        "decimalLongitude": 2.1686,
+        "eventDate": "2025-08-14",
+        "year": 2025,
+        "country": "Spain",
+        "countryCode": "ES",
+        "basisOfRecord": "HUMAN_OBSERVATION",
+        "coordinateUncertaintyInMeters": 120,
+        "issues": []
+      }
+    },
+    {
+      "gbif_id": "1002",
+      "dataset_key": "spain-mosquito-watch",
+      "dataset_title": "Spain Mosquito Watch Demo",
+      "publisher": "Demo Public Health Node",
+      "license": "CC_BY_4_0",
+      "scientific_name": "Aedes albopictus (Skuse, 1894)",
+      "accepted_taxon_key": "5844304",
+      "taxon_key": "5844304",
+      "latitude": 41.45,
+      "longitude": 2.22,
+      "event_date": "2024-09-02",
+      "year": 2024,
+      "coordinate_uncertainty_m": 80.0,
+      "country": "Spain",
+      "country_code": "ES",
+      "basis_of_record": "HUMAN_OBSERVATION",
+      "issues": [],
+      "raw": {
+        "key": 1002,
+        "datasetKey": "spain-mosquito-watch",
+        "datasetName": "Spain Mosquito Watch Demo",
+        "publisher": "Demo Public Health Node",
+        "license": "CC_BY_4_0",
+        "scientificName": "Aedes albopictus (Skuse, 1894)",
+        "taxonKey": 5844304,
+        "speciesKey": 5844304,
+        "acceptedTaxonKey": 5844304,
+        "decimalLatitude": 41.45,
+        "decimalLongitude": 2.22,
+        "eventDate": "2024-09-02",
+        "year": 2024,
+        "country": "Spain",
+        "countryCode": "ES",
+        "basisOfRecord": "HUMAN_OBSERVATION",
+        "coordinateUncertaintyInMeters": 80,
+        "issues": []
+      }
+    },
+    {
+      "gbif_id": "1003",
+      "dataset_key": "spain-mosquito-watch",
+      "dataset_title": "Spain Mosquito Watch Demo",
+      "publisher": "Demo Public Health Node",
+      "license": "CC_BY_4_0",
+      "scientific_name": "Aedes albopictus (Skuse, 1894)",
+      "accepted_taxon_key": "5844304",
+      "taxon_key": "5844304",
+      "latitude": 39.4699,
+      "longitude": -0.3763,
+      "event_date": "2023-07-18",
+      "year": 2023,
+      "coordinate_uncertainty_m": 300.0,
+      "country": "Spain",
+      "country_code": "ES",
+      "basis_of_record": "MATERIAL_SAMPLE",
+      "issues": [],
+      "raw": {
+        "key": 1003,
+        "datasetKey": "spain-mosquito-watch",
+        "datasetName": "Spain Mosquito Watch Demo",
+        "publisher": "Demo Public Health Node",
+        "license": "CC_BY_4_0",
+        "scientificName": "Aedes albopictus (Skuse, 1894)",
+        "taxonKey": 5844304,
+        "speciesKey": 5844304,
+        "acceptedTaxonKey": 5844304,
+        "decimalLatitude": 39.4699,
+        "decimalLongitude": -0.3763,
+        "eventDate": "2023-07-18",
+        "year": 2023,
+        "country": "Spain",
+        "countryCode": "ES",
+        "basisOfRecord": "MATERIAL_SAMPLE",
+        "coordinateUncertaintyInMeters": 300,
+        "issues": []
+      }
+    },
+    {
+      "gbif_id": "1004",
+      "dataset_key": "spain-mosquito-watch",
+      "dataset_title": "Spain Mosquito Watch Demo",
+      "publisher": "Demo Public Health Node",
+      "license": "CC_BY_4_0",
+      "scientific_name": "Aedes albopictus (Skuse, 1894)",
+      "accepted_taxon_key": "5844304",
+      "taxon_key": "5844304",
+      "latitude": 38.3452,
+      "longitude": -0.481,
+      "event_date": "2022-08-01",
+      "year": 2022,
+      "coordinate_uncertainty_m": 24000.0,
+      "country": "Spain",
+      "country_code": "ES",
+      "basis_of_record": "HUMAN_OBSERVATION",
+      "issues": [
+        "COORDINATE_ROUNDED"
+      ],
+      "raw": {
+        "key": 1004,
+        "datasetKey": "spain-mosquito-watch",
+        "datasetName": "Spain Mosquito Watch Demo",
+        "publisher": "Demo Public Health Node",
+        "license": "CC_BY_4_0",
+        "scientificName": "Aedes albopictus (Skuse, 1894)",
+        "taxonKey": 5844304,
+        "speciesKey": 5844304,
+        "acceptedTaxonKey": 5844304,
+        "decimalLatitude": 38.3452,
+        "decimalLongitude": -0.481,
+        "eventDate": "2022-08-01",
+        "year": 2022,
+        "country": "Spain",
+        "countryCode": "ES",
+        "basisOfRecord": "HUMAN_OBSERVATION",
+        "coordinateUncertaintyInMeters": 24000,
+        "issues": [
+          "COORDINATE_ROUNDED"
+        ]
+      }
+    },
+    {
+      "gbif_id": "1005",
+      "dataset_key": "iberian-vector-survey",
+      "dataset_title": "Iberian Vector Survey Demo",
+      "publisher": "Demo University Collection",
+      "license": "CC0_1_0",
+      "scientific_name": "Aedes albopictus (Skuse, 1894)",
+      "accepted_taxon_key": "5844304",
+      "taxon_key": "5844304",
+      "latitude": 40.4168,
+      "longitude": -3.7038,
+      "event_date": "2021-07-11",
+      "year": 2021,
+      "coordinate_uncertainty_m": 500.0,
+      "country": "Spain",
+      "country_code": "ES",
+      "basis_of_record": "PRESERVED_SPECIMEN",
+      "issues": [],
+      "raw": {
+        "key": 1005,
+        "datasetKey": "iberian-vector-survey",
+        "datasetName": "Iberian Vector Survey Demo",
+        "publisher": "Demo University Collection",
+        "license": "CC0_1_0",
+        "scientificName": "Aedes albopictus (Skuse, 1894)",
+        "taxonKey": 5844304,
+        "speciesKey": 5844304,
+        "acceptedTaxonKey": 5844304,
+        "decimalLatitude": 40.4168,
+        "decimalLongitude": -3.7038,
+        "eventDate": "2021-07-11",
+        "year": 2021,
+        "country": "Spain",
+        "countryCode": "ES",
+        "basisOfRecord": "PRESERVED_SPECIMEN",
+        "coordinateUncertaintyInMeters": 500,
+        "issues": []
+      }
+    },
+    {
+      "gbif_id": "1006",
+      "dataset_key": "iberian-vector-survey",
+      "dataset_title": "Iberian Vector Survey Demo",
+      "publisher": "Demo University Collection",
+      "license": "CC0_1_0",
+      "scientific_name": "Aedes albopictus (Skuse, 1894)",
+      "accepted_taxon_key": "5844304",
+      "taxon_key": "5844304",
+      "latitude": 37.3891,
+      "longitude": -5.9845,
+      "event_date": "2018-06-20",
+      "year": 2018,
+      "coordinate_uncertainty_m": 1500.0,
+      "country": "Spain",
+      "country_code": "ES",
+      "basis_of_record": "MATERIAL_SAMPLE",
+      "issues": [],
+      "raw": {
+        "key": 1006,
+        "datasetKey": "iberian-vector-survey",
+        "datasetName": "Iberian Vector Survey Demo",
+        "publisher": "Demo University Collection",
+        "license": "CC0_1_0",
+        "scientificName": "Aedes albopictus (Skuse, 1894)",
+        "taxonKey": 5844304,
+        "speciesKey": 5844304,
+        "acceptedTaxonKey": 5844304,
+        "decimalLatitude": 37.3891,
+        "decimalLongitude": -5.9845,
+        "eventDate": "2018-06-20",
+        "year": 2018,
+        "country": "Spain",
+        "countryCode": "ES",
+        "basisOfRecord": "MATERIAL_SAMPLE",
+        "coordinateUncertaintyInMeters": 1500,
+        "issues": []
+      }
+    },
+    {
+      "gbif_id": "1007",
+      "dataset_key": "iberian-vector-survey",
+      "dataset_title": "Iberian Vector Survey Demo",
+      "publisher": "Demo University Collection",
+      "license": "CC0_1_0",
+      "scientific_name": "Aedes albopictus (Skuse, 1894)",
+      "accepted_taxon_key": "5844304",
+      "taxon_key": "5844304",
+      "latitude": 43.263,
+      "longitude": -2.935,
+      "event_date": "2016-09-09",
+      "year": 2016,
+      "coordinate_uncertainty_m": 600.0,
+      "country": "Spain",
+      "country_code": "ES",
+      "basis_of_record": "HUMAN_OBSERVATION",
+      "issues": [],
+      "raw": {
+        "key": 1007,
+        "datasetKey": "iberian-vector-survey",
+        "datasetName": "Iberian Vector Survey Demo",
+        "publisher": "Demo University Collection",
+        "license": "CC0_1_0",
+        "scientificName": "Aedes albopictus (Skuse, 1894)",
+        "taxonKey": 5844304,
+        "speciesKey": 5844304,
+        "acceptedTaxonKey": 5844304,
+        "decimalLatitude": 43.263,
+        "decimalLongitude": -2.935,
+        "eventDate": "2016-09-09",
+        "year": 2016,
+        "country": "Spain",
+        "countryCode": "ES",
+        "basisOfRecord": "HUMAN_OBSERVATION",
+        "coordinateUncertaintyInMeters": 600,
+        "issues": []
+      }
+    },
+    {
+      "gbif_id": "1008",
+      "dataset_key": "legacy-mosquito-import",
+      "dataset_title": "Legacy Mosquito Import Demo",
+      "publisher": "Demo Legacy Publisher",
+      "license": "CC_BY_NC_4_0",
+      "scientific_name": "Aedes albopictus",
+      "accepted_taxon_key": "5844304",
+      "taxon_key": "5844304",
+      "latitude": 36.7213,
+      "longitude": -4.4214,
+      "event_date": null,
+      "year": null,
+      "coordinate_uncertainty_m": 11000.0,
+      "country": "Spain",
+      "country_code": "ES",
+      "basis_of_record": "OCCURRENCE",
+      "issues": [
+        "GEODETIC_DATUM_ASSUMED_WGS84"
+      ],
+      "raw": {
+        "key": 1008,
+        "datasetKey": "legacy-mosquito-import",
+        "datasetName": "Legacy Mosquito Import Demo",
+        "publisher": "Demo Legacy Publisher",
+        "license": "CC_BY_NC_4_0",
+        "scientificName": "Aedes albopictus",
+        "taxonKey": 5844304,
+        "speciesKey": 5844304,
+        "acceptedTaxonKey": 5844304,
+        "decimalLatitude": 36.7213,
+        "decimalLongitude": -4.4214,
+        "country": "Spain",
+        "countryCode": "ES",
+        "basisOfRecord": "OCCURRENCE",
+        "coordinateUncertaintyInMeters": 11000,
+        "issues": [
+          "GEODETIC_DATUM_ASSUMED_WGS84"
+        ]
+      }
+    },
+    {
+      "gbif_id": "1009",
+      "dataset_key": "legacy-mosquito-import",
+      "dataset_title": "Legacy Mosquito Import Demo",
+      "publisher": "Demo Legacy Publisher",
+      "license": "CC_BY_NC_4_0",
+      "scientific_name": "Aedes albopictus",
+      "accepted_taxon_key": "5844304",
+      "taxon_key": "5844304",
+      "latitude": 42.8782,
+      "longitude": -8.5448,
+      "event_date": "2015-07-05",
+      "year": 2015,
+      "coordinate_uncertainty_m": 14000.0,
+      "country": "Spain",
+      "country_code": "ES",
+      "basis_of_record": "OCCURRENCE",
+      "issues": [
+        "COUNTRY_COORDINATE_MISMATCH"
+      ],
+      "raw": {
+        "key": 1009,
+        "datasetKey": "legacy-mosquito-import",
+        "datasetName": "Legacy Mosquito Import Demo",
+        "publisher": "Demo Legacy Publisher",
+        "license": "CC_BY_NC_4_0",
+        "scientificName": "Aedes albopictus",
+        "taxonKey": 5844304,
+        "speciesKey": 5844304,
+        "acceptedTaxonKey": 5844304,
+        "decimalLatitude": 42.8782,
+        "decimalLongitude": -8.5448,
+        "eventDate": "2015-07-05",
+        "year": 2015,
+        "country": "Spain",
+        "countryCode": "ES",
+        "basisOfRecord": "OCCURRENCE",
+        "coordinateUncertaintyInMeters": 14000,
+        "issues": [
+          "COUNTRY_COORDINATE_MISMATCH"
+        ]
+      }
+    },
+    {
+      "gbif_id": "1010",
+      "dataset_key": "legacy-mosquito-import",
+      "dataset_title": "Legacy Mosquito Import Demo",
+      "publisher": "Demo Legacy Publisher",
+      "license": "CC_BY_NC_4_0",
+      "scientific_name": "Aedes albopictus",
+      "accepted_taxon_key": "5844304",
+      "taxon_key": "5844304",
+      "latitude": 41.65,
+      "longitude": -0.8891,
+      "event_date": "2014-05-19",
+      "year": 2014,
+      "coordinate_uncertainty_m": 900.0,
+      "country": "Spain",
+      "country_code": "ES",
+      "basis_of_record": "OCCURRENCE",
+      "issues": [],
+      "raw": {
+        "key": 1010,
+        "datasetKey": "legacy-mosquito-import",
+        "datasetName": "Legacy Mosquito Import Demo",
+        "publisher": "Demo Legacy Publisher",
+        "license": "CC_BY_NC_4_0",
+        "scientificName": "Aedes albopictus",
+        "taxonKey": 5844304,
+        "speciesKey": 5844304,
+        "acceptedTaxonKey": 5844304,
+        "decimalLatitude": 41.65,
+        "decimalLongitude": -0.8891,
+        "eventDate": "2014-05-19",
+        "year": 2014,
+        "country": "Spain",
+        "countryCode": "ES",
+        "basisOfRecord": "OCCURRENCE",
+        "coordinateUncertaintyInMeters": 900,
+        "issues": []
+      }
+    },
+    {
+      "gbif_id": "1011",
+      "dataset_key": "legacy-mosquito-import",
+      "dataset_title": "Legacy Mosquito Import Demo",
+      "publisher": "Demo Legacy Publisher",
+      "license": "CC_BY_NC_4_0",
+      "scientific_name": "Aedes albopictus",
+      "accepted_taxon_key": "5844304",
+      "taxon_key": "5844304",
+      "latitude": 39.57,
+      "longitude": 2.65,
+      "event_date": "2013-08-23",
+      "year": 2013,
+      "coordinate_uncertainty_m": 700.0,
+      "country": "Spain",
+      "country_code": "ES",
+      "basis_of_record": "OCCURRENCE",
+      "issues": [],
+      "raw": {
+        "key": 1011,
+        "datasetKey": "legacy-mosquito-import",
+        "datasetName": "Legacy Mosquito Import Demo",
+        "publisher": "Demo Legacy Publisher",
+        "license": "CC_BY_NC_4_0",
+        "scientificName": "Aedes albopictus",
+        "taxonKey": 5844304,
+        "speciesKey": 5844304,
+        "acceptedTaxonKey": 5844304,
+        "decimalLatitude": 39.57,
+        "decimalLongitude": 2.65,
+        "eventDate": "2013-08-23",
+        "year": 2013,
+        "country": "Spain",
+        "countryCode": "ES",
+        "basisOfRecord": "OCCURRENCE",
+        "coordinateUncertaintyInMeters": 700,
+        "issues": []
+      }
+    },
+    {
+      "gbif_id": "1012",
+      "dataset_key": "unknown_dataset",
+      "dataset_title": "Unresolved Demo Upload",
+      "publisher": "Unknown Demo Publisher",
+      "license": null,
+      "scientific_name": "Aedes albopictus",
+      "accepted_taxon_key": null,
+      "taxon_key": null,
+      "latitude": 40.0,
+      "longitude": -1.0,
+      "event_date": null,
+      "year": null,
+      "coordinate_uncertainty_m": 20000.0,
+      "country": "Spain",
+      "country_code": "ES",
+      "basis_of_record": "OCCURRENCE",
+      "issues": [
+        "TAXON_MATCH_HIGHERRANK"
+      ],
+      "raw": {
+        "key": 1012,
+        "datasetKey": "unknown_dataset",
+        "datasetName": "Unresolved Demo Upload",
+        "publisher": "Unknown Demo Publisher",
+        "scientificName": "Aedes albopictus",
+        "decimalLatitude": 40.0,
+        "decimalLongitude": -1.0,
+        "country": "Spain",
+        "countryCode": "ES",
+        "basisOfRecord": "OCCURRENCE",
+        "coordinateUncertaintyInMeters": 20000,
+        "issues": [
+          "TAXON_MATCH_HIGHERRANK"
+        ]
+      }
+    }
+  ],
+  "main_risks": [
+    "4 records have coordinate uncertainty above 10 km.",
+    "2 records are missing eventDate/year.",
+    "9 occupied grid cells are under-sampled by the coverage proxy.",
+    "7 grid cells have no retained records; they are no-evidence cells, not absences.",
+    "No GBIF download DOI is attached to this evidence pack yet."
+  ],
+  "next_actions": [
+    "Create a DOI-backed GBIF occurrence download or derived dataset before publication.",
+    "Preserve datasetKey and run.json with any downstream analysis.",
+    "Avoid absence claims for empty or low-effort grid cells.",
+    "Review records with coordinate uncertainty above 10 km.",
+    "Review records missing eventDate/year before temporal interpretation.",
+    "Prioritize survey design around no-evidence and under-sampled grid cells.",
+    "Share the Publisher Feedback Pack with dataset managers for prioritized fixes."
+  ],
+  "exports": [
+    {
+      "name": "citations.md",
+      "url": "/api/evidence/runs/e9ba719920034da8ac17c74a021cdeaf/exports/citations.md",
+      "size_bytes": 1189
+    },
+    {
+      "name": "claim_guardrails.md",
+      "url": "/api/evidence/runs/e9ba719920034da8ac17c74a021cdeaf/exports/claim_guardrails.md",
+      "size_bytes": 1128
+    },
+    {
+      "name": "dataset_contributions.csv",
+      "url": "/api/evidence/runs/e9ba719920034da8ac17c74a021cdeaf/exports/dataset_contributions.csv",
+      "size_bytes": 612
+    },
+    {
+      "name": "demo_scenario.json",
+      "url": "/api/evidence/runs/e9ba719920034da8ac17c74a021cdeaf/exports/demo_scenario.json",
+      "size_bytes": 636
+    },
+    {
+      "name": "evidence_pack.json",
+      "url": "/api/evidence/runs/e9ba719920034da8ac17c74a021cdeaf/exports/evidence_pack.json",
+      "size_bytes": 59180
+    },
+    {
+      "name": "evidence_pack.zip",
+      "url": "/api/evidence/runs/e9ba719920034da8ac17c74a021cdeaf/exports/evidence_pack.zip",
+      "size_bytes": 18182
+    },
+    {
+      "name": "passport.html",
+      "url": "/api/evidence/runs/e9ba719920034da8ac17c74a021cdeaf/exports/passport.html",
+      "size_bytes": 16107
+    },
+    {
+      "name": "passport.md",
+      "url": "/api/evidence/runs/e9ba719920034da8ac17c74a021cdeaf/exports/passport.md",
+      "size_bytes": 3700
+    },
+    {
+      "name": "publisher_feedback.md",
+      "url": "/api/evidence/runs/e9ba719920034da8ac17c74a021cdeaf/exports/publisher_feedback.md",
+      "size_bytes": 966
+    },
+    {
+      "name": "quality_metrics.csv",
+      "url": "/api/evidence/runs/e9ba719920034da8ac17c74a021cdeaf/exports/quality_metrics.csv",
+      "size_bytes": 324
+    },
+    {
+      "name": "readiness_scorecard.csv",
+      "url": "/api/evidence/runs/e9ba719920034da8ac17c74a021cdeaf/exports/readiness_scorecard.csv",
+      "size_bytes": 461
+    },
+    {
+      "name": "records.geojson",
+      "url": "/api/evidence/runs/e9ba719920034da8ac17c74a021cdeaf/exports/records.geojson",
+      "size_bytes": 6605
+    },
+    {
+      "name": "run.json",
+      "url": "/api/evidence/runs/e9ba719920034da8ac17c74a021cdeaf/exports/run.json",
+      "size_bytes": 1260
+    },
+    {
+      "name": "source_summary.json",
+      "url": "/api/evidence/runs/e9ba719920034da8ac17c74a021cdeaf/exports/source_summary.json",
+      "size_bytes": 198
+    }
+  ]
+}

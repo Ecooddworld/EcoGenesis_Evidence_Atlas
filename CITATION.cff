@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+title: EcoGenesis Evidence Atlas
+message: If you use this software, cite it and cite the underlying GBIF-mediated datasets according to GBIF guidance.
+type: software
+authors:
+  - family-names: Oddworld
+    given-names: EcoGenesis
+repository-code: https://github.com/oddworld666/EcoGenesis_Evidence_Atlas
+license: MIT
+version: 0.1.0
+date-released: 2026-04-26
+abstract: Reproducible GBIF Evidence Passports for taxon-region-purpose biodiversity decisions.
+

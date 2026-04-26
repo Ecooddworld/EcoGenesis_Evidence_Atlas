@@ -1,0 +1,265 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2.1686,
+          41.3874
+        ]
+      },
+      "properties": {
+        "gbif_id": "1001",
+        "datasetKey": "spain-mosquito-watch",
+        "datasetTitle": "Spain Mosquito Watch Demo",
+        "scientificName": "Aedes albopictus (Skuse, 1894)",
+        "eventDate": "2025-08-14",
+        "year": 2025,
+        "coordinateUncertaintyInMeters": 120.0,
+        "license": "CC_BY_4_0",
+        "issues": []
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2.22,
+          41.45
+        ]
+      },
+      "properties": {
+        "gbif_id": "1002",
+        "datasetKey": "spain-mosquito-watch",
+        "datasetTitle": "Spain Mosquito Watch Demo",
+        "scientificName": "Aedes albopictus (Skuse, 1894)",
+        "eventDate": "2024-09-02",
+        "year": 2024,
+        "coordinateUncertaintyInMeters": 80.0,
+        "license": "CC_BY_4_0",
+        "issues": []
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.3763,
+          39.4699
+        ]
+      },
+      "properties": {
+        "gbif_id": "1003",
+        "datasetKey": "spain-mosquito-watch",
+        "datasetTitle": "Spain Mosquito Watch Demo",
+        "scientificName": "Aedes albopictus (Skuse, 1894)",
+        "eventDate": "2023-07-18",
+        "year": 2023,
+        "coordinateUncertaintyInMeters": 300.0,
+        "license": "CC_BY_4_0",
+        "issues": []
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.481,
+          38.3452
+        ]
+      },
+      "properties": {
+        "gbif_id": "1004",
+        "datasetKey": "spain-mosquito-watch",
+        "datasetTitle": "Spain Mosquito Watch Demo",
+        "scientificName": "Aedes albopictus (Skuse, 1894)",
+        "eventDate": "2022-08-01",
+        "year": 2022,
+        "coordinateUncertaintyInMeters": 24000.0,
+        "license": "CC_BY_4_0",
+        "issues": [
+          "COORDINATE_ROUNDED"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3.7038,
+          40.4168
+        ]
+      },
+      "properties": {
+        "gbif_id": "1005",
+        "datasetKey": "iberian-vector-survey",
+        "datasetTitle": "Iberian Vector Survey Demo",
+        "scientificName": "Aedes albopictus (Skuse, 1894)",
+        "eventDate": "2021-07-11",
+        "year": 2021,
+        "coordinateUncertaintyInMeters": 500.0,
+        "license": "CC0_1_0",
+        "issues": []
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -5.9845,
+          37.3891
+        ]
+      },
+      "properties": {
+        "gbif_id": "1006",
+        "datasetKey": "iberian-vector-survey",
+        "datasetTitle": "Iberian Vector Survey Demo",
+        "scientificName": "Aedes albopictus (Skuse, 1894)",
+        "eventDate": "2018-06-20",
+        "year": 2018,
+        "coordinateUncertaintyInMeters": 1500.0,
+        "license": "CC0_1_0",
+        "issues": []
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.935,
+          43.263
+        ]
+      },
+      "properties": {
+        "gbif_id": "1007",
+        "datasetKey": "iberian-vector-survey",
+        "datasetTitle": "Iberian Vector Survey Demo",
+        "scientificName": "Aedes albopictus (Skuse, 1894)",
+        "eventDate": "2016-09-09",
+        "year": 2016,
+        "coordinateUncertaintyInMeters": 600.0,
+        "license": "CC0_1_0",
+        "issues": []
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4.4214,
+          36.7213
+        ]
+      },
+      "properties": {
+        "gbif_id": "1008",
+        "datasetKey": "legacy-mosquito-import",
+        "datasetTitle": "Legacy Mosquito Import Demo",
+        "scientificName": "Aedes albopictus",
+        "eventDate": null,
+        "year": null,
+        "coordinateUncertaintyInMeters": 11000.0,
+        "license": "CC_BY_NC_4_0",
+        "issues": [
+          "GEODETIC_DATUM_ASSUMED_WGS84"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -8.5448,
+          42.8782
+        ]
+      },
+      "properties": {
+        "gbif_id": "1009",
+        "datasetKey": "legacy-mosquito-import",
+        "datasetTitle": "Legacy Mosquito Import Demo",
+        "scientificName": "Aedes albopictus",
+        "eventDate": "2015-07-05",
+        "year": 2015,
+        "coordinateUncertaintyInMeters": 14000.0,
+        "license": "CC_BY_NC_4_0",
+        "issues": [
+          "COUNTRY_COORDINATE_MISMATCH"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.8891,
+          41.65
+        ]
+      },
+      "properties": {
+        "gbif_id": "1010",
+        "datasetKey": "legacy-mosquito-import",
+        "datasetTitle": "Legacy Mosquito Import Demo",
+        "scientificName": "Aedes albopictus",
+        "eventDate": "2014-05-19",
+        "year": 2014,
+        "coordinateUncertaintyInMeters": 900.0,
+        "license": "CC_BY_NC_4_0",
+        "issues": []
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2.65,
+          39.57
+        ]
+      },
+      "properties": {
+        "gbif_id": "1011",
+        "datasetKey": "legacy-mosquito-import",
+        "datasetTitle": "Legacy Mosquito Import Demo",
+        "scientificName": "Aedes albopictus",
+        "eventDate": "2013-08-23",
+        "year": 2013,
+        "coordinateUncertaintyInMeters": 700.0,
+        "license": "CC_BY_NC_4_0",
+        "issues": []
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.0,
+          40.0
+        ]
+      },
+      "properties": {
+        "gbif_id": "1012",
+        "datasetKey": "unknown_dataset",
+        "datasetTitle": "Unresolved Demo Upload",
+        "scientificName": "Aedes albopictus",
+        "eventDate": null,
+        "year": null,
+        "coordinateUncertaintyInMeters": 20000.0,
+        "license": null,
+        "issues": [
+          "TAXON_MATCH_HIGHERRANK"
+        ]
+      }
+    }
+  ]
+}
