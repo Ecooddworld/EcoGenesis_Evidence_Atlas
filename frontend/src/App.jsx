@@ -265,7 +265,6 @@ export default function App() {
   const [progressSteps, setProgressSteps] = useState([]);
   const [taxonSuggestions, setTaxonSuggestions] = useState([]);
   const [taxonSearchStatus, setTaxonSearchStatus] = useState('');
-  const [taxonSearchSource, setTaxonSearchSource] = useState('');
   const bboxParts = bboxValues(form.bbox);
   const formSignature = requestSignatureFromForm(form);
   const runSignature = requestSignatureFromRun(run?.run?.request);
@@ -347,16 +346,6 @@ export default function App() {
       } catch {
         if (!cancelled) setRegionPresets(fallbackRegionPresets);
       }
-      try {
-        const starterTaxa = await searchTaxa('', 6);
-        if (!cancelled) {
-          setTaxonSuggestions(starterTaxa.results || []);
-          setTaxonSearchSource(starterTaxa.source || '');
-        }
-      } catch {
-        if (!cancelled) setTaxonSuggestions([]);
-      }
-
       const backendRuns = await refreshRecentRuns();
       const cachedRunId = backendRuns[0]?.run_id || readRecentRuns()[0]?.run_id;
       if (cachedRunId) {
@@ -432,7 +421,6 @@ export default function App() {
     try {
       const payload = await searchTaxa(form.taxon, 10);
       setTaxonSuggestions(payload.results || []);
-      setTaxonSearchSource(payload.source || '');
       setTaxonSearchStatus((payload.results || []).length ? '' : 'No GBIF taxon suggestions found. Try a scientific name.');
     } catch (err) {
       setTaxonSearchStatus(err.message || 'GBIF taxon search failed');
@@ -469,50 +457,18 @@ export default function App() {
       <header className="topbar">
         <div>
           <p className="eyebrow">EcoGenesis Evidence Atlas</p>
-          <h1>Evidence Passport for Biodiversity Decisions</h1>
-          <p className="topbar-subtitle">Choose a taxon and region, then get a map, data-quality review, citation pack and safe scientific claims.</p>
-        </div>
-        <div className="study-summary" aria-label="Current study">
-          <span>
-            <strong>{form.taxon}</strong>
-            <small>taxon</small>
-          </span>
-          <span>
-            <strong>{form.region_name}</strong>
-            <small>region</small>
-          </span>
-          <span>
-            <strong>{purposeLabels[form.purpose]}</strong>
-            <small>purpose</small>
-          </span>
+          <h1>GBIF Evidence Passport</h1>
+          <p className="topbar-subtitle">Build a map-backed evidence pack for any GBIF taxon and region, with data-quality checks, citations and claim guardrails.</p>
         </div>
       </header>
 
       <section className="workspace">
         <aside className="run-rail" aria-label="Evidence run controls">
-          <div className="rail-section">
-            <p className="section-label">Build Passport</p>
-            <p className="rail-copy">Select a species, study area and purpose. Everything below can be edited for a custom run.</p>
-          </div>
-
-          <div className="rail-section">
-            <p className="section-label">Research Templates</p>
-            <div className="preset-grid">
-              {presets.filter((preset) => preset.id !== 'offline').map((preset) => (
-                <button
-                  className={form.purpose === preset.form.purpose ? 'preset active' : 'preset'}
-                  key={preset.id}
-                  onClick={() => applyPreset(preset)}
-                  type="button"
-                >
-                  <span>{preset.label}</span>
-                  <small>{preset.tag}</small>
-                </button>
-              ))}
-            </div>
-          </div>
-
           <form className="rail-section run-form" onSubmit={handleSubmit}>
+            <div className="form-intro">
+              <p className="section-label">New Passport</p>
+              <p className="rail-copy">Choose a species and area, then generate the passport. The map updates only after generation.</p>
+            </div>
             <div className="taxon-picker">
               <label>
                 Taxon
@@ -531,7 +487,6 @@ export default function App() {
                 ) : (
                   <span>Custom name will be matched by GBIF during the run.</span>
                 )}
-                {taxonSearchSource ? <small>Suggestions source: {shortStatus(taxonSearchSource)}</small> : null}
               </div>
               {taxonSearchStatus ? <p className="helper-note">{taxonSearchStatus}</p> : null}
               {taxonSuggestions.length ? (
@@ -559,14 +514,17 @@ export default function App() {
                 onChange={(event) => setForm({ ...form, region_name: event.target.value })}
               />
             </label>
-            <div className="region-preset-list" aria-label="Region presets">
-              {regionPresets.map((region) => (
-                <button key={region.id} onClick={() => applyRegionPreset(region)} type="button">
-                  <span>{region.label}</span>
-                  <small>{region.description}</small>
-                </button>
-              ))}
-            </div>
+            <details className="inline-drawer">
+              <summary>Saved regions</summary>
+              <div className="region-preset-list" aria-label="Region presets">
+                {regionPresets.map((region) => (
+                  <button key={region.id} onClick={() => applyRegionPreset(region)} type="button">
+                    <span>{region.label}</span>
+                    <small>{region.description}</small>
+                  </button>
+                ))}
+              </div>
+            </details>
             <fieldset className="bbox-grid">
               <legend>Bounding box</legend>
               <label>
@@ -602,16 +560,6 @@ export default function App() {
                 />
               </label>
             </fieldset>
-            <label>
-              Data source
-              <select value={form.source_mode} onChange={(event) => updateSourceMode(event.target.value)}>
-                {Object.entries(sourceModeLabels).map(([value, label]) => (
-                  <option key={value} value={value}>
-                    {label}
-                  </option>
-                ))}
-              </select>
-            </label>
             <div className="field-pair">
               <label>
                 Purpose
@@ -636,12 +584,42 @@ export default function App() {
                 />
               </label>
             </div>
+            <details className="inline-drawer">
+              <summary>Data source</summary>
+              <label>
+                Source
+                <select value={form.source_mode} onChange={(event) => updateSourceMode(event.target.value)}>
+                  {Object.entries(sourceModeLabels).map(([value, label]) => (
+                    <option key={value} value={value}>
+                      {label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </details>
             <button className="primary-action" type="submit" disabled={loading || booting}>
               {loading ? 'Generating passport...' : booting ? 'Preparing passport...' : 'Generate Evidence Passport'}
             </button>
             {error ? <p className="error">{error}</p> : null}
             {created ? <p className="run-id">Run {created.run_id}</p> : null}
           </form>
+
+          <details className="rail-section drawer-section">
+            <summary>Example studies</summary>
+            <div className="preset-grid">
+              {presets.filter((preset) => preset.id !== 'offline').map((preset) => (
+                <button
+                  className={form.purpose === preset.form.purpose ? 'preset active' : 'preset'}
+                  key={preset.id}
+                  onClick={() => applyPreset(preset)}
+                  type="button"
+                >
+                  <span>{preset.label}</span>
+                  <small>{preset.tag}</small>
+                </button>
+              ))}
+            </div>
+          </details>
 
           <PipelineProgress steps={progressSteps.length ? progressSteps : run?.run?.steps} loading={loading || booting} />
 
@@ -664,8 +642,8 @@ export default function App() {
 
 function RecentRuns({ runs, loadingRunId, onLoad }) {
   return (
-    <div className="rail-section recent-runs">
-      <p className="section-label">Recent local runs</p>
+    <details className="rail-section drawer-section recent-runs">
+      <summary>Recent passports</summary>
       {runs.length ? (
         <div className="recent-list">
           {runs.map((item) => (
@@ -682,15 +660,15 @@ function RecentRuns({ runs, loadingRunId, onLoad }) {
       ) : (
         <p className="empty-note">Your generated passports will appear here.</p>
       )}
-    </div>
+    </details>
   );
 }
 
 function PipelineProgress({ steps, loading }) {
   const rows = steps?.length ? steps : buildProgressSteps(loading ? 'running' : 'pending');
   return (
-    <div className="rail-section pipeline-panel">
-      <p className="section-label">Evidence pipeline</p>
+    <details className="rail-section drawer-section pipeline-panel" open={loading}>
+      <summary>Run details</summary>
       <div className="pipeline-list">
         {rows.map((step) => (
           <div className={`pipeline-step ${step.status}`} key={step.name}>
@@ -699,7 +677,7 @@ function PipelineProgress({ steps, loading }) {
           </div>
         ))}
       </div>
-    </div>
+    </details>
   );
 }
 

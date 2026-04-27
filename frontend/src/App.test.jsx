@@ -257,7 +257,7 @@ describe('EcoGenesis Evidence Atlas UI', () => {
     installFetchMock();
     render(<App />);
 
-    expect(screen.getByRole('heading', { name: 'Evidence Passport for Biodiversity Decisions' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'GBIF Evidence Passport' })).toBeInTheDocument();
     await waitFor(() => expect(screen.getByText('Purpose comparison')).toBeInTheDocument());
     expect(screen.getByText('Scientific interpretation')).toBeInTheDocument();
     expect(screen.getByText('Source & provenance')).toBeInTheDocument();
@@ -273,7 +273,8 @@ describe('EcoGenesis Evidence Atlas UI', () => {
     render(<App />);
 
     await waitFor(() => expect(screen.getByText('Purpose comparison')).toBeInTheDocument());
-    fireEvent.change(screen.getByLabelText('Data source'), { target: { value: 'online_with_fixture_fallback' } });
+    fireEvent.click(screen.getByText('Data source'));
+    fireEvent.change(screen.getByLabelText('Source'), { target: { value: 'online_with_fixture_fallback' } });
     fireEvent.click(screen.getByRole('button', { name: 'Generate Evidence Passport' }));
 
     await waitFor(() => expect(postBodies.length).toBeGreaterThan(1));
@@ -307,6 +308,7 @@ describe('EcoGenesis Evidence Atlas UI', () => {
     fireEvent.click(lynx);
     expect(screen.getByText(/Locked to GBIF taxonKey 2435261/i)).toBeInTheDocument();
 
+    fireEvent.click(screen.getByText('Saved regions'));
     fireEvent.click(screen.getByRole('button', { name: /Iberian Peninsula/i }));
     expect(screen.getByLabelText('Region')).toHaveValue('Iberian Peninsula live bbox');
     expect(screen.getByLabelText('West longitude')).toHaveValue('-10');

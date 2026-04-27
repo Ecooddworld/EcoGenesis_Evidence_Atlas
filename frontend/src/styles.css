@@ -29,17 +29,12 @@ a {
 }
 
 .topbar {
-  align-items: stretch;
-  background: #fff;
-  border: 1px solid #dce5dd;
-  border-radius: 10px;
-  box-shadow: 0 14px 30px rgba(24, 34, 27, 0.06);
-  display: flex;
-  gap: 26px;
-  justify-content: space-between;
+  align-items: start;
+  display: grid;
+  gap: 4px;
   margin: 0 auto 18px;
   max-width: 1440px;
-  padding: 22px 24px;
+  padding: 6px 2px 2px;
 }
 
 .topbar h1,
@@ -52,7 +47,7 @@ p {
 }
 
 .topbar h1 {
-  font-size: clamp(1.7rem, 2.8vw, 2.45rem);
+  font-size: clamp(1.9rem, 3vw, 2.7rem);
   line-height: 1.1;
   margin-bottom: 0;
   max-width: 860px;
@@ -73,37 +68,6 @@ p {
   font-weight: 800;
   letter-spacing: 0;
   margin-bottom: 6px;
-  text-transform: uppercase;
-}
-
-.study-summary {
-  align-content: stretch;
-  display: grid;
-  gap: 8px;
-  grid-template-columns: repeat(3, minmax(118px, 1fr));
-  min-width: min(560px, 44vw);
-}
-
-.study-summary span {
-  background: #f6f9f5;
-  border: 1px solid #dfe8e0;
-  border-radius: 8px;
-  display: grid;
-  gap: 5px;
-  min-height: 72px;
-  padding: 11px 12px;
-}
-
-.study-summary strong {
-  color: #1f3026;
-  font-size: 0.92rem;
-  line-height: 1.22;
-}
-
-.study-summary small {
-  color: #64736b;
-  font-size: 0.72rem;
-  font-weight: 800;
   text-transform: uppercase;
 }
 
@@ -148,6 +112,54 @@ p {
   font-size: 0.9rem;
   line-height: 1.45;
   margin: 0;
+}
+
+.form-intro {
+  display: grid;
+  gap: 2px;
+}
+
+.drawer-section,
+.inline-drawer {
+  color: #314139;
+}
+
+.drawer-section summary,
+.inline-drawer summary {
+  cursor: pointer;
+  font-size: 0.86rem;
+  font-weight: 850;
+  list-style: none;
+}
+
+.drawer-section summary::-webkit-details-marker,
+.inline-drawer summary::-webkit-details-marker {
+  display: none;
+}
+
+.drawer-section summary::after,
+.inline-drawer summary::after {
+  color: #6c7b72;
+  content: "+";
+  float: right;
+  font-weight: 900;
+}
+
+.drawer-section[open] summary,
+.inline-drawer[open] summary {
+  margin-bottom: 10px;
+}
+
+.drawer-section[open] summary::after,
+.inline-drawer[open] summary::after {
+  content: "-";
+}
+
+.inline-drawer {
+  background: #f7faf6;
+  border: 1px solid #e0e9e2;
+  border-radius: 7px;
+  padding: 10px;
 }
 
 .preset-grid {
@@ -1518,15 +1530,6 @@ td {
     grid-template-columns: 1fr;
   }
 
-  .topbar {
-    flex-direction: column;
-  }
-
-  .study-summary {
-    min-width: 0;
-    width: 100%;
-  }
-
   .run-rail {
     position: static;
   }
@@ -1543,16 +1546,11 @@ td {
     padding: 14px;
   }
 
-  .topbar,
   .score-band,
   .draft-banner,
   .panel-title {
     align-items: stretch;
     flex-direction: column;
-  }
-
-  .study-summary {
-    grid-template-columns: 1fr;
   }
 
   .score-band {
