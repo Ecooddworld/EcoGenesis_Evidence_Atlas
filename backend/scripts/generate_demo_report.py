@@ -21,7 +21,7 @@ def main() -> None:
         region_name="Spain live GBIF bbox",
         bbox=[-10.0, 35.0, 4.5, 44.5],
         purpose="invasive_watch",
-        source_mode="online_with_fixture_fallback",
+        source_mode="online_with_empty_fallback",
         use_fixture=False,
         max_records=300,
     )

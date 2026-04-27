@@ -95,7 +95,7 @@ def test_fixture_run_and_export_endpoints(tmp_path, monkeypatch) -> None:
 
     scenarios = client.get("/api/evidence/demo-scenarios")
     assert scenarios.status_code == 200
-    assert scenarios.json()[0]["form"]["source_mode"] == "online_with_fixture_fallback"
+    assert scenarios.json()[0]["form"]["source_mode"] == "online_with_empty_fallback"
 
     regions = client.get("/api/evidence/region-presets")
     assert regions.status_code == 200
@@ -133,6 +133,24 @@ def test_online_failure_falls_back_when_requested(tmp_path, monkeypatch) -> None
     monkeypatch.setenv("EVIDENCE_DATA_DIR", str(tmp_path))
     monkeypatch.setattr("app.evidence.gbif.requests.get", lambda *_, **__: (_ for _ in ()).throw(requests.Timeout("offline")))
     client = TestClient(app)
+
+    empty = client.post(
+        "/api/evidence/run",
+        json={
+            "taxon": "Aedes albopictus",
+            "region_name": "Spain demo bbox",
+            "bbox": [-10.0, 35.0, 4.5, 44.5],
+            "purpose": "invasive_watch",
+            "source_mode": "online_with_empty_fallback",
+            "max_records": 300,
+        },
+    )
+    assert empty.status_code == 200
+    empty_detail = client.get(f"/api/evidence/runs/{empty.json()['run_id']}").json()
+    assert empty_detail["source_summary"]["used_source_mode"] == "online_empty_fallback"
+    assert empty_detail["passport"]["records_used"] == 0
+    assert empty_detail["records_geojson"]["features"] == []
+    assert empty_detail["citation_autopilot"]["citation_status"] == "online_failed_empty_fallback"
 
     response = client.post(
         "/api/evidence/run",

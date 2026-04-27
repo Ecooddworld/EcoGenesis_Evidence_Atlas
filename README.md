@@ -5,7 +5,7 @@ EcoGenesis Evidence Atlas turns GBIF-mediated occurrence data into reproducible 
 The MVP is intentionally narrow: it is not the full EcoGenesis platform. It focuses on one judge-ready workflow:
 
 1. Open the app.
-2. The default live GBIF Evidence Passport appears automatically, with offline fixture fallback if GBIF is unavailable.
+2. The default live GBIF Evidence Passport appears automatically. If GBIF is unavailable, the app shows an empty no-evidence grid rather than reusing old fixture records.
 3. Review the Leaflet/OpenStreetMap evidence map, purpose comparison, sampling-gap priorities, source/provenance, quality risks, dataset contributors, citation guidance and responsible claim guardrails.
 4. Search GBIF taxa, choose a `taxonKey`, pick a region preset or edit the bbox, then generate another real-data passport.
 5. Download a citation-ready evidence pack, including a single ZIP bundle.
@@ -22,7 +22,7 @@ Open:
 - Backend health: http://localhost:18100/health
 - Backend docs: http://localhost:18100/docs
 
-The first screen auto-runs `Online GBIF with fallback`, so users see real GBIF-mediated records when the API is reachable. The deterministic fixture remains available from the source selector for offline judging and regression tests.
+The first screen auto-runs `Live GBIF`, so users see real GBIF-mediated records when the API is reachable. The deterministic fixture remains available as a separate `Offline sample` source for offline judging and regression tests.
 
 ## API
 
@@ -53,7 +53,7 @@ Example request:
   "region_name": "Spain live GBIF bbox",
   "bbox": [-10.0, 35.0, 4.5, 44.5],
   "purpose": "invasive_watch",
-  "source_mode": "online_with_fixture_fallback",
+  "source_mode": "online_with_empty_fallback",
   "use_fixture": false,
   "max_records": 300
 }

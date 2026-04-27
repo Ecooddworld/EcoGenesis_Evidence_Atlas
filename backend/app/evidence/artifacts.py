@@ -43,7 +43,7 @@ def _demo_scenario(pack: dict[str, Any]) -> dict[str, Any]:
 
 def _quality_csv(metrics: dict[str, Any]) -> str:
     output = io.StringIO()
-    writer = csv.writer(output)
+    writer = csv.writer(output, lineterminator="\n")
     writer.writerow(["metric", "value"])
     for key, value in metrics.items():
         writer.writerow([key, value])
@@ -65,7 +65,7 @@ def _gap_priorities_csv(pack: dict[str, Any]) -> str:
         "source_diversity_gap",
         "reasons",
     ]
-    writer = csv.DictWriter(output, fieldnames=fields)
+    writer = csv.DictWriter(output, fieldnames=fields, lineterminator="\n")
     writer.writeheader()
     for feature in pack["grid_metrics"]["features"]:
         props = feature["properties"]
@@ -91,7 +91,7 @@ def _gap_priorities_csv(pack: dict[str, Any]) -> str:
 def _dataset_csv(rows: list[dict[str, Any]]) -> str:
     output = io.StringIO()
     fields = ["datasetKey", "datasetTitle", "publisher", "license", "record_count", "main_issues"]
-    writer = csv.DictWriter(output, fieldnames=fields)
+    writer = csv.DictWriter(output, fieldnames=fields, lineterminator="\n")
     writer.writeheader()
     for row in rows:
         writer.writerow({field: row.get(field) for field in fields})
@@ -101,7 +101,7 @@ def _dataset_csv(rows: list[dict[str, Any]]) -> str:
 def _publisher_feedback_csv(rows: list[dict[str, Any]]) -> str:
     output = io.StringIO()
     fields = ["datasetKey", "records_affected", "main_issue", "suggested_fix"]
-    writer = csv.DictWriter(output, fieldnames=fields)
+    writer = csv.DictWriter(output, fieldnames=fields, lineterminator="\n")
     writer.writeheader()
     for row in rows:
         writer.writerow({field: row.get(field) for field in fields})
@@ -140,7 +140,7 @@ def _readiness_scorecard_csv(pack: dict[str, Any]) -> str:
         "citation_provenance",
         "issue_explainability",
     ]
-    writer = csv.DictWriter(output, fieldnames=fields)
+    writer = csv.DictWriter(output, fieldnames=fields, lineterminator="\n")
     writer.writeheader()
     for purpose, row in pack["purpose_score_matrix"].items():
         writer.writerow(

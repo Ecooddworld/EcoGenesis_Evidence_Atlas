@@ -10,7 +10,7 @@
 
 ## Source Summary
 
-- Requested source mode: online_with_fixture_fallback
+- Requested source mode: online_with_empty_fallback
 - GBIF API status: ok
 - Fixture fallback used: False
 

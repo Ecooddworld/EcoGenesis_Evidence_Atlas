@@ -60,10 +60,13 @@ def test_source_mode_compatibility_grid_and_exports(tmp_path, monkeypatch) -> No
     monkeypatch.setattr("app.evidence.gbif.requests.get", lambda *_, **__: (_ for _ in ()).throw(requests.Timeout("offline")))
     pack = run_evidence_passport(EvidenceRunRequest(use_fixture=False))
 
-    assert pack["source_summary"]["requested_source_mode"] == "online_with_fixture_fallback"
+    assert pack["source_summary"]["requested_source_mode"] == "online_with_empty_fallback"
     assert pack["source_summary"]["fallback_used"] is True
+    assert pack["source_summary"]["used_source_mode"] == "online_empty_fallback"
+    assert pack["passport"]["records_used"] == 0
+    assert pack["records_geojson"]["features"] == []
     assert pack["grid_metrics"]["meta"]["cell_count"] == 16
-    assert pack["grid_metrics"]["meta"]["empty_cell_count"] == 7
+    assert pack["grid_metrics"]["meta"]["empty_cell_count"] == 16
     assert pack["grid_metrics"]["meta"]["top_survey_priority_cells"]
     assert "gap_priority_score" in pack["grid_metrics"]["features"][0]["properties"]
     assert set(pack["purpose_score_matrix"]) == {
@@ -99,6 +102,48 @@ def test_source_mode_compatibility_grid_and_exports(tmp_path, monkeypatch) -> No
             "derived_dataset_recipe.json",
             "provenance.json",
         } <= set(archive.namelist())
+
+
+def test_empty_fallback_does_not_reuse_fixture_records(tmp_path, monkeypatch) -> None:
+    monkeypatch.setenv("EVIDENCE_DATA_DIR", str(tmp_path))
+    monkeypatch.setattr("app.evidence.gbif.requests.get", lambda *_, **__: (_ for _ in ()).throw(requests.Timeout("offline")))
+
+    pack = run_evidence_passport(
+        EvidenceRunRequest(
+            taxon="Lynx pardinus",
+            taxon_key=2435261,
+            region_name="Iberian Peninsula live bbox",
+            bbox=[-10.0, 35.0, 4.5, 44.5],
+            purpose="dataset_quality_review",
+            source_mode="online_with_empty_fallback",
+            max_records=300,
+        )
+    )
+
+    assert pack["citation_autopilot"]["citation_status"] == "online_failed_empty_fallback"
+    assert pack["source_summary"]["used_source_mode"] == "online_empty_fallback"
+    assert pack["passport"]["records_used"] == 0
+    assert pack["dataset_contributions"] == []
+    assert pack["records_geojson"]["features"] == []
+    assert pack["grid_metrics"]["meta"]["empty_cell_count"] == 16
+    assert any("No old fixture occurrence records were reused" in warning for warning in pack["source_summary"]["warnings"])
+
+
+def test_request_fingerprint_changes_with_request_inputs(tmp_path, monkeypatch) -> None:
+    monkeypatch.setenv("EVIDENCE_DATA_DIR", str(tmp_path))
+    first = run_evidence_passport(EvidenceRunRequest(use_fixture=True, taxon="Aedes albopictus"))
+    second = run_evidence_passport(EvidenceRunRequest(use_fixture=True, taxon="Quercus robur", taxon_key=2878688))
+    third = run_evidence_passport(
+        EvidenceRunRequest(
+            use_fixture=True,
+            taxon="Aedes albopictus",
+            bbox=[-9.0, 35.0, 4.5, 44.5],
+        )
+    )
+
+    assert first["request_fingerprint"] != second["request_fingerprint"]
+    assert first["request_fingerprint"] != third["request_fingerprint"]
+    assert first["run"]["request_fingerprint"] == first["request_fingerprint"]
 
 
 def test_claim_guardrails_and_publisher_feedback(tmp_path, monkeypatch) -> None:

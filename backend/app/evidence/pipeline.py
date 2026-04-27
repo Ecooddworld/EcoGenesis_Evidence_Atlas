@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
+import hashlib
+import json
 import os
 from time import perf_counter
 from typing import Any, Callable, TypeVar
@@ -30,6 +32,8 @@ def run_evidence_passport(request: EvidenceRunRequest) -> dict[str, Any]:
     started_at = datetime.now(timezone.utc)
     steps: list[dict[str, Any]] = []
     requested_source_mode = resolve_source_mode(request)
+    request_dump = normalized_request_dump(request, requested_source_mode)
+    fingerprint = request_fingerprint(request_dump)
 
     species_match, raw_payload, source_summary = fetch_gbif_inputs(request, requested_source_mode, steps)
     records = timed_step(steps, "normalize", lambda: normalize_occurrences(raw_payload, max_records=request.max_records))
@@ -68,10 +72,12 @@ def run_evidence_passport(request: EvidenceRunRequest) -> dict[str, Any]:
             "started_at": started_at.isoformat(),
             "finished_at": finished_at.isoformat(),
             "source_mode": source_summary["used_source_mode"],
-            "request": request.model_dump(),
+            "request": request_dump,
+            "request_fingerprint": fingerprint,
             "gbif_species_match": species_match,
             "steps": steps,
         },
+        "request_fingerprint": fingerprint,
         "passport": {
             "title": "GBIF Evidence Passport",
             "taxon": request.taxon,
@@ -137,9 +143,29 @@ def resolve_source_mode(request: EvidenceRunRequest) -> SourceMode:
     if request.use_fixture:
         return "fixture"
     env_mode = os.getenv("EVIDENCE_MODE")
-    if env_mode in {"online", "online_with_fixture_fallback"}:
+    if env_mode in {"online", "online_with_fixture_fallback", "online_with_empty_fallback"}:
         return env_mode  # type: ignore[return-value]
-    return "online_with_fixture_fallback"
+    return "online_with_empty_fallback"
+
+
+def normalized_request_dump(request: EvidenceRunRequest, source_mode: SourceMode) -> dict[str, Any]:
+    payload = request.model_dump()
+    payload["source_mode"] = source_mode
+    payload["use_fixture"] = source_mode == "fixture"
+    return payload
+
+
+def request_fingerprint(request_payload: dict[str, Any]) -> str:
+    bbox = request_payload.get("bbox") or []
+    canonical = {
+        "taxon": " ".join(str(request_payload.get("taxon") or "").lower().split()),
+        "taxon_key": request_payload.get("taxon_key"),
+        "bbox": [round(float(value), 6) for value in bbox],
+        "purpose": request_payload.get("purpose"),
+        "source_mode": request_payload.get("source_mode"),
+        "max_records": int(request_payload.get("max_records") or 0),
+    }
+    return hashlib.sha256(json.dumps(canonical, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest()
 
 
 def fetch_gbif_inputs(
@@ -174,6 +200,7 @@ def fetch_gbif_inputs(
         return species_match, raw_payload, base_summary
 
     online_client = GBIFClient(mode="online")
+    species_match: dict[str, Any] | None = None
     try:
         species_match = timed_step(steps, "species_match", lambda: resolve_species_match(online_client, request))
         base_summary["matched_taxon_key"] = species_match.get("usageKey")
@@ -204,6 +231,33 @@ def fetch_gbif_inputs(
                     "fallback_used": False,
                 },
             ) from exc
+
+        if requested_source_mode == "online_with_empty_fallback":
+            empty_match = species_match or empty_species_match(request)
+            base_summary.update(
+                {
+                    "used_source_mode": "online_empty_fallback",
+                    "gbif_api_status": "failed",
+                    "fallback_used": True,
+                    "empty_fallback_used": True,
+                    "matched_taxon_key": empty_match.get("usageKey"),
+                    "warnings": [
+                        message,
+                        "No old fixture occurrence records were reused for this live query; the pack contains an empty evidence grid for the requested taxon and region.",
+                    ],
+                }
+            )
+            steps.append(
+                {
+                    "name": "empty_fallback",
+                    "status": "completed",
+                    "duration_ms": 0.0,
+                    "details": {"reason": message, "records_reused_from_fixture": 0},
+                }
+            )
+            raw_payload = {"count": 0, "limit": request.max_records, "offset": 0, "results": []}
+            attach_payload_summary(base_summary, raw_payload)
+            return empty_match, raw_payload, base_summary
 
         fixture_client = GBIFClient(mode="fixture")
         base_summary.update(
@@ -243,6 +297,19 @@ def fetch_gbif_inputs(
         )
         attach_payload_summary(base_summary, raw_payload)
         return species_match, raw_payload, base_summary
+
+
+def empty_species_match(request: EvidenceRunRequest) -> dict[str, Any]:
+    return {
+        "usageKey": request.taxon_key,
+        "scientificName": request.taxon,
+        "canonicalName": request.taxon,
+        "rank": "UNKNOWN",
+        "status": "UNVERIFIED",
+        "confidence": 100 if request.taxon_key else 0,
+        "matchType": "EMPTY_FALLBACK_UNVERIFIED",
+        "source": "empty_fallback",
+    }
 
 
 def resolve_species_match(client: GBIFClient, request: EvidenceRunRequest, *, use_fixture: bool = False) -> dict[str, Any]:
@@ -365,7 +432,9 @@ def build_citation_autopilot(
     *,
     source_summary: dict[str, Any],
 ) -> dict[str, Any]:
-    if source_summary["fallback_used"]:
+    if source_summary.get("used_source_mode") == "online_empty_fallback":
+        citation_status = "online_failed_empty_fallback"
+    elif source_summary["fallback_used"]:
         citation_status = "online_failed_fixture_fallback"
     elif source_summary["used_source_mode"] == "fixture":
         citation_status = "fixture_demo_not_for_publication"
@@ -438,7 +507,9 @@ def summarize_main_risks(
         risks.append(f"{grid['meta']['empty_cell_count']} grid cells have no retained records; they are no-evidence cells, not absences.")
     if citation["citation_status"] != "doi_backed":
         risks.append("No GBIF download DOI is attached to this evidence pack yet.")
-    if source_summary["fallback_used"]:
+    if source_summary.get("used_source_mode") == "online_empty_fallback":
+        risks.append("GBIF online access failed; the run shows an empty live evidence grid and did not reuse fixture occurrence records.")
+    elif source_summary["fallback_used"]:
         risks.append("GBIF online access failed and fixture fallback was used for this run.")
     if not risks:
         risks.append("No major quality risks were detected by the MVP rules.")
@@ -458,7 +529,9 @@ def build_next_actions(
     ]
     if citation["citation_status"] != "doi_backed":
         actions.insert(0, "Create a DOI-backed GBIF occurrence download or derived dataset before publication.")
-    if source_summary["fallback_used"]:
+    if source_summary.get("used_source_mode") == "online_empty_fallback":
+        actions.append("Re-run when GBIF is reachable; no old fixture occurrence records were reused for this live query.")
+    elif source_summary["fallback_used"]:
         actions.append("Re-run in online GBIF mode before using this evidence pack outside the demo.")
     if quality["high_uncertainty_count"]:
         actions.append("Review records with coordinate uncertainty above 10 km.")

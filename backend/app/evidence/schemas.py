@@ -16,6 +16,7 @@ SourceMode = Literal[
     "fixture",
     "online",
     "online_with_fixture_fallback",
+    "online_with_empty_fallback",
 ]
 
 

@@ -1,8 +1,8 @@
 {
   "run": {
-    "run_id": "c0133673460740b1aca2098a9a58562d",
-    "started_at": "2026-04-27T02:01:24.585335+00:00",
-    "finished_at": "2026-04-27T02:01:25.978053+00:00",
+    "run_id": "68e3224a300d4129b2e3c06c5ed65132",
+    "started_at": "2026-04-27T02:40:11.784954+00:00",
+    "finished_at": "2026-04-27T02:40:12.721523+00:00",
     "source_mode": "online",
     "request": {
       "taxon": "Aedes albopictus",
@@ -15,10 +15,11 @@
         44.5
       ],
       "purpose": "invasive_watch",
-      "source_mode": "online_with_fixture_fallback",
+      "source_mode": "online_with_empty_fallback",
       "use_fixture": false,
       "max_records": 300
     },
+    "request_fingerprint": "bee4477d2345287a5d8fe0ac2384a1aa3d418ec6f607860f2e45205ebf572e7c",
     "gbif_species_match": {
       "key": 1651430,
       "nubKey": 1651430,
@@ -70,17 +71,17 @@
       {
         "name": "species_match",
         "status": "completed",
-        "duration_ms": 283.4
+        "duration_ms": 221.92
       },
       {
         "name": "occurrence_fetch",
         "status": "completed",
-        "duration_ms": 1106.39
+        "duration_ms": 711.92
       },
       {
         "name": "normalize",
         "status": "completed",
-        "duration_ms": 1.18
+        "duration_ms": 0.9
       },
       {
         "name": "score",
@@ -90,7 +91,7 @@
       {
         "name": "exports",
         "status": "completed",
-        "duration_ms": 107.08,
+        "duration_ms": 105.66,
         "details": {
           "artifact_count": 19
         }
@@ -99,25 +100,26 @@
     "artifact_checksums": {
       "citations.md": "9861b27255f4af3f9d4c2886037bffa516362bf71a6d1101dac4a6f75181147d",
       "claim_guardrails.md": "b5da9498dab1f471ae61daba9eb32e1977b1670de60daa891ff610484052a5d4",
-      "dataset_contributions.csv": "7b8692e5267368d503df57178b6035196de019b17a65bc01411c5bbfaad3e993",
-      "demo_scenario.json": "b98f9b2ee90fbae3f795dae8ebe47bcd1a61da87a93b329d5ca83d0d3853a286",
+      "dataset_contributions.csv": "a720c60d6ffeebba4e9a30d31ec4461b5b0d0a58cbddfbec4e4b8857ad192438",
+      "demo_scenario.json": "1f3c3b252273c0bbf60e710801aadbdb1014914eb0cfac30cd880dffee9872ab",
       "derived_dataset_recipe.json": "fcc12a05e48a7d338adfb11cdb54387c063b4c747c9a03ac8064058b1aa7336c",
-      "evidence_pack.json": "fe76dc7e8fbbfae96324e15bb8a50e9bd70e752f830231f3e34cf9da43cd199c",
-      "evidence_pack.zip": "3ee298c44f0f45f63ad4182e25d23c57b83fc324396d1878d406d3f079fdbb3e",
-      "gap_priorities.csv": "b1a9b31ed1523e3850e6692c0864d5e52a362633a209a0c98a603d39f96a1242",
+      "evidence_pack.json": "6cc904f0afbefa195c1afe61a96056acc083275f27d861e4a9446b1c0062a660",
+      "evidence_pack.zip": "0855f2abcb4895429607e767aac962b115d224994216542b41d41a7eab2f397b",
+      "gap_priorities.csv": "ccbcab7518b0a0056d6c552b706e9b98dbbfa637b1b97205da67f28a0939b673",
       "methods_text.md": "5ca4d422a9ff3e80e3ed8c51231231ab5056da8d529245dc0d5b710080961fbe",
-      "passport.html": "f6ba0b2aa0db67dd4e8fed539304c1652aaaffdaeb7465b64d9f3bc9ba9c22b4",
-      "passport.md": "6d91fe5f9efd889757f02a8299a156ba906c7fdc8d6326501aa33cdad5282e5c",
-      "provenance.json": "070c78fc5647de370122066ac7aa7648432c670bc99acbc2892e8c3c29c15136",
-      "publisher_feedback.csv": "4e4f330f14cc0d3bdb430dd5ec2ce743346177732f24a3c688f1b2dc3ed00876",
+      "passport.html": "c129946c38cd8954962de4aa5859344b21cda8c217666d91e6008dff74e970d2",
+      "passport.md": "b56552e6c916cb5abbbc73c9714cdef97b1d2f324d99312a116b0bcb74c28653",
+      "provenance.json": "1b75d1c190cd0f490081db06d33148eeddd9b5367ab4dccf404292a9e3c95620",
+      "publisher_feedback.csv": "725268edb4f06491145b6a7850cf080bff659f5bf9cff440ada8a5ba0b93af35",
       "publisher_feedback.md": "3b23c71c11990e3c22085e1b4fcd74f4a3e605520242799dccb5878b2938d1e5",
-      "quality_metrics.csv": "c6edec6c03fa52e85d1928457f59527035e7fafe4d97eecd62a151d8a7e31f6a",
-      "readiness_scorecard.csv": "c385ecb8fed48341934a5577013a85a009b43cb37e6a98bbda09c78bc4d6480c",
+      "quality_metrics.csv": "f58fe3a5951002e86100df5e00e81b4837f986c17581ddea79610f57d21270a0",
+      "readiness_scorecard.csv": "7cfbde792ad69f7957522ccada0e0f5596309e1e6fba760111f94a2013e39def",
       "records.geojson": "f638492bfe8ed77d64c5f53cbb58a99f2dddc77c34e75b87530ccf6142364e81",
-      "run.json": "098648c5ea6ef4ae39eb560183a17cfd2ea10f3ba693d98cfbd3c40632646741",
-      "source_summary.json": "7a89f0a7ee9a92a007930c8c30622d16f33fde647256b10cef56fff4229c9042"
+      "run.json": "959ee5daca9b8769f5345629eef790b8ac614e8af579d2901cf55ea99783a3b4",
+      "source_summary.json": "22b2ba3710dbcb47b2951ac9b1d1cfeb0357b1585ecd6a323121f38c4f2f2199"
     }
   },
+  "request_fingerprint": "bee4477d2345287a5d8fe0ac2384a1aa3d418ec6f607860f2e45205ebf572e7c",
   "passport": {
     "title": "GBIF Evidence Passport",
     "taxon": "Aedes albopictus",
@@ -136,7 +138,7 @@
     "datasets_used": 8
   },
   "source_summary": {
-    "requested_source_mode": "online_with_fixture_fallback",
+    "requested_source_mode": "online_with_empty_fallback",
     "used_source_mode": "online",
     "gbif_api_status": "ok",
     "fallback_used": false,
@@ -108833,117 +108835,117 @@
   "exports": [
     {
       "name": "citations.md",
-      "url": "/api/evidence/runs/c0133673460740b1aca2098a9a58562d/exports/citations.md",
+      "url": "/api/evidence/runs/68e3224a300d4129b2e3c06c5ed65132/exports/citations.md",
       "size_bytes": 1849,
       "sha256": "9861b27255f4af3f9d4c2886037bffa516362bf71a6d1101dac4a6f75181147d"
     },
     {
       "name": "claim_guardrails.md",
-      "url": "/api/evidence/runs/c0133673460740b1aca2098a9a58562d/exports/claim_guardrails.md",
+      "url": "/api/evidence/runs/68e3224a300d4129b2e3c06c5ed65132/exports/claim_guardrails.md",
       "size_bytes": 995,
       "sha256": "b5da9498dab1f471ae61daba9eb32e1977b1670de60daa891ff610484052a5d4"
     },
     {
       "name": "dataset_contributions.csv",
-      "url": "/api/evidence/runs/c0133673460740b1aca2098a9a58562d/exports/dataset_contributions.csv",
-      "size_bytes": 1494,
-      "sha256": "7b8692e5267368d503df57178b6035196de019b17a65bc01411c5bbfaad3e993"
+      "url": "/api/evidence/runs/68e3224a300d4129b2e3c06c5ed65132/exports/dataset_contributions.csv",
+      "size_bytes": 1485,
+      "sha256": "a720c60d6ffeebba4e9a30d31ec4461b5b0d0a58cbddfbec4e4b8857ad192438"
     },
     {
       "name": "demo_scenario.json",
-      "url": "/api/evidence/runs/c0133673460740b1aca2098a9a58562d/exports/demo_scenario.json",
-      "size_bytes": 891,
-      "sha256": "b98f9b2ee90fbae3f795dae8ebe47bcd1a61da87a93b329d5ca83d0d3853a286"
+      "url": "/api/evidence/runs/68e3224a300d4129b2e3c06c5ed65132/exports/demo_scenario.json",
+      "size_bytes": 887,
+      "sha256": "1f3c3b252273c0bbf60e710801aadbdb1014914eb0cfac30cd880dffee9872ab"
     },
     {
       "name": "derived_dataset_recipe.json",
-      "url": "/api/evidence/runs/c0133673460740b1aca2098a9a58562d/exports/derived_dataset_recipe.json",
+      "url": "/api/evidence/runs/68e3224a300d4129b2e3c06c5ed65132/exports/derived_dataset_recipe.json",
       "size_bytes": 201,
       "sha256": "fcc12a05e48a7d338adfb11cdb54387c063b4c747c9a03ac8064058b1aa7336c"
     },
     {
       "name": "evidence_pack.json",
-      "url": "/api/evidence/runs/c0133673460740b1aca2098a9a58562d/exports/evidence_pack.json",
-      "size_bytes": 3920701,
-      "sha256": "fe76dc7e8fbbfae96324e15bb8a50e9bd70e752f830231f3e34cf9da43cd199c"
+      "url": "/api/evidence/runs/68e3224a300d4129b2e3c06c5ed65132/exports/evidence_pack.json",
+      "size_bytes": 3920884,
+      "sha256": "6cc904f0afbefa195c1afe61a96056acc083275f27d861e4a9446b1c0062a660"
     },
     {
       "name": "evidence_pack.zip",
-      "url": "/api/evidence/runs/c0133673460740b1aca2098a9a58562d/exports/evidence_pack.zip",
-      "size_bytes": 213712,
-      "sha256": "3ee298c44f0f45f63ad4182e25d23c57b83fc324396d1878d406d3f079fdbb3e"
+      "url": "/api/evidence/runs/68e3224a300d4129b2e3c06c5ed65132/exports/evidence_pack.zip",
+      "size_bytes": 213880,
+      "sha256": "0855f2abcb4895429607e767aac962b115d224994216542b41d41a7eab2f397b"
     },
     {
       "name": "gap_priorities.csv",
-      "url": "/api/evidence/runs/c0133673460740b1aca2098a9a58562d/exports/gap_priorities.csv",
-      "size_bytes": 2013,
-      "sha256": "b1a9b31ed1523e3850e6692c0864d5e52a362633a209a0c98a603d39f96a1242"
+      "url": "/api/evidence/runs/68e3224a300d4129b2e3c06c5ed65132/exports/gap_priorities.csv",
+      "size_bytes": 1996,
+      "sha256": "ccbcab7518b0a0056d6c552b706e9b98dbbfa637b1b97205da67f28a0939b673"
     },
     {
       "name": "methods_text.md",
-      "url": "/api/evidence/runs/c0133673460740b1aca2098a9a58562d/exports/methods_text.md",
+      "url": "/api/evidence/runs/68e3224a300d4129b2e3c06c5ed65132/exports/methods_text.md",
       "size_bytes": 842,
       "sha256": "5ca4d422a9ff3e80e3ed8c51231231ab5056da8d529245dc0d5b710080961fbe"
     },
     {
       "name": "passport.html",
-      "url": "/api/evidence/runs/c0133673460740b1aca2098a9a58562d/exports/passport.html",
-      "size_bytes": 61623,
-      "sha256": "f6ba0b2aa0db67dd4e8fed539304c1652aaaffdaeb7465b64d9f3bc9ba9c22b4"
+      "url": "/api/evidence/runs/68e3224a300d4129b2e3c06c5ed65132/exports/passport.html",
+      "size_bytes": 61621,
+      "sha256": "c129946c38cd8954962de4aa5859344b21cda8c217666d91e6008dff74e970d2"
     },
     {
       "name": "passport.md",
-      "url": "/api/evidence/runs/c0133673460740b1aca2098a9a58562d/exports/passport.md",
-      "size_bytes": 3729,
-      "sha256": "6d91fe5f9efd889757f02a8299a156ba906c7fdc8d6326501aa33cdad5282e5c"
+      "url": "/api/evidence/runs/68e3224a300d4129b2e3c06c5ed65132/exports/passport.md",
+      "size_bytes": 3727,
+      "sha256": "b56552e6c916cb5abbbc73c9714cdef97b1d2f324d99312a116b0bcb74c28653"
     },
     {
       "name": "provenance.json",
-      "url": "/api/evidence/runs/c0133673460740b1aca2098a9a58562d/exports/provenance.json",
-      "size_bytes": 10474,
-      "sha256": "070c78fc5647de370122066ac7aa7648432c670bc99acbc2892e8c3c29c15136"
+      "url": "/api/evidence/runs/68e3224a300d4129b2e3c06c5ed65132/exports/provenance.json",
+      "size_bytes": 10564,
+      "sha256": "1b75d1c190cd0f490081db06d33148eeddd9b5367ab4dccf404292a9e3c95620"
     },
     {
       "name": "publisher_feedback.csv",
-      "url": "/api/evidence/runs/c0133673460740b1aca2098a9a58562d/exports/publisher_feedback.csv",
-      "size_bytes": 196,
-      "sha256": "4e4f330f14cc0d3bdb430dd5ec2ce743346177732f24a3c688f1b2dc3ed00876"
+      "url": "/api/evidence/runs/68e3224a300d4129b2e3c06c5ed65132/exports/publisher_feedback.csv",
+      "size_bytes": 194,
+      "sha256": "725268edb4f06491145b6a7850cf080bff659f5bf9cff440ada8a5ba0b93af35"
     },
     {
       "name": "publisher_feedback.md",
-      "url": "/api/evidence/runs/c0133673460740b1aca2098a9a58562d/exports/publisher_feedback.md",
+      "url": "/api/evidence/runs/68e3224a300d4129b2e3c06c5ed65132/exports/publisher_feedback.md",
       "size_bytes": 268,
       "sha256": "3b23c71c11990e3c22085e1b4fcd74f4a3e605520242799dccb5878b2938d1e5"
     },
     {
       "name": "quality_metrics.csv",
-      "url": "/api/evidence/runs/c0133673460740b1aca2098a9a58562d/exports/quality_metrics.csv",
-      "size_bytes": 311,
-      "sha256": "c6edec6c03fa52e85d1928457f59527035e7fafe4d97eecd62a151d8a7e31f6a"
+      "url": "/api/evidence/runs/68e3224a300d4129b2e3c06c5ed65132/exports/quality_metrics.csv",
+      "size_bytes": 298,
+      "sha256": "f58fe3a5951002e86100df5e00e81b4837f986c17581ddea79610f57d21270a0"
     },
     {
       "name": "readiness_scorecard.csv",
-      "url": "/api/evidence/runs/c0133673460740b1aca2098a9a58562d/exports/readiness_scorecard.csv",
-      "size_bytes": 465,
-      "sha256": "c385ecb8fed48341934a5577013a85a009b43cb37e6a98bbda09c78bc4d6480c"
+      "url": "/api/evidence/runs/68e3224a300d4129b2e3c06c5ed65132/exports/readiness_scorecard.csv",
+      "size_bytes": 460,
+      "sha256": "7cfbde792ad69f7957522ccada0e0f5596309e1e6fba760111f94a2013e39def"
     },
     {
       "name": "records.geojson",
-      "url": "/api/evidence/runs/c0133673460740b1aca2098a9a58562d/exports/records.geojson",
+      "url": "/api/evidence/runs/68e3224a300d4129b2e3c06c5ed65132/exports/records.geojson",
       "size_bytes": 222832,
       "sha256": "f638492bfe8ed77d64c5f53cbb58a99f2dddc77c34e75b87530ccf6142364e81"
     },
     {
       "name": "run.json",
-      "url": "/api/evidence/runs/c0133673460740b1aca2098a9a58562d/exports/run.json",
-      "size_bytes": 2584,
-      "sha256": "098648c5ea6ef4ae39eb560183a17cfd2ea10f3ba693d98cfbd3c40632646741"
+      "url": "/api/evidence/runs/68e3224a300d4129b2e3c06c5ed65132/exports/run.json",
+      "size_bytes": 2674,
+      "sha256": "959ee5daca9b8769f5345629eef790b8ac614e8af579d2901cf55ea99783a3b4"
     },
     {
       "name": "source_summary.json",
-      "url": "/api/evidence/runs/c0133673460740b1aca2098a9a58562d/exports/source_summary.json",
-      "size_bytes": 378,
-      "sha256": "7a89f0a7ee9a92a007930c8c30622d16f33fde647256b10cef56fff4229c9042"
+      "url": "/api/evidence/runs/68e3224a300d4129b2e3c06c5ed65132/exports/source_summary.json",
+      "size_bytes": 376,
+      "sha256": "22b2ba3710dbcb47b2951ac9b1d1cfeb0357b1585ecd6a323121f38c4f2f2199"
     }
   ]
 }

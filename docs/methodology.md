@@ -10,7 +10,7 @@ The core request is:
 taxon + region + purpose + source mode
 ```
 
-The MVP uses GBIF species matching, optional selected `taxonKey`, and GBIF occurrence-style records. The default work mode is `Online GBIF with fallback`: it attempts the live GBIF API first and falls back to the deterministic fixture only if network/API access fails. Fixture mode remains available for repeatable tests and offline demos.
+The MVP uses GBIF species matching, optional selected `taxonKey`, and GBIF occurrence-style records. The default work mode is `Live GBIF`: it attempts the live GBIF API first and, if network/API access fails, returns an empty no-evidence grid for the requested taxon and region. It does not reuse old fixture occurrence records for live user queries. Fixture mode remains available only for repeatable tests and offline demos.
 
 For interactive work, the UI exposes GBIF taxon suggestions before a run. Selecting a suggestion stores the GBIF `taxonKey` in the run request, which is safer than relying only on fuzzy name matching. Users can also choose region presets or edit the bounding box directly for their own study area.
 

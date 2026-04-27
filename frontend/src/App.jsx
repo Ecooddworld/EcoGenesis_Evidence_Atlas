@@ -18,9 +18,8 @@ const purposeLabels = {
 };
 
 const sourceModeLabels = {
-  fixture: 'Offline sample data',
-  online_with_fixture_fallback: 'Live GBIF, fallback if unavailable',
-  online: 'Live GBIF only',
+  online_with_empty_fallback: 'Live GBIF',
+  fixture: 'Offline sample',
 };
 
 const fallbackPresets = [
@@ -34,7 +33,7 @@ const fallbackPresets = [
       region_name: 'Spain live GBIF bbox',
       bbox: '-10.0,35.0,4.5,44.5',
       purpose: 'invasive_watch',
-      source_mode: 'online_with_fixture_fallback',
+      source_mode: 'online_with_empty_fallback',
       use_fixture: false,
       max_records: 300,
     },
@@ -49,7 +48,7 @@ const fallbackPresets = [
       region_name: 'Western Europe live bbox',
       bbox: '-10.0,42.0,12.0,56.0',
       purpose: 'sampling_gaps',
-      source_mode: 'online_with_fixture_fallback',
+      source_mode: 'online_with_empty_fallback',
       use_fixture: false,
       max_records: 300,
     },
@@ -64,7 +63,7 @@ const fallbackPresets = [
       region_name: 'Iberian Peninsula live bbox',
       bbox: '-10.0,35.0,4.5,44.5',
       purpose: 'dataset_quality_review',
-      source_mode: 'online_with_fixture_fallback',
+      source_mode: 'online_with_empty_fallback',
       use_fixture: false,
       max_records: 300,
     },
@@ -137,7 +136,7 @@ const qualityLabels = {
 };
 
 function normalizeForm(form) {
-  const sourceMode = form.source_mode || (form.use_fixture === false ? 'online_with_fixture_fallback' : 'fixture');
+  const sourceMode = form.source_mode || (form.use_fixture === false ? 'online_with_empty_fallback' : 'fixture');
   return {
     taxon: form.taxon || 'Aedes albopictus',
     taxon_key: form.taxon_key || form.taxonKey || '',
@@ -197,9 +196,13 @@ function requestSignature(payload) {
   });
 }
 
+function requestFingerprint(payload) {
+  return requestSignature(payload);
+}
+
 function requestSignatureFromForm(form) {
   try {
-    return requestSignature(payloadFromForm(normalizeForm(form)));
+    return requestFingerprint(payloadFromForm(normalizeForm(form)));
   } catch {
     return 'invalid-current-selection';
   }
@@ -208,7 +211,7 @@ function requestSignatureFromForm(form) {
 function requestSignatureFromRun(request) {
   if (!request) return '';
   try {
-    return requestSignature(payloadFromForm(normalizeForm(request)));
+    return requestFingerprint(payloadFromForm(normalizeForm(request)));
   } catch {
     return '';
   }
@@ -265,10 +268,30 @@ export default function App() {
   const [progressSteps, setProgressSteps] = useState([]);
   const [taxonSuggestions, setTaxonSuggestions] = useState([]);
   const [taxonSearchStatus, setTaxonSearchStatus] = useState('');
+  const activeRunTokenRef = useRef(0);
   const bboxParts = bboxValues(form.bbox);
   const formSignature = requestSignatureFromForm(form);
   const runSignature = requestSignatureFromRun(run?.run?.request);
-  const selectionChanged = Boolean(run && formSignature && runSignature && formSignature !== runSignature);
+  const resultIsCurrent = Boolean(run && formSignature && runSignature && formSignature === runSignature);
+  const selectionChanged = Boolean(run && !resultIsCurrent);
+
+  function clearVisibleResult() {
+    setRun(null);
+    setCreated(null);
+    setProgressSteps([]);
+    setActiveTab('overview');
+  }
+
+  function updateDraftForm(nextForm) {
+    setForm(normalizeForm(nextForm));
+    clearVisibleResult();
+    setError('');
+  }
+
+  function nextRunToken() {
+    activeRunTokenRef.current += 1;
+    return activeRunTokenRef.current;
+  }
 
   function rememberRun(detail) {
     const item = runToRecent(detail);
@@ -294,6 +317,7 @@ export default function App() {
   }
 
   async function loadRun(runId) {
+    nextRunToken();
     const detail = await getEvidenceRun(runId);
     setCreated({ run_id: runId, status: 'completed', exports: detail.exports });
     setRun(detail);
@@ -305,12 +329,20 @@ export default function App() {
     return detail;
   }
 
-  async function runPassport(formLike) {
+  async function runPassport(formLike, options = {}) {
+    const runToken = options.token || nextRunToken();
     const normalized = normalizeForm(formLike);
     const payload = payloadFromForm(normalized);
+    setForm(normalized);
+    if (options.clearBeforeRun) {
+      clearVisibleResult();
+    }
     setProgressSteps(buildProgressSteps('running'));
     const createdRun = await runEvidencePassport(payload);
     const detail = await getEvidenceRun(createdRun.run_id);
+    if (runToken !== activeRunTokenRef.current) {
+      return null;
+    }
     setCreated(createdRun);
     setRun(detail);
     setActiveTab('overview');
@@ -318,6 +350,29 @@ export default function App() {
     await refreshRecentRuns();
     setProgressSteps(buildProgressSteps('completed', detail.run?.steps || []));
     return detail;
+  }
+
+  async function runSelection(nextForm) {
+    const runToken = nextRunToken();
+    const normalized = normalizeForm(nextForm);
+    setError('');
+    setLoading(true);
+    setBooting(false);
+    setForm(normalized);
+    clearVisibleResult();
+    try {
+      return await runPassport(normalized, { token: runToken });
+    } catch (err) {
+      if (runToken === activeRunTokenRef.current) {
+        setProgressSteps(buildProgressSteps('failed'));
+        setError(err.message || 'Evidence run failed');
+      }
+      return null;
+    } finally {
+      if (runToken === activeRunTokenRef.current) {
+        setLoading(false);
+      }
+    }
   }
 
   useEffect(() => {
@@ -354,7 +409,7 @@ export default function App() {
           if (!cancelled) setBooting(false);
           return;
         } catch {
-          // Fall through to the live preset, which can still use fixture fallback.
+          // Fall through to the live preset, which can still produce an empty no-evidence fallback.
         }
       }
 
@@ -378,17 +433,7 @@ export default function App() {
   }
 
   async function runCurrentSelection() {
-    setError('');
-    setLoading(true);
-    try {
-      await runPassport(form);
-    } catch (err) {
-      setProgressSteps(buildProgressSteps('failed'));
-      setError(err.message || 'Evidence run failed');
-    } finally {
-      setLoading(false);
-      setBooting(false);
-    }
+    await runSelection(form);
   }
 
   async function handleLoadRun(runId) {
@@ -404,12 +449,11 @@ export default function App() {
   }
 
   function applyPreset(preset) {
-    setForm(normalizeForm(preset.form));
-    setError('');
+    updateDraftForm(preset.form);
   }
 
   function updateSourceMode(sourceMode) {
-    setForm({ ...form, source_mode: sourceMode, use_fixture: sourceMode === 'fixture' });
+    updateDraftForm({ ...form, source_mode: sourceMode, use_fixture: sourceMode === 'fixture' });
   }
 
   async function handleTaxonSearch() {
@@ -429,27 +473,34 @@ export default function App() {
 
   function selectTaxonSuggestion(suggestion) {
     const name = suggestion.canonicalName || suggestion.scientificName || form.taxon;
-    setForm({
+    const nextForm = normalizeForm({
       ...form,
       taxon: name,
       taxon_key: suggestion.usageKey || '',
+      source_mode: 'online_with_empty_fallback',
+      use_fixture: false,
     });
     setTaxonSearchStatus(`Selected GBIF taxonKey ${suggestion.usageKey || 'unknown'}`);
+    setTaxonSuggestions([]);
+    void runSelection(nextForm);
   }
 
   function applyRegionPreset(region) {
-    setForm({
+    const nextForm = normalizeForm({
       ...form,
       region_name: region.region_name,
       bbox: formatBbox(region.bbox),
+      source_mode: form.source_mode === 'fixture' ? 'online_with_empty_fallback' : form.source_mode,
+      use_fixture: false,
     });
     setError('');
+    void runSelection(nextForm);
   }
 
   function updateBboxPart(index, value) {
     const next = [...bboxParts];
     next[index] = value;
-    setForm({ ...form, bbox: next.join(',') });
+    updateDraftForm({ ...form, bbox: next.join(',') });
   }
 
   return (
@@ -475,7 +526,11 @@ export default function App() {
                 <input
                   placeholder="Type a species, genus or scientific name"
                   value={form.taxon}
-                  onChange={(event) => setForm({ ...form, taxon: event.target.value, taxon_key: '' })}
+                  onChange={(event) => {
+                    setTaxonSuggestions([]);
+                    setTaxonSearchStatus('');
+                    updateDraftForm({ ...form, taxon: event.target.value, taxon_key: '' });
+                  }}
                 />
               </label>
               <button className="secondary-action" type="button" onClick={handleTaxonSearch}>
@@ -511,7 +566,7 @@ export default function App() {
               Region
               <input
                 value={form.region_name}
-                onChange={(event) => setForm({ ...form, region_name: event.target.value })}
+                onChange={(event) => updateDraftForm({ ...form, region_name: event.target.value })}
               />
             </label>
             <details className="inline-drawer">
@@ -565,7 +620,7 @@ export default function App() {
                 Purpose
                 <select
                   value={form.purpose}
-                  onChange={(event) => setForm({ ...form, purpose: event.target.value })}
+                  onChange={(event) => updateDraftForm({ ...form, purpose: event.target.value })}
                 >
                   {Object.entries(purposeLabels).map(([value, label]) => (
                     <option key={value} value={value}>
@@ -580,7 +635,7 @@ export default function App() {
                   min="1"
                   type="number"
                   value={form.max_records}
-                  onChange={(event) => setForm({ ...form, max_records: event.target.value })}
+                  onChange={(event) => updateDraftForm({ ...form, max_records: event.target.value })}
                 />
               </label>
             </div>
@@ -682,8 +737,14 @@ function PipelineProgress({ steps, loading }) {
 }
 
 function Passport({ run, booting, activeTab, setActiveTab, selectionChanged = false, loading = false, onRunCurrent }) {
+  if (loading) {
+    return <LoadingWorkbench booting={false} live />;
+  }
   if (!run) {
-    return <LoadingWorkbench booting={booting} />;
+    return booting ? <LoadingWorkbench booting={booting} /> : <DraftWorkbench onRunCurrent={onRunCurrent} />;
+  }
+  if (selectionChanged) {
+    return <DraftWorkbench onRunCurrent={onRunCurrent} />;
   }
 
   const readiness = run.evidence_readiness;
@@ -691,17 +752,6 @@ function Passport({ run, booting, activeTab, setActiveTab, selectionChanged = fa
   const status = readinessStatus(readiness.score);
   return (
     <section className="result-stack" aria-label="Evidence Passport result">
-      {selectionChanged ? (
-        <div className="draft-banner" role="status">
-          <div>
-            <strong>Selection changed</strong>
-            <p>The map and score still show the previous passport. Generate a new passport to update the evidence for this taxon and region.</p>
-          </div>
-          <button className="primary-action" type="button" onClick={onRunCurrent} disabled={loading}>
-            {loading ? 'Generating...' : 'Generate updated passport'}
-          </button>
-        </div>
-      ) : null}
       <div className={`score-band ${scoreClass(readiness.score)}`}>
         <div>
           <p className="eyebrow">{readiness.purpose_label}</p>
@@ -748,15 +798,44 @@ function Passport({ run, booting, activeTab, setActiveTab, selectionChanged = fa
   );
 }
 
-function LoadingWorkbench({ booting }) {
+function DraftWorkbench({ onRunCurrent }) {
+  return (
+    <section className="empty-workbench draft-workbench" role="status">
+      <div>
+        <p className="eyebrow">Not generated for this selection yet</p>
+        <h2>Generate a fresh passport to update the map</h2>
+        <p>
+          The previous map has been hidden so old points and records cannot be confused with the current taxon or region.
+        </p>
+      </div>
+      <button className="primary-action" type="button" onClick={onRunCurrent}>
+        Generate this selection
+      </button>
+      <div className="skeleton-grid" aria-label="Pending Evidence Passport">
+        {['New run id', 'Fresh GBIF match', 'Updated map', 'Updated records', 'New score', 'New exports'].map((item) => (
+          <span key={item}>{item}</span>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function LoadingWorkbench({ booting, live = false }) {
   return (
     <section className="empty-workbench">
       <div>
-        <p className="eyebrow">Evidence workspace</p>
-        <h2>{booting ? 'Preparing the default Evidence Passport' : 'Evidence Passport is ready to run'}</h2>
+        <p className="eyebrow">{live ? 'Live GBIF run' : 'Evidence workspace'}</p>
+        <h2>
+          {live
+            ? 'Generating live GBIF passport for this selection'
+            : booting
+              ? 'Preparing the default Evidence Passport'
+              : 'Evidence Passport is ready to run'}
+        </h2>
         <p>
-          The default flow attempts live GBIF data first and keeps offline sample data only as a safe fallback,
-          while preserving provenance, claim guardrails, citation guidance and a complete export bundle.
+          {live
+            ? 'The old result is hidden while the app builds a new map, score, citations and exports for the selected taxon and region.'
+            : 'The default flow uses live GBIF data and keeps offline sample data as a separate reproducible example.'}
         </p>
       </div>
       <div className="skeleton-grid" aria-label="Loading Evidence Passport">
@@ -934,6 +1013,9 @@ function SourceProvenance({ run, compact = false }) {
             <li key={warning}>{warning}</li>
           ))}
         </ul>
+      ) : null}
+      {source.used_source_mode === 'online_empty_fallback' ? (
+        <p className="provenance-note">No old fixture records were reused for this live query.</p>
       ) : null}
       {!compact ? <RunSteps steps={run.run?.steps || []} /> : null}
     </section>
@@ -1700,6 +1782,15 @@ function buildScientificThesis(run) {
 }
 
 function shortStatus(value) {
+  const labels = {
+    fixture: 'offline sample',
+    online: 'live GBIF',
+    online_with_empty_fallback: 'live GBIF',
+    online_empty_fallback: 'empty live fallback',
+    online_with_fixture_fallback: 'legacy fixture fallback',
+    fixture_fallback: 'fixture fallback',
+  };
+  if (labels[value]) return labels[value];
   return String(value || 'unknown').replaceAll('_', ' ');
 }
 

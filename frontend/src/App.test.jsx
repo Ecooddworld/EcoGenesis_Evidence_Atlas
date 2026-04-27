@@ -12,8 +12,8 @@ const mockScenarios = [
       region_name: 'Spain demo bbox',
       bbox: [-10, 35, 4.5, 44.5],
       purpose: 'invasive_watch',
-      source_mode: 'fixture',
-      use_fixture: true,
+      source_mode: 'online_with_empty_fallback',
+      use_fixture: false,
       max_records: 300,
     },
   },
@@ -218,6 +218,38 @@ const mockRun = {
   ],
 };
 
+function mockRunForRequest(request = mockRun.run.request) {
+  const sourceMode = request.source_mode || (request.use_fixture ? 'fixture' : 'online_with_empty_fallback');
+  const usedSource = sourceMode === 'fixture' ? 'fixture' : 'online';
+  return {
+    ...mockRun,
+    run: {
+      ...mockRun.run,
+      source_mode: usedSource,
+      request: {
+        ...mockRun.run.request,
+        ...request,
+        source_mode: sourceMode,
+      },
+    },
+    passport: {
+      ...mockRun.passport,
+      taxon: request.taxon || mockRun.passport.taxon,
+      region_name: request.region_name || mockRun.passport.region_name,
+      bbox: request.bbox || mockRun.passport.bbox,
+      taxonKey: request.taxon_key || mockRun.passport.taxonKey,
+    },
+    source_summary: {
+      ...mockRun.source_summary,
+      requested_source_mode: sourceMode,
+      used_source_mode: usedSource,
+      gbif_api_status: sourceMode === 'fixture' ? 'not_called' : 'ok',
+      selected_taxon_key: request.taxon_key || null,
+    },
+    request_fingerprint: `test-${request.taxon || 'taxon'}-${sourceMode}-${(request.bbox || []).join(',')}`,
+  };
+}
+
 function installFetchMock() {
   const postBodies = [];
   vi.spyOn(global, 'fetch').mockImplementation(async (url, options = {}) => {
@@ -239,7 +271,7 @@ function installFetchMock() {
       return { ok: true, json: async () => ({ run_id: 'demo123', status: 'completed', exports: mockRun.exports }) };
     }
     if (textUrl.endsWith('/api/evidence/runs/demo123')) {
-      return { ok: true, json: async () => mockRun };
+      return { ok: true, json: async () => mockRunForRequest(postBodies.at(-1) || mockRun.run.request) };
     }
     return { ok: false, status: 404, json: async () => ({}) };
   });
@@ -274,11 +306,13 @@ describe('EcoGenesis Evidence Atlas UI', () => {
 
     await waitFor(() => expect(screen.getByText('Purpose comparison')).toBeInTheDocument());
     fireEvent.click(screen.getByText('Data source'));
-    fireEvent.change(screen.getByLabelText('Source'), { target: { value: 'online_with_fixture_fallback' } });
+    fireEvent.change(screen.getByLabelText('Source'), { target: { value: 'fixture' } });
+    expect(screen.getByText('Not generated for this selection yet')).toBeInTheDocument();
     fireEvent.click(screen.getByRole('button', { name: 'Generate Evidence Passport' }));
 
     await waitFor(() => expect(postBodies.length).toBeGreaterThan(1));
-    expect(postBodies.at(-1).source_mode).toBe('online_with_fixture_fallback');
+    expect(postBodies.at(-1).source_mode).toBe('fixture');
+    await waitFor(() => expect(screen.getByRole('button', { name: 'Citation & Provenance' })).toBeInTheDocument());
 
     fireEvent.click(screen.getByRole('button', { name: 'Citation & Provenance' }));
     expect(screen.getAllByText('Source & provenance').length).toBeGreaterThan(0);
@@ -296,27 +330,30 @@ describe('EcoGenesis Evidence Atlas UI', () => {
     expect(screen.getByRole('link', { name: /gap_priorities.csv/i })).toBeInTheDocument();
   });
 
-  it('lets users select a GBIF taxon and region before running their own passport', async () => {
+  it('auto-runs when users select a GBIF taxon and saved region', async () => {
     const postBodies = installFetchMock();
     render(<App />);
 
     await waitFor(() => expect(screen.getByText('Purpose comparison')).toBeInTheDocument());
+    const initialRuns = postBodies.length;
     fireEvent.change(screen.getByLabelText('Taxon'), { target: { value: 'lynx' } });
+    expect(screen.getByText('Not generated for this selection yet')).toBeInTheDocument();
     fireEvent.click(screen.getByRole('button', { name: 'Search GBIF taxon' }));
 
     const lynx = await screen.findByRole('button', { name: /Lynx pardinus/i });
     fireEvent.click(lynx);
+    await waitFor(() => expect(postBodies.length).toBeGreaterThan(initialRuns));
     expect(screen.getByText(/Locked to GBIF taxonKey 2435261/i)).toBeInTheDocument();
+    expect(postBodies.at(-1).taxon).toBe('Lynx pardinus');
+    expect(postBodies.at(-1).taxon_key).toBe(2435261);
+    expect(postBodies.at(-1).source_mode).toBe('online_with_empty_fallback');
 
     fireEvent.click(screen.getByText('Saved regions'));
+    const afterTaxonRuns = postBodies.length;
     fireEvent.click(screen.getByRole('button', { name: /Iberian Peninsula/i }));
+    await waitFor(() => expect(postBodies.length).toBeGreaterThan(afterTaxonRuns));
     expect(screen.getByLabelText('Region')).toHaveValue('Iberian Peninsula live bbox');
     expect(screen.getByLabelText('West longitude')).toHaveValue('-10');
-    expect(screen.getByText('Selection changed')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Generate updated passport' })).toBeInTheDocument();
-
-    fireEvent.click(screen.getByRole('button', { name: 'Generate Evidence Passport' }));
-    await waitFor(() => expect(postBodies.length).toBeGreaterThan(1));
     expect(postBodies.at(-1).taxon).toBe('Lynx pardinus');
     expect(postBodies.at(-1).taxon_key).toBe(2435261);
     expect(postBodies.at(-1).bbox).toEqual([-10, 35, 4.5, 44.5]);

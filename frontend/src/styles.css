@@ -445,6 +445,14 @@ a:focus-visible {
   min-width: 220px;
 }
 
+.draft-workbench {
+  justify-items: start;
+}
+
+.draft-workbench .primary-action {
+  min-width: 240px;
+}
+
 .empty-workbench {
   align-content: center;
   display: grid;
@@ -1445,6 +1453,17 @@ td {
   border-radius: 8px;
   color: #6b4a14;
   padding: 12px;
+}
+
+.provenance-note {
+  background: #eef7f1;
+  border: 1px solid #bddac8;
+  border-radius: 8px;
+  color: #20523f;
+  font-size: 0.88rem;
+  font-weight: 800;
+  margin: 12px 0 0;
+  padding: 10px 12px;
 }
 
 .recipe-grid {

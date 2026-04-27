@@ -14,12 +14,12 @@
       44.5
     ],
     "purpose": "invasive_watch",
-    "source_mode": "online_with_fixture_fallback",
+    "source_mode": "online_with_empty_fallback",
     "use_fixture": false,
     "max_records": 300
   },
   "source_summary": {
-    "requested_source_mode": "online_with_fixture_fallback",
+    "requested_source_mode": "online_with_empty_fallback",
     "used_source_mode": "online",
     "gbif_api_status": "ok",
     "fallback_used": false,

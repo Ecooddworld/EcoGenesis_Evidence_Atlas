@@ -35,15 +35,14 @@ Uses the deterministic fixture for no-network testing and reproducible regressio
 ## UI Review Path
 
 1. Open http://localhost:13100.
-2. Wait for the default live GBIF passport to appear automatically. If GBIF is unavailable, the app falls back to the offline fixture and labels that clearly.
-3. Type a species or genus in **Taxon**, use **Search GBIF taxon**, and choose a suggestion to lock the run to a concrete GBIF `taxonKey`.
-4. Pick a region preset or edit the four bbox fields (`west`, `south`, `east`, `north`) to test a user-defined area.
+2. Wait for the default live GBIF passport to appear automatically. If GBIF is unavailable, the app shows an empty live fallback with 16 no-evidence cells and explicitly states that old fixture records were not reused.
+3. Type a species or genus in **Taxon**, use **Search GBIF taxon**, and choose a suggestion to lock the run to a concrete GBIF `taxonKey`; the app automatically generates a fresh passport.
+4. Pick a region preset to automatically generate a fresh passport, or edit the four bbox fields (`west`, `south`, `east`, `north`) and then generate manually.
 5. Review the score band, KPI strip, OpenStreetMap/Leaflet evidence map, no-evidence cells, issue points, purpose comparison, scientific interpretation and source/provenance panel.
 6. Open the Evidence Map, Data Quality, Sampling Gaps, Claim Guardrails, Citation & Provenance, Publisher Feedback and Export Pack tabs.
 7. Download `evidence_pack.zip` or inspect individual artifacts.
 
 ## Source Modes
 
-- `Reproducible offline demo`: deterministic and safe for judging without network access.
-- `Online GBIF with fallback`: attempts GBIF API and falls back to the fixture if online access fails.
-- `Online GBIF only`: fails with a structured API error if GBIF is unavailable.
+- `Live GBIF`: attempts GBIF API and uses an empty no-evidence fallback if online access fails.
+- `Offline sample`: deterministic fixture, safe for judging without network access and regression checks.
