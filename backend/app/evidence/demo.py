@@ -6,8 +6,8 @@ from typing import Any
 DEMO_SCENARIOS: list[dict[str, Any]] = [
     {
         "id": "invasive",
-        "label": "Live invasive watch",
-        "tag": "real GBIF query",
+        "label": "Invasive risk",
+        "tag": "Aedes albopictus · Spain",
         "description": "Attempts live GBIF records for an invasive species case, with fixture fallback only if the API is unavailable.",
         "form": {
             "taxon": "Aedes albopictus",
@@ -22,8 +22,8 @@ DEMO_SCENARIOS: list[dict[str, Any]] = [
     },
     {
         "id": "gaps",
-        "label": "Live oak gaps",
-        "tag": "editable taxon",
+        "label": "Forest gaps",
+        "tag": "Quercus robur · W Europe",
         "description": "Runs a live GBIF query for a common tree taxon and ranks survey-priority grid cells.",
         "form": {
             "taxon": "Quercus robur",
@@ -38,8 +38,8 @@ DEMO_SCENARIOS: list[dict[str, Any]] = [
     },
     {
         "id": "quality",
-        "label": "Live dataset review",
-        "tag": "publisher ready",
+        "label": "Data review",
+        "tag": "Lynx pardinus · Iberia",
         "description": "Uses live GBIF records to group quality issues by datasetKey for a Publisher Feedback Pack.",
         "form": {
             "taxon": "Lynx pardinus",
@@ -54,8 +54,8 @@ DEMO_SCENARIOS: list[dict[str, Any]] = [
     },
     {
         "id": "offline",
-        "label": "Offline fixture",
-        "tag": "reproducible fallback",
+        "label": "Offline sample",
+        "tag": "stable regression data",
         "description": "Uses the deterministic offline fixture for no-network testing and regression checks.",
         "form": {
             "taxon": "Aedes albopictus",

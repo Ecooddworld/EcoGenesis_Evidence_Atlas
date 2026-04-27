@@ -18,16 +18,16 @@ const purposeLabels = {
 };
 
 const sourceModeLabels = {
-  fixture: 'Reproducible offline demo',
-  online_with_fixture_fallback: 'Online GBIF with fallback',
-  online: 'Online GBIF only',
+  fixture: 'Offline sample data',
+  online_with_fixture_fallback: 'Live GBIF, fallback if unavailable',
+  online: 'Live GBIF only',
 };
 
 const fallbackPresets = [
   {
     id: 'invasive',
-    label: 'Live invasive watch',
-    tag: 'real GBIF query',
+    label: 'Invasive risk',
+    tag: 'Aedes albopictus · Spain',
     form: {
       taxon: 'Aedes albopictus',
       taxon_key: 1651430,
@@ -41,8 +41,8 @@ const fallbackPresets = [
   },
   {
     id: 'gaps',
-    label: 'Live oak gaps',
-    tag: 'editable taxon',
+    label: 'Forest gaps',
+    tag: 'Quercus robur · W Europe',
     form: {
       taxon: 'Quercus robur',
       taxon_key: 2878688,
@@ -56,8 +56,8 @@ const fallbackPresets = [
   },
   {
     id: 'quality',
-    label: 'Live dataset review',
-    tag: 'publisher ready',
+    label: 'Data review',
+    tag: 'Lynx pardinus · Iberia',
     form: {
       taxon: 'Lynx pardinus',
       taxon_key: 2435261,
@@ -71,8 +71,8 @@ const fallbackPresets = [
   },
   {
     id: 'offline',
-    label: 'Offline fixture',
-    tag: 'reproducible fallback',
+    label: 'Offline sample',
+    tag: 'stable regression data',
     form: {
       taxon: 'Aedes albopictus',
       taxon_key: 1651430,
@@ -184,6 +184,36 @@ function payloadFromForm(form) {
   };
 }
 
+function requestSignature(payload) {
+  const bbox = Array.isArray(payload.bbox) ? payload.bbox : parseBbox(String(payload.bbox || ''));
+  return JSON.stringify({
+    taxon: String(payload.taxon || '').trim().toLowerCase(),
+    taxon_key: payload.taxon_key ? Number(payload.taxon_key) : null,
+    region_name: String(payload.region_name || '').trim().toLowerCase(),
+    bbox: bbox.map((value) => Number(Number(value).toFixed(6))),
+    purpose: payload.purpose || '',
+    source_mode: payload.source_mode || '',
+    max_records: Number(payload.max_records || 0),
+  });
+}
+
+function requestSignatureFromForm(form) {
+  try {
+    return requestSignature(payloadFromForm(normalizeForm(form)));
+  } catch {
+    return 'invalid-current-selection';
+  }
+}
+
+function requestSignatureFromRun(request) {
+  if (!request) return '';
+  try {
+    return requestSignature(payloadFromForm(normalizeForm(request)));
+  } catch {
+    return '';
+  }
+}
+
 function bboxValues(text) {
   const parts = String(text || '').split(',');
   return [0, 1, 2, 3].map((index) => parts[index]?.trim() || '');
@@ -237,6 +267,9 @@ export default function App() {
   const [taxonSearchStatus, setTaxonSearchStatus] = useState('');
   const [taxonSearchSource, setTaxonSearchSource] = useState('');
   const bboxParts = bboxValues(form.bbox);
+  const formSignature = requestSignatureFromForm(form);
+  const runSignature = requestSignatureFromRun(run?.run?.request);
+  const selectionChanged = Boolean(run && formSignature && runSignature && formSignature !== runSignature);
 
   function rememberRun(detail) {
     const item = runToRecent(detail);
@@ -265,6 +298,9 @@ export default function App() {
     const detail = await getEvidenceRun(runId);
     setCreated({ run_id: runId, status: 'completed', exports: detail.exports });
     setRun(detail);
+    if (detail.run?.request) {
+      setForm(normalizeForm(detail.run.request));
+    }
     setActiveTab('overview');
     rememberRun(detail);
     return detail;
@@ -336,7 +372,7 @@ export default function App() {
       try {
         await runPassport(scenarioList[0].form);
       } catch (err) {
-        if (!cancelled) setError(err.message || 'Auto demo failed');
+        if (!cancelled) setError(err.message || 'Automatic passport failed');
       } finally {
         if (!cancelled) setBooting(false);
       }
@@ -349,6 +385,10 @@ export default function App() {
 
   async function handleSubmit(event) {
     event.preventDefault();
+    await runCurrentSelection();
+  }
+
+  async function runCurrentSelection() {
     setError('');
     setLoading(true);
     try {
@@ -429,26 +469,36 @@ export default function App() {
       <header className="topbar">
         <div>
           <p className="eyebrow">EcoGenesis Evidence Atlas</p>
-          <h1>GBIF Evidence Passport</h1>
-          <p className="topbar-subtitle">Turn GBIF occurrence data into responsible, citation-ready evidence packs.</p>
+          <h1>Evidence Passport for Biodiversity Decisions</h1>
+          <p className="topbar-subtitle">Choose a taxon and region, then get a map, data-quality review, citation pack and safe scientific claims.</p>
         </div>
-        <div className="topbar-actions" aria-label="Service status">
-          <span className="status-pill online">Docker-ready</span>
-          <span className="status-pill">{sourceModeLabels[form.source_mode] || 'Online GBIF with fallback'}</span>
+        <div className="study-summary" aria-label="Current study">
+          <span>
+            <strong>{form.taxon}</strong>
+            <small>taxon</small>
+          </span>
+          <span>
+            <strong>{form.region_name}</strong>
+            <small>region</small>
+          </span>
+          <span>
+            <strong>{purposeLabels[form.purpose]}</strong>
+            <small>purpose</small>
+          </span>
         </div>
       </header>
 
       <section className="workspace">
         <aside className="run-rail" aria-label="Evidence run controls">
           <div className="rail-section">
-            <p className="section-label">Study setup</p>
-            <p className="rail-copy">Choose the decision purpose first; it changes score weights, gaps and claim guardrails.</p>
+            <p className="section-label">Build Passport</p>
+            <p className="rail-copy">Select a species, study area and purpose. Everything below can be edited for a custom run.</p>
           </div>
 
           <div className="rail-section">
-            <p className="section-label">Demo scenarios</p>
+            <p className="section-label">Research Templates</p>
             <div className="preset-grid">
-              {presets.map((preset) => (
+              {presets.filter((preset) => preset.id !== 'offline').map((preset) => (
                 <button
                   className={form.purpose === preset.form.purpose ? 'preset active' : 'preset'}
                   key={preset.id}
@@ -553,7 +603,7 @@ export default function App() {
               </label>
             </fieldset>
             <label>
-              Source mode
+              Data source
               <select value={form.source_mode} onChange={(event) => updateSourceMode(event.target.value)}>
                 {Object.entries(sourceModeLabels).map(([value, label]) => (
                   <option key={value} value={value}>
@@ -587,7 +637,7 @@ export default function App() {
               </label>
             </div>
             <button className="primary-action" type="submit" disabled={loading || booting}>
-              {loading ? 'Generating passport...' : booting ? 'Preparing demo...' : 'Generate Evidence Passport'}
+              {loading ? 'Generating passport...' : booting ? 'Preparing passport...' : 'Generate Evidence Passport'}
             </button>
             {error ? <p className="error">{error}</p> : null}
             {created ? <p className="run-id">Run {created.run_id}</p> : null}
@@ -598,7 +648,15 @@ export default function App() {
           <RecentRuns runs={recentRuns} loadingRunId={loadingRunId} onLoad={handleLoadRun} />
         </aside>
 
-        <Passport run={run} booting={booting} activeTab={activeTab} setActiveTab={setActiveTab} />
+        <Passport
+          run={run}
+          booting={booting}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          selectionChanged={selectionChanged}
+          loading={loading}
+          onRunCurrent={runCurrentSelection}
+        />
       </section>
     </main>
   );
@@ -622,7 +680,7 @@ function RecentRuns({ runs, loadingRunId, onLoad }) {
           ))}
         </div>
       ) : (
-        <p className="empty-note">Auto demo will create the first run.</p>
+        <p className="empty-note">Your generated passports will appear here.</p>
       )}
     </div>
   );
@@ -645,7 +703,7 @@ function PipelineProgress({ steps, loading }) {
   );
 }
 
-function Passport({ run, booting, activeTab, setActiveTab }) {
+function Passport({ run, booting, activeTab, setActiveTab, selectionChanged = false, loading = false, onRunCurrent }) {
   if (!run) {
     return <LoadingWorkbench booting={booting} />;
   }
@@ -655,6 +713,17 @@ function Passport({ run, booting, activeTab, setActiveTab }) {
   const status = readinessStatus(readiness.score);
   return (
     <section className="result-stack" aria-label="Evidence Passport result">
+      {selectionChanged ? (
+        <div className="draft-banner" role="status">
+          <div>
+            <strong>Selection changed</strong>
+            <p>The map and score still show the previous passport. Generate a new passport to update the evidence for this taxon and region.</p>
+          </div>
+          <button className="primary-action" type="button" onClick={onRunCurrent} disabled={loading}>
+            {loading ? 'Generating...' : 'Generate updated passport'}
+          </button>
+        </div>
+      ) : null}
       <div className={`score-band ${scoreClass(readiness.score)}`}>
         <div>
           <p className="eyebrow">{readiness.purpose_label}</p>
@@ -705,10 +774,10 @@ function LoadingWorkbench({ booting }) {
   return (
     <section className="empty-workbench">
       <div>
-        <p className="eyebrow">Judge-ready demo</p>
+        <p className="eyebrow">Evidence workspace</p>
         <h2>{booting ? 'Preparing the default Evidence Passport' : 'Evidence Passport is ready to run'}</h2>
         <p>
-          The default flow attempts live GBIF data first and keeps the offline fixture only as a safe fallback,
+          The default flow attempts live GBIF data first and keeps offline sample data only as a safe fallback,
           while preserving provenance, claim guardrails, citation guidance and a complete export bundle.
         </p>
       </div>

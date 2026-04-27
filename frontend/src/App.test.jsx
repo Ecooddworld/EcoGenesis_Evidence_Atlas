@@ -45,6 +45,15 @@ const mockRun = {
     finished_at: '2026-04-26T10:00:00Z',
     source_mode: 'fixture',
     gbif_species_match: { usageKey: 1651430, confidence: 97 },
+    request: {
+      taxon: 'Aedes albopictus',
+      taxon_key: null,
+      region_name: 'Spain demo bbox',
+      bbox: [-10, 35, 4.5, 44.5],
+      purpose: 'invasive_watch',
+      source_mode: 'fixture',
+      max_records: 300,
+    },
     steps: [
       { name: 'species_match', status: 'completed', duration_ms: 1.2 },
       { name: 'occurrence_fetch', status: 'completed', duration_ms: 2.4 },
@@ -248,7 +257,7 @@ describe('EcoGenesis Evidence Atlas UI', () => {
     installFetchMock();
     render(<App />);
 
-    expect(screen.getByRole('heading', { name: 'GBIF Evidence Passport' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Evidence Passport for Biodiversity Decisions' })).toBeInTheDocument();
     await waitFor(() => expect(screen.getByText('Purpose comparison')).toBeInTheDocument());
     expect(screen.getByText('Scientific interpretation')).toBeInTheDocument();
     expect(screen.getByText('Source & provenance')).toBeInTheDocument();
@@ -264,7 +273,7 @@ describe('EcoGenesis Evidence Atlas UI', () => {
     render(<App />);
 
     await waitFor(() => expect(screen.getByText('Purpose comparison')).toBeInTheDocument());
-    fireEvent.change(screen.getByLabelText('Source mode'), { target: { value: 'online_with_fixture_fallback' } });
+    fireEvent.change(screen.getByLabelText('Data source'), { target: { value: 'online_with_fixture_fallback' } });
     fireEvent.click(screen.getByRole('button', { name: 'Generate Evidence Passport' }));
 
     await waitFor(() => expect(postBodies.length).toBeGreaterThan(1));
@@ -301,6 +310,8 @@ describe('EcoGenesis Evidence Atlas UI', () => {
     fireEvent.click(screen.getByRole('button', { name: /Iberian Peninsula/i }));
     expect(screen.getByLabelText('Region')).toHaveValue('Iberian Peninsula live bbox');
     expect(screen.getByLabelText('West longitude')).toHaveValue('-10');
+    expect(screen.getByText('Selection changed')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Generate updated passport' })).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: 'Generate Evidence Passport' }));
     await waitFor(() => expect(postBodies.length).toBeGreaterThan(1));
