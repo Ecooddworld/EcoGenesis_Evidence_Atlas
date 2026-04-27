@@ -7,7 +7,7 @@ The MVP is intentionally narrow: it is not the full EcoGenesis platform. It focu
 1. Open the app.
 2. The default live GBIF Evidence Passport appears automatically, with offline fixture fallback if GBIF is unavailable.
 3. Review the Leaflet/OpenStreetMap evidence map, purpose comparison, sampling-gap priorities, source/provenance, quality risks, dataset contributors, citation guidance and responsible claim guardrails.
-4. Edit the taxon, bbox, purpose or source mode and generate another real-data passport.
+4. Search GBIF taxa, choose a `taxonKey`, pick a region preset or edit the bbox, then generate another real-data passport.
 5. Download a citation-ready evidence pack, including a single ZIP bundle.
 
 ## Quick Start
@@ -28,6 +28,8 @@ The first screen auto-runs `Online GBIF with fallback`, so users see real GBIF-m
 
 - `POST /api/evidence/run`
 - `GET /api/evidence/demo-scenarios`
+- `GET /api/evidence/region-presets`
+- `GET /api/evidence/taxon-suggest?q={query}`
 - `GET /api/evidence/runs`
 - `GET /api/evidence/runs/{run_id}`
 - `GET /api/evidence/runs/{run_id}/overview`
@@ -47,6 +49,7 @@ Example request:
 ```json
 {
   "taxon": "Aedes albopictus",
+  "taxon_key": 1651430,
   "region_name": "Spain live GBIF bbox",
   "bbox": [-10.0, 35.0, 4.5, 44.5],
   "purpose": "invasive_watch",
@@ -105,4 +108,4 @@ docker compose up --build
 curl http://localhost:18100/health
 ```
 
-The UI includes auto-demo loading, backend-provided live presets, source-mode selection, a real Leaflet/OpenStreetMap evidence map, readiness component weights, purpose comparison, deterministic Sampling Gap Engine, scientific interpretation, Claim Guardrails, Citation Autopilot, Publisher Feedback and grouped export links with SHA-256 checksums in export metadata.
+The UI includes auto-demo loading, GBIF taxon search, selectable `taxonKey`, backend-provided live region presets, editable bbox coordinates, source-mode selection, a real Leaflet/OpenStreetMap evidence map, readiness component weights, purpose comparison, deterministic Sampling Gap Engine, scientific interpretation, Claim Guardrails, Citation Autopilot, Publisher Feedback and grouped export links with SHA-256 checksums in export metadata.

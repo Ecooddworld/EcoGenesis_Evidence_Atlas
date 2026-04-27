@@ -3,11 +3,13 @@ from __future__ import annotations
 import mimetypes
 import os
 
-from fastapi import FastAPI, HTTPException
+import requests
+from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, HTMLResponse, Response
 
-from .evidence.demo import DEMO_SCENARIOS
+from .evidence.demo import DEMO_SCENARIOS, REGION_PRESETS
+from .evidence.gbif import GBIFClient
 from .evidence.pipeline import EvidenceRunError, run_evidence_passport
 from .evidence.schemas import EvidenceRunCreated, EvidenceRunRequest
 from .evidence.storage import artifact_path, list_run_summaries, load_pack
@@ -51,6 +53,27 @@ def run_evidence(request: EvidenceRunRequest) -> dict:
 @app.get("/api/evidence/demo-scenarios")
 def demo_scenarios() -> list[dict]:
     return DEMO_SCENARIOS
+
+
+@app.get("/api/evidence/region-presets")
+def region_presets() -> list[dict]:
+    return REGION_PRESETS
+
+
+@app.get("/api/evidence/taxon-suggest")
+def taxon_suggest(q: str = Query(default="", max_length=120), limit: int = Query(default=10, ge=1, le=20)) -> dict:
+    client = GBIFClient(mode="online")
+    try:
+        results = client.species_suggest(q, limit=limit)
+        return {"query": q, "source": "gbif_api" if len(q.strip()) >= 2 else "curated_defaults", "warnings": [], "results": results}
+    except requests.RequestException as exc:
+        fallback = GBIFClient(mode="fixture").species_suggest(q, limit=limit, use_fixture=True)
+        return {
+            "query": q,
+            "source": "fixture_fallback",
+            "warnings": [f"GBIF species suggest failed: {type(exc).__name__}: {exc}"],
+            "results": fallback,
+        }
 
 
 @app.get("/api/evidence/runs")

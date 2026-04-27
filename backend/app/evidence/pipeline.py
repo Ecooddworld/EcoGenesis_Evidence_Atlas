@@ -154,15 +154,17 @@ def fetch_gbif_inputs(
         "fallback_used": False,
         "warnings": [],
         "gbif_base_url": os.getenv("GBIF_BASE_URL") or "https://api.gbif.org/v1",
+        "selected_taxon_key": request.taxon_key,
     }
     if requested_source_mode == "fixture":
         client = GBIFClient(mode="fixture")
-        species_match = timed_step(steps, "species_match", lambda: client.species_match(request.taxon, use_fixture=True))
+        species_match = timed_step(steps, "species_match", lambda: resolve_species_match(client, request, use_fixture=True))
+        base_summary["matched_taxon_key"] = species_match.get("usageKey")
         raw_payload = timed_step(
             steps,
             "occurrence_fetch",
             lambda: client.occurrence_search(
-                taxon_key=_int_or_none(species_match.get("usageKey")),
+                taxon_key=matched_taxon_key(species_match),
                 bbox=request.bbox,
                 limit=request.max_records,
                 use_fixture=True,
@@ -173,12 +175,13 @@ def fetch_gbif_inputs(
 
     online_client = GBIFClient(mode="online")
     try:
-        species_match = timed_step(steps, "species_match", lambda: online_client.species_match(request.taxon))
+        species_match = timed_step(steps, "species_match", lambda: resolve_species_match(online_client, request))
+        base_summary["matched_taxon_key"] = species_match.get("usageKey")
         raw_payload = timed_step(
             steps,
             "occurrence_fetch",
             lambda: online_client.occurrence_search(
-                taxon_key=_int_or_none(species_match.get("usageKey")),
+                taxon_key=matched_taxon_key(species_match),
                 bbox=request.bbox,
                 limit=request.max_records,
             ),
@@ -187,6 +190,8 @@ def fetch_gbif_inputs(
         base_summary["gbif_api_status"] = "ok"
         attach_payload_summary(base_summary, raw_payload)
         return species_match, raw_payload, base_summary
+    except EvidenceRunError:
+        raise
     except Exception as exc:
         message = f"GBIF API request failed: {type(exc).__name__}: {exc}"
         if requested_source_mode == "online":
@@ -220,12 +225,17 @@ def fetch_gbif_inputs(
                 "details": {"reason": message},
             }
         )
-        species_match = timed_step(steps, "species_match_fixture_fallback", lambda: fixture_client.species_match(request.taxon, use_fixture=True))
+        species_match = timed_step(
+            steps,
+            "species_match_fixture_fallback",
+            lambda: resolve_species_match(fixture_client, request, use_fixture=True),
+        )
+        base_summary["matched_taxon_key"] = species_match.get("usageKey")
         raw_payload = timed_step(
             steps,
             "occurrence_fetch_fixture_fallback",
             lambda: fixture_client.occurrence_search(
-                taxon_key=_int_or_none(species_match.get("usageKey")),
+                taxon_key=matched_taxon_key(species_match),
                 bbox=request.bbox,
                 limit=request.max_records,
                 use_fixture=True,
@@ -233,6 +243,26 @@ def fetch_gbif_inputs(
         )
         attach_payload_summary(base_summary, raw_payload)
         return species_match, raw_payload, base_summary
+
+
+def resolve_species_match(client: GBIFClient, request: EvidenceRunRequest, *, use_fixture: bool = False) -> dict[str, Any]:
+    if request.taxon_key:
+        return client.species_by_key(request.taxon_key, taxon=request.taxon, use_fixture=use_fixture)
+    return client.species_match(request.taxon, use_fixture=use_fixture)
+
+
+def matched_taxon_key(species_match: dict[str, Any]) -> int:
+    taxon_key = _int_or_none(species_match.get("usageKey"))
+    if taxon_key:
+        return taxon_key
+    raise EvidenceRunError(
+        status_code=422,
+        detail={
+            "error": "taxon_not_matched",
+            "message": "GBIF did not return a usable taxonKey. Choose a taxon from the GBIF suggestions or refine the scientific name.",
+            "gbif_species_match": species_match,
+        },
+    )
 
 
 def timed_step(steps: list[dict[str, Any]], name: str, callback: Callable[[], T]) -> T:

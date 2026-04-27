@@ -97,6 +97,37 @@ def test_fixture_run_and_export_endpoints(tmp_path, monkeypatch) -> None:
     assert scenarios.status_code == 200
     assert scenarios.json()[0]["form"]["source_mode"] == "online_with_fixture_fallback"
 
+    regions = client.get("/api/evidence/region-presets")
+    assert regions.status_code == 200
+    assert any(row["id"] == "spain" for row in regions.json())
+
+    taxon_suggest = client.get("/api/evidence/taxon-suggest")
+    assert taxon_suggest.status_code == 200
+    assert taxon_suggest.json()["results"][0]["usageKey"] == 1651430
+
+
+def test_selected_taxon_key_is_preserved_in_request_and_match(tmp_path, monkeypatch) -> None:
+    monkeypatch.setenv("EVIDENCE_DATA_DIR", str(tmp_path))
+    client = TestClient(app)
+
+    response = client.post(
+        "/api/evidence/run",
+        json={
+            "taxon": "Quercus robur",
+            "taxon_key": 2878688,
+            "region_name": "Western Europe live bbox",
+            "bbox": [-10.0, 42.0, 12.0, 56.0],
+            "purpose": "sampling_gaps",
+            "source_mode": "fixture",
+            "max_records": 300,
+        },
+    )
+    assert response.status_code == 200
+    detail = client.get(f"/api/evidence/runs/{response.json()['run_id']}").json()
+    assert detail["run"]["request"]["taxon_key"] == 2878688
+    assert detail["passport"]["taxonKey"] == 2878688
+    assert detail["source_summary"]["selected_taxon_key"] == 2878688
+
 
 def test_online_failure_falls_back_when_requested(tmp_path, monkeypatch) -> None:
     monkeypatch.setenv("EVIDENCE_DATA_DIR", str(tmp_path))

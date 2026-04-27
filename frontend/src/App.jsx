@@ -4,8 +4,10 @@ import {
   exportUrl,
   getDemoScenarios,
   getEvidenceRun,
+  getRegionPresets,
   listEvidenceRuns,
   runEvidencePassport,
+  searchTaxa,
 } from './api.js';
 
 const purposeLabels = {
@@ -28,6 +30,7 @@ const fallbackPresets = [
     tag: 'real GBIF query',
     form: {
       taxon: 'Aedes albopictus',
+      taxon_key: 1651430,
       region_name: 'Spain live GBIF bbox',
       bbox: '-10.0,35.0,4.5,44.5',
       purpose: 'invasive_watch',
@@ -42,6 +45,7 @@ const fallbackPresets = [
     tag: 'editable taxon',
     form: {
       taxon: 'Quercus robur',
+      taxon_key: 2878688,
       region_name: 'Western Europe live bbox',
       bbox: '-10.0,42.0,12.0,56.0',
       purpose: 'sampling_gaps',
@@ -56,6 +60,7 @@ const fallbackPresets = [
     tag: 'publisher ready',
     form: {
       taxon: 'Lynx pardinus',
+      taxon_key: 2435261,
       region_name: 'Iberian Peninsula live bbox',
       bbox: '-10.0,35.0,4.5,44.5',
       purpose: 'dataset_quality_review',
@@ -70,6 +75,7 @@ const fallbackPresets = [
     tag: 'reproducible fallback',
     form: {
       taxon: 'Aedes albopictus',
+      taxon_key: 1651430,
       region_name: 'Spain offline fixture bbox',
       bbox: '-10.0,35.0,4.5,44.5',
       purpose: 'invasive_watch',
@@ -77,6 +83,30 @@ const fallbackPresets = [
       use_fixture: true,
       max_records: 300,
     },
+  },
+];
+
+const fallbackRegionPresets = [
+  {
+    id: 'spain',
+    label: 'Spain',
+    region_name: 'Spain live GBIF bbox',
+    bbox: [-10, 35, 4.5, 44.5],
+    description: 'Compact live GBIF test extent.',
+  },
+  {
+    id: 'western-europe',
+    label: 'Western Europe',
+    region_name: 'Western Europe live bbox',
+    bbox: [-10, 42, 12, 56],
+    description: 'Broader sampling-gap experiments.',
+  },
+  {
+    id: 'mediterranean',
+    label: 'Western Mediterranean',
+    region_name: 'Western Mediterranean live bbox',
+    bbox: [-6.5, 34.5, 16, 46.5],
+    description: 'Invasive-watch corridor tests.',
   },
 ];
 
@@ -110,6 +140,7 @@ function normalizeForm(form) {
   const sourceMode = form.source_mode || (form.use_fixture === false ? 'online_with_fixture_fallback' : 'fixture');
   return {
     taxon: form.taxon || 'Aedes albopictus',
+    taxon_key: form.taxon_key || form.taxonKey || '',
     region_name: form.region_name || 'Spain live GBIF bbox',
     bbox: Array.isArray(form.bbox) ? form.bbox.join(',') : form.bbox || '-10.0,35.0,4.5,44.5',
     purpose: form.purpose || 'invasive_watch',
@@ -142,13 +173,24 @@ function parseBbox(text) {
 
 function payloadFromForm(form) {
   const sourceMode = form.source_mode || 'fixture';
+  const taxonKey = Number(form.taxon_key);
   return {
     ...form,
     bbox: parseBbox(form.bbox),
+    taxon_key: Number.isFinite(taxonKey) && taxonKey > 0 ? taxonKey : null,
     max_records: Number(form.max_records),
     source_mode: sourceMode,
     use_fixture: sourceMode === 'fixture',
   };
+}
+
+function bboxValues(text) {
+  const parts = String(text || '').split(',');
+  return [0, 1, 2, 3].map((index) => parts[index]?.trim() || '');
+}
+
+function formatBbox(bbox) {
+  return bbox.map((value) => Number(value).toFixed(Number(value) % 1 === 0 ? 0 : 2)).join(',');
 }
 
 function readRecentRuns() {
@@ -180,6 +222,7 @@ function runToRecent(detail) {
 
 export default function App() {
   const [presets, setPresets] = useState(fallbackPresets.map(normalizePreset));
+  const [regionPresets, setRegionPresets] = useState(fallbackRegionPresets);
   const [form, setForm] = useState(defaultForm);
   const [run, setRun] = useState(null);
   const [created, setCreated] = useState(null);
@@ -190,6 +233,10 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('overview');
   const [recentRuns, setRecentRuns] = useState(readRecentRuns);
   const [progressSteps, setProgressSteps] = useState([]);
+  const [taxonSuggestions, setTaxonSuggestions] = useState([]);
+  const [taxonSearchStatus, setTaxonSearchStatus] = useState('');
+  const [taxonSearchSource, setTaxonSearchSource] = useState('');
+  const bboxParts = bboxValues(form.bbox);
 
   function rememberRun(detail) {
     const item = runToRecent(detail);
@@ -256,6 +303,23 @@ export default function App() {
           setPresets(scenarioList);
         }
       }
+      try {
+        const remoteRegions = await getRegionPresets();
+        if (!cancelled && Array.isArray(remoteRegions) && remoteRegions.length) {
+          setRegionPresets(remoteRegions);
+        }
+      } catch {
+        if (!cancelled) setRegionPresets(fallbackRegionPresets);
+      }
+      try {
+        const starterTaxa = await searchTaxa('', 6);
+        if (!cancelled) {
+          setTaxonSuggestions(starterTaxa.results || []);
+          setTaxonSearchSource(starterTaxa.source || '');
+        }
+      } catch {
+        if (!cancelled) setTaxonSuggestions([]);
+      }
 
       const backendRuns = await refreshRecentRuns();
       const cachedRunId = backendRuns[0]?.run_id || readRecentRuns()[0]?.run_id;
@@ -319,6 +383,47 @@ export default function App() {
     setForm({ ...form, source_mode: sourceMode, use_fixture: sourceMode === 'fixture' });
   }
 
+  async function handleTaxonSearch() {
+    if (form.taxon.trim().length < 2) {
+      setTaxonSearchStatus('Type at least two letters or choose a curated taxon below.');
+      return;
+    }
+    setTaxonSearchStatus('Searching GBIF...');
+    try {
+      const payload = await searchTaxa(form.taxon, 10);
+      setTaxonSuggestions(payload.results || []);
+      setTaxonSearchSource(payload.source || '');
+      setTaxonSearchStatus((payload.results || []).length ? '' : 'No GBIF taxon suggestions found. Try a scientific name.');
+    } catch (err) {
+      setTaxonSearchStatus(err.message || 'GBIF taxon search failed');
+    }
+  }
+
+  function selectTaxonSuggestion(suggestion) {
+    const name = suggestion.canonicalName || suggestion.scientificName || form.taxon;
+    setForm({
+      ...form,
+      taxon: name,
+      taxon_key: suggestion.usageKey || '',
+    });
+    setTaxonSearchStatus(`Selected GBIF taxonKey ${suggestion.usageKey || 'unknown'}`);
+  }
+
+  function applyRegionPreset(region) {
+    setForm({
+      ...form,
+      region_name: region.region_name,
+      bbox: formatBbox(region.bbox),
+    });
+    setError('');
+  }
+
+  function updateBboxPart(index, value) {
+    const next = [...bboxParts];
+    next[index] = value;
+    setForm({ ...form, bbox: next.join(',') });
+  }
+
   return (
     <main className="app-shell">
       <header className="topbar">
@@ -358,13 +463,45 @@ export default function App() {
           </div>
 
           <form className="rail-section run-form" onSubmit={handleSubmit}>
-            <label>
-              Taxon
-              <input
-                value={form.taxon}
-                onChange={(event) => setForm({ ...form, taxon: event.target.value })}
-              />
-            </label>
+            <div className="taxon-picker">
+              <label>
+                Taxon
+                <input
+                  placeholder="Type a species, genus or scientific name"
+                  value={form.taxon}
+                  onChange={(event) => setForm({ ...form, taxon: event.target.value, taxon_key: '' })}
+                />
+              </label>
+              <button className="secondary-action" type="button" onClick={handleTaxonSearch}>
+                Search GBIF taxon
+              </button>
+              <div className="selected-taxon" aria-live="polite">
+                {form.taxon_key ? (
+                  <span>Locked to GBIF taxonKey {form.taxon_key}</span>
+                ) : (
+                  <span>Custom name will be matched by GBIF during the run.</span>
+                )}
+                {taxonSearchSource ? <small>Suggestions source: {shortStatus(taxonSearchSource)}</small> : null}
+              </div>
+              {taxonSearchStatus ? <p className="helper-note">{taxonSearchStatus}</p> : null}
+              {taxonSuggestions.length ? (
+                <div className="taxon-suggestion-list" aria-label="GBIF taxon suggestions">
+                  {taxonSuggestions.map((suggestion) => (
+                    <button
+                      key={`${suggestion.usageKey}-${suggestion.scientificName}`}
+                      onClick={() => selectTaxonSuggestion(suggestion)}
+                      type="button"
+                    >
+                      <span>{suggestion.canonicalName || suggestion.scientificName}</span>
+                      <small>
+                        {suggestion.rank || 'taxon'} · key {suggestion.usageKey || 'unknown'}
+                        {suggestion.family ? ` · ${suggestion.family}` : ''}
+                      </small>
+                    </button>
+                  ))}
+                </div>
+              ) : null}
+            </div>
             <label>
               Region
               <input
@@ -372,13 +509,49 @@ export default function App() {
                 onChange={(event) => setForm({ ...form, region_name: event.target.value })}
               />
             </label>
-            <label>
-              Bounding box
-              <input
-                value={form.bbox}
-                onChange={(event) => setForm({ ...form, bbox: event.target.value })}
-              />
-            </label>
+            <div className="region-preset-list" aria-label="Region presets">
+              {regionPresets.map((region) => (
+                <button key={region.id} onClick={() => applyRegionPreset(region)} type="button">
+                  <span>{region.label}</span>
+                  <small>{region.description}</small>
+                </button>
+              ))}
+            </div>
+            <fieldset className="bbox-grid">
+              <legend>Bounding box</legend>
+              <label>
+                West
+                <input
+                  aria-label="West longitude"
+                  value={bboxParts[0]}
+                  onChange={(event) => updateBboxPart(0, event.target.value)}
+                />
+              </label>
+              <label>
+                South
+                <input
+                  aria-label="South latitude"
+                  value={bboxParts[1]}
+                  onChange={(event) => updateBboxPart(1, event.target.value)}
+                />
+              </label>
+              <label>
+                East
+                <input
+                  aria-label="East longitude"
+                  value={bboxParts[2]}
+                  onChange={(event) => updateBboxPart(2, event.target.value)}
+                />
+              </label>
+              <label>
+                North
+                <input
+                  aria-label="North latitude"
+                  value={bboxParts[3]}
+                  onChange={(event) => updateBboxPart(3, event.target.value)}
+                />
+              </label>
+            </fieldset>
             <label>
               Source mode
               <select value={form.source_mode} onChange={(event) => updateSourceMode(event.target.value)}>

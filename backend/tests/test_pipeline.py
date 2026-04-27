@@ -14,7 +14,7 @@ from app.evidence.storage import artifact_path
 
 def test_gbif_normalization_preserves_provenance() -> None:
     payload = GBIFClient(mode="fixture").occurrence_search(
-        taxon_key=5844304,
+        taxon_key=1651430,
         bbox=[-10.0, 35.0, 4.5, 44.5],
         limit=300,
         use_fixture=True,
@@ -25,7 +25,7 @@ def test_gbif_normalization_preserves_provenance() -> None:
     assert first.gbif_id == "1001"
     assert first.dataset_key == "spain-mosquito-watch"
     assert first.license == "CC_BY_4_0"
-    assert first.accepted_taxon_key == "5844304"
+    assert first.accepted_taxon_key == "1651430"
     assert first.has_valid_coordinate is True
 
 

@@ -19,12 +19,32 @@ const mockScenarios = [
   },
 ];
 
+const mockRegions = [
+  {
+    id: 'iberian',
+    label: 'Iberian Peninsula',
+    region_name: 'Iberian Peninsula live bbox',
+    bbox: [-10, 35, 4.5, 44.5],
+    description: 'Useful for Iberian conservation tests.',
+  },
+];
+
+const mockTaxa = [
+  {
+    usageKey: 2435261,
+    canonicalName: 'Lynx pardinus',
+    scientificName: 'Lynx pardinus (Temminck, 1827)',
+    rank: 'SPECIES',
+    family: 'Felidae',
+  },
+];
+
 const mockRun = {
   run: {
     run_id: 'demo123',
     finished_at: '2026-04-26T10:00:00Z',
     source_mode: 'fixture',
-    gbif_species_match: { usageKey: 5844304, confidence: 97 },
+    gbif_species_match: { usageKey: 1651430, confidence: 97 },
     steps: [
       { name: 'species_match', status: 'completed', duration_ms: 1.2 },
       { name: 'occurrence_fetch', status: 'completed', duration_ms: 2.4 },
@@ -37,7 +57,7 @@ const mockRun = {
     bbox: [-10, 35, 4.5, 44.5],
     records_used: 12,
     datasets_used: 4,
-    taxonKey: 5844304,
+    taxonKey: 1651430,
     match_confidence: 97,
   },
   source_summary: {
@@ -196,6 +216,12 @@ function installFetchMock() {
     if (textUrl.endsWith('/api/evidence/demo-scenarios')) {
       return { ok: true, json: async () => mockScenarios };
     }
+    if (textUrl.endsWith('/api/evidence/region-presets')) {
+      return { ok: true, json: async () => mockRegions };
+    }
+    if (textUrl.includes('/api/evidence/taxon-suggest')) {
+      return { ok: true, json: async () => ({ query: 'lynx', source: 'gbif_api', warnings: [], results: mockTaxa }) };
+    }
     if (textUrl.endsWith('/api/evidence/runs') && !options.method) {
       return { ok: true, json: async () => [] };
     }
@@ -258,5 +284,28 @@ describe('EcoGenesis Evidence Atlas UI', () => {
     expect(screen.getByRole('link', { name: /Evidence pack ZIP/i })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /source_summary.json/i })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /gap_priorities.csv/i })).toBeInTheDocument();
+  });
+
+  it('lets users select a GBIF taxon and region before running their own passport', async () => {
+    const postBodies = installFetchMock();
+    render(<App />);
+
+    await waitFor(() => expect(screen.getByText('Purpose comparison')).toBeInTheDocument());
+    fireEvent.change(screen.getByLabelText('Taxon'), { target: { value: 'lynx' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Search GBIF taxon' }));
+
+    const lynx = await screen.findByRole('button', { name: /Lynx pardinus/i });
+    fireEvent.click(lynx);
+    expect(screen.getByText(/Locked to GBIF taxonKey 2435261/i)).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: /Iberian Peninsula/i }));
+    expect(screen.getByLabelText('Region')).toHaveValue('Iberian Peninsula live bbox');
+    expect(screen.getByLabelText('West longitude')).toHaveValue('-10');
+
+    fireEvent.click(screen.getByRole('button', { name: 'Generate Evidence Passport' }));
+    await waitFor(() => expect(postBodies.length).toBeGreaterThan(1));
+    expect(postBodies.at(-1).taxon).toBe('Lynx pardinus');
+    expect(postBodies.at(-1).taxon_key).toBe(2435261);
+    expect(postBodies.at(-1).bbox).toEqual([-10, 35, 4.5, 44.5]);
   });
 });

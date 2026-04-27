@@ -40,3 +40,20 @@ export async function getDemoScenarios() {
   }
   return response.json();
 }
+
+export async function getRegionPresets() {
+  const response = await fetch(`${API_BASE_URL}/api/evidence/region-presets`);
+  if (!response.ok) {
+    throw new Error(`Region presets could not be loaded: ${response.status}`);
+  }
+  return response.json();
+}
+
+export async function searchTaxa(query, limit = 10) {
+  const params = new URLSearchParams({ q: query || '', limit: String(limit) });
+  const response = await fetch(`${API_BASE_URL}/api/evidence/taxon-suggest?${params.toString()}`);
+  if (!response.ok) {
+    throw new Error(`GBIF taxon search failed: ${response.status}`);
+  }
+  return response.json();
+}

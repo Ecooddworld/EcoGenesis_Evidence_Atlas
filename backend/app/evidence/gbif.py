@@ -9,6 +9,8 @@ from typing import Any
 
 import requests
 
+from .demo import POPULAR_TAXA
+
 
 USER_AGENT = "ecogenesis-evidence-atlas/0.1 (+https://github.com/oddworld666/EcoGenesis_Evidence_Atlas)"
 
@@ -61,7 +63,7 @@ class GBIFClient:
     def species_match(self, taxon: str, *, use_fixture: bool = False) -> dict[str, Any]:
         if self.mode != "online" or use_fixture:
             return {
-                "usageKey": 5844304,
+                "usageKey": 1651430,
                 "scientificName": taxon,
                 "canonicalName": taxon,
                 "rank": "SPECIES",
@@ -80,6 +82,48 @@ class GBIFClient:
         payload = response.json()
         payload["source"] = "gbif_api"
         return payload
+
+    def species_by_key(self, taxon_key: int, *, taxon: str | None = None, use_fixture: bool = False) -> dict[str, Any]:
+        if self.mode != "online" or use_fixture:
+            match = next((item for item in POPULAR_TAXA if item.get("usageKey") == taxon_key), None)
+            return match or {
+                "usageKey": taxon_key,
+                "scientificName": taxon or str(taxon_key),
+                "canonicalName": taxon or str(taxon_key),
+                "rank": "SPECIES",
+                "status": "ACCEPTED",
+                "confidence": 100,
+                "matchType": "SELECTED_KEY",
+                "source": "fixture",
+            }
+        response = requests.get(
+            f"{self.base_url}/species/{taxon_key}",
+            headers={"User-Agent": USER_AGENT},
+            timeout=30,
+        )
+        response.raise_for_status()
+        payload = response.json()
+        payload["usageKey"] = payload.get("key") or taxon_key
+        payload["confidence"] = 100
+        payload["matchType"] = "SELECTED_KEY"
+        payload["status"] = payload.get("taxonomicStatus") or payload.get("status")
+        payload["source"] = "gbif_api"
+        return payload
+
+    def species_suggest(self, query: str, *, limit: int = 10, use_fixture: bool = False) -> list[dict[str, Any]]:
+        clean_query = " ".join(query.split())
+        if self.mode != "online" or use_fixture or len(clean_query) < 2:
+            return _fixture_suggestions(clean_query, limit)
+        response = requests.get(
+            f"{self.base_url}/species/suggest",
+            params={"q": clean_query, "limit": min(max(limit, 1), 20)},
+            headers={"User-Agent": USER_AGENT},
+            timeout=20,
+        )
+        response.raise_for_status()
+        suggestions = [_normalize_taxon_suggestion(item) for item in response.json() if isinstance(item, dict)]
+        ranked = [item for item in suggestions if item.get("usageKey") and item.get("scientificName")]
+        return ranked[:limit] or _fixture_suggestions(clean_query, limit)
 
     def occurrence_search(
         self,
@@ -146,6 +190,34 @@ def normalize_occurrences(payload: dict[str, Any], *, max_records: int) -> list[
     return records
 
 
+def _fixture_suggestions(query: str, limit: int) -> list[dict[str, Any]]:
+    clean_query = query.lower().strip()
+    rows = POPULAR_TAXA
+    if clean_query:
+        rows = [
+            item
+            for item in POPULAR_TAXA
+            if clean_query in str(item.get("scientificName", "")).lower()
+            or clean_query in str(item.get("canonicalName", "")).lower()
+            or clean_query in str(item.get("family", "")).lower()
+        ]
+    return [dict(item) for item in rows[:limit]]
+
+
+def _normalize_taxon_suggestion(item: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "usageKey": item.get("key") or item.get("usageKey") or item.get("nubKey"),
+        "scientificName": item.get("scientificName") or item.get("canonicalName"),
+        "canonicalName": item.get("canonicalName") or item.get("scientificName"),
+        "rank": item.get("rank"),
+        "status": item.get("taxonomicStatus") or item.get("status"),
+        "kingdom": item.get("kingdom"),
+        "family": item.get("family"),
+        "confidence": 100 if item.get("key") else None,
+        "source": "gbif_api",
+    }
+
+
 def _text_or_none(value: Any) -> str | None:
     if value is None:
         return None
@@ -181,4 +253,3 @@ def _year_from_date(value: Any) -> int | None:
         except ValueError:
             continue
     return None
-

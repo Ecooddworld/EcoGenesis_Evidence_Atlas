@@ -193,6 +193,20 @@ label {
   gap: 6px;
 }
 
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+legend {
+  color: #314139;
+  font-size: 0.9rem;
+  font-weight: 800;
+  margin-bottom: 7px;
+  padding: 0;
+}
+
 input,
 select {
   background: #fff;
@@ -240,9 +254,106 @@ a:focus-visible {
   padding: 0 14px;
 }
 
+.secondary-action {
+  background: #ecf4ef;
+  border: 1px solid #bfd7c8;
+  border-radius: 6px;
+  color: #20523f;
+  cursor: pointer;
+  font-weight: 850;
+  min-height: 42px;
+  padding: 0 12px;
+}
+
 .primary-action:disabled {
   cursor: wait;
   opacity: 0.72;
+}
+
+.taxon-picker {
+  display: grid;
+  gap: 9px;
+}
+
+.selected-taxon,
+.helper-note {
+  background: #f7faf6;
+  border: 1px solid #e0e9e2;
+  border-radius: 6px;
+  color: #52635a;
+  display: grid;
+  font-size: 0.8rem;
+  gap: 2px;
+  margin: 0;
+  padding: 8px 9px;
+}
+
+.selected-taxon span {
+  color: #294236;
+  font-weight: 800;
+}
+
+.selected-taxon small {
+  color: #6a786f;
+}
+
+.taxon-suggestion-list,
+.region-preset-list {
+  display: grid;
+  gap: 7px;
+}
+
+.taxon-suggestion-list {
+  max-height: 238px;
+  overflow: auto;
+  padding-right: 2px;
+}
+
+.taxon-suggestion-list button,
+.region-preset-list button {
+  background: #fbfcfa;
+  border: 1px solid #dfe8e0;
+  border-radius: 7px;
+  color: #203328;
+  cursor: pointer;
+  display: grid;
+  gap: 3px;
+  padding: 9px 10px;
+  text-align: left;
+}
+
+.taxon-suggestion-list button:hover,
+.region-preset-list button:hover,
+.secondary-action:hover {
+  border-color: #93b8a2;
+}
+
+.taxon-suggestion-list span,
+.region-preset-list span {
+  font-size: 0.88rem;
+  font-weight: 850;
+  line-height: 1.2;
+}
+
+.taxon-suggestion-list small,
+.region-preset-list small {
+  color: #66766c;
+  font-size: 0.76rem;
+  line-height: 1.3;
+}
+
+.bbox-grid {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.bbox-grid legend {
+  grid-column: 1 / -1;
+}
+
+.bbox-grid label {
+  font-size: 0.78rem;
 }
 
 .error {
@@ -1397,6 +1508,7 @@ td {
 
   .preset-grid,
   .field-pair,
+  .bbox-grid,
   .empty-metrics,
   .skeleton-grid,
   .kpi-strip,

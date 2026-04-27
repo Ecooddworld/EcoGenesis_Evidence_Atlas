@@ -17,6 +17,7 @@ def main() -> None:
     os.environ.setdefault("EVIDENCE_DATA_DIR", str(repo_root / "data"))
     request = EvidenceRunRequest(
         taxon="Aedes albopictus",
+        taxon_key=1651430,
         region_name="Spain live GBIF bbox",
         bbox=[-10.0, 35.0, 4.5, 44.5],
         purpose="invasive_watch",

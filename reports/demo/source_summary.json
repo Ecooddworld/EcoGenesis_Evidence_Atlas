@@ -5,6 +5,8 @@
   "fallback_used": false,
   "warnings": [],
   "gbif_base_url": "https://api.gbif.org/v1",
+  "selected_taxon_key": 1651430,
+  "matched_taxon_key": 1651430,
   "gbif_result_count": 19697,
   "gbif_returned_records": 300,
   "gbif_limit": 300,

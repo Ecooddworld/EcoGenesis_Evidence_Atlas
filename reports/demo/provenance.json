@@ -1,12 +1,13 @@
 {
   "tool": "EcoGenesis Evidence Passport",
   "run": {
-    "run_id": "93820cb5a67c48c3bd1cff0b8ab86a08",
-    "started_at": "2026-04-27T01:44:04.959098+00:00",
-    "finished_at": "2026-04-27T01:44:05.876224+00:00",
+    "run_id": "c0133673460740b1aca2098a9a58562d",
+    "started_at": "2026-04-27T02:01:24.585335+00:00",
+    "finished_at": "2026-04-27T02:01:25.978053+00:00",
     "source_mode": "online",
     "request": {
       "taxon": "Aedes albopictus",
+      "taxon_key": 1651430,
       "region_name": "Spain live GBIF bbox",
       "bbox": [
         -10.0,
@@ -20,13 +21,11 @@
       "max_records": 300
     },
     "gbif_species_match": {
-      "usageKey": 1651430,
-      "scientificName": "Aedes albopictus (Skuse, 1894)",
-      "canonicalName": "Aedes albopictus",
-      "rank": "SPECIES",
-      "status": "ACCEPTED",
-      "confidence": 99,
-      "matchType": "EXACT",
+      "key": 1651430,
+      "nubKey": 1651430,
+      "nameKey": 255725,
+      "taxonID": "gbif:1651430",
+      "sourceTaxonKey": 182838407,
       "kingdom": "Animalia",
       "phylum": "Arthropoda",
       "order": "Diptera",
@@ -40,34 +39,59 @@
       "familyKey": 3346,
       "genusKey": 7924646,
       "speciesKey": 1651430,
+      "datasetKey": "d7dddbf4-2cf0-4f39-9b2a-bb099caae36c",
+      "constituentKey": "7ddf754f-d193-4cc9-b351-99906754a03b",
+      "parentKey": 7924646,
+      "parent": "Aedes",
+      "basionymKey": 4297777,
+      "basionym": "Culex albopictus Skuse, 1894",
+      "scientificName": "Aedes albopictus (Skuse, 1894)",
+      "canonicalName": "Aedes albopictus",
+      "vernacularName": "Asian tiger mosquito, Forest day mosquito",
+      "authorship": "(Skuse, 1894) ",
+      "nameType": "SCIENTIFIC",
+      "rank": "SPECIES",
+      "origin": "SOURCE",
+      "taxonomicStatus": "ACCEPTED",
+      "nomenclaturalStatus": [],
+      "remarks": "",
+      "publishedIn": "Skuse, F.A.A. 1894. The banded mosquito of Bengal. Indian Museum Notes 3(5)[1895]: 20. [1894.11.14]",
+      "numDescendants": 7,
+      "lastCrawled": "2023-08-22T23:20:59.545+00:00",
+      "lastInterpreted": "2023-08-22T22:33:50.590+00:00",
+      "issues": [],
       "class": "Insecta",
+      "usageKey": 1651430,
+      "confidence": 100,
+      "matchType": "SELECTED_KEY",
+      "status": "ACCEPTED",
       "source": "gbif_api"
     },
     "steps": [
       {
         "name": "species_match",
         "status": "completed",
-        "duration_ms": 257.92
+        "duration_ms": 283.4
       },
       {
         "name": "occurrence_fetch",
         "status": "completed",
-        "duration_ms": 656.24
+        "duration_ms": 1106.39
       },
       {
         "name": "normalize",
         "status": "completed",
-        "duration_ms": 0.93
+        "duration_ms": 1.18
       },
       {
         "name": "score",
         "status": "completed",
-        "duration_ms": 0.89
+        "duration_ms": 0.72
       },
       {
         "name": "exports",
         "status": "completed",
-        "duration_ms": 110.45,
+        "duration_ms": 107.08,
         "details": {
           "artifact_count": 19
         }
@@ -75,24 +99,24 @@
     ],
     "artifact_checksums": {
       "citations.md": "9861b27255f4af3f9d4c2886037bffa516362bf71a6d1101dac4a6f75181147d",
-      "claim_guardrails.md": "fcbb3c2b1b0984a45b716df7a9ecc6cc0b882064ae748ad4a639e8e24d891132",
+      "claim_guardrails.md": "b5da9498dab1f471ae61daba9eb32e1977b1670de60daa891ff610484052a5d4",
       "dataset_contributions.csv": "7b8692e5267368d503df57178b6035196de019b17a65bc01411c5bbfaad3e993",
-      "demo_scenario.json": "728328804d0262a238e5947ef15cfde3dc2e5c2bc34bd50454bdbe0a74e704d1",
+      "demo_scenario.json": "b98f9b2ee90fbae3f795dae8ebe47bcd1a61da87a93b329d5ca83d0d3853a286",
       "derived_dataset_recipe.json": "fcc12a05e48a7d338adfb11cdb54387c063b4c747c9a03ac8064058b1aa7336c",
-      "evidence_pack.json": "62241ea7ad8bdfe33612a4bd2d4f2a945ed772c66c577227b4ff614d1969e757",
-      "evidence_pack.zip": "1b6a3c55ef95a555f6f1e592607d82b4532c2458032abf1167e09ecb105c66c9",
+      "evidence_pack.json": "fe76dc7e8fbbfae96324e15bb8a50e9bd70e752f830231f3e34cf9da43cd199c",
+      "evidence_pack.zip": "3ee298c44f0f45f63ad4182e25d23c57b83fc324396d1878d406d3f079fdbb3e",
       "gap_priorities.csv": "b1a9b31ed1523e3850e6692c0864d5e52a362633a209a0c98a603d39f96a1242",
       "methods_text.md": "5ca4d422a9ff3e80e3ed8c51231231ab5056da8d529245dc0d5b710080961fbe",
-      "passport.html": "c42057b6ee7e8c92fdc301929d44088e86b4c8e6cc45c9f1f39ed21f01b7514d",
-      "passport.md": "fa26aba0351f2860d4cfac576023e579d2b06d881ed664c5509a12a2b1ae9493",
-      "provenance.json": "1c190041ed1c235eb311f19152a3aa01f449e888bc12f327dac7d8ee4b8158f2",
+      "passport.html": "f6ba0b2aa0db67dd4e8fed539304c1652aaaffdaeb7465b64d9f3bc9ba9c22b4",
+      "passport.md": "6d91fe5f9efd889757f02a8299a156ba906c7fdc8d6326501aa33cdad5282e5c",
+      "provenance.json": "070c78fc5647de370122066ac7aa7648432c670bc99acbc2892e8c3c29c15136",
       "publisher_feedback.csv": "4e4f330f14cc0d3bdb430dd5ec2ce743346177732f24a3c688f1b2dc3ed00876",
       "publisher_feedback.md": "3b23c71c11990e3c22085e1b4fcd74f4a3e605520242799dccb5878b2938d1e5",
       "quality_metrics.csv": "c6edec6c03fa52e85d1928457f59527035e7fafe4d97eecd62a151d8a7e31f6a",
-      "readiness_scorecard.csv": "a183be11aab4d0ebc513df0295fffac97058fd82adb40dfbf15ccfbd198293db",
+      "readiness_scorecard.csv": "c385ecb8fed48341934a5577013a85a009b43cb37e6a98bbda09c78bc4d6480c",
       "records.geojson": "f638492bfe8ed77d64c5f53cbb58a99f2dddc77c34e75b87530ccf6142364e81",
-      "run.json": "a068ec2c876bc1b312f481d6c1a3794a5c61c6758e67b1cd37cad3497053ee29",
-      "source_summary.json": "6b9aa8d72ba12d1db20151948e18159e05de5eb5cac1904edae23ae350eb3af5"
+      "run.json": "098648c5ea6ef4ae39eb560183a17cfd2ea10f3ba693d98cfbd3c40632646741",
+      "source_summary.json": "7a89f0a7ee9a92a007930c8c30622d16f33fde647256b10cef56fff4229c9042"
     }
   },
   "source_summary": {
@@ -102,6 +126,8 @@
     "fallback_used": false,
     "warnings": [],
     "gbif_base_url": "https://api.gbif.org/v1",
+    "selected_taxon_key": 1651430,
+    "matched_taxon_key": 1651430,
     "gbif_result_count": 19697,
     "gbif_returned_records": 300,
     "gbif_limit": 300,
@@ -112,7 +138,7 @@
     "taxon": "Aedes albopictus",
     "accepted_name": "Aedes albopictus (Skuse, 1894)",
     "taxonKey": 1651430,
-    "match_confidence": 99,
+    "match_confidence": 100,
     "region_name": "Spain live GBIF bbox",
     "bbox": [
       -10.0,
@@ -127,11 +153,11 @@
   "evidence_readiness": {
     "purpose": "invasive_watch",
     "purpose_label": "Invasive watch",
-    "score": 97.69,
+    "score": 97.73,
     "components": {
       "spatial_accuracy": 97.67,
       "temporal_recency": 100.0,
-      "taxonomic_confidence": 99.7,
+      "taxonomic_confidence": 100.0,
       "sampling_coverage": 88.75,
       "citation_provenance": 100.0,
       "issue_explainability": 100.0
@@ -150,11 +176,11 @@
     "conservation_brief": {
       "purpose": "conservation_brief",
       "purpose_label": "Conservation brief",
-      "score": 96.99,
+      "score": 97.05,
       "components": {
         "spatial_accuracy": 97.67,
         "temporal_recency": 100.0,
-        "taxonomic_confidence": 99.7,
+        "taxonomic_confidence": 100.0,
         "sampling_coverage": 88.75,
         "citation_provenance": 100.0,
         "issue_explainability": 100.0
@@ -172,11 +198,11 @@
     "invasive_watch": {
       "purpose": "invasive_watch",
       "purpose_label": "Invasive watch",
-      "score": 97.69,
+      "score": 97.73,
       "components": {
         "spatial_accuracy": 97.67,
         "temporal_recency": 100.0,
-        "taxonomic_confidence": 99.7,
+        "taxonomic_confidence": 100.0,
         "sampling_coverage": 88.75,
         "citation_provenance": 100.0,
         "issue_explainability": 100.0
@@ -194,11 +220,11 @@
     "sampling_gaps": {
       "purpose": "sampling_gaps",
       "purpose_label": "Sampling gap analysis",
-      "score": 94.43,
+      "score": 94.47,
       "components": {
         "spatial_accuracy": 97.67,
         "temporal_recency": 100.0,
-        "taxonomic_confidence": 99.7,
+        "taxonomic_confidence": 100.0,
         "sampling_coverage": 88.75,
         "citation_provenance": 100.0,
         "issue_explainability": 100.0
@@ -216,11 +242,11 @@
     "dataset_quality_review": {
       "purpose": "dataset_quality_review",
       "purpose_label": "Dataset quality review",
-      "score": 98.23,
+      "score": 98.29,
       "components": {
         "spatial_accuracy": 97.67,
         "temporal_recency": 100.0,
-        "taxonomic_confidence": 99.7,
+        "taxonomic_confidence": 100.0,
         "sampling_coverage": 88.75,
         "citation_provenance": 100.0,
         "issue_explainability": 100.0

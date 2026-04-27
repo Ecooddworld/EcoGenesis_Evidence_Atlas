@@ -36,9 +36,11 @@ Uses the deterministic fixture for no-network testing and reproducible regressio
 
 1. Open http://localhost:13100.
 2. Wait for the default live GBIF passport to appear automatically. If GBIF is unavailable, the app falls back to the offline fixture and labels that clearly.
-3. Review the score band, KPI strip, OpenStreetMap/Leaflet evidence map, no-evidence cells, issue points, purpose comparison, scientific interpretation and source/provenance panel.
-4. Open the Evidence Map, Data Quality, Sampling Gaps, Claim Guardrails, Citation & Provenance, Publisher Feedback and Export Pack tabs.
-5. Download `evidence_pack.zip` or inspect individual artifacts.
+3. Type a species or genus in **Taxon**, use **Search GBIF taxon**, and choose a suggestion to lock the run to a concrete GBIF `taxonKey`.
+4. Pick a region preset or edit the four bbox fields (`west`, `south`, `east`, `north`) to test a user-defined area.
+5. Review the score band, KPI strip, OpenStreetMap/Leaflet evidence map, no-evidence cells, issue points, purpose comparison, scientific interpretation and source/provenance panel.
+6. Open the Evidence Map, Data Quality, Sampling Gaps, Claim Guardrails, Citation & Provenance, Publisher Feedback and Export Pack tabs.
+7. Download `evidence_pack.zip` or inspect individual artifacts.
 
 ## Source Modes
 

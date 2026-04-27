@@ -17,7 +17,7 @@ Backend tests cover:
 - gap-priority scoring and top survey priority cells
 - Claim Guardrails
 - Publisher Feedback grouping
-- fixture-based API run, live/fallback scenario metadata, map layers, quality, sampling gaps, citations, demo scenario, run listing and export endpoints
+- fixture-based API run, live/fallback scenario metadata, taxon suggestion, region preset, map layers, quality, sampling gaps, citations, demo scenario, run listing and export endpoints
 
 ## Frontend
 
@@ -32,6 +32,8 @@ Frontend tests cover:
 
 - auto-run/default demo rendering
 - source-mode selection payloads
+- GBIF taxon search and selected `taxonKey` payload
+- region preset selection and bbox field updates
 - SVG map rendering
 - Leaflet/OpenStreetMap live evidence map container rendering
 - Sampling Gap Engine panel rendering

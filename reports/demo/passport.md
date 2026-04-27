@@ -5,7 +5,7 @@
 - Source used: online
 - Records used: 300
 - Datasets used: 8
-- Evidence readiness: 97.69/100
+- Evidence readiness: 97.73/100
 - Citation status: online_api_without_download_doi
 
 ## Source Summary
@@ -28,7 +28,7 @@
 | --- | ---: | ---: |
 | Spatial Accuracy | 97.67 | 0.25 |
 | Temporal Recency | 100.0 | 0.35 |
-| Taxonomic Confidence | 99.7 | 0.15 |
+| Taxonomic Confidence | 100.0 | 0.15 |
 | Sampling Coverage | 88.75 | 0.15 |
 | Citation Provenance | 100.0 | 0.1 |
 | Issue Explainability | 100.0 | 0.0 |
@@ -37,10 +37,10 @@
 
 | Purpose | Score |
 | --- | ---: |
-| Conservation brief | 96.99 |
-| Invasive watch | 97.69 |
-| Sampling gap analysis | 94.43 |
-| Dataset quality review | 98.23 |
+| Conservation brief | 97.05 |
+| Invasive watch | 97.73 |
+| Sampling gap analysis | 94.47 |
+| Dataset quality review | 98.29 |
 
 ## Top Sampling Priorities
 
@@ -62,7 +62,7 @@
 ## Weak Claims
 
 - Record clusters can indicate areas of observation activity, but they may also reflect observer effort.
-- The selected-purpose readiness score is 97.69/100 and should be interpreted with the component scores.
+- The selected-purpose readiness score is 97.73/100 and should be interpreted with the component scores.
 
 ## Unsupported Claims
 
