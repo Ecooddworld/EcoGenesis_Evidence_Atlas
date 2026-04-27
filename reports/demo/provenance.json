@@ -1,13 +1,13 @@
 {
   "tool": "EcoGenesis Evidence Passport",
   "run": {
-    "run_id": "0e63b19bf25c41929f2379f91cae350d",
-    "started_at": "2026-04-27T01:35:12.912323+00:00",
-    "finished_at": "2026-04-27T01:35:12.913012+00:00",
-    "source_mode": "fixture",
+    "run_id": "93820cb5a67c48c3bd1cff0b8ab86a08",
+    "started_at": "2026-04-27T01:44:04.959098+00:00",
+    "finished_at": "2026-04-27T01:44:05.876224+00:00",
+    "source_mode": "online",
     "request": {
       "taxon": "Aedes albopictus",
-      "region_name": "Spain demo bbox",
+      "region_name": "Spain live GBIF bbox",
       "bbox": [
         -10.0,
         35.0,
@@ -15,87 +15,105 @@
         44.5
       ],
       "purpose": "invasive_watch",
-      "source_mode": null,
-      "use_fixture": true,
+      "source_mode": "online_with_fixture_fallback",
+      "use_fixture": false,
       "max_records": 300
     },
     "gbif_species_match": {
-      "usageKey": 5844304,
-      "scientificName": "Aedes albopictus",
+      "usageKey": 1651430,
+      "scientificName": "Aedes albopictus (Skuse, 1894)",
       "canonicalName": "Aedes albopictus",
       "rank": "SPECIES",
       "status": "ACCEPTED",
-      "confidence": 97,
+      "confidence": 99,
       "matchType": "EXACT",
-      "source": "fixture"
+      "kingdom": "Animalia",
+      "phylum": "Arthropoda",
+      "order": "Diptera",
+      "family": "Culicidae",
+      "genus": "Aedes",
+      "species": "Aedes albopictus",
+      "kingdomKey": 1,
+      "phylumKey": 54,
+      "classKey": 216,
+      "orderKey": 811,
+      "familyKey": 3346,
+      "genusKey": 7924646,
+      "speciesKey": 1651430,
+      "class": "Insecta",
+      "source": "gbif_api"
     },
     "steps": [
       {
         "name": "species_match",
         "status": "completed",
-        "duration_ms": 0.0
+        "duration_ms": 257.92
       },
       {
         "name": "occurrence_fetch",
         "status": "completed",
-        "duration_ms": 0.08
+        "duration_ms": 656.24
       },
       {
         "name": "normalize",
         "status": "completed",
-        "duration_ms": 0.05
+        "duration_ms": 0.93
       },
       {
         "name": "score",
         "status": "completed",
-        "duration_ms": 0.3
+        "duration_ms": 0.89
       },
       {
         "name": "exports",
         "status": "completed",
-        "duration_ms": 6.42,
+        "duration_ms": 110.45,
         "details": {
           "artifact_count": 19
         }
       }
     ],
     "artifact_checksums": {
-      "citations.md": "ffdb944926ef3538130bcfc704b15bbf63890c87e6b83f947e47af111001d485",
-      "claim_guardrails.md": "98043b9dba7318a05d29ca4628ad608b89c4469c1d554d1134126192e0dd3898",
-      "dataset_contributions.csv": "33179338a3c253e411fdc874783c58cb67c8aa8b2d4a5d55d9ca0f03c550049c",
-      "demo_scenario.json": "992300cbc8517d5f73cb698622f4ba778aa5bcabd368410bffa427e6e471595a",
+      "citations.md": "9861b27255f4af3f9d4c2886037bffa516362bf71a6d1101dac4a6f75181147d",
+      "claim_guardrails.md": "fcbb3c2b1b0984a45b716df7a9ecc6cc0b882064ae748ad4a639e8e24d891132",
+      "dataset_contributions.csv": "7b8692e5267368d503df57178b6035196de019b17a65bc01411c5bbfaad3e993",
+      "demo_scenario.json": "728328804d0262a238e5947ef15cfde3dc2e5c2bc34bd50454bdbe0a74e704d1",
       "derived_dataset_recipe.json": "fcc12a05e48a7d338adfb11cdb54387c063b4c747c9a03ac8064058b1aa7336c",
-      "evidence_pack.json": "9aa9773163b38d0e238ff94bea0056dc2039436ade2ead6d29d85cc82217e1b6",
-      "evidence_pack.zip": "0923c406017e7fdd5713fe15cf6865c262a88f63e283bfcc7f00ef54de79d764",
-      "gap_priorities.csv": "5634b27f69544ef865a5872f361edd677923cbc2a55551066a120c02a04d4691",
-      "methods_text.md": "390cb64192efa68250453c54fec6bc3e8440311079af7500555be74282d86a00",
-      "passport.html": "383c6e7eb8eabe78b3492c2093cc27852053e5b95b9cf3eae14ec7967004ec14",
-      "passport.md": "f63db6c294c6a90f42db9a7e5a6c06f269e59cea93092fb2c64dd2b1e7bb9ae0",
-      "provenance.json": "92811750f08db8d94f9f35a0abac63ae0020962ecf2962e1e03f204ea26f72cd",
-      "publisher_feedback.csv": "9a5717201907191522f914163a787edb34a6edde6252d566975610390489e3f6",
-      "publisher_feedback.md": "29515e2448ead2f59b8836795afc6655c286a009b670ed5a1bb79b0abbd0326a",
-      "quality_metrics.csv": "ea62ab69742e460cc8eac8f16c1754f425cd3eb04999e9f5f6303e88b2042293",
-      "readiness_scorecard.csv": "6525c356e86d2ce3b73b2ddfca068cce3c1584a99b6c6d86ed28b41d2cc459cf",
-      "records.geojson": "d433a513064e4e5ccdd371e842cdf34900bfcee6ed6f4ecd9b53941e9bb8cf42",
-      "run.json": "d43b915dd6a37afbb30e4779c72e18e5f479fb8345d66b7ad7397d399f8651f7",
-      "source_summary.json": "207a18c1eff8a4f6477f5c1d85cb3842adc3a8173c26672ff7d1f62058136dbd"
+      "evidence_pack.json": "62241ea7ad8bdfe33612a4bd2d4f2a945ed772c66c577227b4ff614d1969e757",
+      "evidence_pack.zip": "1b6a3c55ef95a555f6f1e592607d82b4532c2458032abf1167e09ecb105c66c9",
+      "gap_priorities.csv": "b1a9b31ed1523e3850e6692c0864d5e52a362633a209a0c98a603d39f96a1242",
+      "methods_text.md": "5ca4d422a9ff3e80e3ed8c51231231ab5056da8d529245dc0d5b710080961fbe",
+      "passport.html": "c42057b6ee7e8c92fdc301929d44088e86b4c8e6cc45c9f1f39ed21f01b7514d",
+      "passport.md": "fa26aba0351f2860d4cfac576023e579d2b06d881ed664c5509a12a2b1ae9493",
+      "provenance.json": "1c190041ed1c235eb311f19152a3aa01f449e888bc12f327dac7d8ee4b8158f2",
+      "publisher_feedback.csv": "4e4f330f14cc0d3bdb430dd5ec2ce743346177732f24a3c688f1b2dc3ed00876",
+      "publisher_feedback.md": "3b23c71c11990e3c22085e1b4fcd74f4a3e605520242799dccb5878b2938d1e5",
+      "quality_metrics.csv": "c6edec6c03fa52e85d1928457f59527035e7fafe4d97eecd62a151d8a7e31f6a",
+      "readiness_scorecard.csv": "a183be11aab4d0ebc513df0295fffac97058fd82adb40dfbf15ccfbd198293db",
+      "records.geojson": "f638492bfe8ed77d64c5f53cbb58a99f2dddc77c34e75b87530ccf6142364e81",
+      "run.json": "a068ec2c876bc1b312f481d6c1a3794a5c61c6758e67b1cd37cad3497053ee29",
+      "source_summary.json": "6b9aa8d72ba12d1db20151948e18159e05de5eb5cac1904edae23ae350eb3af5"
     }
   },
   "source_summary": {
-    "requested_source_mode": "fixture",
-    "used_source_mode": "fixture",
-    "gbif_api_status": "not_called",
+    "requested_source_mode": "online_with_fixture_fallback",
+    "used_source_mode": "online",
+    "gbif_api_status": "ok",
     "fallback_used": false,
     "warnings": [],
-    "gbif_base_url": "https://api.gbif.org/v1"
+    "gbif_base_url": "https://api.gbif.org/v1",
+    "gbif_result_count": 19697,
+    "gbif_returned_records": 300,
+    "gbif_limit": 300,
+    "gbif_offset": 0
   },
   "passport": {
     "title": "GBIF Evidence Passport",
     "taxon": "Aedes albopictus",
-    "accepted_name": "Aedes albopictus",
-    "taxonKey": 5844304,
-    "match_confidence": 97,
-    "region_name": "Spain demo bbox",
+    "accepted_name": "Aedes albopictus (Skuse, 1894)",
+    "taxonKey": 1651430,
+    "match_confidence": 99,
+    "region_name": "Spain live GBIF bbox",
     "bbox": [
       -10.0,
       35.0,
@@ -103,19 +121,19 @@
       44.5
     ],
     "purpose": "invasive_watch",
-    "records_used": 12,
-    "datasets_used": 4
+    "records_used": 300,
+    "datasets_used": 8
   },
   "evidence_readiness": {
     "purpose": "invasive_watch",
     "purpose_label": "Invasive watch",
-    "score": 74.03,
+    "score": 97.69,
     "components": {
-      "spatial_accuracy": 88.33,
-      "temporal_recency": 75.83,
-      "taxonomic_confidence": 93.27,
-      "sampling_coverage": 15.0,
-      "citation_provenance": 91.67,
+      "spatial_accuracy": 97.67,
+      "temporal_recency": 100.0,
+      "taxonomic_confidence": 99.7,
+      "sampling_coverage": 88.75,
+      "citation_provenance": 100.0,
       "issue_explainability": 100.0
     },
     "weights": {
@@ -126,19 +144,19 @@
       "citation_provenance": 0.1,
       "issue_explainability": 0.0
     },
-    "interpretation": "Moderate readiness: useful evidence, but caveats and verification steps matter."
+    "interpretation": "High readiness: evidence is strong for the selected purpose, with remaining caveats documented."
   },
   "purpose_score_matrix": {
     "conservation_brief": {
       "purpose": "conservation_brief",
       "purpose_label": "Conservation brief",
-      "score": 72.49,
+      "score": 96.99,
       "components": {
-        "spatial_accuracy": 88.33,
-        "temporal_recency": 75.83,
-        "taxonomic_confidence": 93.27,
-        "sampling_coverage": 15.0,
-        "citation_provenance": 91.67,
+        "spatial_accuracy": 97.67,
+        "temporal_recency": 100.0,
+        "taxonomic_confidence": 99.7,
+        "sampling_coverage": 88.75,
+        "citation_provenance": 100.0,
         "issue_explainability": 100.0
       },
       "weights": {
@@ -149,18 +167,18 @@
         "citation_provenance": 0.1,
         "issue_explainability": 0.0
       },
-      "interpretation": "Moderate readiness: useful evidence, but caveats and verification steps matter."
+      "interpretation": "High readiness: evidence is strong for the selected purpose, with remaining caveats documented."
     },
     "invasive_watch": {
       "purpose": "invasive_watch",
       "purpose_label": "Invasive watch",
-      "score": 74.03,
+      "score": 97.69,
       "components": {
-        "spatial_accuracy": 88.33,
-        "temporal_recency": 75.83,
-        "taxonomic_confidence": 93.27,
-        "sampling_coverage": 15.0,
-        "citation_provenance": 91.67,
+        "spatial_accuracy": 97.67,
+        "temporal_recency": 100.0,
+        "taxonomic_confidence": 99.7,
+        "sampling_coverage": 88.75,
+        "citation_provenance": 100.0,
         "issue_explainability": 100.0
       },
       "weights": {
@@ -171,18 +189,18 @@
         "citation_provenance": 0.1,
         "issue_explainability": 0.0
       },
-      "interpretation": "Moderate readiness: useful evidence, but caveats and verification steps matter."
+      "interpretation": "High readiness: evidence is strong for the selected purpose, with remaining caveats documented."
     },
     "sampling_gaps": {
       "purpose": "sampling_gaps",
       "purpose_label": "Sampling gap analysis",
-      "score": 55.16,
+      "score": 94.43,
       "components": {
-        "spatial_accuracy": 88.33,
-        "temporal_recency": 75.83,
-        "taxonomic_confidence": 93.27,
-        "sampling_coverage": 15.0,
-        "citation_provenance": 91.67,
+        "spatial_accuracy": 97.67,
+        "temporal_recency": 100.0,
+        "taxonomic_confidence": 99.7,
+        "sampling_coverage": 88.75,
+        "citation_provenance": 100.0,
         "issue_explainability": 100.0
       },
       "weights": {
@@ -193,18 +211,18 @@
         "citation_provenance": 0.1,
         "issue_explainability": 0.0
       },
-      "interpretation": "Limited readiness: use for triage and planning, not as a standalone conclusion."
+      "interpretation": "High readiness: evidence is strong for the selected purpose, with remaining caveats documented."
     },
     "dataset_quality_review": {
       "purpose": "dataset_quality_review",
       "purpose_label": "Dataset quality review",
-      "score": 83.15,
+      "score": 98.23,
       "components": {
-        "spatial_accuracy": 88.33,
-        "temporal_recency": 75.83,
-        "taxonomic_confidence": 93.27,
-        "sampling_coverage": 15.0,
-        "citation_provenance": 91.67,
+        "spatial_accuracy": 97.67,
+        "temporal_recency": 100.0,
+        "taxonomic_confidence": 99.7,
+        "sampling_coverage": 88.75,
+        "citation_provenance": 100.0,
         "issue_explainability": 100.0
       },
       "weights": {
@@ -218,39 +236,71 @@
       "interpretation": "High readiness: evidence is strong for the selected purpose, with remaining caveats documented."
     }
   },
-  "citation_status": "fixture_demo_not_for_publication",
+  "citation_status": "online_api_without_download_doi",
   "dataset_contributions": [
     {
-      "datasetKey": "spain-mosquito-watch",
-      "datasetTitle": "Spain Mosquito Watch Demo",
-      "publisher": "Demo Public Health Node",
-      "license": "CC_BY_4_0",
-      "record_count": 4,
-      "main_issues": "COORDINATE_ROUNDED, HIGH_COORDINATE_UNCERTAINTY"
+      "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+      "datasetTitle": "iNaturalist research-grade observations",
+      "publisher": null,
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+      "record_count": 239,
+      "main_issues": "CONTINENT_DERIVED_FROM_COORDINATES, TAXON_ID_NOT_FOUND, COORDINATE_ROUNDED"
     },
     {
-      "datasetKey": "legacy-mosquito-import",
-      "datasetTitle": "Legacy Mosquito Import Demo",
-      "publisher": "Demo Legacy Publisher",
-      "license": "CC_BY_NC_4_0",
-      "record_count": 4,
-      "main_issues": "HIGH_COORDINATE_UNCERTAINTY, GEODETIC_DATUM_ASSUMED_WGS84, MISSING_EVENT_DATE"
+      "datasetKey": "b2390da7-9704-4215-b038-3727df6e7fee",
+      "datasetTitle": null,
+      "publisher": null,
+      "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
+      "record_count": 15,
+      "main_issues": "COORDINATE_ROUNDED, GEODETIC_DATUM_ASSUMED_WGS84, CONTINENT_DERIVED_FROM_COORDINATES"
     },
     {
-      "datasetKey": "iberian-vector-survey",
-      "datasetTitle": "Iberian Vector Survey Demo",
-      "publisher": "Demo University Collection",
-      "license": "CC0_1_0",
-      "record_count": 3,
+      "datasetKey": "1fef1ead-3d02-495e-8ff1-6aeb01123408",
+      "datasetTitle": "Mosquito Alert Dataset",
+      "publisher": null,
+      "license": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+      "record_count": 14,
+      "main_issues": "CONTINENT_DERIVED_FROM_COORDINATES, TAXON_ID_NOT_FOUND"
+    },
+    {
+      "datasetKey": "04939588-db37-4806-bb09-a95886f7741e",
+      "datasetTitle": null,
+      "publisher": null,
+      "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
+      "record_count": 12,
+      "main_issues": "GEODETIC_DATUM_ASSUMED_WGS84, COORDINATE_PRECISION_INVALID, CONTINENT_DERIVED_FROM_COORDINATES"
+    },
+    {
+      "datasetKey": "8a863029-f435-446a-821e-275f4f641165",
+      "datasetTitle": null,
+      "publisher": null,
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+      "record_count": 10,
       "main_issues": "none_detected"
     },
     {
-      "datasetKey": "unknown_dataset",
-      "datasetTitle": "Unresolved Demo Upload",
-      "publisher": "Unknown Demo Publisher",
-      "license": null,
+      "datasetKey": "040c5662-da76-4782-a48e-cdea1892d14c",
+      "datasetTitle": null,
+      "publisher": null,
+      "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
+      "record_count": 7,
+      "main_issues": "GEODETIC_DATUM_ASSUMED_WGS84, COUNTRY_DERIVED_FROM_COORDINATES, CONTINENT_DERIVED_FROM_COORDINATES"
+    },
+    {
+      "datasetKey": "99cb9e37-4cf6-4525-977d-10080fb9e094",
+      "datasetTitle": null,
+      "publisher": null,
+      "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
+      "record_count": 2,
+      "main_issues": "GEODETIC_DATUM_ASSUMED_WGS84, CONTINENT_DERIVED_FROM_COORDINATES"
+    },
+    {
+      "datasetKey": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
+      "datasetTitle": null,
+      "publisher": null,
+      "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "record_count": 1,
-      "main_issues": "TAXON_MATCH_HIGHERRANK, MISSING_EVENT_DATE, HIGH_COORDINATE_UNCERTAINTY"
+      "main_issues": "COORDINATE_ROUNDED, GEODETIC_DATUM_ASSUMED_WGS84, CONTINENT_DERIVED_FROM_COORDINATES"
     }
   ],
   "known_limitations": [

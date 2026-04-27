@@ -168,6 +168,7 @@ def fetch_gbif_inputs(
                 use_fixture=True,
             ),
         )
+        attach_payload_summary(base_summary, raw_payload)
         return species_match, raw_payload, base_summary
 
     online_client = GBIFClient(mode="online")
@@ -184,6 +185,7 @@ def fetch_gbif_inputs(
         )
         base_summary["used_source_mode"] = "online"
         base_summary["gbif_api_status"] = "ok"
+        attach_payload_summary(base_summary, raw_payload)
         return species_match, raw_payload, base_summary
     except Exception as exc:
         message = f"GBIF API request failed: {type(exc).__name__}: {exc}"
@@ -229,6 +231,7 @@ def fetch_gbif_inputs(
                 use_fixture=True,
             ),
         )
+        attach_payload_summary(base_summary, raw_payload)
         return species_match, raw_payload, base_summary
 
 
@@ -248,6 +251,13 @@ def timed_step(steps: list[dict[str, Any]], name: str, callback: Callable[[], T]
         raise
     steps.append({"name": name, "status": "completed", "duration_ms": round((perf_counter() - started) * 1000, 2)})
     return value
+
+
+def attach_payload_summary(source_summary: dict[str, Any], raw_payload: dict[str, Any]) -> None:
+    source_summary["gbif_result_count"] = raw_payload.get("count")
+    source_summary["gbif_returned_records"] = len(raw_payload.get("results") or [])
+    source_summary["gbif_limit"] = raw_payload.get("limit")
+    source_summary["gbif_offset"] = raw_payload.get("offset")
 
 
 def summarize_dataset_contributions(records: list[NormalizedOccurrence]) -> list[dict[str, Any]]:

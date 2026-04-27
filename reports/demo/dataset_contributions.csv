@@ -1,5 +1,9 @@
 datasetKey,datasetTitle,publisher,license,record_count,main_issues
-spain-mosquito-watch,Spain Mosquito Watch Demo,Demo Public Health Node,CC_BY_4_0,4,"COORDINATE_ROUNDED, HIGH_COORDINATE_UNCERTAINTY"
-legacy-mosquito-import,Legacy Mosquito Import Demo,Demo Legacy Publisher,CC_BY_NC_4_0,4,"HIGH_COORDINATE_UNCERTAINTY, GEODETIC_DATUM_ASSUMED_WGS84, MISSING_EVENT_DATE"
-iberian-vector-survey,Iberian Vector Survey Demo,Demo University Collection,CC0_1_0,3,none_detected
-unknown_dataset,Unresolved Demo Upload,Unknown Demo Publisher,,1,"TAXON_MATCH_HIGHERRANK, MISSING_EVENT_DATE, HIGH_COORDINATE_UNCERTAINTY"
+50c9509d-22c7-4a22-a47d-8c48425ef4a7,iNaturalist research-grade observations,,http://creativecommons.org/licenses/by-nc/4.0/legalcode,239,"CONTINENT_DERIVED_FROM_COORDINATES, TAXON_ID_NOT_FOUND, COORDINATE_ROUNDED"
+b2390da7-9704-4215-b038-3727df6e7fee,,,http://creativecommons.org/licenses/by/4.0/legalcode,15,"COORDINATE_ROUNDED, GEODETIC_DATUM_ASSUMED_WGS84, CONTINENT_DERIVED_FROM_COORDINATES"
+1fef1ead-3d02-495e-8ff1-6aeb01123408,Mosquito Alert Dataset,,http://creativecommons.org/publicdomain/zero/1.0/legalcode,14,"CONTINENT_DERIVED_FROM_COORDINATES, TAXON_ID_NOT_FOUND"
+04939588-db37-4806-bb09-a95886f7741e,,,http://creativecommons.org/licenses/by/4.0/legalcode,12,"GEODETIC_DATUM_ASSUMED_WGS84, COORDINATE_PRECISION_INVALID, CONTINENT_DERIVED_FROM_COORDINATES"
+8a863029-f435-446a-821e-275f4f641165,,,http://creativecommons.org/licenses/by-nc/4.0/legalcode,10,none_detected
+040c5662-da76-4782-a48e-cdea1892d14c,,,http://creativecommons.org/licenses/by/4.0/legalcode,7,"GEODETIC_DATUM_ASSUMED_WGS84, COUNTRY_DERIVED_FROM_COORDINATES, CONTINENT_DERIVED_FROM_COORDINATES"
+99cb9e37-4cf6-4525-977d-10080fb9e094,,,http://creativecommons.org/licenses/by/4.0/legalcode,2,"GEODETIC_DATUM_ASSUMED_WGS84, CONTINENT_DERIVED_FROM_COORDINATES"
+6ac3f774-d9fb-4796-b3e9-92bf6c81c084,,,http://creativecommons.org/licenses/by/4.0/legalcode,1,"COORDINATE_ROUNDED, GEODETIC_DATUM_ASSUMED_WGS84, CONTINENT_DERIVED_FROM_COORDINATES"

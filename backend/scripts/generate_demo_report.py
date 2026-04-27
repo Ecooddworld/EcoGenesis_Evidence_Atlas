@@ -17,10 +17,11 @@ def main() -> None:
     os.environ.setdefault("EVIDENCE_DATA_DIR", str(repo_root / "data"))
     request = EvidenceRunRequest(
         taxon="Aedes albopictus",
-        region_name="Spain demo bbox",
+        region_name="Spain live GBIF bbox",
         bbox=[-10.0, 35.0, 4.5, 44.5],
         purpose="invasive_watch",
-        use_fixture=True,
+        source_mode="online_with_fixture_fallback",
+        use_fixture=False,
         max_records=300,
     )
     pack = run_evidence_passport(request)
@@ -30,7 +31,9 @@ def main() -> None:
         shutil.copy2(artifact_path(pack["run"]["run_id"], export["name"]), output_dir / export["name"])
     (output_dir / "README.md").write_text(
         "# Demo Evidence Passport\n\n"
-        f"Generated fixture run: `{pack['run']['run_id']}`\n\n"
+        f"Generated `{pack['source_summary']['used_source_mode']}` run: `{pack['run']['run_id']}`\n\n"
+        f"GBIF API status: `{pack['source_summary']['gbif_api_status']}`. "
+        f"Returned records: `{pack['source_summary'].get('gbif_returned_records')}`.\n\n"
         "Open `passport.html` or inspect the JSON/CSV/Markdown artifacts.\n",
         encoding="utf-8",
     )

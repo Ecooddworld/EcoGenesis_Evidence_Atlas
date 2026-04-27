@@ -495,6 +495,76 @@ a:focus-visible {
   width: 100%;
 }
 
+.leaflet-map {
+  height: clamp(440px, 58vw, 640px);
+  width: 100%;
+  z-index: 0;
+}
+
+.leaflet-container {
+  color: #17201a;
+  font-family: inherit;
+}
+
+.leaflet-control-attribution {
+  font-size: 0.68rem;
+}
+
+.priority-marker {
+  align-items: center;
+  background: rgba(201, 135, 32, 0.94);
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 4px 14px rgba(92, 57, 17, 0.28);
+  color: #fff;
+  display: flex;
+  font-size: 0.72rem;
+  font-weight: 950;
+  justify-content: center;
+}
+
+.priority-marker span {
+  line-height: 1;
+}
+
+.popup-card {
+  display: grid;
+  gap: 6px;
+  min-width: 220px;
+}
+
+.popup-card strong {
+  color: #17201a;
+  font-size: 0.92rem;
+}
+
+.popup-card span,
+.popup-card small {
+  color: #52635a;
+  font-size: 0.76rem;
+}
+
+.popup-card dl {
+  display: grid;
+  gap: 4px 10px;
+  grid-template-columns: 84px minmax(0, 1fr);
+  margin: 0;
+}
+
+.popup-card dt {
+  color: #617268;
+  font-weight: 850;
+}
+
+.popup-card dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.popup-card p {
+  margin-bottom: 0;
+}
+
 .basemap-sea {
   fill: url("#seaGradient");
 }
@@ -703,6 +773,10 @@ a:focus-visible {
 
 .legend-cell.empty {
   background: #8ca0ad;
+}
+
+.legend-cell.priority {
+  background: #c98720;
 }
 
 .legend-ring {
@@ -1347,7 +1421,8 @@ td {
   }
 
   .map-box,
-  .map-svg {
+  .map-svg,
+  .leaflet-map {
     height: 300px;
   }
 

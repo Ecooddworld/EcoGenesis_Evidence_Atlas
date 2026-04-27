@@ -10,7 +10,7 @@ The core request is:
 taxon + region + purpose + source mode
 ```
 
-The MVP uses GBIF species matching and GBIF occurrence-style records. Fixture mode uses a small deterministic dataset for repeatable tests and demos. Online GBIF with fallback attempts the GBIF API and falls back to the fixture if network/API access fails.
+The MVP uses GBIF species matching and GBIF occurrence-style records. The default work mode is `Online GBIF with fallback`: it attempts the live GBIF API first and falls back to the deterministic fixture only if network/API access fails. Fixture mode remains available for repeatable tests and offline demos.
 
 ## Quality Metrics
 
@@ -61,7 +61,9 @@ The Claim Guardrails module states what the data supports, weakly suggests, does
 
 ## Scientific Map
 
-The application renders a geographic evidence map for the query bounding box. It combines a local SVG basemap, the 4x4 sampling grid, occurrence points, high-uncertainty/issue markers and a short evidence thesis. No-evidence cells are visualized as survey targets, not as absence observations.
+The application renders a geographic evidence map for the query bounding box. It combines an OpenStreetMap/Leaflet basemap, the 4x4 sampling grid, occurrence points, high-uncertainty/issue markers and a short evidence thesis. No-evidence cells are visualized as survey targets, not as absence observations.
+
+The interactive application uses Leaflet with OpenStreetMap tiles for working sessions. Standalone `passport.html` keeps a static SVG map so the exported Evidence Pack remains reviewable without the running frontend.
 
 ## Export Bundle
 

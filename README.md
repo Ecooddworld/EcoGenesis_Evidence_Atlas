@@ -5,9 +5,9 @@ EcoGenesis Evidence Atlas turns GBIF-mediated occurrence data into reproducible 
 The MVP is intentionally narrow: it is not the full EcoGenesis platform. It focuses on one judge-ready workflow:
 
 1. Open the app.
-2. The default fixture Evidence Passport appears automatically.
-3. Review the SVG evidence map, purpose comparison, sampling-gap priorities, source/provenance, quality risks, dataset contributors, citation guidance and responsible claim guardrails.
-4. Optionally switch source mode to online GBIF with fixture fallback.
+2. The default live GBIF Evidence Passport appears automatically, with offline fixture fallback if GBIF is unavailable.
+3. Review the Leaflet/OpenStreetMap evidence map, purpose comparison, sampling-gap priorities, source/provenance, quality risks, dataset contributors, citation guidance and responsible claim guardrails.
+4. Edit the taxon, bbox, purpose or source mode and generate another real-data passport.
 5. Download a citation-ready evidence pack, including a single ZIP bundle.
 
 ## Quick Start
@@ -22,7 +22,7 @@ Open:
 - Backend health: http://localhost:18100/health
 - Backend docs: http://localhost:18100/docs
 
-The first screen auto-runs a deterministic fixture demo, so judges can inspect a complete passport without network access. Online GBIF modes are available from the source selector.
+The first screen auto-runs `Online GBIF with fallback`, so users see real GBIF-mediated records when the API is reachable. The deterministic fixture remains available from the source selector for offline judging and regression tests.
 
 ## API
 
@@ -47,11 +47,11 @@ Example request:
 ```json
 {
   "taxon": "Aedes albopictus",
-  "region_name": "Spain demo bbox",
+  "region_name": "Spain live GBIF bbox",
   "bbox": [-10.0, 35.0, 4.5, 44.5],
   "purpose": "invasive_watch",
-  "source_mode": "fixture",
-  "use_fixture": true,
+  "source_mode": "online_with_fixture_fallback",
+  "use_fixture": false,
   "max_records": 300
 }
 ```
@@ -105,4 +105,4 @@ docker compose up --build
 curl http://localhost:18100/health
 ```
 
-The UI includes auto-demo loading, backend-provided presets, source-mode selection, a scientific SVG evidence map with geographic context, readiness component weights, purpose comparison, deterministic Sampling Gap Engine, scientific interpretation, Claim Guardrails, Citation Autopilot, Publisher Feedback and grouped export links with SHA-256 checksums in export metadata.
+The UI includes auto-demo loading, backend-provided live presets, source-mode selection, a real Leaflet/OpenStreetMap evidence map, readiness component weights, purpose comparison, deterministic Sampling Gap Engine, scientific interpretation, Claim Guardrails, Citation Autopilot, Publisher Feedback and grouped export links with SHA-256 checksums in export metadata.

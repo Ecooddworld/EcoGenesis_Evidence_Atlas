@@ -218,7 +218,7 @@ afterEach(() => {
 });
 
 describe('EcoGenesis Evidence Atlas UI', () => {
-  it('auto-runs the default fixture passport on first render', async () => {
+  it('auto-runs the default evidence passport on first render', async () => {
     installFetchMock();
     render(<App />);
 
@@ -227,8 +227,9 @@ describe('EcoGenesis Evidence Atlas UI', () => {
     expect(screen.getByText('Scientific interpretation')).toBeInTheDocument();
     expect(screen.getByText('Source & provenance')).toBeInTheDocument();
     expect(screen.getByRole('img', { name: 'Scientific evidence map' })).toBeInTheDocument();
-    expect(screen.getAllByText('Iberian Peninsula').length).toBeGreaterThan(0);
+    expect(screen.getByText('OpenStreetMap base map with live GBIF occurrence points, quality halos, grid evidence and survey-priority cells.')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Issues' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Priority' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /Download Evidence Pack/i })).toBeInTheDocument();
   });
 

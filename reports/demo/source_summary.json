@@ -1,8 +1,12 @@
 {
-  "requested_source_mode": "fixture",
-  "used_source_mode": "fixture",
-  "gbif_api_status": "not_called",
+  "requested_source_mode": "online_with_fixture_fallback",
+  "used_source_mode": "online",
+  "gbif_api_status": "ok",
   "fallback_used": false,
   "warnings": [],
-  "gbif_base_url": "https://api.gbif.org/v1"
+  "gbif_base_url": "https://api.gbif.org/v1",
+  "gbif_result_count": 19697,
+  "gbif_returned_records": 300,
+  "gbif_limit": 300,
+  "gbif_offset": 0
 }

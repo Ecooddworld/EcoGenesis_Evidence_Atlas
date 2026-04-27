@@ -8,7 +8,7 @@
 ## Weak Claims
 
 - Record clusters can indicate areas of observation activity, but they may also reflect observer effort.
-- The selected-purpose readiness score is 74.03/100 and should be interpreted with the component scores.
+- The selected-purpose readiness score is 97.69/100 and should be interpreted with the component scores.
 
 ## Unsupported Claims
 
@@ -20,6 +20,4 @@
 
 - Create a DOI-backed GBIF occurrence download or derived dataset before formal publication.
 - Inspect high coordinate-uncertainty records before using them in fine-scale decisions.
-- Review records missing eventDate/year before temporal claims.
 - Treat undersampled occupied cells as survey priorities, not confirmed absences.
-- Treat empty grid cells as no-evidence cells, not absence evidence.

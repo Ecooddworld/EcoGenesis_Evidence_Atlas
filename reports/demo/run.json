@@ -1,11 +1,11 @@
 {
-  "run_id": "0e63b19bf25c41929f2379f91cae350d",
-  "started_at": "2026-04-27T01:35:12.912323+00:00",
-  "finished_at": "2026-04-27T01:35:12.913012+00:00",
-  "source_mode": "fixture",
+  "run_id": "93820cb5a67c48c3bd1cff0b8ab86a08",
+  "started_at": "2026-04-27T01:44:04.959098+00:00",
+  "finished_at": "2026-04-27T01:44:05.876224+00:00",
+  "source_mode": "online",
   "request": {
     "taxon": "Aedes albopictus",
-    "region_name": "Spain demo bbox",
+    "region_name": "Spain live GBIF bbox",
     "bbox": [
       -10.0,
       35.0,
@@ -13,69 +13,83 @@
       44.5
     ],
     "purpose": "invasive_watch",
-    "source_mode": null,
-    "use_fixture": true,
+    "source_mode": "online_with_fixture_fallback",
+    "use_fixture": false,
     "max_records": 300
   },
   "gbif_species_match": {
-    "usageKey": 5844304,
-    "scientificName": "Aedes albopictus",
+    "usageKey": 1651430,
+    "scientificName": "Aedes albopictus (Skuse, 1894)",
     "canonicalName": "Aedes albopictus",
     "rank": "SPECIES",
     "status": "ACCEPTED",
-    "confidence": 97,
+    "confidence": 99,
     "matchType": "EXACT",
-    "source": "fixture"
+    "kingdom": "Animalia",
+    "phylum": "Arthropoda",
+    "order": "Diptera",
+    "family": "Culicidae",
+    "genus": "Aedes",
+    "species": "Aedes albopictus",
+    "kingdomKey": 1,
+    "phylumKey": 54,
+    "classKey": 216,
+    "orderKey": 811,
+    "familyKey": 3346,
+    "genusKey": 7924646,
+    "speciesKey": 1651430,
+    "class": "Insecta",
+    "source": "gbif_api"
   },
   "steps": [
     {
       "name": "species_match",
       "status": "completed",
-      "duration_ms": 0.0
+      "duration_ms": 257.92
     },
     {
       "name": "occurrence_fetch",
       "status": "completed",
-      "duration_ms": 0.08
+      "duration_ms": 656.24
     },
     {
       "name": "normalize",
       "status": "completed",
-      "duration_ms": 0.05
+      "duration_ms": 0.93
     },
     {
       "name": "score",
       "status": "completed",
-      "duration_ms": 0.3
+      "duration_ms": 0.89
     },
     {
       "name": "exports",
       "status": "completed",
-      "duration_ms": 6.42,
+      "duration_ms": 110.45,
       "details": {
         "artifact_count": 19
       }
     }
   ],
   "artifact_checksums": {
-    "citations.md": "ffdb944926ef3538130bcfc704b15bbf63890c87e6b83f947e47af111001d485",
-    "claim_guardrails.md": "98043b9dba7318a05d29ca4628ad608b89c4469c1d554d1134126192e0dd3898",
-    "dataset_contributions.csv": "33179338a3c253e411fdc874783c58cb67c8aa8b2d4a5d55d9ca0f03c550049c",
-    "demo_scenario.json": "992300cbc8517d5f73cb698622f4ba778aa5bcabd368410bffa427e6e471595a",
+    "citations.md": "9861b27255f4af3f9d4c2886037bffa516362bf71a6d1101dac4a6f75181147d",
+    "claim_guardrails.md": "fcbb3c2b1b0984a45b716df7a9ecc6cc0b882064ae748ad4a639e8e24d891132",
+    "dataset_contributions.csv": "7b8692e5267368d503df57178b6035196de019b17a65bc01411c5bbfaad3e993",
+    "demo_scenario.json": "728328804d0262a238e5947ef15cfde3dc2e5c2bc34bd50454bdbe0a74e704d1",
     "derived_dataset_recipe.json": "fcc12a05e48a7d338adfb11cdb54387c063b4c747c9a03ac8064058b1aa7336c",
-    "evidence_pack.json": "9aa9773163b38d0e238ff94bea0056dc2039436ade2ead6d29d85cc82217e1b6",
-    "evidence_pack.zip": "0923c406017e7fdd5713fe15cf6865c262a88f63e283bfcc7f00ef54de79d764",
-    "gap_priorities.csv": "5634b27f69544ef865a5872f361edd677923cbc2a55551066a120c02a04d4691",
-    "methods_text.md": "390cb64192efa68250453c54fec6bc3e8440311079af7500555be74282d86a00",
-    "passport.html": "383c6e7eb8eabe78b3492c2093cc27852053e5b95b9cf3eae14ec7967004ec14",
-    "passport.md": "f63db6c294c6a90f42db9a7e5a6c06f269e59cea93092fb2c64dd2b1e7bb9ae0",
-    "provenance.json": "92811750f08db8d94f9f35a0abac63ae0020962ecf2962e1e03f204ea26f72cd",
-    "publisher_feedback.csv": "9a5717201907191522f914163a787edb34a6edde6252d566975610390489e3f6",
-    "publisher_feedback.md": "29515e2448ead2f59b8836795afc6655c286a009b670ed5a1bb79b0abbd0326a",
-    "quality_metrics.csv": "ea62ab69742e460cc8eac8f16c1754f425cd3eb04999e9f5f6303e88b2042293",
-    "readiness_scorecard.csv": "6525c356e86d2ce3b73b2ddfca068cce3c1584a99b6c6d86ed28b41d2cc459cf",
-    "records.geojson": "d433a513064e4e5ccdd371e842cdf34900bfcee6ed6f4ecd9b53941e9bb8cf42",
-    "run.json": "d43b915dd6a37afbb30e4779c72e18e5f479fb8345d66b7ad7397d399f8651f7",
-    "source_summary.json": "207a18c1eff8a4f6477f5c1d85cb3842adc3a8173c26672ff7d1f62058136dbd"
+    "evidence_pack.json": "62241ea7ad8bdfe33612a4bd2d4f2a945ed772c66c577227b4ff614d1969e757",
+    "evidence_pack.zip": "1b6a3c55ef95a555f6f1e592607d82b4532c2458032abf1167e09ecb105c66c9",
+    "gap_priorities.csv": "b1a9b31ed1523e3850e6692c0864d5e52a362633a209a0c98a603d39f96a1242",
+    "methods_text.md": "5ca4d422a9ff3e80e3ed8c51231231ab5056da8d529245dc0d5b710080961fbe",
+    "passport.html": "c42057b6ee7e8c92fdc301929d44088e86b4c8e6cc45c9f1f39ed21f01b7514d",
+    "passport.md": "fa26aba0351f2860d4cfac576023e579d2b06d881ed664c5509a12a2b1ae9493",
+    "provenance.json": "1c190041ed1c235eb311f19152a3aa01f449e888bc12f327dac7d8ee4b8158f2",
+    "publisher_feedback.csv": "4e4f330f14cc0d3bdb430dd5ec2ce743346177732f24a3c688f1b2dc3ed00876",
+    "publisher_feedback.md": "3b23c71c11990e3c22085e1b4fcd74f4a3e605520242799dccb5878b2938d1e5",
+    "quality_metrics.csv": "c6edec6c03fa52e85d1928457f59527035e7fafe4d97eecd62a151d8a7e31f6a",
+    "readiness_scorecard.csv": "a183be11aab4d0ebc513df0295fffac97058fd82adb40dfbf15ccfbd198293db",
+    "records.geojson": "f638492bfe8ed77d64c5f53cbb58a99f2dddc77c34e75b87530ccf6142364e81",
+    "run.json": "a068ec2c876bc1b312f481d6c1a3794a5c61c6758e67b1cd37cad3497053ee29",
+    "source_summary.json": "6b9aa8d72ba12d1db20151948e18159e05de5eb5cac1904edae23ae350eb3af5"
   }
 }

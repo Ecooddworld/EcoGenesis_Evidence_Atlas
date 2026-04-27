@@ -3,40 +3,40 @@
 ## Scenario 1: Invasive Watch
 
 - Taxon: `Aedes albopictus`
-- Region: Spain demo bbox
+- Region: Spain live GBIF bbox
 - Purpose: `Invasive watch`
 
-Shows why recent, coordinate-aware GBIF records can support watchlist evidence, while still warning against absence claims in undersampled cells.
+Attempts live GBIF occurrence records, maps them on OpenStreetMap tiles and still warns against absence claims in undersampled cells.
 
-## Scenario 2: Sampling Gaps
+## Scenario 2: Live Oak Sampling Gaps
 
-- Taxon: `Aedes albopictus`
-- Region: Spain demo bbox
+- Taxon: `Quercus robur`
+- Region: Western Europe live bbox
 - Purpose: `Sampling gaps`
 
-Highlights cells with low Good coverage and turns the result into next sampling actions.
+Highlights cells with low Good coverage from real GBIF results and turns the result into next sampling actions.
 
-## Scenario 3: Dataset Quality Review
+## Scenario 3: Live Dataset Quality Review
 
-- Taxon: `Aedes albopictus`
-- Region: Spain demo bbox
+- Taxon: `Lynx pardinus`
+- Region: Iberian Peninsula live bbox
 - Purpose: `Dataset quality review`
 
-Groups coordinate uncertainty, missing dates and GBIF issue flags by `datasetKey`, producing a Publisher Feedback Pack.
+Groups coordinate uncertainty, missing dates and GBIF issue flags by `datasetKey`, producing a Publisher Feedback Pack from live GBIF records when available.
 
-## Scenario 4: Conservation Brief
+## Scenario 4: Offline Fixture
 
 - Taxon: `Aedes albopictus`
-- Region: Spain demo bbox
-- Purpose: `Conservation brief`
+- Region: Spain offline fixture bbox
+- Purpose: `Invasive watch`
 
-Uses a more balanced score profile to show whether the same GBIF-mediated evidence is suitable for a concise conservation evidence summary.
+Uses the deterministic fixture for no-network testing and reproducible regression checks.
 
 ## UI Review Path
 
 1. Open http://localhost:13100.
-2. Wait for the default fixture passport to appear automatically.
-3. Review the score band, KPI strip, scientific evidence map, no-evidence cells, issue points, purpose comparison, scientific interpretation and source/provenance panel.
+2. Wait for the default live GBIF passport to appear automatically. If GBIF is unavailable, the app falls back to the offline fixture and labels that clearly.
+3. Review the score band, KPI strip, OpenStreetMap/Leaflet evidence map, no-evidence cells, issue points, purpose comparison, scientific interpretation and source/provenance panel.
 4. Open the Evidence Map, Data Quality, Sampling Gaps, Claim Guardrails, Citation & Provenance, Publisher Feedback and Export Pack tabs.
 5. Download `evidence_pack.zip` or inspect individual artifacts.
 

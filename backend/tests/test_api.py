@@ -95,7 +95,7 @@ def test_fixture_run_and_export_endpoints(tmp_path, monkeypatch) -> None:
 
     scenarios = client.get("/api/evidence/demo-scenarios")
     assert scenarios.status_code == 200
-    assert scenarios.json()[0]["form"]["source_mode"] == "fixture"
+    assert scenarios.json()[0]["form"]["source_mode"] == "online_with_fixture_fallback"
 
 
 def test_online_failure_falls_back_when_requested(tmp_path, monkeypatch) -> None:

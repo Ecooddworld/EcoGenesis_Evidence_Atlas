@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import 'leaflet/dist/leaflet.css';
 import {
   exportUrl,
   getDemoScenarios,
@@ -23,55 +24,55 @@ const sourceModeLabels = {
 const fallbackPresets = [
   {
     id: 'invasive',
-    label: 'Invasive watch',
-    tag: 'recency weighted',
+    label: 'Live invasive watch',
+    tag: 'real GBIF query',
     form: {
       taxon: 'Aedes albopictus',
-      region_name: 'Spain demo bbox',
+      region_name: 'Spain live GBIF bbox',
       bbox: '-10.0,35.0,4.5,44.5',
       purpose: 'invasive_watch',
-      source_mode: 'fixture',
-      use_fixture: true,
+      source_mode: 'online_with_fixture_fallback',
+      use_fixture: false,
       max_records: 300,
     },
   },
   {
     id: 'gaps',
-    label: 'Sampling gaps',
-    tag: 'coverage weighted',
+    label: 'Live oak gaps',
+    tag: 'editable taxon',
     form: {
-      taxon: 'Aedes albopictus',
-      region_name: 'Spain sampling gap demo',
-      bbox: '-10.0,35.0,4.5,44.5',
+      taxon: 'Quercus robur',
+      region_name: 'Western Europe live bbox',
+      bbox: '-10.0,42.0,12.0,56.0',
       purpose: 'sampling_gaps',
-      source_mode: 'fixture',
-      use_fixture: true,
+      source_mode: 'online_with_fixture_fallback',
+      use_fixture: false,
       max_records: 300,
     },
   },
   {
     id: 'quality',
-    label: 'Dataset review',
+    label: 'Live dataset review',
     tag: 'publisher ready',
     form: {
-      taxon: 'Aedes albopictus',
-      region_name: 'Spain dataset quality demo',
+      taxon: 'Lynx pardinus',
+      region_name: 'Iberian Peninsula live bbox',
       bbox: '-10.0,35.0,4.5,44.5',
       purpose: 'dataset_quality_review',
-      source_mode: 'fixture',
-      use_fixture: true,
+      source_mode: 'online_with_fixture_fallback',
+      use_fixture: false,
       max_records: 300,
     },
   },
   {
-    id: 'conservation',
-    label: 'Conservation brief',
-    tag: 'balanced evidence',
+    id: 'offline',
+    label: 'Offline fixture',
+    tag: 'reproducible fallback',
     form: {
       taxon: 'Aedes albopictus',
-      region_name: 'Spain conservation demo',
+      region_name: 'Spain offline fixture bbox',
       bbox: '-10.0,35.0,4.5,44.5',
-      purpose: 'conservation_brief',
+      purpose: 'invasive_watch',
       source_mode: 'fixture',
       use_fixture: true,
       max_records: 300,
@@ -109,7 +110,7 @@ function normalizeForm(form) {
   const sourceMode = form.source_mode || (form.use_fixture === false ? 'online_with_fixture_fallback' : 'fixture');
   return {
     taxon: form.taxon || 'Aedes albopictus',
-    region_name: form.region_name || 'Spain demo bbox',
+    region_name: form.region_name || 'Spain live GBIF bbox',
     bbox: Array.isArray(form.bbox) ? form.bbox.join(',') : form.bbox || '-10.0,35.0,4.5,44.5',
     purpose: form.purpose || 'invasive_watch',
     source_mode: sourceMode,
@@ -264,7 +265,7 @@ export default function App() {
           if (!cancelled) setBooting(false);
           return;
         } catch {
-          // Fall through to auto fixture demo.
+          // Fall through to the live preset, which can still use fixture fallback.
         }
       }
 
@@ -328,7 +329,7 @@ export default function App() {
         </div>
         <div className="topbar-actions" aria-label="Service status">
           <span className="status-pill online">Docker-ready</span>
-          <span className="status-pill">{sourceModeLabels[form.source_mode] || 'Fixture demo'}</span>
+          <span className="status-pill">{sourceModeLabels[form.source_mode] || 'Online GBIF with fallback'}</span>
         </div>
       </header>
 
@@ -534,12 +535,12 @@ function LoadingWorkbench({ booting }) {
         <p className="eyebrow">Judge-ready demo</p>
         <h2>{booting ? 'Preparing the default Evidence Passport' : 'Evidence Passport is ready to run'}</h2>
         <p>
-          The fixture demo opens automatically, preserving GBIF-style provenance, claim guardrails,
-          citation guidance and a complete export bundle.
+          The default flow attempts live GBIF data first and keeps the offline fixture only as a safe fallback,
+          while preserving provenance, claim guardrails, citation guidance and a complete export bundle.
         </p>
       </div>
       <div className="skeleton-grid" aria-label="Loading Evidence Passport">
-        {['Readiness score', 'SVG evidence map', 'Purpose comparison', 'Source provenance', 'Claim Guardrails', 'ZIP evidence pack'].map(
+        {['Readiness score', 'Live map', 'Real GBIF records', 'Source provenance', 'Claim Guardrails', 'Evidence pack'].map(
           (item) => (
             <span key={item}>{item}</span>
           ),
@@ -688,6 +689,8 @@ function SourceProvenance({ run, compact = false }) {
     ['Used', shortStatus(source.used_source_mode)],
     ['GBIF API status', shortStatus(source.gbif_api_status)],
     ['Fallback used', source.fallback_used ? 'yes' : 'no'],
+    ['GBIF total matches', source.gbif_result_count ?? 'unknown'],
+    ['Returned records', source.gbif_returned_records ?? run.passport.records_used],
     ['Taxon key', run.passport.taxonKey || match.usageKey || 'unknown'],
     ['Match confidence', run.passport.match_confidence || match.confidence || 'unknown'],
   ];
@@ -1095,33 +1098,31 @@ function DatasetTable({ rows }) {
 }
 
 function MapPreview({ run }) {
-  const [layers, setLayers] = useState({ cells: true, records: true, issues: true, labels: true });
+  const mapContainerRef = useRef(null);
+  const mapRef = useRef(null);
+  const overlayRef = useRef(null);
+  const [layers, setLayers] = useState({ cells: true, records: true, issues: true, priority: true });
   const features = run.records_geojson?.features || [];
   const bbox = run.passport.bbox;
   const cells = run.grid_metrics?.features || [];
-  const mapHeight = 68;
-  const lonTicks = buildTicks(bbox[0], bbox[2], 4);
-  const latTicks = buildTicks(bbox[1], bbox[3], 4);
-  const basemap = useMemo(() => buildBasemap(bbox, mapHeight), [bbox]);
-  const labels = useMemo(() => buildMapLabels(bbox, mapHeight), [bbox]);
   const points = useMemo(() => {
     return features.map((feature) => {
       const [lon, lat] = feature.geometry.coordinates;
-      const projected = projectPoint(lon, lat, bbox, mapHeight);
       const uncertainty = Number(feature.properties.coordinateUncertaintyInMeters || 0);
       return {
         id: feature.properties.gbif_id,
-        x: projected.x,
-        y: projected.y,
         lon,
         lat,
         issue: (feature.properties.issues || []).length > 0,
         highUncertainty: uncertainty > 10000,
         uncertainty,
         dataset: feature.properties.datasetKey,
+        eventDate: feature.properties.eventDate,
+        scientificName: feature.properties.scientificName,
+        issues: feature.properties.issues || [],
       };
     });
-  }, [features, bbox, mapHeight]);
+  }, [features]);
   const gridCells = useMemo(() => {
     return cells.map((feature) => {
       const coordinates = feature.geometry.coordinates[0];
@@ -1129,14 +1130,10 @@ function MapPreview({ run }) {
       const cellSouth = coordinates[0][1];
       const cellEast = coordinates[1][0];
       const cellNorth = coordinates[2][1];
-      const northWest = projectPoint(cellWest, cellNorth, bbox, mapHeight);
-      const southEast = projectPoint(cellEast, cellSouth, bbox, mapHeight);
       return {
         id: feature.properties.cell_id,
-        x: northWest.x,
-        y: northWest.y,
-        width: Math.max(0, southEast.x - northWest.x),
-        height: Math.max(0, southEast.y - northWest.y),
+        bounds: [[cellSouth, cellWest], [cellNorth, cellEast]],
+        center: [(cellSouth + cellNorth) / 2, (cellWest + cellEast) / 2],
         status: cellStatus(feature.properties),
         empty: feature.properties.empty_cell,
         underSampled: feature.properties.under_sampled,
@@ -1144,10 +1141,112 @@ function MapPreview({ run }) {
         count: feature.properties.occurrence_count,
         priorityScore: feature.properties.gap_priority_score,
         priorityLabel: feature.properties.gap_priority_label,
+        reasons: feature.properties.gap_priority_reasons || [],
       };
     });
-  }, [cells, bbox, mapHeight]);
+  }, [cells]);
   const issuePoints = points.filter((point) => point.issue || point.highUncertainty);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function renderLeafletMap() {
+      if (!mapContainerRef.current) return;
+      const leaflet = await import('leaflet');
+      const L = leaflet.default || leaflet;
+      if (cancelled) return;
+
+      if (!mapRef.current) {
+        mapRef.current = L.map(mapContainerRef.current, {
+          attributionControl: true,
+          scrollWheelZoom: false,
+          zoomControl: true,
+        });
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; OpenStreetMap contributors',
+          maxZoom: 18,
+        }).addTo(mapRef.current);
+      }
+
+      const map = mapRef.current;
+      if (overlayRef.current) {
+        overlayRef.current.remove();
+      }
+      const overlays = L.layerGroup().addTo(map);
+      overlayRef.current = overlays;
+
+      const queryBounds = [[bbox[1], bbox[0]], [bbox[3], bbox[2]]];
+      L.rectangle(queryBounds, {
+        color: '#1f5268',
+        dashArray: '8 6',
+        fillOpacity: 0,
+        weight: 2,
+      }).bindTooltip(`Query bbox: ${bbox.join(', ')}`).addTo(overlays);
+
+      if (layers.cells) {
+        gridCells.forEach((cell) => {
+          L.rectangle(cell.bounds, leafletCellStyle(cell))
+            .bindPopup(cellPopupHtml(cell))
+            .bindTooltip(`${cell.id}: ${cell.status}; gap ${cell.priorityScore}`)
+            .addTo(overlays);
+          if (layers.priority && cell.priorityScore >= 60) {
+            L.marker(cell.center, {
+              icon: L.divIcon({
+                className: 'priority-marker',
+                html: `<span>${Math.round(cell.priorityScore)}</span>`,
+                iconSize: [34, 34],
+                iconAnchor: [17, 17],
+              }),
+            }).bindPopup(cellPopupHtml(cell)).addTo(overlays);
+          }
+        });
+      }
+
+      if (layers.records) {
+        points.forEach((point) => {
+          const marker = L.circleMarker([point.lat, point.lon], {
+            color: '#ffffff',
+            fillColor: point.issue || point.highUncertainty ? '#b94e38' : '#176b4f',
+            fillOpacity: 0.92,
+            radius: point.issue || point.highUncertainty ? 6 : 5,
+            weight: 1.4,
+          })
+            .bindPopup(recordPopupHtml(point))
+            .bindTooltip(`${point.id || 'GBIF record'} · ${point.dataset || 'dataset unknown'}`);
+          marker.addTo(overlays);
+        });
+      }
+
+      if (layers.issues) {
+        issuePoints.forEach((point) => {
+          L.circle([point.lat, point.lon], {
+            color: '#b94e38',
+            fillColor: '#fff0ea',
+            fillOpacity: 0.16,
+            radius: Math.max(6000, Math.min(40000, point.uncertainty || 12000)),
+            weight: 1.2,
+          }).bindTooltip(`Quality caveat: ${Math.round(point.uncertainty || 0)} m uncertainty`).addTo(overlays);
+        });
+      }
+
+      map.fitBounds(queryBounds, { padding: [20, 20] });
+      setTimeout(() => map.invalidateSize(), 0);
+    }
+    renderLeafletMap();
+    return () => {
+      cancelled = true;
+      if (overlayRef.current) {
+        overlayRef.current.remove();
+        overlayRef.current = null;
+      }
+    };
+  }, [bbox, gridCells, issuePoints, layers, points]);
+
+  useEffect(() => () => {
+    if (mapRef.current) {
+      mapRef.current.remove();
+      mapRef.current = null;
+    }
+  }, []);
 
   function toggleLayer(name) {
     setLayers((current) => ({ ...current, [name]: !current[name] }));
@@ -1156,15 +1255,15 @@ function MapPreview({ run }) {
   return (
     <section className="panel map-panel scientific-map-panel">
       <div className="panel-title">
-        <h3>Scientific evidence map</h3>
-        <span>{features.length} mapped records · {gridCells.filter((cell) => cell.empty).length} no-evidence cells</span>
+        <h3>Live evidence map</h3>
+        <span>{features.length} mapped GBIF records · {gridCells.filter((cell) => cell.empty).length} no-evidence cells</span>
       </div>
       <div className="map-controls" aria-label="Map layers">
         {[
           ['cells', 'Cells'],
           ['records', 'Records'],
           ['issues', 'Issues'],
-          ['labels', 'Labels'],
+          ['priority', 'Priority'],
         ].map(([name, label]) => (
           <button className={layers[name] ? 'active' : ''} key={name} onClick={() => toggleLayer(name)} type="button">
             {label}
@@ -1172,108 +1271,10 @@ function MapPreview({ run }) {
         ))}
       </div>
       <div className="map-stage">
-        <svg className="map-svg" role="img" aria-label="Scientific evidence map" viewBox={`0 0 100 ${mapHeight}`} preserveAspectRatio="xMidYMid meet">
-          <defs>
-            <linearGradient id="seaGradient" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0%" stopColor="#dbeaf0" />
-              <stop offset="100%" stopColor="#bdd7df" />
-            </linearGradient>
-            <pattern id="seaLines" height="6" patternUnits="userSpaceOnUse" width="6">
-              <path d="M0 5.5 C1.4 4.7 2.8 4.7 4.2 5.5 S6.8 6.3 8 5.5" fill="none" stroke="rgba(63,103,119,0.18)" strokeWidth="0.25" />
-            </pattern>
-          </defs>
-          <rect className="basemap-sea" x="0" y="0" width="100" height={mapHeight} />
-          <rect className="basemap-sea-lines" x="0" y="0" width="100" height={mapHeight} />
-
-          {lonTicks.map((lon) => {
-            const x = projectPoint(lon, bbox[1], bbox, mapHeight).x;
-            return <line className="map-graticule" key={`lon-${lon}`} x1={x} x2={x} y1="0" y2={mapHeight} />;
-          })}
-          {latTicks.map((lat) => {
-            const y = projectPoint(bbox[0], lat, bbox, mapHeight).y;
-            return <line className="map-graticule" key={`lat-${lat}`} x1="0" x2="100" y1={y} y2={y} />;
-          })}
-
-          {basemap.map((shape) => (
-            <polygon className={shape.className} key={shape.id} points={shape.points}>
-              <title>{shape.title}</title>
-            </polygon>
-          ))}
-
-          {layers.labels
-            ? labels.map((label) => (
-                <text className={`basemap-label ${label.className || ''}`} key={label.text} x={label.x} y={label.y}>
-                  {label.text}
-                </text>
-              ))
-            : null}
-
-          <rect className="query-bbox" x="0.6" y="0.6" width="98.8" height={mapHeight - 1.2}>
-            <title>{`Query bbox: ${bbox.join(', ')}`}</title>
-          </rect>
-
-          {layers.cells
-            ? gridCells.map((cell) => (
-                <rect
-                  className={mapCellClass(cell)}
-                  height={cell.height}
-                  key={cell.id}
-                  width={cell.width}
-                  x={cell.x}
-                  y={cell.y}
-                >
-                  <title>{`${cell.id}: ${cell.status}, ${cell.count} records, coverage ${formatPercent(cell.coverage)}, gap priority ${cell.priorityScore}`}</title>
-                </rect>
-              ))
-            : null}
-
-          {layers.issues
-            ? issuePoints.map((point) => (
-                <circle className="uncertainty-ring" cx={point.x} cy={point.y} key={`${point.id}-ring`} r={point.highUncertainty ? 2.8 : 2.15}>
-                  <title>{`${point.id}: quality caveat, uncertainty ${Math.round(point.uncertainty || 0)} m`}</title>
-                </circle>
-              ))
-            : null}
-
-          {layers.records
-            ? points.map((point) => (
-                <circle className={point.issue || point.highUncertainty ? 'map-point-svg issue' : 'map-point-svg'} cx={point.x} cy={point.y} key={point.id} r="1.25">
-                  <title>{`${point.id} · ${point.dataset} · ${point.lon.toFixed(3)}, ${point.lat.toFixed(3)}`}</title>
-                </circle>
-              ))
-            : null}
-
-          {layers.labels ? (
-            <>
-              {lonTicks.map((lon) => {
-                const x = projectPoint(lon, bbox[1], bbox, mapHeight).x;
-                return (
-                  <text className="axis-label" key={`lon-label-${lon}`} x={x + 0.7} y={mapHeight - 1.7}>
-                    {formatCoord(lon, 'lon')}
-                  </text>
-                );
-              })}
-              {latTicks.map((lat) => {
-                const y = projectPoint(bbox[0], lat, bbox, mapHeight).y;
-                return (
-                  <text className="axis-label lat" key={`lat-label-${lat}`} x="1.1" y={y - 0.8}>
-                    {formatCoord(lat, 'lat')}
-                  </text>
-                );
-              })}
-            </>
-          ) : null}
-
-          <g className="map-scale">
-            <line x1="78" x2="94" y1={mapHeight - 5} y2={mapHeight - 5} />
-            <line x1="78" x2="78" y1={mapHeight - 6.2} y2={mapHeight - 3.8} />
-            <line x1="94" x2="94" y1={mapHeight - 6.2} y2={mapHeight - 3.8} />
-            <text x="86" y={mapHeight - 6.9}>approx. 250 km</text>
-          </g>
-        </svg>
+        <div ref={mapContainerRef} className="leaflet-map" role="img" aria-label="Scientific evidence map" />
         <div className="map-callout">
           <strong>Map thesis</strong>
-          <span>Records show GBIF-mediated evidence, while empty cells remain survey targets rather than absence claims.</span>
+          <span>OpenStreetMap base map with live GBIF occurrence points, quality halos, grid evidence and survey-priority cells.</span>
         </div>
       </div>
       <div className="map-legend">
@@ -1281,7 +1282,7 @@ function MapPreview({ run }) {
         <span><i className="legend-dot issue" /> quality caveat</span>
         <span><i className="legend-ring" /> high uncertainty</span>
         <span><i className="legend-cell empty" /> no evidence</span>
-        <span><i className="legend-cell" /> under-sampled occupied</span>
+        <span><i className="legend-cell priority" /> survey priority</span>
       </div>
     </section>
   );
@@ -1374,6 +1375,84 @@ function mapCellClass(cell) {
   if (cell.priorityScore >= 60) return `${base} priority-high`;
   if (cell.priorityScore >= 35) return `${base} priority-medium`;
   return base;
+}
+
+function leafletCellStyle(cell) {
+  if (cell.priorityScore >= 60) {
+    return {
+      color: '#9a5c13',
+      dashArray: cell.empty ? '6 5' : undefined,
+      fillColor: '#c98720',
+      fillOpacity: 0.36,
+      weight: 1.8,
+    };
+  }
+  if (cell.empty) {
+    return {
+      color: '#6e8491',
+      dashArray: '6 5',
+      fillColor: '#8ca0ad',
+      fillOpacity: 0.2,
+      weight: 1.2,
+    };
+  }
+  if (cell.underSampled) {
+    return {
+      color: '#af681e',
+      fillColor: '#e4a24e',
+      fillOpacity: 0.24,
+      weight: 1.4,
+    };
+  }
+  return {
+    color: '#206b4f',
+    fillColor: '#2b765b',
+    fillOpacity: 0.18,
+    weight: 1.2,
+  };
+}
+
+function cellPopupHtml(cell) {
+  const reasons = cell.reasons?.length ? cell.reasons.join('<br />') : 'No priority reason generated';
+  return `
+    <div class="popup-card">
+      <strong>${escapeHtml(cell.id)}</strong>
+      <span>${escapeHtml(cell.status)}</span>
+      <dl>
+        <dt>Records</dt><dd>${cell.count}</dd>
+        <dt>Coverage</dt><dd>${formatPercent(cell.coverage)}</dd>
+        <dt>Gap priority</dt><dd>${cell.priorityScore} · ${escapeHtml(cell.priorityLabel)}</dd>
+      </dl>
+      <p>${reasons}</p>
+      <small>No-evidence cells are survey targets, not absence observations.</small>
+    </div>
+  `;
+}
+
+function recordPopupHtml(point) {
+  const issues = point.issues?.length ? point.issues.join(', ') : 'none detected';
+  return `
+    <div class="popup-card">
+      <strong>${escapeHtml(point.scientificName || 'GBIF occurrence')}</strong>
+      <span>gbifID ${escapeHtml(point.id || 'unknown')}</span>
+      <dl>
+        <dt>Dataset</dt><dd>${escapeHtml(point.dataset || 'unknown')}</dd>
+        <dt>Date</dt><dd>${escapeHtml(point.eventDate || 'missing')}</dd>
+        <dt>Coordinates</dt><dd>${point.lon.toFixed(4)}, ${point.lat.toFixed(4)}</dd>
+        <dt>Uncertainty</dt><dd>${Math.round(point.uncertainty || 0)} m</dd>
+      </dl>
+      <p>Issues: ${escapeHtml(issues)}</p>
+    </div>
+  `;
+}
+
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
 }
 
 function recordStatus(record) {

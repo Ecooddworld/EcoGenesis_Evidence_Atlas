@@ -1,11 +1,11 @@
 {
   "title": "GBIF Evidence Passport",
   "taxon": "Aedes albopictus",
-  "region_name": "Spain demo bbox",
+  "region_name": "Spain live GBIF bbox",
   "purpose": "invasive_watch",
   "request": {
     "taxon": "Aedes albopictus",
-    "region_name": "Spain demo bbox",
+    "region_name": "Spain live GBIF bbox",
     "bbox": [
       -10.0,
       35.0,
@@ -13,16 +13,20 @@
       44.5
     ],
     "purpose": "invasive_watch",
-    "source_mode": null,
-    "use_fixture": true,
+    "source_mode": "online_with_fixture_fallback",
+    "use_fixture": false,
     "max_records": 300
   },
   "source_summary": {
-    "requested_source_mode": "fixture",
-    "used_source_mode": "fixture",
-    "gbif_api_status": "not_called",
+    "requested_source_mode": "online_with_fixture_fallback",
+    "used_source_mode": "online",
+    "gbif_api_status": "ok",
     "fallback_used": false,
     "warnings": [],
-    "gbif_base_url": "https://api.gbif.org/v1"
+    "gbif_base_url": "https://api.gbif.org/v1",
+    "gbif_result_count": 19697,
+    "gbif_returned_records": 300,
+    "gbif_limit": 300,
+    "gbif_offset": 0
   }
 }

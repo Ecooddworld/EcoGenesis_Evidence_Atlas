@@ -21,11 +21,11 @@ SourceMode = Literal[
 
 class EvidenceRunRequest(BaseModel):
     taxon: str = Field(default="Aedes albopictus", min_length=2)
-    region_name: str = Field(default="Spain demo bbox", min_length=2)
+    region_name: str = Field(default="Spain live GBIF bbox", min_length=2)
     bbox: list[float] = Field(default=[-10.0, 35.0, 4.5, 44.5], min_length=4, max_length=4)
     purpose: Purpose = "invasive_watch"
     source_mode: SourceMode | None = None
-    use_fixture: bool = True
+    use_fixture: bool = False
     max_records: int = Field(default=300, ge=1, le=2000)
 
     @field_validator("bbox")
