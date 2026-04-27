@@ -37,7 +37,7 @@ def run_evidence_passport(request: EvidenceRunRequest) -> dict[str, Any]:
 
     def compute_science() -> dict[str, Any]:
         quality = quality_metrics(records, current_year=current_year)
-        grid = build_grid_metrics(records, request.bbox)
+        grid = build_grid_metrics(records, request.bbox, current_year=current_year)
         match_confidence = float(species_match.get("confidence") or 0)
         matrix = purpose_score_matrix(quality, grid, match_confidence=match_confidence)
         readiness = matrix[request.purpose]
@@ -117,8 +117,17 @@ def run_evidence_passport(request: EvidenceRunRequest) -> dict[str, Any]:
     exports = save_artifacts(run_id, artifacts)
     zip_export = save_zip_artifact(run_id, artifacts)
     pack["exports"] = sorted([*exports, zip_export], key=lambda item: item["name"])
-    save_artifacts(run_id, {"evidence_pack.json": build_artifacts(pack)["evidence_pack.json"]})
-    save_zip_artifact(run_id, artifacts)
+    pack["run"]["artifact_checksums"] = {item["name"]: item.get("sha256") for item in pack["exports"]}
+    final_artifacts = build_artifacts(pack)
+    save_artifacts(
+        run_id,
+        {
+            "evidence_pack.json": final_artifacts["evidence_pack.json"],
+            "run.json": final_artifacts["run.json"],
+            "provenance.json": final_artifacts["provenance.json"],
+        },
+    )
+    save_zip_artifact(run_id, final_artifacts)
     return pack
 
 
@@ -439,4 +448,3 @@ def _int_or_none(value: Any) -> int | None:
         return int(value)
     except (TypeError, ValueError):
         return None
-

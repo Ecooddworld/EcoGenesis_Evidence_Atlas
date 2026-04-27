@@ -15,7 +15,7 @@ const purposeLabels = {
 };
 
 const sourceModeLabels = {
-  fixture: 'Fixture demo',
+  fixture: 'Reproducible offline demo',
   online_with_fixture_fallback: 'Online GBIF with fallback',
   online: 'Online GBIF only',
 };
@@ -81,12 +81,13 @@ const fallbackPresets = [
 
 const tabs = [
   { id: 'overview', label: 'Overview' },
-  { id: 'source', label: 'Source' },
-  { id: 'claims', label: 'Claims' },
-  { id: 'quality', label: 'Quality' },
-  { id: 'citation', label: 'Citation' },
-  { id: 'publisher', label: 'Publisher' },
-  { id: 'exports', label: 'Exports' },
+  { id: 'map', label: 'Evidence Map' },
+  { id: 'quality', label: 'Data Quality' },
+  { id: 'gaps', label: 'Sampling Gaps' },
+  { id: 'claims', label: 'Claim Guardrails' },
+  { id: 'citation', label: 'Citation & Provenance' },
+  { id: 'publisher', label: 'Publisher Feedback' },
+  { id: 'exports', label: 'Export Pack' },
 ];
 
 const qualityLabels = {
@@ -187,6 +188,7 @@ export default function App() {
   const [error, setError] = useState('');
   const [activeTab, setActiveTab] = useState('overview');
   const [recentRuns, setRecentRuns] = useState(readRecentRuns);
+  const [progressSteps, setProgressSteps] = useState([]);
 
   function rememberRun(detail) {
     const item = runToRecent(detail);
@@ -223,6 +225,7 @@ export default function App() {
   async function runPassport(formLike) {
     const normalized = normalizeForm(formLike);
     const payload = payloadFromForm(normalized);
+    setProgressSteps(buildProgressSteps('running'));
     const createdRun = await runEvidencePassport(payload);
     const detail = await getEvidenceRun(createdRun.run_id);
     setCreated(createdRun);
@@ -230,6 +233,7 @@ export default function App() {
     setActiveTab('overview');
     rememberRun(detail);
     await refreshRecentRuns();
+    setProgressSteps(buildProgressSteps('completed', detail.run?.steps || []));
     return detail;
   }
 
@@ -285,6 +289,7 @@ export default function App() {
     try {
       await runPassport(form);
     } catch (err) {
+      setProgressSteps(buildProgressSteps('failed'));
       setError(err.message || 'Evidence run failed');
     } finally {
       setLoading(false);
@@ -319,6 +324,7 @@ export default function App() {
         <div>
           <p className="eyebrow">EcoGenesis Evidence Atlas</p>
           <h1>GBIF Evidence Passport</h1>
+          <p className="topbar-subtitle">Turn GBIF occurrence data into responsible, citation-ready evidence packs.</p>
         </div>
         <div className="topbar-actions" aria-label="Service status">
           <span className="status-pill online">Docker-ready</span>
@@ -328,6 +334,11 @@ export default function App() {
 
       <section className="workspace">
         <aside className="run-rail" aria-label="Evidence run controls">
+          <div className="rail-section">
+            <p className="section-label">Study setup</p>
+            <p className="rail-copy">Choose the decision purpose first; it changes score weights, gaps and claim guardrails.</p>
+          </div>
+
           <div className="rail-section">
             <p className="section-label">Demo scenarios</p>
             <div className="preset-grid">
@@ -402,11 +413,13 @@ export default function App() {
               </label>
             </div>
             <button className="primary-action" type="submit" disabled={loading || booting}>
-              {loading ? 'Running passport...' : booting ? 'Preparing demo...' : 'Run Evidence Passport'}
+              {loading ? 'Generating passport...' : booting ? 'Preparing demo...' : 'Generate Evidence Passport'}
             </button>
             {error ? <p className="error">{error}</p> : null}
             {created ? <p className="run-id">Run {created.run_id}</p> : null}
           </form>
+
+          <PipelineProgress steps={progressSteps.length ? progressSteps : run?.run?.steps} loading={loading || booting} />
 
           <RecentRuns runs={recentRuns} loadingRunId={loadingRunId} onLoad={handleLoadRun} />
         </aside>
@@ -441,6 +454,23 @@ function RecentRuns({ runs, loadingRunId, onLoad }) {
   );
 }
 
+function PipelineProgress({ steps, loading }) {
+  const rows = steps?.length ? steps : buildProgressSteps(loading ? 'running' : 'pending');
+  return (
+    <div className="rail-section pipeline-panel">
+      <p className="section-label">Evidence pipeline</p>
+      <div className="pipeline-list">
+        {rows.map((step) => (
+          <div className={`pipeline-step ${step.status}`} key={step.name}>
+            <span>{pipelineLabel(step.name)}</span>
+            <small>{step.status}{step.duration_ms ? ` · ${step.duration_ms} ms` : ''}</small>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function Passport({ run, booting, activeTab, setActiveTab }) {
   if (!run) {
     return <LoadingWorkbench booting={booting} />;
@@ -448,13 +478,14 @@ function Passport({ run, booting, activeTab, setActiveTab }) {
 
   const readiness = run.evidence_readiness;
   const zip = run.exports?.find((item) => item.name === 'evidence_pack.zip');
+  const status = readinessStatus(readiness.score);
   return (
     <section className="result-stack" aria-label="Evidence Passport result">
       <div className={`score-band ${scoreClass(readiness.score)}`}>
         <div>
           <p className="eyebrow">{readiness.purpose_label}</p>
           <h2>{run.passport.taxon}</h2>
-          <p>{run.passport.region_name}</p>
+          <p>{run.passport.region_name} · {status.label}</p>
         </div>
         <div className="score-readout">
           <strong>{readiness.score}</strong>
@@ -462,7 +493,7 @@ function Passport({ run, booting, activeTab, setActiveTab }) {
         </div>
         {zip ? (
           <a className="zip-action" href={exportUrl(zip.url)}>
-            Download ZIP
+            Download Evidence Pack
           </a>
         ) : null}
       </div>
@@ -472,6 +503,7 @@ function Passport({ run, booting, activeTab, setActiveTab }) {
       <div className="analysis-grid">
         <MapPreview run={run} />
         <ScientificInterpretation run={run} />
+        <GapPriorityPanel run={run} compact />
         <ReadinessBreakdown readiness={readiness} />
         <PurposeComparison matrix={run.purpose_score_matrix} current={readiness.purpose} />
         <SourceProvenance run={run} compact />
@@ -701,9 +733,17 @@ function RunSteps({ steps }) {
 }
 
 function TabPanel({ run, activeTab }) {
-  if (activeTab === 'source') return <SourceProvenance run={run} />;
+  if (activeTab === 'map') {
+    return (
+      <div className="map-tab-stack">
+        <MapPreview run={run} />
+        <GapPriorityPanel run={run} />
+      </div>
+    );
+  }
   if (activeTab === 'claims') return <ClaimsPanel guardrails={run.claim_guardrails} />;
   if (activeTab === 'quality') return <QualityPanel run={run} />;
+  if (activeTab === 'gaps') return <GapPriorityPanel run={run} />;
   if (activeTab === 'citation') return <CitationPanel run={run} />;
   if (activeTab === 'publisher') return <PublisherPanel feedback={run.publisher_feedback} />;
   if (activeTab === 'exports') return <ExportsPanel exports={run.exports || []} />;
@@ -711,8 +751,21 @@ function TabPanel({ run, activeTab }) {
 }
 
 function OverviewPanel({ run }) {
+  const status = readinessStatus(run.evidence_readiness.score);
+  const supported = run.claim_guardrails.supported_claims.slice(0, 2);
+  const unsupported = run.claim_guardrails.unsupported_claims.slice(0, 2);
   return (
     <div className="overview-grid">
+      <section className={`panel readiness-status ${scoreClass(run.evidence_readiness.score)}`}>
+        <div className="panel-title">
+          <h3>Evidence summary</h3>
+          <span>{status.label}</span>
+        </div>
+        <p>{status.description}</p>
+        <p className="score-caveat">This score is a decision-support heuristic, not a biological truth or model prediction.</p>
+      </section>
+      <ListPanel title="What this supports" rows={supported} tone="supported" />
+      <ListPanel title="What this does not support" rows={unsupported} tone="unsupported" />
       <ListPanel title="Main risks" rows={run.main_risks} tone="risk" />
       <ListPanel title="Next actions" rows={run.next_actions} tone="action" />
       <section className="panel span-two">
@@ -799,6 +852,7 @@ function QualityPanel({ run }) {
           </table>
         </div>
       </section>
+      <RecordsExplorer records={run.normalized_records || []} />
       <section className="panel">
         <div className="panel-title">
           <h3>Sampling grid</h3>
@@ -831,6 +885,81 @@ function QualityPanel({ run }) {
   );
 }
 
+function RecordsExplorer({ records }) {
+  const rows = records.slice(0, 12).map((record) => {
+    const severity = recordStatus(record);
+    return { ...record, severity };
+  });
+  return (
+    <section className="panel span-two">
+      <div className="panel-title">
+        <h3>Records Explorer</h3>
+        <span>{records.length} normalized records · flagged records remain visible</span>
+      </div>
+      <div className="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Status</th>
+              <th>gbifID</th>
+              <th>Date</th>
+              <th>Dataset</th>
+              <th>Basis</th>
+              <th>Uncertainty</th>
+              <th>Issues</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((record) => (
+              <tr key={record.gbif_id}>
+                <td><span className={`record-status ${record.severity}`}>{record.severity}</span></td>
+                <td>{record.gbif_id}</td>
+                <td>{record.event_date || record.year || 'missing'}</td>
+                <td>{record.dataset_key}</td>
+                <td>{record.basis_of_record || 'unknown'}</td>
+                <td>{record.coordinate_uncertainty_m ? `${Math.round(record.coordinate_uncertainty_m)} m` : 'unknown'}</td>
+                <td>{record.issues?.length ? record.issues.join(', ') : 'none detected'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  );
+}
+
+function GapPriorityPanel({ run, compact = false }) {
+  const features = run.grid_metrics?.features || [];
+  const priorityCells = features
+    .filter((feature) => feature.properties.survey_priority)
+    .sort((a, b) => b.properties.gap_priority_score - a.properties.gap_priority_score);
+  const rows = compact ? priorityCells.slice(0, 3) : priorityCells;
+  return (
+    <section className={compact ? 'panel gap-panel compact' : 'panel gap-panel'}>
+      <div className="panel-title">
+        <h3>Sampling Gap Engine</h3>
+        <span>{priorityCells.length} survey-priority cells · no evidence is not absence</span>
+      </div>
+      <div className="gap-list">
+        {rows.map((feature) => {
+          const props = feature.properties;
+          return (
+            <div className="gap-row" key={props.cell_id}>
+              <div>
+                <span>{props.cell_id}</span>
+                <small>{(props.gap_priority_reasons || []).slice(0, compact ? 2 : 4).join('; ')}</small>
+              </div>
+              <strong>{props.gap_priority_score}</strong>
+              <em>{props.gap_priority_label}</em>
+            </div>
+          );
+        })}
+      </div>
+      {!rows.length ? <p className="empty-note">No survey-priority cells were generated for this run.</p> : null}
+    </section>
+  );
+}
+
 function CitationPanel({ run }) {
   const citation = run.citation_autopilot;
   return (
@@ -853,6 +982,7 @@ function CitationPanel({ run }) {
           <strong>{citation.derived_dataset_recipe.preserve_fields.join(', ')}</strong>
         </div>
       </section>
+      <SourceProvenance run={run} compact />
       <section className="panel">
         <div className="panel-title">
           <h3>Contribution table</h3>
@@ -900,11 +1030,25 @@ function PublisherPanel({ feedback }) {
 
 function ExportsPanel({ exports }) {
   const groups = groupExports(exports);
+  const checklist = [
+    ['Standalone report', 'passport.html'],
+    ['Citation pack', 'citations.md'],
+    ['Map data', 'records.geojson'],
+    ['Gap priorities', 'gap_priorities.csv'],
+    ['Publisher feedback', 'publisher_feedback.md'],
+    ['Provenance manifest', 'provenance.json'],
+  ];
+  const names = new Set(exports.map((item) => item.name));
   return (
     <section className="panel exports-panel">
       <div className="panel-title">
         <h3>Evidence pack exports</h3>
         <span>{exports.length} files</span>
+      </div>
+      <div className="export-checklist">
+        {checklist.map(([label, name]) => (
+          <span className={names.has(name) ? 'ready' : ''} key={name}>{label}</span>
+        ))}
       </div>
       {groups.map((group) => (
         <div className="export-group" key={group.title}>
@@ -998,6 +1142,8 @@ function MapPreview({ run }) {
         underSampled: feature.properties.under_sampled,
         coverage: feature.properties.sampling_coverage_proxy,
         count: feature.properties.occurrence_count,
+        priorityScore: feature.properties.gap_priority_score,
+        priorityLabel: feature.properties.gap_priority_label,
       };
     });
   }, [cells, bbox, mapHeight]);
@@ -1069,14 +1215,14 @@ function MapPreview({ run }) {
           {layers.cells
             ? gridCells.map((cell) => (
                 <rect
-                  className={cell.empty ? 'map-cell-svg empty' : cell.underSampled ? 'map-cell-svg under' : 'map-cell-svg occupied'}
+                  className={mapCellClass(cell)}
                   height={cell.height}
                   key={cell.id}
                   width={cell.width}
                   x={cell.x}
                   y={cell.y}
                 >
-                  <title>{`${cell.id}: ${cell.status}, ${cell.count} records, coverage ${formatPercent(cell.coverage)}`}</title>
+                  <title>{`${cell.id}: ${cell.status}, ${cell.count} records, coverage ${formatPercent(cell.coverage)}, gap priority ${cell.priorityScore}`}</title>
                 </rect>
               ))
             : null}
@@ -1145,10 +1291,10 @@ function groupExports(exports) {
   const groupDefs = [
     { title: 'ZIP', names: ['evidence_pack.zip'] },
     { title: 'Passport', names: ['passport.html', 'passport.md'] },
-    { title: 'Data', names: ['records.geojson', 'quality_metrics.csv', 'dataset_contributions.csv', 'readiness_scorecard.csv'] },
-    { title: 'Citation & Claims', names: ['citations.md', 'claim_guardrails.md'] },
-    { title: 'Publisher', names: ['publisher_feedback.md'] },
-    { title: 'Machine-readable', names: ['evidence_pack.json', 'run.json', 'source_summary.json', 'demo_scenario.json'] },
+    { title: 'Data', names: ['records.geojson', 'quality_metrics.csv', 'gap_priorities.csv', 'dataset_contributions.csv', 'readiness_scorecard.csv'] },
+    { title: 'Citation & Claims', names: ['citations.md', 'claim_guardrails.md', 'methods_text.md'] },
+    { title: 'Publisher', names: ['publisher_feedback.md', 'publisher_feedback.csv'] },
+    { title: 'Machine-readable', names: ['evidence_pack.json', 'run.json', 'source_summary.json', 'demo_scenario.json', 'derived_dataset_recipe.json', 'provenance.json'] },
   ];
   const byName = new Map(exports.map((item) => [item.name, item]));
   const used = new Set();
@@ -1170,10 +1316,72 @@ function scoreClass(score) {
   return 'limited';
 }
 
+function readinessStatus(score) {
+  if (score >= 80) {
+    return {
+      label: 'High readiness',
+      description: 'Good for the selected purpose, with citation and caveat checks still required.',
+    };
+  }
+  if (score >= 60) {
+    return {
+      label: 'Moderate readiness',
+      description: 'Usable evidence, but quality risks or sampling gaps require attention before stronger claims.',
+    };
+  }
+  if (score >= 40) {
+    return {
+      label: 'Limited readiness',
+      description: 'Useful for exploration and survey planning, weak for policy, absence or trend claims.',
+    };
+  }
+  return {
+    label: 'Insufficient readiness',
+    description: 'Do not use for decision-making without additional verification and better evidence.',
+  };
+}
+
+function buildProgressSteps(mode = 'pending', completedSteps = []) {
+  const names = ['species_match', 'occurrence_fetch', 'normalize', 'score', 'exports'];
+  const completedByName = new Map(completedSteps.map((step) => [step.name, step]));
+  return names.map((name, index) => {
+    if (completedByName.has(name)) return completedByName.get(name);
+    if (mode === 'failed') return { name, status: index === 0 ? 'failed' : 'pending' };
+    if (mode === 'completed') return { name, status: 'completed' };
+    if (mode === 'running') return { name, status: index <= 1 ? 'running' : 'pending' };
+    return { name, status: 'pending' };
+  });
+}
+
+function pipelineLabel(name) {
+  return {
+    species_match: 'GBIF taxonomy match',
+    occurrence_fetch: 'Occurrence retrieval',
+    normalize: 'Record normalization',
+    score: 'Quality, gaps and claims',
+    exports: 'Evidence Pack export',
+  }[name] || humanize(name);
+}
+
 function cellStatus(properties) {
   if (properties.empty_cell) return 'no evidence';
   if (properties.under_sampled) return 'under-sampled occupied';
   return 'sampled occupied';
+}
+
+function mapCellClass(cell) {
+  const base = cell.empty ? 'map-cell-svg empty' : cell.underSampled ? 'map-cell-svg under' : 'map-cell-svg occupied';
+  if (cell.priorityScore >= 60) return `${base} priority-high`;
+  if (cell.priorityScore >= 35) return `${base} priority-medium`;
+  return base;
+}
+
+function recordStatus(record) {
+  if (!record.has_valid_coordinate || !record.accepted_taxon_key) return 'severe';
+  if (!record.event_date && !record.year) return 'caution';
+  if ((record.coordinate_uncertainty_m || 0) > 10000) return 'caution';
+  if ((record.issues || []).length) return 'caution';
+  return 'good';
 }
 
 function buildScientificThesis(run) {

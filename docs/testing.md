@@ -14,9 +14,10 @@ Backend tests cover:
 - purpose-aware scoring
 - source-mode compatibility and fixture fallback
 - 16-cell grid output with no-evidence cell separation
+- gap-priority scoring and top survey priority cells
 - Claim Guardrails
 - Publisher Feedback grouping
-- fixture-based API run, demo scenario, run listing and export endpoints
+- fixture-based API run, map layers, quality, sampling gaps, citations, demo scenario, run listing and export endpoints
 
 ## Frontend
 
@@ -32,6 +33,7 @@ Frontend tests cover:
 - auto-run/default demo rendering
 - source-mode selection payloads
 - SVG map rendering
+- Sampling Gap Engine panel rendering
 - purpose comparison and source/provenance sections
 - grouped ZIP and individual download links
 
@@ -49,4 +51,4 @@ Expected acceptance result:
 - backend health returns `{"status":"ok"}`
 - frontend auto-renders a complete Evidence Passport workbench
 - fixture run completes without network access
-- exports include `evidence_pack.zip`, `passport.html`, `passport.md`, `evidence_pack.json`, `run.json`, `source_summary.json`, `demo_scenario.json`, `records.geojson`, `quality_metrics.csv`, `readiness_scorecard.csv`, `dataset_contributions.csv`, `citations.md`, `claim_guardrails.md` and `publisher_feedback.md`
+- exports include `evidence_pack.zip`, `passport.html`, `passport.md`, `evidence_pack.json`, `run.json`, `source_summary.json`, `demo_scenario.json`, `records.geojson`, `quality_metrics.csv`, `gap_priorities.csv`, `readiness_scorecard.csv`, `dataset_contributions.csv`, `publisher_feedback.csv`, `derived_dataset_recipe.json`, `provenance.json`, `citations.md`, `claim_guardrails.md`, `methods_text.md` and `publisher_feedback.md`

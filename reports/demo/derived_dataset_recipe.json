@@ -1,0 +1,12 @@
+{
+  "preserve_fields": [
+    "datasetKey",
+    "gbifID",
+    "scientificName",
+    "decimalLatitude",
+    "decimalLongitude",
+    "eventDate"
+  ],
+  "group_by": "datasetKey",
+  "include_counts": true
+}

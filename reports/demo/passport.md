@@ -42,6 +42,14 @@
 | Sampling gap analysis | 55.16 |
 | Dataset quality review | 83.15 |
 
+## Top Sampling Priorities
+
+| Cell | Score | Label | Reasons |
+| --- | ---: | --- | --- |
+| grid:4:0:2 | 81.0 | High priority for survey | No GBIF-mediated records returned after filters; Neighboring cells contain occurrence evidence; Recent temporal evidence is weak or missing; Dataset/source diversity is low |
+| grid:4:2:0 | 81.0 | High priority for survey | No GBIF-mediated records returned after filters; Neighboring cells contain occurrence evidence; Recent temporal evidence is weak or missing; Dataset/source diversity is low |
+| grid:4:2:3 | 81.0 | High priority for survey | No GBIF-mediated records returned after filters; Neighboring cells contain occurrence evidence; Recent temporal evidence is weak or missing; Dataset/source diversity is low |
+
 ## Main Risks
 
 - 4 records have coordinate uncertainty above 10 km.

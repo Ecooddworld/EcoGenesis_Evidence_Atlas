@@ -37,11 +37,11 @@ Uses a more balanced score profile to show whether the same GBIF-mediated eviden
 1. Open http://localhost:13100.
 2. Wait for the default fixture passport to appear automatically.
 3. Review the score band, KPI strip, scientific evidence map, no-evidence cells, issue points, purpose comparison, scientific interpretation and source/provenance panel.
-4. Open the Source, Claims, Quality, Citation, Publisher and Exports tabs.
+4. Open the Evidence Map, Data Quality, Sampling Gaps, Claim Guardrails, Citation & Provenance, Publisher Feedback and Export Pack tabs.
 5. Download `evidence_pack.zip` or inspect individual artifacts.
 
 ## Source Modes
 
-- `Fixture demo`: deterministic and safe for judging without network access.
+- `Reproducible offline demo`: deterministic and safe for judging without network access.
 - `Online GBIF with fallback`: attempts GBIF API and falls back to the fixture if online access fails.
 - `Online GBIF only`: fails with a structured API error if GBIF is unavailable.

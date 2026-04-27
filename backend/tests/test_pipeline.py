@@ -64,6 +64,8 @@ def test_source_mode_compatibility_grid_and_exports(tmp_path, monkeypatch) -> No
     assert pack["source_summary"]["fallback_used"] is True
     assert pack["grid_metrics"]["meta"]["cell_count"] == 16
     assert pack["grid_metrics"]["meta"]["empty_cell_count"] == 7
+    assert pack["grid_metrics"]["meta"]["top_survey_priority_cells"]
+    assert "gap_priority_score" in pack["grid_metrics"]["features"][0]["properties"]
     assert set(pack["purpose_score_matrix"]) == {
         "conservation_brief",
         "invasive_watch",
@@ -74,11 +76,16 @@ def test_source_mode_compatibility_grid_and_exports(tmp_path, monkeypatch) -> No
     export_names = {item["name"] for item in pack["exports"]}
     assert {
         "claim_guardrails.md",
-        "readiness_scorecard.csv",
-        "source_summary.json",
-        "demo_scenario.json",
-        "evidence_pack.zip",
-    } <= export_names
+            "readiness_scorecard.csv",
+            "source_summary.json",
+            "demo_scenario.json",
+            "gap_priorities.csv",
+            "methods_text.md",
+            "publisher_feedback.csv",
+            "derived_dataset_recipe.json",
+            "provenance.json",
+            "evidence_pack.zip",
+        } <= export_names
 
     with zipfile.ZipFile(artifact_path(pack["run"]["run_id"], "evidence_pack.zip")) as archive:
         assert {
@@ -86,6 +93,11 @@ def test_source_mode_compatibility_grid_and_exports(tmp_path, monkeypatch) -> No
             "readiness_scorecard.csv",
             "source_summary.json",
             "demo_scenario.json",
+            "gap_priorities.csv",
+            "methods_text.md",
+            "publisher_feedback.csv",
+            "derived_dataset_recipe.json",
+            "provenance.json",
         } <= set(archive.namelist())
 
 
@@ -97,3 +109,4 @@ def test_claim_guardrails_and_publisher_feedback(tmp_path, monkeypatch) -> None:
     assert any(row["datasetKey"] == "legacy-mosquito-import" for row in pack["publisher_feedback"])
     assert any(row["main_issue"] == "High coordinate uncertainty" for row in pack["publisher_feedback"])
     assert pack["citation_autopilot"]["derived_dataset_recipe"]["group_by"] == "datasetKey"
+    assert "artifact_checksums" in pack["run"]

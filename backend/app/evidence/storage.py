@@ -6,6 +6,7 @@ from typing import Any
 import json
 import zipfile
 import io
+import hashlib
 
 
 def data_dir() -> Path:
@@ -26,11 +27,13 @@ def save_artifacts(run_id: str, artifacts: dict[str, str]) -> list[dict[str, Any
     for name, content in artifacts.items():
         path = directory / name
         path.write_text(content, encoding="utf-8")
+        digest = hashlib.sha256(path.read_bytes()).hexdigest()
         exports.append(
             {
                 "name": name,
                 "url": f"/api/evidence/runs/{run_id}/exports/{name}",
                 "size_bytes": path.stat().st_size,
+                "sha256": digest,
             }
         )
     return sorted(exports, key=lambda item: item["name"])
@@ -44,10 +47,12 @@ def save_zip_artifact(run_id: str, artifacts: dict[str, str], *, name: str = "ev
         for artifact_name, content in sorted(artifacts.items()):
             archive.writestr(artifact_name, content)
     path.write_bytes(buffer.getvalue())
+    digest = hashlib.sha256(path.read_bytes()).hexdigest()
     return {
         "name": name,
         "url": f"/api/evidence/runs/{run_id}/exports/{name}",
         "size_bytes": path.stat().st_size,
+        "sha256": digest,
     }
 
 

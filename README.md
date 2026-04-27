@@ -6,7 +6,7 @@ The MVP is intentionally narrow: it is not the full EcoGenesis platform. It focu
 
 1. Open the app.
 2. The default fixture Evidence Passport appears automatically.
-3. Review the SVG evidence map, purpose comparison, source/provenance, quality risks, dataset contributors, citation guidance and responsible claim guardrails.
+3. Review the SVG evidence map, purpose comparison, sampling-gap priorities, source/provenance, quality risks, dataset contributors, citation guidance and responsible claim guardrails.
 4. Optionally switch source mode to online GBIF with fixture fallback.
 5. Download a citation-ready evidence pack, including a single ZIP bundle.
 
@@ -30,9 +30,14 @@ The first screen auto-runs a deterministic fixture demo, so judges can inspect a
 - `GET /api/evidence/demo-scenarios`
 - `GET /api/evidence/runs`
 - `GET /api/evidence/runs/{run_id}`
+- `GET /api/evidence/runs/{run_id}/overview`
 - `GET /api/evidence/runs/{run_id}/passport`
 - `GET /api/evidence/runs/{run_id}/map`
+- `GET /api/evidence/runs/{run_id}/map-layers`
+- `GET /api/evidence/runs/{run_id}/quality`
+- `GET /api/evidence/runs/{run_id}/sampling-gaps`
 - `GET /api/evidence/runs/{run_id}/claims`
+- `GET /api/evidence/runs/{run_id}/citations`
 - `GET /api/evidence/runs/{run_id}/publisher-feedback`
 - `GET /api/evidence/runs/{run_id}/exports`
 - `GET /api/evidence/runs/{run_id}/exports/{artifact_name}`
@@ -64,10 +69,15 @@ Each run exports:
 - `demo_scenario.json`
 - `records.geojson`
 - `quality_metrics.csv`
+- `gap_priorities.csv`
 - `readiness_scorecard.csv`
 - `dataset_contributions.csv`
+- `publisher_feedback.csv`
+- `derived_dataset_recipe.json`
+- `provenance.json`
 - `citations.md`
 - `claim_guardrails.md`
+- `methods_text.md`
 - `publisher_feedback.md`
 
 ## GBIF Citation
@@ -95,4 +105,4 @@ docker compose up --build
 curl http://localhost:18100/health
 ```
 
-The UI includes auto-demo loading, backend-provided presets, source-mode selection, a scientific SVG evidence map with geographic context, readiness component weights, purpose comparison, scientific interpretation, Claim Guardrails, Citation Autopilot, Publisher Feedback and grouped export links.
+The UI includes auto-demo loading, backend-provided presets, source-mode selection, a scientific SVG evidence map with geographic context, readiness component weights, purpose comparison, deterministic Sampling Gap Engine, scientific interpretation, Claim Guardrails, Citation Autopilot, Publisher Feedback and grouped export links with SHA-256 checksums in export metadata.

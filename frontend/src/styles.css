@@ -52,6 +52,11 @@ p {
   margin-bottom: 0;
 }
 
+.topbar-subtitle {
+  color: #52635a;
+  margin: 6px 0 0;
+}
+
 .eyebrow,
 .section-label {
   color: #5c6c64;
@@ -121,6 +126,13 @@ p {
 
 .rail-section:last-child {
   border-bottom: 0;
+}
+
+.rail-copy {
+  color: #53645b;
+  font-size: 0.88rem;
+  line-height: 1.42;
+  margin: 0;
 }
 
 .preset-grid {
@@ -360,6 +372,17 @@ a:focus-visible {
   color: #8a5419;
 }
 
+.score-caveat {
+  background: #f7faf7;
+  border: 1px solid #dfe8e0;
+  border-radius: 8px;
+  color: #52635a;
+  font-size: 0.88rem;
+  font-weight: 750;
+  margin-bottom: 0;
+  padding: 10px;
+}
+
 .zip-action,
 .zip-download {
   align-items: center;
@@ -538,6 +561,15 @@ a:focus-visible {
 .map-cell-svg.occupied {
   fill: rgba(44, 125, 83, 0.28);
   stroke: rgba(32, 94, 69, 0.72);
+}
+
+.map-cell-svg.priority-high {
+  fill: rgba(201, 135, 32, 0.44);
+  stroke: rgba(166, 93, 18, 0.86);
+}
+
+.map-cell-svg.priority-medium {
+  fill: rgba(224, 171, 80, 0.3);
 }
 
 .map-point-svg {
@@ -769,6 +801,173 @@ a:focus-visible {
   padding: 7px 9px;
 }
 
+.pipeline-panel {
+  background: #fbfcfa;
+}
+
+.pipeline-list {
+  display: grid;
+  gap: 8px;
+}
+
+.pipeline-step {
+  align-items: center;
+  background: #fff;
+  border: 1px solid #e2e9e3;
+  border-radius: 8px;
+  display: grid;
+  gap: 2px;
+  min-height: 52px;
+  padding: 9px 10px 9px 34px;
+  position: relative;
+}
+
+.pipeline-step::before {
+  background: #c6d2cc;
+  border-radius: 50%;
+  content: "";
+  height: 10px;
+  left: 13px;
+  position: absolute;
+  top: 20px;
+  width: 10px;
+}
+
+.pipeline-step.completed::before {
+  background: #206b4f;
+}
+
+.pipeline-step.running::before {
+  background: #d49a3a;
+  box-shadow: 0 0 0 5px rgba(212, 154, 58, 0.17);
+}
+
+.pipeline-step.failed::before {
+  background: #c3563b;
+}
+
+.pipeline-step span {
+  color: #25352d;
+  font-size: 0.86rem;
+  font-weight: 850;
+}
+
+.pipeline-step small {
+  color: #617268;
+  font-size: 0.76rem;
+}
+
+.readiness-status.high {
+  border-top: 4px solid #2b765b;
+}
+
+.readiness-status.moderate {
+  border-top: 4px solid #d49a3a;
+}
+
+.readiness-status.limited {
+  border-top: 4px solid #c3563b;
+}
+
+.gap-panel.compact {
+  background: #fffaf0;
+  border-color: #ead8ac;
+}
+
+.gap-list {
+  display: grid;
+  gap: 9px;
+}
+
+.gap-row {
+  align-items: center;
+  background: #fff;
+  border: 1px solid #eadfc4;
+  border-radius: 8px;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: minmax(0, 1fr) auto minmax(120px, auto);
+  padding: 10px;
+}
+
+.gap-row span {
+  color: #2c3b32;
+  display: block;
+  font-weight: 900;
+}
+
+.gap-row small {
+  color: #617268;
+  display: block;
+  font-size: 0.78rem;
+  line-height: 1.35;
+  margin-top: 3px;
+}
+
+.gap-row strong {
+  color: #8a5419;
+  font-size: 1.25rem;
+}
+
+.gap-row em {
+  color: #6b4a14;
+  font-size: 0.78rem;
+  font-style: normal;
+  font-weight: 850;
+  text-align: right;
+}
+
+.map-tab-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.record-status {
+  border-radius: 999px;
+  display: inline-flex;
+  font-size: 0.76rem;
+  font-weight: 900;
+  padding: 5px 8px;
+  text-transform: capitalize;
+}
+
+.record-status.good {
+  background: #e8f3ec;
+  color: #1d6047;
+}
+
+.record-status.caution {
+  background: #fff3df;
+  color: #7a4b17;
+}
+
+.record-status.severe {
+  background: #fff0ed;
+  color: #983c2d;
+}
+
+.export-checklist {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.export-checklist span {
+  background: #f7f9f6;
+  border: 1px solid #dfe8e0;
+  border-radius: 8px;
+  color: #52635a;
+  font-size: 0.84rem;
+  font-weight: 850;
+  padding: 10px;
+}
+
+.export-checklist span.ready {
+  background: #e8f3ec;
+  border-color: #bcd9c5;
+  color: #1d6047;
+}
+
 .component-bars {
   display: grid;
   gap: 13px;
@@ -926,6 +1125,7 @@ a:focus-visible {
   color: #1d6047;
 }
 
+.span-two,
 .overview-grid .span-two {
   grid-column: 1 / -1;
 }
@@ -1128,11 +1328,17 @@ td {
   .kpi-strip,
   .claims-grid,
   .export-list,
+  .export-checklist,
   .component-row,
   .source-grid,
   .quality-metas,
-  .step-row {
+  .step-row,
+  .gap-row {
     grid-template-columns: 1fr;
+  }
+
+  .gap-row em {
+    text-align: left;
   }
 
   .panel-title span {

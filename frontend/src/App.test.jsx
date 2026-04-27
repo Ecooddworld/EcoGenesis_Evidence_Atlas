@@ -181,6 +181,11 @@ const mockRun = {
     { name: 'claim_guardrails.md', url: '/api/evidence/runs/demo123/exports/claim_guardrails.md', size_bytes: 512 },
     { name: 'source_summary.json', url: '/api/evidence/runs/demo123/exports/source_summary.json', size_bytes: 512 },
     { name: 'readiness_scorecard.csv', url: '/api/evidence/runs/demo123/exports/readiness_scorecard.csv', size_bytes: 512 },
+    { name: 'gap_priorities.csv', url: '/api/evidence/runs/demo123/exports/gap_priorities.csv', size_bytes: 512 },
+    { name: 'methods_text.md', url: '/api/evidence/runs/demo123/exports/methods_text.md', size_bytes: 512 },
+    { name: 'publisher_feedback.csv', url: '/api/evidence/runs/demo123/exports/publisher_feedback.csv', size_bytes: 512 },
+    { name: 'derived_dataset_recipe.json', url: '/api/evidence/runs/demo123/exports/derived_dataset_recipe.json', size_bytes: 512 },
+    { name: 'provenance.json', url: '/api/evidence/runs/demo123/exports/provenance.json', size_bytes: 512 },
   ],
 };
 
@@ -224,7 +229,7 @@ describe('EcoGenesis Evidence Atlas UI', () => {
     expect(screen.getByRole('img', { name: 'Scientific evidence map' })).toBeInTheDocument();
     expect(screen.getAllByText('Iberian Peninsula').length).toBeGreaterThan(0);
     expect(screen.getByRole('button', { name: 'Issues' })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /Download ZIP/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /Download Evidence Pack/i })).toBeInTheDocument();
   });
 
   it('changes source mode and renders grouped passport sections', async () => {
@@ -233,20 +238,24 @@ describe('EcoGenesis Evidence Atlas UI', () => {
 
     await waitFor(() => expect(screen.getByText('Purpose comparison')).toBeInTheDocument());
     fireEvent.change(screen.getByLabelText('Source mode'), { target: { value: 'online_with_fixture_fallback' } });
-    fireEvent.click(screen.getByRole('button', { name: 'Run Evidence Passport' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Generate Evidence Passport' }));
 
     await waitFor(() => expect(postBodies.length).toBeGreaterThan(1));
     expect(postBodies.at(-1).source_mode).toBe('online_with_fixture_fallback');
 
-    fireEvent.click(screen.getByRole('button', { name: 'Source' }));
-    expect(screen.getByText('Run Steps')).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'Citation & Provenance' }));
+    expect(screen.getAllByText('Source & provenance').length).toBeGreaterThan(0);
 
-    fireEvent.click(screen.getByRole('button', { name: 'Quality' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Data Quality' }));
     expect(screen.getAllByText('No-evidence cells').length).toBeGreaterThan(0);
 
-    fireEvent.click(screen.getByRole('button', { name: 'Exports' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Sampling Gaps' }));
+    expect(screen.getAllByText('Sampling Gap Engine').length).toBeGreaterThan(0);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Export Pack' }));
     expect(screen.getByText('ZIP')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /Evidence pack ZIP/i })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /source_summary.json/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /gap_priorities.csv/i })).toBeInTheDocument();
   });
 });

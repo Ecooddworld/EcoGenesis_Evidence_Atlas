@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from collections import Counter, defaultdict
 from dataclasses import asdict
+from datetime import datetime, timezone
 import math
 from typing import Any, Iterable
 
@@ -119,12 +120,26 @@ def build_records_geojson(records: Iterable[NormalizedOccurrence]) -> dict[str, 
     return {"type": "FeatureCollection", "features": features}
 
 
-def build_grid_metrics(records: list[NormalizedOccurrence], bbox: list[float], *, grid_size: int = 4) -> dict[str, Any]:
+def build_grid_metrics(
+    records: list[NormalizedOccurrence],
+    bbox: list[float],
+    *,
+    grid_size: int = 4,
+    current_year: int | None = None,
+) -> dict[str, Any]:
+    current_year = current_year or datetime.now(timezone.utc).year
     west, south, east, north = bbox
     width = (east - west) / grid_size
     height = (north - south) / grid_size
     cells: dict[str, dict[str, Any]] = {
-        f"grid:{grid_size}:{x}:{y}": {"records": [], "species_counts": Counter(), "datasets": set(), "years": []}
+        f"grid:{grid_size}:{x}:{y}": {
+            "x": x,
+            "y": y,
+            "records": [],
+            "species_counts": Counter(),
+            "datasets": set(),
+            "years": [],
+        }
         for y in range(grid_size)
         for x in range(grid_size)
     }
@@ -159,13 +174,24 @@ def build_grid_metrics(records: list[NormalizedOccurrence], bbox: list[float], *
         metrics = hill_metrics(bucket["species_counts"])
         sampling_coverage_proxy = min(1.0, n / 5.0)
         detection_effort_proxy = math.log1p(n) / math.log1p(max_n) if max_n > 0 else 0.0
+        high_uncertainty_count = sum(1 for record in bucket["records"] if (record.coordinate_uncertainty_m or 0) > 10000)
         empty_cell = n == 0
         under_sampled = not empty_cell and sampling_coverage_proxy < 0.6
-        survey_priority = empty_cell or under_sampled
+        priority = _gap_priority(
+            bucket=bucket,
+            cells=cells,
+            grid_size=grid_size,
+            empty_cell=empty_cell,
+            under_sampled=under_sampled,
+            high_uncertainty_count=high_uncertainty_count,
+            current_year=current_year,
+        )
+        survey_priority = empty_cell or under_sampled or priority["score"] >= 35
         properties = {
             "cell_id": cell_id,
             "occurrence_count": n,
             "dataset_count": len(bucket["datasets"]),
+            "high_uncertainty_count": high_uncertainty_count,
             "min_year": min(bucket["years"]) if bucket["years"] else None,
             "max_year": max(bucket["years"]) if bucket["years"] else None,
             "sampling_coverage_proxy": round(sampling_coverage_proxy, 4),
@@ -175,6 +201,10 @@ def build_grid_metrics(records: list[NormalizedOccurrence], bbox: list[float], *
             "survey_priority": survey_priority,
             "detection_effort_proxy": round(detection_effort_proxy, 4),
             "non_detection_risk": round(1.0 - detection_effort_proxy, 4),
+            "gap_priority_score": priority["score"],
+            "gap_priority_label": priority["label"],
+            "gap_priority_components": priority["components"],
+            "gap_priority_reasons": priority["reasons"],
             **{key: round(value, 4) if isinstance(value, float) else value for key, value in metrics.items()},
         }
         features.append(
@@ -199,6 +229,17 @@ def build_grid_metrics(records: list[NormalizedOccurrence], bbox: list[float], *
     empty_cell_count = sum(1 for feature in features if feature["properties"]["empty_cell"])
     under_sampled_occupied = sum(1 for feature in features if feature["properties"]["under_sampled"])
     survey_priority_cells = sum(1 for feature in features if feature["properties"]["survey_priority"])
+    top_priority_cells = [
+        {
+            "cell_id": feature["properties"]["cell_id"],
+            "score": feature["properties"]["gap_priority_score"],
+            "label": feature["properties"]["gap_priority_label"],
+            "reasons": feature["properties"]["gap_priority_reasons"],
+            "occurrence_count": feature["properties"]["occurrence_count"],
+        }
+        for feature in sorted(features, key=lambda item: item["properties"]["gap_priority_score"], reverse=True)
+        if feature["properties"]["survey_priority"]
+    ][:3]
     return {
         "type": "FeatureCollection",
         "features": features,
@@ -210,6 +251,7 @@ def build_grid_metrics(records: list[NormalizedOccurrence], bbox: list[float], *
             "under_sampled_cells": under_sampled_occupied,
             "under_sampled_occupied_cells": under_sampled_occupied,
             "survey_priority_cells": survey_priority_cells,
+            "top_survey_priority_cells": top_priority_cells,
             "method": "Taxon-focused grid: occurrence density, sampling coverage proxy and non-detection risk. Empty cells are not absences.",
         },
     }
@@ -217,3 +259,90 @@ def build_grid_metrics(records: list[NormalizedOccurrence], bbox: list[float], *
 
 def serialize_records(records: list[NormalizedOccurrence]) -> list[dict[str, Any]]:
     return [asdict(record) for record in records]
+
+
+def _gap_priority(
+    *,
+    bucket: dict[str, Any],
+    cells: dict[str, dict[str, Any]],
+    grid_size: int,
+    empty_cell: bool,
+    under_sampled: bool,
+    high_uncertainty_count: int,
+    current_year: int,
+) -> dict[str, Any]:
+    x = bucket["x"]
+    y = bucket["y"]
+    records = bucket["records"]
+    n = len(records)
+    neighbor_buckets = [
+        other
+        for other in (
+            cells.get(f"grid:{grid_size}:{nx}:{ny}")
+            for nx in range(max(0, x - 1), min(grid_size - 1, x + 1) + 1)
+            for ny in range(max(0, y - 1), min(grid_size - 1, y + 1) + 1)
+            if not (nx == x and ny == y)
+        )
+        if other is not None
+    ]
+    occupied_neighbors = sum(1 for other in neighbor_buckets if other["records"])
+    neighbor_evidence = occupied_neighbors / len(neighbor_buckets) if neighbor_buckets else 0.0
+    if not bucket["years"]:
+        recency_deficit = 1.0
+    else:
+        age = max(0, current_year - max(bucket["years"]))
+        recency_deficit = min(1.0, age / 20.0)
+    uncertainty_burden = 0.0 if n == 0 else min(1.0, high_uncertainty_count / n)
+    dataset_count = len(bucket["datasets"])
+    if dataset_count == 0:
+        source_diversity_gap = 1.0
+    elif dataset_count == 1:
+        source_diversity_gap = 0.6
+    elif dataset_count == 2:
+        source_diversity_gap = 0.3
+    else:
+        source_diversity_gap = 0.0
+    no_evidence = 1.0 if empty_cell else 0.0
+    under_sampled_component = 0.45 if under_sampled else 0.0
+    score = 100.0 * (
+        0.35 * max(no_evidence, under_sampled_component)
+        + 0.20 * neighbor_evidence
+        + 0.20 * recency_deficit
+        + 0.15 * uncertainty_burden
+        + 0.10 * source_diversity_gap
+    )
+    reasons = []
+    if empty_cell:
+        reasons.append("No GBIF-mediated records returned after filters")
+    if under_sampled:
+        reasons.append("Occupied cell remains below sampling coverage threshold")
+    if neighbor_evidence >= 0.35:
+        reasons.append("Neighboring cells contain occurrence evidence")
+    if recency_deficit >= 0.5:
+        reasons.append("Recent temporal evidence is weak or missing")
+    if uncertainty_burden >= 0.5:
+        reasons.append("Coordinate uncertainty burdens cell interpretation")
+    if source_diversity_gap >= 0.6:
+        reasons.append("Dataset/source diversity is low")
+    if not reasons:
+        reasons.append("Lower survey priority under current fixture metrics")
+    return {
+        "score": round(score, 2),
+        "label": _gap_label(score),
+        "components": {
+            "no_evidence": round(no_evidence, 4),
+            "neighbor_evidence": round(neighbor_evidence, 4),
+            "recency_deficit": round(recency_deficit, 4),
+            "uncertainty_burden": round(uncertainty_burden, 4),
+            "source_diversity_gap": round(source_diversity_gap, 4),
+        },
+        "reasons": reasons,
+    }
+
+
+def _gap_label(score: float) -> str:
+    if score >= 60:
+        return "High priority for survey"
+    if score >= 35:
+        return "Medium priority for survey"
+    return "Low priority"

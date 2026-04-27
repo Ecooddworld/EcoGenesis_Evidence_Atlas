@@ -1,7 +1,7 @@
 {
-  "run_id": "e9ba719920034da8ac17c74a021cdeaf",
-  "started_at": "2026-04-26T23:38:02.984154+00:00",
-  "finished_at": "2026-04-26T23:38:02.985602+00:00",
+  "run_id": "0e63b19bf25c41929f2379f91cae350d",
+  "started_at": "2026-04-27T01:35:12.912323+00:00",
+  "finished_at": "2026-04-27T01:35:12.913012+00:00",
   "source_mode": "fixture",
   "request": {
     "taxon": "Aedes albopictus",
@@ -36,7 +36,7 @@
     {
       "name": "occurrence_fetch",
       "status": "completed",
-      "duration_ms": 0.19
+      "duration_ms": 0.08
     },
     {
       "name": "normalize",
@@ -46,15 +46,36 @@
     {
       "name": "score",
       "status": "completed",
-      "duration_ms": 0.2
+      "duration_ms": 0.3
     },
     {
       "name": "exports",
       "status": "completed",
-      "duration_ms": 5.12,
+      "duration_ms": 6.42,
       "details": {
-        "artifact_count": 14
+        "artifact_count": 19
       }
     }
-  ]
+  ],
+  "artifact_checksums": {
+    "citations.md": "ffdb944926ef3538130bcfc704b15bbf63890c87e6b83f947e47af111001d485",
+    "claim_guardrails.md": "98043b9dba7318a05d29ca4628ad608b89c4469c1d554d1134126192e0dd3898",
+    "dataset_contributions.csv": "33179338a3c253e411fdc874783c58cb67c8aa8b2d4a5d55d9ca0f03c550049c",
+    "demo_scenario.json": "992300cbc8517d5f73cb698622f4ba778aa5bcabd368410bffa427e6e471595a",
+    "derived_dataset_recipe.json": "fcc12a05e48a7d338adfb11cdb54387c063b4c747c9a03ac8064058b1aa7336c",
+    "evidence_pack.json": "9aa9773163b38d0e238ff94bea0056dc2039436ade2ead6d29d85cc82217e1b6",
+    "evidence_pack.zip": "0923c406017e7fdd5713fe15cf6865c262a88f63e283bfcc7f00ef54de79d764",
+    "gap_priorities.csv": "5634b27f69544ef865a5872f361edd677923cbc2a55551066a120c02a04d4691",
+    "methods_text.md": "390cb64192efa68250453c54fec6bc3e8440311079af7500555be74282d86a00",
+    "passport.html": "383c6e7eb8eabe78b3492c2093cc27852053e5b95b9cf3eae14ec7967004ec14",
+    "passport.md": "f63db6c294c6a90f42db9a7e5a6c06f269e59cea93092fb2c64dd2b1e7bb9ae0",
+    "provenance.json": "92811750f08db8d94f9f35a0abac63ae0020962ecf2962e1e03f204ea26f72cd",
+    "publisher_feedback.csv": "9a5717201907191522f914163a787edb34a6edde6252d566975610390489e3f6",
+    "publisher_feedback.md": "29515e2448ead2f59b8836795afc6655c286a009b670ed5a1bb79b0abbd0326a",
+    "quality_metrics.csv": "ea62ab69742e460cc8eac8f16c1754f425cd3eb04999e9f5f6303e88b2042293",
+    "readiness_scorecard.csv": "6525c356e86d2ce3b73b2ddfca068cce3c1584a99b6c6d86ed28b41d2cc459cf",
+    "records.geojson": "d433a513064e4e5ccdd371e842cdf34900bfcee6ed6f4ecd9b53941e9bb8cf42",
+    "run.json": "d43b915dd6a37afbb30e4779c72e18e5f479fb8345d66b7ad7397d399f8651f7",
+    "source_summary.json": "207a18c1eff8a4f6477f5c1d85cb3842adc3a8173c26672ff7d1f62058136dbd"
+  }
 }

@@ -15,10 +15,15 @@ def build_artifacts(pack: dict[str, Any]) -> dict[str, str]:
         "demo_scenario.json": json.dumps(_demo_scenario(pack), indent=2, ensure_ascii=False),
         "records.geojson": json.dumps(pack["records_geojson"], indent=2, ensure_ascii=False),
         "quality_metrics.csv": _quality_csv(pack["quality_metrics"]),
+        "gap_priorities.csv": _gap_priorities_csv(pack),
         "readiness_scorecard.csv": _readiness_scorecard_csv(pack),
         "dataset_contributions.csv": _dataset_csv(pack["dataset_contributions"]),
+        "publisher_feedback.csv": _publisher_feedback_csv(pack["publisher_feedback"]),
+        "derived_dataset_recipe.json": json.dumps(pack["citation_autopilot"]["derived_dataset_recipe"], indent=2, ensure_ascii=False),
+        "provenance.json": json.dumps(_provenance(pack), indent=2, ensure_ascii=False),
         "citations.md": _citations_md(pack),
         "claim_guardrails.md": _claim_guardrails_md(pack),
+        "methods_text.md": _methods_text_md(pack),
         "publisher_feedback.md": _publisher_feedback_md(pack),
         "passport.md": _passport_md(pack),
         "passport.html": _passport_html(pack),
@@ -45,6 +50,44 @@ def _quality_csv(metrics: dict[str, Any]) -> str:
     return output.getvalue()
 
 
+def _gap_priorities_csv(pack: dict[str, Any]) -> str:
+    output = io.StringIO()
+    fields = [
+        "cell_id",
+        "occurrence_count",
+        "dataset_count",
+        "gap_priority_score",
+        "gap_priority_label",
+        "no_evidence",
+        "neighbor_evidence",
+        "recency_deficit",
+        "uncertainty_burden",
+        "source_diversity_gap",
+        "reasons",
+    ]
+    writer = csv.DictWriter(output, fieldnames=fields)
+    writer.writeheader()
+    for feature in pack["grid_metrics"]["features"]:
+        props = feature["properties"]
+        components = props.get("gap_priority_components") or {}
+        writer.writerow(
+            {
+                "cell_id": props.get("cell_id"),
+                "occurrence_count": props.get("occurrence_count"),
+                "dataset_count": props.get("dataset_count"),
+                "gap_priority_score": props.get("gap_priority_score"),
+                "gap_priority_label": props.get("gap_priority_label"),
+                "no_evidence": components.get("no_evidence"),
+                "neighbor_evidence": components.get("neighbor_evidence"),
+                "recency_deficit": components.get("recency_deficit"),
+                "uncertainty_burden": components.get("uncertainty_burden"),
+                "source_diversity_gap": components.get("source_diversity_gap"),
+                "reasons": "; ".join(props.get("gap_priority_reasons") or []),
+            }
+        )
+    return output.getvalue()
+
+
 def _dataset_csv(rows: list[dict[str, Any]]) -> str:
     output = io.StringIO()
     fields = ["datasetKey", "datasetTitle", "publisher", "license", "record_count", "main_issues"]
@@ -53,6 +96,35 @@ def _dataset_csv(rows: list[dict[str, Any]]) -> str:
     for row in rows:
         writer.writerow({field: row.get(field) for field in fields})
     return output.getvalue()
+
+
+def _publisher_feedback_csv(rows: list[dict[str, Any]]) -> str:
+    output = io.StringIO()
+    fields = ["datasetKey", "records_affected", "main_issue", "suggested_fix"]
+    writer = csv.DictWriter(output, fieldnames=fields)
+    writer.writeheader()
+    for row in rows:
+        writer.writerow({field: row.get(field) for field in fields})
+    return output.getvalue()
+
+
+def _provenance(pack: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "tool": "EcoGenesis Evidence Passport",
+        "run": pack["run"],
+        "source_summary": pack["source_summary"],
+        "passport": pack["passport"],
+        "evidence_readiness": pack["evidence_readiness"],
+        "purpose_score_matrix": pack["purpose_score_matrix"],
+        "citation_status": pack["citation_autopilot"]["citation_status"],
+        "dataset_contributions": pack["dataset_contributions"],
+        "known_limitations": [
+            "GBIF-mediated occurrence records are heterogeneous and reflect variable sampling effort.",
+            "No-evidence grid cells are not absence observations.",
+            "Occurrence counts alone do not establish abundance or population trends.",
+            "Fixture and fallback runs are reproducible demo artifacts, not publication citation bases.",
+        ],
+    }
 
 
 def _readiness_scorecard_csv(pack: dict[str, Any]) -> str:
@@ -124,6 +196,22 @@ def _claim_guardrails_md(pack: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
+def _methods_text_md(pack: dict[str, Any]) -> str:
+    return "\n".join(
+        [
+            "# Methods Text",
+            "",
+            pack["citation_autopilot"]["methods_text"],
+            "",
+            "## Known Limitations",
+            "",
+            "- No-evidence cells are survey targets, not absence observations.",
+            "- The readiness score is a purpose-aware decision-support heuristic, not a biological truth.",
+            "- Formal research or policy use requires a DOI-backed GBIF occurrence download or derived dataset where applicable.",
+        ]
+    ) + "\n"
+
+
 def _publisher_feedback_md(pack: dict[str, Any]) -> str:
     lines = [
         "# Publisher Feedback Pack",
@@ -181,6 +269,17 @@ def _passport_md(pack: dict[str, Any]) -> str:
         lines.append(f"| {row['purpose_label']} | {row['score']} |")
     lines.extend([
         "",
+        "## Top Sampling Priorities",
+        "",
+        "| Cell | Score | Label | Reasons |",
+        "| --- | ---: | --- | --- |",
+    ])
+    for cell in grid_meta.get("top_survey_priority_cells", []):
+        lines.append(
+            f"| {cell['cell_id']} | {cell['score']} | {cell['label']} | {'; '.join(cell.get('reasons') or [])} |"
+        )
+    lines.extend([
+        "",
         "## Main Risks",
         "",
     ])
@@ -225,6 +324,16 @@ def _passport_html(pack: dict[str, Any]) -> str:
         </tr>"""
         for row in pack["purpose_score_matrix"].values()
     )
+    priority_rows = "".join(
+        f"""
+        <tr>
+          <td>{_escape(row['cell_id'])}</td>
+          <td>{row['score']}</td>
+          <td>{_escape(row['label'])}</td>
+          <td>{_escape('; '.join(row.get('reasons') or []))}</td>
+        </tr>"""
+        for row in grid_meta.get("top_survey_priority_cells", [])
+    ) or '<tr><td colspan="4">No survey-priority cells generated.</td></tr>'
     datasets = "".join(
         f"""
         <tr>
@@ -325,6 +434,11 @@ def _passport_html(pack: dict[str, Any]) -> str:
       <div class="kpi"><span>Occupied cells</span><strong>{grid_meta['occupied_cell_count']}</strong></div>
       <div class="kpi"><span>No-evidence cells</span><strong>{grid_meta['empty_cell_count']}</strong></div>
       <div class="kpi"><span>Survey priorities</span><strong>{grid_meta['survey_priority_cells']}</strong></div>
+    </section>
+    <section>
+      <h2>Sampling Gap Engine</h2>
+      <p>No-evidence cells are ranked as survey priorities, never as absence observations.</p>
+      <table><thead><tr><th>Cell</th><th>Gap score</th><th>Label</th><th>Reasons</th></tr></thead><tbody>{priority_rows}</tbody></table>
     </section>
     <section>
       <h2>Readiness Components</h2>

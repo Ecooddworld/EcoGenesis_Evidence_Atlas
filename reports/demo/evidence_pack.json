@@ -1,8 +1,8 @@
 {
   "run": {
-    "run_id": "e9ba719920034da8ac17c74a021cdeaf",
-    "started_at": "2026-04-26T23:38:02.984154+00:00",
-    "finished_at": "2026-04-26T23:38:02.985602+00:00",
+    "run_id": "0e63b19bf25c41929f2379f91cae350d",
+    "started_at": "2026-04-27T01:35:12.912323+00:00",
+    "finished_at": "2026-04-27T01:35:12.913012+00:00",
     "source_mode": "fixture",
     "request": {
       "taxon": "Aedes albopictus",
@@ -37,7 +37,7 @@
       {
         "name": "occurrence_fetch",
         "status": "completed",
-        "duration_ms": 0.19
+        "duration_ms": 0.08
       },
       {
         "name": "normalize",
@@ -47,17 +47,38 @@
       {
         "name": "score",
         "status": "completed",
-        "duration_ms": 0.2
+        "duration_ms": 0.3
       },
       {
         "name": "exports",
         "status": "completed",
-        "duration_ms": 5.12,
+        "duration_ms": 6.42,
         "details": {
-          "artifact_count": 14
+          "artifact_count": 19
         }
       }
-    ]
+    ],
+    "artifact_checksums": {
+      "citations.md": "ffdb944926ef3538130bcfc704b15bbf63890c87e6b83f947e47af111001d485",
+      "claim_guardrails.md": "98043b9dba7318a05d29ca4628ad608b89c4469c1d554d1134126192e0dd3898",
+      "dataset_contributions.csv": "33179338a3c253e411fdc874783c58cb67c8aa8b2d4a5d55d9ca0f03c550049c",
+      "demo_scenario.json": "992300cbc8517d5f73cb698622f4ba778aa5bcabd368410bffa427e6e471595a",
+      "derived_dataset_recipe.json": "fcc12a05e48a7d338adfb11cdb54387c063b4c747c9a03ac8064058b1aa7336c",
+      "evidence_pack.json": "9aa9773163b38d0e238ff94bea0056dc2039436ade2ead6d29d85cc82217e1b6",
+      "evidence_pack.zip": "0923c406017e7fdd5713fe15cf6865c262a88f63e283bfcc7f00ef54de79d764",
+      "gap_priorities.csv": "5634b27f69544ef865a5872f361edd677923cbc2a55551066a120c02a04d4691",
+      "methods_text.md": "390cb64192efa68250453c54fec6bc3e8440311079af7500555be74282d86a00",
+      "passport.html": "383c6e7eb8eabe78b3492c2093cc27852053e5b95b9cf3eae14ec7967004ec14",
+      "passport.md": "f63db6c294c6a90f42db9a7e5a6c06f269e59cea93092fb2c64dd2b1e7bb9ae0",
+      "provenance.json": "92811750f08db8d94f9f35a0abac63ae0020962ecf2962e1e03f204ea26f72cd",
+      "publisher_feedback.csv": "9a5717201907191522f914163a787edb34a6edde6252d566975610390489e3f6",
+      "publisher_feedback.md": "29515e2448ead2f59b8836795afc6655c286a009b670ed5a1bb79b0abbd0326a",
+      "quality_metrics.csv": "ea62ab69742e460cc8eac8f16c1754f425cd3eb04999e9f5f6303e88b2042293",
+      "readiness_scorecard.csv": "6525c356e86d2ce3b73b2ddfca068cce3c1584a99b6c6d86ed28b41d2cc459cf",
+      "records.geojson": "d433a513064e4e5ccdd371e842cdf34900bfcee6ed6f4ecd9b53941e9bb8cf42",
+      "run.json": "d43b915dd6a37afbb30e4779c72e18e5f479fb8345d66b7ad7397d399f8651f7",
+      "source_summary.json": "207a18c1eff8a4f6477f5c1d85cb3842adc3a8173c26672ff7d1f62058136dbd"
+    }
   },
   "passport": {
     "title": "GBIF Evidence Passport",
@@ -365,6 +386,7 @@
           "cell_id": "grid:4:0:0",
           "occurrence_count": 0,
           "dataset_count": 0,
+          "high_uncertainty_count": 0,
           "min_year": null,
           "max_year": null,
           "sampling_coverage_proxy": 0.0,
@@ -374,6 +396,21 @@
           "survey_priority": true,
           "detection_effort_proxy": 0.0,
           "non_detection_risk": 1.0,
+          "gap_priority_score": 78.33,
+          "gap_priority_label": "High priority for survey",
+          "gap_priority_components": {
+            "no_evidence": 1.0,
+            "neighbor_evidence": 0.6667,
+            "recency_deficit": 1.0,
+            "uncertainty_burden": 0.0,
+            "source_diversity_gap": 1.0
+          },
+          "gap_priority_reasons": [
+            "No GBIF-mediated records returned after filters",
+            "Neighboring cells contain occurrence evidence",
+            "Recent temporal evidence is weak or missing",
+            "Dataset/source diversity is low"
+          ],
           "species_count": 0,
           "hill_q0": 0.0,
           "hill_q1": 0.0,
@@ -420,6 +457,7 @@
           "cell_id": "grid:4:0:1",
           "occurrence_count": 0,
           "dataset_count": 0,
+          "high_uncertainty_count": 0,
           "min_year": null,
           "max_year": null,
           "sampling_coverage_proxy": 0.0,
@@ -429,6 +467,21 @@
           "survey_priority": true,
           "detection_effort_proxy": 0.0,
           "non_detection_risk": 1.0,
+          "gap_priority_score": 77.0,
+          "gap_priority_label": "High priority for survey",
+          "gap_priority_components": {
+            "no_evidence": 1.0,
+            "neighbor_evidence": 0.6,
+            "recency_deficit": 1.0,
+            "uncertainty_burden": 0.0,
+            "source_diversity_gap": 1.0
+          },
+          "gap_priority_reasons": [
+            "No GBIF-mediated records returned after filters",
+            "Neighboring cells contain occurrence evidence",
+            "Recent temporal evidence is weak or missing",
+            "Dataset/source diversity is low"
+          ],
           "species_count": 0,
           "hill_q0": 0.0,
           "hill_q1": 0.0,
@@ -475,6 +528,7 @@
           "cell_id": "grid:4:0:2",
           "occurrence_count": 0,
           "dataset_count": 0,
+          "high_uncertainty_count": 0,
           "min_year": null,
           "max_year": null,
           "sampling_coverage_proxy": 0.0,
@@ -484,6 +538,21 @@
           "survey_priority": true,
           "detection_effort_proxy": 0.0,
           "non_detection_risk": 1.0,
+          "gap_priority_score": 81.0,
+          "gap_priority_label": "High priority for survey",
+          "gap_priority_components": {
+            "no_evidence": 1.0,
+            "neighbor_evidence": 0.8,
+            "recency_deficit": 1.0,
+            "uncertainty_burden": 0.0,
+            "source_diversity_gap": 1.0
+          },
+          "gap_priority_reasons": [
+            "No GBIF-mediated records returned after filters",
+            "Neighboring cells contain occurrence evidence",
+            "Recent temporal evidence is weak or missing",
+            "Dataset/source diversity is low"
+          ],
           "species_count": 0,
           "hill_q0": 0.0,
           "hill_q1": 0.0,
@@ -530,6 +599,7 @@
           "cell_id": "grid:4:0:3",
           "occurrence_count": 1,
           "dataset_count": 1,
+          "high_uncertainty_count": 1,
           "min_year": 2015,
           "max_year": 2015,
           "sampling_coverage_proxy": 0.2,
@@ -539,6 +609,22 @@
           "survey_priority": true,
           "detection_effort_proxy": 0.6309,
           "non_detection_risk": 0.3691,
+          "gap_priority_score": 61.08,
+          "gap_priority_label": "High priority for survey",
+          "gap_priority_components": {
+            "no_evidence": 0.0,
+            "neighbor_evidence": 0.6667,
+            "recency_deficit": 0.55,
+            "uncertainty_burden": 1.0,
+            "source_diversity_gap": 0.6
+          },
+          "gap_priority_reasons": [
+            "Occupied cell remains below sampling coverage threshold",
+            "Neighboring cells contain occurrence evidence",
+            "Recent temporal evidence is weak or missing",
+            "Coordinate uncertainty burdens cell interpretation",
+            "Dataset/source diversity is low"
+          ],
           "species_count": 1,
           "hill_q0": 1.0,
           "hill_q1": 1.0,
@@ -585,6 +671,7 @@
           "cell_id": "grid:4:1:0",
           "occurrence_count": 1,
           "dataset_count": 1,
+          "high_uncertainty_count": 1,
           "min_year": null,
           "max_year": null,
           "sampling_coverage_proxy": 0.2,
@@ -594,6 +681,22 @@
           "survey_priority": true,
           "detection_effort_proxy": 0.6309,
           "non_detection_risk": 0.3691,
+          "gap_priority_score": 64.75,
+          "gap_priority_label": "High priority for survey",
+          "gap_priority_components": {
+            "no_evidence": 0.0,
+            "neighbor_evidence": 0.4,
+            "recency_deficit": 1.0,
+            "uncertainty_burden": 1.0,
+            "source_diversity_gap": 0.6
+          },
+          "gap_priority_reasons": [
+            "Occupied cell remains below sampling coverage threshold",
+            "Neighboring cells contain occurrence evidence",
+            "Recent temporal evidence is weak or missing",
+            "Coordinate uncertainty burdens cell interpretation",
+            "Dataset/source diversity is low"
+          ],
           "species_count": 1,
           "hill_q0": 1.0,
           "hill_q1": 1.0,
@@ -640,6 +743,7 @@
           "cell_id": "grid:4:1:1",
           "occurrence_count": 1,
           "dataset_count": 1,
+          "high_uncertainty_count": 0,
           "min_year": 2018,
           "max_year": 2018,
           "sampling_coverage_proxy": 0.2,
@@ -649,6 +753,20 @@
           "survey_priority": true,
           "detection_effort_proxy": 0.6309,
           "non_detection_risk": 0.3691,
+          "gap_priority_score": 39.75,
+          "gap_priority_label": "Medium priority for survey",
+          "gap_priority_components": {
+            "no_evidence": 0.0,
+            "neighbor_evidence": 0.5,
+            "recency_deficit": 0.4,
+            "uncertainty_burden": 0.0,
+            "source_diversity_gap": 0.6
+          },
+          "gap_priority_reasons": [
+            "Occupied cell remains below sampling coverage threshold",
+            "Neighboring cells contain occurrence evidence",
+            "Dataset/source diversity is low"
+          ],
           "species_count": 1,
           "hill_q0": 1.0,
           "hill_q1": 1.0,
@@ -695,6 +813,7 @@
           "cell_id": "grid:4:1:2",
           "occurrence_count": 1,
           "dataset_count": 1,
+          "high_uncertainty_count": 0,
           "min_year": 2021,
           "max_year": 2021,
           "sampling_coverage_proxy": 0.2,
@@ -704,6 +823,20 @@
           "survey_priority": true,
           "detection_effort_proxy": 0.6309,
           "non_detection_risk": 0.3691,
+          "gap_priority_score": 39.25,
+          "gap_priority_label": "Medium priority for survey",
+          "gap_priority_components": {
+            "no_evidence": 0.0,
+            "neighbor_evidence": 0.625,
+            "recency_deficit": 0.25,
+            "uncertainty_burden": 0.0,
+            "source_diversity_gap": 0.6
+          },
+          "gap_priority_reasons": [
+            "Occupied cell remains below sampling coverage threshold",
+            "Neighboring cells contain occurrence evidence",
+            "Dataset/source diversity is low"
+          ],
           "species_count": 1,
           "hill_q0": 1.0,
           "hill_q1": 1.0,
@@ -750,6 +883,7 @@
           "cell_id": "grid:4:1:3",
           "occurrence_count": 1,
           "dataset_count": 1,
+          "high_uncertainty_count": 0,
           "min_year": 2016,
           "max_year": 2016,
           "sampling_coverage_proxy": 0.2,
@@ -759,6 +893,21 @@
           "survey_priority": true,
           "detection_effort_proxy": 0.6309,
           "non_detection_risk": 0.3691,
+          "gap_priority_score": 43.75,
+          "gap_priority_label": "Medium priority for survey",
+          "gap_priority_components": {
+            "no_evidence": 0.0,
+            "neighbor_evidence": 0.6,
+            "recency_deficit": 0.5,
+            "uncertainty_burden": 0.0,
+            "source_diversity_gap": 0.6
+          },
+          "gap_priority_reasons": [
+            "Occupied cell remains below sampling coverage threshold",
+            "Neighboring cells contain occurrence evidence",
+            "Recent temporal evidence is weak or missing",
+            "Dataset/source diversity is low"
+          ],
           "species_count": 1,
           "hill_q0": 1.0,
           "hill_q1": 1.0,
@@ -805,6 +954,7 @@
           "cell_id": "grid:4:2:0",
           "occurrence_count": 0,
           "dataset_count": 0,
+          "high_uncertainty_count": 0,
           "min_year": null,
           "max_year": null,
           "sampling_coverage_proxy": 0.0,
@@ -814,6 +964,21 @@
           "survey_priority": true,
           "detection_effort_proxy": 0.0,
           "non_detection_risk": 1.0,
+          "gap_priority_score": 81.0,
+          "gap_priority_label": "High priority for survey",
+          "gap_priority_components": {
+            "no_evidence": 1.0,
+            "neighbor_evidence": 0.8,
+            "recency_deficit": 1.0,
+            "uncertainty_burden": 0.0,
+            "source_diversity_gap": 1.0
+          },
+          "gap_priority_reasons": [
+            "No GBIF-mediated records returned after filters",
+            "Neighboring cells contain occurrence evidence",
+            "Recent temporal evidence is weak or missing",
+            "Dataset/source diversity is low"
+          ],
           "species_count": 0,
           "hill_q0": 0.0,
           "hill_q1": 0.0,
@@ -860,6 +1025,7 @@
           "cell_id": "grid:4:2:1",
           "occurrence_count": 2,
           "dataset_count": 1,
+          "high_uncertainty_count": 1,
           "min_year": 2022,
           "max_year": 2023,
           "sampling_coverage_proxy": 0.4,
@@ -869,6 +1035,21 @@
           "survey_priority": true,
           "detection_effort_proxy": 1.0,
           "non_detection_risk": 0.0,
+          "gap_priority_score": 47.25,
+          "gap_priority_label": "Medium priority for survey",
+          "gap_priority_components": {
+            "no_evidence": 0.0,
+            "neighbor_evidence": 0.75,
+            "recency_deficit": 0.15,
+            "uncertainty_burden": 0.5,
+            "source_diversity_gap": 0.6
+          },
+          "gap_priority_reasons": [
+            "Occupied cell remains below sampling coverage threshold",
+            "Neighboring cells contain occurrence evidence",
+            "Coordinate uncertainty burdens cell interpretation",
+            "Dataset/source diversity is low"
+          ],
           "species_count": 1,
           "hill_q0": 1.0,
           "hill_q1": 1.0,
@@ -915,6 +1096,7 @@
           "cell_id": "grid:4:2:2",
           "occurrence_count": 2,
           "dataset_count": 2,
+          "high_uncertainty_count": 1,
           "min_year": 2014,
           "max_year": 2014,
           "sampling_coverage_proxy": 0.4,
@@ -924,6 +1106,21 @@
           "survey_priority": true,
           "detection_effort_proxy": 1.0,
           "non_detection_risk": 0.0,
+          "gap_priority_score": 53.25,
+          "gap_priority_label": "Medium priority for survey",
+          "gap_priority_components": {
+            "no_evidence": 0.0,
+            "neighbor_evidence": 0.75,
+            "recency_deficit": 0.6,
+            "uncertainty_burden": 0.5,
+            "source_diversity_gap": 0.3
+          },
+          "gap_priority_reasons": [
+            "Occupied cell remains below sampling coverage threshold",
+            "Neighboring cells contain occurrence evidence",
+            "Recent temporal evidence is weak or missing",
+            "Coordinate uncertainty burdens cell interpretation"
+          ],
           "species_count": 2,
           "hill_q0": 2.0,
           "hill_q1": 2.0,
@@ -970,6 +1167,7 @@
           "cell_id": "grid:4:2:3",
           "occurrence_count": 0,
           "dataset_count": 0,
+          "high_uncertainty_count": 0,
           "min_year": null,
           "max_year": null,
           "sampling_coverage_proxy": 0.0,
@@ -979,6 +1177,21 @@
           "survey_priority": true,
           "detection_effort_proxy": 0.0,
           "non_detection_risk": 1.0,
+          "gap_priority_score": 81.0,
+          "gap_priority_label": "High priority for survey",
+          "gap_priority_components": {
+            "no_evidence": 1.0,
+            "neighbor_evidence": 0.8,
+            "recency_deficit": 1.0,
+            "uncertainty_burden": 0.0,
+            "source_diversity_gap": 1.0
+          },
+          "gap_priority_reasons": [
+            "No GBIF-mediated records returned after filters",
+            "Neighboring cells contain occurrence evidence",
+            "Recent temporal evidence is weak or missing",
+            "Dataset/source diversity is low"
+          ],
           "species_count": 0,
           "hill_q0": 0.0,
           "hill_q1": 0.0,
@@ -1025,6 +1238,7 @@
           "cell_id": "grid:4:3:0",
           "occurrence_count": 0,
           "dataset_count": 0,
+          "high_uncertainty_count": 0,
           "min_year": null,
           "max_year": null,
           "sampling_coverage_proxy": 0.0,
@@ -1034,6 +1248,21 @@
           "survey_priority": true,
           "detection_effort_proxy": 0.0,
           "non_detection_risk": 1.0,
+          "gap_priority_score": 78.33,
+          "gap_priority_label": "High priority for survey",
+          "gap_priority_components": {
+            "no_evidence": 1.0,
+            "neighbor_evidence": 0.6667,
+            "recency_deficit": 1.0,
+            "uncertainty_burden": 0.0,
+            "source_diversity_gap": 1.0
+          },
+          "gap_priority_reasons": [
+            "No GBIF-mediated records returned after filters",
+            "Neighboring cells contain occurrence evidence",
+            "Recent temporal evidence is weak or missing",
+            "Dataset/source diversity is low"
+          ],
           "species_count": 0,
           "hill_q0": 0.0,
           "hill_q1": 0.0,
@@ -1080,6 +1309,7 @@
           "cell_id": "grid:4:3:1",
           "occurrence_count": 1,
           "dataset_count": 1,
+          "high_uncertainty_count": 0,
           "min_year": 2013,
           "max_year": 2013,
           "sampling_coverage_proxy": 0.2,
@@ -1089,6 +1319,21 @@
           "survey_priority": true,
           "detection_effort_proxy": 0.6309,
           "non_detection_risk": 0.3691,
+          "gap_priority_score": 46.75,
+          "gap_priority_label": "Medium priority for survey",
+          "gap_priority_components": {
+            "no_evidence": 0.0,
+            "neighbor_evidence": 0.6,
+            "recency_deficit": 0.65,
+            "uncertainty_burden": 0.0,
+            "source_diversity_gap": 0.6
+          },
+          "gap_priority_reasons": [
+            "Occupied cell remains below sampling coverage threshold",
+            "Neighboring cells contain occurrence evidence",
+            "Recent temporal evidence is weak or missing",
+            "Dataset/source diversity is low"
+          ],
           "species_count": 1,
           "hill_q0": 1.0,
           "hill_q1": 1.0,
@@ -1135,6 +1380,7 @@
           "cell_id": "grid:4:3:2",
           "occurrence_count": 2,
           "dataset_count": 1,
+          "high_uncertainty_count": 0,
           "min_year": 2024,
           "max_year": 2025,
           "sampling_coverage_proxy": 0.4,
@@ -1144,6 +1390,20 @@
           "survey_priority": true,
           "detection_effort_proxy": 1.0,
           "non_detection_risk": 0.0,
+          "gap_priority_score": 34.75,
+          "gap_priority_label": "Low priority",
+          "gap_priority_components": {
+            "no_evidence": 0.0,
+            "neighbor_evidence": 0.6,
+            "recency_deficit": 0.05,
+            "uncertainty_burden": 0.0,
+            "source_diversity_gap": 0.6
+          },
+          "gap_priority_reasons": [
+            "Occupied cell remains below sampling coverage threshold",
+            "Neighboring cells contain occurrence evidence",
+            "Dataset/source diversity is low"
+          ],
           "species_count": 1,
           "hill_q0": 1.0,
           "hill_q1": 1.0,
@@ -1190,6 +1450,7 @@
           "cell_id": "grid:4:3:3",
           "occurrence_count": 0,
           "dataset_count": 0,
+          "high_uncertainty_count": 0,
           "min_year": null,
           "max_year": null,
           "sampling_coverage_proxy": 0.0,
@@ -1199,6 +1460,21 @@
           "survey_priority": true,
           "detection_effort_proxy": 0.0,
           "non_detection_risk": 1.0,
+          "gap_priority_score": 78.33,
+          "gap_priority_label": "High priority for survey",
+          "gap_priority_components": {
+            "no_evidence": 1.0,
+            "neighbor_evidence": 0.6667,
+            "recency_deficit": 1.0,
+            "uncertainty_burden": 0.0,
+            "source_diversity_gap": 1.0
+          },
+          "gap_priority_reasons": [
+            "No GBIF-mediated records returned after filters",
+            "Neighboring cells contain occurrence evidence",
+            "Recent temporal evidence is weak or missing",
+            "Dataset/source diversity is low"
+          ],
           "species_count": 0,
           "hill_q0": 0.0,
           "hill_q1": 0.0,
@@ -1221,6 +1497,44 @@
       "under_sampled_cells": 9,
       "under_sampled_occupied_cells": 9,
       "survey_priority_cells": 16,
+      "top_survey_priority_cells": [
+        {
+          "cell_id": "grid:4:0:2",
+          "score": 81.0,
+          "label": "High priority for survey",
+          "reasons": [
+            "No GBIF-mediated records returned after filters",
+            "Neighboring cells contain occurrence evidence",
+            "Recent temporal evidence is weak or missing",
+            "Dataset/source diversity is low"
+          ],
+          "occurrence_count": 0
+        },
+        {
+          "cell_id": "grid:4:2:0",
+          "score": 81.0,
+          "label": "High priority for survey",
+          "reasons": [
+            "No GBIF-mediated records returned after filters",
+            "Neighboring cells contain occurrence evidence",
+            "Recent temporal evidence is weak or missing",
+            "Dataset/source diversity is low"
+          ],
+          "occurrence_count": 0
+        },
+        {
+          "cell_id": "grid:4:2:3",
+          "score": 81.0,
+          "label": "High priority for survey",
+          "reasons": [
+            "No GBIF-mediated records returned after filters",
+            "Neighboring cells contain occurrence evidence",
+            "Recent temporal evidence is weak or missing",
+            "Dataset/source diversity is low"
+          ],
+          "occurrence_count": 0
+        }
+      ],
       "method": "Taxon-focused grid: occurrence density, sampling coverage proxy and non-detection risk. Empty cells are not absences."
     }
   },
@@ -1986,73 +2300,117 @@
   "exports": [
     {
       "name": "citations.md",
-      "url": "/api/evidence/runs/e9ba719920034da8ac17c74a021cdeaf/exports/citations.md",
-      "size_bytes": 1189
+      "url": "/api/evidence/runs/0e63b19bf25c41929f2379f91cae350d/exports/citations.md",
+      "size_bytes": 1189,
+      "sha256": "ffdb944926ef3538130bcfc704b15bbf63890c87e6b83f947e47af111001d485"
     },
     {
       "name": "claim_guardrails.md",
-      "url": "/api/evidence/runs/e9ba719920034da8ac17c74a021cdeaf/exports/claim_guardrails.md",
-      "size_bytes": 1128
+      "url": "/api/evidence/runs/0e63b19bf25c41929f2379f91cae350d/exports/claim_guardrails.md",
+      "size_bytes": 1128,
+      "sha256": "98043b9dba7318a05d29ca4628ad608b89c4469c1d554d1134126192e0dd3898"
     },
     {
       "name": "dataset_contributions.csv",
-      "url": "/api/evidence/runs/e9ba719920034da8ac17c74a021cdeaf/exports/dataset_contributions.csv",
-      "size_bytes": 612
+      "url": "/api/evidence/runs/0e63b19bf25c41929f2379f91cae350d/exports/dataset_contributions.csv",
+      "size_bytes": 612,
+      "sha256": "33179338a3c253e411fdc874783c58cb67c8aa8b2d4a5d55d9ca0f03c550049c"
     },
     {
       "name": "demo_scenario.json",
-      "url": "/api/evidence/runs/e9ba719920034da8ac17c74a021cdeaf/exports/demo_scenario.json",
-      "size_bytes": 636
+      "url": "/api/evidence/runs/0e63b19bf25c41929f2379f91cae350d/exports/demo_scenario.json",
+      "size_bytes": 636,
+      "sha256": "992300cbc8517d5f73cb698622f4ba778aa5bcabd368410bffa427e6e471595a"
+    },
+    {
+      "name": "derived_dataset_recipe.json",
+      "url": "/api/evidence/runs/0e63b19bf25c41929f2379f91cae350d/exports/derived_dataset_recipe.json",
+      "size_bytes": 201,
+      "sha256": "fcc12a05e48a7d338adfb11cdb54387c063b4c747c9a03ac8064058b1aa7336c"
     },
     {
       "name": "evidence_pack.json",
-      "url": "/api/evidence/runs/e9ba719920034da8ac17c74a021cdeaf/exports/evidence_pack.json",
-      "size_bytes": 59180
+      "url": "/api/evidence/runs/0e63b19bf25c41929f2379f91cae350d/exports/evidence_pack.json",
+      "size_bytes": 73470,
+      "sha256": "9aa9773163b38d0e238ff94bea0056dc2039436ade2ead6d29d85cc82217e1b6"
     },
     {
       "name": "evidence_pack.zip",
-      "url": "/api/evidence/runs/e9ba719920034da8ac17c74a021cdeaf/exports/evidence_pack.zip",
-      "size_bytes": 18182
+      "url": "/api/evidence/runs/0e63b19bf25c41929f2379f91cae350d/exports/evidence_pack.zip",
+      "size_bytes": 24166,
+      "sha256": "0923c406017e7fdd5713fe15cf6865c262a88f63e283bfcc7f00ef54de79d764"
+    },
+    {
+      "name": "gap_priorities.csv",
+      "url": "/api/evidence/runs/0e63b19bf25c41929f2379f91cae350d/exports/gap_priorities.csv",
+      "size_bytes": 4096,
+      "sha256": "5634b27f69544ef865a5872f361edd677923cbc2a55551066a120c02a04d4691"
+    },
+    {
+      "name": "methods_text.md",
+      "url": "/api/evidence/runs/0e63b19bf25c41929f2379f91cae350d/exports/methods_text.md",
+      "size_bytes": 837,
+      "sha256": "390cb64192efa68250453c54fec6bc3e8440311079af7500555be74282d86a00"
     },
     {
       "name": "passport.html",
-      "url": "/api/evidence/runs/e9ba719920034da8ac17c74a021cdeaf/exports/passport.html",
-      "size_bytes": 16107
+      "url": "/api/evidence/runs/0e63b19bf25c41929f2379f91cae350d/exports/passport.html",
+      "size_bytes": 17339,
+      "sha256": "383c6e7eb8eabe78b3492c2093cc27852053e5b95b9cf3eae14ec7967004ec14"
     },
     {
       "name": "passport.md",
-      "url": "/api/evidence/runs/e9ba719920034da8ac17c74a021cdeaf/exports/passport.md",
-      "size_bytes": 3700
+      "url": "/api/evidence/runs/0e63b19bf25c41929f2379f91cae350d/exports/passport.md",
+      "size_bytes": 4463,
+      "sha256": "f63db6c294c6a90f42db9a7e5a6c06f269e59cea93092fb2c64dd2b1e7bb9ae0"
+    },
+    {
+      "name": "provenance.json",
+      "url": "/api/evidence/runs/0e63b19bf25c41929f2379f91cae350d/exports/provenance.json",
+      "size_bytes": 7301,
+      "sha256": "92811750f08db8d94f9f35a0abac63ae0020962ecf2962e1e03f204ea26f72cd"
+    },
+    {
+      "name": "publisher_feedback.csv",
+      "url": "/api/evidence/runs/0e63b19bf25c41929f2379f91cae350d/exports/publisher_feedback.csv",
+      "size_bytes": 842,
+      "sha256": "9a5717201907191522f914163a787edb34a6edde6252d566975610390489e3f6"
     },
     {
       "name": "publisher_feedback.md",
-      "url": "/api/evidence/runs/e9ba719920034da8ac17c74a021cdeaf/exports/publisher_feedback.md",
-      "size_bytes": 966
+      "url": "/api/evidence/runs/0e63b19bf25c41929f2379f91cae350d/exports/publisher_feedback.md",
+      "size_bytes": 966,
+      "sha256": "29515e2448ead2f59b8836795afc6655c286a009b670ed5a1bb79b0abbd0326a"
     },
     {
       "name": "quality_metrics.csv",
-      "url": "/api/evidence/runs/e9ba719920034da8ac17c74a021cdeaf/exports/quality_metrics.csv",
-      "size_bytes": 324
+      "url": "/api/evidence/runs/0e63b19bf25c41929f2379f91cae350d/exports/quality_metrics.csv",
+      "size_bytes": 324,
+      "sha256": "ea62ab69742e460cc8eac8f16c1754f425cd3eb04999e9f5f6303e88b2042293"
     },
     {
       "name": "readiness_scorecard.csv",
-      "url": "/api/evidence/runs/e9ba719920034da8ac17c74a021cdeaf/exports/readiness_scorecard.csv",
-      "size_bytes": 461
+      "url": "/api/evidence/runs/0e63b19bf25c41929f2379f91cae350d/exports/readiness_scorecard.csv",
+      "size_bytes": 461,
+      "sha256": "6525c356e86d2ce3b73b2ddfca068cce3c1584a99b6c6d86ed28b41d2cc459cf"
     },
     {
       "name": "records.geojson",
-      "url": "/api/evidence/runs/e9ba719920034da8ac17c74a021cdeaf/exports/records.geojson",
-      "size_bytes": 6605
+      "url": "/api/evidence/runs/0e63b19bf25c41929f2379f91cae350d/exports/records.geojson",
+      "size_bytes": 6605,
+      "sha256": "d433a513064e4e5ccdd371e842cdf34900bfcee6ed6f4ecd9b53941e9bb8cf42"
     },
     {
       "name": "run.json",
-      "url": "/api/evidence/runs/e9ba719920034da8ac17c74a021cdeaf/exports/run.json",
-      "size_bytes": 1260
+      "url": "/api/evidence/runs/0e63b19bf25c41929f2379f91cae350d/exports/run.json",
+      "size_bytes": 1260,
+      "sha256": "d43b915dd6a37afbb30e4779c72e18e5f479fb8345d66b7ad7397d399f8651f7"
     },
     {
       "name": "source_summary.json",
-      "url": "/api/evidence/runs/e9ba719920034da8ac17c74a021cdeaf/exports/source_summary.json",
-      "size_bytes": 198
+      "url": "/api/evidence/runs/0e63b19bf25c41929f2379f91cae350d/exports/source_summary.json",
+      "size_bytes": 198,
+      "sha256": "207a18c1eff8a4f6477f5c1d85cb3842adc3a8173c26672ff7d1f62058136dbd"
     }
   ]
 }

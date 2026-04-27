@@ -35,6 +35,20 @@ Grid cells use occurrence counts and accepted taxon identifiers to compute:
 
 The 4x4 grid always returns all 16 cells. Empty cells are marked as no-evidence cells, not absences. Under-sampled occupied cells and empty cells are counted separately so downstream users can distinguish data gaps from observed occurrence evidence.
 
+## Sampling Gap Engine
+
+Each grid cell receives a deterministic Gap Priority Score:
+
+```text
+GPS = 0.35 * no_evidence
+    + 0.20 * neighbor_evidence
+    + 0.20 * recency_deficit
+    + 0.15 * uncertainty_burden
+    + 0.10 * source_diversity_gap
+```
+
+The score is exported on a 0-100 scale in `gap_priorities.csv`. The labels are `High priority for survey`, `Medium priority for survey` and `Low priority`. The engine ranks survey priorities; it never converts no-evidence cells into absence claims.
+
 ## Purpose-Aware Readiness
 
 Evidence Readiness is a weighted score. The same data can be suitable for one purpose and weak for another. For example, invasive watch gives more weight to recency, while dataset review gives more weight to provenance and issue explainability.
@@ -57,8 +71,9 @@ Every completed run writes a reproducible evidence pack:
 - `run.json` for request parameters, timestamp and GBIF match metadata
 - `source_summary.json` and `demo_scenario.json`
 - `records.geojson` for mapped retained occurrences
-- `quality_metrics.csv`, `readiness_scorecard.csv` and `dataset_contributions.csv`
-- `citations.md`, `claim_guardrails.md` and `publisher_feedback.md`
+- `quality_metrics.csv`, `gap_priorities.csv`, `readiness_scorecard.csv` and `dataset_contributions.csv`
+- `publisher_feedback.csv`, `derived_dataset_recipe.json` and `provenance.json`
+- `citations.md`, `claim_guardrails.md`, `methods_text.md` and `publisher_feedback.md`
 - `passport.md`, `passport.html` and `evidence_pack.zip`
 
 The ZIP file is a convenience bundle. Formal publication still requires DOI-backed GBIF download or derived-dataset citation where applicable.

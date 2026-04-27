@@ -34,6 +34,11 @@ def test_fixture_run_and_export_endpoints(tmp_path, monkeypatch) -> None:
         "readiness_scorecard.csv",
         "source_summary.json",
         "demo_scenario.json",
+        "gap_priorities.csv",
+        "methods_text.md",
+        "publisher_feedback.csv",
+        "derived_dataset_recipe.json",
+        "provenance.json",
     }
 
     detail = client.get(f"/api/evidence/runs/{run_id}")
@@ -51,6 +56,22 @@ def test_fixture_run_and_export_endpoints(tmp_path, monkeypatch) -> None:
     geojson = client.get(f"/api/evidence/runs/{run_id}/map")
     assert geojson.status_code == 200
     assert geojson.json()["type"] == "FeatureCollection"
+
+    map_layers = client.get(f"/api/evidence/runs/{run_id}/map-layers")
+    assert map_layers.status_code == 200
+    assert map_layers.json()["grid"]["meta"]["cell_count"] == 16
+
+    gaps = client.get(f"/api/evidence/runs/{run_id}/sampling-gaps")
+    assert gaps.status_code == 200
+    assert gaps.json()["priority_cells"]
+
+    quality = client.get(f"/api/evidence/runs/{run_id}/quality")
+    assert quality.status_code == 200
+    assert quality.json()["quality_metrics"]["total_records"] == 12
+
+    citations = client.get(f"/api/evidence/runs/{run_id}/citations")
+    assert citations.status_code == 200
+    assert citations.json()["citation_autopilot"]["derived_dataset_recipe"]["group_by"] == "datasetKey"
 
     passport = client.get(f"/api/evidence/runs/{run_id}/passport")
     assert passport.status_code == 200
