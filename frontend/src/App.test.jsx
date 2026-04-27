@@ -26,6 +26,20 @@ const mockRegions = [
     region_name: 'Iberian Peninsula live bbox',
     bbox: [-10, 35, 4.5, 44.5],
     description: 'Useful for Iberian conservation tests.',
+    type: 'research_region',
+    group: 'Research regions',
+    featured: true,
+  },
+  {
+    id: 'portugal',
+    label: 'Portugal',
+    region_name: 'Portugal live GBIF bbox',
+    bbox: [-9.6, 36.8, -6, 42.2],
+    description: 'Country bbox for Iberian biodiversity checks.',
+    type: 'country',
+    group: 'Saved countries',
+    country_code: 'PT',
+    featured: true,
   },
 ];
 
@@ -348,7 +362,8 @@ describe('EcoGenesis Evidence Atlas UI', () => {
     expect(postBodies.at(-1).taxon_key).toBe(2435261);
     expect(postBodies.at(-1).source_mode).toBe('online_with_empty_fallback');
 
-    fireEvent.click(screen.getByText('Saved regions'));
+    expect(screen.getByLabelText('Search saved regions')).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'Research' }));
     const afterTaxonRuns = postBodies.length;
     fireEvent.click(screen.getByRole('button', { name: /Iberian Peninsula/i }));
     await waitFor(() => expect(postBodies.length).toBeGreaterThan(afterTaxonRuns));

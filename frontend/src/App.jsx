@@ -92,6 +92,32 @@ const fallbackRegionPresets = [
     region_name: 'Spain live GBIF bbox',
     bbox: [-10, 35, 4.5, 44.5],
     description: 'Compact live GBIF test extent.',
+    type: 'country',
+    group: 'Saved countries',
+    country_code: 'ES',
+    featured: true,
+  },
+  {
+    id: 'portugal',
+    label: 'Portugal',
+    region_name: 'Portugal live GBIF bbox',
+    bbox: [-9.6, 36.8, -6, 42.2],
+    description: 'Country bbox for Iberian biodiversity checks.',
+    type: 'country',
+    group: 'Saved countries',
+    country_code: 'PT',
+    featured: true,
+  },
+  {
+    id: 'france',
+    label: 'France',
+    region_name: 'France live GBIF bbox',
+    bbox: [-5.2, 41.3, 9.7, 51.2],
+    description: 'Country bbox for Western Europe workflows.',
+    type: 'country',
+    group: 'Saved countries',
+    country_code: 'FR',
+    featured: true,
   },
   {
     id: 'western-europe',
@@ -99,6 +125,9 @@ const fallbackRegionPresets = [
     region_name: 'Western Europe live bbox',
     bbox: [-10, 42, 12, 56],
     description: 'Broader sampling-gap experiments.',
+    type: 'research_region',
+    group: 'Research regions',
+    featured: true,
   },
   {
     id: 'mediterranean',
@@ -106,6 +135,9 @@ const fallbackRegionPresets = [
     region_name: 'Western Mediterranean live bbox',
     bbox: [-6.5, 34.5, 16, 46.5],
     description: 'Invasive-watch corridor tests.',
+    type: 'research_region',
+    group: 'Research regions',
+    featured: true,
   },
 ];
 
@@ -133,6 +165,12 @@ const qualityLabels = {
   high_uncertainty_count: 'High uncertainty count',
   invalid_coordinate_count: 'Invalid coordinate count',
   country_coordinate_mismatch_count: 'Country-coordinate mismatch count',
+};
+
+const regionModeLabels = {
+  country: 'Countries',
+  research_region: 'Research',
+  custom: 'Custom',
 };
 
 function normalizeForm(form) {
@@ -226,6 +264,38 @@ function formatBbox(bbox) {
   return bbox.map((value) => Number(value).toFixed(Number(value) % 1 === 0 ? 0 : 2)).join(',');
 }
 
+function bboxKey(value) {
+  try {
+    const bbox = Array.isArray(value) ? value : parseBbox(String(value || ''));
+    return bbox.map((item) => Number(Number(item).toFixed(4))).join(',');
+  } catch {
+    return '';
+  }
+}
+
+function regionType(region) {
+  return region.type || (region.country_code ? 'country' : 'research_region');
+}
+
+function selectedRegionPreset(regions, form) {
+  const key = bboxKey(form.bbox);
+  const name = String(form.region_name || '').trim().toLowerCase();
+  return regions.find((region) => bboxKey(region.bbox) === key && String(region.region_name || '').trim().toLowerCase() === name)
+    || regions.find((region) => bboxKey(region.bbox) === key);
+}
+
+function regionMatchesQuery(region, query) {
+  const cleanQuery = query.trim().toLowerCase();
+  if (!cleanQuery) return true;
+  return [region.label, region.region_name, region.description, region.country_code, region.group]
+    .filter(Boolean)
+    .some((value) => String(value).toLowerCase().includes(cleanQuery));
+}
+
+function regionBboxLabel(region) {
+  return Array.isArray(region.bbox) ? formatBbox(region.bbox) : String(region.bbox || '');
+}
+
 function readRecentRuns() {
   if (typeof window === 'undefined') return [];
   try {
@@ -268,12 +338,15 @@ export default function App() {
   const [progressSteps, setProgressSteps] = useState([]);
   const [taxonSuggestions, setTaxonSuggestions] = useState([]);
   const [taxonSearchStatus, setTaxonSearchStatus] = useState('');
+  const [regionMode, setRegionMode] = useState('country');
+  const [regionQuery, setRegionQuery] = useState('');
   const activeRunTokenRef = useRef(0);
   const bboxParts = bboxValues(form.bbox);
   const formSignature = requestSignatureFromForm(form);
   const runSignature = requestSignatureFromRun(run?.run?.request);
   const resultIsCurrent = Boolean(run && formSignature && runSignature && formSignature === runSignature);
   const selectionChanged = Boolean(run && !resultIsCurrent);
+  const selectedRegion = selectedRegionPreset(regionPresets, form);
 
   function clearVisibleResult() {
     setRun(null);
@@ -494,12 +567,14 @@ export default function App() {
       use_fixture: false,
     });
     setError('');
+    setRegionMode(regionType(region));
     void runSelection(nextForm);
   }
 
   function updateBboxPart(index, value) {
     const next = [...bboxParts];
     next[index] = value;
+    setRegionMode('custom');
     updateDraftForm({ ...form, bbox: next.join(',') });
   }
 
@@ -566,20 +641,22 @@ export default function App() {
               Region
               <input
                 value={form.region_name}
-                onChange={(event) => updateDraftForm({ ...form, region_name: event.target.value })}
+                onChange={(event) => {
+                  setRegionMode('custom');
+                  updateDraftForm({ ...form, region_name: event.target.value });
+                }}
               />
             </label>
-            <details className="inline-drawer">
-              <summary>Saved regions</summary>
-              <div className="region-preset-list" aria-label="Region presets">
-                {regionPresets.map((region) => (
-                  <button key={region.id} onClick={() => applyRegionPreset(region)} type="button">
-                    <span>{region.label}</span>
-                    <small>{region.description}</small>
-                  </button>
-                ))}
-              </div>
-            </details>
+            <RegionPicker
+              form={form}
+              mode={regionMode}
+              onModeChange={setRegionMode}
+              onPick={applyRegionPreset}
+              query={regionQuery}
+              regions={regionPresets}
+              selectedRegion={selectedRegion}
+              setQuery={setRegionQuery}
+            />
             <fieldset className="bbox-grid">
               <legend>Bounding box</legend>
               <label>
@@ -733,6 +810,66 @@ function PipelineProgress({ steps, loading }) {
         ))}
       </div>
     </details>
+  );
+}
+
+function RegionPicker({ form, mode, onModeChange, onPick, query, regions, selectedRegion, setQuery }) {
+  const customActive = !selectedRegion || mode === 'custom';
+  const visibleRegions = regions
+    .filter((region) => regionType(region) === mode)
+    .filter((region) => regionMatchesQuery(region, query))
+    .sort((a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured)) || String(a.label).localeCompare(String(b.label)));
+
+  return (
+    <section className="region-picker" aria-label="Region manager">
+      <div className="region-current">
+        <div>
+          <span>{selectedRegion ? selectedRegion.group || 'Saved region' : 'Custom area'}</span>
+          <strong>{selectedRegion?.label || form.region_name || 'Custom bbox'}</strong>
+          <small>{regionBboxLabel(selectedRegion || form)}</small>
+        </div>
+        <em>{customActive ? 'custom' : 'saved'}</em>
+      </div>
+      <div className="region-tabs" aria-label="Region source">
+        {Object.entries(regionModeLabels).map(([value, label]) => (
+          <button className={mode === value ? 'active' : ''} key={value} onClick={() => onModeChange(value)} type="button">
+            {label}
+          </button>
+        ))}
+      </div>
+      {mode === 'custom' ? (
+        <div className="custom-region-note">
+          <strong>Custom area selected</strong>
+          <span>Edit the region name and bbox fields below, then generate the passport. Saved presets stay untouched.</span>
+        </div>
+      ) : (
+        <>
+          <input
+            aria-label="Search saved regions"
+            className="region-search"
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="Search countries or saved regions"
+            value={query}
+          />
+          <div className="region-preset-list" aria-label="Region presets">
+            {visibleRegions.map((region) => {
+              const active = selectedRegion?.id === region.id;
+              return (
+                <button className={active ? 'active' : ''} key={region.id} onClick={() => onPick(region)} type="button">
+                  <span>
+                    {region.country_code ? `${region.country_code} · ` : ''}
+                    {region.label}
+                  </span>
+                  <small>{region.description}</small>
+                  <em>{regionBboxLabel(region)}</em>
+                </button>
+              );
+            })}
+          </div>
+          {!visibleRegions.length ? <p className="empty-note">No saved regions match this search.</p> : null}
+        </>
+      )}
+    </section>
   );
 }
 
