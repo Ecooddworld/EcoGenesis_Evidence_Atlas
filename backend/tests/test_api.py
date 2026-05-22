@@ -6,6 +6,55 @@ import requests
 from app.main import app
 
 
+class FakeGBIFResponse:
+    def __init__(self, payload: object) -> None:
+        self.payload = payload
+
+    def raise_for_status(self) -> None:
+        return None
+
+    def json(self) -> object:
+        return self.payload
+
+
+def test_gbif_status_reports_reachable_api(monkeypatch) -> None:
+    monkeypatch.setattr(
+        "app.evidence.gbif.requests.get",
+        lambda *_, **__: FakeGBIFResponse(
+            [
+                {
+                    "key": 1651430,
+                    "scientificName": "Aedes albopictus (Skuse, 1894)",
+                    "canonicalName": "Aedes albopictus",
+                    "rank": "SPECIES",
+                }
+            ]
+        ),
+    )
+    client = TestClient(app)
+
+    response = client.get("/api/evidence/gbif-status")
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["status"] == "ok"
+    assert payload["base_url"] == "https://api.gbif.org/v1"
+    assert "Live occurrence runs use GBIF-mediated records" in payload["message"]
+
+
+def test_gbif_status_reports_unavailable_api(monkeypatch) -> None:
+    monkeypatch.setattr("app.evidence.gbif.requests.get", lambda *_, **__: (_ for _ in ()).throw(requests.Timeout("offline")))
+    client = TestClient(app)
+
+    response = client.get("/api/evidence/gbif-status")
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["status"] == "unavailable"
+    assert payload["base_url"] == "https://api.gbif.org/v1"
+    assert "empty no-evidence fallback" in payload["message"]
+
+
 def test_fixture_run_and_export_endpoints(tmp_path, monkeypatch) -> None:
     monkeypatch.setenv("EVIDENCE_DATA_DIR", str(tmp_path))
     client = TestClient(app)
@@ -31,13 +80,22 @@ def test_fixture_run_and_export_endpoints(tmp_path, monkeypatch) -> None:
         "citations.md",
         "evidence_pack.zip",
         "claim_guardrails.md",
+        "decision_memo.md",
+        "submission_readiness.md",
+        "validation_summary.md",
+        "impact_brief.md",
+        "video_script.md",
         "readiness_scorecard.csv",
         "source_summary.json",
         "demo_scenario.json",
         "gap_priorities.csv",
         "methods_text.md",
         "publisher_feedback.csv",
+        "publisher_issue_templates.md",
         "derived_dataset_recipe.json",
+        "evidence_graph.json",
+        "graph_memory.md",
+        "evidence_vault.zip",
         "provenance.json",
     }
 
@@ -52,6 +110,17 @@ def test_fixture_run_and_export_endpoints(tmp_path, monkeypatch) -> None:
     feedback = client.get(f"/api/evidence/runs/{run_id}/publisher-feedback")
     assert feedback.status_code == 200
     assert isinstance(feedback.json(), list)
+    assert "severity" in feedback.json()[0]
+
+    graph_memory = client.get(f"/api/evidence/runs/{run_id}/graph-memory")
+    assert graph_memory.status_code == 200
+    assert graph_memory.json()["summary"]["run_id"] == run_id
+    assert graph_memory.json()["node_counts"]["datasets"] >= 1
+
+    submission = client.get(f"/api/evidence/runs/{run_id}/submission-readiness")
+    assert submission.status_code == 200
+    assert submission.json()["decision_memo"]["verdict"]
+    assert submission.json()["submission_readiness"]["ready_count"] >= 7
 
     geojson = client.get(f"/api/evidence/runs/{run_id}/map")
     assert geojson.status_code == 200
@@ -72,6 +141,7 @@ def test_fixture_run_and_export_endpoints(tmp_path, monkeypatch) -> None:
     citations = client.get(f"/api/evidence/runs/{run_id}/citations")
     assert citations.status_code == 200
     assert citations.json()["citation_autopilot"]["derived_dataset_recipe"]["group_by"] == "datasetKey"
+    assert citations.json()["citation_autopilot"]["doi_completion_flow"]
 
     passport = client.get(f"/api/evidence/runs/{run_id}/passport")
     assert passport.status_code == 200
@@ -81,9 +151,21 @@ def test_fixture_run_and_export_endpoints(tmp_path, monkeypatch) -> None:
     assert artifact.status_code == 200
     assert "Citation Autopilot" in artifact.text
 
+    decision_artifact = client.get(f"/api/evidence/runs/{run_id}/exports/decision_memo.md")
+    assert decision_artifact.status_code == 200
+    assert "Decision Memo" in decision_artifact.text
+
+    publisher_issue_templates = client.get(f"/api/evidence/runs/{run_id}/exports/publisher_issue_templates.md")
+    assert publisher_issue_templates.status_code == 200
+    assert "Publisher Issue Templates" in publisher_issue_templates.text
+
     zip_artifact = client.get(f"/api/evidence/runs/{run_id}/exports/evidence_pack.zip")
     assert zip_artifact.status_code == 200
     assert zip_artifact.headers["content-type"] in {"application/zip", "application/x-zip-compressed"}
+
+    vault_artifact = client.get(f"/api/evidence/runs/{run_id}/exports/evidence_vault.zip")
+    assert vault_artifact.status_code == 200
+    assert vault_artifact.headers["content-type"] in {"application/zip", "application/x-zip-compressed"}
 
     zip_head = client.head(f"/api/evidence/runs/{run_id}/exports/evidence_pack.zip")
     assert zip_head.status_code == 200

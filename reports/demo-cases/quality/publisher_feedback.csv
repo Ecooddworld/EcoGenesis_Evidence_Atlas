@@ -1,0 +1,2 @@
+datasetKey,severity,fix_priority,records_affected,main_issue,suggested_fix
+50c9509d-22c7-4a22-a47d-8c48425ef4a7,medium,1,222,High coordinate uncertainty,Improve georeferencing or flag coarse records for coarse-scale use only.

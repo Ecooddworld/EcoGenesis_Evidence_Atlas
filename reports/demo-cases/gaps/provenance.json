@@ -1,0 +1,1086 @@
+{
+  "tool": "EcoGenesis Evidence Passport",
+  "run": {
+    "run_id": "3a809b00d7944721a9364dcb5b3d0459",
+    "started_at": "2026-05-22T00:38:35.624629+00:00",
+    "finished_at": "2026-05-22T00:38:37.316680+00:00",
+    "source_mode": "online",
+    "request": {
+      "taxon": "Quercus robur",
+      "taxon_key": 2878688,
+      "region_name": "Western Europe live bbox",
+      "bbox": [
+        -10.0,
+        42.0,
+        12.0,
+        56.0
+      ],
+      "purpose": "sampling_gaps",
+      "source_mode": "online_with_empty_fallback",
+      "use_fixture": false,
+      "max_records": 300
+    },
+    "request_fingerprint": "e4b5fd761660170f7940e0f2b120ebb7b658d0bab287df9c8eaec1a5729a0604",
+    "gbif_species_match": {
+      "key": 2878688,
+      "nubKey": 2878688,
+      "nameKey": 9614407,
+      "taxonID": "gbif:2878688",
+      "kingdom": "Plantae",
+      "phylum": "Tracheophyta",
+      "order": "Fagales",
+      "family": "Fagaceae",
+      "genus": "Quercus",
+      "species": "Quercus robur",
+      "kingdomKey": 6,
+      "phylumKey": 7707728,
+      "classKey": 220,
+      "orderKey": 1354,
+      "familyKey": 4689,
+      "genusKey": 2877951,
+      "speciesKey": 2878688,
+      "datasetKey": "d7dddbf4-2cf0-4f39-9b2a-bb099caae36c",
+      "constituentKey": "7ddf754f-d193-4cc9-b351-99906754a03b",
+      "parentKey": 2877951,
+      "parent": "Quercus",
+      "scientificName": "Quercus robur L.",
+      "canonicalName": "Quercus robur",
+      "vernacularName": "Pedunculate Oak",
+      "authorship": "L.",
+      "nameType": "SCIENTIFIC",
+      "rank": "SPECIES",
+      "origin": "SOURCE",
+      "taxonomicStatus": "ACCEPTED",
+      "nomenclaturalStatus": [],
+      "remarks": "",
+      "publishedIn": "Sp. Pl.: 996 (1753)",
+      "numDescendants": 8,
+      "lastCrawled": "2023-08-22T23:20:59.545+00:00",
+      "lastInterpreted": "2023-08-22T23:04:45.267+00:00",
+      "issues": [],
+      "class": "Magnoliopsida",
+      "usageKey": 2878688,
+      "confidence": 100,
+      "matchType": "SELECTED_KEY",
+      "status": "ACCEPTED",
+      "source": "gbif_api"
+    },
+    "steps": [
+      {
+        "name": "species_match",
+        "status": "completed",
+        "duration_ms": 258.05
+      },
+      {
+        "name": "occurrence_fetch",
+        "status": "completed",
+        "duration_ms": 1429.15
+      },
+      {
+        "name": "normalize",
+        "status": "completed",
+        "duration_ms": 2.19
+      },
+      {
+        "name": "score",
+        "status": "completed",
+        "duration_ms": 1.27
+      },
+      {
+        "name": "exports",
+        "status": "completed",
+        "duration_ms": 89.69,
+        "details": {
+          "artifact_count": 31
+        }
+      }
+    ],
+    "artifact_checksums": {
+      "citations.md": "17a7df87a1f2fd20e528a6bbdefc8dc25ec975cf71a9560bfa0482d0de4fa9a4",
+      "claim_guardrails.md": "c3b29dbff08a96a455b87088359436d33d8912ced35336801d2402635325c7fa",
+      "dataset_contributions.csv": "e6bf00bd1f1818510b174c76247952dc293bc7615e85c88d29081c2dd6b4b2d2",
+      "decision_memo.json": "849ac30fb2d94e9f24bf685d50df01a9dddd819adf20c6e61d16daf0bd876e3c",
+      "decision_memo.md": "789219f57f578382bcdae1ec3d86af7e1bd11dca84465dc44d79d1223999b246",
+      "demo_scenario.json": "8f1d437d2a21b85d046e966ae49207bf11165d1ff7e0520f15f72a332bd27503",
+      "derived_dataset_recipe.json": "364430ce1060311907c3f2b2df235e1842968dc7424eaa53ae083e052b2324d0",
+      "evidence_graph.json": "2b7d2c49b94b2c979f5a3a8f27c7daa7ed6020c8b620688e6c06ad0a6d2aacd5",
+      "evidence_pack.json": "890a5ac82fc8c01fb4804019e962fddfa972f7d09c8f49ca35ac474c2a814435",
+      "evidence_pack.zip": "90e1e704d3cf1f500fbe721bdd1e6712e9983146f3bc5b3fe90623183407579e",
+      "evidence_vault.zip": "47d4af0e7800dcc9dcf366542a39d98ba1a5cb0c25bce0f0b0fb0892f63ecf38",
+      "gap_priorities.csv": "bdf5877c0eec009012eefc4c478454cbd27b242f8aa50b82de8dc6cc69495d1c",
+      "graph_memory.md": "15790f79ab5fb16df3752ef35f48948fcda8a8f9e2aa8b07e4b65995a2c35f0e",
+      "impact_brief.md": "1fa7ff87d60706ceb922ae63ecc291fc4d439c8211c49e0166c9bc5d69a6644c",
+      "methods_text.md": "ec3b5ea76ef0019395145ea6f6eebdec80ef081862e35b81180d1c595767fbff",
+      "passport.html": "ec3c33249ef7cbe784c8adb35e9db38bff8cb94f58f1dc979642a2d107f60200",
+      "passport.md": "fa56dd476bd7afff9164505459c883fedca6df86c1cda66e47c83306f9612af0",
+      "provenance.json": "dd561eabbf1648535184c0ef040df43555ec907050d0c7bf482ac9de02e2160d",
+      "publisher_feedback.csv": "6f7b4ddd8cbe883d0684267996fae4c919748fe693c98f9d4dc02af57ee041d9",
+      "publisher_feedback.md": "c985dfec44cd08c3fe02b45c164f37ee9f8c5015dab178f7eb105026a844d900",
+      "publisher_issue_templates.md": "2744d3e8b1c926ce2175c43d194b252d5f1af8b0f3f2c014f80fb9e7f6897e41",
+      "quality_metrics.csv": "3f5a69c6f05c2304cbc0bdd53a4b479883e2f6e786aafdb579958045eb204073",
+      "readiness_scorecard.csv": "d2f8ea0e99005b74a5f9fc8a3d0b68a4157b7f6f27654fea94accca4bce04f17",
+      "records.geojson": "7a980bfaea83f9627fe633b7f94dbca2bc9d63935ed25d2f20ab019431837a87",
+      "run.json": "3adfdcde493ecbea4a358f71d844b6f7420beb5af97c551408ff5494d8b39293",
+      "source_summary.json": "d8067ee8e4b68b37ff7332ffea85ea6758d5ed2af7ed4afdec66ca6251ce898a",
+      "submission_readiness.json": "c157243933ee034a0c3c228638ab8aea8a8bf5adbfc1f0b423ae127527b0ffae",
+      "submission_readiness.md": "17ac980a361a5f977886954ebbf15fb807d1d1aab8ca3aca70ad113f1b9946f2",
+      "validation_summary.json": "e7e4bcedb7b0ccbf1b5f31e8f01facb0fca06d24446878c37a0f4daca70877a3",
+      "validation_summary.md": "8d09ff5bda73a78822cfe77b8d199834a33bf2f8a112e77d57226843548f95bc",
+      "video_script.md": "85e327c477fcc5ae1b9839b704c95ec185654ebd6f9351467df387d579627419"
+    }
+  },
+  "source_summary": {
+    "requested_source_mode": "online_with_empty_fallback",
+    "used_source_mode": "online",
+    "gbif_api_status": "ok",
+    "fallback_used": false,
+    "warnings": [],
+    "gbif_base_url": "https://api.gbif.org/v1",
+    "selected_taxon_key": 2878688,
+    "matched_taxon_key": 2878688,
+    "gbif_result_count": 964388,
+    "gbif_returned_records": 300,
+    "gbif_limit": 300,
+    "gbif_offset": 0
+  },
+  "passport": {
+    "title": "GBIF Evidence Passport",
+    "taxon": "Quercus robur",
+    "accepted_name": "Quercus robur L.",
+    "taxonKey": 2878688,
+    "match_confidence": 100,
+    "region_name": "Western Europe live bbox",
+    "bbox": [
+      -10.0,
+      42.0,
+      12.0,
+      56.0
+    ],
+    "purpose": "sampling_gaps",
+    "records_used": 300,
+    "datasets_used": 7
+  },
+  "evidence_readiness": {
+    "purpose": "sampling_gaps",
+    "purpose_label": "Sampling gap analysis",
+    "score": 82.56,
+    "components": {
+      "spatial_accuracy": 100.0,
+      "temporal_recency": 100.0,
+      "taxonomic_confidence": 100.0,
+      "sampling_coverage": 61.25,
+      "citation_provenance": 100.0,
+      "issue_explainability": 100.0
+    },
+    "weights": {
+      "spatial_accuracy": 0.2,
+      "temporal_recency": 0.1,
+      "taxonomic_confidence": 0.15,
+      "sampling_coverage": 0.45,
+      "citation_provenance": 0.1,
+      "issue_explainability": 0.0
+    },
+    "interpretation": "High readiness: evidence is strong for the selected purpose, with remaining caveats documented."
+  },
+  "purpose_score_matrix": {
+    "conservation_brief": {
+      "purpose": "conservation_brief",
+      "purpose_label": "Conservation brief",
+      "score": 92.25,
+      "components": {
+        "spatial_accuracy": 100.0,
+        "temporal_recency": 100.0,
+        "taxonomic_confidence": 100.0,
+        "sampling_coverage": 61.25,
+        "citation_provenance": 100.0,
+        "issue_explainability": 100.0
+      },
+      "weights": {
+        "spatial_accuracy": 0.3,
+        "temporal_recency": 0.2,
+        "taxonomic_confidence": 0.2,
+        "sampling_coverage": 0.2,
+        "citation_provenance": 0.1,
+        "issue_explainability": 0.0
+      },
+      "interpretation": "High readiness: evidence is strong for the selected purpose, with remaining caveats documented."
+    },
+    "invasive_watch": {
+      "purpose": "invasive_watch",
+      "purpose_label": "Invasive watch",
+      "score": 94.19,
+      "components": {
+        "spatial_accuracy": 100.0,
+        "temporal_recency": 100.0,
+        "taxonomic_confidence": 100.0,
+        "sampling_coverage": 61.25,
+        "citation_provenance": 100.0,
+        "issue_explainability": 100.0
+      },
+      "weights": {
+        "spatial_accuracy": 0.25,
+        "temporal_recency": 0.35,
+        "taxonomic_confidence": 0.15,
+        "sampling_coverage": 0.15,
+        "citation_provenance": 0.1,
+        "issue_explainability": 0.0
+      },
+      "interpretation": "High readiness: evidence is strong for the selected purpose, with remaining caveats documented."
+    },
+    "sampling_gaps": {
+      "purpose": "sampling_gaps",
+      "purpose_label": "Sampling gap analysis",
+      "score": 82.56,
+      "components": {
+        "spatial_accuracy": 100.0,
+        "temporal_recency": 100.0,
+        "taxonomic_confidence": 100.0,
+        "sampling_coverage": 61.25,
+        "citation_provenance": 100.0,
+        "issue_explainability": 100.0
+      },
+      "weights": {
+        "spatial_accuracy": 0.2,
+        "temporal_recency": 0.1,
+        "taxonomic_confidence": 0.15,
+        "sampling_coverage": 0.45,
+        "citation_provenance": 0.1,
+        "issue_explainability": 0.0
+      },
+      "interpretation": "High readiness: evidence is strong for the selected purpose, with remaining caveats documented."
+    },
+    "dataset_quality_review": {
+      "purpose": "dataset_quality_review",
+      "purpose_label": "Dataset quality review",
+      "score": 96.12,
+      "components": {
+        "spatial_accuracy": 100.0,
+        "temporal_recency": 100.0,
+        "taxonomic_confidence": 100.0,
+        "sampling_coverage": 61.25,
+        "citation_provenance": 100.0,
+        "issue_explainability": 100.0
+      },
+      "weights": {
+        "spatial_accuracy": 0.25,
+        "temporal_recency": 0.1,
+        "taxonomic_confidence": 0.2,
+        "sampling_coverage": 0.1,
+        "citation_provenance": 0.2,
+        "issue_explainability": 0.15
+      },
+      "interpretation": "High readiness: evidence is strong for the selected purpose, with remaining caveats documented."
+    }
+  },
+  "citation_status": "online_api_without_download_doi",
+  "dataset_contributions": [
+    {
+      "datasetKey": "8a863029-f435-446a-821e-275f4f641165",
+      "datasetTitle": null,
+      "publisher": null,
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+      "record_count": 206,
+      "main_issues": "none_detected"
+    },
+    {
+      "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+      "datasetTitle": "iNaturalist research-grade observations",
+      "publisher": null,
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+      "record_count": 47,
+      "main_issues": "CONTINENT_DERIVED_FROM_COORDINATES, TAXON_ID_NOT_FOUND, COORDINATE_ROUNDED"
+    },
+    {
+      "datasetKey": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
+      "datasetTitle": null,
+      "publisher": null,
+      "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
+      "record_count": 21,
+      "main_issues": "COORDINATE_ROUNDED, GEODETIC_DATUM_ASSUMED_WGS84, CONTINENT_DERIVED_FROM_COORDINATES"
+    },
+    {
+      "datasetKey": "0a013f89-5381-4578-9d82-5f28fd5f1ef6",
+      "datasetTitle": "Vascular plant records verified via iRecord",
+      "publisher": null,
+      "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
+      "record_count": 17,
+      "main_issues": "CONTINENT_DERIVED_FROM_COORDINATES, TAXON_CONCEPT_ID_NOT_FOUND, TAXON_ID_NOT_FOUND"
+    },
+    {
+      "datasetKey": "83fdfd3d-3a25-4705-9fbe-3db1d1892b13",
+      "datasetTitle": null,
+      "publisher": null,
+      "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
+      "record_count": 5,
+      "main_issues": "TAXON_ID_NOT_FOUND"
+    },
+    {
+      "datasetKey": "963a6b96-4d22-4428-86e4-afee52cf4a8e",
+      "datasetTitle": null,
+      "publisher": null,
+      "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
+      "record_count": 3,
+      "main_issues": "CONTINENT_DERIVED_FROM_COORDINATES, TAXON_ID_NOT_FOUND"
+    },
+    {
+      "datasetKey": "cef450df-7155-4c9d-9eb3-7b9b4d868bfa",
+      "datasetTitle": "Sheffield and Rotherham Wildlife Trust - Records",
+      "publisher": null,
+      "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+      "record_count": 1,
+      "main_issues": "CONTINENT_DERIVED_FROM_COORDINATES, TAXON_CONCEPT_ID_NOT_FOUND, TAXON_ID_NOT_FOUND"
+    }
+  ],
+  "decision_memo": {
+    "verdict": "Usable for the selected decision with documented caveats",
+    "verdict_tone": "strong",
+    "review_time_seconds": 40,
+    "question": "Can GBIF-mediated occurrence evidence for Quercus robur in Western Europe live bbox support the purpose 'Sampling gap analysis'?",
+    "data_basis": "300 retained occurrence-style records, citation/provenance component 100.0/100, using live GBIF API records and bbox [-10.0, 42.0, 12.0, 56.0].",
+    "fitness_for_purpose": "The purpose-aware readiness score is 82.56/100. High readiness: evidence is strong for the selected purpose, with remaining caveats documented.",
+    "safe_claims": [
+      "GBIF-mediated records matching the selected taxon and region are present in the evidence pack.",
+      "Dataset provenance is preserved through datasetKey-level contribution summaries."
+    ],
+    "blocked_claims": [
+      "Absence cannot be inferred from empty or low-evidence grid cells.",
+      "Observed GBIF distribution must not be treated as the true species distribution.",
+      "Population trend cannot be inferred without temporal sampling-bias correction."
+    ],
+    "main_limitations": [
+      "3 occupied grid cells are under-sampled by the coverage proxy.",
+      "4 grid cells have no retained records; they are no-evidence cells, not absences.",
+      "No GBIF download DOI is attached to this evidence pack yet."
+    ],
+    "recommended_next_action": "Create a DOI-backed GBIF occurrence download or derived dataset before publication.",
+    "plain_language_summary": "The passport is a decision memo, not a species distribution model: it shows what the selected GBIF records can responsibly support, what they cannot support, which data issues matter, and what to cite or fix next.",
+    "user_value": [
+      "A non-expert can see the safe conclusion without reading raw GBIF tables.",
+      "A reviewer can audit datasetKey provenance, claims and methods from exported files.",
+      "A publisher can receive a prioritized issue list instead of vague data-quality feedback."
+    ],
+    "citation_gate": {
+      "publication_ready": false,
+      "status": "online_api_without_download_doi",
+      "message": "This evidence pack does not include a GBIF download DOI. For publication, create and cite a DOI-backed GBIF occurrence download or derived dataset. Fixture or fallback packs are demo artifacts, not publication evidence."
+    },
+    "source_gate": {
+      "used_source_mode": "online",
+      "fallback_used": false,
+      "warnings": []
+    },
+    "grid_gate": {
+      "no_evidence_cells": 4,
+      "survey_priority_cells": 7,
+      "under_sampled_occupied_cells": 3
+    },
+    "quality_gate": {
+      "high_uncertainty_count": 0,
+      "missing_date_count": 0,
+      "invalid_coordinate_count": 0
+    }
+  },
+  "validation_summary": {
+    "title": "EcoGenesis Validation Summary",
+    "current_case": {
+      "taxon": "Quercus robur",
+      "region_name": "Western Europe live bbox",
+      "purpose": "sampling_gaps",
+      "purpose_label": "Sampling gap analysis",
+      "source_mode": "online",
+      "score": 82.56
+    },
+    "checks": [
+      {
+        "id": "datasetkey_provenance",
+        "label": "datasetKey provenance preserved",
+        "passed": true,
+        "metric": 1.0,
+        "why_it_matters": "GBIF reuse and derived datasets need auditable datasetKey lineage."
+      },
+      {
+        "id": "no_absence_overclaim",
+        "label": "No-evidence cells separated from absence claims",
+        "passed": true,
+        "metric": 4,
+        "why_it_matters": "The tool blocks a common misuse of occurrence data: treating missing records as absences."
+      },
+      {
+        "id": "citation_flow",
+        "label": "Citation completion flow generated",
+        "passed": true,
+        "metric": 5,
+        "why_it_matters": "Users get explicit steps for DOI-backed or derived-dataset reuse."
+      },
+      {
+        "id": "publisher_feedback",
+        "label": "Publisher feedback rows generated when data issues exist",
+        "passed": false,
+        "metric": 0,
+        "why_it_matters": "Data managers receive actionable fixes grouped by datasetKey."
+      },
+      {
+        "id": "repeatable_run",
+        "label": "Repeatable run metadata generated",
+        "passed": true,
+        "metric": 300,
+        "why_it_matters": "run.json, source_summary.json and checksums let judges and reviewers reproduce the analysis."
+      }
+    ],
+    "passed_checks": 4,
+    "total_checks": 5,
+    "measurable_outcomes": [
+      "Time-to-first-review is reduced because the app opens with a complete evidence memo, map and export bundle.",
+      "Risk of unsupported absence, trend or distribution claims is reduced through explicit claim guardrails.",
+      "Citation compliance improves because dataset contributions, DOI gaps and methods text are generated together.",
+      "Publisher feedback becomes actionable because issues are grouped by datasetKey, severity and fix priority."
+    ],
+    "recommended_demo_suite": [
+      {
+        "id": "invasive_watch",
+        "taxon": "Aedes albopictus",
+        "region_name": "Spain live GBIF bbox",
+        "purpose": "invasive_watch",
+        "shows": "Recent invasive-species screening with coordinate uncertainty caveats."
+      },
+      {
+        "id": "sampling_gaps",
+        "taxon": "Quercus robur",
+        "region_name": "Western Europe live bbox",
+        "purpose": "sampling_gaps",
+        "shows": "No-evidence cells and survey priorities without absence overclaiming."
+      },
+      {
+        "id": "dataset_quality_review",
+        "taxon": "Lynx pardinus",
+        "region_name": "Iberian Peninsula live bbox",
+        "purpose": "dataset_quality_review",
+        "shows": "Publisher-side issue prioritization and provenance review."
+      }
+    ],
+    "remaining_validation_work": [
+      "Attach at least one DOI-backed GBIF download or derived dataset case before final publication use.",
+      "Record a three-minute screen capture that walks through the default run, claim guardrails and export pack.",
+      "Run the three demo scenarios before submission freeze and save their generated passports as release assets."
+    ]
+  },
+  "submission_readiness": {
+    "title": "GBIF Ebbe Nielsen Challenge Submission Readiness",
+    "stage": "Demo-ready MVP; publication-grade DOI case still pending",
+    "ready_count": 7,
+    "total_count": 9,
+    "ready_ratio": 0.778,
+    "blocking_items": [
+      "doi_backed_case"
+    ],
+    "checklist": [
+      {
+        "id": "clear_user_value",
+        "label": "Clear end-user decision memo",
+        "ready": true,
+        "evidence": "decision_memo.md explains the question, evidence basis, safe claims and next action.",
+        "next_step": "Use the decision memo as the first 30 seconds of the demo video."
+      },
+      {
+        "id": "live_or_safe_fallback",
+        "label": "Live GBIF mode or safe empty fallback",
+        "ready": true,
+        "evidence": "Used source mode: online.",
+        "next_step": "Keep empty fallback behavior so old fixture records are never confused with a failed live query."
+      },
+      {
+        "id": "claim_guardrails",
+        "label": "Claim Guardrails present",
+        "ready": true,
+        "evidence": "Unsupported claims and required verification are exported to claim_guardrails.md.",
+        "next_step": "Highlight absence/trend/distribution guardrails in the pitch."
+      },
+      {
+        "id": "citation_autopilot",
+        "label": "Citation Autopilot and derived dataset recipe",
+        "ready": true,
+        "evidence": "citations.md and derived_dataset_recipe.json are generated.",
+        "next_step": "Attach a real DOI-backed download or derived dataset for the strongest final case."
+      },
+      {
+        "id": "doi_backed_case",
+        "label": "Publication-grade DOI-backed case",
+        "ready": false,
+        "evidence": "online_api_without_download_doi",
+        "next_step": "Create a DOI-backed GBIF occurrence download or derived dataset before formal paper/policy reuse."
+      },
+      {
+        "id": "publisher_feedback",
+        "label": "Publisher Feedback Pack",
+        "ready": false,
+        "evidence": "0 prioritized feedback row(s).",
+        "next_step": "Use publisher_feedback.md as a data-manager handoff artifact."
+      },
+      {
+        "id": "validation_suite",
+        "label": "Three-scenario validation suite defined",
+        "ready": true,
+        "evidence": "validation_summary.md lists invasive watch, sampling gaps and dataset review scenarios.",
+        "next_step": "Generate and preserve all three passports as release assets before submission."
+      },
+      {
+        "id": "offline_review_bundle",
+        "label": "Offline review bundle",
+        "ready": true,
+        "evidence": "passport.html, evidence_pack.zip, evidence_vault.zip and Markdown exports are generated.",
+        "next_step": "Attach the ZIP files to the release so judges can review without running the app."
+      },
+      {
+        "id": "video_ready_story",
+        "label": "Video-ready story script",
+        "ready": true,
+        "evidence": "video_script.md is generated from the current evidence pack.",
+        "next_step": "Record the screen capture after final UI polish."
+      }
+    ],
+    "accepted_research_comments": [
+      "Narrowed the product to a GBIF Evidence Passport instead of a broad abstract platform.",
+      "Integrated Claim Guardrails as a first-class output.",
+      "Integrated Citation Autopilot with DOI completion flow and derived dataset recipe.",
+      "Integrated Publisher Feedback with severity and fix priority.",
+      "Integrated Graph Memory and an offline Markdown evidence vault.",
+      "Added decision memo, validation summary, submission readiness and video-script artifacts."
+    ],
+    "next_72_hours": [
+      "Generate the three validation passports and keep them as release assets.",
+      "Create or document one DOI-backed GBIF download/derived dataset pathway.",
+      "Record a three-minute screen capture centered on the decision memo, safe claims, citations and exports."
+    ]
+  },
+  "evidence_graph": {
+    "summary": {
+      "title": "EcoGenesis Evidence Graph Memory",
+      "run_id": "3a809b00d7944721a9364dcb5b3d0459",
+      "taxon": "Quercus robur L.",
+      "region_name": "Western Europe live bbox",
+      "purpose": "sampling_gaps",
+      "purpose_label": "Sampling gap analysis",
+      "score": 82.56,
+      "records_used": 300,
+      "datasets_used": 7,
+      "created_at": "2026-05-22T00:38:37.316680+00:00"
+    },
+    "node_counts": {
+      "runs": 1,
+      "taxa": 1,
+      "regions": 1,
+      "datasets": 7,
+      "issues": 0,
+      "claims": 11,
+      "actions": 4,
+      "artifacts": 8
+    },
+    "nodes": [
+      {
+        "id": "run:3a809b00d7944721a9364dcb5b3d0459",
+        "type": "run",
+        "label": "Quercus robur L. in Western Europe live bbox",
+        "properties": {
+          "run_id": "3a809b00d7944721a9364dcb5b3d0459"
+        }
+      },
+      {
+        "id": "taxon:2878688",
+        "type": "taxon",
+        "label": "Quercus robur L.",
+        "properties": {
+          "taxonKey": 2878688
+        }
+      },
+      {
+        "id": "region:western-europe-live-bbox",
+        "type": "region",
+        "label": "Western Europe live bbox",
+        "properties": {
+          "bbox": [
+            -10.0,
+            42.0,
+            12.0,
+            56.0
+          ]
+        }
+      },
+      {
+        "id": "purpose:sampling_gaps",
+        "type": "purpose",
+        "label": "Sampling gap analysis",
+        "properties": {
+          "purpose": "sampling_gaps"
+        }
+      },
+      {
+        "id": "dataset:8a863029-f435-446a-821e-275f4f641165",
+        "type": "dataset",
+        "label": "8a863029-f435-446a-821e-275f4f641165",
+        "properties": {
+          "records": 206,
+          "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+          "publisher": null
+        }
+      },
+      {
+        "id": "dataset:50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+        "type": "dataset",
+        "label": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+        "properties": {
+          "records": 47,
+          "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+          "publisher": null
+        }
+      },
+      {
+        "id": "dataset:6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
+        "type": "dataset",
+        "label": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
+        "properties": {
+          "records": 21,
+          "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
+          "publisher": null
+        }
+      },
+      {
+        "id": "dataset:0a013f89-5381-4578-9d82-5f28fd5f1ef6",
+        "type": "dataset",
+        "label": "0a013f89-5381-4578-9d82-5f28fd5f1ef6",
+        "properties": {
+          "records": 17,
+          "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
+          "publisher": null
+        }
+      },
+      {
+        "id": "dataset:83fdfd3d-3a25-4705-9fbe-3db1d1892b13",
+        "type": "dataset",
+        "label": "83fdfd3d-3a25-4705-9fbe-3db1d1892b13",
+        "properties": {
+          "records": 5,
+          "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
+          "publisher": null
+        }
+      },
+      {
+        "id": "dataset:963a6b96-4d22-4428-86e4-afee52cf4a8e",
+        "type": "dataset",
+        "label": "963a6b96-4d22-4428-86e4-afee52cf4a8e",
+        "properties": {
+          "records": 3,
+          "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
+          "publisher": null
+        }
+      },
+      {
+        "id": "dataset:cef450df-7155-4c9d-9eb3-7b9b4d868bfa",
+        "type": "dataset",
+        "label": "cef450df-7155-4c9d-9eb3-7b9b4d868bfa",
+        "properties": {
+          "records": 1,
+          "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+          "publisher": null
+        }
+      },
+      {
+        "id": "claim:supported-gbif-mediated-records-matching-the-selected-taxon-and-region-are-present-in-th",
+        "type": "claim",
+        "label": "GBIF-mediated records matching the selected taxon and region are present in the evidence pack.",
+        "properties": {
+          "status": "supported"
+        }
+      },
+      {
+        "id": "claim:supported-dataset-provenance-is-preserved-through-datasetkey-level-contribution-summarie",
+        "type": "claim",
+        "label": "Dataset provenance is preserved through datasetKey-level contribution summaries.",
+        "properties": {
+          "status": "supported"
+        }
+      },
+      {
+        "id": "claim:weak-record-clusters-can-indicate-areas-of-observation-activity-but-they-may-also-reflec",
+        "type": "claim",
+        "label": "Record clusters can indicate areas of observation activity, but they may also reflect observer effort.",
+        "properties": {
+          "status": "weak"
+        }
+      },
+      {
+        "id": "claim:weak-the-selected-purpose-readiness-score-is-82-56-100-and-should-be-interpreted-with-th",
+        "type": "claim",
+        "label": "The selected-purpose readiness score is 82.56/100 and should be interpreted with the component scores.",
+        "properties": {
+          "status": "weak"
+        }
+      },
+      {
+        "id": "claim:blocked-absence-cannot-be-inferred-from-empty-or-low-evidence-grid-cells",
+        "type": "claim",
+        "label": "Absence cannot be inferred from empty or low-evidence grid cells.",
+        "properties": {
+          "status": "blocked"
+        }
+      },
+      {
+        "id": "claim:blocked-observed-gbif-distribution-must-not-be-treated-as-the-true-species-distribution",
+        "type": "claim",
+        "label": "Observed GBIF distribution must not be treated as the true species distribution.",
+        "properties": {
+          "status": "blocked"
+        }
+      },
+      {
+        "id": "claim:blocked-population-trend-cannot-be-inferred-without-temporal-sampling-bias-correction",
+        "type": "claim",
+        "label": "Population trend cannot be inferred without temporal sampling-bias correction.",
+        "properties": {
+          "status": "blocked"
+        }
+      },
+      {
+        "id": "claim:requires-verification-create-a-doi-backed-gbif-occurrence-download-or-derived-dataset-be",
+        "type": "claim",
+        "label": "Create a DOI-backed GBIF occurrence download or derived dataset before formal publication.",
+        "properties": {
+          "status": "requires_verification"
+        }
+      },
+      {
+        "id": "claim:requires-verification-inspect-high-coordinate-uncertainty-records-before-using-them-in-f",
+        "type": "claim",
+        "label": "Inspect high coordinate-uncertainty records before using them in fine-scale decisions.",
+        "properties": {
+          "status": "requires_verification"
+        }
+      },
+      {
+        "id": "claim:requires-verification-treat-undersampled-occupied-cells-as-survey-priorities-not-confirm",
+        "type": "claim",
+        "label": "Treat undersampled occupied cells as survey priorities, not confirmed absences.",
+        "properties": {
+          "status": "requires_verification"
+        }
+      },
+      {
+        "id": "claim:requires-verification-treat-empty-grid-cells-as-no-evidence-cells-not-absence-evidence",
+        "type": "claim",
+        "label": "Treat empty grid cells as no-evidence cells, not absence evidence.",
+        "properties": {
+          "status": "requires_verification"
+        }
+      },
+      {
+        "id": "action:create-a-doi-backed-gbif-occurrence-download-or-derived-dataset-before-publication",
+        "type": "action",
+        "label": "Create a DOI-backed GBIF occurrence download or derived dataset before publication.",
+        "properties": {}
+      },
+      {
+        "id": "action:preserve-datasetkey-and-run-json-with-any-downstream-analysis",
+        "type": "action",
+        "label": "Preserve datasetKey and run.json with any downstream analysis.",
+        "properties": {}
+      },
+      {
+        "id": "action:avoid-absence-claims-for-empty-or-low-effort-grid-cells",
+        "type": "action",
+        "label": "Avoid absence claims for empty or low-effort grid cells.",
+        "properties": {}
+      },
+      {
+        "id": "action:prioritize-survey-design-around-no-evidence-and-under-sampled-grid-cells",
+        "type": "action",
+        "label": "Prioritize survey design around no-evidence and under-sampled grid cells.",
+        "properties": {}
+      },
+      {
+        "id": "artifact:passport.html",
+        "type": "artifact",
+        "label": "passport.html",
+        "properties": {}
+      },
+      {
+        "id": "artifact:decision_memo.md",
+        "type": "artifact",
+        "label": "decision_memo.md",
+        "properties": {}
+      },
+      {
+        "id": "artifact:submission_readiness.md",
+        "type": "artifact",
+        "label": "submission_readiness.md",
+        "properties": {}
+      },
+      {
+        "id": "artifact:validation_summary.md",
+        "type": "artifact",
+        "label": "validation_summary.md",
+        "properties": {}
+      },
+      {
+        "id": "artifact:run.json",
+        "type": "artifact",
+        "label": "run.json",
+        "properties": {}
+      },
+      {
+        "id": "artifact:citations.md",
+        "type": "artifact",
+        "label": "citations.md",
+        "properties": {}
+      },
+      {
+        "id": "artifact:publisher_feedback.md",
+        "type": "artifact",
+        "label": "publisher_feedback.md",
+        "properties": {}
+      },
+      {
+        "id": "artifact:evidence_pack.zip",
+        "type": "artifact",
+        "label": "evidence_pack.zip",
+        "properties": {}
+      }
+    ],
+    "edges": [
+      {
+        "source": "run:3a809b00d7944721a9364dcb5b3d0459",
+        "relation": "uses_taxon",
+        "target": "taxon:2878688",
+        "properties": {}
+      },
+      {
+        "source": "run:3a809b00d7944721a9364dcb5b3d0459",
+        "relation": "covers_region",
+        "target": "region:western-europe-live-bbox",
+        "properties": {}
+      },
+      {
+        "source": "run:3a809b00d7944721a9364dcb5b3d0459",
+        "relation": "serves_purpose",
+        "target": "purpose:sampling_gaps",
+        "properties": {}
+      },
+      {
+        "source": "run:3a809b00d7944721a9364dcb5b3d0459",
+        "relation": "draws_from_dataset",
+        "target": "dataset:8a863029-f435-446a-821e-275f4f641165",
+        "properties": {
+          "records": 206
+        }
+      },
+      {
+        "source": "run:3a809b00d7944721a9364dcb5b3d0459",
+        "relation": "draws_from_dataset",
+        "target": "dataset:50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+        "properties": {
+          "records": 47
+        }
+      },
+      {
+        "source": "run:3a809b00d7944721a9364dcb5b3d0459",
+        "relation": "draws_from_dataset",
+        "target": "dataset:6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
+        "properties": {
+          "records": 21
+        }
+      },
+      {
+        "source": "run:3a809b00d7944721a9364dcb5b3d0459",
+        "relation": "draws_from_dataset",
+        "target": "dataset:0a013f89-5381-4578-9d82-5f28fd5f1ef6",
+        "properties": {
+          "records": 17
+        }
+      },
+      {
+        "source": "run:3a809b00d7944721a9364dcb5b3d0459",
+        "relation": "draws_from_dataset",
+        "target": "dataset:83fdfd3d-3a25-4705-9fbe-3db1d1892b13",
+        "properties": {
+          "records": 5
+        }
+      },
+      {
+        "source": "run:3a809b00d7944721a9364dcb5b3d0459",
+        "relation": "draws_from_dataset",
+        "target": "dataset:963a6b96-4d22-4428-86e4-afee52cf4a8e",
+        "properties": {
+          "records": 3
+        }
+      },
+      {
+        "source": "run:3a809b00d7944721a9364dcb5b3d0459",
+        "relation": "draws_from_dataset",
+        "target": "dataset:cef450df-7155-4c9d-9eb3-7b9b4d868bfa",
+        "properties": {
+          "records": 1
+        }
+      },
+      {
+        "source": "run:3a809b00d7944721a9364dcb5b3d0459",
+        "relation": "supported_claim",
+        "target": "claim:supported-gbif-mediated-records-matching-the-selected-taxon-and-region-are-present-in-th",
+        "properties": {}
+      },
+      {
+        "source": "run:3a809b00d7944721a9364dcb5b3d0459",
+        "relation": "supported_claim",
+        "target": "claim:supported-dataset-provenance-is-preserved-through-datasetkey-level-contribution-summarie",
+        "properties": {}
+      },
+      {
+        "source": "run:3a809b00d7944721a9364dcb5b3d0459",
+        "relation": "weak_claim",
+        "target": "claim:weak-record-clusters-can-indicate-areas-of-observation-activity-but-they-may-also-reflec",
+        "properties": {}
+      },
+      {
+        "source": "run:3a809b00d7944721a9364dcb5b3d0459",
+        "relation": "weak_claim",
+        "target": "claim:weak-the-selected-purpose-readiness-score-is-82-56-100-and-should-be-interpreted-with-th",
+        "properties": {}
+      },
+      {
+        "source": "run:3a809b00d7944721a9364dcb5b3d0459",
+        "relation": "blocked_claim",
+        "target": "claim:blocked-absence-cannot-be-inferred-from-empty-or-low-evidence-grid-cells",
+        "properties": {}
+      },
+      {
+        "source": "run:3a809b00d7944721a9364dcb5b3d0459",
+        "relation": "blocked_claim",
+        "target": "claim:blocked-observed-gbif-distribution-must-not-be-treated-as-the-true-species-distribution",
+        "properties": {}
+      },
+      {
+        "source": "run:3a809b00d7944721a9364dcb5b3d0459",
+        "relation": "blocked_claim",
+        "target": "claim:blocked-population-trend-cannot-be-inferred-without-temporal-sampling-bias-correction",
+        "properties": {}
+      },
+      {
+        "source": "run:3a809b00d7944721a9364dcb5b3d0459",
+        "relation": "requires_verification_claim",
+        "target": "claim:requires-verification-create-a-doi-backed-gbif-occurrence-download-or-derived-dataset-be",
+        "properties": {}
+      },
+      {
+        "source": "run:3a809b00d7944721a9364dcb5b3d0459",
+        "relation": "requires_verification_claim",
+        "target": "claim:requires-verification-inspect-high-coordinate-uncertainty-records-before-using-them-in-f",
+        "properties": {}
+      },
+      {
+        "source": "run:3a809b00d7944721a9364dcb5b3d0459",
+        "relation": "requires_verification_claim",
+        "target": "claim:requires-verification-treat-undersampled-occupied-cells-as-survey-priorities-not-confirm",
+        "properties": {}
+      },
+      {
+        "source": "run:3a809b00d7944721a9364dcb5b3d0459",
+        "relation": "requires_verification_claim",
+        "target": "claim:requires-verification-treat-empty-grid-cells-as-no-evidence-cells-not-absence-evidence",
+        "properties": {}
+      },
+      {
+        "source": "run:3a809b00d7944721a9364dcb5b3d0459",
+        "relation": "recommends_action",
+        "target": "action:create-a-doi-backed-gbif-occurrence-download-or-derived-dataset-before-publication",
+        "properties": {}
+      },
+      {
+        "source": "run:3a809b00d7944721a9364dcb5b3d0459",
+        "relation": "recommends_action",
+        "target": "action:preserve-datasetkey-and-run-json-with-any-downstream-analysis",
+        "properties": {}
+      },
+      {
+        "source": "run:3a809b00d7944721a9364dcb5b3d0459",
+        "relation": "recommends_action",
+        "target": "action:avoid-absence-claims-for-empty-or-low-effort-grid-cells",
+        "properties": {}
+      },
+      {
+        "source": "run:3a809b00d7944721a9364dcb5b3d0459",
+        "relation": "recommends_action",
+        "target": "action:prioritize-survey-design-around-no-evidence-and-under-sampled-grid-cells",
+        "properties": {}
+      },
+      {
+        "source": "run:3a809b00d7944721a9364dcb5b3d0459",
+        "relation": "produces_artifact",
+        "target": "artifact:passport.html",
+        "properties": {}
+      },
+      {
+        "source": "run:3a809b00d7944721a9364dcb5b3d0459",
+        "relation": "produces_artifact",
+        "target": "artifact:decision_memo.md",
+        "properties": {}
+      },
+      {
+        "source": "run:3a809b00d7944721a9364dcb5b3d0459",
+        "relation": "produces_artifact",
+        "target": "artifact:submission_readiness.md",
+        "properties": {}
+      },
+      {
+        "source": "run:3a809b00d7944721a9364dcb5b3d0459",
+        "relation": "produces_artifact",
+        "target": "artifact:validation_summary.md",
+        "properties": {}
+      },
+      {
+        "source": "run:3a809b00d7944721a9364dcb5b3d0459",
+        "relation": "produces_artifact",
+        "target": "artifact:run.json",
+        "properties": {}
+      },
+      {
+        "source": "run:3a809b00d7944721a9364dcb5b3d0459",
+        "relation": "produces_artifact",
+        "target": "artifact:citations.md",
+        "properties": {}
+      },
+      {
+        "source": "run:3a809b00d7944721a9364dcb5b3d0459",
+        "relation": "produces_artifact",
+        "target": "artifact:publisher_feedback.md",
+        "properties": {}
+      },
+      {
+        "source": "run:3a809b00d7944721a9364dcb5b3d0459",
+        "relation": "produces_artifact",
+        "target": "artifact:evidence_pack.zip",
+        "properties": {}
+      }
+    ],
+    "memory_cards": [
+      {
+        "title": "Connected run memory",
+        "body": "This run links 300 records, 7 datasets, 3 blocked claims and 4 next actions."
+      },
+      {
+        "title": "Dataset memory",
+        "body": "0 publisher feedback rows are connected to datasetKey-level provenance, so recurring quality blockers can be tracked across future runs."
+      },
+      {
+        "title": "Claim memory",
+        "body": "Blocked absence, distribution and trend claims are stored as graph nodes instead of disappearing into a static report."
+      },
+      {
+        "title": "Judge-friendly vault",
+        "body": "The vault is a normal Markdown bundle that can be opened offline and reviewed without running the web application."
+      }
+    ]
+  },
+  "known_limitations": [
+    "GBIF-mediated occurrence records are heterogeneous and reflect variable sampling effort.",
+    "No-evidence grid cells are not absence observations.",
+    "Occurrence counts alone do not establish abundance or population trends.",
+    "Fixture and fallback runs are reproducible demo artifacts, not publication citation bases."
+  ]
+}

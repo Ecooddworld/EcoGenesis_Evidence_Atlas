@@ -1,0 +1,578 @@
+{
+  "summary": {
+    "title": "EcoGenesis Evidence Graph Memory",
+    "run_id": "51e12c0fb76d42f9ad818be4af84857f",
+    "taxon": "Lynx pardinus (Temminck, 1827)",
+    "region_name": "Iberian Peninsula live bbox",
+    "purpose": "dataset_quality_review",
+    "purpose_label": "Dataset quality review",
+    "score": 86.65,
+    "records_used": 300,
+    "datasets_used": 5,
+    "created_at": "2026-05-22T00:38:39.194657+00:00"
+  },
+  "node_counts": {
+    "runs": 1,
+    "taxa": 1,
+    "regions": 1,
+    "datasets": 5,
+    "issues": 1,
+    "claims": 11,
+    "actions": 6,
+    "artifacts": 8
+  },
+  "nodes": [
+    {
+      "id": "run:51e12c0fb76d42f9ad818be4af84857f",
+      "type": "run",
+      "label": "Lynx pardinus (Temminck, 1827) in Iberian Peninsula live bbox",
+      "properties": {
+        "run_id": "51e12c0fb76d42f9ad818be4af84857f"
+      }
+    },
+    {
+      "id": "taxon:2435261",
+      "type": "taxon",
+      "label": "Lynx pardinus (Temminck, 1827)",
+      "properties": {
+        "taxonKey": 2435261
+      }
+    },
+    {
+      "id": "region:iberian-peninsula-live-bbox",
+      "type": "region",
+      "label": "Iberian Peninsula live bbox",
+      "properties": {
+        "bbox": [
+          -10.0,
+          35.0,
+          4.5,
+          44.5
+        ]
+      }
+    },
+    {
+      "id": "purpose:dataset_quality_review",
+      "type": "purpose",
+      "label": "Dataset quality review",
+      "properties": {
+        "purpose": "dataset_quality_review"
+      }
+    },
+    {
+      "id": "dataset:50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+      "type": "dataset",
+      "label": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+      "properties": {
+        "records": 222,
+        "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+        "publisher": null
+      }
+    },
+    {
+      "id": "dataset:626c16d0-c37e-4b1f-9337-09d58c9eb9ff",
+      "type": "dataset",
+      "label": "626c16d0-c37e-4b1f-9337-09d58c9eb9ff",
+      "properties": {
+        "records": 48,
+        "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
+        "publisher": null
+      }
+    },
+    {
+      "id": "dataset:aa67ebd4-a094-4200-bb3b-55775128a670",
+      "type": "dataset",
+      "label": "aa67ebd4-a094-4200-bb3b-55775128a670",
+      "properties": {
+        "records": 22,
+        "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
+        "publisher": null
+      }
+    },
+    {
+      "id": "dataset:460daf52-49b6-4206-84b9-62a23b181f37",
+      "type": "dataset",
+      "label": "460daf52-49b6-4206-84b9-62a23b181f37",
+      "properties": {
+        "records": 7,
+        "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
+        "publisher": null
+      }
+    },
+    {
+      "id": "dataset:3ccfe992-043a-4fff-951d-1e6e158854da",
+      "type": "dataset",
+      "label": "3ccfe992-043a-4fff-951d-1e6e158854da",
+      "properties": {
+        "records": 1,
+        "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
+        "publisher": null
+      }
+    },
+    {
+      "id": "issue:high-coordinate-uncertainty",
+      "type": "issue",
+      "label": "High coordinate uncertainty",
+      "properties": {
+        "severity": "medium"
+      }
+    },
+    {
+      "id": "claim:supported-gbif-mediated-records-matching-the-selected-taxon-and-region-are-present-in-th",
+      "type": "claim",
+      "label": "GBIF-mediated records matching the selected taxon and region are present in the evidence pack.",
+      "properties": {
+        "status": "supported"
+      }
+    },
+    {
+      "id": "claim:supported-dataset-provenance-is-preserved-through-datasetkey-level-contribution-summarie",
+      "type": "claim",
+      "label": "Dataset provenance is preserved through datasetKey-level contribution summaries.",
+      "properties": {
+        "status": "supported"
+      }
+    },
+    {
+      "id": "claim:weak-record-clusters-can-indicate-areas-of-observation-activity-but-they-may-also-reflec",
+      "type": "claim",
+      "label": "Record clusters can indicate areas of observation activity, but they may also reflect observer effort.",
+      "properties": {
+        "status": "weak"
+      }
+    },
+    {
+      "id": "claim:weak-the-selected-purpose-readiness-score-is-86-65-100-and-should-be-interpreted-with-th",
+      "type": "claim",
+      "label": "The selected-purpose readiness score is 86.65/100 and should be interpreted with the component scores.",
+      "properties": {
+        "status": "weak"
+      }
+    },
+    {
+      "id": "claim:blocked-absence-cannot-be-inferred-from-empty-or-low-evidence-grid-cells",
+      "type": "claim",
+      "label": "Absence cannot be inferred from empty or low-evidence grid cells.",
+      "properties": {
+        "status": "blocked"
+      }
+    },
+    {
+      "id": "claim:blocked-observed-gbif-distribution-must-not-be-treated-as-the-true-species-distribution",
+      "type": "claim",
+      "label": "Observed GBIF distribution must not be treated as the true species distribution.",
+      "properties": {
+        "status": "blocked"
+      }
+    },
+    {
+      "id": "claim:blocked-population-trend-cannot-be-inferred-without-temporal-sampling-bias-correction",
+      "type": "claim",
+      "label": "Population trend cannot be inferred without temporal sampling-bias correction.",
+      "properties": {
+        "status": "blocked"
+      }
+    },
+    {
+      "id": "claim:requires-verification-create-a-doi-backed-gbif-occurrence-download-or-derived-dataset-be",
+      "type": "claim",
+      "label": "Create a DOI-backed GBIF occurrence download or derived dataset before formal publication.",
+      "properties": {
+        "status": "requires_verification"
+      }
+    },
+    {
+      "id": "claim:requires-verification-inspect-high-coordinate-uncertainty-records-before-using-them-in-f",
+      "type": "claim",
+      "label": "Inspect high coordinate-uncertainty records before using them in fine-scale decisions.",
+      "properties": {
+        "status": "requires_verification"
+      }
+    },
+    {
+      "id": "claim:requires-verification-treat-undersampled-occupied-cells-as-survey-priorities-not-confirm",
+      "type": "claim",
+      "label": "Treat undersampled occupied cells as survey priorities, not confirmed absences.",
+      "properties": {
+        "status": "requires_verification"
+      }
+    },
+    {
+      "id": "claim:requires-verification-treat-empty-grid-cells-as-no-evidence-cells-not-absence-evidence",
+      "type": "claim",
+      "label": "Treat empty grid cells as no-evidence cells, not absence evidence.",
+      "properties": {
+        "status": "requires_verification"
+      }
+    },
+    {
+      "id": "action:create-a-doi-backed-gbif-occurrence-download-or-derived-dataset-before-publication",
+      "type": "action",
+      "label": "Create a DOI-backed GBIF occurrence download or derived dataset before publication.",
+      "properties": {}
+    },
+    {
+      "id": "action:preserve-datasetkey-and-run-json-with-any-downstream-analysis",
+      "type": "action",
+      "label": "Preserve datasetKey and run.json with any downstream analysis.",
+      "properties": {}
+    },
+    {
+      "id": "action:avoid-absence-claims-for-empty-or-low-effort-grid-cells",
+      "type": "action",
+      "label": "Avoid absence claims for empty or low-effort grid cells.",
+      "properties": {}
+    },
+    {
+      "id": "action:review-records-with-coordinate-uncertainty-above-10-km",
+      "type": "action",
+      "label": "Review records with coordinate uncertainty above 10 km.",
+      "properties": {}
+    },
+    {
+      "id": "action:prioritize-survey-design-around-no-evidence-and-under-sampled-grid-cells",
+      "type": "action",
+      "label": "Prioritize survey design around no-evidence and under-sampled grid cells.",
+      "properties": {}
+    },
+    {
+      "id": "action:share-the-publisher-feedback-pack-with-dataset-managers-for-prioritized-fixes",
+      "type": "action",
+      "label": "Share the Publisher Feedback Pack with dataset managers for prioritized fixes.",
+      "properties": {}
+    },
+    {
+      "id": "artifact:passport.html",
+      "type": "artifact",
+      "label": "passport.html",
+      "properties": {}
+    },
+    {
+      "id": "artifact:decision_memo.md",
+      "type": "artifact",
+      "label": "decision_memo.md",
+      "properties": {}
+    },
+    {
+      "id": "artifact:submission_readiness.md",
+      "type": "artifact",
+      "label": "submission_readiness.md",
+      "properties": {}
+    },
+    {
+      "id": "artifact:validation_summary.md",
+      "type": "artifact",
+      "label": "validation_summary.md",
+      "properties": {}
+    },
+    {
+      "id": "artifact:run.json",
+      "type": "artifact",
+      "label": "run.json",
+      "properties": {}
+    },
+    {
+      "id": "artifact:citations.md",
+      "type": "artifact",
+      "label": "citations.md",
+      "properties": {}
+    },
+    {
+      "id": "artifact:publisher_feedback.md",
+      "type": "artifact",
+      "label": "publisher_feedback.md",
+      "properties": {}
+    },
+    {
+      "id": "artifact:evidence_pack.zip",
+      "type": "artifact",
+      "label": "evidence_pack.zip",
+      "properties": {}
+    }
+  ],
+  "edges": [
+    {
+      "source": "run:51e12c0fb76d42f9ad818be4af84857f",
+      "relation": "uses_taxon",
+      "target": "taxon:2435261",
+      "properties": {}
+    },
+    {
+      "source": "run:51e12c0fb76d42f9ad818be4af84857f",
+      "relation": "covers_region",
+      "target": "region:iberian-peninsula-live-bbox",
+      "properties": {}
+    },
+    {
+      "source": "run:51e12c0fb76d42f9ad818be4af84857f",
+      "relation": "serves_purpose",
+      "target": "purpose:dataset_quality_review",
+      "properties": {}
+    },
+    {
+      "source": "run:51e12c0fb76d42f9ad818be4af84857f",
+      "relation": "draws_from_dataset",
+      "target": "dataset:50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+      "properties": {
+        "records": 222
+      }
+    },
+    {
+      "source": "run:51e12c0fb76d42f9ad818be4af84857f",
+      "relation": "draws_from_dataset",
+      "target": "dataset:626c16d0-c37e-4b1f-9337-09d58c9eb9ff",
+      "properties": {
+        "records": 48
+      }
+    },
+    {
+      "source": "run:51e12c0fb76d42f9ad818be4af84857f",
+      "relation": "draws_from_dataset",
+      "target": "dataset:aa67ebd4-a094-4200-bb3b-55775128a670",
+      "properties": {
+        "records": 22
+      }
+    },
+    {
+      "source": "run:51e12c0fb76d42f9ad818be4af84857f",
+      "relation": "draws_from_dataset",
+      "target": "dataset:460daf52-49b6-4206-84b9-62a23b181f37",
+      "properties": {
+        "records": 7
+      }
+    },
+    {
+      "source": "run:51e12c0fb76d42f9ad818be4af84857f",
+      "relation": "draws_from_dataset",
+      "target": "dataset:3ccfe992-043a-4fff-951d-1e6e158854da",
+      "properties": {
+        "records": 1
+      }
+    },
+    {
+      "source": "run:51e12c0fb76d42f9ad818be4af84857f",
+      "relation": "detects_issue",
+      "target": "issue:high-coordinate-uncertainty",
+      "properties": {}
+    },
+    {
+      "source": "dataset:50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+      "relation": "has_quality_issue",
+      "target": "issue:high-coordinate-uncertainty",
+      "properties": {
+        "records_affected": 222,
+        "severity": "medium"
+      }
+    },
+    {
+      "source": "run:51e12c0fb76d42f9ad818be4af84857f",
+      "relation": "supported_claim",
+      "target": "claim:supported-gbif-mediated-records-matching-the-selected-taxon-and-region-are-present-in-th",
+      "properties": {}
+    },
+    {
+      "source": "run:51e12c0fb76d42f9ad818be4af84857f",
+      "relation": "supported_claim",
+      "target": "claim:supported-dataset-provenance-is-preserved-through-datasetkey-level-contribution-summarie",
+      "properties": {}
+    },
+    {
+      "source": "run:51e12c0fb76d42f9ad818be4af84857f",
+      "relation": "weak_claim",
+      "target": "claim:weak-record-clusters-can-indicate-areas-of-observation-activity-but-they-may-also-reflec",
+      "properties": {}
+    },
+    {
+      "source": "run:51e12c0fb76d42f9ad818be4af84857f",
+      "relation": "weak_claim",
+      "target": "claim:weak-the-selected-purpose-readiness-score-is-86-65-100-and-should-be-interpreted-with-th",
+      "properties": {}
+    },
+    {
+      "source": "run:51e12c0fb76d42f9ad818be4af84857f",
+      "relation": "blocked_claim",
+      "target": "claim:blocked-absence-cannot-be-inferred-from-empty-or-low-evidence-grid-cells",
+      "properties": {}
+    },
+    {
+      "source": "issue:high-coordinate-uncertainty",
+      "relation": "limits_claim",
+      "target": "claim:blocked-absence-cannot-be-inferred-from-empty-or-low-evidence-grid-cells",
+      "properties": {}
+    },
+    {
+      "source": "run:51e12c0fb76d42f9ad818be4af84857f",
+      "relation": "blocked_claim",
+      "target": "claim:blocked-observed-gbif-distribution-must-not-be-treated-as-the-true-species-distribution",
+      "properties": {}
+    },
+    {
+      "source": "issue:high-coordinate-uncertainty",
+      "relation": "limits_claim",
+      "target": "claim:blocked-observed-gbif-distribution-must-not-be-treated-as-the-true-species-distribution",
+      "properties": {}
+    },
+    {
+      "source": "run:51e12c0fb76d42f9ad818be4af84857f",
+      "relation": "blocked_claim",
+      "target": "claim:blocked-population-trend-cannot-be-inferred-without-temporal-sampling-bias-correction",
+      "properties": {}
+    },
+    {
+      "source": "issue:high-coordinate-uncertainty",
+      "relation": "limits_claim",
+      "target": "claim:blocked-population-trend-cannot-be-inferred-without-temporal-sampling-bias-correction",
+      "properties": {}
+    },
+    {
+      "source": "run:51e12c0fb76d42f9ad818be4af84857f",
+      "relation": "requires_verification_claim",
+      "target": "claim:requires-verification-create-a-doi-backed-gbif-occurrence-download-or-derived-dataset-be",
+      "properties": {}
+    },
+    {
+      "source": "issue:high-coordinate-uncertainty",
+      "relation": "limits_claim",
+      "target": "claim:requires-verification-create-a-doi-backed-gbif-occurrence-download-or-derived-dataset-be",
+      "properties": {}
+    },
+    {
+      "source": "run:51e12c0fb76d42f9ad818be4af84857f",
+      "relation": "requires_verification_claim",
+      "target": "claim:requires-verification-inspect-high-coordinate-uncertainty-records-before-using-them-in-f",
+      "properties": {}
+    },
+    {
+      "source": "issue:high-coordinate-uncertainty",
+      "relation": "limits_claim",
+      "target": "claim:requires-verification-inspect-high-coordinate-uncertainty-records-before-using-them-in-f",
+      "properties": {}
+    },
+    {
+      "source": "run:51e12c0fb76d42f9ad818be4af84857f",
+      "relation": "requires_verification_claim",
+      "target": "claim:requires-verification-treat-undersampled-occupied-cells-as-survey-priorities-not-confirm",
+      "properties": {}
+    },
+    {
+      "source": "issue:high-coordinate-uncertainty",
+      "relation": "limits_claim",
+      "target": "claim:requires-verification-treat-undersampled-occupied-cells-as-survey-priorities-not-confirm",
+      "properties": {}
+    },
+    {
+      "source": "run:51e12c0fb76d42f9ad818be4af84857f",
+      "relation": "requires_verification_claim",
+      "target": "claim:requires-verification-treat-empty-grid-cells-as-no-evidence-cells-not-absence-evidence",
+      "properties": {}
+    },
+    {
+      "source": "issue:high-coordinate-uncertainty",
+      "relation": "limits_claim",
+      "target": "claim:requires-verification-treat-empty-grid-cells-as-no-evidence-cells-not-absence-evidence",
+      "properties": {}
+    },
+    {
+      "source": "run:51e12c0fb76d42f9ad818be4af84857f",
+      "relation": "recommends_action",
+      "target": "action:create-a-doi-backed-gbif-occurrence-download-or-derived-dataset-before-publication",
+      "properties": {}
+    },
+    {
+      "source": "run:51e12c0fb76d42f9ad818be4af84857f",
+      "relation": "recommends_action",
+      "target": "action:preserve-datasetkey-and-run-json-with-any-downstream-analysis",
+      "properties": {}
+    },
+    {
+      "source": "run:51e12c0fb76d42f9ad818be4af84857f",
+      "relation": "recommends_action",
+      "target": "action:avoid-absence-claims-for-empty-or-low-effort-grid-cells",
+      "properties": {}
+    },
+    {
+      "source": "run:51e12c0fb76d42f9ad818be4af84857f",
+      "relation": "recommends_action",
+      "target": "action:review-records-with-coordinate-uncertainty-above-10-km",
+      "properties": {}
+    },
+    {
+      "source": "run:51e12c0fb76d42f9ad818be4af84857f",
+      "relation": "recommends_action",
+      "target": "action:prioritize-survey-design-around-no-evidence-and-under-sampled-grid-cells",
+      "properties": {}
+    },
+    {
+      "source": "run:51e12c0fb76d42f9ad818be4af84857f",
+      "relation": "recommends_action",
+      "target": "action:share-the-publisher-feedback-pack-with-dataset-managers-for-prioritized-fixes",
+      "properties": {}
+    },
+    {
+      "source": "run:51e12c0fb76d42f9ad818be4af84857f",
+      "relation": "produces_artifact",
+      "target": "artifact:passport.html",
+      "properties": {}
+    },
+    {
+      "source": "run:51e12c0fb76d42f9ad818be4af84857f",
+      "relation": "produces_artifact",
+      "target": "artifact:decision_memo.md",
+      "properties": {}
+    },
+    {
+      "source": "run:51e12c0fb76d42f9ad818be4af84857f",
+      "relation": "produces_artifact",
+      "target": "artifact:submission_readiness.md",
+      "properties": {}
+    },
+    {
+      "source": "run:51e12c0fb76d42f9ad818be4af84857f",
+      "relation": "produces_artifact",
+      "target": "artifact:validation_summary.md",
+      "properties": {}
+    },
+    {
+      "source": "run:51e12c0fb76d42f9ad818be4af84857f",
+      "relation": "produces_artifact",
+      "target": "artifact:run.json",
+      "properties": {}
+    },
+    {
+      "source": "run:51e12c0fb76d42f9ad818be4af84857f",
+      "relation": "produces_artifact",
+      "target": "artifact:citations.md",
+      "properties": {}
+    },
+    {
+      "source": "run:51e12c0fb76d42f9ad818be4af84857f",
+      "relation": "produces_artifact",
+      "target": "artifact:publisher_feedback.md",
+      "properties": {}
+    },
+    {
+      "source": "run:51e12c0fb76d42f9ad818be4af84857f",
+      "relation": "produces_artifact",
+      "target": "artifact:evidence_pack.zip",
+      "properties": {}
+    }
+  ],
+  "memory_cards": [
+    {
+      "title": "Connected run memory",
+      "body": "This run links 300 records, 5 datasets, 3 blocked claims and 6 next actions."
+    },
+    {
+      "title": "Dataset memory",
+      "body": "1 publisher feedback rows are connected to datasetKey-level provenance, so recurring quality blockers can be tracked across future runs."
+    },
+    {
+      "title": "Claim memory",
+      "body": "Blocked absence, distribution and trend claims are stored as graph nodes instead of disappearing into a static report."
+    },
+    {
+      "title": "Judge-friendly vault",
+      "body": "The vault is a normal Markdown bundle that can be opened offline and reviewed without running the web application."
+    }
+  ]
+}

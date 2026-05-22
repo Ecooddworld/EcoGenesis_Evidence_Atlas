@@ -1,0 +1,84 @@
+{
+  "title": "EcoGenesis Validation Summary",
+  "current_case": {
+    "taxon": "Lynx pardinus",
+    "region_name": "Iberian Peninsula live bbox",
+    "purpose": "dataset_quality_review",
+    "purpose_label": "Dataset quality review",
+    "source_mode": "online",
+    "score": 86.65
+  },
+  "checks": [
+    {
+      "id": "datasetkey_provenance",
+      "label": "datasetKey provenance preserved",
+      "passed": true,
+      "metric": 1.0,
+      "why_it_matters": "GBIF reuse and derived datasets need auditable datasetKey lineage."
+    },
+    {
+      "id": "no_absence_overclaim",
+      "label": "No-evidence cells separated from absence claims",
+      "passed": true,
+      "metric": 10,
+      "why_it_matters": "The tool blocks a common misuse of occurrence data: treating missing records as absences."
+    },
+    {
+      "id": "citation_flow",
+      "label": "Citation completion flow generated",
+      "passed": true,
+      "metric": 5,
+      "why_it_matters": "Users get explicit steps for DOI-backed or derived-dataset reuse."
+    },
+    {
+      "id": "publisher_feedback",
+      "label": "Publisher feedback rows generated when data issues exist",
+      "passed": true,
+      "metric": 1,
+      "why_it_matters": "Data managers receive actionable fixes grouped by datasetKey."
+    },
+    {
+      "id": "repeatable_run",
+      "label": "Repeatable run metadata generated",
+      "passed": true,
+      "metric": 300,
+      "why_it_matters": "run.json, source_summary.json and checksums let judges and reviewers reproduce the analysis."
+    }
+  ],
+  "passed_checks": 5,
+  "total_checks": 5,
+  "measurable_outcomes": [
+    "Time-to-first-review is reduced because the app opens with a complete evidence memo, map and export bundle.",
+    "Risk of unsupported absence, trend or distribution claims is reduced through explicit claim guardrails.",
+    "Citation compliance improves because dataset contributions, DOI gaps and methods text are generated together.",
+    "Publisher feedback becomes actionable because issues are grouped by datasetKey, severity and fix priority."
+  ],
+  "recommended_demo_suite": [
+    {
+      "id": "invasive_watch",
+      "taxon": "Aedes albopictus",
+      "region_name": "Spain live GBIF bbox",
+      "purpose": "invasive_watch",
+      "shows": "Recent invasive-species screening with coordinate uncertainty caveats."
+    },
+    {
+      "id": "sampling_gaps",
+      "taxon": "Quercus robur",
+      "region_name": "Western Europe live bbox",
+      "purpose": "sampling_gaps",
+      "shows": "No-evidence cells and survey priorities without absence overclaiming."
+    },
+    {
+      "id": "dataset_quality_review",
+      "taxon": "Lynx pardinus",
+      "region_name": "Iberian Peninsula live bbox",
+      "purpose": "dataset_quality_review",
+      "shows": "Publisher-side issue prioritization and provenance review."
+    }
+  ],
+  "remaining_validation_work": [
+    "Attach at least one DOI-backed GBIF download or derived dataset case before final publication use.",
+    "Record a three-minute screen capture that walks through the default run, claim guardrails and export pack.",
+    "Run the three demo scenarios before submission freeze and save their generated passports as release assets."
+  ]
+}

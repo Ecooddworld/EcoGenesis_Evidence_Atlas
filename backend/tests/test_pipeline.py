@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 from collections import Counter
+import json
+from pathlib import Path
 import zipfile
 
 import requests
@@ -79,29 +81,55 @@ def test_source_mode_compatibility_grid_and_exports(tmp_path, monkeypatch) -> No
     export_names = {item["name"] for item in pack["exports"]}
     assert {
         "claim_guardrails.md",
-            "readiness_scorecard.csv",
-            "source_summary.json",
-            "demo_scenario.json",
-            "gap_priorities.csv",
-            "methods_text.md",
-            "publisher_feedback.csv",
-            "derived_dataset_recipe.json",
-            "provenance.json",
-            "evidence_pack.zip",
-        } <= export_names
+        "decision_memo.md",
+        "submission_readiness.md",
+        "validation_summary.md",
+        "impact_brief.md",
+        "video_script.md",
+        "decision_memo.json",
+        "submission_readiness.json",
+        "validation_summary.json",
+        "readiness_scorecard.csv",
+        "source_summary.json",
+        "demo_scenario.json",
+        "gap_priorities.csv",
+        "methods_text.md",
+        "publisher_feedback.csv",
+        "publisher_issue_templates.md",
+        "derived_dataset_recipe.json",
+        "evidence_graph.json",
+        "graph_memory.md",
+        "evidence_vault.zip",
+        "provenance.json",
+        "evidence_pack.zip",
+    } <= export_names
 
     with zipfile.ZipFile(artifact_path(pack["run"]["run_id"], "evidence_pack.zip")) as archive:
         assert {
             "claim_guardrails.md",
+            "decision_memo.md",
+            "submission_readiness.md",
+            "validation_summary.md",
+            "impact_brief.md",
+            "video_script.md",
             "readiness_scorecard.csv",
             "source_summary.json",
             "demo_scenario.json",
             "gap_priorities.csv",
             "methods_text.md",
             "publisher_feedback.csv",
+            "publisher_issue_templates.md",
             "derived_dataset_recipe.json",
+            "evidence_graph.json",
+            "graph_memory.md",
             "provenance.json",
+            "vault/index.md",
+            f"vault/runs/{pack['run']['run_id']}.md",
         } <= set(archive.namelist())
+
+    with zipfile.ZipFile(artifact_path(pack["run"]["run_id"], "evidence_vault.zip")) as archive:
+        assert "index.md" in archive.namelist()
+        assert f"runs/{pack['run']['run_id']}.md" in archive.namelist()
 
 
 def test_empty_fallback_does_not_reuse_fixture_records(tmp_path, monkeypatch) -> None:
@@ -154,4 +182,22 @@ def test_claim_guardrails_and_publisher_feedback(tmp_path, monkeypatch) -> None:
     assert any(row["datasetKey"] == "legacy-mosquito-import" for row in pack["publisher_feedback"])
     assert any(row["main_issue"] == "High coordinate uncertainty" for row in pack["publisher_feedback"])
     assert pack["citation_autopilot"]["derived_dataset_recipe"]["group_by"] == "datasetKey"
+    assert any(not item["ready"] for item in pack["citation_autopilot"]["doi_completion_flow"])
+    assert pack["publisher_feedback"][0]["fix_priority"] == 1
+    assert pack["publisher_feedback"][0]["severity"] in {"high", "medium", "low"}
+    assert pack["graph_memory"]["graph"]["node_counts"]["claims"] >= 4
+    assert "index.md" in pack["graph_memory"]["vault"]
     assert "artifact_checksums" in pack["run"]
+    assert pack["decision_memo"]["verdict"]
+    assert pack["submission_readiness"]["ready_count"] >= 7
+    assert any(item["id"] == "doi_backed_case" for item in pack["submission_readiness"]["checklist"])
+    assert pack["validation_summary"]["recommended_demo_suite"]
+
+
+def test_evidence_passport_schema_is_valid_json() -> None:
+    schema_path = Path(__file__).resolve().parents[2] / "schemas" / "evidence_passport.schema.json"
+    schema = json.loads(schema_path.read_text(encoding="utf-8"))
+
+    assert schema["title"] == "EcoGenesis GBIF Evidence Passport"
+    assert "decision_memo" in schema["required"]
+    assert schema["properties"]["passport"]["properties"]["title"]["const"] == "GBIF Evidence Passport"

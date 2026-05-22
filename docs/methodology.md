@@ -61,6 +61,18 @@ Each run also includes a purpose score matrix for all supported purposes, comput
 
 The Claim Guardrails module states what the data supports, weakly suggests, does not support, and what must be verified before research or policy use.
 
+## Decision Memo and Submission Readiness
+
+Every run produces a short Decision Memo before the detailed technical artifacts. It answers five practical questions: what decision is being asked, what GBIF evidence is used, whether the evidence is fit for the selected purpose, which claims are safe or blocked, and what the next action should be.
+
+The Submission Readiness layer converts research comments into a machine-readable contest checklist. It records what is already integrated, what is demo-ready, and what still needs work before publication-grade reuse, especially the DOI-backed GBIF download or derived-dataset case.
+
+## Graph Memory
+
+Every run now creates an evidence graph and an Obsidian-compatible Markdown vault. The graph links the run to its taxon, region, purpose, contributing datasets, detected issues, supported/weak/blocked claims, next actions and key artifacts.
+
+Postgres or file storage remains the operational source of truth. The vault is a human-readable memory layer: it lets reviewers open the evidence trail offline, inspect backlinks-style relationships and reuse prior claims/actions in later runs without treating the vault as a transactional database.
+
 ## Scientific Map
 
 The application renders a geographic evidence map for the query bounding box. It combines an OpenStreetMap/Leaflet basemap, the 4x4 sampling grid, occurrence points, high-uncertainty/issue markers and a short evidence thesis. No-evidence cells are visualized as survey targets, not as absence observations.
@@ -72,12 +84,19 @@ The interactive application uses Leaflet with OpenStreetMap tiles for working se
 Every completed run writes a reproducible evidence pack:
 
 - `evidence_pack.json` for machine reuse
+- `decision_memo.md` and `decision_memo.json`
+- `submission_readiness.md` and `submission_readiness.json`
+- `validation_summary.md` and `validation_summary.json`
+- `impact_brief.md` and `video_script.md`
 - `run.json` for request parameters, timestamp and GBIF match metadata
 - `source_summary.json` and `demo_scenario.json`
 - `records.geojson` for mapped retained occurrences
 - `quality_metrics.csv`, `gap_priorities.csv`, `readiness_scorecard.csv` and `dataset_contributions.csv`
-- `publisher_feedback.csv`, `derived_dataset_recipe.json` and `provenance.json`
+- `publisher_feedback.csv`, `publisher_issue_templates.md`, `derived_dataset_recipe.json` and `provenance.json`
+- `evidence_graph.json`, `graph_memory.md` and `evidence_vault.zip`
 - `citations.md`, `claim_guardrails.md`, `methods_text.md` and `publisher_feedback.md`
 - `passport.md`, `passport.html` and `evidence_pack.zip`
 
-The ZIP file is a convenience bundle. Formal publication still requires DOI-backed GBIF download or derived-dataset citation where applicable.
+The main ZIP file also contains a `vault/` directory with Markdown notes. The standalone `evidence_vault.zip` contains the same memory layer without the larger data artifacts. Formal publication still requires DOI-backed GBIF download or derived-dataset citation where applicable.
+
+`schemas/evidence_passport.schema.json` documents the JSON contract for the main pack. It is intentionally focused on durable top-level objects so external validators, GBIF reviewers or downstream EcoGenesis services can check a run without depending on frontend code.

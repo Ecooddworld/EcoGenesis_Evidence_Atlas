@@ -1,0 +1,129 @@
+{
+  "run_id": "3a809b00d7944721a9364dcb5b3d0459",
+  "started_at": "2026-05-22T00:38:35.624629+00:00",
+  "finished_at": "2026-05-22T00:38:37.316680+00:00",
+  "source_mode": "online",
+  "request": {
+    "taxon": "Quercus robur",
+    "taxon_key": 2878688,
+    "region_name": "Western Europe live bbox",
+    "bbox": [
+      -10.0,
+      42.0,
+      12.0,
+      56.0
+    ],
+    "purpose": "sampling_gaps",
+    "source_mode": "online_with_empty_fallback",
+    "use_fixture": false,
+    "max_records": 300
+  },
+  "request_fingerprint": "e4b5fd761660170f7940e0f2b120ebb7b658d0bab287df9c8eaec1a5729a0604",
+  "gbif_species_match": {
+    "key": 2878688,
+    "nubKey": 2878688,
+    "nameKey": 9614407,
+    "taxonID": "gbif:2878688",
+    "kingdom": "Plantae",
+    "phylum": "Tracheophyta",
+    "order": "Fagales",
+    "family": "Fagaceae",
+    "genus": "Quercus",
+    "species": "Quercus robur",
+    "kingdomKey": 6,
+    "phylumKey": 7707728,
+    "classKey": 220,
+    "orderKey": 1354,
+    "familyKey": 4689,
+    "genusKey": 2877951,
+    "speciesKey": 2878688,
+    "datasetKey": "d7dddbf4-2cf0-4f39-9b2a-bb099caae36c",
+    "constituentKey": "7ddf754f-d193-4cc9-b351-99906754a03b",
+    "parentKey": 2877951,
+    "parent": "Quercus",
+    "scientificName": "Quercus robur L.",
+    "canonicalName": "Quercus robur",
+    "vernacularName": "Pedunculate Oak",
+    "authorship": "L.",
+    "nameType": "SCIENTIFIC",
+    "rank": "SPECIES",
+    "origin": "SOURCE",
+    "taxonomicStatus": "ACCEPTED",
+    "nomenclaturalStatus": [],
+    "remarks": "",
+    "publishedIn": "Sp. Pl.: 996 (1753)",
+    "numDescendants": 8,
+    "lastCrawled": "2023-08-22T23:20:59.545+00:00",
+    "lastInterpreted": "2023-08-22T23:04:45.267+00:00",
+    "issues": [],
+    "class": "Magnoliopsida",
+    "usageKey": 2878688,
+    "confidence": 100,
+    "matchType": "SELECTED_KEY",
+    "status": "ACCEPTED",
+    "source": "gbif_api"
+  },
+  "steps": [
+    {
+      "name": "species_match",
+      "status": "completed",
+      "duration_ms": 258.05
+    },
+    {
+      "name": "occurrence_fetch",
+      "status": "completed",
+      "duration_ms": 1429.15
+    },
+    {
+      "name": "normalize",
+      "status": "completed",
+      "duration_ms": 2.19
+    },
+    {
+      "name": "score",
+      "status": "completed",
+      "duration_ms": 1.27
+    },
+    {
+      "name": "exports",
+      "status": "completed",
+      "duration_ms": 89.69,
+      "details": {
+        "artifact_count": 31
+      }
+    }
+  ],
+  "artifact_checksums": {
+    "citations.md": "17a7df87a1f2fd20e528a6bbdefc8dc25ec975cf71a9560bfa0482d0de4fa9a4",
+    "claim_guardrails.md": "c3b29dbff08a96a455b87088359436d33d8912ced35336801d2402635325c7fa",
+    "dataset_contributions.csv": "e6bf00bd1f1818510b174c76247952dc293bc7615e85c88d29081c2dd6b4b2d2",
+    "decision_memo.json": "849ac30fb2d94e9f24bf685d50df01a9dddd819adf20c6e61d16daf0bd876e3c",
+    "decision_memo.md": "789219f57f578382bcdae1ec3d86af7e1bd11dca84465dc44d79d1223999b246",
+    "demo_scenario.json": "8f1d437d2a21b85d046e966ae49207bf11165d1ff7e0520f15f72a332bd27503",
+    "derived_dataset_recipe.json": "364430ce1060311907c3f2b2df235e1842968dc7424eaa53ae083e052b2324d0",
+    "evidence_graph.json": "2b7d2c49b94b2c979f5a3a8f27c7daa7ed6020c8b620688e6c06ad0a6d2aacd5",
+    "evidence_pack.json": "890a5ac82fc8c01fb4804019e962fddfa972f7d09c8f49ca35ac474c2a814435",
+    "evidence_pack.zip": "90e1e704d3cf1f500fbe721bdd1e6712e9983146f3bc5b3fe90623183407579e",
+    "evidence_vault.zip": "47d4af0e7800dcc9dcf366542a39d98ba1a5cb0c25bce0f0b0fb0892f63ecf38",
+    "gap_priorities.csv": "bdf5877c0eec009012eefc4c478454cbd27b242f8aa50b82de8dc6cc69495d1c",
+    "graph_memory.md": "15790f79ab5fb16df3752ef35f48948fcda8a8f9e2aa8b07e4b65995a2c35f0e",
+    "impact_brief.md": "1fa7ff87d60706ceb922ae63ecc291fc4d439c8211c49e0166c9bc5d69a6644c",
+    "methods_text.md": "ec3b5ea76ef0019395145ea6f6eebdec80ef081862e35b81180d1c595767fbff",
+    "passport.html": "ec3c33249ef7cbe784c8adb35e9db38bff8cb94f58f1dc979642a2d107f60200",
+    "passport.md": "fa56dd476bd7afff9164505459c883fedca6df86c1cda66e47c83306f9612af0",
+    "provenance.json": "dd561eabbf1648535184c0ef040df43555ec907050d0c7bf482ac9de02e2160d",
+    "publisher_feedback.csv": "6f7b4ddd8cbe883d0684267996fae4c919748fe693c98f9d4dc02af57ee041d9",
+    "publisher_feedback.md": "c985dfec44cd08c3fe02b45c164f37ee9f8c5015dab178f7eb105026a844d900",
+    "publisher_issue_templates.md": "2744d3e8b1c926ce2175c43d194b252d5f1af8b0f3f2c014f80fb9e7f6897e41",
+    "quality_metrics.csv": "3f5a69c6f05c2304cbc0bdd53a4b479883e2f6e786aafdb579958045eb204073",
+    "readiness_scorecard.csv": "d2f8ea0e99005b74a5f9fc8a3d0b68a4157b7f6f27654fea94accca4bce04f17",
+    "records.geojson": "7a980bfaea83f9627fe633b7f94dbca2bc9d63935ed25d2f20ab019431837a87",
+    "run.json": "3adfdcde493ecbea4a358f71d844b6f7420beb5af97c551408ff5494d8b39293",
+    "source_summary.json": "d8067ee8e4b68b37ff7332ffea85ea6758d5ed2af7ed4afdec66ca6251ce898a",
+    "submission_readiness.json": "c157243933ee034a0c3c228638ab8aea8a8bf5adbfc1f0b423ae127527b0ffae",
+    "submission_readiness.md": "17ac980a361a5f977886954ebbf15fb807d1d1aab8ca3aca70ad113f1b9946f2",
+    "validation_summary.json": "e7e4bcedb7b0ccbf1b5f31e8f01facb0fca06d24446878c37a0f4daca70877a3",
+    "validation_summary.md": "8d09ff5bda73a78822cfe77b8d199834a33bf2f8a112e77d57226843548f95bc",
+    "video_script.md": "85e327c477fcc5ae1b9839b704c95ec185654ebd6f9351467df387d579627419"
+  }
+}

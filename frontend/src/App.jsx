@@ -4,6 +4,7 @@ import {
   exportUrl,
   getDemoScenarios,
   getEvidenceRun,
+  getGbifStatus,
   getRegionPresets,
   listEvidenceRuns,
   runEvidencePassport,
@@ -21,6 +22,8 @@ const sourceModeLabels = {
   online_with_empty_fallback: 'Live GBIF',
   fixture: 'Offline sample',
 };
+
+const liveSourceMode = 'online_with_empty_fallback';
 
 const fallbackPresets = [
   {
@@ -142,14 +145,16 @@ const fallbackRegionPresets = [
 ];
 
 const tabs = [
-  { id: 'overview', label: 'Overview' },
+  { id: 'overview', label: 'Decision Memo' },
   { id: 'map', label: 'Evidence Map' },
-  { id: 'quality', label: 'Data Quality' },
-  { id: 'gaps', label: 'Sampling Gaps' },
-  { id: 'claims', label: 'Claim Guardrails' },
-  { id: 'citation', label: 'Citation & Provenance' },
-  { id: 'publisher', label: 'Publisher Feedback' },
-  { id: 'exports', label: 'Export Pack' },
+  { id: 'quality', label: 'Quality & Limits' },
+  { id: 'gaps', label: 'Survey Priorities' },
+  { id: 'claims', label: 'Safe Claims' },
+  { id: 'citation', label: 'Citation & Lineage' },
+  { id: 'publisher', label: 'Publisher Fixes' },
+  { id: 'graph', label: 'Evidence Memory' },
+  { id: 'submission', label: 'Submission Check' },
+  { id: 'exports', label: 'Download Pack' },
 ];
 
 const qualityLabels = {
@@ -202,14 +207,26 @@ function parseBbox(text) {
     throw new Error('Bounding box must use four numbers: west,south,east,north');
   }
   const [west, south, east, north] = parts;
+  if (west < -180 || east > 180 || south < -90 || north > 90) {
+    throw new Error('Bounding box values must stay within longitude [-180, 180] and latitude [-90, 90]');
+  }
   if (west >= east || south >= north) {
     throw new Error('Bounding box coordinates are not ordered as west,south,east,north');
   }
   return parts;
 }
 
+function bboxValidationMessage(text) {
+  try {
+    parseBbox(String(text || ''));
+    return '';
+  } catch (err) {
+    return err.message || 'Bounding box is invalid';
+  }
+}
+
 function payloadFromForm(form) {
-  const sourceMode = form.source_mode || 'fixture';
+  const sourceMode = form.source_mode || liveSourceMode;
   const taxonKey = Number(form.taxon_key);
   return {
     ...form,
@@ -219,6 +236,10 @@ function payloadFromForm(form) {
     source_mode: sourceMode,
     use_fixture: sourceMode === 'fixture',
   };
+}
+
+function liveForm(form) {
+  return normalizeForm({ ...form, source_mode: liveSourceMode, use_fixture: false });
 }
 
 function requestSignature(payload) {
@@ -334,6 +355,8 @@ export default function App() {
   const [loadingRunId, setLoadingRunId] = useState('');
   const [error, setError] = useState('');
   const [activeTab, setActiveTab] = useState('overview');
+  const [workspaceMode, setWorkspaceMode] = useState('presentation');
+  const [gbifStatus, setGbifStatus] = useState({ status: 'degraded', message: 'Checking GBIF API status...', base_url: '' });
   const [recentRuns, setRecentRuns] = useState(readRecentRuns);
   const [progressSteps, setProgressSteps] = useState([]);
   const [taxonSuggestions, setTaxonSuggestions] = useState([]);
@@ -347,6 +370,8 @@ export default function App() {
   const resultIsCurrent = Boolean(run && formSignature && runSignature && formSignature === runSignature);
   const selectionChanged = Boolean(run && !resultIsCurrent);
   const selectedRegion = selectedRegionPreset(regionPresets, form);
+  const bboxError = bboxValidationMessage(form.bbox);
+  const pendingSelection = selectionChanged || (!run && !loading && !booting);
 
   function clearVisibleResult() {
     setRun(null);
@@ -356,6 +381,9 @@ export default function App() {
   }
 
   function updateDraftForm(nextForm) {
+    nextRunToken();
+    setLoading(false);
+    setBooting(false);
     setForm(normalizeForm(nextForm));
     clearVisibleResult();
     setError('');
@@ -506,7 +534,7 @@ export default function App() {
   }
 
   async function runCurrentSelection() {
-    await runSelection(form);
+    await runSelection(liveForm(form));
   }
 
   async function handleLoadRun(runId) {
@@ -522,12 +550,34 @@ export default function App() {
   }
 
   function applyPreset(preset) {
-    updateDraftForm(preset.form);
+    updateDraftForm(liveForm(preset.form));
   }
 
   function updateSourceMode(sourceMode) {
     updateDraftForm({ ...form, source_mode: sourceMode, use_fixture: sourceMode === 'fixture' });
   }
+
+  useEffect(() => {
+    let cancelled = false;
+    async function loadGbifStatus() {
+      try {
+        const status = await getGbifStatus();
+        if (!cancelled) setGbifStatus(status);
+      } catch (err) {
+        if (!cancelled) {
+          setGbifStatus({
+            status: 'unavailable',
+            message: err.message || 'GBIF API status could not be checked.',
+            base_url: '',
+          });
+        }
+      }
+    }
+    loadGbifStatus();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   async function handleTaxonSearch() {
     if (form.taxon.trim().length < 2) {
@@ -563,7 +613,7 @@ export default function App() {
       ...form,
       region_name: region.region_name,
       bbox: formatBbox(region.bbox),
-      source_mode: form.source_mode === 'fixture' ? 'online_with_empty_fallback' : form.source_mode,
+      source_mode: liveSourceMode,
       use_fixture: false,
     });
     setError('');
@@ -575,207 +625,423 @@ export default function App() {
     const next = [...bboxParts];
     next[index] = value;
     setRegionMode('custom');
-    updateDraftForm({ ...form, bbox: next.join(',') });
+    updateDraftForm({ ...liveForm(form), bbox: next.join(',') });
   }
 
   return (
-    <main className="app-shell">
-      <header className="topbar">
+    <main className="app-shell minimal-shell">
+      <header className="topbar minimal-topbar">
         <div>
           <p className="eyebrow">EcoGenesis Evidence Atlas</p>
           <h1>GBIF Evidence Passport</h1>
-          <p className="topbar-subtitle">Build a map-backed evidence pack for any GBIF taxon and region, with data-quality checks, citations and claim guardrails.</p>
+          <p className="topbar-subtitle">
+            A minimal GBIF-first tool that turns occurrence records into a decision memo, an evidence map and a downloadable review pack.
+          </p>
         </div>
+        <ModeSwitch mode={workspaceMode} onChange={setWorkspaceMode} />
       </header>
 
-      <section className="workspace">
-        <aside className="run-rail" aria-label="Evidence run controls">
-          <form className="rail-section run-form" onSubmit={handleSubmit}>
-            <div className="form-intro">
-              <p className="section-label">New Passport</p>
-              <p className="rail-copy">Choose a species and area, then generate the passport. The map updates only after generation.</p>
-            </div>
-            <div className="taxon-picker">
+      {workspaceMode === 'presentation' ? (
+        <PresentationView
+          run={run}
+          booting={booting || loading}
+          gbifStatus={gbifStatus}
+          onOpenWorkbench={() => setWorkspaceMode('work')}
+          onRunCurrent={runCurrentSelection}
+        />
+      ) : (
+        <section className="workspace workbench-layout">
+          <aside className="run-rail minimal-rail" aria-label="Live GBIF workbench controls" data-testid="workbench-controls">
+            <form className="rail-section run-form" onSubmit={handleSubmit}>
+              <div className="form-intro">
+                <p className="section-label">Work with GBIF</p>
+                <p className="rail-copy">Search a GBIF taxon, choose a region, then generate a fresh live Evidence Passport.</p>
+              </div>
+              <SourceStatusCard status={gbifStatus} run={run} />
+              <div className="taxon-picker">
+                <label>
+                  Taxon
+                  <input
+                    data-testid="taxon-input"
+                    placeholder="Enter a species, genus or scientific name"
+                    value={form.taxon}
+                    onChange={(event) => {
+                      setTaxonSuggestions([]);
+                      setTaxonSearchStatus('');
+                      updateDraftForm({ ...liveForm(form), taxon: event.target.value, taxon_key: '' });
+                    }}
+                  />
+                </label>
+                <button className="secondary-action" data-testid="taxon-search-button" type="button" onClick={handleTaxonSearch}>
+                  Find taxon in GBIF
+                </button>
+                <div className="selected-taxon" aria-live="polite">
+                  {form.taxon_key ? (
+                    <span>Using GBIF taxonKey {form.taxon_key}</span>
+                  ) : (
+                    <span>The name will be matched by GBIF during the run.</span>
+                  )}
+                </div>
+                {taxonSearchStatus ? <p className="helper-note">{taxonSearchStatus}</p> : null}
+                {taxonSuggestions.length ? (
+                  <div className="taxon-suggestion-list" aria-label="GBIF taxon suggestions">
+                    {taxonSuggestions.map((suggestion) => (
+                      <button
+                        aria-label={`Select GBIF taxon ${suggestion.canonicalName || suggestion.scientificName} taxonKey ${suggestion.usageKey || 'unknown'}`}
+                        data-testid={`taxon-suggestion-${suggestion.usageKey || 'unknown'}`}
+                        key={`${suggestion.usageKey}-${suggestion.scientificName}`}
+                        onClick={() => selectTaxonSuggestion(suggestion)}
+                        type="button"
+                      >
+                        <span>{suggestion.canonicalName || suggestion.scientificName}</span>
+                        <small>
+                          {suggestion.rank || 'taxon'} · key {suggestion.usageKey || 'unknown'}
+                          {suggestion.family ? ` · ${suggestion.family}` : ''}
+                        </small>
+                      </button>
+                    ))}
+                  </div>
+                ) : null}
+              </div>
               <label>
-                Taxon
+                Region
                 <input
-                  placeholder="Type a species, genus or scientific name"
-                  value={form.taxon}
+                  data-testid="region-name-input"
+                  value={form.region_name}
                   onChange={(event) => {
-                    setTaxonSuggestions([]);
-                    setTaxonSearchStatus('');
-                    updateDraftForm({ ...form, taxon: event.target.value, taxon_key: '' });
+                    setRegionMode('custom');
+                    updateDraftForm({ ...liveForm(form), region_name: event.target.value });
                   }}
                 />
               </label>
-              <button className="secondary-action" type="button" onClick={handleTaxonSearch}>
-                Search GBIF taxon
-              </button>
-              <div className="selected-taxon" aria-live="polite">
-                {form.taxon_key ? (
-                  <span>Locked to GBIF taxonKey {form.taxon_key}</span>
-                ) : (
-                  <span>Custom name will be matched by GBIF during the run.</span>
-                )}
+              <RegionPicker
+                form={form}
+                mode={regionMode}
+                onModeChange={setRegionMode}
+                onPick={applyRegionPreset}
+                query={regionQuery}
+                regions={regionPresets}
+                selectedRegion={selectedRegion}
+                setQuery={setRegionQuery}
+              />
+              <fieldset className="bbox-grid">
+                <legend>Bounding box</legend>
+                <label>
+                  West
+                  <input
+                    aria-label="West longitude"
+                    data-testid="bbox-west"
+                    value={bboxParts[0]}
+                    onChange={(event) => updateBboxPart(0, event.target.value)}
+                  />
+                </label>
+                <label>
+                  South
+                  <input
+                    aria-label="South latitude"
+                    data-testid="bbox-south"
+                    value={bboxParts[1]}
+                    onChange={(event) => updateBboxPart(1, event.target.value)}
+                  />
+                </label>
+                <label>
+                  East
+                  <input
+                    aria-label="East longitude"
+                    data-testid="bbox-east"
+                    value={bboxParts[2]}
+                    onChange={(event) => updateBboxPart(2, event.target.value)}
+                  />
+                </label>
+                <label>
+                  North
+                  <input
+                    aria-label="North latitude"
+                    data-testid="bbox-north"
+                    value={bboxParts[3]}
+                    onChange={(event) => updateBboxPart(3, event.target.value)}
+                  />
+                </label>
+              </fieldset>
+              {bboxError ? <p className="field-error" data-testid="bbox-error">{bboxError}</p> : null}
+              <div className="field-pair">
+                <label>
+                  Purpose
+                  <select
+                    data-testid="purpose-select"
+                    value={form.purpose}
+                    onChange={(event) => updateDraftForm({ ...liveForm(form), purpose: event.target.value })}
+                  >
+                    {Object.entries(purposeLabels).map(([value, label]) => (
+                      <option key={value} value={value}>
+                        {label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label>
+                  Max records
+                  <input
+                    data-testid="max-records-input"
+                    min="1"
+                    type="number"
+                    value={form.max_records}
+                    onChange={(event) => updateDraftForm({ ...liveForm(form), max_records: event.target.value })}
+                  />
+                </label>
               </div>
-              {taxonSearchStatus ? <p className="helper-note">{taxonSearchStatus}</p> : null}
-              {taxonSuggestions.length ? (
-                <div className="taxon-suggestion-list" aria-label="GBIF taxon suggestions">
-                  {taxonSuggestions.map((suggestion) => (
-                    <button
-                      key={`${suggestion.usageKey}-${suggestion.scientificName}`}
-                      onClick={() => selectTaxonSuggestion(suggestion)}
-                      type="button"
-                    >
-                      <span>{suggestion.canonicalName || suggestion.scientificName}</span>
-                      <small>
-                        {suggestion.rank || 'taxon'} · key {suggestion.usageKey || 'unknown'}
-                        {suggestion.family ? ` · ${suggestion.family}` : ''}
-                      </small>
-                    </button>
-                  ))}
+              {pendingSelection && !bboxError ? (
+                <div className="pending-change-bar" data-testid="pending-change-bar">
+                  <span>Pending changes</span>
+                  <strong>Generate to refresh the map and memo.</strong>
                 </div>
               ) : null}
-            </div>
-            <label>
-              Region
-              <input
-                value={form.region_name}
-                onChange={(event) => {
-                  setRegionMode('custom');
-                  updateDraftForm({ ...form, region_name: event.target.value });
-                }}
-              />
-            </label>
-            <RegionPicker
-              form={form}
-              mode={regionMode}
-              onModeChange={setRegionMode}
-              onPick={applyRegionPreset}
-              query={regionQuery}
-              regions={regionPresets}
-              selectedRegion={selectedRegion}
-              setQuery={setRegionQuery}
-            />
-            <fieldset className="bbox-grid">
-              <legend>Bounding box</legend>
-              <label>
-                West
-                <input
-                  aria-label="West longitude"
-                  value={bboxParts[0]}
-                  onChange={(event) => updateBboxPart(0, event.target.value)}
-                />
-              </label>
-              <label>
-                South
-                <input
-                  aria-label="South latitude"
-                  value={bboxParts[1]}
-                  onChange={(event) => updateBboxPart(1, event.target.value)}
-                />
-              </label>
-              <label>
-                East
-                <input
-                  aria-label="East longitude"
-                  value={bboxParts[2]}
-                  onChange={(event) => updateBboxPart(2, event.target.value)}
-                />
-              </label>
-              <label>
-                North
-                <input
-                  aria-label="North latitude"
-                  value={bboxParts[3]}
-                  onChange={(event) => updateBboxPart(3, event.target.value)}
-                />
-              </label>
-            </fieldset>
-            <div className="field-pair">
-              <label>
-                Purpose
-                <select
-                  value={form.purpose}
-                  onChange={(event) => updateDraftForm({ ...form, purpose: event.target.value })}
-                >
-                  {Object.entries(purposeLabels).map(([value, label]) => (
-                    <option key={value} value={value}>
-                      {label}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label>
-                Max records
-                <input
-                  min="1"
-                  type="number"
-                  value={form.max_records}
-                  onChange={(event) => updateDraftForm({ ...form, max_records: event.target.value })}
-                />
-              </label>
-            </div>
-            <details className="inline-drawer">
-              <summary>Data source</summary>
-              <label>
-                Source
-                <select value={form.source_mode} onChange={(event) => updateSourceMode(event.target.value)}>
-                  {Object.entries(sourceModeLabels).map(([value, label]) => (
-                    <option key={value} value={value}>
-                      {label}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            </details>
-            <button className="primary-action" type="submit" disabled={loading || booting}>
-              {loading ? 'Generating passport...' : booting ? 'Preparing passport...' : 'Generate Evidence Passport'}
-            </button>
-            {error ? <p className="error">{error}</p> : null}
-            {created ? <p className="run-id">Run {created.run_id}</p> : null}
-          </form>
+              <button className="primary-action" data-testid="generate-live-button" type="submit" disabled={loading || booting || Boolean(bboxError)}>
+                {loading ? 'Generating live passport...' : booting ? 'Preparing passport...' : 'Generate live Evidence Passport'}
+              </button>
+              {error ? <p className="error">{error}</p> : null}
+              {created ? <p className="run-id">Run {created.run_id}</p> : null}
+            </form>
 
-          <details className="rail-section drawer-section">
-            <summary>Example studies</summary>
-            <div className="preset-grid">
-              {presets.filter((preset) => preset.id !== 'offline').map((preset) => (
-                <button
-                  className={form.purpose === preset.form.purpose ? 'preset active' : 'preset'}
-                  key={preset.id}
-                  onClick={() => applyPreset(preset)}
-                  type="button"
-                >
-                  <span>{preset.label}</span>
-                  <small>{preset.tag}</small>
-                </button>
+            <details className="rail-section drawer-section" data-testid="developer-testing-drawer">
+              <summary aria-label="Developer testing details">Developer/testing</summary>
+              <p className="rail-copy">Offline fixture mode remains available through the API and tests. The public workbench always sends live GBIF requests.</p>
+            </details>
+          </aside>
+
+          <MinimalPassport
+            run={run}
+            booting={booting}
+            selectionChanged={selectionChanged}
+            loading={loading}
+            onRunCurrent={runCurrentSelection}
+          />
+        </section>
+      )}
+    </main>
+  );
+}
+
+function ModeSwitch({ mode, onChange }) {
+  return (
+    <nav className="mode-switch" aria-label="Workspace mode">
+      {[
+        ['presentation', 'Presentation'],
+        ['work', 'Work with GBIF'],
+      ].map(([value, label]) => (
+        <button
+          aria-pressed={mode === value}
+          className={mode === value ? 'active' : ''}
+          data-testid={`mode-${value}`}
+          key={value}
+          onClick={() => onChange(value)}
+          type="button"
+        >
+          {label}
+        </button>
+      ))}
+    </nav>
+  );
+}
+
+function PresentationView({ run, booting, gbifStatus, onOpenWorkbench, onRunCurrent }) {
+  if (booting) {
+    return <LoadingWorkbench booting live />;
+  }
+  if (!run) {
+    return (
+      <section className="presentation-page">
+        <DraftWorkbench onRunCurrent={onRunCurrent} />
+      </section>
+    );
+  }
+  const zip = run.exports?.find((item) => item.name === 'evidence_pack.zip');
+  const memo = run.decision_memo;
+  return (
+    <section className="presentation-page" aria-label="Contest presentation">
+      <div className="presentation-hero">
+        <div>
+          <p className="eyebrow">GBIF-first evidence tool</p>
+          <h2>From occurrence records to a defensible decision memo</h2>
+          <p>
+            EcoGenesis Evidence Atlas helps judges, researchers and data managers see what GBIF-mediated records can
+            support, what they cannot support, and what must be cited or checked next.
+          </p>
+          <div className="hero-actions">
+            <button className="primary-action" type="button" onClick={onOpenWorkbench}>Open Workbench</button>
+            {zip ? <a className="zip-action" href={exportUrl(zip.url)}>Download Evidence Pack</a> : null}
+          </div>
+        </div>
+        <div className="presentation-verdict">
+          <span>Current verdict</span>
+          <strong>{memo?.verdict || readinessStatus(run.evidence_readiness.score).label}</strong>
+          <small>{run.passport.taxon} · {run.passport.region_name}</small>
+        </div>
+      </div>
+
+      <div className="presentation-grid">
+        <SourceStatusCard status={gbifStatus} run={run} />
+        <DecisionMemoPanel run={run} />
+        <MapPreview run={run} />
+        <ClaimSnapshot run={run} />
+        <AdvancedEvidenceFiles exports={run.exports || []} />
+      </div>
+    </section>
+  );
+}
+
+function MinimalPassport({ run, booting, selectionChanged = false, loading = false, onRunCurrent }) {
+  if (loading) {
+    return <LoadingWorkbench booting={false} live />;
+  }
+  if (!run) {
+    return booting ? <LoadingWorkbench booting={booting} /> : <DraftWorkbench onRunCurrent={onRunCurrent} />;
+  }
+  if (selectionChanged) {
+    return <DraftWorkbench onRunCurrent={onRunCurrent} />;
+  }
+
+  const readiness = run.evidence_readiness;
+  const zip = run.exports?.find((item) => item.name === 'evidence_pack.zip');
+  const status = readinessStatus(readiness.score);
+  return (
+    <section className="result-stack minimal-result" aria-label="Live GBIF Evidence Passport result">
+      <div className={`score-band ${scoreClass(readiness.score)}`}>
+        <div>
+          <p className="eyebrow">Live GBIF result</p>
+          <h2>{run.passport.taxon}</h2>
+          <p>{run.passport.region_name} · {status.label}</p>
+        </div>
+        <div className="score-readout">
+          <strong>{readiness.score}</strong>
+          <span>/100</span>
+        </div>
+        {zip ? (
+          <a className="zip-action" href={exportUrl(zip.url)}>
+            Download Evidence Pack
+          </a>
+        ) : null}
+      </div>
+
+      <KpiStrip run={run} />
+      <DecisionMemoPanel run={run} />
+      <MapPreview run={run} />
+      <div className="workbench-summary-grid">
+        <ListPanel title="Key risks" rows={run.main_risks.slice(0, 4)} tone="risk" />
+        <ClaimSnapshot run={run} />
+        <SourceProvenance run={run} compact />
+        <GapPriorityPanel run={run} compact />
+      </div>
+      <AdvancedEvidenceFiles exports={run.exports || []} />
+    </section>
+  );
+}
+
+function SourceStatusCard({ status, run }) {
+  const source = run?.source_summary || {};
+  const taxonKey = run?.passport?.taxonKey || source.selected_taxon_key || source.matched_taxon_key || 'not selected';
+  const fallbackUsed = Boolean(source.fallback_used);
+  const message = fallbackUsed && source.used_source_mode === 'online_empty_fallback'
+    ? 'GBIF unavailable: no fixture records reused.'
+    : status?.message || 'GBIF status is being checked.';
+  const rows = [
+    ['GBIF status', status?.status || 'checking'],
+    ['Source used', shortStatus(source.used_source_mode || liveSourceMode)],
+    ['Returned records', source.gbif_returned_records ?? run?.passport?.records_used ?? 'pending'],
+    ['Fallback used', fallbackUsed ? 'yes' : 'no'],
+    ['Selected taxonKey', taxonKey],
+  ];
+  return (
+    <section className={`panel source-status-card ${status?.status || 'degraded'}`}>
+      <div className="panel-title">
+        <h3>Live GBIF status</h3>
+        <span>{status?.base_url || source.gbif_base_url || 'api.gbif.org'}</span>
+      </div>
+      <p className={fallbackUsed ? 'fallback-note' : 'source-status-message'}>{message}</p>
+      <div className="source-grid compact-source-grid">
+        {rows.map(([label, value]) => (
+          <div key={label}>
+            <span>{label}</span>
+            <strong>{value}</strong>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function ClaimSnapshot({ run }) {
+  const supported = run.claim_guardrails?.supported_claims?.slice(0, 2) || [];
+  const blocked = run.claim_guardrails?.unsupported_claims?.slice(0, 3) || [];
+  return (
+    <section className="panel claim-snapshot">
+      <div className="panel-title">
+        <h3>Safe and blocked claims</h3>
+        <span>bounded interpretation</span>
+      </div>
+      <div className="claim-columns">
+        <div>
+          <h4>Safe claims</h4>
+          <ul>{supported.map((claim) => <li key={claim}>{claim}</li>)}</ul>
+        </div>
+        <div>
+          <h4>Blocked claims</h4>
+          <ul>{blocked.map((claim) => <li key={claim}>{claim}</li>)}</ul>
+        </div>
+      </div>
+      <p className="provenance-note">No-evidence cells are survey targets, not absence observations.</p>
+    </section>
+  );
+}
+
+function AdvancedEvidenceFiles({ exports }) {
+  const primaryNames = ['evidence_pack.zip', 'passport.html', 'decision_memo.md', 'citations.md'];
+  const primary = primaryNames.map((name) => exports.find((item) => item.name === name)).filter(Boolean);
+  const groups = groupExports(exports).map((group) => ({
+    ...group,
+    files: group.files.filter((item) => !primaryNames.includes(item.name)),
+  })).filter((group) => group.files.length);
+  return (
+    <details className="panel advanced-files" data-testid="advanced-evidence-files">
+      <summary aria-label="Advanced evidence files">Advanced evidence files</summary>
+      <h4>Quick downloads</h4>
+      <div className="quick-export-list">
+        {primary.map((item) => (
+          <a
+            className={item.name === 'evidence_pack.zip' ? 'zip-download' : ''}
+            data-testid={`export-${item.name}`}
+            key={item.name}
+            href={exportUrl(item.url)}
+          >
+            <span>{item.name === 'evidence_pack.zip' ? 'Evidence pack ZIP' : item.name}</span>
+            <small>{formatBytes(item.size_bytes)}</small>
+          </a>
+        ))}
+      </div>
+      <h4>All evidence files</h4>
+      <div className="advanced-export-groups">
+        {groups.map((group) => (
+          <div className="export-group" key={group.title}>
+            <h4>{group.title}</h4>
+            <div className="export-list compact">
+              {group.files.map((item) => (
+                <a data-testid={`export-${item.name}`} key={item.name} href={exportUrl(item.url)}>
+                  <span>{item.name}</span>
+                  <small>{formatBytes(item.size_bytes)}</small>
+                </a>
               ))}
             </div>
-          </details>
-
-          <PipelineProgress steps={progressSteps.length ? progressSteps : run?.run?.steps} loading={loading || booting} />
-
-          <RecentRuns runs={recentRuns} loadingRunId={loadingRunId} onLoad={handleLoadRun} />
-        </aside>
-
-        <Passport
-          run={run}
-          booting={booting}
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          selectionChanged={selectionChanged}
-          loading={loading}
-          onRunCurrent={runCurrentSelection}
-        />
-      </section>
-    </main>
+          </div>
+        ))}
+      </div>
+    </details>
   );
 }
 
 function RecentRuns({ runs, loadingRunId, onLoad }) {
   return (
     <details className="rail-section drawer-section recent-runs">
-      <summary>Recent passports</summary>
+      <summary>Recent evidence passports</summary>
       {runs.length ? (
         <div className="recent-list">
           {runs.map((item) => (
@@ -800,7 +1066,7 @@ function PipelineProgress({ steps, loading }) {
   const rows = steps?.length ? steps : buildProgressSteps(loading ? 'running' : 'pending');
   return (
     <details className="rail-section drawer-section pipeline-panel" open={loading}>
-      <summary>Run details</summary>
+      <summary>Run evidence chain</summary>
       <div className="pipeline-list">
         {rows.map((step) => (
           <div className={`pipeline-step ${step.status}`} key={step.name}>
@@ -832,7 +1098,15 @@ function RegionPicker({ form, mode, onModeChange, onPick, query, regions, select
       </div>
       <div className="region-tabs" aria-label="Region source">
         {Object.entries(regionModeLabels).map(([value, label]) => (
-          <button className={mode === value ? 'active' : ''} key={value} onClick={() => onModeChange(value)} type="button">
+          <button
+            aria-label={`Show ${label.toLowerCase()} region presets`}
+            aria-pressed={mode === value}
+            className={mode === value ? 'active' : ''}
+            data-testid={`region-tab-${value}`}
+            key={value}
+            onClick={() => onModeChange(value)}
+            type="button"
+          >
             {label}
           </button>
         ))}
@@ -855,7 +1129,14 @@ function RegionPicker({ form, mode, onModeChange, onPick, query, regions, select
             {visibleRegions.map((region) => {
               const active = selectedRegion?.id === region.id;
               return (
-                <button className={active ? 'active' : ''} key={region.id} onClick={() => onPick(region)} type="button">
+                <button
+                  aria-label={`Select region ${region.label} (${region.region_name})`}
+                  className={active ? 'active' : ''}
+                  data-testid={`region-preset-${region.id}`}
+                  key={region.id}
+                  onClick={() => onPick(region)}
+                  type="button"
+                >
                   <span>
                     {region.country_code ? `${region.country_code} · ` : ''}
                     {region.label}
@@ -914,6 +1195,7 @@ function Passport({ run, booting, activeTab, setActiveTab, selectionChanged = fa
         <GapPriorityPanel run={run} compact />
         <ReadinessBreakdown readiness={readiness} />
         <PurposeComparison matrix={run.purpose_score_matrix} current={readiness.purpose} />
+        <GraphMemorySummary run={run} />
         <SourceProvenance run={run} compact />
       </div>
 
@@ -1188,6 +1470,8 @@ function TabPanel({ run, activeTab }) {
   if (activeTab === 'gaps') return <GapPriorityPanel run={run} />;
   if (activeTab === 'citation') return <CitationPanel run={run} />;
   if (activeTab === 'publisher') return <PublisherPanel feedback={run.publisher_feedback} />;
+  if (activeTab === 'graph') return <GraphMemoryPanel run={run} />;
+  if (activeTab === 'submission') return <SubmissionPanel run={run} />;
   if (activeTab === 'exports') return <ExportsPanel exports={run.exports || []} />;
   return <OverviewPanel run={run} />;
 }
@@ -1198,9 +1482,10 @@ function OverviewPanel({ run }) {
   const unsupported = run.claim_guardrails.unsupported_claims.slice(0, 2);
   return (
     <div className="overview-grid">
+      <DecisionMemoPanel run={run} />
       <section className={`panel readiness-status ${scoreClass(run.evidence_readiness.score)}`}>
         <div className="panel-title">
-          <h3>Evidence summary</h3>
+          <h3>Fitness summary</h3>
           <span>{status.label}</span>
         </div>
         <p>{status.description}</p>
@@ -1210,6 +1495,7 @@ function OverviewPanel({ run }) {
       <ListPanel title="What this does not support" rows={unsupported} tone="unsupported" />
       <ListPanel title="Main risks" rows={run.main_risks} tone="risk" />
       <ListPanel title="Next actions" rows={run.next_actions} tone="action" />
+      <GraphMemorySummary run={run} />
       <section className="panel span-two">
         <div className="panel-title">
           <h3>Dataset contributors</h3>
@@ -1218,6 +1504,48 @@ function OverviewPanel({ run }) {
         <DatasetTable rows={run.dataset_contributions} />
       </section>
     </div>
+  );
+}
+
+function DecisionMemoPanel({ run }) {
+  const memo = run.decision_memo;
+  if (!memo) return null;
+  const gate = memo.citation_gate || {};
+  const grid = memo.grid_gate || {};
+  return (
+    <section className={`panel decision-memo-panel span-two ${memo.verdict_tone || ''}`}>
+      <div className="panel-title">
+        <h3>Decision memo</h3>
+        <span>{memo.review_time_seconds || 40}-second review</span>
+      </div>
+      <div className="decision-verdict">
+        <span>{humanize(memo.verdict_tone || 'verdict')}</span>
+        <strong>{memo.verdict}</strong>
+      </div>
+      <div className="decision-grid">
+        <div>
+          <span>Question</span>
+          <p>{memo.question}</p>
+        </div>
+        <div>
+          <span>Evidence basis</span>
+          <p>{memo.data_basis}</p>
+        </div>
+        <div>
+          <span>Fitness</span>
+          <p>{memo.fitness_for_purpose}</p>
+        </div>
+        <div>
+          <span>Next action</span>
+          <p>{memo.recommended_next_action}</p>
+        </div>
+      </div>
+      <div className="decision-footer">
+        <span>{gate.publication_ready ? 'Publication citation ready' : 'DOI/derived dataset still needed'}</span>
+        <span>{grid.no_evidence_cells ?? 0} no-evidence cells</span>
+        <span>{grid.survey_priority_cells ?? 0} survey priorities</span>
+      </div>
+    </section>
   );
 }
 
@@ -1414,6 +1742,22 @@ function CitationPanel({ run }) {
         <p className="warning-box">{citation.gbif_download_warning}</p>
         <h4>Methods text</h4>
         <p>{citation.methods_text}</p>
+        <h4>DOI completion flow</h4>
+        <div className="doi-flow">
+          {(citation.doi_completion_flow || []).map((item) => (
+            <div className={item.ready ? 'ready' : 'pending'} key={item.label}>
+              <span>{item.ready ? 'Ready' : 'Needs action'}</span>
+              <strong>{item.label}</strong>
+              <small>{item.action}</small>
+            </div>
+          ))}
+        </div>
+        {citation.journal_methods_text ? (
+          <>
+            <h4>Journal-ready methods text</h4>
+            <p>{citation.journal_methods_text}</p>
+          </>
+        ) : null}
         <h4>Derived dataset recipe</h4>
         <div className="recipe-grid">
           <span>Group by</span>
@@ -1448,6 +1792,8 @@ function PublisherPanel({ feedback }) {
           <thead>
             <tr>
               <th>datasetKey</th>
+              <th>Priority</th>
+              <th>Severity</th>
               <th>Records affected</th>
               <th>Main issue</th>
               <th>Suggested fix</th>
@@ -1457,6 +1803,8 @@ function PublisherPanel({ feedback }) {
             {feedback.map((row) => (
               <tr key={`${row.datasetKey}-${row.main_issue}`}>
                 <td>{row.datasetKey}</td>
+                <td>{row.fix_priority || 'n/a'}</td>
+                <td><span className={`severity-pill ${row.severity || 'unknown'}`}>{row.severity || 'unknown'}</span></td>
                 <td>{row.records_affected}</td>
                 <td>{row.main_issue}</td>
                 <td>{row.suggested_fix}</td>
@@ -1470,15 +1818,220 @@ function PublisherPanel({ feedback }) {
   );
 }
 
+function GraphMemorySummary({ run }) {
+  const graph = run.graph_memory?.graph;
+  if (!graph) return null;
+  const counts = graph.node_counts || {};
+  const items = [
+    ['Datasets', counts.datasets || 0],
+    ['Issues', counts.issues || 0],
+    ['Claims', counts.claims || 0],
+    ['Actions', counts.actions || 0],
+  ];
+  return (
+    <section className="panel graph-summary-panel">
+      <div className="panel-title">
+        <h3>Graph Memory</h3>
+        <span>this run is stored as a connected evidence node</span>
+      </div>
+      <div className="graph-count-grid">
+        {items.map(([label, value]) => (
+          <div key={label}>
+            <span>{label}</span>
+            <strong>{value}</strong>
+          </div>
+        ))}
+      </div>
+      <p className="graph-note">The vault links this run to taxa, region, datasets, issues, claims, actions and citation methods.</p>
+    </section>
+  );
+}
+
+function GraphMemoryPanel({ run }) {
+  const graph = run.graph_memory?.graph;
+  const vaultExport = run.exports?.find((item) => item.name === 'evidence_vault.zip');
+  const graphExport = run.exports?.find((item) => item.name === 'evidence_graph.json');
+  if (!graph) {
+    return (
+      <section className="panel">
+        <h3>Graph Memory</h3>
+        <p className="empty-note">This run does not include graph memory yet.</p>
+      </section>
+    );
+  }
+  return (
+    <div className="graph-memory-grid">
+      <section className="panel graph-hero">
+        <div className="panel-title">
+          <h3>Connected evidence memory</h3>
+          <span>{graph.edges.length} graph edges</span>
+        </div>
+        <p>
+          This passport is stored as a portable evidence graph, so later runs can reuse its datasets, issues,
+          blocked claims, citation state and next actions instead of starting from a blank report.
+        </p>
+        <div className="graph-actions">
+          {vaultExport ? <a href={exportUrl(vaultExport.url)}>Download evidence vault</a> : null}
+          {graphExport ? <a href={exportUrl(graphExport.url)}>Download evidence graph</a> : null}
+        </div>
+      </section>
+      <section className="panel">
+        <div className="panel-title">
+          <h3>Node counts</h3>
+          <span>human-readable memory model</span>
+        </div>
+        <div className="graph-count-grid expanded">
+          {Object.entries(graph.node_counts || {}).map(([label, value]) => (
+            <div key={label}>
+              <span>{humanize(label)}</span>
+              <strong>{value}</strong>
+            </div>
+          ))}
+        </div>
+      </section>
+      <section className="panel span-two">
+        <div className="panel-title">
+          <h3>Memory cards</h3>
+          <span>what the graph adds</span>
+        </div>
+        <div className="memory-card-grid">
+          {(graph.memory_cards || []).map((card) => (
+            <article key={card.title}>
+              <h4>{card.title}</h4>
+              <p>{card.body}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+      <section className="panel span-two">
+        <div className="panel-title">
+          <h3>Key relationships</h3>
+          <span>{graph.edges.length} total edges</span>
+        </div>
+        <div className="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Source</th>
+                <th>Relation</th>
+                <th>Target</th>
+              </tr>
+            </thead>
+            <tbody>
+              {graph.edges.slice(0, 18).map((edge) => (
+                <tr key={`${edge.source}-${edge.relation}-${edge.target}`}>
+                  <td>{edge.source}</td>
+                  <td>{humanize(edge.relation)}</td>
+                  <td>{edge.target}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function SubmissionPanel({ run }) {
+  const readiness = run.submission_readiness;
+  const validation = run.validation_summary;
+  const memo = run.decision_memo;
+  if (!readiness || !validation) {
+    return (
+      <section className="panel">
+        <h3>Submission check</h3>
+        <p className="empty-note">This run does not include submission readiness metadata yet.</p>
+      </section>
+    );
+  }
+  const readyPct = Math.round((readiness.ready_ratio || 0) * 100);
+  return (
+    <div className="submission-grid">
+      <section className="panel submission-hero">
+        <div className="panel-title">
+          <h3>Submission readiness</h3>
+          <span>{readiness.ready_count}/{readiness.total_count} checks ready</span>
+        </div>
+        <div className="submission-score">
+          <strong>{readyPct}%</strong>
+          <span>{readiness.stage}</span>
+        </div>
+        <p>{memo?.plain_language_summary}</p>
+      </section>
+      <section className="panel">
+        <div className="panel-title">
+          <h3>Accepted research comments</h3>
+          <span>{readiness.accepted_research_comments?.length || 0} integrated</span>
+        </div>
+        <ul className="compact-list">
+          {(readiness.accepted_research_comments || []).map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      </section>
+      <section className="panel span-two">
+        <div className="panel-title">
+          <h3>Contest checklist</h3>
+          <span>{readiness.blocking_items?.length ? `${readiness.blocking_items.length} blocker(s)` : 'ready for demo review'}</span>
+        </div>
+        <div className="checklist-grid">
+          {(readiness.checklist || []).map((item) => (
+            <article className={item.ready ? 'ready' : 'pending'} key={item.id}>
+              <span>{item.ready ? 'Ready' : 'Needs work'}</span>
+              <h4>{item.label}</h4>
+              <p>{item.evidence}</p>
+              <small>{item.next_step}</small>
+            </article>
+          ))}
+        </div>
+      </section>
+      <section className="panel">
+        <div className="panel-title">
+          <h3>Validation checks</h3>
+          <span>{validation.passed_checks}/{validation.total_checks} passed</span>
+        </div>
+        <div className="doi-flow validation-flow">
+          {(validation.checks || []).map((check) => (
+            <div className={check.passed ? 'ready' : 'pending'} key={check.id}>
+              <span>{check.passed ? 'Passed' : 'Review'}</span>
+              <strong>{check.label}</strong>
+              <small>{check.why_it_matters}</small>
+            </div>
+          ))}
+        </div>
+      </section>
+      <section className="panel">
+        <div className="panel-title">
+          <h3>Demo suite</h3>
+          <span>three judge-friendly cases</span>
+        </div>
+        <div className="demo-suite-list">
+          {(validation.recommended_demo_suite || []).map((scenario) => (
+            <article key={scenario.id}>
+              <strong>{scenario.taxon}</strong>
+              <span>{scenario.region_name}</span>
+              <small>{scenario.shows}</small>
+            </article>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+}
+
 function ExportsPanel({ exports }) {
   const groups = groupExports(exports);
   const checklist = [
+    ['Decision memo', 'decision_memo.md'],
     ['Standalone report', 'passport.html'],
     ['Citation pack', 'citations.md'],
     ['Map data', 'records.geojson'],
     ['Gap priorities', 'gap_priorities.csv'],
     ['Publisher feedback', 'publisher_feedback.md'],
     ['Provenance manifest', 'provenance.json'],
+    ['Graph memory', 'evidence_graph.json'],
+    ['Submission check', 'submission_readiness.md'],
   ];
   const names = new Set(exports.map((item) => item.name));
   return (
@@ -1704,7 +2257,15 @@ function MapPreview({ run }) {
           ['issues', 'Issues'],
           ['priority', 'Priority'],
         ].map(([name, label]) => (
-          <button className={layers[name] ? 'active' : ''} key={name} onClick={() => toggleLayer(name)} type="button">
+          <button
+            aria-label={`Toggle ${label} map layer`}
+            aria-pressed={layers[name]}
+            className={layers[name] ? 'active' : ''}
+            data-testid={`map-layer-${name}`}
+            key={name}
+            onClick={() => toggleLayer(name)}
+            type="button"
+          >
             {label}
           </button>
         ))}
@@ -1734,7 +2295,9 @@ function groupExports(exports) {
     { title: 'Data', names: ['records.geojson', 'quality_metrics.csv', 'gap_priorities.csv', 'dataset_contributions.csv', 'readiness_scorecard.csv'] },
     { title: 'Citation & Claims', names: ['citations.md', 'claim_guardrails.md', 'methods_text.md'] },
     { title: 'Publisher', names: ['publisher_feedback.md', 'publisher_feedback.csv'] },
-    { title: 'Machine-readable', names: ['evidence_pack.json', 'run.json', 'source_summary.json', 'demo_scenario.json', 'derived_dataset_recipe.json', 'provenance.json'] },
+    { title: 'Graph Memory', names: ['evidence_vault.zip', 'evidence_graph.json', 'graph_memory.md'] },
+    { title: 'Submission Kit', names: ['decision_memo.md', 'submission_readiness.md', 'validation_summary.md', 'impact_brief.md', 'video_script.md'] },
+    { title: 'Machine-readable', names: ['evidence_pack.json', 'decision_memo.json', 'submission_readiness.json', 'validation_summary.json', 'run.json', 'source_summary.json', 'demo_scenario.json', 'derived_dataset_recipe.json', 'provenance.json'] },
   ];
   const byName = new Map(exports.map((item) => [item.name, item]));
   const used = new Set();

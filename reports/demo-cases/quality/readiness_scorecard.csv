@@ -1,0 +1,5 @@
+purpose,purpose_label,score,spatial_accuracy,temporal_recency,taxonomic_confidence,sampling_coverage,citation_provenance,issue_explainability
+conservation_brief,Conservation brief,78.48,74.1,100.0,100.0,31.25,100.0,100.0
+invasive_watch,Invasive watch,83.21,74.1,100.0,100.0,31.25,100.0,100.0
+sampling_gaps,Sampling gap analysis,63.88,74.1,100.0,100.0,31.25,100.0,100.0
+dataset_quality_review,Dataset quality review,86.65,74.1,100.0,100.0,31.25,100.0,100.0

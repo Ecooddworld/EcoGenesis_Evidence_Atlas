@@ -49,6 +49,14 @@ export async function getRegionPresets() {
   return response.json();
 }
 
+export async function getGbifStatus() {
+  const response = await fetch(`${API_BASE_URL}/api/evidence/gbif-status`);
+  if (!response.ok) {
+    throw new Error(`GBIF status could not be loaded: ${response.status}`);
+  }
+  return response.json();
+}
+
 export async function searchTaxa(query, limit = 10) {
   const params = new URLSearchParams({ q: query || '', limit: String(limit) });
   const response = await fetch(`${API_BASE_URL}/api/evidence/taxon-suggest?${params.toString()}`);

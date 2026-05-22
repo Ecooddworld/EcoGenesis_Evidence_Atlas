@@ -1,0 +1,6 @@
+datasetKey,datasetTitle,publisher,license,record_count,main_issues
+50c9509d-22c7-4a22-a47d-8c48425ef4a7,iNaturalist research-grade observations,,http://creativecommons.org/licenses/by-nc/4.0/legalcode,222,"COORDINATE_ROUNDED, CONTINENT_DERIVED_FROM_COORDINATES, TAXON_ID_NOT_FOUND"
+626c16d0-c37e-4b1f-9337-09d58c9eb9ff,Mammals – Camera Trap Surveys – Spain – 2014–2026 – MOMAT Project,,http://creativecommons.org/licenses/by/4.0/legalcode,48,CONTINENT_DERIVED_FROM_COORDINATES
+aa67ebd4-a094-4200-bb3b-55775128a670,https://creativecommons.org/licenses/by/4.0/legalcode.es,,http://creativecommons.org/licenses/by/4.0/legalcode,22,CONTINENT_DERIVED_FROM_COORDINATES
+460daf52-49b6-4206-84b9-62a23b181f37,Mammals – Point Surveys – Spain – 2023–2025 – MOMAT Project,,http://creativecommons.org/licenses/by/4.0/legalcode,7,CONTINENT_DERIVED_FROM_COORDINATES
+3ccfe992-043a-4fff-951d-1e6e158854da,GBIF MammalNet,,http://creativecommons.org/licenses/by/4.0/legalcode,1,"COORDINATE_ROUNDED, COUNTRY_DERIVED_FROM_COORDINATES, CONTINENT_DERIVED_FROM_COORDINATES"

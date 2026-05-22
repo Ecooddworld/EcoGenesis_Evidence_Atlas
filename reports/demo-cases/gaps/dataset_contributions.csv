@@ -1,0 +1,8 @@
+datasetKey,datasetTitle,publisher,license,record_count,main_issues
+8a863029-f435-446a-821e-275f4f641165,,,http://creativecommons.org/licenses/by-nc/4.0/legalcode,206,none_detected
+50c9509d-22c7-4a22-a47d-8c48425ef4a7,iNaturalist research-grade observations,,http://creativecommons.org/licenses/by-nc/4.0/legalcode,47,"CONTINENT_DERIVED_FROM_COORDINATES, TAXON_ID_NOT_FOUND, COORDINATE_ROUNDED"
+6ac3f774-d9fb-4796-b3e9-92bf6c81c084,,,http://creativecommons.org/licenses/by/4.0/legalcode,21,"COORDINATE_ROUNDED, GEODETIC_DATUM_ASSUMED_WGS84, CONTINENT_DERIVED_FROM_COORDINATES"
+0a013f89-5381-4578-9d82-5f28fd5f1ef6,Vascular plant records verified via iRecord,,http://creativecommons.org/licenses/by/4.0/legalcode,17,"CONTINENT_DERIVED_FROM_COORDINATES, TAXON_CONCEPT_ID_NOT_FOUND, TAXON_ID_NOT_FOUND"
+83fdfd3d-3a25-4705-9fbe-3db1d1892b13,,,http://creativecommons.org/licenses/by/4.0/legalcode,5,TAXON_ID_NOT_FOUND
+963a6b96-4d22-4428-86e4-afee52cf4a8e,,,http://creativecommons.org/licenses/by/4.0/legalcode,3,"CONTINENT_DERIVED_FROM_COORDINATES, TAXON_ID_NOT_FOUND"
+cef450df-7155-4c9d-9eb3-7b9b4d868bfa,Sheffield and Rotherham Wildlife Trust - Records,,http://creativecommons.org/licenses/by-nc/4.0/legalcode,1,"CONTINENT_DERIVED_FROM_COORDINATES, TAXON_CONCEPT_ID_NOT_FOUND, TAXON_ID_NOT_FOUND"

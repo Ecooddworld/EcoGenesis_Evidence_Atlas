@@ -1,0 +1,132 @@
+{
+  "run_id": "51e12c0fb76d42f9ad818be4af84857f",
+  "started_at": "2026-05-22T00:38:37.675556+00:00",
+  "finished_at": "2026-05-22T00:38:39.194657+00:00",
+  "source_mode": "online",
+  "request": {
+    "taxon": "Lynx pardinus",
+    "taxon_key": 2435261,
+    "region_name": "Iberian Peninsula live bbox",
+    "bbox": [
+      -10.0,
+      35.0,
+      4.5,
+      44.5
+    ],
+    "purpose": "dataset_quality_review",
+    "source_mode": "online_with_empty_fallback",
+    "use_fixture": false,
+    "max_records": 300
+  },
+  "request_fingerprint": "a32bc8fe39a1acd74817e9b0f5f74155d642b34b7d323ca0fda24a93c560429c",
+  "gbif_species_match": {
+    "key": 2435261,
+    "nubKey": 2435261,
+    "nameKey": 6549657,
+    "taxonID": "gbif:2435261",
+    "sourceTaxonKey": 172721947,
+    "kingdom": "Animalia",
+    "phylum": "Chordata",
+    "order": "Carnivora",
+    "family": "Felidae",
+    "genus": "Lynx",
+    "species": "Lynx pardinus",
+    "kingdomKey": 1,
+    "phylumKey": 44,
+    "classKey": 359,
+    "orderKey": 732,
+    "familyKey": 9703,
+    "genusKey": 2435239,
+    "speciesKey": 2435261,
+    "datasetKey": "d7dddbf4-2cf0-4f39-9b2a-bb099caae36c",
+    "constituentKey": "7ddf754f-d193-4cc9-b351-99906754a03b",
+    "parentKey": 2435239,
+    "parent": "Lynx",
+    "basionymKey": 2435262,
+    "basionym": "Felis pardina Temminck, 1827",
+    "scientificName": "Lynx pardinus (Temminck, 1827)",
+    "canonicalName": "Lynx pardinus",
+    "vernacularName": "Iberian lynx",
+    "authorship": "(Temminck, 1827) ",
+    "nameType": "SCIENTIFIC",
+    "rank": "SPECIES",
+    "origin": "SOURCE",
+    "taxonomicStatus": "ACCEPTED",
+    "nomenclaturalStatus": [],
+    "remarks": "",
+    "publishedIn": "Monogr. Mamm. vol.1 p.116",
+    "numDescendants": 1,
+    "lastCrawled": "2023-08-22T23:20:59.545+00:00",
+    "lastInterpreted": "2023-08-22T22:19:09.224+00:00",
+    "issues": [],
+    "class": "Mammalia",
+    "usageKey": 2435261,
+    "confidence": 100,
+    "matchType": "SELECTED_KEY",
+    "status": "ACCEPTED",
+    "source": "gbif_api"
+  },
+  "steps": [
+    {
+      "name": "species_match",
+      "status": "completed",
+      "duration_ms": 184.06
+    },
+    {
+      "name": "occurrence_fetch",
+      "status": "completed",
+      "duration_ms": 1329.73
+    },
+    {
+      "name": "normalize",
+      "status": "completed",
+      "duration_ms": 1.57
+    },
+    {
+      "name": "score",
+      "status": "completed",
+      "duration_ms": 1.43
+    },
+    {
+      "name": "exports",
+      "status": "completed",
+      "duration_ms": 116.72,
+      "details": {
+        "artifact_count": 31
+      }
+    }
+  ],
+  "artifact_checksums": {
+    "citations.md": "118fbab6e5378a7256e691d479573bec71b97a8dde3a186ff83af7738d6b6ee0",
+    "claim_guardrails.md": "b8e35d4ac6e646275c96233bc1f6e595cf89a1403a038868bdaff213f974e2e5",
+    "dataset_contributions.csv": "376e7a398d604ef9132c48672ce93d1c0b5778a8b4833128166f77a1432ecf41",
+    "decision_memo.json": "399cfb43b31bba3bf9651e6170ab661eba7140f6b64626e540b624b051b953ef",
+    "decision_memo.md": "1d6a54cba9793a0231139cdadd2032e6ecb4e1f86249fdfb7f7d6547ceae29e7",
+    "demo_scenario.json": "df6539d89c3d04865d61e8cb75ad5c0602219d3f631bf65c6b932950005f20f9",
+    "derived_dataset_recipe.json": "364430ce1060311907c3f2b2df235e1842968dc7424eaa53ae083e052b2324d0",
+    "evidence_graph.json": "e94fd66a2331fa771e08e617d2c6a1b871b316ab7aa18f80cd78e0cfbdc7915d",
+    "evidence_pack.json": "dc473a281ecc38e8c870cc10ca8880689e066b99c4cc0590dce461671fba9320",
+    "evidence_pack.zip": "2775c5499ade993e5f4e00187f9b63a82136191fb171613cba6239ff7bc9e8d1",
+    "evidence_vault.zip": "750a66c48a662201d0e6aa7a834c12e6c75203e2f2328bf11b8c5c1fd56c9c74",
+    "gap_priorities.csv": "1b20cec2229081b34e141a825483b5bcc98cd3fd98d96c43b4fbee26515fe798",
+    "graph_memory.md": "ed5f6aacb75b3789809162001304302df49ee457d79de47676039c355777204b",
+    "impact_brief.md": "09e9597a843416263715cadec17374b5f8caff0d12f04f930b2959a989f814e7",
+    "methods_text.md": "7b84875ca8555be8a5748320f94ac8b6fc35edcdf4b23bd6a1db2a0c54549a23",
+    "passport.html": "b98758b64257439e48aa2b732c3a589451a23143f1897383548b22195ad0e178",
+    "passport.md": "c33ef7526ab24cfaa340e14506265cefde18e5928de73cb7323a8eb5ce3b0ee4",
+    "provenance.json": "f98c3f0b366cdff4aeba6df81ebfcb8db4f723c0ed0639e11dabae44854bc278",
+    "publisher_feedback.csv": "1bb5536b1a2abc6feb480084074089358fc6b61f349b7cba62e1db7b0e5d2966",
+    "publisher_feedback.md": "65f1331d8239325cee6ba021a972307930c971769671b9f1d202e72cda6acbea",
+    "publisher_issue_templates.md": "71df2c7252ce84f4380e1be433c50cbd1b9b7d2d423865d283993e1937dda06e",
+    "quality_metrics.csv": "f036fac7fbcea0738abee9f53bc70933c165616df8ee209d3315b480db3fbad6",
+    "readiness_scorecard.csv": "202abe088fe5b5dc3f39bb853ed397712fd212afbf469c8d2ef4619efd8a13ce",
+    "records.geojson": "72f34ba6cf967fe4cd062bffd3a2e9670d043987caac16cd55dd4634d8705370",
+    "run.json": "743f6659103c06ca66352dc774f95ab3c2be3d9ac45646ade1b5971a16d4f48a",
+    "source_summary.json": "afb0a745df488aeb170acde27f451a6b507316fcadd8979f1d614b58f5b1dbb2",
+    "submission_readiness.json": "2edcde1d887357aa226afd4c07fda626b336ef6fd7ade7385be123ce7bef779d",
+    "submission_readiness.md": "42f1f19c7ef72f3c2a33ca12788519c3dae7fe9aaf16d5a17e7679fc5bf597f7",
+    "validation_summary.json": "4401645e5db22f904e529f2059c00e03f5be3f384b05683cfc56560d2077c5c9",
+    "validation_summary.md": "88d5636262075673bba41ecad97e2187dee5c16f4bea21a3b224d9f32ad791d2",
+    "video_script.md": "27d65119c8990b3113d094b5ddd2d51f86e47843883ae0bbe3cc7ec831448e88"
+  }
+}

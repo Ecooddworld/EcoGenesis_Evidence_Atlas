@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ecogenesis.local/schemas/evidence_passport.schema.json",
+  "title": "EcoGenesis GBIF Evidence Passport",
+  "description": "A reproducible, citation-aware decision packet derived from GBIF-mediated biodiversity evidence.",
+  "type": "object",
+  "required": [
+    "run",
+    "passport",
+    "source_summary",
+    "evidence_readiness",
+    "quality_metrics",
+    "grid_metrics",
+    "records_geojson",
+    "claim_guardrails",
+    "citation_autopilot",
+    "decision_memo",
+    "exports"
+  ],
+  "properties": {
+    "run": {
+      "type": "object",
+      "required": ["run_id", "started_at", "finished_at", "request", "source_mode"],
+      "properties": {
+        "run_id": { "type": "string", "minLength": 8 },
+        "started_at": { "type": "string" },
+        "finished_at": { "type": "string" },
+        "source_mode": { "type": "string" },
+        "request": { "$ref": "#/$defs/request" },
+        "request_fingerprint": { "type": "string" },
+        "gbif_species_match": { "type": "object" },
+        "artifact_checksums": { "type": "object" }
+      }
+    },
+    "passport": {
+      "type": "object",
+      "required": ["title", "taxon", "region_name", "bbox", "purpose", "records_used", "datasets_used"],
+      "properties": {
+        "title": { "const": "GBIF Evidence Passport" },
+        "taxon": { "type": "string" },
+        "accepted_name": { "type": "string" },
+        "taxonKey": { "type": ["integer", "null"] },
+        "region_name": { "type": "string" },
+        "bbox": { "$ref": "#/$defs/bbox" },
+        "purpose": { "$ref": "#/$defs/purpose" },
+        "records_used": { "type": "integer", "minimum": 0 },
+        "datasets_used": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "source_summary": {
+      "type": "object",
+      "required": ["requested_source_mode", "used_source_mode", "gbif_api_status", "fallback_used"],
+      "properties": {
+        "requested_source_mode": { "type": "string" },
+        "used_source_mode": { "type": "string" },
+        "gbif_api_status": { "type": "string" },
+        "fallback_used": { "type": "boolean" },
+        "gbif_returned_records": { "type": ["integer", "null"] },
+        "selected_taxon_key": { "type": ["integer", "null"] },
+        "matched_taxon_key": { "type": ["integer", "null"] },
+        "warnings": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "evidence_readiness": {
+      "type": "object",
+      "required": ["purpose", "purpose_label", "score", "interpretation", "components", "weights"],
+      "properties": {
+        "purpose": { "$ref": "#/$defs/purpose" },
+        "purpose_label": { "type": "string" },
+        "score": { "type": "number", "minimum": 0, "maximum": 100 },
+        "interpretation": { "type": "string" },
+        "components": { "type": "object" },
+        "weights": { "type": "object" }
+      }
+    },
+    "quality_metrics": { "type": "object" },
+    "grid_metrics": {
+      "type": "object",
+      "required": ["type", "meta", "features"],
+      "properties": {
+        "type": { "const": "FeatureCollection" },
+        "meta": { "type": "object" },
+        "features": { "type": "array" }
+      }
+    },
+    "records_geojson": {
+      "type": "object",
+      "required": ["type", "features"],
+      "properties": {
+        "type": { "const": "FeatureCollection" },
+        "features": { "type": "array" }
+      }
+    },
+    "claim_guardrails": {
+      "type": "object",
+      "required": ["supported_claims", "weak_claims", "unsupported_claims", "required_verification"],
+      "properties": {
+        "supported_claims": { "type": "array", "items": { "type": "string" } },
+        "weak_claims": { "type": "array", "items": { "type": "string" } },
+        "unsupported_claims": { "type": "array", "items": { "type": "string" } },
+        "required_verification": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "citation_autopilot": {
+      "type": "object",
+      "required": ["citation_status", "derived_dataset_recipe", "doi_completion_flow", "methods_text"],
+      "properties": {
+        "citation_status": { "type": "string" },
+        "derived_dataset_recipe": { "type": "object" },
+        "doi_completion_flow": { "type": "array" },
+        "methods_text": { "type": "string" }
+      }
+    },
+    "decision_memo": {
+      "type": "object",
+      "required": ["verdict", "question", "data_basis", "safe_claims", "blocked_claims", "recommended_next_action"],
+      "properties": {
+        "verdict": { "type": "string" },
+        "question": { "type": "string" },
+        "data_basis": { "type": "string" },
+        "safe_claims": { "type": "array", "items": { "type": "string" } },
+        "blocked_claims": { "type": "array", "items": { "type": "string" } },
+        "recommended_next_action": { "type": "string" }
+      }
+    },
+    "publisher_feedback": { "type": "array" },
+    "exports": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "url"],
+        "properties": {
+          "name": { "type": "string" },
+          "url": { "type": "string" },
+          "size_bytes": { "type": "integer", "minimum": 0 },
+          "sha256": { "type": "string" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "bbox": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": { "type": "number" }
+    },
+    "purpose": {
+      "enum": ["conservation_brief", "invasive_watch", "sampling_gaps", "dataset_quality_review"]
+    },
+    "request": {
+      "type": "object",
+      "required": ["taxon", "region_name", "bbox", "purpose", "source_mode", "use_fixture", "max_records"],
+      "properties": {
+        "taxon": { "type": "string" },
+        "taxon_key": { "type": ["integer", "null"] },
+        "region_name": { "type": "string" },
+        "bbox": { "$ref": "#/$defs/bbox" },
+        "purpose": { "$ref": "#/$defs/purpose" },
+        "source_mode": { "type": "string" },
+        "use_fixture": { "type": "boolean" },
+        "max_records": { "type": "integer", "minimum": 1 }
+      }
+    }
+  }
+}

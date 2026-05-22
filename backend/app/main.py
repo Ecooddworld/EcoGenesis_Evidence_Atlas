@@ -60,6 +60,24 @@ def region_presets() -> list[dict]:
     return REGION_PRESETS
 
 
+@app.get("/api/evidence/gbif-status")
+def gbif_status() -> dict:
+    client = GBIFClient(mode="online")
+    try:
+        results = client.species_suggest("Aedes", limit=1)
+    except requests.RequestException as exc:
+        return {
+            "status": "unavailable",
+            "base_url": client.base_url,
+            "message": f"GBIF API is unavailable: {type(exc).__name__}. Live runs will use an empty no-evidence fallback.",
+        }
+    return {
+        "status": "ok" if results else "degraded",
+        "base_url": client.base_url,
+        "message": "GBIF API reachable. Live occurrence runs use GBIF-mediated records.",
+    }
+
+
 @app.get("/api/evidence/taxon-suggest")
 def taxon_suggest(q: str = Query(default="", max_length=120), limit: int = Query(default=10, ge=1, le=20)) -> dict:
     client = GBIFClient(mode="online")
@@ -156,6 +174,22 @@ def get_claims(run_id: str) -> dict:
 def get_publisher_feedback(run_id: str) -> list[dict]:
     pack = get_run(run_id)
     return pack["publisher_feedback"]
+
+
+@app.get("/api/evidence/runs/{run_id}/graph-memory")
+def get_graph_memory(run_id: str) -> dict:
+    pack = get_run(run_id)
+    return pack["graph_memory"]["graph"]
+
+
+@app.get("/api/evidence/runs/{run_id}/submission-readiness")
+def get_submission_readiness(run_id: str) -> dict:
+    pack = get_run(run_id)
+    return {
+        "decision_memo": pack["decision_memo"],
+        "validation_summary": pack["validation_summary"],
+        "submission_readiness": pack["submission_readiness"],
+    }
 
 
 @app.get("/api/evidence/runs/{run_id}/citations")

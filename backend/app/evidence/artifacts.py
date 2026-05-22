@@ -4,7 +4,135 @@ import csv
 import html
 import io
 import json
+import re
 from typing import Any
+
+
+def build_graph_memory(pack: dict[str, Any]) -> dict[str, Any]:
+    """Build a portable evidence graph and Markdown vault for a passport run."""
+    summary = pack["passport"]
+    run = pack["run"]
+    readiness = pack["evidence_readiness"]
+    taxon_label = summary.get("accepted_name") or summary["taxon"]
+    run_id = run["run_id"]
+    run_node = f"run:{run_id}"
+    taxon_node = f"taxon:{summary.get('taxonKey') or _slug(taxon_label)}"
+    region_node = f"region:{_slug(summary['region_name'])}"
+    purpose_node = f"purpose:{readiness['purpose']}"
+    nodes = [
+        _graph_node(run_node, "run", f"{taxon_label} in {summary['region_name']}", run_id=run_id),
+        _graph_node(taxon_node, "taxon", taxon_label, taxonKey=summary.get("taxonKey")),
+        _graph_node(region_node, "region", summary["region_name"], bbox=summary.get("bbox")),
+        _graph_node(purpose_node, "purpose", readiness["purpose_label"], purpose=readiness["purpose"]),
+    ]
+    edges = [
+        _graph_edge(run_node, "uses_taxon", taxon_node),
+        _graph_edge(run_node, "covers_region", region_node),
+        _graph_edge(run_node, "serves_purpose", purpose_node),
+    ]
+
+    dataset_nodes = []
+    for dataset in pack["dataset_contributions"]:
+        node_id = f"dataset:{dataset['datasetKey']}"
+        dataset_nodes.append(node_id)
+        nodes.append(
+            _graph_node(
+                node_id,
+                "dataset",
+                dataset["datasetKey"],
+                records=dataset.get("record_count"),
+                license=dataset.get("license"),
+                publisher=dataset.get("publisher"),
+            )
+        )
+        edges.append(_graph_edge(run_node, "draws_from_dataset", node_id, records=dataset.get("record_count")))
+
+    issue_nodes: dict[str, str] = {}
+    for feedback in pack["publisher_feedback"]:
+        issue = feedback["main_issue"]
+        issue_id = issue_nodes.setdefault(issue, f"issue:{_slug(issue)}")
+        if not any(node["id"] == issue_id for node in nodes):
+            nodes.append(_graph_node(issue_id, "issue", issue, severity=feedback.get("severity")))
+            edges.append(_graph_edge(run_node, "detects_issue", issue_id))
+        dataset_id = f"dataset:{feedback['datasetKey']}"
+        edges.append(
+            _graph_edge(
+                dataset_id,
+                "has_quality_issue",
+                issue_id,
+                records_affected=feedback.get("records_affected"),
+                severity=feedback.get("severity"),
+            )
+        )
+
+    claim_nodes = []
+    for status, claims in [
+        ("supported", pack["claim_guardrails"]["supported_claims"]),
+        ("weak", pack["claim_guardrails"]["weak_claims"]),
+        ("blocked", pack["claim_guardrails"]["unsupported_claims"]),
+        ("requires_verification", pack["claim_guardrails"]["required_verification"]),
+    ]:
+        for claim in claims:
+            claim_id = f"claim:{_slug(status + '-' + claim)[:88]}"
+            claim_nodes.append((claim_id, status, claim))
+            nodes.append(_graph_node(claim_id, "claim", claim, status=status))
+            edges.append(_graph_edge(run_node, f"{status}_claim", claim_id))
+            if status in {"blocked", "requires_verification"}:
+                for issue_id in issue_nodes.values():
+                    edges.append(_graph_edge(issue_id, "limits_claim", claim_id))
+
+    action_nodes = []
+    for action in pack["next_actions"]:
+        action_id = f"action:{_slug(action)[:88]}"
+        action_nodes.append((action_id, action))
+        nodes.append(_graph_node(action_id, "action", action))
+        edges.append(_graph_edge(run_node, "recommends_action", action_id))
+
+    artifact_nodes = []
+    for name in [
+        "passport.html",
+        "decision_memo.md",
+        "submission_readiness.md",
+        "validation_summary.md",
+        "run.json",
+        "citations.md",
+        "publisher_feedback.md",
+        "evidence_pack.zip",
+    ]:
+        artifact_id = f"artifact:{name}"
+        artifact_nodes.append(artifact_id)
+        nodes.append(_graph_node(artifact_id, "artifact", name))
+        edges.append(_graph_edge(run_node, "produces_artifact", artifact_id))
+
+    graph = {
+        "summary": {
+            "title": "EcoGenesis Evidence Graph Memory",
+            "run_id": run_id,
+            "taxon": taxon_label,
+            "region_name": summary["region_name"],
+            "purpose": readiness["purpose"],
+            "purpose_label": readiness["purpose_label"],
+            "score": readiness["score"],
+            "records_used": summary["records_used"],
+            "datasets_used": summary["datasets_used"],
+            "created_at": run["finished_at"],
+        },
+        "node_counts": {
+            "runs": 1,
+            "taxa": 1,
+            "regions": 1,
+            "datasets": len(dataset_nodes),
+            "issues": len(issue_nodes),
+            "claims": len(claim_nodes),
+            "actions": len(action_nodes),
+            "artifacts": len(artifact_nodes),
+        },
+        "nodes": nodes,
+        "edges": edges,
+        "memory_cards": _memory_cards(pack),
+    }
+    vault = _build_vault(pack, graph, claim_nodes, action_nodes)
+    return {"graph": graph, "vault": vault}
 
 
 def build_artifacts(pack: dict[str, Any]) -> dict[str, str]:
@@ -13,13 +141,24 @@ def build_artifacts(pack: dict[str, Any]) -> dict[str, str]:
         "run.json": json.dumps(pack["run"], indent=2, ensure_ascii=False),
         "source_summary.json": json.dumps(pack["source_summary"], indent=2, ensure_ascii=False),
         "demo_scenario.json": json.dumps(_demo_scenario(pack), indent=2, ensure_ascii=False),
+        "decision_memo.json": json.dumps(pack["decision_memo"], indent=2, ensure_ascii=False),
+        "decision_memo.md": _decision_memo_md(pack),
+        "submission_readiness.json": json.dumps(pack["submission_readiness"], indent=2, ensure_ascii=False),
+        "submission_readiness.md": _submission_readiness_md(pack),
+        "validation_summary.json": json.dumps(pack["validation_summary"], indent=2, ensure_ascii=False),
+        "validation_summary.md": _validation_summary_md(pack),
+        "impact_brief.md": _impact_brief_md(pack),
+        "video_script.md": _video_script_md(pack),
         "records.geojson": json.dumps(pack["records_geojson"], indent=2, ensure_ascii=False),
         "quality_metrics.csv": _quality_csv(pack["quality_metrics"]),
         "gap_priorities.csv": _gap_priorities_csv(pack),
         "readiness_scorecard.csv": _readiness_scorecard_csv(pack),
         "dataset_contributions.csv": _dataset_csv(pack["dataset_contributions"]),
         "publisher_feedback.csv": _publisher_feedback_csv(pack["publisher_feedback"]),
+        "publisher_issue_templates.md": _publisher_issue_templates_md(pack),
         "derived_dataset_recipe.json": json.dumps(pack["citation_autopilot"]["derived_dataset_recipe"], indent=2, ensure_ascii=False),
+        "evidence_graph.json": json.dumps(pack["graph_memory"]["graph"], indent=2, ensure_ascii=False),
+        "graph_memory.md": _graph_memory_md(pack),
         "provenance.json": json.dumps(_provenance(pack), indent=2, ensure_ascii=False),
         "citations.md": _citations_md(pack),
         "claim_guardrails.md": _claim_guardrails_md(pack),
@@ -100,7 +239,7 @@ def _dataset_csv(rows: list[dict[str, Any]]) -> str:
 
 def _publisher_feedback_csv(rows: list[dict[str, Any]]) -> str:
     output = io.StringIO()
-    fields = ["datasetKey", "records_affected", "main_issue", "suggested_fix"]
+    fields = ["datasetKey", "severity", "fix_priority", "records_affected", "main_issue", "suggested_fix"]
     writer = csv.DictWriter(output, fieldnames=fields, lineterminator="\n")
     writer.writeheader()
     for row in rows:
@@ -118,6 +257,10 @@ def _provenance(pack: dict[str, Any]) -> dict[str, Any]:
         "purpose_score_matrix": pack["purpose_score_matrix"],
         "citation_status": pack["citation_autopilot"]["citation_status"],
         "dataset_contributions": pack["dataset_contributions"],
+        "decision_memo": pack["decision_memo"],
+        "validation_summary": pack["validation_summary"],
+        "submission_readiness": pack["submission_readiness"],
+        "evidence_graph": pack["graph_memory"]["graph"],
         "known_limitations": [
             "GBIF-mediated occurrence records are heterogeneous and reflect variable sampling effort.",
             "No-evidence grid cells are not absence observations.",
@@ -125,6 +268,191 @@ def _provenance(pack: dict[str, Any]) -> dict[str, Any]:
             "Fixture and fallback runs are reproducible demo artifacts, not publication citation bases.",
         ],
     }
+
+
+def _decision_memo_md(pack: dict[str, Any]) -> str:
+    memo = pack["decision_memo"]
+    lines = [
+        "# Decision Memo",
+        "",
+        f"Verdict: **{memo['verdict']}**",
+        "",
+        "## 1. Question",
+        "",
+        memo["question"],
+        "",
+        "## 2. Evidence Basis",
+        "",
+        memo["data_basis"],
+        "",
+        "## 3. Fitness For Purpose",
+        "",
+        memo["fitness_for_purpose"],
+        "",
+        "## 4. Safe Claims",
+        "",
+    ]
+    lines.extend(f"- {claim}" for claim in memo["safe_claims"])
+    lines.extend(["", "## 5. Blocked Claims", ""])
+    lines.extend(f"- {claim}" for claim in memo["blocked_claims"])
+    lines.extend(["", "## Main Limitations", ""])
+    lines.extend(f"- {item}" for item in memo["main_limitations"])
+    lines.extend(
+        [
+            "",
+            "## Recommended Next Action",
+            "",
+            memo["recommended_next_action"],
+            "",
+            "## Plain-Language Summary",
+            "",
+            memo["plain_language_summary"],
+            "",
+            "## Who Benefits",
+            "",
+        ]
+    )
+    lines.extend(f"- {item}" for item in memo["user_value"])
+    lines.extend(
+        [
+            "",
+            "## Citation Gate",
+            "",
+            f"- Status: {memo['citation_gate']['status']}",
+            f"- Publication ready: {memo['citation_gate']['publication_ready']}",
+            f"- Message: {memo['citation_gate']['message']}",
+        ]
+    )
+    return "\n".join(lines) + "\n"
+
+
+def _submission_readiness_md(pack: dict[str, Any]) -> str:
+    readiness = pack["submission_readiness"]
+    lines = [
+        "# Submission Readiness",
+        "",
+        f"Stage: **{readiness['stage']}**",
+        f"Ready checks: **{readiness['ready_count']}/{readiness['total_count']}**",
+        "",
+        "## Checklist",
+        "",
+        "| Ready | Item | Evidence | Next step |",
+        "| --- | --- | --- | --- |",
+    ]
+    for item in readiness["checklist"]:
+        marker = "yes" if item["ready"] else "not yet"
+        lines.append(f"| {marker} | {item['label']} | {item['evidence']} | {item['next_step']} |")
+    lines.extend(["", "## Accepted Research Comments", ""])
+    lines.extend(f"- {item}" for item in readiness["accepted_research_comments"])
+    lines.extend(["", "## Next 72 Hours", ""])
+    lines.extend(f"- {item}" for item in readiness["next_72_hours"])
+    return "\n".join(lines) + "\n"
+
+
+def _validation_summary_md(pack: dict[str, Any]) -> str:
+    validation = pack["validation_summary"]
+    case = validation["current_case"]
+    lines = [
+        "# Validation Summary",
+        "",
+        f"Current case: **{case['taxon']} - {case['region_name']} - {case['purpose_label']}**",
+        f"Score: **{case['score']}/100**",
+        f"Source mode: **{case['source_mode']}**",
+        f"Passed checks: **{validation['passed_checks']}/{validation['total_checks']}**",
+        "",
+        "## Checks",
+        "",
+        "| Passed | Check | Metric | Why it matters |",
+        "| --- | --- | ---: | --- |",
+    ]
+    for check in validation["checks"]:
+        lines.append(
+            f"| {'yes' if check['passed'] else 'not yet'} | {check['label']} | {check['metric']} | {check['why_it_matters']} |"
+        )
+    lines.extend(["", "## Measurable Outcomes", ""])
+    lines.extend(f"- {item}" for item in validation["measurable_outcomes"])
+    lines.extend(["", "## Recommended Demo Suite", ""])
+    for scenario in validation["recommended_demo_suite"]:
+        lines.append(
+            f"- **{scenario['id']}**: {scenario['taxon']} in {scenario['region_name']} for {scenario['purpose']} - {scenario['shows']}"
+        )
+    lines.extend(["", "## Remaining Validation Work", ""])
+    lines.extend(f"- {item}" for item in validation["remaining_validation_work"])
+    return "\n".join(lines) + "\n"
+
+
+def _impact_brief_md(pack: dict[str, Any]) -> str:
+    summary = pack["passport"]
+    memo = pack["decision_memo"]
+    return "\n".join(
+        [
+            "# Impact Brief",
+            "",
+            f"EcoGenesis Evidence Atlas turns GBIF-mediated records for **{summary['taxon']}** in **{summary['region_name']}** into a bounded evidence decision memo.",
+            "",
+            "## What It Solves",
+            "",
+            "- Users often see GBIF points but do not know whether they can support a specific decision.",
+            "- Empty map cells are easy to misuse as absences.",
+            "- Citation, DOI and datasetKey provenance are often handled after analysis instead of during analysis.",
+            "- Dataset publishers rarely receive concise, prioritized feedback from downstream reuse.",
+            "",
+            "## What The Current Run Gives",
+            "",
+            f"- Verdict: {memo['verdict']}",
+            f"- Records used: {summary['records_used']}",
+            f"- Datasets used: {summary['datasets_used']}",
+            f"- Evidence readiness: {pack['evidence_readiness']['score']}/100",
+            f"- Recommended action: {memo['recommended_next_action']}",
+            "",
+            "## Value For GBIF",
+            "",
+            "- Promotes responsible reuse of GBIF-mediated occurrence data.",
+            "- Preserves datasetKey-level attribution and contribution counts.",
+            "- Makes data gaps and publisher-side quality issues visible.",
+            "- Produces reusable open-science artifacts rather than a screenshot-only result.",
+            "",
+            "## Value For EcoGenesis",
+            "",
+            "- Turns the app into a trust layer and knowledge workbench, not just a map.",
+            "- Adds reusable exports that can support future RAG, review, collaboration and publishing workflows.",
+            "- Gives each run a portable evidence memory that can be compared with future runs.",
+        ]
+    ) + "\n"
+
+
+def _video_script_md(pack: dict[str, Any]) -> str:
+    summary = pack["passport"]
+    memo = pack["decision_memo"]
+    readiness = pack["submission_readiness"]
+    lines = [
+        "# Three-Minute Demo Script",
+        "",
+        "## 0:00-0:20 Problem",
+        "",
+        "GBIF users can find occurrence records quickly, but they still need to know what the data can responsibly support, what it cannot support, and how to cite it.",
+        "",
+        "## 0:20-0:55 Generate Passport",
+        "",
+        f"Show the default run for {summary['taxon']} in {summary['region_name']}. Point to the decision memo verdict: {memo['verdict']}.",
+        "",
+        "## 0:55-1:30 Evidence Map",
+        "",
+        "Show occurrence points, quality caveats, no-evidence cells and survey-priority cells. Say explicitly that no-evidence cells are not absences.",
+        "",
+        "## 1:30-2:05 Claims And Citation",
+        "",
+        "Open Safe Claims and Citation. Show supported claims, blocked absence/distribution/trend claims, DOI completion flow and derived dataset recipe.",
+        "",
+        "## 2:05-2:35 Publisher Feedback And Graph Memory",
+        "",
+        "Open Publisher Fixes and Evidence Memory. Show datasetKey-level fixes and the offline Markdown vault.",
+        "",
+        "## 2:35-3:00 Export And Submission Readiness",
+        "",
+        f"Download the Evidence Pack. Show Submission Readiness at {readiness['ready_count']}/{readiness['total_count']} checks and name the remaining DOI-backed publication case as the honest final step.",
+    ]
+    return "\n".join(lines) + "\n"
 
 
 def _readiness_scorecard_csv(pack: dict[str, Any]) -> str:
@@ -165,15 +493,27 @@ def _citations_md(pack: dict[str, Any]) -> str:
         "",
         citation["gbif_download_warning"],
         "",
+        "## DOI Completion Checklist",
+        "",
+    ]
+    for item in citation["doi_completion_flow"]:
+        marker = "x" if item["ready"] else " "
+        lines.append(f"- [{marker}] **{item['label']}**: {item['action']}")
+    lines.extend([
+        "",
         "## Suggested Methods Text",
         "",
         citation["methods_text"],
+        "",
+        "## Journal-Ready Methods Text",
+        "",
+        citation["journal_methods_text"],
         "",
         "## Dataset Contributions",
         "",
         "| datasetKey | Records | License |",
         "| --- | ---: | --- |",
-    ]
+    ])
     for row in pack["dataset_contributions"]:
         lines.append(f"| {row['datasetKey']} | {row['record_count']} | {row.get('license') or 'unknown'} |")
     lines.extend(["", "Create a DOI-backed GBIF download or derived dataset before formal publication."])
@@ -216,14 +556,61 @@ def _publisher_feedback_md(pack: dict[str, Any]) -> str:
     lines = [
         "# Publisher Feedback Pack",
         "",
-        "| datasetKey | Records affected | Main issue | Suggested fix |",
-        "| --- | ---: | --- | --- |",
+        "| Priority | Severity | datasetKey | Records affected | Main issue | Suggested fix |",
+        "| ---: | --- | --- | ---: | --- | --- |",
     ]
     for row in pack["publisher_feedback"]:
         lines.append(
-            f"| {row['datasetKey']} | {row['records_affected']} | {row['main_issue']} | {row['suggested_fix']} |"
+            f"| {row.get('fix_priority')} | {row.get('severity')} | {row['datasetKey']} | {row['records_affected']} | {row['main_issue']} | {row['suggested_fix']} |"
         )
     return "\n".join(lines) + "\n"
+
+
+def _publisher_issue_templates_md(pack: dict[str, Any]) -> str:
+    if not pack["publisher_feedback"]:
+        return "\n".join(
+            [
+                "# Publisher Issue Templates",
+                "",
+                "No publisher-facing data quality issues were detected by this run.",
+                "",
+                "If users inspect the records manually and find issues, keep `datasetKey`, `gbifID`, issue type, coordinates and event dates in the report.",
+            ]
+        ) + "\n"
+    lines = [
+        "# Publisher Issue Templates",
+        "",
+        "These templates are designed for polite, evidence-backed feedback to GBIF data publishers or node data managers.",
+        "They preserve `datasetKey`, affected-record counts and the specific quality concern detected by the Evidence Passport.",
+        "",
+    ]
+    for row in pack["publisher_feedback"]:
+        lines.extend(
+            [
+                f"## Priority {row.get('fix_priority')}: {row['datasetKey']}",
+                "",
+                f"Severity: `{row.get('severity')}`",
+                f"Records affected: `{row.get('records_affected')}`",
+                f"Main issue: `{row.get('main_issue')}`",
+                "",
+                "Suggested message:",
+                "",
+                "```text",
+                row.get("publisher_issue_template") or _fallback_issue_template(row),
+                "```",
+                "",
+                f"Suggested fix: {row.get('suggested_fix')}",
+                "",
+            ]
+        )
+    return "\n".join(lines) + "\n"
+
+
+def _fallback_issue_template(row: dict[str, Any]) -> str:
+    return (
+        f"Hello, this EcoGenesis Evidence Passport detected {row.get('records_affected')} records in dataset "
+        f"{row.get('datasetKey')} with the issue '{row.get('main_issue')}'. Suggested fix: {row.get('suggested_fix')}"
+    )
 
 
 def _passport_md(pack: dict[str, Any]) -> str:
@@ -231,6 +618,8 @@ def _passport_md(pack: dict[str, Any]) -> str:
     readiness = pack["evidence_readiness"]
     citation = pack["citation_autopilot"]
     source = pack["source_summary"]
+    memo = pack["decision_memo"]
+    submission = pack["submission_readiness"]
     grid_meta = pack["grid_metrics"]["meta"]
     lines = [
         f"# GBIF Evidence Passport: {summary['taxon']}",
@@ -242,6 +631,18 @@ def _passport_md(pack: dict[str, Any]) -> str:
         f"- Datasets used: {summary['datasets_used']}",
         f"- Evidence readiness: {readiness['score']}/100",
         f"- Citation status: {citation['citation_status']}",
+        "",
+        "## Decision Memo",
+        "",
+        f"**Verdict:** {memo['verdict']}",
+        "",
+        f"**Question:** {memo['question']}",
+        "",
+        f"**Evidence basis:** {memo['data_basis']}",
+        "",
+        f"**Fitness for purpose:** {memo['fitness_for_purpose']}",
+        "",
+        f"**Recommended next action:** {memo['recommended_next_action']}",
         "",
         "## Source Summary",
         "",
@@ -293,8 +694,61 @@ def _passport_md(pack: dict[str, Any]) -> str:
     lines.extend(["", "## Required Verification", ""])
     lines.extend(f"- {claim}" for claim in pack["claim_guardrails"]["required_verification"])
     lines.extend(["", "## Citation Guidance", "", citation["gbif_download_warning"], "", citation["methods_text"]])
+    lines.extend(["", "## Graph Memory", "", "- Evidence graph: evidence_graph.json", "- Human-readable summary: graph_memory.md", "- Offline vault: evidence_vault.zip"])
+    lines.extend(
+        [
+            "",
+            "## Submission Readiness",
+            "",
+            f"- Stage: {submission['stage']}",
+            f"- Ready checks: {submission['ready_count']}/{submission['total_count']}",
+            "- Detailed checklist: submission_readiness.md",
+            "- Validation summary: validation_summary.md",
+            "- Demo script: video_script.md",
+        ]
+    )
     lines.extend(["", "## Next Actions", ""])
     lines.extend(f"- {action}" for action in pack["next_actions"])
+    return "\n".join(lines) + "\n"
+
+
+def _graph_memory_md(pack: dict[str, Any]) -> str:
+    graph = pack["graph_memory"]["graph"]
+    summary = graph["summary"]
+    lines = [
+        "# Evidence Graph Memory",
+        "",
+        f"Run: `{summary['run_id']}`",
+        f"Taxon: **{summary['taxon']}**",
+        f"Region: **{summary['region_name']}**",
+        f"Purpose: **{summary['purpose_label']}**",
+        f"Readiness: **{summary['score']}/100**",
+        "",
+        "## What This Adds",
+        "",
+        "This graph memory turns the passport from a one-off report into a connected evidence node. It links the run to taxa, regions, datasets, quality issues, claims, actions and export artifacts.",
+        "",
+        "## Node Counts",
+        "",
+        "| Node type | Count |",
+        "| --- | ---: |",
+    ]
+    for key, value in graph["node_counts"].items():
+        lines.append(f"| {key} | {value} |")
+    lines.extend(["", "## Memory Cards", ""])
+    for card in graph["memory_cards"]:
+        lines.extend([f"### {card['title']}", "", card["body"], ""])
+    lines.extend(["## Key Edges", "", "| Source | Relation | Target |", "| --- | --- | --- |"])
+    for edge in graph["edges"][:24]:
+        lines.append(f"| {edge['source']} | {edge['relation']} | {edge['target']} |")
+    lines.extend(
+        [
+            "",
+            "## Vault",
+            "",
+            "Open `evidence_vault.zip` to inspect the Markdown memory bundle. It is Obsidian-compatible, but every note is a normal Markdown file.",
+        ]
+    )
     return "\n".join(lines) + "\n"
 
 
@@ -304,6 +758,8 @@ def _passport_html(pack: dict[str, Any]) -> str:
     quality = pack["quality_metrics"]
     citation = pack["citation_autopilot"]
     source = pack["source_summary"]
+    memo = pack["decision_memo"]
+    submission = pack["submission_readiness"]
     grid_meta = pack["grid_metrics"]["meta"]
     map_svg = _passport_map_svg(pack)
     thesis = _scientific_thesis(pack)
@@ -351,6 +807,8 @@ def _passport_html(pack: dict[str, Any]) -> str:
     unsupported = _list_html(pack["claim_guardrails"]["unsupported_claims"])
     required = _list_html(pack["claim_guardrails"]["required_verification"])
     warnings = _list_html(source["warnings"]) if source["warnings"] else "<p>No source warnings.</p>"
+    safe_claims = _list_html(memo["safe_claims"])
+    blocked_claims = _list_html(memo["blocked_claims"])
     score = pack["evidence_readiness"]["score"]
     return f"""<!doctype html>
 <html lang="en">
@@ -375,6 +833,9 @@ def _passport_html(pack: dict[str, Any]) -> str:
     th, td {{ border-bottom: 1px solid #e7ece8; padding: 9px; text-align: left; vertical-align: top; }}
     th {{ color: #4a5b53; font-size: .82rem; }}
     .claims {{ display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); }}
+    .memo-grid {{ display: grid; gap: 14px; grid-template-columns: repeat(2, minmax(0, 1fr)); }}
+    .memo-card {{ background: #f7faf6; border: 1px solid #dde8df; border-radius: 8px; padding: 14px; }}
+    .badge {{ background: #eef6ed; border: 1px solid #c9dec7; border-radius: 999px; display: inline-block; font-size: .78rem; font-weight: 800; padding: 4px 9px; }}
     .map-wrap {{ background: #e8f1f4; border: 1px solid #bfd0d6; border-radius: 8px; overflow: hidden; position: relative; }}
     .map-wrap svg {{ display: block; height: auto; width: 100%; }}
     .map-thesis {{ background: #f6faf7; border: 1px solid #dce8df; border-radius: 8px; font-weight: 700; padding: 12px; }}
@@ -387,7 +848,7 @@ def _passport_html(pack: dict[str, Any]) -> str:
     ul {{ margin: 0; padding-left: 20px; }}
     li + li {{ margin-top: 6px; }}
     .warning {{ background: #fff6de; border: 1px solid #ead493; border-radius: 8px; padding: 12px; }}
-    @media (max-width: 760px) {{ .hero, .claims {{ display: block; }} .kpis {{ grid-template-columns: 1fr; }} }}
+    @media (max-width: 760px) {{ .hero, .claims, .memo-grid {{ display: block; }} .kpis {{ grid-template-columns: 1fr; }} }}
   </style>
 </head>
 <body>
@@ -405,6 +866,16 @@ def _passport_html(pack: dict[str, Any]) -> str:
       <div class="kpi"><span>Datasets</span><strong>{summary['datasets_used']}</strong></div>
       <div class="kpi"><span>Missing dates</span><strong>{quality['missing_date_count']}</strong></div>
       <div class="kpi"><span>High uncertainty</span><strong>{quality['high_uncertainty_count']}</strong></div>
+    </section>
+    <section>
+      <h2>Decision Memo</h2>
+      <p><span class="badge">{_escape(memo['verdict'])}</span></p>
+      <div class="memo-grid">
+        <div class="memo-card"><h3>Question</h3><p>{_escape(memo['question'])}</p></div>
+        <div class="memo-card"><h3>Evidence Basis</h3><p>{_escape(memo['data_basis'])}</p></div>
+        <div class="memo-card"><h3>Fitness</h3><p>{_escape(memo['fitness_for_purpose'])}</p></div>
+        <div class="memo-card"><h3>Next Action</h3><p>{_escape(memo['recommended_next_action'])}</p></div>
+      </div>
     </section>
     <section>
       <h2>Scientific Evidence Map</h2>
@@ -458,6 +929,10 @@ def _passport_html(pack: dict[str, Any]) -> str:
       <div><h2>Unsupported Claims</h2>{unsupported}</div>
       <div><h2>Required Verification</h2>{required}</div>
     </section>
+    <section class="claims">
+      <div><h2>Decision-Safe Claims</h2>{safe_claims}</div>
+      <div><h2>Blocked Claims</h2>{blocked_claims}</div>
+    </section>
     <section>
       <h2>Citation Guidance</h2>
       <p class="warning">{_escape(citation['gbif_download_warning'])}</p>
@@ -470,6 +945,11 @@ def _passport_html(pack: dict[str, Any]) -> str:
     <section>
       <h2>Next Actions</h2>
       {next_actions}
+    </section>
+    <section>
+      <h2>Submission Readiness</h2>
+      <p><strong>{submission['ready_count']}/{submission['total_count']}</strong> checks ready · {_escape(submission['stage'])}</p>
+      <p>See <code>submission_readiness.md</code>, <code>validation_summary.md</code>, <code>impact_brief.md</code> and <code>video_script.md</code> in the export pack.</p>
     </section>
   </main>
 </body>
@@ -589,3 +1069,334 @@ def _list_html(items: list[str]) -> str:
 
 def _escape(value: Any) -> str:
     return html.escape(str(value), quote=True)
+
+
+def _graph_node(node_id: str, node_type: str, label: str, **properties: Any) -> dict[str, Any]:
+    return {"id": node_id, "type": node_type, "label": label, "properties": properties}
+
+
+def _graph_edge(source: str, relation: str, target: str, **properties: Any) -> dict[str, Any]:
+    return {"source": source, "relation": relation, "target": target, "properties": properties}
+
+
+def _memory_cards(pack: dict[str, Any]) -> list[dict[str, str]]:
+    summary = pack["passport"]
+    feedback_count = len(pack["publisher_feedback"])
+    blocked_count = len(pack["claim_guardrails"]["unsupported_claims"])
+    cards = [
+        {
+            "title": "Connected run memory",
+            "body": (
+                f"This run links {summary['records_used']} records, {summary['datasets_used']} datasets, "
+                f"{blocked_count} blocked claims and {len(pack['next_actions'])} next actions."
+            ),
+        },
+        {
+            "title": "Dataset memory",
+            "body": (
+                f"{feedback_count} publisher feedback rows are connected to datasetKey-level provenance, "
+                "so recurring quality blockers can be tracked across future runs."
+            ),
+        },
+        {
+            "title": "Claim memory",
+            "body": "Blocked absence, distribution and trend claims are stored as graph nodes instead of disappearing into a static report.",
+        },
+        {
+            "title": "Judge-friendly vault",
+            "body": "The vault is a normal Markdown bundle that can be opened offline and reviewed without running the web application.",
+        },
+    ]
+    return cards
+
+
+def _build_vault(
+    pack: dict[str, Any],
+    graph: dict[str, Any],
+    claim_nodes: list[tuple[str, str, str]],
+    action_nodes: list[tuple[str, str]],
+) -> dict[str, str]:
+    summary = pack["passport"]
+    run = pack["run"]
+    readiness = pack["evidence_readiness"]
+    run_file = f"runs/{run['run_id']}.md"
+    taxon_file = f"taxa/{_slug(summary.get('accepted_name') or summary['taxon'])}.md"
+    region_file = f"regions/{_slug(summary['region_name'])}.md"
+    purpose_file = f"purposes/{readiness['purpose']}.md"
+    files: dict[str, str] = {
+        "index.md": _vault_index(pack, graph, run_file, taxon_file, region_file, purpose_file),
+        run_file: _vault_run_note(pack, taxon_file, region_file, purpose_file, claim_nodes, action_nodes),
+        taxon_file: _vault_simple_note(
+            "taxon",
+            summary.get("accepted_name") or summary["taxon"],
+            {"taxonKey": summary.get("taxonKey"), "match_confidence": summary.get("match_confidence")},
+            [("Current run", f"../{run_file}")],
+            [f"Accepted name: {summary.get('accepted_name') or summary['taxon']}"],
+        ),
+        region_file: _vault_simple_note(
+            "region",
+            summary["region_name"],
+            {"bbox": summary.get("bbox")},
+            [("Current run", f"../{run_file}")],
+            [f"BBox: `{summary.get('bbox')}`"],
+        ),
+        purpose_file: _vault_simple_note(
+            "purpose",
+            readiness["purpose_label"],
+            {"purpose": readiness["purpose"], "score": readiness["score"]},
+            [("Current run", f"../{run_file}")],
+            [readiness.get("interpretation", "")],
+        ),
+        "methods/gbif-citation-checklist.md": _vault_methods_note(pack),
+    }
+    for dataset in pack["dataset_contributions"]:
+        path = f"datasets/{_slug(dataset['datasetKey'])}.md"
+        files[path] = _vault_dataset_note(dataset, run_file, pack["publisher_feedback"])
+    for feedback in pack["publisher_feedback"]:
+        path = f"issues/{_slug(feedback['main_issue'])}.md"
+        files.setdefault(path, _vault_issue_note(feedback["main_issue"], run_file, pack["publisher_feedback"]))
+    for claim_id, status, claim in claim_nodes:
+        path = f"claims/{_slug(claim_id.split(':', 1)[1])}.md"
+        files[path] = _vault_claim_note(status, claim, run_file)
+    for action_id, action in action_nodes:
+        path = f"actions/{_slug(action_id.split(':', 1)[1])}.md"
+        files[path] = _vault_action_note(action, run_file)
+    return files
+
+
+def _vault_index(
+    pack: dict[str, Any],
+    graph: dict[str, Any],
+    run_file: str,
+    taxon_file: str,
+    region_file: str,
+    purpose_file: str,
+) -> str:
+    summary = pack["passport"]
+    readiness = pack["evidence_readiness"]
+    lines = [
+        _frontmatter(
+            {
+                "type": "vault_index",
+                "run_id": pack["run"]["run_id"],
+                "taxon": summary["taxon"],
+                "region": summary["region_name"],
+                "purpose": readiness["purpose"],
+            }
+        ),
+        "# EcoGenesis Evidence Vault",
+        "",
+        "This vault is a human-readable memory layer for the Evidence Passport.",
+        "",
+        "## Core Links",
+        "",
+        f"- Run: {_md_link(pack['run']['run_id'], run_file)}",
+        f"- Taxon: {_md_link(summary.get('accepted_name') or summary['taxon'], taxon_file)}",
+        f"- Region: {_md_link(summary['region_name'], region_file)}",
+        f"- Purpose: {_md_link(readiness['purpose_label'], purpose_file)}",
+        "",
+        "## Graph Summary",
+        "",
+    ]
+    for key, value in graph["node_counts"].items():
+        lines.append(f"- {key}: {value}")
+    lines.extend(
+        [
+            "",
+            "## Review Files",
+            "",
+            "- `../passport.html`",
+            "- `../decision_memo.md`",
+            "- `../submission_readiness.md`",
+            "- `../validation_summary.md`",
+            "- `../citations.md`",
+            "- `../publisher_feedback.md`",
+            "- `../run.json`",
+        ]
+    )
+    return "\n".join(lines) + "\n"
+
+
+def _vault_run_note(
+    pack: dict[str, Any],
+    taxon_file: str,
+    region_file: str,
+    purpose_file: str,
+    claim_nodes: list[tuple[str, str, str]],
+    action_nodes: list[tuple[str, str]],
+) -> str:
+    summary = pack["passport"]
+    readiness = pack["evidence_readiness"]
+    lines = [
+        _frontmatter(
+            {
+                "type": "run",
+                "run_id": pack["run"]["run_id"],
+                "taxon": summary["taxon"],
+                "region": summary["region_name"],
+                "purpose": readiness["purpose"],
+                "score": readiness["score"],
+                "records_used": summary["records_used"],
+                "datasets_used": summary["datasets_used"],
+            }
+        ),
+        f"# Run: {summary['taxon']} - {summary['region_name']} - {readiness['purpose_label']}",
+        "",
+        f"Taxon: {_md_link(summary.get('accepted_name') or summary['taxon'], '../' + taxon_file)}",
+        f"Region: {_md_link(summary['region_name'], '../' + region_file)}",
+        f"Purpose: {_md_link(readiness['purpose_label'], '../' + purpose_file)}",
+        "",
+        "## Decision Memo",
+        "",
+        f"- Verdict: {pack['decision_memo']['verdict']}",
+        f"- Question: {pack['decision_memo']['question']}",
+        f"- Next action: {pack['decision_memo']['recommended_next_action']}",
+        "",
+        "## Readiness",
+        "",
+        f"- Score: {readiness['score']}/100",
+        f"- Interpretation: {readiness.get('interpretation', '')}",
+        "",
+        "## Datasets",
+        "",
+    ]
+    for dataset in pack["dataset_contributions"]:
+        lines.append(f"- {_md_link(dataset['datasetKey'], '../datasets/' + _slug(dataset['datasetKey']) + '.md')} ({dataset['record_count']} records)")
+    lines.extend(["", "## Claims", ""])
+    for claim_id, status, claim in claim_nodes:
+        lines.append(f"- {status}: {_md_link(claim, '../claims/' + _slug(claim_id.split(':', 1)[1]) + '.md')}")
+    lines.extend(["", "## Actions", ""])
+    for action_id, action in action_nodes:
+        lines.append(f"- {_md_link(action, '../actions/' + _slug(action_id.split(':', 1)[1]) + '.md')}")
+    return "\n".join(lines) + "\n"
+
+
+def _vault_dataset_note(dataset: dict[str, Any], run_file: str, feedback_rows: list[dict[str, Any]]) -> str:
+    related_feedback = [row for row in feedback_rows if row["datasetKey"] == dataset["datasetKey"]]
+    lines = [
+        _frontmatter(
+            {
+                "type": "dataset",
+                "datasetKey": dataset["datasetKey"],
+                "publisher": dataset.get("publisher"),
+                "license": dataset.get("license"),
+                "record_count": dataset.get("record_count"),
+            }
+        ),
+        f"# Dataset: {dataset['datasetKey']}",
+        "",
+        f"Current run: {_md_link('run', '../' + run_file)}",
+        "",
+        "## Contribution",
+        "",
+        f"- Records used: {dataset.get('record_count')}",
+        f"- License: {dataset.get('license') or 'unknown'}",
+        f"- Main issues: {dataset.get('main_issues') or 'none_detected'}",
+        "",
+        "## Publisher Feedback",
+        "",
+    ]
+    if related_feedback:
+        for row in related_feedback:
+            lines.append(f"- P{row.get('fix_priority')} {row.get('severity')}: {row['main_issue']} - {row['suggested_fix']}")
+    else:
+        lines.append("- No publisher feedback rows generated for this dataset.")
+    return "\n".join(lines) + "\n"
+
+
+def _vault_issue_note(issue: str, run_file: str, feedback_rows: list[dict[str, Any]]) -> str:
+    related = [row for row in feedback_rows if row["main_issue"] == issue]
+    lines = [
+        _frontmatter({"type": "issue", "issue": issue, "affected_datasets": len({row["datasetKey"] for row in related})}),
+        f"# Issue: {issue}",
+        "",
+        f"Current run: {_md_link('run', '../' + run_file)}",
+        "",
+        "## Affected Datasets",
+        "",
+    ]
+    for row in related:
+        lines.append(f"- {_md_link(row['datasetKey'], '../datasets/' + _slug(row['datasetKey']) + '.md')}: {row['records_affected']} records, {row.get('severity')} severity")
+    return "\n".join(lines) + "\n"
+
+
+def _vault_claim_note(status: str, claim: str, run_file: str) -> str:
+    return "\n".join(
+        [
+            _frontmatter({"type": "claim", "status": status}),
+            f"# Claim: {claim}",
+            "",
+            f"Status: **{status}**",
+            f"Current run: {_md_link('run', '../' + run_file)}",
+            "",
+            "This claim is stored as graph memory so future runs can reuse or challenge it.",
+        ]
+    ) + "\n"
+
+
+def _vault_action_note(action: str, run_file: str) -> str:
+    return "\n".join(
+        [
+            _frontmatter({"type": "action"}),
+            f"# Action: {action}",
+            "",
+            f"Current run: {_md_link('run', '../' + run_file)}",
+            "",
+            "Use this action as a review or follow-up task for the evidence workflow.",
+        ]
+    ) + "\n"
+
+
+def _vault_methods_note(pack: dict[str, Any]) -> str:
+    citation = pack["citation_autopilot"]
+    lines = [
+        _frontmatter({"type": "method", "topic": "gbif_citation_checklist"}),
+        "# GBIF Citation Checklist",
+        "",
+        citation["gbif_download_warning"],
+        "",
+        "## Checklist",
+        "",
+    ]
+    for item in citation["doi_completion_flow"]:
+        marker = "x" if item["ready"] else " "
+        lines.append(f"- [{marker}] {item['label']}: {item['action']}")
+    lines.extend(["", "## Methods Text", "", citation["methods_text"], "", "## Journal Methods Text", "", citation["journal_methods_text"]])
+    return "\n".join(lines) + "\n"
+
+
+def _vault_simple_note(
+    note_type: str,
+    title: str,
+    metadata: dict[str, Any],
+    links: list[tuple[str, str]],
+    body_lines: list[str],
+) -> str:
+    lines = [_frontmatter({"type": note_type, "title": title, **metadata}), f"# {title}", ""]
+    if links:
+        lines.extend(["## Links", ""])
+        for label, target in links:
+            lines.append(f"- {_md_link(label, target)}")
+        lines.append("")
+    lines.extend(["## Notes", ""])
+    lines.extend(f"- {line}" for line in body_lines if line)
+    return "\n".join(lines) + "\n"
+
+
+def _frontmatter(values: dict[str, Any]) -> str:
+    lines = ["---"]
+    for key, value in values.items():
+        lines.append(f"{key}: {json.dumps(value, ensure_ascii=False)}")
+    lines.append("---")
+    return "\n".join(lines)
+
+
+def _md_link(label: Any, target: str) -> str:
+    return f"[{str(label).replace('[', '(').replace(']', ')')}]({target})"
+
+
+def _slug(value: Any) -> str:
+    text = str(value or "unknown").strip().lower()
+    text = re.sub(r"[^a-z0-9а-яё]+", "-", text)
+    text = re.sub(r"-+", "-", text).strip("-")
+    return text or "unknown"

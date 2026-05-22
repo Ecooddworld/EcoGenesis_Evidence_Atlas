@@ -1,0 +1,35 @@
+{
+  "title": "GBIF Evidence Passport",
+  "taxon": "Lynx pardinus",
+  "region_name": "Iberian Peninsula live bbox",
+  "purpose": "dataset_quality_review",
+  "request": {
+    "taxon": "Lynx pardinus",
+    "taxon_key": 2435261,
+    "region_name": "Iberian Peninsula live bbox",
+    "bbox": [
+      -10.0,
+      35.0,
+      4.5,
+      44.5
+    ],
+    "purpose": "dataset_quality_review",
+    "source_mode": "online_with_empty_fallback",
+    "use_fixture": false,
+    "max_records": 300
+  },
+  "source_summary": {
+    "requested_source_mode": "online_with_empty_fallback",
+    "used_source_mode": "online",
+    "gbif_api_status": "ok",
+    "fallback_used": false,
+    "warnings": [],
+    "gbif_base_url": "https://api.gbif.org/v1",
+    "selected_taxon_key": 2435261,
+    "matched_taxon_key": 2435261,
+    "gbif_result_count": 1809,
+    "gbif_returned_records": 300,
+    "gbif_limit": 300,
+    "gbif_offset": 0
+  }
+}

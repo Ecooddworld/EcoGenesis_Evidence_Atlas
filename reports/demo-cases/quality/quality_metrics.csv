@@ -1,0 +1,13 @@
+metric,value
+total_records,300
+valid_coordinate_rate,1.0
+date_present_rate,1.0
+recent_record_rate,1.0
+taxon_key_rate,1.0
+dataset_key_rate,1.0
+license_rate,1.0
+high_uncertainty_rate,0.74
+missing_date_count,0
+high_uncertainty_count,222
+invalid_coordinate_count,0
+country_coordinate_mismatch_count,0

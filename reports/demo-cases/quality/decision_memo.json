@@ -1,0 +1,50 @@
+{
+  "verdict": "Usable for the selected decision with documented caveats",
+  "verdict_tone": "strong",
+  "review_time_seconds": 40,
+  "question": "Can GBIF-mediated occurrence evidence for Lynx pardinus in Iberian Peninsula live bbox support the purpose 'Dataset quality review'?",
+  "data_basis": "300 retained occurrence-style records, citation/provenance component 100.0/100, using live GBIF API records and bbox [-10.0, 35.0, 4.5, 44.5].",
+  "fitness_for_purpose": "The purpose-aware readiness score is 86.65/100. High readiness: evidence is strong for the selected purpose, with remaining caveats documented.",
+  "safe_claims": [
+    "GBIF-mediated records matching the selected taxon and region are present in the evidence pack.",
+    "Dataset provenance is preserved through datasetKey-level contribution summaries."
+  ],
+  "blocked_claims": [
+    "Absence cannot be inferred from empty or low-evidence grid cells.",
+    "Observed GBIF distribution must not be treated as the true species distribution.",
+    "Population trend cannot be inferred without temporal sampling-bias correction."
+  ],
+  "main_limitations": [
+    "222 records have coordinate uncertainty above 10 km.",
+    "1 occupied grid cell is under-sampled by the coverage proxy.",
+    "10 grid cells have no retained records; they are no-evidence cells, not absences.",
+    "No GBIF download DOI is attached to this evidence pack yet."
+  ],
+  "recommended_next_action": "Create a DOI-backed GBIF occurrence download or derived dataset before publication.",
+  "plain_language_summary": "The passport is a decision memo, not a species distribution model: it shows what the selected GBIF records can responsibly support, what they cannot support, which data issues matter, and what to cite or fix next.",
+  "user_value": [
+    "A non-expert can see the safe conclusion without reading raw GBIF tables.",
+    "A reviewer can audit datasetKey provenance, claims and methods from exported files.",
+    "A publisher can receive a prioritized issue list instead of vague data-quality feedback."
+  ],
+  "citation_gate": {
+    "publication_ready": false,
+    "status": "online_api_without_download_doi",
+    "message": "This evidence pack does not include a GBIF download DOI. For publication, create and cite a DOI-backed GBIF occurrence download or derived dataset. Fixture or fallback packs are demo artifacts, not publication evidence."
+  },
+  "source_gate": {
+    "used_source_mode": "online",
+    "fallback_used": false,
+    "warnings": []
+  },
+  "grid_gate": {
+    "no_evidence_cells": 10,
+    "survey_priority_cells": 12,
+    "under_sampled_occupied_cells": 1
+  },
+  "quality_gate": {
+    "high_uncertainty_count": 222,
+    "missing_date_count": 0,
+    "invalid_coordinate_count": 0
+  }
+}
