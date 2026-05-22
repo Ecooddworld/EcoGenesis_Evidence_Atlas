@@ -132,6 +132,16 @@ Outputs:
 6. Evidence Pack: download ZIP and open `decision_memo.md`, `citations.md`, `publisher_issue_templates.md` and `evidence_pack.json`.
 7. Close: GBIF data becomes not just discoverable, but decision-ready and feedback-ready.
 
+Prepared local assets:
+
+- `submission-assets/video/ecogenesis-evidence-atlas-demo.mp4`
+- `submission-assets/video/ecogenesis-evidence-atlas-demo.srt`
+- `submission-assets/screenshots/`
+- `submission-assets/gbif-entry-form-draft.md`
+- `submission-assets/final-submission-checklist.md`
+
+Before submitting, upload the MP4 to a public no-cost location and paste the public video URL into the official entry form.
+
 ## Remaining Publication Caveat
 
 The app preserves the citation path, but formal scientific or policy publication should still use a DOI-backed GBIF occurrence download or derived dataset where applicable. The Evidence Passport makes that requirement visible before users publish, rather than hiding it in a late-stage methods cleanup.

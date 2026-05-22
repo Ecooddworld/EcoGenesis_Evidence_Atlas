@@ -14,3 +14,4 @@ backend/data/*
 backend/app/__pycache__/
 backend/app/evidence/__pycache__/
 backend/tests/__pycache__/
+submission-assets/.video-tmp/

@@ -1,0 +1,17 @@
+EcoGenesis Evidence Atlas is a GBIF-first tool for turning occurrence records into a defensible decision memo.
+
+The problem is simple: a map of records does not tell a user what they can safely decide. Empty areas are often over-interpreted as absence, citations are easy to lose, and data publishers rarely receive actionable feedback from reuse.
+
+The first screen is the presentation mode for judges. It shows the live GBIF status, the current verdict, the evidence map, supported claims and blocked claims. The tool is intentionally minimal: two modes, live GBIF by default, and a clear empty fallback if GBIF is unavailable.
+
+In the workbench, the user searches a taxon through GBIF, selects the taxonKey, chooses a region or edits a bounding box, selects the decision purpose, and generates a live Evidence Passport.
+
+Here the example uses Aedes albopictus in Spain for invasive watch. The result is not just a map. It is a decision packet: readiness score, records used, datasets, no-evidence cells, survey priorities and high-uncertainty records.
+
+The decision memo answers what the data can support now, what is weak, and what must happen before publication or policy use. No-evidence cells are treated as survey targets, not absence observations.
+
+The map and claim guardrails make overclaiming visible. The tool blocks unsupported absence, true-distribution and population-trend claims unless the evidence and methods are strong enough.
+
+Finally, the Evidence Pack exports everything a reviewer or data manager needs: citations, source summary, records GeoJSON, quality tables, publisher issue templates, graph memory, validation summary and a machine-readable JSON pack.
+
+EcoGenesis changes the GBIF workflow from "where are the records?" to "what can this evidence safely support, what should be cited, and what should be fixed next?"

@@ -135,6 +135,8 @@ See `docs/gbif-data-use-and-citation.md`.
 
 For the contest narrative, demo path and operating instructions, see `docs/submission.md`.
 
+Prepared submission assets, including the local demo video, screenshots, entry-form draft and final checklist, live in `submission-assets/`.
+
 ## Testing
 
 ```bash
