@@ -137,6 +137,8 @@ For the contest narrative, demo path and operating instructions, see `docs/submi
 
 Prepared submission assets, including the local demo video, screenshots, entry-form draft and final checklist, live in `submission-assets/`.
 
+Russian explainer materials for internal review, including a full project plan, plain-language description, Russian video and PPTX/PDF presentation, live in `submission-assets/ru/`.
+
 ## Testing
 
 ```bash
