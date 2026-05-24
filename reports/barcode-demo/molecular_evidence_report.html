@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="data:," />
+  <title>Barcode-to-GBIF Evidence Compiler</title>
+  <style>
+    body { font-family: Inter, system-ui, sans-serif; margin: 32px; color: #17201a; }
+    h1 { max-width: 880px; }
+    .summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 24px 0; }
+    .card { border: 1px solid #d7e2dc; border-radius: 8px; padding: 14px; background: #f8fbf8; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border-bottom: 1px solid #d7e2dc; padding: 10px; text-align: left; vertical-align: top; }
+    th { background: #eef5ef; }
+  </style>
+</head>
+<body>
+  <p><strong>EcoGenesis</strong> / GBIF Ebbe Nielsen Challenge 2026</p>
+  <h1>Aedes COI batch: safe, ambiguous, weak and metadata cases</h1>
+  <p>At least one sequence is species-safe and GBIF-ready under the frozen molecular evidence gates.</p>
+  <section class="summary">
+    <div class="card"><strong>4</strong><br />processed</div>
+    <div class="card"><strong>1</strong><br />species-safe</div>
+    <div class="card"><strong>3</strong><br />blocked species claims</div>
+    <div class="card"><strong>1.0</strong><br />repair explainability</div>
+  </section>
+  <h2>Sequence decisions</h2>
+  <table>
+    <thead><tr><th>Sequence</th><th>Decision</th><th>Safe taxon</th><th>Rank</th><th>Blockers</th></tr></thead>
+    <tbody><tr><td>AALB-COI-good</td><td>species-safe</td><td>Aedes albopictus</td><td>species</td><td>none</td></tr>
+<tr><td>AALB-COI-ambiguous</td><td>genus-safe</td><td>Aedes</td><td>genus</td><td>species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus</td></tr>
+<tr><td>AALB-COI-short</td><td>weak</td><td>Aedes albopictus</td><td>species</td><td>species claim blocked: top hit does not pass exact match gate identity &gt;= 99% and query coverage &gt;= 80%; species claim blocked: query coverage &lt; 80%</td></tr>
+<tr><td>AALB-COI-metadata-gap</td><td>not-publishable</td><td>Aedes albopictus</td><td>species</td><td>publication blocked: missing required Occurrence core field occurrenceID; publication blocked: missing required Occurrence core field eventDate</td></tr></tbody>
+  </table>
+</body>
+</html>

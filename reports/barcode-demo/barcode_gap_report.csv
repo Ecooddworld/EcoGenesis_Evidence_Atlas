@@ -1,0 +1,5 @@
+sequenceID,status,intraMaxDistance,interMinDistance,barcodeGap
+AALB-COI-good,pass,0.009,0.018,0.009
+AALB-COI-ambiguous,pass,0.009,0.018,0.009
+AALB-COI-short,pass,0.009,0.018,0.009
+AALB-COI-metadata-gap,pass,0.009,0.018,0.009

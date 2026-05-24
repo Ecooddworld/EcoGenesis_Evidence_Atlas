@@ -1,0 +1,5 @@
+sequenceID,decisionClass,taxonomicStatus,publicationStatus,safeTaxon,safeRank,matchType,topHit,identity,queryCoverage,barcodeGap,diagnosticKmerSupport,blockers
+AALB-COI-good,species-safe,species-safe,gbif-ready,Aedes albopictus,species,exact,Aedes albopictus,99.6,96.0,0.009,3,
+AALB-COI-ambiguous,genus-safe,genus-safe,gbif-ready,Aedes,genus,exact,Aedes albopictus,99.4,96.0,0.009,3,species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus
+AALB-COI-short,weak,weak,not-ready,Aedes albopictus,species,weak,Aedes albopictus,99.5,72.0,0.009,3,species claim blocked: top hit does not pass exact match gate identity >= 99% and query coverage >= 80%; species claim blocked: query coverage < 80%
+AALB-COI-metadata-gap,not-publishable,species-safe,not-ready,Aedes albopictus,species,exact,Aedes albopictus,99.6,96.0,0.009,3,publication blocked: missing required Occurrence core field occurrenceID; publication blocked: missing required Occurrence core field eventDate

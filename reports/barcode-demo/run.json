@@ -1,0 +1,27 @@
+{
+  "run_id": "7c69b698e8f54cb5b95717c6bea1e3b0",
+  "started_at": "2026-05-24T17:55:13.853820+00:00",
+  "finished_at": "2026-05-24T17:55:13.854685+00:00",
+  "tool": "Barcode-to-GBIF Evidence Compiler",
+  "ruleset_version": "barcode-gbif-compiler-v1",
+  "request_fingerprint": "c23fd2da7912c6983bcd663323a7fbf2884c29a313af9bb85bc47830c863e6b3",
+  "artifact_checksums": {
+    "ambiguous_sequences.csv": "2b2dbce912471ee5d7c6afa3490c5412c5bc4dbe72ec2c2164a26b1ba6550d09",
+    "barcode_gap_report.csv": "79f151decd9d704c17228a1d0f80a16c1cb7b92527e07aa7a5863c030958fdf8",
+    "citations.md": "b57b5c71eeea6f138a14d57495e298cb379fabb25053b310245b8b306905fd3a",
+    "diagnostic_kmer_report.csv": "ca4297d5d00165a34a1056b6f94bb959169b1855f4c6a5949a56d7507f332ff7",
+    "dna_derived_extension_template.csv": "1af050ca9c5a667e8d0da130e93ca6b4730b38404cb91ea6c197b4107daaa284",
+    "dwc_occurrence_core_template.csv": "9d9a3a301a50c96b5502c60f1bfefcdcac7a3873effdc8a8e5a6ae3a5b16ce0a",
+    "evidence_graph.json": "a3e825c77c218c3277d183ea4650c08bd8bd9151117419f0d377f1dd7727065d",
+    "evidence_pack.json": "b7ebbecb71ca4f839298ab43ebc1685c63098766a6958a390e81eed6051ac5cc",
+    "evidence_pack.zip": "0c1dcc855111ba4fbe744a780920dd5c2d1f67618395ec13b780b96e5fdc4881",
+    "gbif_backbone_matches.csv": "0f4bd2c8ee811bdbf078bf5560f430fed589b99a21bde1e08a6cfacc0a53e405",
+    "methods_text.md": "0fdeb7fe066d97661fc2754cef2d151b8419bde98ae50d74fd0c2f21393e490a",
+    "molecular_evidence_report.html": "1806ca8707f731d575590c5181196877ee5f223fae43d8c23823b978cc54b712",
+    "proof_by_failure_modes.md": "f5dccc2a2b2dd21ec34d518e733b5228392416d2e88388e09c23ce25b60d9211",
+    "publication_blockers.csv": "020240f72b9d02b64f438aef7a8f6813d7f63c5241bd42a1140fffe1405e76e6",
+    "run.json": "73daa863f96ffe34f6288f7ec8485a40c95bc7302342b8f43c3fa40ce81f9b17",
+    "safe_taxonomic_assignments.csv": "b705bf4352a6fda01dbcddda7e3b724863b4f1b57b92b24710e1bc0372843ebd",
+    "sequence_safety_table.csv": "3fe3cfd83ad5b704590db111a4c8d8e1702c2992c47a695711134886d6b3f5a3"
+  }
+}

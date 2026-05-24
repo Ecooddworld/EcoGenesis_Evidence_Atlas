@@ -1,0 +1,7 @@
+sequenceID,taxon,rank,gbifTaxonKey,identity,queryCoverage,referenceDatabase,referenceID
+AALB-COI-good,Aedes albopictus,species,1651430,99.6,96.0,COI Animals / BOLD public clustered reference,BOLD:Aedes_albopictus
+AALB-COI-good,Aedes aegypti,species,1651431,98.2,95.0,COI Animals / BOLD public clustered reference,BOLD:Aedes_aegypti
+AALB-COI-ambiguous,Aedes albopictus,species,1651430,99.4,96.0,COI Animals / BOLD public clustered reference,BOLD:Aedes_albopictus
+AALB-COI-ambiguous,Aedes aegypti,species,1651431,99.3,96.0,COI Animals / BOLD public clustered reference,BOLD:Aedes_aegypti
+AALB-COI-short,Aedes albopictus,species,1651430,99.5,72.0,COI Animals / BOLD public clustered reference,BOLD:Aedes_albopictus
+AALB-COI-metadata-gap,Aedes albopictus,species,1651430,99.6,96.0,COI Animals / BOLD public clustered reference,BOLD:Aedes_albopictus

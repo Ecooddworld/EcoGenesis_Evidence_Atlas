@@ -1,0 +1,2 @@
+sequenceID,taxonomicStatus,decisionClass,safeTaxon,safeRank,indistinguishableHits,blockers
+AALB-COI-ambiguous,genus-safe,genus-safe,Aedes,genus,Aedes albopictus; Aedes aegypti,species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus

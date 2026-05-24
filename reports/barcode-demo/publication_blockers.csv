@@ -1,0 +1,6 @@
+sequenceID,blocker
+AALB-COI-ambiguous,species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus
+AALB-COI-short,species claim blocked: top hit does not pass exact match gate identity >= 99% and query coverage >= 80%
+AALB-COI-short,species claim blocked: query coverage < 80%
+AALB-COI-metadata-gap,publication blocked: missing required Occurrence core field occurrenceID
+AALB-COI-metadata-gap,publication blocked: missing required Occurrence core field eventDate

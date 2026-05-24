@@ -1,2 +1,1 @@
-"""EcoGenesis Evidence Atlas backend."""
-
+"""EcoGenesis Barcode-to-GBIF Evidence Compiler backend."""
