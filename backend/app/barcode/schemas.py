@@ -1,0 +1,86 @@
+from __future__ import annotations
+
+from typing import Any, Literal
+
+from pydantic import BaseModel, Field, field_validator
+
+
+Rank = Literal[
+    "kingdom",
+    "phylum",
+    "class",
+    "order",
+    "family",
+    "genus",
+    "species",
+    "none",
+    "unranked",
+]
+
+
+class TaxonLineageItem(BaseModel):
+    rank: Rank | str
+    name: str = Field(min_length=1)
+    taxon_key: int | None = Field(default=None, ge=1)
+
+
+class ReferenceHit(BaseModel):
+    taxon: str = Field(min_length=1)
+    rank: Rank | str = "species"
+    identity: float = Field(ge=0, le=100, description="Percent identity, e.g. 99.6")
+    query_coverage: float = Field(ge=0, le=100, description="Percent query coverage, e.g. 96")
+    aligned_length: int | None = Field(default=None, ge=1)
+    bit_score: float | None = None
+    evalue: float | None = None
+    reference_id: str | None = None
+    reference_database: str | None = None
+    gbif_taxon_key: int | None = Field(default=None, ge=1)
+    lineage: list[TaxonLineageItem] = Field(default_factory=list)
+
+
+class BarcodeGapEvidence(BaseModel):
+    intra_max_distance: float | None = Field(default=None, ge=0, le=1)
+    inter_min_distance: float | None = Field(default=None, ge=0, le=1)
+
+
+class DiagnosticKmerEvidence(BaseModel):
+    diagnostic_kmers: list[str] = Field(default_factory=list)
+    reference_total_windows: int | None = Field(default=None, ge=1)
+    epsilon: float = Field(default=0.01, gt=0, lt=1)
+    k: int | None = Field(default=None, ge=1, le=64)
+
+
+class SequenceRecord(BaseModel):
+    sequence_id: str = Field(min_length=1)
+    sequence: str = Field(min_length=1)
+    metadata: dict[str, Any] = Field(default_factory=dict)
+    hits: list[ReferenceHit] = Field(default_factory=list)
+    barcode_gap: BarcodeGapEvidence | None = None
+    diagnostic: DiagnosticKmerEvidence | None = None
+
+    @field_validator("sequence")
+    @classmethod
+    def normalize_sequence(cls, value: str) -> str:
+        compact = "".join(value.split()).upper()
+        if not compact:
+            raise ValueError("sequence cannot be empty")
+        invalid = sorted(set(compact) - set("ACGTRYSWKMBDHVN-"))
+        if invalid:
+            raise ValueError(f"sequence contains unsupported characters: {''.join(invalid)}")
+        return compact.replace("-", "")
+
+
+class BarcodeCompilerRequest(BaseModel):
+    project_title: str = Field(default="Aedes albopictus COI publication check", min_length=2)
+    marker: str = Field(default="COI-5P", min_length=2)
+    reference_database: str = Field(default="COI Animals / BOLD public clustered reference", min_length=2)
+    method_or_sop: str = Field(default="GBIF Sequence ID-compatible BLAST workflow with deterministic rank gates", min_length=2)
+    ruleset_version: str = Field(default="barcode-gbif-compiler-v1")
+    records: list[SequenceRecord] = Field(min_length=1)
+
+
+class BarcodeCompilerCreated(BaseModel):
+    run_id: str
+    status: str
+    summary: dict[str, Any]
+    exports: list[dict[str, Any]]

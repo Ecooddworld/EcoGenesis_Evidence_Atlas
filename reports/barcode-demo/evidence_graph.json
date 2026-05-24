@@ -1,0 +1,211 @@
+{
+  "nodes": [
+    {
+      "id": "run:7c69b698e8f54cb5b95717c6bea1e3b0",
+      "type": "run",
+      "label": "Aedes COI batch: safe, ambiguous, weak and metadata cases"
+    },
+    {
+      "id": "sequence:AALB-COI-good",
+      "type": "sequence",
+      "label": "AALB-COI-good",
+      "md5": "5695d927022faccbcccb799d5f7b228b"
+    },
+    {
+      "id": "assignment:AALB-COI-good",
+      "type": "assignment",
+      "label": "species-safe"
+    },
+    {
+      "id": "taxon:species:Aedes albopictus",
+      "type": "taxon",
+      "label": "Aedes albopictus",
+      "rank": "species"
+    },
+    {
+      "id": "hit:AALB-COI-good:BOLD:Aedes_albopictus",
+      "type": "hit",
+      "label": "Aedes albopictus",
+      "identity": 99.6,
+      "coverage": 96.0
+    },
+    {
+      "id": "hit:AALB-COI-good:BOLD:Aedes_aegypti",
+      "type": "hit",
+      "label": "Aedes aegypti",
+      "identity": 98.2,
+      "coverage": 95.0
+    },
+    {
+      "id": "sequence:AALB-COI-ambiguous",
+      "type": "sequence",
+      "label": "AALB-COI-ambiguous",
+      "md5": "5695d927022faccbcccb799d5f7b228b"
+    },
+    {
+      "id": "assignment:AALB-COI-ambiguous",
+      "type": "assignment",
+      "label": "genus-safe"
+    },
+    {
+      "id": "taxon:genus:Aedes",
+      "type": "taxon",
+      "label": "Aedes",
+      "rank": "genus"
+    },
+    {
+      "id": "hit:AALB-COI-ambiguous:BOLD:Aedes_albopictus",
+      "type": "hit",
+      "label": "Aedes albopictus",
+      "identity": 99.4,
+      "coverage": 96.0
+    },
+    {
+      "id": "hit:AALB-COI-ambiguous:BOLD:Aedes_aegypti",
+      "type": "hit",
+      "label": "Aedes aegypti",
+      "identity": 99.3,
+      "coverage": 96.0
+    },
+    {
+      "id": "sequence:AALB-COI-short",
+      "type": "sequence",
+      "label": "AALB-COI-short",
+      "md5": "5695d927022faccbcccb799d5f7b228b"
+    },
+    {
+      "id": "assignment:AALB-COI-short",
+      "type": "assignment",
+      "label": "weak"
+    },
+    {
+      "id": "taxon:species:Aedes albopictus",
+      "type": "taxon",
+      "label": "Aedes albopictus",
+      "rank": "species"
+    },
+    {
+      "id": "hit:AALB-COI-short:BOLD:Aedes_albopictus",
+      "type": "hit",
+      "label": "Aedes albopictus",
+      "identity": 99.5,
+      "coverage": 72.0
+    },
+    {
+      "id": "sequence:AALB-COI-metadata-gap",
+      "type": "sequence",
+      "label": "AALB-COI-metadata-gap",
+      "md5": "5695d927022faccbcccb799d5f7b228b"
+    },
+    {
+      "id": "assignment:AALB-COI-metadata-gap",
+      "type": "assignment",
+      "label": "not-publishable"
+    },
+    {
+      "id": "taxon:species:Aedes albopictus",
+      "type": "taxon",
+      "label": "Aedes albopictus",
+      "rank": "species"
+    },
+    {
+      "id": "hit:AALB-COI-metadata-gap:BOLD:Aedes_albopictus",
+      "type": "hit",
+      "label": "Aedes albopictus",
+      "identity": 99.6,
+      "coverage": 96.0
+    }
+  ],
+  "edges": [
+    {
+      "source": "run:7c69b698e8f54cb5b95717c6bea1e3b0",
+      "target": "sequence:AALB-COI-good",
+      "type": "contains_sequence"
+    },
+    {
+      "source": "sequence:AALB-COI-good",
+      "target": "assignment:AALB-COI-good",
+      "type": "receives_assignment"
+    },
+    {
+      "source": "assignment:AALB-COI-good",
+      "target": "taxon:species:Aedes albopictus",
+      "type": "safe_taxon"
+    },
+    {
+      "source": "sequence:AALB-COI-good",
+      "target": "hit:AALB-COI-good:BOLD:Aedes_albopictus",
+      "type": "matches_reference"
+    },
+    {
+      "source": "sequence:AALB-COI-good",
+      "target": "hit:AALB-COI-good:BOLD:Aedes_aegypti",
+      "type": "matches_reference"
+    },
+    {
+      "source": "run:7c69b698e8f54cb5b95717c6bea1e3b0",
+      "target": "sequence:AALB-COI-ambiguous",
+      "type": "contains_sequence"
+    },
+    {
+      "source": "sequence:AALB-COI-ambiguous",
+      "target": "assignment:AALB-COI-ambiguous",
+      "type": "receives_assignment"
+    },
+    {
+      "source": "assignment:AALB-COI-ambiguous",
+      "target": "taxon:genus:Aedes",
+      "type": "safe_taxon"
+    },
+    {
+      "source": "sequence:AALB-COI-ambiguous",
+      "target": "hit:AALB-COI-ambiguous:BOLD:Aedes_albopictus",
+      "type": "matches_reference"
+    },
+    {
+      "source": "sequence:AALB-COI-ambiguous",
+      "target": "hit:AALB-COI-ambiguous:BOLD:Aedes_aegypti",
+      "type": "matches_reference"
+    },
+    {
+      "source": "run:7c69b698e8f54cb5b95717c6bea1e3b0",
+      "target": "sequence:AALB-COI-short",
+      "type": "contains_sequence"
+    },
+    {
+      "source": "sequence:AALB-COI-short",
+      "target": "assignment:AALB-COI-short",
+      "type": "receives_assignment"
+    },
+    {
+      "source": "assignment:AALB-COI-short",
+      "target": "taxon:species:Aedes albopictus",
+      "type": "safe_taxon"
+    },
+    {
+      "source": "sequence:AALB-COI-short",
+      "target": "hit:AALB-COI-short:BOLD:Aedes_albopictus",
+      "type": "matches_reference"
+    },
+    {
+      "source": "run:7c69b698e8f54cb5b95717c6bea1e3b0",
+      "target": "sequence:AALB-COI-metadata-gap",
+      "type": "contains_sequence"
+    },
+    {
+      "source": "sequence:AALB-COI-metadata-gap",
+      "target": "assignment:AALB-COI-metadata-gap",
+      "type": "receives_assignment"
+    },
+    {
+      "source": "assignment:AALB-COI-metadata-gap",
+      "target": "taxon:species:Aedes albopictus",
+      "type": "safe_taxon"
+    },
+    {
+      "source": "sequence:AALB-COI-metadata-gap",
+      "target": "hit:AALB-COI-metadata-gap:BOLD:Aedes_albopictus",
+      "type": "matches_reference"
+    }
+  ]
+}

@@ -1,8 +1,23 @@
 # GBIF Data Use and Citation
 
-EcoGenesis Evidence Atlas helps users preserve the information needed for responsible GBIF data use.
+Barcode-to-GBIF Evidence Compiler helps users preserve the information needed for responsible GBIF-aligned molecular evidence publication. The legacy occurrence Atlas citation flow is preserved on the archive branch and in `/api/evidence/*`, but the current `main` submission focuses on barcode/metabarcoding evidence.
 
-## What the Tool Preserves
+## What The Current Compiler Preserves
+
+- `sequenceID`
+- sequence MD5
+- marker and reference database
+- identity and query coverage
+- GBIF taxon keys when supplied by reference hits
+- accepted safe rank and decision class
+- barcode gap evidence
+- diagnostic k-mer support
+- Occurrence core publication blockers
+- DNA-derived metadata blockers
+- Darwin Core and DNA-derived export templates
+- evidence graph links between run, sequence, hits, assignments and artifacts
+
+## Legacy Occurrence Atlas Preserves
 
 - `datasetKey`
 - record counts per dataset

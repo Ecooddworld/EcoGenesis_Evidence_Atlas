@@ -1,0 +1,1802 @@
+{
+  "run": {
+    "run_id": "7c69b698e8f54cb5b95717c6bea1e3b0",
+    "started_at": "2026-05-24T17:55:13.853820+00:00",
+    "finished_at": "2026-05-24T17:55:13.854685+00:00",
+    "tool": "Barcode-to-GBIF Evidence Compiler",
+    "ruleset_version": "barcode-gbif-compiler-v1",
+    "request_fingerprint": "c23fd2da7912c6983bcd663323a7fbf2884c29a313af9bb85bc47830c863e6b3",
+    "artifact_checksums": {
+      "ambiguous_sequences.csv": "2b2dbce912471ee5d7c6afa3490c5412c5bc4dbe72ec2c2164a26b1ba6550d09",
+      "barcode_gap_report.csv": "79f151decd9d704c17228a1d0f80a16c1cb7b92527e07aa7a5863c030958fdf8",
+      "citations.md": "b57b5c71eeea6f138a14d57495e298cb379fabb25053b310245b8b306905fd3a",
+      "diagnostic_kmer_report.csv": "ca4297d5d00165a34a1056b6f94bb959169b1855f4c6a5949a56d7507f332ff7",
+      "dna_derived_extension_template.csv": "1af050ca9c5a667e8d0da130e93ca6b4730b38404cb91ea6c197b4107daaa284",
+      "dwc_occurrence_core_template.csv": "9d9a3a301a50c96b5502c60f1bfefcdcac7a3873effdc8a8e5a6ae3a5b16ce0a",
+      "evidence_graph.json": "a3e825c77c218c3277d183ea4650c08bd8bd9151117419f0d377f1dd7727065d",
+      "evidence_pack.json": "b7ebbecb71ca4f839298ab43ebc1685c63098766a6958a390e81eed6051ac5cc",
+      "evidence_pack.zip": "0c1dcc855111ba4fbe744a780920dd5c2d1f67618395ec13b780b96e5fdc4881",
+      "gbif_backbone_matches.csv": "0f4bd2c8ee811bdbf078bf5560f430fed589b99a21bde1e08a6cfacc0a53e405",
+      "methods_text.md": "0fdeb7fe066d97661fc2754cef2d151b8419bde98ae50d74fd0c2f21393e490a",
+      "molecular_evidence_report.html": "1806ca8707f731d575590c5181196877ee5f223fae43d8c23823b978cc54b712",
+      "proof_by_failure_modes.md": "f5dccc2a2b2dd21ec34d518e733b5228392416d2e88388e09c23ce25b60d9211",
+      "publication_blockers.csv": "020240f72b9d02b64f438aef7a8f6813d7f63c5241bd42a1140fffe1405e76e6",
+      "run.json": "73daa863f96ffe34f6288f7ec8485a40c95bc7302342b8f43c3fa40ce81f9b17",
+      "safe_taxonomic_assignments.csv": "b705bf4352a6fda01dbcddda7e3b724863b4f1b57b92b24710e1bc0372843ebd",
+      "sequence_safety_table.csv": "3fe3cfd83ad5b704590db111a4c8d8e1702c2992c47a695711134886d6b3f5a3"
+    }
+  },
+  "summary": {
+    "title": "Barcode-to-GBIF Evidence Compiler",
+    "project_title": "Aedes COI batch: safe, ambiguous, weak and metadata cases",
+    "marker": "COI-5P",
+    "reference_database": "COI Animals / BOLD public clustered reference",
+    "method_or_sop": "GBIF Sequence ID-compatible BLAST workflow with deterministic rank gates",
+    "processed_records": 4,
+    "species_safe_records": 1,
+    "genus_safe_records": 1,
+    "not_publishable_records": 1,
+    "blocked_species_claims": 3,
+    "verdict": "At least one sequence is species-safe and GBIF-ready under the frozen molecular evidence gates."
+  },
+  "decision_rules": {
+    "exact_match": "identity >= 99% and queryCoverage >= 80%",
+    "close_match": "90% < identity < 99% and queryCoverage >= 80%",
+    "weak_match": "identity < 90% or queryCoverage < 80%",
+    "ambiguity_test": "competitor is indistinguishable when delta mismatch rate <= 1.96 * combined standard error",
+    "safe_rank": "lowest common ancestor of statistically indistinguishable hits",
+    "barcode_gap": "species gate requires inter_min_distance - intra_max_distance > 0",
+    "diagnostic_kmers": "species gate requires at least one query k-mer unique to the target taxon in the reference set",
+    "publication_readiness": {
+      "occurrence_core_required": [
+        "occurrenceID",
+        "basisOfRecord",
+        "scientificName",
+        "eventDate"
+      ],
+      "dna_required": [
+        "marker",
+        "sequenceID",
+        "referenceDatabase",
+        "identity",
+        "queryCoverage",
+        "methodOrSOP"
+      ]
+    }
+  },
+  "metrics": {
+    "processed_records": 4,
+    "processing_coverage": 1,
+    "species_safe_records": 1,
+    "genus_safe_records": 1,
+    "higher_rank_safe_records": 0,
+    "ambiguous_records": 0,
+    "weak_records": 1,
+    "no_match_records": 0,
+    "not_publishable_records": 1,
+    "species_safe_yield": 0.25,
+    "blocked_species_claims": 3,
+    "overclaim_prevention_proxy": 1,
+    "publication_repair_efficiency": 1.0
+  },
+  "records": [
+    {
+      "sequence_id": "AALB-COI-good",
+      "sequence_md5": "5695d927022faccbcccb799d5f7b228b",
+      "sequence_length": 622,
+      "decision_class": "species-safe",
+      "taxonomic_status": "species-safe",
+      "publication_status": "gbif-ready",
+      "match_type": "exact",
+      "safe_taxon": {
+        "rank": "species",
+        "name": "Aedes albopictus",
+        "taxon_key": 1651430
+      },
+      "top_hit": {
+        "taxon": "Aedes albopictus",
+        "rank": "species",
+        "identity": 99.6,
+        "query_coverage": 96.0,
+        "aligned_length": 658,
+        "bit_score": 9561.599999999999,
+        "evalue": 1e-120,
+        "reference_id": "BOLD:Aedes_albopictus",
+        "reference_database": "COI Animals / BOLD public clustered reference",
+        "gbif_taxon_key": 1651430,
+        "lineage": [
+          {
+            "rank": "kingdom",
+            "name": "Animalia",
+            "taxon_key": null
+          },
+          {
+            "rank": "phylum",
+            "name": "Arthropoda",
+            "taxon_key": null
+          },
+          {
+            "rank": "class",
+            "name": "Insecta",
+            "taxon_key": null
+          },
+          {
+            "rank": "order",
+            "name": "Diptera",
+            "taxon_key": null
+          },
+          {
+            "rank": "family",
+            "name": "Culicidae",
+            "taxon_key": null
+          },
+          {
+            "rank": "genus",
+            "name": "Aedes",
+            "taxon_key": null
+          },
+          {
+            "rank": "species",
+            "name": "Aedes albopictus",
+            "taxon_key": 1651430
+          }
+        ]
+      },
+      "indistinguishable_hits": [
+        {
+          "taxon": "Aedes albopictus",
+          "rank": "species",
+          "identity": 99.6,
+          "query_coverage": 96.0,
+          "aligned_length": 658,
+          "bit_score": 9561.599999999999,
+          "evalue": 1e-120,
+          "reference_id": "BOLD:Aedes_albopictus",
+          "reference_database": "COI Animals / BOLD public clustered reference",
+          "gbif_taxon_key": 1651430,
+          "lineage": [
+            {
+              "rank": "kingdom",
+              "name": "Animalia",
+              "taxon_key": null
+            },
+            {
+              "rank": "phylum",
+              "name": "Arthropoda",
+              "taxon_key": null
+            },
+            {
+              "rank": "class",
+              "name": "Insecta",
+              "taxon_key": null
+            },
+            {
+              "rank": "order",
+              "name": "Diptera",
+              "taxon_key": null
+            },
+            {
+              "rank": "family",
+              "name": "Culicidae",
+              "taxon_key": null
+            },
+            {
+              "rank": "genus",
+              "name": "Aedes",
+              "taxon_key": null
+            },
+            {
+              "rank": "species",
+              "name": "Aedes albopictus",
+              "taxon_key": 1651430
+            }
+          ]
+        }
+      ],
+      "barcode_gap": {
+        "status": "pass",
+        "gap": 0.009,
+        "intra_max_distance": 0.009,
+        "inter_min_distance": 0.018
+      },
+      "diagnostic_kmers": {
+        "status": "pass",
+        "support_count": 3,
+        "support_rate": 0.02069,
+        "k": 15,
+        "query_window_count": 145,
+        "diagnostic_kmer_count": 3,
+        "expected_random_hits": 0.0
+      },
+      "metadata_readiness": {
+        "core_pass": true,
+        "dna_pass": true,
+        "core_missing": [],
+        "dna_missing": []
+      },
+      "blockers": [],
+      "actions": [],
+      "metadata": {
+        "occurrenceID": "urn:ecogenesis:demo:AALB-COI-good",
+        "basisOfRecord": "MaterialSample",
+        "scientificName": "Aedes albopictus",
+        "eventDate": "2026-04-18",
+        "countryCode": "ES",
+        "decimalLatitude": 40.4168,
+        "decimalLongitude": -3.7038,
+        "geodeticDatum": "WGS84",
+        "coordinateUncertaintyInMeters": 50,
+        "methodOrSOP": "GBIF Sequence ID-compatible COI BLAST workflow; ruleset barcode-gbif-compiler-v1",
+        "marker": "COI-5P",
+        "sequenceID": "AALB-COI-good",
+        "referenceDatabase": "COI Animals / BOLD public clustered reference",
+        "identity": 99.6,
+        "queryCoverage": 96.0
+      },
+      "hits": [
+        {
+          "taxon": "Aedes albopictus",
+          "rank": "species",
+          "identity": 99.6,
+          "query_coverage": 96.0,
+          "aligned_length": 658,
+          "bit_score": 9561.599999999999,
+          "evalue": 1e-120,
+          "reference_id": "BOLD:Aedes_albopictus",
+          "reference_database": "COI Animals / BOLD public clustered reference",
+          "gbif_taxon_key": 1651430,
+          "lineage": [
+            {
+              "rank": "kingdom",
+              "name": "Animalia",
+              "taxon_key": null
+            },
+            {
+              "rank": "phylum",
+              "name": "Arthropoda",
+              "taxon_key": null
+            },
+            {
+              "rank": "class",
+              "name": "Insecta",
+              "taxon_key": null
+            },
+            {
+              "rank": "order",
+              "name": "Diptera",
+              "taxon_key": null
+            },
+            {
+              "rank": "family",
+              "name": "Culicidae",
+              "taxon_key": null
+            },
+            {
+              "rank": "genus",
+              "name": "Aedes",
+              "taxon_key": null
+            },
+            {
+              "rank": "species",
+              "name": "Aedes albopictus",
+              "taxon_key": 1651430
+            }
+          ]
+        },
+        {
+          "taxon": "Aedes aegypti",
+          "rank": "species",
+          "identity": 98.2,
+          "query_coverage": 95.0,
+          "aligned_length": 658,
+          "bit_score": 9329.0,
+          "evalue": 1e-120,
+          "reference_id": "BOLD:Aedes_aegypti",
+          "reference_database": "COI Animals / BOLD public clustered reference",
+          "gbif_taxon_key": 1651431,
+          "lineage": [
+            {
+              "rank": "kingdom",
+              "name": "Animalia",
+              "taxon_key": null
+            },
+            {
+              "rank": "phylum",
+              "name": "Arthropoda",
+              "taxon_key": null
+            },
+            {
+              "rank": "class",
+              "name": "Insecta",
+              "taxon_key": null
+            },
+            {
+              "rank": "order",
+              "name": "Diptera",
+              "taxon_key": null
+            },
+            {
+              "rank": "family",
+              "name": "Culicidae",
+              "taxon_key": null
+            },
+            {
+              "rank": "genus",
+              "name": "Aedes",
+              "taxon_key": null
+            },
+            {
+              "rank": "species",
+              "name": "Aedes aegypti",
+              "taxon_key": 1651431
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sequence_id": "AALB-COI-ambiguous",
+      "sequence_md5": "5695d927022faccbcccb799d5f7b228b",
+      "sequence_length": 622,
+      "decision_class": "genus-safe",
+      "taxonomic_status": "genus-safe",
+      "publication_status": "gbif-ready",
+      "match_type": "exact",
+      "safe_taxon": {
+        "rank": "genus",
+        "name": "Aedes",
+        "taxon_key": null
+      },
+      "top_hit": {
+        "taxon": "Aedes albopictus",
+        "rank": "species",
+        "identity": 99.4,
+        "query_coverage": 96.0,
+        "aligned_length": 658,
+        "bit_score": 9542.400000000001,
+        "evalue": 1e-120,
+        "reference_id": "BOLD:Aedes_albopictus",
+        "reference_database": "COI Animals / BOLD public clustered reference",
+        "gbif_taxon_key": 1651430,
+        "lineage": [
+          {
+            "rank": "kingdom",
+            "name": "Animalia",
+            "taxon_key": null
+          },
+          {
+            "rank": "phylum",
+            "name": "Arthropoda",
+            "taxon_key": null
+          },
+          {
+            "rank": "class",
+            "name": "Insecta",
+            "taxon_key": null
+          },
+          {
+            "rank": "order",
+            "name": "Diptera",
+            "taxon_key": null
+          },
+          {
+            "rank": "family",
+            "name": "Culicidae",
+            "taxon_key": null
+          },
+          {
+            "rank": "genus",
+            "name": "Aedes",
+            "taxon_key": null
+          },
+          {
+            "rank": "species",
+            "name": "Aedes albopictus",
+            "taxon_key": 1651430
+          }
+        ]
+      },
+      "indistinguishable_hits": [
+        {
+          "taxon": "Aedes albopictus",
+          "rank": "species",
+          "identity": 99.4,
+          "query_coverage": 96.0,
+          "aligned_length": 658,
+          "bit_score": 9542.400000000001,
+          "evalue": 1e-120,
+          "reference_id": "BOLD:Aedes_albopictus",
+          "reference_database": "COI Animals / BOLD public clustered reference",
+          "gbif_taxon_key": 1651430,
+          "lineage": [
+            {
+              "rank": "kingdom",
+              "name": "Animalia",
+              "taxon_key": null
+            },
+            {
+              "rank": "phylum",
+              "name": "Arthropoda",
+              "taxon_key": null
+            },
+            {
+              "rank": "class",
+              "name": "Insecta",
+              "taxon_key": null
+            },
+            {
+              "rank": "order",
+              "name": "Diptera",
+              "taxon_key": null
+            },
+            {
+              "rank": "family",
+              "name": "Culicidae",
+              "taxon_key": null
+            },
+            {
+              "rank": "genus",
+              "name": "Aedes",
+              "taxon_key": null
+            },
+            {
+              "rank": "species",
+              "name": "Aedes albopictus",
+              "taxon_key": 1651430
+            }
+          ]
+        },
+        {
+          "taxon": "Aedes aegypti",
+          "rank": "species",
+          "identity": 99.3,
+          "query_coverage": 96.0,
+          "aligned_length": 658,
+          "bit_score": 9532.8,
+          "evalue": 1e-120,
+          "reference_id": "BOLD:Aedes_aegypti",
+          "reference_database": "COI Animals / BOLD public clustered reference",
+          "gbif_taxon_key": 1651431,
+          "lineage": [
+            {
+              "rank": "kingdom",
+              "name": "Animalia",
+              "taxon_key": null
+            },
+            {
+              "rank": "phylum",
+              "name": "Arthropoda",
+              "taxon_key": null
+            },
+            {
+              "rank": "class",
+              "name": "Insecta",
+              "taxon_key": null
+            },
+            {
+              "rank": "order",
+              "name": "Diptera",
+              "taxon_key": null
+            },
+            {
+              "rank": "family",
+              "name": "Culicidae",
+              "taxon_key": null
+            },
+            {
+              "rank": "genus",
+              "name": "Aedes",
+              "taxon_key": null
+            },
+            {
+              "rank": "species",
+              "name": "Aedes aegypti",
+              "taxon_key": 1651431
+            }
+          ]
+        }
+      ],
+      "barcode_gap": {
+        "status": "pass",
+        "gap": 0.009,
+        "intra_max_distance": 0.009,
+        "inter_min_distance": 0.018
+      },
+      "diagnostic_kmers": {
+        "status": "pass",
+        "support_count": 3,
+        "support_rate": 0.02069,
+        "k": 15,
+        "query_window_count": 145,
+        "diagnostic_kmer_count": 3,
+        "expected_random_hits": 0.0
+      },
+      "metadata_readiness": {
+        "core_pass": true,
+        "dna_pass": true,
+        "core_missing": [],
+        "dna_missing": []
+      },
+      "blockers": [
+        "species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus"
+      ],
+      "actions": [
+        "Publish the molecular assignment at genus rank unless additional evidence resolves the ambiguity."
+      ],
+      "metadata": {
+        "occurrenceID": "urn:ecogenesis:demo:AALB-COI-ambiguous",
+        "basisOfRecord": "MaterialSample",
+        "scientificName": "Aedes albopictus",
+        "eventDate": "2026-04-18",
+        "countryCode": "ES",
+        "decimalLatitude": 40.4168,
+        "decimalLongitude": -3.7038,
+        "geodeticDatum": "WGS84",
+        "coordinateUncertaintyInMeters": 50,
+        "methodOrSOP": "GBIF Sequence ID-compatible COI BLAST workflow; ruleset barcode-gbif-compiler-v1",
+        "marker": "COI-5P",
+        "sequenceID": "AALB-COI-ambiguous",
+        "referenceDatabase": "COI Animals / BOLD public clustered reference",
+        "identity": 99.4,
+        "queryCoverage": 96.0
+      },
+      "hits": [
+        {
+          "taxon": "Aedes albopictus",
+          "rank": "species",
+          "identity": 99.4,
+          "query_coverage": 96.0,
+          "aligned_length": 658,
+          "bit_score": 9542.400000000001,
+          "evalue": 1e-120,
+          "reference_id": "BOLD:Aedes_albopictus",
+          "reference_database": "COI Animals / BOLD public clustered reference",
+          "gbif_taxon_key": 1651430,
+          "lineage": [
+            {
+              "rank": "kingdom",
+              "name": "Animalia",
+              "taxon_key": null
+            },
+            {
+              "rank": "phylum",
+              "name": "Arthropoda",
+              "taxon_key": null
+            },
+            {
+              "rank": "class",
+              "name": "Insecta",
+              "taxon_key": null
+            },
+            {
+              "rank": "order",
+              "name": "Diptera",
+              "taxon_key": null
+            },
+            {
+              "rank": "family",
+              "name": "Culicidae",
+              "taxon_key": null
+            },
+            {
+              "rank": "genus",
+              "name": "Aedes",
+              "taxon_key": null
+            },
+            {
+              "rank": "species",
+              "name": "Aedes albopictus",
+              "taxon_key": 1651430
+            }
+          ]
+        },
+        {
+          "taxon": "Aedes aegypti",
+          "rank": "species",
+          "identity": 99.3,
+          "query_coverage": 96.0,
+          "aligned_length": 658,
+          "bit_score": 9532.8,
+          "evalue": 1e-120,
+          "reference_id": "BOLD:Aedes_aegypti",
+          "reference_database": "COI Animals / BOLD public clustered reference",
+          "gbif_taxon_key": 1651431,
+          "lineage": [
+            {
+              "rank": "kingdom",
+              "name": "Animalia",
+              "taxon_key": null
+            },
+            {
+              "rank": "phylum",
+              "name": "Arthropoda",
+              "taxon_key": null
+            },
+            {
+              "rank": "class",
+              "name": "Insecta",
+              "taxon_key": null
+            },
+            {
+              "rank": "order",
+              "name": "Diptera",
+              "taxon_key": null
+            },
+            {
+              "rank": "family",
+              "name": "Culicidae",
+              "taxon_key": null
+            },
+            {
+              "rank": "genus",
+              "name": "Aedes",
+              "taxon_key": null
+            },
+            {
+              "rank": "species",
+              "name": "Aedes aegypti",
+              "taxon_key": 1651431
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sequence_id": "AALB-COI-short",
+      "sequence_md5": "5695d927022faccbcccb799d5f7b228b",
+      "sequence_length": 622,
+      "decision_class": "weak",
+      "taxonomic_status": "weak",
+      "publication_status": "not-ready",
+      "match_type": "weak",
+      "safe_taxon": {
+        "rank": "species",
+        "name": "Aedes albopictus",
+        "taxon_key": 1651430
+      },
+      "top_hit": {
+        "taxon": "Aedes albopictus",
+        "rank": "species",
+        "identity": 99.5,
+        "query_coverage": 72.0,
+        "aligned_length": 658,
+        "bit_score": 7164.0,
+        "evalue": 1e-120,
+        "reference_id": "BOLD:Aedes_albopictus",
+        "reference_database": "COI Animals / BOLD public clustered reference",
+        "gbif_taxon_key": 1651430,
+        "lineage": [
+          {
+            "rank": "kingdom",
+            "name": "Animalia",
+            "taxon_key": null
+          },
+          {
+            "rank": "phylum",
+            "name": "Arthropoda",
+            "taxon_key": null
+          },
+          {
+            "rank": "class",
+            "name": "Insecta",
+            "taxon_key": null
+          },
+          {
+            "rank": "order",
+            "name": "Diptera",
+            "taxon_key": null
+          },
+          {
+            "rank": "family",
+            "name": "Culicidae",
+            "taxon_key": null
+          },
+          {
+            "rank": "genus",
+            "name": "Aedes",
+            "taxon_key": null
+          },
+          {
+            "rank": "species",
+            "name": "Aedes albopictus",
+            "taxon_key": 1651430
+          }
+        ]
+      },
+      "indistinguishable_hits": [
+        {
+          "taxon": "Aedes albopictus",
+          "rank": "species",
+          "identity": 99.5,
+          "query_coverage": 72.0,
+          "aligned_length": 658,
+          "bit_score": 7164.0,
+          "evalue": 1e-120,
+          "reference_id": "BOLD:Aedes_albopictus",
+          "reference_database": "COI Animals / BOLD public clustered reference",
+          "gbif_taxon_key": 1651430,
+          "lineage": [
+            {
+              "rank": "kingdom",
+              "name": "Animalia",
+              "taxon_key": null
+            },
+            {
+              "rank": "phylum",
+              "name": "Arthropoda",
+              "taxon_key": null
+            },
+            {
+              "rank": "class",
+              "name": "Insecta",
+              "taxon_key": null
+            },
+            {
+              "rank": "order",
+              "name": "Diptera",
+              "taxon_key": null
+            },
+            {
+              "rank": "family",
+              "name": "Culicidae",
+              "taxon_key": null
+            },
+            {
+              "rank": "genus",
+              "name": "Aedes",
+              "taxon_key": null
+            },
+            {
+              "rank": "species",
+              "name": "Aedes albopictus",
+              "taxon_key": 1651430
+            }
+          ]
+        }
+      ],
+      "barcode_gap": {
+        "status": "pass",
+        "gap": 0.009,
+        "intra_max_distance": 0.009,
+        "inter_min_distance": 0.018
+      },
+      "diagnostic_kmers": {
+        "status": "pass",
+        "support_count": 3,
+        "support_rate": 0.02069,
+        "k": 15,
+        "query_window_count": 145,
+        "diagnostic_kmer_count": 3,
+        "expected_random_hits": 0.0
+      },
+      "metadata_readiness": {
+        "core_pass": true,
+        "dna_pass": true,
+        "core_missing": [],
+        "dna_missing": []
+      },
+      "blockers": [
+        "species claim blocked: top hit does not pass exact match gate identity >= 99% and query coverage >= 80%",
+        "species claim blocked: query coverage < 80%"
+      ],
+      "actions": [
+        "Use a longer/cleaner marker sequence or treat the assignment below species rank."
+      ],
+      "metadata": {
+        "occurrenceID": "urn:ecogenesis:demo:AALB-COI-short",
+        "basisOfRecord": "MaterialSample",
+        "scientificName": "Aedes albopictus",
+        "eventDate": "2026-04-18",
+        "countryCode": "ES",
+        "decimalLatitude": 40.4168,
+        "decimalLongitude": -3.7038,
+        "geodeticDatum": "WGS84",
+        "coordinateUncertaintyInMeters": 50,
+        "methodOrSOP": "GBIF Sequence ID-compatible COI BLAST workflow; ruleset barcode-gbif-compiler-v1",
+        "marker": "COI-5P",
+        "sequenceID": "AALB-COI-short",
+        "referenceDatabase": "COI Animals / BOLD public clustered reference",
+        "identity": 99.5,
+        "queryCoverage": 72.0
+      },
+      "hits": [
+        {
+          "taxon": "Aedes albopictus",
+          "rank": "species",
+          "identity": 99.5,
+          "query_coverage": 72.0,
+          "aligned_length": 658,
+          "bit_score": 7164.0,
+          "evalue": 1e-120,
+          "reference_id": "BOLD:Aedes_albopictus",
+          "reference_database": "COI Animals / BOLD public clustered reference",
+          "gbif_taxon_key": 1651430,
+          "lineage": [
+            {
+              "rank": "kingdom",
+              "name": "Animalia",
+              "taxon_key": null
+            },
+            {
+              "rank": "phylum",
+              "name": "Arthropoda",
+              "taxon_key": null
+            },
+            {
+              "rank": "class",
+              "name": "Insecta",
+              "taxon_key": null
+            },
+            {
+              "rank": "order",
+              "name": "Diptera",
+              "taxon_key": null
+            },
+            {
+              "rank": "family",
+              "name": "Culicidae",
+              "taxon_key": null
+            },
+            {
+              "rank": "genus",
+              "name": "Aedes",
+              "taxon_key": null
+            },
+            {
+              "rank": "species",
+              "name": "Aedes albopictus",
+              "taxon_key": 1651430
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sequence_id": "AALB-COI-metadata-gap",
+      "sequence_md5": "5695d927022faccbcccb799d5f7b228b",
+      "sequence_length": 622,
+      "decision_class": "not-publishable",
+      "taxonomic_status": "species-safe",
+      "publication_status": "not-ready",
+      "match_type": "exact",
+      "safe_taxon": {
+        "rank": "species",
+        "name": "Aedes albopictus",
+        "taxon_key": 1651430
+      },
+      "top_hit": {
+        "taxon": "Aedes albopictus",
+        "rank": "species",
+        "identity": 99.6,
+        "query_coverage": 96.0,
+        "aligned_length": 658,
+        "bit_score": 9561.599999999999,
+        "evalue": 1e-120,
+        "reference_id": "BOLD:Aedes_albopictus",
+        "reference_database": "COI Animals / BOLD public clustered reference",
+        "gbif_taxon_key": 1651430,
+        "lineage": [
+          {
+            "rank": "kingdom",
+            "name": "Animalia",
+            "taxon_key": null
+          },
+          {
+            "rank": "phylum",
+            "name": "Arthropoda",
+            "taxon_key": null
+          },
+          {
+            "rank": "class",
+            "name": "Insecta",
+            "taxon_key": null
+          },
+          {
+            "rank": "order",
+            "name": "Diptera",
+            "taxon_key": null
+          },
+          {
+            "rank": "family",
+            "name": "Culicidae",
+            "taxon_key": null
+          },
+          {
+            "rank": "genus",
+            "name": "Aedes",
+            "taxon_key": null
+          },
+          {
+            "rank": "species",
+            "name": "Aedes albopictus",
+            "taxon_key": 1651430
+          }
+        ]
+      },
+      "indistinguishable_hits": [
+        {
+          "taxon": "Aedes albopictus",
+          "rank": "species",
+          "identity": 99.6,
+          "query_coverage": 96.0,
+          "aligned_length": 658,
+          "bit_score": 9561.599999999999,
+          "evalue": 1e-120,
+          "reference_id": "BOLD:Aedes_albopictus",
+          "reference_database": "COI Animals / BOLD public clustered reference",
+          "gbif_taxon_key": 1651430,
+          "lineage": [
+            {
+              "rank": "kingdom",
+              "name": "Animalia",
+              "taxon_key": null
+            },
+            {
+              "rank": "phylum",
+              "name": "Arthropoda",
+              "taxon_key": null
+            },
+            {
+              "rank": "class",
+              "name": "Insecta",
+              "taxon_key": null
+            },
+            {
+              "rank": "order",
+              "name": "Diptera",
+              "taxon_key": null
+            },
+            {
+              "rank": "family",
+              "name": "Culicidae",
+              "taxon_key": null
+            },
+            {
+              "rank": "genus",
+              "name": "Aedes",
+              "taxon_key": null
+            },
+            {
+              "rank": "species",
+              "name": "Aedes albopictus",
+              "taxon_key": 1651430
+            }
+          ]
+        }
+      ],
+      "barcode_gap": {
+        "status": "pass",
+        "gap": 0.009,
+        "intra_max_distance": 0.009,
+        "inter_min_distance": 0.018
+      },
+      "diagnostic_kmers": {
+        "status": "pass",
+        "support_count": 3,
+        "support_rate": 0.02069,
+        "k": 15,
+        "query_window_count": 145,
+        "diagnostic_kmer_count": 3,
+        "expected_random_hits": 0.0
+      },
+      "metadata_readiness": {
+        "core_pass": false,
+        "dna_pass": true,
+        "core_missing": [
+          "occurrenceID",
+          "eventDate"
+        ],
+        "dna_missing": []
+      },
+      "blockers": [
+        "publication blocked: missing required Occurrence core field occurrenceID",
+        "publication blocked: missing required Occurrence core field eventDate"
+      ],
+      "actions": [
+        "Complete required Darwin Core Occurrence core fields before GBIF publication."
+      ],
+      "metadata": {
+        "basisOfRecord": "MaterialSample",
+        "scientificName": "Aedes albopictus",
+        "countryCode": "ES",
+        "methodOrSOP": "GBIF Sequence ID-compatible COI BLAST workflow; ruleset barcode-gbif-compiler-v1",
+        "marker": "COI-5P",
+        "sequenceID": "AALB-COI-metadata-gap",
+        "referenceDatabase": "COI Animals / BOLD public clustered reference",
+        "identity": 99.6,
+        "queryCoverage": 96.0
+      },
+      "hits": [
+        {
+          "taxon": "Aedes albopictus",
+          "rank": "species",
+          "identity": 99.6,
+          "query_coverage": 96.0,
+          "aligned_length": 658,
+          "bit_score": 9561.599999999999,
+          "evalue": 1e-120,
+          "reference_id": "BOLD:Aedes_albopictus",
+          "reference_database": "COI Animals / BOLD public clustered reference",
+          "gbif_taxon_key": 1651430,
+          "lineage": [
+            {
+              "rank": "kingdom",
+              "name": "Animalia",
+              "taxon_key": null
+            },
+            {
+              "rank": "phylum",
+              "name": "Arthropoda",
+              "taxon_key": null
+            },
+            {
+              "rank": "class",
+              "name": "Insecta",
+              "taxon_key": null
+            },
+            {
+              "rank": "order",
+              "name": "Diptera",
+              "taxon_key": null
+            },
+            {
+              "rank": "family",
+              "name": "Culicidae",
+              "taxon_key": null
+            },
+            {
+              "rank": "genus",
+              "name": "Aedes",
+              "taxon_key": null
+            },
+            {
+              "rank": "species",
+              "name": "Aedes albopictus",
+              "taxon_key": 1651430
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "request": {
+    "project_title": "Aedes COI batch: safe, ambiguous, weak and metadata cases",
+    "marker": "COI-5P",
+    "reference_database": "COI Animals / BOLD public clustered reference",
+    "method_or_sop": "GBIF Sequence ID-compatible BLAST workflow with deterministic rank gates",
+    "ruleset_version": "barcode-gbif-compiler-v1",
+    "records": [
+      {
+        "sequence_id": "AALB-COI-good",
+        "sequence": "ACGTTGACCTAGGCTTACGATCGTACCGATGCTAGCTAGGATCCGATCGTACGATCGTAGCTAGCATCGGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCATCGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCATCGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCATCGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCATCGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCA",
+        "metadata": {
+          "occurrenceID": "urn:ecogenesis:demo:AALB-COI-good",
+          "basisOfRecord": "MaterialSample",
+          "scientificName": "Aedes albopictus",
+          "eventDate": "2026-04-18",
+          "countryCode": "ES",
+          "decimalLatitude": 40.4168,
+          "decimalLongitude": -3.7038,
+          "geodeticDatum": "WGS84",
+          "coordinateUncertaintyInMeters": 50,
+          "methodOrSOP": "GBIF Sequence ID-compatible COI BLAST workflow; ruleset barcode-gbif-compiler-v1"
+        },
+        "hits": [
+          {
+            "taxon": "Aedes albopictus",
+            "rank": "species",
+            "identity": 99.6,
+            "query_coverage": 96.0,
+            "aligned_length": 658,
+            "bit_score": 9561.599999999999,
+            "evalue": 1e-120,
+            "reference_id": "BOLD:Aedes_albopictus",
+            "reference_database": "COI Animals / BOLD public clustered reference",
+            "gbif_taxon_key": 1651430,
+            "lineage": [
+              {
+                "rank": "kingdom",
+                "name": "Animalia",
+                "taxon_key": null
+              },
+              {
+                "rank": "phylum",
+                "name": "Arthropoda",
+                "taxon_key": null
+              },
+              {
+                "rank": "class",
+                "name": "Insecta",
+                "taxon_key": null
+              },
+              {
+                "rank": "order",
+                "name": "Diptera",
+                "taxon_key": null
+              },
+              {
+                "rank": "family",
+                "name": "Culicidae",
+                "taxon_key": null
+              },
+              {
+                "rank": "genus",
+                "name": "Aedes",
+                "taxon_key": null
+              },
+              {
+                "rank": "species",
+                "name": "Aedes albopictus",
+                "taxon_key": 1651430
+              }
+            ]
+          },
+          {
+            "taxon": "Aedes aegypti",
+            "rank": "species",
+            "identity": 98.2,
+            "query_coverage": 95.0,
+            "aligned_length": 658,
+            "bit_score": 9329.0,
+            "evalue": 1e-120,
+            "reference_id": "BOLD:Aedes_aegypti",
+            "reference_database": "COI Animals / BOLD public clustered reference",
+            "gbif_taxon_key": 1651431,
+            "lineage": [
+              {
+                "rank": "kingdom",
+                "name": "Animalia",
+                "taxon_key": null
+              },
+              {
+                "rank": "phylum",
+                "name": "Arthropoda",
+                "taxon_key": null
+              },
+              {
+                "rank": "class",
+                "name": "Insecta",
+                "taxon_key": null
+              },
+              {
+                "rank": "order",
+                "name": "Diptera",
+                "taxon_key": null
+              },
+              {
+                "rank": "family",
+                "name": "Culicidae",
+                "taxon_key": null
+              },
+              {
+                "rank": "genus",
+                "name": "Aedes",
+                "taxon_key": null
+              },
+              {
+                "rank": "species",
+                "name": "Aedes aegypti",
+                "taxon_key": 1651431
+              }
+            ]
+          }
+        ],
+        "barcode_gap": {
+          "intra_max_distance": 0.009,
+          "inter_min_distance": 0.018
+        },
+        "diagnostic": {
+          "diagnostic_kmers": [
+            "ACGTTGACCTAGGCT",
+            "TGACCTAGGCTTACG",
+            "GCTTACGATCGTACC"
+          ],
+          "reference_total_windows": 5000000,
+          "epsilon": 0.01,
+          "k": null
+        }
+      },
+      {
+        "sequence_id": "AALB-COI-ambiguous",
+        "sequence": "ACGTTGACCTAGGCTTACGATCGTACCGATGCTAGCTAGGATCCGATCGTACGATCGTAGCTAGCATCGGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCATCGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCATCGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCATCGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCATCGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCA",
+        "metadata": {
+          "occurrenceID": "urn:ecogenesis:demo:AALB-COI-ambiguous",
+          "basisOfRecord": "MaterialSample",
+          "scientificName": "Aedes albopictus",
+          "eventDate": "2026-04-18",
+          "countryCode": "ES",
+          "decimalLatitude": 40.4168,
+          "decimalLongitude": -3.7038,
+          "geodeticDatum": "WGS84",
+          "coordinateUncertaintyInMeters": 50,
+          "methodOrSOP": "GBIF Sequence ID-compatible COI BLAST workflow; ruleset barcode-gbif-compiler-v1"
+        },
+        "hits": [
+          {
+            "taxon": "Aedes albopictus",
+            "rank": "species",
+            "identity": 99.4,
+            "query_coverage": 96.0,
+            "aligned_length": 658,
+            "bit_score": 9542.400000000001,
+            "evalue": 1e-120,
+            "reference_id": "BOLD:Aedes_albopictus",
+            "reference_database": "COI Animals / BOLD public clustered reference",
+            "gbif_taxon_key": 1651430,
+            "lineage": [
+              {
+                "rank": "kingdom",
+                "name": "Animalia",
+                "taxon_key": null
+              },
+              {
+                "rank": "phylum",
+                "name": "Arthropoda",
+                "taxon_key": null
+              },
+              {
+                "rank": "class",
+                "name": "Insecta",
+                "taxon_key": null
+              },
+              {
+                "rank": "order",
+                "name": "Diptera",
+                "taxon_key": null
+              },
+              {
+                "rank": "family",
+                "name": "Culicidae",
+                "taxon_key": null
+              },
+              {
+                "rank": "genus",
+                "name": "Aedes",
+                "taxon_key": null
+              },
+              {
+                "rank": "species",
+                "name": "Aedes albopictus",
+                "taxon_key": 1651430
+              }
+            ]
+          },
+          {
+            "taxon": "Aedes aegypti",
+            "rank": "species",
+            "identity": 99.3,
+            "query_coverage": 96.0,
+            "aligned_length": 658,
+            "bit_score": 9532.8,
+            "evalue": 1e-120,
+            "reference_id": "BOLD:Aedes_aegypti",
+            "reference_database": "COI Animals / BOLD public clustered reference",
+            "gbif_taxon_key": 1651431,
+            "lineage": [
+              {
+                "rank": "kingdom",
+                "name": "Animalia",
+                "taxon_key": null
+              },
+              {
+                "rank": "phylum",
+                "name": "Arthropoda",
+                "taxon_key": null
+              },
+              {
+                "rank": "class",
+                "name": "Insecta",
+                "taxon_key": null
+              },
+              {
+                "rank": "order",
+                "name": "Diptera",
+                "taxon_key": null
+              },
+              {
+                "rank": "family",
+                "name": "Culicidae",
+                "taxon_key": null
+              },
+              {
+                "rank": "genus",
+                "name": "Aedes",
+                "taxon_key": null
+              },
+              {
+                "rank": "species",
+                "name": "Aedes aegypti",
+                "taxon_key": 1651431
+              }
+            ]
+          }
+        ],
+        "barcode_gap": {
+          "intra_max_distance": 0.009,
+          "inter_min_distance": 0.018
+        },
+        "diagnostic": {
+          "diagnostic_kmers": [
+            "ACGTTGACCTAGGCT",
+            "TGACCTAGGCTTACG",
+            "GCTTACGATCGTACC"
+          ],
+          "reference_total_windows": 5000000,
+          "epsilon": 0.01,
+          "k": null
+        }
+      },
+      {
+        "sequence_id": "AALB-COI-short",
+        "sequence": "ACGTTGACCTAGGCTTACGATCGTACCGATGCTAGCTAGGATCCGATCGTACGATCGTAGCTAGCATCGGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCATCGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCATCGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCATCGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCATCGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCA",
+        "metadata": {
+          "occurrenceID": "urn:ecogenesis:demo:AALB-COI-short",
+          "basisOfRecord": "MaterialSample",
+          "scientificName": "Aedes albopictus",
+          "eventDate": "2026-04-18",
+          "countryCode": "ES",
+          "decimalLatitude": 40.4168,
+          "decimalLongitude": -3.7038,
+          "geodeticDatum": "WGS84",
+          "coordinateUncertaintyInMeters": 50,
+          "methodOrSOP": "GBIF Sequence ID-compatible COI BLAST workflow; ruleset barcode-gbif-compiler-v1"
+        },
+        "hits": [
+          {
+            "taxon": "Aedes albopictus",
+            "rank": "species",
+            "identity": 99.5,
+            "query_coverage": 72.0,
+            "aligned_length": 658,
+            "bit_score": 7164.0,
+            "evalue": 1e-120,
+            "reference_id": "BOLD:Aedes_albopictus",
+            "reference_database": "COI Animals / BOLD public clustered reference",
+            "gbif_taxon_key": 1651430,
+            "lineage": [
+              {
+                "rank": "kingdom",
+                "name": "Animalia",
+                "taxon_key": null
+              },
+              {
+                "rank": "phylum",
+                "name": "Arthropoda",
+                "taxon_key": null
+              },
+              {
+                "rank": "class",
+                "name": "Insecta",
+                "taxon_key": null
+              },
+              {
+                "rank": "order",
+                "name": "Diptera",
+                "taxon_key": null
+              },
+              {
+                "rank": "family",
+                "name": "Culicidae",
+                "taxon_key": null
+              },
+              {
+                "rank": "genus",
+                "name": "Aedes",
+                "taxon_key": null
+              },
+              {
+                "rank": "species",
+                "name": "Aedes albopictus",
+                "taxon_key": 1651430
+              }
+            ]
+          }
+        ],
+        "barcode_gap": {
+          "intra_max_distance": 0.009,
+          "inter_min_distance": 0.018
+        },
+        "diagnostic": {
+          "diagnostic_kmers": [
+            "ACGTTGACCTAGGCT",
+            "TGACCTAGGCTTACG",
+            "GCTTACGATCGTACC"
+          ],
+          "reference_total_windows": 5000000,
+          "epsilon": 0.01,
+          "k": null
+        }
+      },
+      {
+        "sequence_id": "AALB-COI-metadata-gap",
+        "sequence": "ACGTTGACCTAGGCTTACGATCGTACCGATGCTAGCTAGGATCCGATCGTACGATCGTAGCTAGCATCGGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCATCGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCATCGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCATCGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCATCGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCA",
+        "metadata": {
+          "basisOfRecord": "MaterialSample",
+          "scientificName": "Aedes albopictus",
+          "countryCode": "ES",
+          "methodOrSOP": "GBIF Sequence ID-compatible COI BLAST workflow; ruleset barcode-gbif-compiler-v1"
+        },
+        "hits": [
+          {
+            "taxon": "Aedes albopictus",
+            "rank": "species",
+            "identity": 99.6,
+            "query_coverage": 96.0,
+            "aligned_length": 658,
+            "bit_score": 9561.599999999999,
+            "evalue": 1e-120,
+            "reference_id": "BOLD:Aedes_albopictus",
+            "reference_database": "COI Animals / BOLD public clustered reference",
+            "gbif_taxon_key": 1651430,
+            "lineage": [
+              {
+                "rank": "kingdom",
+                "name": "Animalia",
+                "taxon_key": null
+              },
+              {
+                "rank": "phylum",
+                "name": "Arthropoda",
+                "taxon_key": null
+              },
+              {
+                "rank": "class",
+                "name": "Insecta",
+                "taxon_key": null
+              },
+              {
+                "rank": "order",
+                "name": "Diptera",
+                "taxon_key": null
+              },
+              {
+                "rank": "family",
+                "name": "Culicidae",
+                "taxon_key": null
+              },
+              {
+                "rank": "genus",
+                "name": "Aedes",
+                "taxon_key": null
+              },
+              {
+                "rank": "species",
+                "name": "Aedes albopictus",
+                "taxon_key": 1651430
+              }
+            ]
+          }
+        ],
+        "barcode_gap": {
+          "intra_max_distance": 0.009,
+          "inter_min_distance": 0.018
+        },
+        "diagnostic": {
+          "diagnostic_kmers": [
+            "ACGTTGACCTAGGCT",
+            "TGACCTAGGCTTACG",
+            "GCTTACGATCGTACC"
+          ],
+          "reference_total_windows": 5000000,
+          "epsilon": 0.01,
+          "k": null
+        }
+      }
+    ]
+  },
+  "evidence_graph": {
+    "nodes": [
+      {
+        "id": "run:7c69b698e8f54cb5b95717c6bea1e3b0",
+        "type": "run",
+        "label": "Aedes COI batch: safe, ambiguous, weak and metadata cases"
+      },
+      {
+        "id": "sequence:AALB-COI-good",
+        "type": "sequence",
+        "label": "AALB-COI-good",
+        "md5": "5695d927022faccbcccb799d5f7b228b"
+      },
+      {
+        "id": "assignment:AALB-COI-good",
+        "type": "assignment",
+        "label": "species-safe"
+      },
+      {
+        "id": "taxon:species:Aedes albopictus",
+        "type": "taxon",
+        "label": "Aedes albopictus",
+        "rank": "species"
+      },
+      {
+        "id": "hit:AALB-COI-good:BOLD:Aedes_albopictus",
+        "type": "hit",
+        "label": "Aedes albopictus",
+        "identity": 99.6,
+        "coverage": 96.0
+      },
+      {
+        "id": "hit:AALB-COI-good:BOLD:Aedes_aegypti",
+        "type": "hit",
+        "label": "Aedes aegypti",
+        "identity": 98.2,
+        "coverage": 95.0
+      },
+      {
+        "id": "sequence:AALB-COI-ambiguous",
+        "type": "sequence",
+        "label": "AALB-COI-ambiguous",
+        "md5": "5695d927022faccbcccb799d5f7b228b"
+      },
+      {
+        "id": "assignment:AALB-COI-ambiguous",
+        "type": "assignment",
+        "label": "genus-safe"
+      },
+      {
+        "id": "taxon:genus:Aedes",
+        "type": "taxon",
+        "label": "Aedes",
+        "rank": "genus"
+      },
+      {
+        "id": "hit:AALB-COI-ambiguous:BOLD:Aedes_albopictus",
+        "type": "hit",
+        "label": "Aedes albopictus",
+        "identity": 99.4,
+        "coverage": 96.0
+      },
+      {
+        "id": "hit:AALB-COI-ambiguous:BOLD:Aedes_aegypti",
+        "type": "hit",
+        "label": "Aedes aegypti",
+        "identity": 99.3,
+        "coverage": 96.0
+      },
+      {
+        "id": "sequence:AALB-COI-short",
+        "type": "sequence",
+        "label": "AALB-COI-short",
+        "md5": "5695d927022faccbcccb799d5f7b228b"
+      },
+      {
+        "id": "assignment:AALB-COI-short",
+        "type": "assignment",
+        "label": "weak"
+      },
+      {
+        "id": "taxon:species:Aedes albopictus",
+        "type": "taxon",
+        "label": "Aedes albopictus",
+        "rank": "species"
+      },
+      {
+        "id": "hit:AALB-COI-short:BOLD:Aedes_albopictus",
+        "type": "hit",
+        "label": "Aedes albopictus",
+        "identity": 99.5,
+        "coverage": 72.0
+      },
+      {
+        "id": "sequence:AALB-COI-metadata-gap",
+        "type": "sequence",
+        "label": "AALB-COI-metadata-gap",
+        "md5": "5695d927022faccbcccb799d5f7b228b"
+      },
+      {
+        "id": "assignment:AALB-COI-metadata-gap",
+        "type": "assignment",
+        "label": "not-publishable"
+      },
+      {
+        "id": "taxon:species:Aedes albopictus",
+        "type": "taxon",
+        "label": "Aedes albopictus",
+        "rank": "species"
+      },
+      {
+        "id": "hit:AALB-COI-metadata-gap:BOLD:Aedes_albopictus",
+        "type": "hit",
+        "label": "Aedes albopictus",
+        "identity": 99.6,
+        "coverage": 96.0
+      }
+    ],
+    "edges": [
+      {
+        "source": "run:7c69b698e8f54cb5b95717c6bea1e3b0",
+        "target": "sequence:AALB-COI-good",
+        "type": "contains_sequence"
+      },
+      {
+        "source": "sequence:AALB-COI-good",
+        "target": "assignment:AALB-COI-good",
+        "type": "receives_assignment"
+      },
+      {
+        "source": "assignment:AALB-COI-good",
+        "target": "taxon:species:Aedes albopictus",
+        "type": "safe_taxon"
+      },
+      {
+        "source": "sequence:AALB-COI-good",
+        "target": "hit:AALB-COI-good:BOLD:Aedes_albopictus",
+        "type": "matches_reference"
+      },
+      {
+        "source": "sequence:AALB-COI-good",
+        "target": "hit:AALB-COI-good:BOLD:Aedes_aegypti",
+        "type": "matches_reference"
+      },
+      {
+        "source": "run:7c69b698e8f54cb5b95717c6bea1e3b0",
+        "target": "sequence:AALB-COI-ambiguous",
+        "type": "contains_sequence"
+      },
+      {
+        "source": "sequence:AALB-COI-ambiguous",
+        "target": "assignment:AALB-COI-ambiguous",
+        "type": "receives_assignment"
+      },
+      {
+        "source": "assignment:AALB-COI-ambiguous",
+        "target": "taxon:genus:Aedes",
+        "type": "safe_taxon"
+      },
+      {
+        "source": "sequence:AALB-COI-ambiguous",
+        "target": "hit:AALB-COI-ambiguous:BOLD:Aedes_albopictus",
+        "type": "matches_reference"
+      },
+      {
+        "source": "sequence:AALB-COI-ambiguous",
+        "target": "hit:AALB-COI-ambiguous:BOLD:Aedes_aegypti",
+        "type": "matches_reference"
+      },
+      {
+        "source": "run:7c69b698e8f54cb5b95717c6bea1e3b0",
+        "target": "sequence:AALB-COI-short",
+        "type": "contains_sequence"
+      },
+      {
+        "source": "sequence:AALB-COI-short",
+        "target": "assignment:AALB-COI-short",
+        "type": "receives_assignment"
+      },
+      {
+        "source": "assignment:AALB-COI-short",
+        "target": "taxon:species:Aedes albopictus",
+        "type": "safe_taxon"
+      },
+      {
+        "source": "sequence:AALB-COI-short",
+        "target": "hit:AALB-COI-short:BOLD:Aedes_albopictus",
+        "type": "matches_reference"
+      },
+      {
+        "source": "run:7c69b698e8f54cb5b95717c6bea1e3b0",
+        "target": "sequence:AALB-COI-metadata-gap",
+        "type": "contains_sequence"
+      },
+      {
+        "source": "sequence:AALB-COI-metadata-gap",
+        "target": "assignment:AALB-COI-metadata-gap",
+        "type": "receives_assignment"
+      },
+      {
+        "source": "assignment:AALB-COI-metadata-gap",
+        "target": "taxon:species:Aedes albopictus",
+        "type": "safe_taxon"
+      },
+      {
+        "source": "sequence:AALB-COI-metadata-gap",
+        "target": "hit:AALB-COI-metadata-gap:BOLD:Aedes_albopictus",
+        "type": "matches_reference"
+      }
+    ]
+  },
+  "exports": [
+    {
+      "name": "ambiguous_sequences.csv",
+      "url": "/api/barcode/runs/7c69b698e8f54cb5b95717c6bea1e3b0/exports/ambiguous_sequences.csv",
+      "size_bytes": 275,
+      "sha256": "2b2dbce912471ee5d7c6afa3490c5412c5bc4dbe72ec2c2164a26b1ba6550d09"
+    },
+    {
+      "name": "barcode_gap_report.csv",
+      "url": "/api/barcode/runs/7c69b698e8f54cb5b95717c6bea1e3b0/exports/barcode_gap_report.csv",
+      "size_bytes": 225,
+      "sha256": "79f151decd9d704c17228a1d0f80a16c1cb7b92527e07aa7a5863c030958fdf8"
+    },
+    {
+      "name": "citations.md",
+      "url": "/api/barcode/runs/7c69b698e8f54cb5b95717c6bea1e3b0/exports/citations.md",
+      "size_bytes": 531,
+      "sha256": "b57b5c71eeea6f138a14d57495e298cb379fabb25053b310245b8b306905fd3a"
+    },
+    {
+      "name": "diagnostic_kmer_report.csv",
+      "url": "/api/barcode/runs/7c69b698e8f54cb5b95717c6bea1e3b0/exports/diagnostic_kmer_report.csv",
+      "size_bytes": 283,
+      "sha256": "ca4297d5d00165a34a1056b6f94bb959169b1855f4c6a5949a56d7507f332ff7"
+    },
+    {
+      "name": "dna_derived_extension_template.csv",
+      "url": "/api/barcode/runs/7c69b698e8f54cb5b95717c6bea1e3b0/exports/dna_derived_extension_template.csv",
+      "size_bytes": 1765,
+      "sha256": "1af050ca9c5a667e8d0da130e93ca6b4730b38404cb91ea6c197b4107daaa284"
+    },
+    {
+      "name": "dwc_occurrence_core_template.csv",
+      "url": "/api/barcode/runs/7c69b698e8f54cb5b95717c6bea1e3b0/exports/dwc_occurrence_core_template.csv",
+      "size_bytes": 1040,
+      "sha256": "9d9a3a301a50c96b5502c60f1bfefcdcac7a3873effdc8a8e5a6ae3a5b16ce0a"
+    },
+    {
+      "name": "evidence_graph.json",
+      "url": "/api/barcode/runs/7c69b698e8f54cb5b95717c6bea1e3b0/exports/evidence_graph.json",
+      "size_bytes": 5494,
+      "sha256": "a3e825c77c218c3277d183ea4650c08bd8bd9151117419f0d377f1dd7727065d"
+    },
+    {
+      "name": "evidence_pack.json",
+      "url": "/api/barcode/runs/7c69b698e8f54cb5b95717c6bea1e3b0/exports/evidence_pack.json",
+      "size_bytes": 51205,
+      "sha256": "b7ebbecb71ca4f839298ab43ebc1685c63098766a6958a390e81eed6051ac5cc"
+    },
+    {
+      "name": "evidence_pack.zip",
+      "url": "/api/barcode/runs/7c69b698e8f54cb5b95717c6bea1e3b0/exports/evidence_pack.zip",
+      "size_bytes": 11010,
+      "sha256": "0c1dcc855111ba4fbe744a780920dd5c2d1f67618395ec13b780b96e5fdc4881"
+    },
+    {
+      "name": "gbif_backbone_matches.csv",
+      "url": "/api/barcode/runs/7c69b698e8f54cb5b95717c6bea1e3b0/exports/gbif_backbone_matches.csv",
+      "size_bytes": 845,
+      "sha256": "0f4bd2c8ee811bdbf078bf5560f430fed589b99a21bde1e08a6cfacc0a53e405"
+    },
+    {
+      "name": "methods_text.md",
+      "url": "/api/barcode/runs/7c69b698e8f54cb5b95717c6bea1e3b0/exports/methods_text.md",
+      "size_bytes": 681,
+      "sha256": "0fdeb7fe066d97661fc2754cef2d151b8419bde98ae50d74fd0c2f21393e490a"
+    },
+    {
+      "name": "molecular_evidence_report.html",
+      "url": "/api/barcode/runs/7c69b698e8f54cb5b95717c6bea1e3b0/exports/molecular_evidence_report.html",
+      "size_bytes": 2270,
+      "sha256": "1806ca8707f731d575590c5181196877ee5f223fae43d8c23823b978cc54b712"
+    },
+    {
+      "name": "proof_by_failure_modes.md",
+      "url": "/api/barcode/runs/7c69b698e8f54cb5b95717c6bea1e3b0/exports/proof_by_failure_modes.md",
+      "size_bytes": 535,
+      "sha256": "f5dccc2a2b2dd21ec34d518e733b5228392416d2e88388e09c23ce25b60d9211"
+    },
+    {
+      "name": "publication_blockers.csv",
+      "url": "/api/barcode/runs/7c69b698e8f54cb5b95717c6bea1e3b0/exports/publication_blockers.csv",
+      "size_bytes": 502,
+      "sha256": "020240f72b9d02b64f438aef7a8f6813d7f63c5241bd42a1140fffe1405e76e6"
+    },
+    {
+      "name": "run.json",
+      "url": "/api/barcode/runs/7c69b698e8f54cb5b95717c6bea1e3b0/exports/run.json",
+      "size_bytes": 344,
+      "sha256": "73daa863f96ffe34f6288f7ec8485a40c95bc7302342b8f43c3fa40ce81f9b17"
+    },
+    {
+      "name": "safe_taxonomic_assignments.csv",
+      "url": "/api/barcode/runs/7c69b698e8f54cb5b95717c6bea1e3b0/exports/safe_taxonomic_assignments.csv",
+      "size_bytes": 366,
+      "sha256": "b705bf4352a6fda01dbcddda7e3b724863b4f1b57b92b24710e1bc0372843ebd"
+    },
+    {
+      "name": "sequence_safety_table.csv",
+      "url": "/api/barcode/runs/7c69b698e8f54cb5b95717c6bea1e3b0/exports/sequence_safety_table.csv",
+      "size_bytes": 1002,
+      "sha256": "3fe3cfd83ad5b704590db111a4c8d8e1702c2992c47a695711134886d6b3f5a3"
+    }
+  ]
+}

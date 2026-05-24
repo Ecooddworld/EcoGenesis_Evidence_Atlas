@@ -1,13 +1,49 @@
-# EcoGenesis Evidence Atlas
+# Barcode-to-GBIF Evidence Compiler
 
-EcoGenesis Evidence Atlas turns GBIF-mediated occurrence data into reproducible **Evidence Passports** for a selected taxon, region and decision purpose.
+EcoGenesis is now focused on a narrower, stronger GBIF Challenge tool:
 
-The MVP is intentionally narrow: it is not the full EcoGenesis platform. It now exposes two judge-friendly modes:
+> A deterministic workflow that turns DNA barcode, metabarcoding and Sequence ID results into safe, rank-aware and GBIF-ready molecular occurrence evidence.
 
-1. `Presentation`: a compact contest view for judges, with the problem, current verdict, GBIF status, evidence map, safe/blocked claims and a one-click evidence pack download.
-2. `Work with GBIF`: a minimal live workbench where users search GBIF taxa, lock a `taxonKey`, select a region preset or bbox, choose a purpose and generate a real-data Evidence Passport.
+The old occurrence Atlas is preserved on branch `oddworld/archive-atlas-score-v1`. The `main` branch now treats the Atlas layer as an audit/export shell around a new molecular decision engine.
 
-The public UI defaults to `Live GBIF`. If GBIF is unavailable, the app shows a clear empty no-evidence fallback and explicitly states that fixture records were not reused. Offline fixture data remains available for tests, demo generation and regression work only.
+## Why This Exists
+
+Many users can produce barcode or metabarcoding results, but still face a hard publication question:
+
+> Which sequences can safely support a species-level occurrence, which must be downgraded to genus or higher rank, and what is missing before the data can become GBIF-ready?
+
+This compiler does not claim absolute biological truth. It produces a reproducible decision under frozen rules, supplied reference-hit metrics, a taxonomy lineage, barcode gap evidence, diagnostic k-mer evidence and GBIF publication metadata.
+
+## Decision Classes
+
+- `species-safe`: exact match, no indistinguishable competitor outside the species, positive barcode gap, diagnostic k-mer support and required GBIF/DNA metadata all pass.
+- `genus-safe`: species-level claim is unsafe, but indistinguishable hits share a genus.
+- `higher-rank-safe`: the safe LCA is family or higher.
+- `ambiguous`: the evidence cannot support a clear safe rank.
+- `weak`: identity or coverage fails the basic match gate.
+- `no-match`: no reference hit is available.
+- `not-publishable`: taxonomic evidence may be safe, but required GBIF/DNA-derived metadata is missing.
+
+## Mathematical Gates
+
+The core flow is:
+
+```text
+identity
+-> coverage
+-> ambiguity / LCA
+-> barcode gap
+-> diagnostic k-mers
+-> GBIF Occurrence core metadata
+-> DNA-derived metadata
+-> publication package
+```
+
+The frozen gates are documented in:
+
+- `docs/barcode-compiler-methodology.md`
+- `docs/proof-by-failure-modes.md`
+- `docs/gbif-dna-derived-readiness.md`
 
 ## Quick Start
 
@@ -21,123 +57,108 @@ Open:
 - Backend health: http://localhost:18100/health
 - Backend docs: http://localhost:18100/docs
 
-The first screen auto-runs `Live GBIF`, so users see real GBIF-mediated records when the API is reachable. The deterministic fixture is hidden from the main UX and remains available only for development, offline demo generation and regression tests.
+## Barcode API
 
-## API
+- `GET /api/barcode/demo-scenarios`
+- `GET /api/barcode/default-request`
+- `GET /api/barcode/reference-status`
+- `POST /api/barcode/run`
+- `GET /api/barcode/runs`
+- `GET /api/barcode/runs/{run_id}`
+- `GET /api/barcode/runs/{run_id}/report`
+- `GET /api/barcode/runs/{run_id}/exports`
+- `GET /api/barcode/runs/{run_id}/exports/{artifact_name}`
 
-- `POST /api/evidence/run`
-- `GET /api/evidence/demo-scenarios`
-- `GET /api/evidence/region-presets`
-- `GET /api/evidence/gbif-status`
-- `GET /api/evidence/taxon-suggest?q={query}`
-- `GET /api/evidence/runs`
-- `GET /api/evidence/runs/{run_id}`
-- `GET /api/evidence/runs/{run_id}/overview`
-- `GET /api/evidence/runs/{run_id}/passport`
-- `GET /api/evidence/runs/{run_id}/map`
-- `GET /api/evidence/runs/{run_id}/map-layers`
-- `GET /api/evidence/runs/{run_id}/quality`
-- `GET /api/evidence/runs/{run_id}/sampling-gaps`
-- `GET /api/evidence/runs/{run_id}/claims`
-- `GET /api/evidence/runs/{run_id}/citations`
-- `GET /api/evidence/runs/{run_id}/publisher-feedback`
-- `GET /api/evidence/runs/{run_id}/graph-memory`
-- `GET /api/evidence/runs/{run_id}/submission-readiness`
-- `GET /api/evidence/runs/{run_id}/exports`
-- `GET /api/evidence/runs/{run_id}/exports/{artifact_name}`
-
-Example request:
+Minimal request shape:
 
 ```json
 {
-  "taxon": "Aedes albopictus",
-  "taxon_key": 1651430,
-  "region_name": "Spain live GBIF bbox",
-  "bbox": [-10.0, 35.0, 4.5, 44.5],
-  "purpose": "invasive_watch",
-  "source_mode": "online_with_empty_fallback",
-  "use_fixture": false,
-  "max_records": 300
+  "project_title": "Aedes albopictus COI publication check",
+  "marker": "COI-5P",
+  "reference_database": "COI Animals / BOLD public clustered reference",
+  "method_or_sop": "GBIF Sequence ID-compatible BLAST workflow with deterministic rank gates",
+  "records": [
+    {
+      "sequence_id": "AALB-COI-good",
+      "sequence": "ACGTTGACCTAGGCT...",
+      "metadata": {
+        "occurrenceID": "urn:example:1",
+        "basisOfRecord": "MaterialSample",
+        "scientificName": "Aedes albopictus",
+        "eventDate": "2026-04-18",
+        "methodOrSOP": "GBIF Sequence ID-compatible COI workflow"
+      },
+      "hits": [
+        {
+          "taxon": "Aedes albopictus",
+          "rank": "species",
+          "identity": 99.6,
+          "query_coverage": 96,
+          "aligned_length": 658,
+          "lineage": [
+            {"rank": "family", "name": "Culicidae"},
+            {"rank": "genus", "name": "Aedes"},
+            {"rank": "species", "name": "Aedes albopictus", "taxon_key": 1651430}
+          ]
+        }
+      ],
+      "barcode_gap": {"intra_max_distance": 0.009, "inter_min_distance": 0.018},
+      "diagnostic": {
+        "diagnostic_kmers": ["ACGTTGACCTAGGCT"],
+        "reference_total_windows": 5000000,
+        "epsilon": 0.01
+      }
+    }
+  ]
 }
 ```
 
+The legacy occurrence-passport API remains available under `/api/evidence/*` for regression and comparison.
+
 ## Evidence Pack Artifacts
 
-Each run exports:
+Each barcode run exports:
 
-- `evidence_pack.zip`
-- `evidence_vault.zip`
-- `passport.html`
-- `passport.md`
-- `evidence_pack.json`
-- `decision_memo.json`
-- `decision_memo.md`
-- `submission_readiness.json`
-- `submission_readiness.md`
-- `validation_summary.json`
-- `validation_summary.md`
-- `impact_brief.md`
-- `video_script.md`
-- `evidence_graph.json`
-- `graph_memory.md`
-- `run.json`
-- `source_summary.json`
-- `demo_scenario.json`
-- `records.geojson`
-- `quality_metrics.csv`
-- `gap_priorities.csv`
-- `readiness_scorecard.csv`
-- `dataset_contributions.csv`
-- `publisher_feedback.csv`
-- `publisher_issue_templates.md`
-- `derived_dataset_recipe.json`
-- `provenance.json`
-- `citations.md`
-- `claim_guardrails.md`
+- `sequence_safety_table.csv`
+- `safe_taxonomic_assignments.csv`
+- `ambiguous_sequences.csv`
+- `barcode_gap_report.csv`
+- `diagnostic_kmer_report.csv`
+- `gbif_backbone_matches.csv`
+- `publication_blockers.csv`
+- `dwc_occurrence_core_template.csv`
+- `dna_derived_extension_template.csv`
+- `molecular_evidence_report.html`
 - `methods_text.md`
-- `publisher_feedback.md`
+- `citations.md`
+- `evidence_graph.json`
+- `proof_by_failure_modes.md`
+- `evidence_pack.json`
+- `evidence_pack.zip`
 
-The main `evidence_pack.zip` also includes a `vault/` directory with portable Markdown notes for the run, taxon, region, datasets, issues, claims, actions and GBIF citation checklist. `evidence_vault.zip` contains that same Obsidian-compatible memory layer as a standalone bundle.
+## Examples
 
-The machine-readable pack follows `schemas/evidence_passport.schema.json`, which gives reviewers and downstream tools a stable contract for `run`, `source_summary`, `decision_memo`, map layers, claims, citations and exports.
+Fixture CSVs live in `examples/`:
 
-The submission kit files are designed for judges and reviewers:
+- `examples/aedes_good.csv`
+- `examples/aedes_ambiguous.csv`
+- `examples/aedes_missing_metadata.csv`
+- `examples/aedes_weak_coverage.csv`
 
-- `decision_memo.md`: the 40-second answer to what the data can and cannot support
-- `submission_readiness.md`: contest checklist, accepted research comments and remaining blockers
-- `validation_summary.md`: validation checks and the three recommended demo scenarios
-- `impact_brief.md`: why this helps GBIF users, publishers and EcoGenesis
-- `video_script.md`: a three-minute screen-recording script
-- `publisher_issue_templates.md`: copy-ready, evidence-backed feedback messages for GBIF data publishers or node data managers
+The built-in API demo also includes a mixed batch with species-safe, genus-safe, weak and metadata-blocked records.
+
+Prebuilt mixed-batch artifacts live in `reports/barcode-demo/`. Open `reports/barcode-demo/molecular_evidence_report.html` or inspect `reports/barcode-demo/sequence_safety_table.csv`.
 
 ## CLI Runner
 
-The browser UI is the primary judge experience, but the same workflow can be run from the command line:
-
 ```bash
-backend/.venv/bin/python backend/scripts/evidence_passport_cli.py \
-  --taxon "Lynx pardinus" \
-  --taxon-key 2435261 \
-  --region-name "Iberian Peninsula live bbox" \
-  --bbox=-10,35,4.5,44.5 \
-  --purpose dataset_quality_review \
-  --source-mode online_with_empty_fallback \
-  --output-dir reports/cli-lynx
+cd backend
+.venv/bin/python scripts/barcode_compiler_cli.py \
+  --demo-id mixed-batch \
+  --output-dir ../reports/barcode-demo
 ```
 
-The command writes the same `Evidence Pack` files as the API and prints the `run_id`, GBIF status, record count and pack location. Use `--source-mode fixture` only for offline tests and regression checks.
-
-## GBIF Citation
-
-This tool preserves `datasetKey`, record counts, licenses and source metadata. For research or policy publication, create a DOI-backed GBIF occurrence download or derived dataset record and cite it according to GBIF guidance.
-
-See `docs/gbif-data-use-and-citation.md`.
-
-For the contest narrative, demo path and operating instructions, see `docs/submission.md`.
-
-Prepared submission assets, including the local demo video, screenshots, entry-form draft and final checklist, live in `submission-assets/`.
-
-Russian explainer materials for internal review, including a full project plan, plain-language description, Russian video and PPTX/PDF presentation, live in `submission-assets/ru/`.
+The CLI writes the same barcode Evidence Pack artifacts as the API.
 
 ## Testing
 
@@ -146,16 +167,13 @@ cd backend
 pytest
 
 cd ../frontend
-npm install
 npm test
 npm run build
 ```
 
-Docker smoke:
+## Official GBIF Context
 
-```bash
-docker compose up --build
-curl http://localhost:18100/health
-```
-
-The UI includes the two-mode Presentation/Work with GBIF flow, GBIF API status, live taxon search, selectable `taxonKey`, backend-provided region presets, editable bbox coordinates, a real Leaflet/OpenStreetMap evidence map, Decision Memo, key quality risks, Claim Guardrails and compact export links. Advanced outputs such as Graph Memory, Submission Readiness, Publisher Feedback, raw quality tables and machine-readable exports remain in `evidence_pack.zip` and the `Advanced evidence files` drawer instead of crowding the main workflow.
+- GBIF Sequence ID: https://www.gbif.org/tools/sequence-id
+- Publishing DNA-derived data through biodiversity data platforms: https://docs.gbif.org/publishing-dna-derived-data/en/
+- Occurrence dataset quality requirements: https://www.gbif.org/data-quality-requirements-occurrences
+- 2026 GBIF Ebbe Nielsen Challenge rules: https://www.gbif.org/awards/ebbe-2026-rules

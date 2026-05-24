@@ -1,0 +1,5 @@
+occurrenceID,basisOfRecord,scientificName,taxonRank,eventDate,countryCode,decimalLatitude,decimalLongitude,geodeticDatum,coordinateUncertaintyInMeters,identificationRemarks
+urn:ecogenesis:demo:AALB-COI-good,MaterialSample,Aedes albopictus,species,2026-04-18,ES,40.4168,-3.7038,WGS84,50,species-safe by barcode-gbif-compiler-v1; match=exact; top=Aedes albopictus identity=99.6 coverage=96.0; safe rank=species.
+urn:ecogenesis:demo:AALB-COI-ambiguous,MaterialSample,Aedes,genus,2026-04-18,ES,40.4168,-3.7038,WGS84,50,genus-safe by barcode-gbif-compiler-v1; match=exact; top=Aedes albopictus identity=99.4 coverage=96.0; safe rank=genus.
+urn:ecogenesis:demo:AALB-COI-short,MaterialSample,Aedes albopictus,species,2026-04-18,ES,40.4168,-3.7038,WGS84,50,weak by barcode-gbif-compiler-v1; match=weak; top=Aedes albopictus identity=99.5 coverage=72.0; safe rank=species.
+,MaterialSample,Aedes albopictus,species,,ES,,,,,not-publishable by barcode-gbif-compiler-v1; match=exact; top=Aedes albopictus identity=99.6 coverage=96.0; safe rank=species.

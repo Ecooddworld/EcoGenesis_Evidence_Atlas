@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Barcode-to-GBIF Evidence Pack",
+  "type": "object",
+  "required": ["run", "summary", "decision_rules", "metrics", "records", "exports"],
+  "properties": {
+    "run": {
+      "type": "object",
+      "required": ["run_id", "tool", "ruleset_version", "request_fingerprint"],
+      "properties": {
+        "run_id": { "type": "string" },
+        "tool": { "const": "Barcode-to-GBIF Evidence Compiler" },
+        "ruleset_version": { "type": "string" },
+        "request_fingerprint": { "type": "string" }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": ["title", "project_title", "marker", "reference_database", "processed_records", "verdict"],
+      "properties": {
+        "title": { "const": "Barcode-to-GBIF Evidence Compiler" },
+        "project_title": { "type": "string" },
+        "marker": { "type": "string" },
+        "reference_database": { "type": "string" },
+        "processed_records": { "type": "integer" },
+        "verdict": { "type": "string" }
+      }
+    },
+    "records": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["sequence_id", "decision_class", "taxonomic_status", "safe_taxon", "blockers"],
+        "properties": {
+          "sequence_id": { "type": "string" },
+          "decision_class": {
+            "enum": ["species-safe", "genus-safe", "higher-rank-safe", "ambiguous", "weak", "no-match", "not-publishable"]
+          },
+          "taxonomic_status": { "type": "string" },
+          "safe_taxon": { "type": "object" },
+          "blockers": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    }
+  }
+}

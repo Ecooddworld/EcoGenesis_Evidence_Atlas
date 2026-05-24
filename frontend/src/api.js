@@ -17,6 +17,42 @@ export async function runEvidencePassport(payload) {
   return response.json();
 }
 
+export async function getBarcodeDemoScenarios() {
+  const response = await fetch(`${API_BASE_URL}/api/barcode/demo-scenarios`);
+  if (!response.ok) {
+    throw new Error(`Barcode demo scenarios could not be loaded: ${response.status}`);
+  }
+  return response.json();
+}
+
+export async function getBarcodeReferenceStatus() {
+  const response = await fetch(`${API_BASE_URL}/api/barcode/reference-status`);
+  if (!response.ok) {
+    throw new Error(`Barcode reference status could not be loaded: ${response.status}`);
+  }
+  return response.json();
+}
+
+export async function runBarcodeCompiler(payload) {
+  const response = await fetch(`${API_BASE_URL}/api/barcode/run`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+  if (!response.ok) {
+    throw new Error(`Barcode compiler run failed: ${response.status}`);
+  }
+  return response.json();
+}
+
+export async function getBarcodeRun(runId) {
+  const response = await fetch(`${API_BASE_URL}/api/barcode/runs/${runId}`);
+  if (!response.ok) {
+    throw new Error(`Barcode compiler run not found: ${response.status}`);
+  }
+  return response.json();
+}
+
 export async function getEvidenceRun(runId) {
   const response = await fetch(`${API_BASE_URL}/api/evidence/runs/${runId}`);
   if (!response.ok) {

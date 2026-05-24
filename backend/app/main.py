@@ -8,6 +8,10 @@ from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, HTMLResponse, Response
 
+from .barcode.compiler import run_barcode_compiler
+from .barcode.demo import BARCODE_DEMO_SCENARIOS, DEFAULT_BARCODE_REQUEST
+from .barcode.schemas import BarcodeCompilerCreated, BarcodeCompilerRequest
+from .barcode.storage import barcode_artifact_path, list_barcode_summaries, load_barcode_pack
 from .evidence.demo import DEMO_SCENARIOS, REGION_PRESETS
 from .evidence.gbif import GBIFClient
 from .evidence.pipeline import EvidenceRunError, run_evidence_passport
@@ -16,9 +20,9 @@ from .evidence.storage import artifact_path, list_run_summaries, load_pack
 
 
 app = FastAPI(
-    title="EcoGenesis Evidence Atlas API",
-    version="0.1.0",
-    description="GBIF Evidence Passport API for reproducible, citation-aware biodiversity evidence packs.",
+    title="EcoGenesis Barcode-to-GBIF Evidence Compiler API",
+    version="0.2.0",
+    description="Deterministic barcode/metabarcoding compiler plus legacy GBIF Evidence Passport API.",
 )
 
 origins = [item.strip() for item in os.getenv("CORS_ALLOW_ORIGINS", "*").split(",") if item.strip()]
@@ -33,7 +37,97 @@ app.add_middleware(
 
 @app.get("/health")
 def health() -> dict:
-    return {"status": "ok", "service": "ecogenesis-evidence-atlas"}
+    return {"status": "ok", "service": "ecogenesis-barcode-gbif-compiler"}
+
+
+@app.get("/api/barcode/demo-scenarios")
+def barcode_demo_scenarios() -> list[dict]:
+    return BARCODE_DEMO_SCENARIOS
+
+
+@app.get("/api/barcode/default-request")
+def barcode_default_request() -> dict:
+    return DEFAULT_BARCODE_REQUEST
+
+
+@app.get("/api/barcode/reference-status")
+def barcode_reference_status() -> dict:
+    return {
+        "status": "ready",
+        "message": "Compiler is using deterministic local gates over supplied Sequence ID or reference-hit results.",
+        "official_links": {
+            "gbif_sequence_id": "https://www.gbif.org/tools/sequence-id",
+            "dna_derived_guide": "https://docs.gbif.org/publishing-dna-derived-data/en/",
+            "occurrence_quality_requirements": "https://www.gbif.org/data-quality-requirements-occurrences",
+            "challenge_rules": "https://www.gbif.org/awards/ebbe-2026-rules",
+        },
+        "match_gates": {
+            "exact": "identity >= 99% and queryCoverage >= 80%",
+            "close": "90% < identity < 99% and queryCoverage >= 80%",
+            "weak": "identity < 90% or queryCoverage < 80%",
+        },
+    }
+
+
+@app.post("/api/barcode/run", response_model=BarcodeCompilerCreated)
+def run_barcode(request: BarcodeCompilerRequest) -> dict:
+    pack = run_barcode_compiler(request)
+    return {
+        "run_id": pack["run"]["run_id"],
+        "status": "completed",
+        "summary": pack["summary"],
+        "exports": pack["exports"],
+    }
+
+
+@app.get("/api/barcode/runs")
+def list_barcode_runs() -> list[dict]:
+    return list_barcode_summaries()
+
+
+@app.get("/api/barcode/runs/{run_id}")
+def get_barcode_run(run_id: str) -> dict:
+    try:
+        return load_barcode_pack(run_id)
+    except FileNotFoundError as exc:
+        raise HTTPException(status_code=404, detail="barcode run not found") from exc
+
+
+@app.get("/api/barcode/runs/{run_id}/report", response_class=HTMLResponse)
+def get_barcode_report(run_id: str) -> HTMLResponse:
+    path = barcode_artifact_path(run_id, "molecular_evidence_report.html")
+    if not path.exists():
+        raise HTTPException(status_code=404, detail="barcode report not found")
+    return HTMLResponse(path.read_text(encoding="utf-8"))
+
+
+@app.get("/api/barcode/runs/{run_id}/exports")
+def get_barcode_exports(run_id: str) -> list[dict]:
+    return get_barcode_run(run_id)["exports"]
+
+
+@app.get("/api/barcode/runs/{run_id}/exports/{artifact_name}")
+def download_barcode_export(run_id: str, artifact_name: str) -> FileResponse:
+    path = barcode_artifact_path(run_id, artifact_name)
+    if not path.exists():
+        raise HTTPException(status_code=404, detail="artifact not found")
+    return FileResponse(path, filename=path.name)
+
+
+@app.head("/api/barcode/runs/{run_id}/exports/{artifact_name}")
+def head_barcode_export(run_id: str, artifact_name: str) -> Response:
+    path = barcode_artifact_path(run_id, artifact_name)
+    if not path.exists():
+        raise HTTPException(status_code=404, detail="artifact not found")
+    media_type, _ = mimetypes.guess_type(path.name)
+    return Response(
+        status_code=200,
+        media_type=media_type or "application/octet-stream",
+        headers={
+            "Content-Length": str(path.stat().st_size),
+            "Content-Disposition": f'attachment; filename="{path.name}"',
+        },
+    )
 
 
 @app.post("/api/evidence/run", response_model=EvidenceRunCreated)
