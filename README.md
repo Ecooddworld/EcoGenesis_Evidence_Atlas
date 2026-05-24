@@ -160,6 +160,18 @@ cd backend
 
 The CLI writes the same barcode Evidence Pack artifacts as the API.
 
+## Operability Verification
+
+```bash
+cd backend
+.venv/bin/python scripts/verify_barcode_operability.py
+```
+
+The verification script runs the compiler and API, checks expected decisions, validates the ZIP bundle and writes:
+
+- `reports/barcode-operability/operability_report.md`
+- `reports/barcode-operability/operability_report.json`
+
 ## Testing
 
 ```bash

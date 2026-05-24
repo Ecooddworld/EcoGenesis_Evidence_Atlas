@@ -73,6 +73,32 @@ def test_missing_occurrence_metadata_is_not_publishable(tmp_path, monkeypatch) -
     assert any("missing required Occurrence core field eventDate" in blocker for blocker in record["blockers"])
 
 
+def test_negative_barcode_gap_blocks_species_claim(tmp_path, monkeypatch) -> None:
+    monkeypatch.setenv("EVIDENCE_DATA_DIR", str(tmp_path))
+    record = GOOD_RECORD | {"barcode_gap": {"intra_max_distance": 0.02, "inter_min_distance": 0.015}}
+
+    pack = compile_records(record)
+    decision = pack["records"][0]
+
+    assert decision["barcode_gap"]["status"] == "fail"
+    assert decision["taxonomic_status"] == "ambiguous"
+    assert decision["decision_class"] == "ambiguous"
+    assert any("barcode gap fail" in blocker for blocker in decision["blockers"])
+
+
+def test_missing_diagnostic_kmers_block_species_claim(tmp_path, monkeypatch) -> None:
+    monkeypatch.setenv("EVIDENCE_DATA_DIR", str(tmp_path))
+    record = GOOD_RECORD | {"diagnostic": {"diagnostic_kmers": [], "reference_total_windows": 5_000_000, "epsilon": 0.01}}
+
+    pack = compile_records(record)
+    decision = pack["records"][0]
+
+    assert decision["diagnostic_kmers"]["status"] == "missing"
+    assert decision["taxonomic_status"] == "ambiguous"
+    assert decision["decision_class"] == "ambiguous"
+    assert any("diagnostic k-mer support missing" in blocker for blocker in decision["blockers"])
+
+
 def test_barcode_api_and_exports(tmp_path, monkeypatch) -> None:
     monkeypatch.setenv("EVIDENCE_DATA_DIR", str(tmp_path))
     client = TestClient(app)

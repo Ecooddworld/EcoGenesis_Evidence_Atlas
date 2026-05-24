@@ -59,3 +59,23 @@ docker compose up --build
 ## Live GBIF Context
 
 The barcode compiler itself is deterministic over supplied reference-hit results. It links to official GBIF Sequence ID and DNA-derived publishing guidance, but it does not call GBIF Sequence ID directly in the default demo. This keeps the demo repeatable for judges while remaining compatible with GBIF Sequence ID CSV or BLAST-style outputs.
+
+## Operability Report
+
+Run:
+
+```bash
+cd backend
+.venv/bin/python scripts/verify_barcode_operability.py
+```
+
+Expected result:
+
+- status `pass`
+- direct compiler classes match the expected mixed batch
+- API classes match the expected mixed batch
+- Evidence Pack ZIP is valid
+- required exports are present
+- HTML report endpoint returns `200`
+
+The generated report is saved to `reports/barcode-operability/`.
