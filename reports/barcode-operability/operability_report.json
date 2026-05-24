@@ -1,0 +1,134 @@
+{
+  "status": "pass",
+  "summary": {
+    "tool": "Barcode-to-GBIF Evidence Compiler",
+    "demo": "mixed batch",
+    "meaning": "One run intentionally reaches species-safe, genus-safe, weak and not-publishable decisions."
+  },
+  "expected_classes": {
+    "AALB-COI-good": "species-safe",
+    "AALB-COI-ambiguous": "genus-safe",
+    "AALB-COI-short": "weak",
+    "AALB-COI-metadata-gap": "not-publishable"
+  },
+  "direct_compiler": {
+    "pass": true,
+    "run_id": "205e61617b8c45cca59838a797375216",
+    "metrics": {
+      "processed_records": 4,
+      "processing_coverage": 1,
+      "species_safe_records": 1,
+      "genus_safe_records": 1,
+      "higher_rank_safe_records": 0,
+      "ambiguous_records": 0,
+      "weak_records": 1,
+      "no_match_records": 0,
+      "not_publishable_records": 1,
+      "species_safe_yield": 0.25,
+      "blocked_species_claims": 3,
+      "overclaim_prevention_proxy": 1,
+      "publication_repair_efficiency": 1.0
+    },
+    "actual_classes": {
+      "AALB-COI-good": "species-safe",
+      "AALB-COI-ambiguous": "genus-safe",
+      "AALB-COI-short": "weak",
+      "AALB-COI-metadata-gap": "not-publishable"
+    },
+    "expected_classes_pass": true,
+    "missing_exports": [],
+    "zip_ok": true,
+    "zip_contains_required_exports": true,
+    "evidence_pack_json_sha256": "c4cc4256baf36aa14db15eea45718bb3b24ea05a4c6925c58f68c66ebf87ebf7"
+  },
+  "api": {
+    "run_endpoint_status": 200,
+    "detail_endpoint_status": 200,
+    "report_endpoint_status": 200,
+    "exports_endpoint_status": 200,
+    "zip_head_status": 200,
+    "report_contains_title": true,
+    "api_classes": {
+      "AALB-COI-good": "species-safe",
+      "AALB-COI-ambiguous": "genus-safe",
+      "AALB-COI-short": "weak",
+      "AALB-COI-metadata-gap": "not-publishable"
+    },
+    "api_expected_classes_pass": true,
+    "api_export_count": 17
+  },
+  "actual_results": [
+    {
+      "sequence_id": "AALB-COI-good",
+      "decision_class": "species-safe",
+      "taxonomic_status": "species-safe",
+      "publication_status": "gbif-ready",
+      "safe_taxon": {
+        "rank": "species",
+        "name": "Aedes albopictus",
+        "taxon_key": 1651430
+      },
+      "top_identity": 99.6,
+      "top_query_coverage": 96.0,
+      "barcode_gap_status": "pass",
+      "diagnostic_kmer_status": "pass",
+      "blockers": []
+    },
+    {
+      "sequence_id": "AALB-COI-ambiguous",
+      "decision_class": "genus-safe",
+      "taxonomic_status": "genus-safe",
+      "publication_status": "gbif-ready",
+      "safe_taxon": {
+        "rank": "genus",
+        "name": "Aedes",
+        "taxon_key": null
+      },
+      "top_identity": 99.4,
+      "top_query_coverage": 96.0,
+      "barcode_gap_status": "pass",
+      "diagnostic_kmer_status": "pass",
+      "blockers": [
+        "species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus"
+      ]
+    },
+    {
+      "sequence_id": "AALB-COI-short",
+      "decision_class": "weak",
+      "taxonomic_status": "weak",
+      "publication_status": "not-ready",
+      "safe_taxon": {
+        "rank": "species",
+        "name": "Aedes albopictus",
+        "taxon_key": 1651430
+      },
+      "top_identity": 99.5,
+      "top_query_coverage": 72.0,
+      "barcode_gap_status": "pass",
+      "diagnostic_kmer_status": "pass",
+      "blockers": [
+        "species claim blocked: top hit does not pass exact match gate identity >= 99% and query coverage >= 80%",
+        "species claim blocked: query coverage < 80%"
+      ]
+    },
+    {
+      "sequence_id": "AALB-COI-metadata-gap",
+      "decision_class": "not-publishable",
+      "taxonomic_status": "species-safe",
+      "publication_status": "not-ready",
+      "safe_taxon": {
+        "rank": "species",
+        "name": "Aedes albopictus",
+        "taxon_key": 1651430
+      },
+      "top_identity": 99.6,
+      "top_query_coverage": 96.0,
+      "barcode_gap_status": "pass",
+      "diagnostic_kmer_status": "pass",
+      "blockers": [
+        "publication blocked: missing required Occurrence core field occurrenceID",
+        "publication blocked: missing required Occurrence core field eventDate"
+      ]
+    }
+  ]
+}
