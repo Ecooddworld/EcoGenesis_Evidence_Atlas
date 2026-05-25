@@ -1,18 +1,35 @@
-# Barcode-to-GBIF Evidence Compiler
+# Molecular Evidence Conversion & Repair Engine for GBIF
 
 EcoGenesis is now focused on a narrower, stronger GBIF Challenge tool:
 
-> A deterministic workflow that turns DNA barcode, metabarcoding and Sequence ID results into safe, rank-aware and GBIF-ready molecular occurrence evidence.
+> A deterministic engine that turns DNA barcode, metabarcoding and Sequence ID results into safe, rank-aware, repairable and GBIF-ready molecular occurrence evidence.
 
-The old occurrence Atlas is preserved on branch `oddworld/archive-atlas-score-v1`. The `main` branch now treats the Atlas layer as an audit/export shell around a new molecular decision engine.
+The current **Barcode-to-GBIF Evidence Compiler** is the first working layer of this engine. The old occurrence Atlas is preserved on branch `oddworld/archive-atlas-score-v1`. The `main` branch now treats the Atlas layer as an audit/export shell around a new molecular decision engine.
 
 ## Why This Exists
 
 Many users can produce barcode or metabarcoding results, but still face a hard publication question:
 
-> Which sequences can safely support a species-level occurrence, which must be downgraded to genus or higher rank, and what is missing before the data can become GBIF-ready?
+> From a large stream of molecular detections, which records can safely support a species-level occurrence, which must be downgraded to genus or higher rank, which are blocked by reference/library or sequence evidence, and which repair actions unlock the most GBIF-ready records?
 
 This compiler does not claim absolute biological truth. It produces a reproducible decision under frozen rules, supplied reference-hit metrics, a taxonomy lineage, barcode gap evidence, diagnostic k-mer evidence and GBIF publication metadata.
+
+## Evidence Conversion Problem
+
+The global task is not "guess the species from DNA". It is:
+
+```text
+How can a large stream of DNA / metabarcoding results be converted into the
+maximum number of safe, reproducible and GBIF-ready occurrence records without
+manual calibration and without false species-level claims?
+```
+
+The engine separates two decisions:
+
+- `TaxStatus`: `speciesSafe`, `genusSafe`, `higherRankSafe`, `ambiguous`, `weak`, `noMatch`
+- `PubStatus`: `gbifReady`, `repairable`, `notReady`
+
+This matters because a sequence can be taxonomically safe while still blocked by missing `occurrenceID`, `eventDate`, workflow metadata or other GBIF-ready publication fields.
 
 ## Decision Classes
 
@@ -40,6 +57,16 @@ identity
 -> publication package
 ```
 
+The larger engine adds:
+
+- conversion metrics: `MECY`, `RY`, `SRY`, `SSY`, and unsafe top-hit overclaim prevention
+- repair optimizer: rank actions by how many GBIF-ready records they unlock
+- reference gap index: find taxa/markers/regions where reference libraries block species-safe conversion
+- publisher bottleneck index: separate DNA problems from metadata problems
+- protein sanity layer for coding markers: frame, stop codon, frameshift and pseudogene/NUMT warnings
+- assay evidence gate for eDNA/metabarcoding controls and replicates
+- Molecular Evidence Graph linking fragments, taxa, GBIF geography, protein context, claims and blockers
+
 The frozen gates are documented in:
 
 - `docs/barcode-compiler-methodology.md`
@@ -58,7 +85,7 @@ Open:
 - Backend health: http://localhost:18100/health
 - Backend docs: http://localhost:18100/docs
 
-## Barcode API
+## Barcode Compiler API
 
 - `GET /api/barcode/demo-scenarios`
 - `GET /api/barcode/default-request`
@@ -114,7 +141,7 @@ Minimal request shape:
 }
 ```
 
-The legacy occurrence-passport API remains available under `/api/evidence/*` for regression and comparison.
+The live GBIF occurrence-passport API remains available under `/api/evidence/*` for live API checks, regression and comparison.
 
 The compiler separates `candidate_taxon` from `published_taxon`. A weak or blocked sequence can still be useful as a review hint, but it is never placed into the publishable Darwin Core exports as a species.
 

@@ -2,17 +2,19 @@
 
 ## Submission Name
 
-Barcode-to-GBIF Evidence Compiler
+Molecular Evidence Conversion & Repair Engine for GBIF
 
 ## One-Liner
 
-A deterministic workflow that turns DNA barcode and metabarcoding outputs into safe, rank-aware and GBIF-ready molecular occurrence evidence.
+A deterministic engine that turns DNA barcode and metabarcoding outputs into safe, rank-aware, repairable and GBIF-ready molecular occurrence evidence.
 
 ## Abstract And Rationale
 
 DNA barcode and metabarcoding workflows increasingly produce biodiversity evidence, but users often face a difficult final step: deciding whether a sequence result can safely support a species-level occurrence, whether the claim must be downgraded to genus or higher rank, and which metadata are missing before publication through GBIF-aligned workflows.
 
-Barcode-to-GBIF Evidence Compiler addresses this gap. It takes sequence records, reference-hit metrics and publication metadata, then applies frozen deterministic gates: identity, query coverage, statistical ambiguity, lowest common ancestor, barcode gap, diagnostic k-mer support, diagnostic false-positive probability and GBIF/DNA-derived metadata readiness. The output is not a vague score. It is an auditable decision class: `species-safe`, `genus-safe`, `higher-rank-safe`, `ambiguous`, `weak`, `no-match` or `not-publishable`.
+The Molecular Evidence Conversion & Repair Engine addresses this as an Evidence Conversion Problem: how can a large stream of DNA / metabarcoding detections be converted into the maximum number of safe, reproducible and GBIF-ready occurrence records without manual calibration and without false species-level claims?
+
+The first working layer is the Barcode-to-GBIF Evidence Compiler. It takes sequence records, reference-hit metrics and publication metadata, then applies frozen deterministic gates: identity, query coverage, statistical ambiguity, lowest common ancestor, barcode gap, diagnostic k-mer support, diagnostic false-positive probability and GBIF/DNA-derived metadata readiness. The output is not a vague score. It is an auditable decision class: `species-safe`, `genus-safe`, `higher-rank-safe`, `ambiguous`, `weak`, `no-match` or `not-publishable`, plus repairable blockers and publication exports.
 
 The tool improves the utility and quality of GBIF-mediated and GBIF-ready data by preventing unsafe top-hit species claims, producing repairable blockers, separating `candidate_taxon` from `published_taxon`, and generating publishable/review Darwin Core and DNA-derived export templates with methods, citations, a reference manifest and an evidence graph.
 
@@ -52,9 +54,22 @@ The tool improves the utility and quality of GBIF-mediated and GBIF-ready data b
 - `citations.md`
 - `evidence_graph.json`
 
+## Conversion And Repair Metrics
+
+- `MECY = N_gbifReady / N`: molecular evidence conversion yield.
+- `RY = N_repairable / N`: records unlockable through repair.
+- `SRY = (N_species + N_genus + N_higher) / N`: safe-rank yield.
+- `SSY = N_species / N`: species-safe yield.
+- `OR_naive`: expected unsafe top-hit species overclaim rate under a naive workflow.
+- `OR_compiler = 0` under the frozen rules because species claims are not emitted when gates fail.
+
+The future repair optimizer ranks actions by how many GBIF-ready records they unlock, while the reference-gap index highlights taxa, markers and regions where reference libraries block safe species-level conversion.
+
 ## Why This Is Novel
 
-The novelty is the compiler layer between molecular identification and biodiversity publication. Existing tools can identify sequences. This project focuses on the downstream decision: what rank is safe, what is blocked, what is repairable, and what can be packaged for GBIF-ready publication review.
+The novelty is the conversion and repair layer between molecular identification and biodiversity publication. Existing tools can identify sequences. This project focuses on the downstream decision: what rank is safe, what is blocked, what is repairable, what reference gaps prevent species-safe conversion, and what can be packaged for GBIF-ready publication review.
+
+The project also deliberately avoids unsafe claims. Protein translation is treated as a future coding-marker quality-control layer, not as species truth. Geography is interpreted as GBIF occurrence context for taxa carrying a fragment, not proof that the fragment was directly sampled everywhere. Phenotype/function links are future hypotheses requiring curated external evidence.
 
 ## Demo Script
 
