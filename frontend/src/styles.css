@@ -37,13 +37,24 @@ a {
   max-width: 1380px;
 }
 
+.topbar > *,
+.hero-panel > *,
+.workspace > *,
+.panel,
+.result-stack,
+.control-panel {
+  min-width: 0;
+}
+
 .topbar h1,
 .hero-panel h2,
 .panel h2,
+.panel h3,
 .empty-state h2 {
   letter-spacing: 0;
   line-height: 1.05;
   margin: 0;
+  overflow-wrap: anywhere;
 }
 
 .topbar h1 {
@@ -106,6 +117,7 @@ button,
   background: #fff;
   border: 1px solid #cbd8d0;
   color: #1d2a22;
+  min-width: 0;
 }
 
 button:disabled {
@@ -190,6 +202,15 @@ button:disabled {
   margin-top: 16px;
 }
 
+.decision-lead {
+  color: #33443a;
+  font-size: 1rem;
+  line-height: 1.55;
+  margin: 12px 0 0;
+  max-width: 940px;
+  overflow-wrap: anywhere;
+}
+
 .metric-card {
   background: #fff;
   border: 1px solid #dbe4dd;
@@ -246,6 +267,12 @@ button:disabled {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.panel h3 {
+  color: #17201a;
+  font-size: 1.15rem;
+  margin-bottom: 8px;
+}
+
 .plain-list {
   color: #2a382f;
   line-height: 1.55;
@@ -284,6 +311,7 @@ textarea {
   border-radius: 7px;
   color: #17201a;
   min-height: 40px;
+  min-width: 0;
   padding: 9px 10px;
   width: 100%;
 }
@@ -292,7 +320,7 @@ textarea {
   font-family: "SFMono-Regular", Consolas, monospace;
   font-size: 0.78rem;
   line-height: 1.45;
-  min-height: 460px;
+  min-height: 300px;
   resize: vertical;
 }
 
@@ -316,9 +344,99 @@ summary {
   font-weight: 850;
 }
 
+.advanced-input {
+  border-top: 1px solid #dfe8e2;
+  padding-top: 12px;
+}
+
+.advanced-input label {
+  margin-top: 12px;
+}
+
 .result-stack {
   display: grid;
   gap: 18px;
+}
+
+.outcome-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.outcome-card {
+  background: #fff;
+  border: 1px solid #dbe4dd;
+  border-left: 5px solid #8fa39a;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.outcome-card span {
+  color: #17201a;
+  display: block;
+  font-size: 2rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.outcome-card h3 {
+  font-size: 1rem;
+  line-height: 1.2;
+  margin: 10px 0 7px;
+}
+
+.outcome-card p {
+  color: #53655c;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.outcome-card.species-safe {
+  border-left-color: #287844;
+}
+
+.outcome-card.genus-safe {
+  border-left-color: #426aa5;
+}
+
+.outcome-card.weak {
+  border-left-color: #b36b2c;
+}
+
+.outcome-card.not-publishable {
+  border-left-color: #a14227;
+}
+
+.record-list {
+  display: grid;
+  gap: 10px;
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+}
+
+.record-list li {
+  border-top: 1px solid #e1e9e3;
+  display: grid;
+  gap: 4px;
+  padding-top: 10px;
+}
+
+.record-list strong {
+  color: #17201a;
+  font-size: 0.92rem;
+}
+
+.record-list span {
+  color: #53655c;
+  font-size: 0.88rem;
+  line-height: 1.4;
+}
+
+.record-list.blocked span {
+  color: #7a321e;
 }
 
 .table-wrap {
@@ -379,6 +497,35 @@ th {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.export-groups {
+  display: grid;
+  gap: 18px;
+}
+
+.export-group {
+  border-top: 1px solid #dfe8e2;
+  display: grid;
+  gap: 12px;
+  padding-top: 16px;
+}
+
+.export-group:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.export-group h3 {
+  font-size: 1rem;
+  margin-bottom: 5px;
+}
+
+.export-group p {
+  color: #53655c;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  margin: 0;
+}
+
 .export-grid a {
   background: #f7faf7;
   border: 1px solid #dce6de;
@@ -404,7 +551,12 @@ th {
     position: static;
   }
 
+  .workspace.has-results .result-stack {
+    order: -1;
+  }
+
   .metrics-grid,
+  .outcome-grid,
   .pipeline,
   .export-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -417,6 +569,7 @@ th {
   }
 
   .metrics-grid,
+  .outcome-grid,
   .pipeline,
   .export-grid {
     grid-template-columns: 1fr;
