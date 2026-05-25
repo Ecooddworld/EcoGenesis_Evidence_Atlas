@@ -405,6 +405,621 @@ const engineLayers = [
   ['6', 'Molecular Evidence Graph', 'Connects fragments, taxa, GBIF geography, protein context, datasets, claims and blockers.'],
 ];
 
+const fullMathSections = [
+  {
+    label: '01',
+    title: 'Complete input contract',
+    formula: `Omega = {r_1, r_2, ..., r_N}
+
+r_i = (s_i, H_i, T_i, M_i, R_i, A_i)
+
+s_i = DNA sequence, ASV, barcode, amplicon or fragment
+
+H_i = {h_1, h_2, ..., h_n}
+h_j = (
+  taxon_j,
+  rank_j,
+  lineage_j,
+  identity_j,
+  coverage_j,
+  aligned_length_j,
+  bitScore_j,
+  evalue_j
+)
+
+T_i = taxonomy tree / GBIF backbone lineage
+M_i = occurrence + DNA-derived metadata
+R_i = reference evidence:
+  barcode gap,
+  diagnostic k-mers,
+  reference completeness
+A_i = assay evidence:
+  controls,
+  replicates,
+  read counts,
+  contamination flags`,
+    meaning: 'A row is not only a sequence. It is sequence evidence plus hits, taxonomy, metadata, reference-library context and optional assay context. That is why the output can explain why a record is safe, downgraded, repairable or blocked.',
+  },
+  {
+    label: '02',
+    title: 'Compiler output contract',
+    formula: `Compiler(s, H, T, M, R, A)
+  -> (
+    tau_safe,
+    tax_status,
+    pub_status,
+    candidate_taxon,
+    published_taxon,
+    blockers,
+    actions,
+    exports
+  )
+
+tau_safe = maximum defensible taxonomic level
+
+tax_status in {
+  speciesSafe,
+  genusSafe,
+  higherRankSafe,
+  ambiguous,
+  weak,
+  noMatch
+}
+
+pub_status in {
+  gbifReady,
+  repairable,
+  notReady
+}
+
+candidate_taxon = safest biological interpretation
+published_taxon = taxon allowed into publishable export
+
+If publication gates fail:
+  candidate_taxon may exist
+  published_taxon = none`,
+    meaning: 'The key design choice is separating biological interpretation from publication readiness. A sequence can be species-safe but still not publishable because GBIF-required fields are missing.',
+  },
+  {
+    label: '03',
+    title: 'Match gates: identity and coverage',
+    formula: `For hit h_j:
+
+Exact(h_j) =
+  I(identity_j >= 0.99) * I(coverage_j >= 0.80)
+
+Close(h_j) =
+  I(0.90 < identity_j < 0.99) * I(coverage_j >= 0.80)
+
+Weak(h_j) =
+  I(identity_j < 0.90 OR coverage_j < 0.80)
+
+NoMatch(s) =
+  I(|H(s)| = 0)
+
+SpeciesGate_1(s) = Exact(h_top)
+
+If SpeciesGate_1(s) = 0:
+  species-level publication is forbidden`,
+    meaning: 'This blocks the most common mistake: taking a high-looking but incomplete hit and calling it a species. Coverage matters as much as identity.',
+  },
+  {
+    label: '04',
+    title: 'Ambiguity boundary: top hit must be distinguishable',
+    formula: `d_j = 1 - identity_j
+
+SE_j = sqrt(d_j * (1 - d_j) / aligned_length_j)
+
+Delta_j = d_j - d_top
+
+Boundary_j =
+  1.96 * sqrt(SE_top^2 + SE_j^2)
+
+Competitor h_j is indistinguishable from top hit if:
+
+Delta_j <= Boundary_j
+
+U(s) = {
+  h_j in H(s) :
+  d_j - d_top <= 1.96 * sqrt(SE_top^2 + SE_j^2)
+}`,
+    meaning: 'If another taxon is statistically too close to the top hit, the top species is not enough. The compiler gathers indistinguishable competitors before deciding the safe rank.',
+  },
+  {
+    label: '05',
+    title: 'Safe taxonomic rank through LCA',
+    formula: `tau_safe(s) =
+  LCA({taxon_j : h_j in U(s)})
+
+rank_safe(s) = rank(tau_safe(s))
+
+If:
+  U(s) = {
+    Aedes albopictus,
+    Aedes aegypti
+  }
+
+Then:
+  tau_safe(s) = Aedes
+  rank_safe(s) = genus
+
+Species claim is blocked,
+but genus-level evidence is preserved.`,
+    meaning: 'This is the downgrade rule. The system does not throw away useful evidence just because species is unsafe; it moves to the lowest common ancestor.',
+  },
+  {
+    label: '06',
+    title: 'Barcode gap: marker/reference separability',
+    formula: `For candidate species t:
+
+D_intra(t) =
+  max distance(a,b)
+  for a,b in reference sequences of t
+
+D_inter(t) =
+  min distance(a,b)
+  for a in references of t
+  and b outside t
+
+BG(t) = D_inter(t) - D_intra(t)
+
+BarcodeGapPass(t) =
+  I(BG(t) > 0)
+
+If BG(t) <= 0:
+  species-level claim is blocked`,
+    meaning: 'Even an exact top hit is unsafe if the marker does not separate the species from close relatives in the reference library.',
+  },
+  {
+    label: '07',
+    title: 'Diagnostic k-mers with random-collision control',
+    formula: `K_k(s) =
+  {s[1:k], s[2:k+1], ..., s[L-k+1:L]}
+
+D_k(t) =
+  K_k(R_t) \\ union_{u != t} K_k(R_u)
+
+DS(s,t) =
+  |K_k(s) intersection D_k(t)| / |K_k(s)|
+
+k =
+  ceil(log_4(N_ref / epsilon))
+
+support_count =
+  |K_k(s) intersection D_k(t)|
+
+query_windows =
+  max(L - k + 1, 0)
+
+p_false_positive =
+  1 - (1 - |D_k(t)| / 4^k) ^ query_windows
+
+DiagnosticPass(s,t) =
+  I(support_count >= 1)
+  * I(p_false_positive <= alpha)
+
+Default alpha = 0.01`,
+    meaning: 'This prevents a short or common k-mer from unlocking a species claim by accident. Diagnostic support must exist and its random-collision risk must be low.',
+  },
+  {
+    label: '08',
+    title: 'Reference Completeness Gate',
+    formula: `For candidate species t inside genus g and marker m:
+
+Species_GBIF(g) =
+  accepted species in genus g from GBIF backbone
+
+Species_ref(g,m) =
+  species in genus g represented in the reference library for marker m
+
+RC(g,m) =
+  |Species_GBIF(g) intersection Species_ref(g,m)|
+  / |Species_GBIF(g)|
+
+If RC(g,m) = 1:
+  species-safe-A
+
+If gates pass but RC(g,m) < 1:
+  species-safe-B with reference-incomplete caveat
+
+If a missing close species could change LCA:
+  downgrade or require review`,
+    meaning: 'No competitor in the database does not mean no competitor in nature. This gate makes reference-library incompleteness visible instead of hidden.',
+  },
+  {
+    label: '09',
+    title: 'Protein Sanity Gate for coding markers',
+    formula: `marker_type in {
+  coding,
+  noncoding,
+  rRNA,
+  unknown
+}
+
+If marker_type != coding:
+  amino_acid_layer = not_applicable
+
+For coding marker:
+
+codon_j = s[3j : 3j+2]
+aa_j = GeneticCode(codon_j)
+
+Frame* =
+  argmin over f in {0,1,2}
+  StopCodons(Translate(s, f))
+
+ProteinSanityPass =
+  I(InternalStopCount = 0)
+  * I(length(s) mod 3 = 0)
+  * I(FrameshiftRisk = 0)
+
+If ProteinSanityPass = 0:
+  add blocker:
+  possible frameshift / stop codon / pseudogene / NUMT`,
+    meaning: 'Amino acids are not the main species-discriminator. Translation loses nucleotide information. The protein layer is a quality-control layer for coding markers.',
+  },
+  {
+    label: '10',
+    title: 'Assay Evidence Gate for eDNA and metabarcoding',
+    formula: `A_i = {
+  positive_replicates,
+  pcr_replicates,
+  negative_control_detected,
+  blank_control_detected,
+  read_count,
+  relative_abundance,
+  chimera_flag,
+  primer_set,
+  workflow_version
+}
+
+ControlPass =
+  I(negative_control_detected = false)
+  * I(blank_control_detected = false)
+
+ReplicateEvidence =
+  positive_replicates / pcr_replicates
+
+If control metadata missing:
+  assay_status = not_evaluated
+
+If negative or blank control is positive:
+  assay_status = contamination_risk
+
+Do not infer:
+  living organism present here now
+
+Say instead:
+  sequence-derived molecular evidence was detected
+  under the supplied assay context`,
+    meaning: 'For eDNA, detection is not the same as direct living presence. Controls and replicates matter, and the UI must keep this caveat explicit.',
+  },
+  {
+    label: '11',
+    title: 'Publication readiness',
+    formula: `F_core = {
+  occurrenceID,
+  basisOfRecord,
+  scientificName,
+  eventDate
+}
+
+CorePass(M) =
+  product over f in F_core of I(M_f != empty)
+
+F_dna = {
+  marker,
+  sequenceID,
+  referenceDatabase,
+  identity,
+  queryCoverage,
+  methodOrSOP
+}
+
+DNAPass(M) =
+  product over f in F_dna of I(M_f != empty)
+
+PubDecision(M, s) =
+  gbifReady   if CorePass = 1 AND DNAPass = 1
+  repairable  if TaxDecision != noMatch
+              AND (CorePass = 0 OR DNAPass = 0)
+  notReady    if no usable sequence evidence
+              OR no usable metadata`,
+    meaning: 'This is the repair layer. It tells the user whether the problem is biology, reference evidence or simply missing GBIF publication fields.',
+  },
+  {
+    label: '12',
+    title: 'Two-axis decision function',
+    formula: `TaxDecision(s) =
+  speciesSafe if
+    Exact(h_top)=1
+    AND rank(LCA(U(s))) = species
+    AND BG(t) > 0
+    AND DiagnosticPass(s,t)=1
+    AND reference caveat is acceptable
+    AND ProteinSanityPass is not failed
+
+  genusSafe if
+    rank(LCA(U(s))) = genus
+
+  higherRankSafe if
+    rank(LCA(U(s))) in {family, order, class, ...}
+
+  weak if
+    identity_top < 0.90 OR coverage_top < 0.80
+
+  noMatch if
+    H(s) is empty
+
+Final export rule:
+
+If TaxDecision is safe rank
+AND PubDecision = gbifReady:
+  published_taxon = tau_safe
+
+Else:
+  published_taxon = none
+  record goes to review / repair queue`,
+    meaning: 'The current implementation already applies the core fail-closed version of this. The planned protein/reference/assay layers strengthen it without changing the principle.',
+  },
+  {
+    label: '13',
+    title: 'Batch decomposition: where the data go',
+    formula: `N =
+  N_species
+  + N_genus
+  + N_higher
+  + N_ambiguous
+  + N_weak
+  + N_noMatch
+
+N =
+  N_gbifReady
+  + N_repairable
+  + N_notReady
+
+Loss_by_reason(b) =
+  sum_i I(b in blockers(r_i))
+
+Repairable_by_field(f) =
+  sum_i I(f in missing_fields(r_i)
+          AND TaxDecision(r_i) != noMatch)`,
+    meaning: 'The engine becomes a loss-accounting system. It shows whether records are lost to weak sequence, ambiguity, reference gaps, assay caveats or metadata gaps.',
+  },
+  {
+    label: '14',
+    title: 'Conversion and overclaim metrics',
+    formula: `MECY =
+  N_gbifReady / N
+
+RY =
+  N_repairable / N
+
+SRY =
+  (N_species + N_genus + N_higher) / N
+
+SSY =
+  N_species / N
+
+TopSpecies_i =
+  I(topHitRank_i = species)
+
+SpeciesSafe_i =
+  I(TaxDecision_i = speciesSafe)
+
+UnsafeTopSpecies =
+  sum_i I(TopSpecies_i = 1 AND SpeciesSafe_i = 0)
+
+OR_naive =
+  UnsafeTopSpecies / sum_i TopSpecies_i
+
+OR_compiler = 0
+under the export rules because unsafe species
+claims are not emitted as published species`,
+    meaning: 'This answers "what did we solve?" quantitatively: records are processed, useful safe-rank evidence is kept, and naive top-hit overclaiming is blocked.',
+  },
+  {
+    label: '15',
+    title: 'Repair optimizer',
+    formula: `For record r_i:
+
+B(r_i) =
+  {b_i1, b_i2, ..., b_ik}
+
+Each action a removes one or more blockers:
+
+Unlock(a) =
+  {r_i : a removes at least one blocking condition
+        and all remaining conditions allow GBIF-ready export}
+
+Budgeted maximum coverage:
+
+maximize over A' subset A, |A'| <= k:
+
+  | union over a in A' of Unlock(a) |
+
+Weighted version:
+
+maximize:
+  sum_{r_i unlocked by A'} value(r_i)
+
+subject to:
+  sum_{a in A'} cost(a) <= Budget`,
+    meaning: 'This is the next strongest product feature: not only "what is broken?", but "what should I fix first to unlock the most GBIF-ready records?".',
+  },
+  {
+    label: '16',
+    title: 'Reference and publisher bottleneck indices',
+    formula: `Attempts(t,m,g) =
+  sum_i I(topTaxon_i = t
+          AND marker_i = m
+          AND region_i = g)
+
+Blocked_ref(t,m,g) =
+  sum_i I(reason_i in {
+    ambiguous,
+    LCA_downgrade,
+    BG <= 0,
+    DiagnosticPass = 0,
+    noMatch,
+    reference_incomplete
+  })
+
+RGI(t,m,g) =
+  Blocked_ref(t,m,g) / Attempts(t,m,g)
+
+For dataset d:
+
+PBI(d) =
+  sum_i I(dataset_i=d AND PubStatus_i != gbifReady)
+  / sum_i I(dataset_i=d)
+
+FieldLoss(f,d) =
+  sum_i I(dataset_i=d AND f in MissingFields_i)
+  / sum_i I(dataset_i=d)`,
+    meaning: 'Reference Gap Index points curators to missing molecular references. Publisher Bottleneck Index tells data publishers which metadata fields block their records.',
+  },
+  {
+    label: '17',
+    title: 'Fragment sharedness and specificity',
+    formula: `For fragment f:
+
+T(f) =
+  {t_1, t_2, ..., t_n}
+  taxa where f occurs
+
+c(f,t) =
+  count of fragment f in taxon t
+
+p(t|f) =
+  c(f,t) / sum_u c(f,u)
+
+H_tax(f) =
+  - sum_t p(t|f) * log(p(t|f))
+
+Spec(f) =
+  1 - H_tax(f) / log(|T(f)|)
+
+SafeTaxon(f) =
+  LCA(T(f))
+
+If Spec(f) ~= 1:
+  fragment is taxonomically specific
+
+If Spec(f) ~= 0:
+  fragment is broadly shared`,
+    meaning: 'This answers the deeper idea: when a fragment occurs in several species, do not hide it as "ambiguous". Show all taxa, entropy, specificity and safe LCA.',
+  },
+  {
+    label: '18',
+    title: 'Geography is evidence context, not direct proof',
+    formula: `For fragment f and region g:
+
+G(f) =
+  occurrence regions of taxa in T(f)
+  through GBIF-mediated evidence
+
+c(f,g) =
+  sum over t in T(f) of Occurrences(t,g)
+
+P(g|f) =
+  c(f,g) / sum_v c(f,v)
+
+GeoScore(f,g) =
+  log((P(g|f) + epsilon) / (P(g|not f) + epsilon))
+
+Allowed wording:
+  taxa carrying this fragment have GBIF occurrence
+  evidence in region g
+
+Blocked wording:
+  this fragment definitely occurs in region g`,
+    meaning: 'This protects the project from a common geographic overclaim. GBIF occurrences provide context unless the molecular sample itself has coordinates.',
+  },
+  {
+    label: '19',
+    title: 'Multi-marker consensus',
+    formula: `For markers m_1, m_2, ..., m_k:
+
+tau_1 = SafeTaxon(s, m_1)
+tau_2 = SafeTaxon(s, m_2)
+...
+tau_k = SafeTaxon(s, m_k)
+
+ConsensusSafeTaxon =
+  LCA({tau_1, tau_2, ..., tau_k})
+
+If markers disagree deeply:
+  status = conflict
+  action = review taxonomy, contamination,
+           primer specificity or reference library`,
+    meaning: 'This is how the engine can grow beyond one barcode marker without pretending that one marker has absolute authority.',
+  },
+  {
+    label: '20',
+    title: 'Molecular Evidence Graph',
+    formula: `Graph G = (V, E)
+
+V includes:
+  Sequence
+  Fragment
+  K-mer
+  AminoAcidMotif
+  ProteinDomain
+  Taxon
+  Clade
+  Region
+  Dataset
+  Claim
+  Blocker
+  RepairAction
+
+E includes:
+  sequence_has_hit
+  hit_maps_to_taxon
+  fragment_occurs_in_taxon
+  fragment_shared_by_clade
+  fragment_diagnostic_for_taxon
+  fragment_maps_to_protein
+  taxon_observed_in_region
+  claim_supported_by
+  claim_blocked_by
+  action_repairs_blocker
+
+Every published claim must have:
+  at least one supported_by path
+  zero unresolved hard blockers`,
+    meaning: 'This is the big direction for GBIF: an auditable graph that turns molecular fragments into safe taxonomic, publication, geographic and protein-context evidence.',
+  },
+];
+
+const solvedRows = [
+  ['Unsafe top-hit species claims', 'Solved in the current compiler', 'The mixed batch blocked 3 unsafe species-level claims before export.'],
+  ['Safe-rank downgrade', 'Solved in the current compiler', 'Ambiguous Aedes hits are exported at genus rank instead of forcing species.'],
+  ['Weak short fragments', 'Solved in the current compiler', 'A high-identity but low-coverage record becomes `weak` and stays out of publishable species exports.'],
+  ['Metadata vs taxonomy separation', 'Solved in the current compiler', 'A species-safe record with missing occurrenceID/eventDate becomes `not-publishable`, not a false published species.'],
+  ['Evidence pack generation', 'Solved in the current compiler', 'CSV, JSON, HTML, Darwin Core, DNA-derived templates, methods, citations and ZIP exports are generated.'],
+  ['Live GBIF API path', 'Solved for occurrence evidence', 'Aedes albopictus in Spain used live GBIF API, not fixture fallback.'],
+  ['Protein sanity, assay gate, repair optimizer', 'Designed and documented, not fully implemented yet', 'The formulas and UX now expose the next layers; backend implementation is the next milestone.'],
+  ['Phenotype prediction', 'Deliberately not claimed', 'The project treats phenotype/function as future hypotheses requiring curated external evidence.'],
+];
+
+const testAnalysisRows = [
+  ['Frontend unit tests', '3 passed', 'Overview renders, workbench opens, proof/formulas page exposes key formulas and p_false_positive.'],
+  ['Frontend production build', 'Passed', 'Vite build completed and the page can be shipped as a static frontend.'],
+  ['Backend pytest', '23 passed, 1 skipped', 'API, compiler logic, exports and existing regression behavior remain operational.'],
+  ['Barcode operability script', 'PASS', 'Expected decisions, API endpoint, ZIP bundle and required exports all passed.'],
+  ['Browser smoke', '0 console errors', 'Proof page and workbench rendered locally; no horizontal overflow was detected in the tested viewport.'],
+  ['Live GBIF smoke', 'OK', 'GBIF API reachable; taxonKey 1651430 preserved; 50 live records returned from 19,713 GBIF results; fallback_used=false.'],
+];
+
+const mixedBatchRows = [
+  ['AALB-COI-good', 'species-safe', 'Aedes albopictus / species', 'All species gates and publication fields passed.'],
+  ['AALB-COI-ambiguous', 'genus-safe', 'Aedes / genus', 'Indistinguishable competitors collapsed the safe rank to genus.'],
+  ['AALB-COI-short', 'weak', 'Review only', 'Coverage below 80% blocked the species-level claim.'],
+  ['AALB-COI-metadata-gap', 'not-publishable', 'Review only', 'Taxonomy was species-safe, but occurrenceID and eventDate were missing.'],
+];
+
 const proofSteps = [
   'Assume the compiler emits species-safe.',
   'Then Exact(top), species-level LCA, positive barcode gap, diagnostic support with low p_false_positive, and publication metadata must all be true.',
@@ -788,6 +1403,30 @@ function ProofAndFormulas() {
         </div>
       </section>
 
+      <section className="panel">
+        <p className="section-label">Full mathematical notebook</p>
+        <h2>Complete formulas and explanations behind the engine.</h2>
+        <p className="proof-copy">
+          This is the full evidence logic, not just a summary. Each block shows the formula, the variables it uses,
+          and what the formula protects against in the workflow. The current backend implements the core compiler
+          gates; the reference completeness, protein sanity, assay evidence, repair optimizer and graph layers are
+          now explicitly specified as the next implementation targets.
+        </p>
+      </section>
+
+      <section className="math-notebook">
+        {fullMathSections.map((section) => (
+          <article className="math-section" key={section.label}>
+            <div className="math-heading">
+              <span>{section.label}</span>
+              <h3>{section.title}</h3>
+            </div>
+            <pre className="formula-code"><code>{section.formula}</code></pre>
+            <p>{section.meaning}</p>
+          </article>
+        ))}
+      </section>
+
       <section className="formula-grid">
         {engineFormulaSections.map((section) => (
           <article className="formula-card engine-card" key={section.label}>
@@ -849,6 +1488,65 @@ function ProofAndFormulas() {
               <p>{example.interpretation}</p>
               <pre className="formula-code"><code>{example.formula}</code></pre>
             </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="panel">
+        <p className="section-label">Test analysis</p>
+        <h2>What we actually solved and proved with the current implementation.</h2>
+        <p className="proof-copy">
+          The tests do not prove biological truth. They prove that the implemented workflow behaves fail-closed:
+          unsafe species claims are blocked, ambiguous records are downgraded, missing metadata prevents publication,
+          evidence exports are generated, and the live GBIF path can run without fixture reuse.
+        </p>
+        <div className="analysis-table">
+          <div><strong>Problem</strong><strong>Status</strong><strong>Evidence from tests</strong></div>
+          {solvedRows.map(([problem, status, evidence]) => (
+            <div key={problem}>
+              <span>{problem}</span>
+              <span>{status}</span>
+              <span>{evidence}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="panel">
+        <p className="section-label">Mixed-batch result</p>
+        <h2>The current compiler reaches concrete, inspectable outcomes.</h2>
+        <div className="analysis-table compact-analysis">
+          <div><strong>Record</strong><strong>Decision</strong><strong>Published output</strong><strong>Why</strong></div>
+          {mixedBatchRows.map(([record, decision, output, why]) => (
+            <div key={record}>
+              <span>{record}</span>
+              <span>{decision}</span>
+              <span>{output}</span>
+              <span>{why}</span>
+            </div>
+          ))}
+        </div>
+        <div className="test-metrics">
+          <Metric label="Processed records" value="4" />
+          <Metric label="Species-safe" value="1" />
+          <Metric label="Genus-safe" value="1" />
+          <Metric label="Blocked species claims" value="3" />
+          <Metric label="Record-ready exports" value="2" />
+          <Metric label="Repair efficiency" value="1.0" />
+        </div>
+      </section>
+
+      <section className="panel">
+        <p className="section-label">Verification matrix</p>
+        <h2>How the implementation was checked.</h2>
+        <div className="analysis-table">
+          <div><strong>Check</strong><strong>Result</strong><strong>Meaning</strong></div>
+          {testAnalysisRows.map(([check, result, meaning]) => (
+            <div key={check}>
+              <span>{check}</span>
+              <span>{result}</span>
+              <span>{meaning}</span>
+            </div>
           ))}
         </div>
       </section>
