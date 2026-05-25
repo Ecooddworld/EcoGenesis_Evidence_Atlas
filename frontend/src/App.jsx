@@ -37,7 +37,133 @@ const defaultScenario = {
 const modeLabels = {
   overview: 'Submission overview',
   workbench: 'Compiler workbench',
+  formulas: 'Proof & formulas',
 };
+
+const formulaSections = [
+  {
+    label: 'Compiler function',
+    title: 'The tool is a deterministic compiler, not a vague score',
+    formula: `Compiler(s, H, T, M, R)
+  -> (candidate_taxon, published_taxon, decision_class, blockers, exports)
+
+s = query sequence
+H = reference hits
+T = taxonomy / lineage tree
+M = occurrence and DNA-derived metadata
+R = reference evidence for barcode gap and diagnostic k-mers`,
+    proof: 'Every output is derived from supplied inputs and frozen gates. There is no hidden weighting step, so a judge can reproduce why a sequence was published, downgraded or blocked.',
+  },
+  {
+    label: 'Match gates',
+    title: 'Species claims require an exact Sequence ID-style match',
+    formula: `Exact(h) = identity >= 99% AND queryCoverage >= 80%
+Close(h) = 90% < identity < 99% AND queryCoverage >= 80%
+Weak(h) = identity < 90% OR queryCoverage < 80%`,
+    proof: 'If the top hit is not exact, the compiler cannot emit species-safe. This blocks short fragments and weak matches from becoming species-level occurrences.',
+  },
+  {
+    label: 'Ambiguity test',
+    title: 'A top hit must be distinguishable from competitors',
+    formula: `d_i = 1 - identity_i
+SE_i = sqrt(d_i * (1 - d_i) / aligned_length_i)
+
+Delta_j = d_j - d_top
+Boundary_j = 1.96 * sqrt(SE_top^2 + SE_j^2)
+
+Indistinguishable if:
+Delta_j <= Boundary_j`,
+    proof: 'If another species is statistically indistinguishable from the top hit, the species claim is blocked. The compiler then uses the shared lineage instead of blindly trusting the top hit.',
+  },
+  {
+    label: 'Safe rank',
+    title: 'The safe taxon is the LCA of indistinguishable hits',
+    formula: `U(s) = { h_j in H : Delta_j <= Boundary_j }
+candidate_taxon = LCA({ taxon_j : h_j in U(s) })
+
+If U contains Aedes albopictus and Aedes aegypti:
+candidate_taxon = Aedes / genus`,
+    proof: 'This is the downgrade rule. When species cannot be separated, the compiler preserves useful evidence at genus or higher rank instead of overclaiming.',
+  },
+  {
+    label: 'Barcode gap',
+    title: 'The reference library must separate the target species',
+    formula: `D_intra(t) = max distance between references inside taxon t
+D_inter(t) = min distance between t and outside taxa
+
+BarcodeGap(t) = D_inter(t) - D_intra(t)
+
+Species gate passes only if:
+BarcodeGap(t) > 0`,
+    proof: 'If the interspecific distance is not larger than the intraspecific distance, the marker/reference library cannot defend a species-level claim. The compiler blocks species-safe.',
+  },
+  {
+    label: 'Diagnostic k-mers',
+    title: 'Diagnostic support must have low random-collision risk',
+    formula: `K_k(s) = all k-length windows in sequence s
+D_k(t) = k-mers unique to taxon t in the reference set
+support_count = | K_k(s) intersection D_k(t) |
+
+p_false_positive = 1 - (1 - |D_k(t)| / 4^k) ^ |K_k(s)|
+
+Diagnostic gate passes only if:
+support_count >= 1 AND p_false_positive <= alpha
+
+Default alpha = 0.01`,
+    proof: 'A single diagnostic k-mer is not enough if it is too short or too common. The false-positive gate blocks accidental random support from unlocking a species claim.',
+  },
+  {
+    label: 'Publication readiness',
+    title: 'Taxonomic evidence and GBIF publication readiness are separate',
+    formula: `CorePass(M) =
+  all required fields exist:
+  occurrenceID, basisOfRecord, scientificName, eventDate
+
+DNAPass(M) =
+  all DNA-derived fields exist:
+  marker, sequenceID, referenceDatabase,
+  identity, queryCoverage, methodOrSOP
+
+Publishable(M, s) =
+  CorePass(M) AND DNAPass(M) AND TaxonomicSafe(s)`,
+    proof: 'A sequence may be taxonomically strong but still not publishable. Missing occurrenceID or eventDate changes the final decision to not-publishable and keeps published_taxon empty.',
+  },
+  {
+    label: 'Decision function',
+    title: 'Final classes are fail-closed',
+    formula: `species-safe if:
+  Exact(top) AND LCA(U) is species
+  AND BarcodeGap > 0
+  AND diagnostic gate passes
+  AND Publishable = true
+
+genus-safe if:
+  LCA(U) is genus
+  AND required record metadata passes
+
+higher-rank-safe if:
+  LCA(U) is family/order/class/phylum/kingdom
+
+weak if:
+  identity < 90% OR coverage < 80%
+
+not-publishable if:
+  taxonomic evidence is safe
+  BUT required publication metadata is missing`,
+    proof: 'The species-safe path is the narrowest path. Any failed species gate either downgrades the rank, moves the record to review, or blocks publication.',
+  },
+];
+
+const proofSteps = [
+  'Assume the compiler emits species-safe.',
+  'Then Exact(top), species-level LCA, positive barcode gap, diagnostic support with low p_false_positive, and publication metadata must all be true.',
+  'If the top hit were weak, Exact(top) would be false, so species-safe could not be emitted.',
+  'If a competitor were indistinguishable, LCA(U) would collapse to genus or higher, so species-safe could not be emitted.',
+  'If the reference library did not separate the species, BarcodeGap <= 0, so species-safe could not be emitted.',
+  'If diagnostic support were missing or random-collision risk were high, the diagnostic gate would fail.',
+  'If required GBIF/DNA metadata were missing, published_taxon would be none and the decision would be not-publishable.',
+  'Therefore species-safe is not a blind top-hit claim. It is a record that survived every failure mode in the frozen ruleset.',
+];
 
 const decisionCopy = {
   'species-safe': {
@@ -186,6 +312,8 @@ function App() {
           onRunCompiler={runCompiler}
           loading={loading}
         />
+      ) : mode === 'formulas' ? (
+        <ProofAndFormulas />
       ) : (
         <CompilerWorkbench
           scenarios={scenarios}
@@ -262,6 +390,62 @@ function SubmissionOverview({ referenceStatus, metrics, exports, pack, onOpenWor
             <li>Short coverage, missing barcode gap or missing diagnostic k-mers block species output.</li>
             <li>Missing occurrenceID or eventDate blocks GBIF-ready publication.</li>
           </ul>
+        </div>
+      </section>
+    </section>
+  );
+}
+
+function ProofAndFormulas() {
+  return (
+    <section className="proof-page">
+      <section className="proof-hero panel">
+        <div>
+          <p className="section-label">Evidence basis</p>
+          <h2>Why the compiler can say "publish", "downgrade" or "block".</h2>
+          <p>
+            This page exposes the full decision logic behind the Barcode-to-GBIF Evidence Compiler. The key point is simple:
+            species-level output is allowed only when every molecular and publication gate passes. Otherwise the record is
+            downgraded, kept for review or blocked from publishable exports.
+          </p>
+        </div>
+        <div className="proof-summary">
+          <strong>Fail-closed rule</strong>
+          <span>No arbitrary score. No hidden weights. No blind top-hit species claims.</span>
+        </div>
+      </section>
+
+      <section className="formula-grid">
+        {formulaSections.map((section) => (
+          <article className="formula-card" key={section.label}>
+            <p className="section-label">{section.label}</p>
+            <h3>{section.title}</h3>
+            <pre className="formula-code"><code>{section.formula}</code></pre>
+            <p>{section.proof}</p>
+          </article>
+        ))}
+      </section>
+
+      <section className="panel proof-theorem">
+        <p className="section-label">Proof by contradiction</p>
+        <h2>If the compiler emits species-safe, the species claim is not a blind top-hit claim.</h2>
+        <ol className="proof-steps">
+          {proofSteps.map((step) => (
+            <li key={step}>{step}</li>
+          ))}
+        </ol>
+      </section>
+
+      <section className="panel">
+        <p className="section-label">Failure mode matrix</p>
+        <div className="claim-matrix">
+          <div><strong>Failure mode</strong><strong>Compiler response</strong></div>
+          <div><span>Identity below 99% or coverage below 80%</span><span>`weak`, no published species</span></div>
+          <div><span>Indistinguishable species competitor</span><span>Downgrade to LCA, usually genus</span></div>
+          <div><span>Barcode gap missing or non-positive</span><span>Block species-safe</span></div>
+          <div><span>Diagnostic k-mer missing or high p_false_positive</span><span>Block species-safe</span></div>
+          <div><span>Required Occurrence/DNA metadata missing</span><span>`not-publishable`, published_taxon = none</span></div>
+          <div><span>Safe genus or higher rank remains</span><span>Export at the supported rank, not at species rank</span></div>
         </div>
       </section>
     </section>
