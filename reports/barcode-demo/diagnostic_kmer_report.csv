@@ -1,5 +1,5 @@
-sequenceID,status,k,queryWindowCount,diagnosticKmerCount,supportCount,supportRate,expectedRandomHits
-AALB-COI-good,pass,15,145,3,3,0.02069,0.0
-AALB-COI-ambiguous,pass,15,145,3,3,0.02069,0.0
-AALB-COI-short,pass,15,145,3,3,0.02069,0.0
-AALB-COI-metadata-gap,pass,15,145,3,3,0.02069,0.0
+sequenceID,status,k,queryWindowCount,diagnosticKmerCount,supportCount,supportRate,expectedRandomHits,pFalsePositive,alpha
+AALB-COI-good,pass,15,608,3,3,0.004934,2e-06,1.7e-06,0.01
+AALB-COI-ambiguous,pass,15,608,3,3,0.004934,2e-06,1.7e-06,0.01
+AALB-COI-short,pass,15,608,3,3,0.004934,2e-06,1.7e-06,0.01
+AALB-COI-metadata-gap,pass,15,608,3,3,0.004934,2e-06,1.7e-06,0.01

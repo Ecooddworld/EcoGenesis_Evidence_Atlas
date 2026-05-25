@@ -50,7 +50,7 @@ def base_metadata(sequence_id: str) -> dict[str, Any]:
         "decimalLongitude": -3.7038,
         "geodeticDatum": "WGS84",
         "coordinateUncertaintyInMeters": 50,
-        "methodOrSOP": "GBIF Sequence ID-compatible COI BLAST workflow; ruleset barcode-gbif-compiler-v1",
+        "methodOrSOP": "GBIF Sequence ID-compatible COI BLAST workflow; ruleset barcode-gbif-compiler-v2",
     }
 
 
@@ -118,7 +118,7 @@ MISSING_METADATA_RECORD = sequence_record(
         "basisOfRecord": "MaterialSample",
         "scientificName": "Aedes albopictus",
         "countryCode": "ES",
-        "methodOrSOP": "GBIF Sequence ID-compatible COI BLAST workflow; ruleset barcode-gbif-compiler-v1",
+        "methodOrSOP": "GBIF Sequence ID-compatible COI BLAST workflow; ruleset barcode-gbif-compiler-v2",
     },
 )
 
@@ -129,7 +129,7 @@ def request_with_records(title: str, records: list[dict[str, Any]]) -> dict[str,
         "marker": "COI-5P",
         "reference_database": "COI Animals / BOLD public clustered reference",
         "method_or_sop": "GBIF Sequence ID-compatible BLAST workflow with deterministic rank gates",
-        "ruleset_version": "barcode-gbif-compiler-v1",
+        "ruleset_version": "barcode-gbif-compiler-v2",
         "records": deepcopy(records),
     }
 

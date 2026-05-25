@@ -12,9 +12,9 @@ A deterministic workflow that turns DNA barcode and metabarcoding outputs into s
 
 DNA barcode and metabarcoding workflows increasingly produce biodiversity evidence, but users often face a difficult final step: deciding whether a sequence result can safely support a species-level occurrence, whether the claim must be downgraded to genus or higher rank, and which metadata are missing before publication through GBIF-aligned workflows.
 
-Barcode-to-GBIF Evidence Compiler addresses this gap. It takes sequence records, reference-hit metrics and publication metadata, then applies frozen deterministic gates: identity, query coverage, statistical ambiguity, lowest common ancestor, barcode gap, diagnostic k-mer support and GBIF/DNA-derived metadata readiness. The output is not a vague score. It is an auditable decision class: `species-safe`, `genus-safe`, `higher-rank-safe`, `ambiguous`, `weak`, `no-match` or `not-publishable`.
+Barcode-to-GBIF Evidence Compiler addresses this gap. It takes sequence records, reference-hit metrics and publication metadata, then applies frozen deterministic gates: identity, query coverage, statistical ambiguity, lowest common ancestor, barcode gap, diagnostic k-mer support, diagnostic false-positive probability and GBIF/DNA-derived metadata readiness. The output is not a vague score. It is an auditable decision class: `species-safe`, `genus-safe`, `higher-rank-safe`, `ambiguous`, `weak`, `no-match` or `not-publishable`.
 
-The tool improves the utility and quality of GBIF-mediated and GBIF-ready data by preventing unsafe top-hit species claims, producing repairable blockers, and generating Darwin Core and DNA-derived export templates with methods, citations and an evidence graph.
+The tool improves the utility and quality of GBIF-mediated and GBIF-ready data by preventing unsafe top-hit species claims, producing repairable blockers, separating `candidate_taxon` from `published_taxon`, and generating publishable/review Darwin Core and DNA-derived export templates with methods, citations, a reference manifest and an evidence graph.
 
 ## How It Uses GBIF
 
@@ -36,12 +36,17 @@ The tool improves the utility and quality of GBIF-mediated and GBIF-ready data b
 
 - `sequence_safety_table.csv`
 - `safe_taxonomic_assignments.csv`
+- `review_taxonomic_hints.csv`
 - `ambiguous_sequences.csv`
 - `barcode_gap_report.csv`
 - `diagnostic_kmer_report.csv`
 - `publication_blockers.csv`
+- `reference_manifest.json`
 - `dwc_occurrence_core_template.csv`
+- `dwc_occurrence_core_publishable.csv`
+- `dwc_occurrence_core_review.csv`
 - `dna_derived_extension_template.csv`
+- `dna_derived_extension_publishable.csv`
 - `molecular_evidence_report.html`
 - `methods_text.md`
 - `citations.md`

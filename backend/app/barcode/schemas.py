@@ -47,6 +47,7 @@ class DiagnosticKmerEvidence(BaseModel):
     diagnostic_kmers: list[str] = Field(default_factory=list)
     reference_total_windows: int | None = Field(default=None, ge=1)
     epsilon: float = Field(default=0.01, gt=0, lt=1)
+    alpha: float = Field(default=0.01, gt=0, lt=1)
     k: int | None = Field(default=None, ge=1, le=64)
 
 
@@ -70,12 +71,35 @@ class SequenceRecord(BaseModel):
         return compact.replace("-", "")
 
 
+class DatasetMetadata(BaseModel):
+    title: str | None = None
+    description: str | None = None
+    publishingOrganization: str | None = None
+    type: str | None = None
+    license: str | None = None
+    contact: list[dict[str, Any]] = Field(default_factory=list)
+    creator: list[str] = Field(default_factory=list)
+    metadataProvider: list[str] = Field(default_factory=list)
+
+
+class ReferenceManifest(BaseModel):
+    db_name: str
+    db_version: str | None = None
+    source: str = "user_supplied"
+    accessed_at: str | None = None
+    doi_or_url: str | None = None
+    license: str | None = None
+    sha256: str | None = None
+
+
 class BarcodeCompilerRequest(BaseModel):
     project_title: str = Field(default="Aedes albopictus COI publication check", min_length=2)
     marker: str = Field(default="COI-5P", min_length=2)
     reference_database: str = Field(default="COI Animals / BOLD public clustered reference", min_length=2)
     method_or_sop: str = Field(default="GBIF Sequence ID-compatible BLAST workflow with deterministic rank gates", min_length=2)
-    ruleset_version: str = Field(default="barcode-gbif-compiler-v1")
+    ruleset_version: str = Field(default="barcode-gbif-compiler-v2")
+    dataset_metadata: DatasetMetadata = Field(default_factory=DatasetMetadata)
+    reference_manifest: ReferenceManifest | None = None
     records: list[SequenceRecord] = Field(min_length=1)
 
 

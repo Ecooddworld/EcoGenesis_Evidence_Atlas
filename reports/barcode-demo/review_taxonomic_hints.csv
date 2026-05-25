@@ -1,0 +1,3 @@
+sequenceID,decisionClass,candidateTaxon,candidateRank,publicationStage,reviewReason
+AALB-COI-short,weak,Aedes albopictus,species,record_recommended_ready,species claim blocked: top hit does not pass exact match gate identity >= 99% and query coverage >= 80%; species claim blocked: query coverage < 80%
+AALB-COI-metadata-gap,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: missing required Occurrence core field occurrenceID; publication blocked: missing required Occurrence core field eventDate

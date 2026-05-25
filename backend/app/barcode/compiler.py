@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 import hashlib
 import json
 import math
+import re
 from typing import Any
 from uuid import uuid4
 
@@ -14,17 +15,23 @@ from .storage import save_barcode_artifacts, save_barcode_zip_artifact
 
 CORE_REQUIRED_FIELDS = ["occurrenceID", "basisOfRecord", "scientificName", "eventDate"]
 DNA_REQUIRED_FIELDS = ["marker", "sequenceID", "referenceDatabase", "identity", "queryCoverage", "methodOrSOP"]
+CORE_RECOMMENDED_FIELDS = ["countryCode", "decimalLatitude", "decimalLongitude", "geodeticDatum", "coordinateUncertaintyInMeters"]
+DATASET_METADATA_FIELDS = ["title", "description", "publishingOrganization", "type", "license", "contact", "creator", "metadataProvider"]
 HIGHER_RANKS = {"family", "order", "class", "phylum", "kingdom"}
 SAFE_RANK_ORDER = ["kingdom", "phylum", "class", "order", "family", "genus", "species"]
+SAFE_TAXONOMIC_STATUSES = {"species-safe", "genus-safe", "higher-rank-safe"}
+NONE_TAXON = {"rank": "none", "name": "None", "taxon_key": None}
 
 
 def run_barcode_compiler(request: BarcodeCompilerRequest) -> dict[str, Any]:
     run_id = uuid4().hex
     started_at = datetime.now(timezone.utc)
+    reference_manifest = build_reference_manifest(request)
     decisions = [decide_record(record, request) for record in request.records]
     metrics = summarize_decisions(decisions)
     finished_at = datetime.now(timezone.utc)
     request_payload = request.model_dump()
+    manifest_sha256 = fingerprint_request(reference_manifest)
 
     pack: dict[str, Any] = {
         "run": {
@@ -34,6 +41,7 @@ def run_barcode_compiler(request: BarcodeCompilerRequest) -> dict[str, Any]:
             "tool": "Barcode-to-GBIF Evidence Compiler",
             "ruleset_version": request.ruleset_version,
             "request_fingerprint": fingerprint_request(request_payload),
+            "reference_manifest_sha256": manifest_sha256,
         },
         "summary": {
             "title": "Barcode-to-GBIF Evidence Compiler",
@@ -45,9 +53,12 @@ def run_barcode_compiler(request: BarcodeCompilerRequest) -> dict[str, Any]:
             "species_safe_records": metrics["species_safe_records"],
             "genus_safe_records": metrics["genus_safe_records"],
             "not_publishable_records": metrics["not_publishable_records"],
+            "record_ready_records": metrics["record_ready_records"],
+            "dataset_ready_records": metrics["dataset_ready_records"],
             "blocked_species_claims": metrics["blocked_species_claims"],
             "verdict": build_run_verdict(metrics),
         },
+        "reference_manifest": reference_manifest,
         "decision_rules": decision_rules(),
         "metrics": metrics,
         "records": decisions,
@@ -59,6 +70,7 @@ def run_barcode_compiler(request: BarcodeCompilerRequest) -> dict[str, Any]:
     zip_export = save_barcode_zip_artifact(run_id, artifacts)
     pack["exports"] = sorted([*exports, zip_export], key=lambda item: item["name"])
     pack["run"]["artifact_checksums"] = {item["name"]: item.get("sha256") for item in pack["exports"]}
+    pack["evidence_graph"] = build_evidence_graph(pack)
     final_artifacts = build_barcode_artifacts(pack)
     save_barcode_artifacts(
         run_id,
@@ -82,9 +94,10 @@ def decide_record(record: SequenceRecord, request: BarcodeCompilerRequest) -> di
 
     core_missing = missing_fields(metadata, CORE_REQUIRED_FIELDS)
     dna_missing = missing_fields(metadata, DNA_REQUIRED_FIELDS)
-    core_pass = not core_missing
+    data_quality_blockers = metadata_quality_blockers(metadata)
+    core_pass = not core_missing and not data_quality_blockers
     dna_pass = not dna_missing
-    publication_ready = core_pass and dna_pass
+    publication_stage, publication_checks = publication_stage_for(metadata, request, core_pass=core_pass, dna_pass=dna_pass)
 
     if not hits:
         blockers.append("no reference hit returned")
@@ -96,29 +109,32 @@ def decide_record(record: SequenceRecord, request: BarcodeCompilerRequest) -> di
             top_hit=None,
             sequence_length=sequence_length,
             match_type="no_match",
-            safe_taxon={"rank": "none", "name": "No match"},
+            candidate_taxon={"rank": "none", "name": "No match", "taxon_key": None},
+            published_taxon=NONE_TAXON,
             indistinguishable_hits=[],
             barcode_gap_result={"status": "not_evaluated", "gap": None},
-            diagnostic_result={"status": "not_evaluated", "support_count": 0, "support_rate": 0, "k": None},
+            diagnostic_result={"status": "not_evaluated", "support_count": 0, "support_rate": 0, "k": None, "p_false_positive": None},
             taxonomic_status="no-match",
-            decision_class="not-publishable" if not publication_ready else "no-match",
+            decision_class="not-publishable" if publication_stage == "record_not_ready" else "no-match",
+            publication_stage=publication_stage,
+            publication_checks=publication_checks,
             core_pass=core_pass,
             dna_pass=dna_pass,
             core_missing=core_missing,
             dna_missing=dna_missing,
-            blockers=[*blockers, *metadata_blockers(core_missing, dna_missing)],
+            blockers=[*blockers, *metadata_blockers(core_missing, dna_missing, data_quality_blockers)],
             actions=[*actions, *metadata_actions(core_missing, dna_missing)],
         )
 
     top_hit = hits[0]
     match_type = classify_match(top_hit)
     indistinguishable_hits = ambiguity_set(top_hit, hits, fallback_length=sequence_length)
-    safe_taxon = lowest_common_ancestor(indistinguishable_hits)
+    candidate_taxon = lowest_common_ancestor(indistinguishable_hits)
     barcode_gap_result = evaluate_barcode_gap(record)
     diagnostic_result = evaluate_diagnostic_kmers(record)
     taxonomic_status = classify_taxonomic_status(
         match_type=match_type,
-        safe_taxon=safe_taxon,
+        candidate_taxon=candidate_taxon,
         indistinguishable_hits=indistinguishable_hits,
         barcode_gap_result=barcode_gap_result,
         diagnostic_result=diagnostic_result,
@@ -132,9 +148,9 @@ def decide_record(record: SequenceRecord, request: BarcodeCompilerRequest) -> di
         blockers.append("species claim blocked: query coverage < 80%")
     if top_hit.identity < 99:
         blockers.append("species claim blocked: identity < 99%")
-    if len({hit.taxon for hit in indistinguishable_hits}) > 1 and safe_taxon["rank"] != "species":
-        blockers.append(f"species claim blocked: statistically indistinguishable competitors collapse the safe rank to {safe_taxon['rank']}")
-        actions.append(f"Publish the molecular assignment at {safe_taxon['rank']} rank unless additional evidence resolves the ambiguity.")
+    if len({hit.taxon for hit in indistinguishable_hits}) > 1 and candidate_taxon["rank"] != "species":
+        blockers.append(f"species claim blocked: statistically indistinguishable competitors collapse the safe rank to {candidate_taxon['rank']}")
+        actions.append(f"Publish the molecular assignment at {candidate_taxon['rank']} rank unless additional evidence resolves the ambiguity.")
     if barcode_gap_result["status"] != "pass":
         blockers.append(f"species claim blocked: barcode gap {barcode_gap_result['status']}")
         actions.append("Attach reference-set intra/inter distances or use a marker/reference set with positive species separation.")
@@ -142,12 +158,16 @@ def decide_record(record: SequenceRecord, request: BarcodeCompilerRequest) -> di
         blockers.append(f"species claim blocked: diagnostic k-mer support {diagnostic_result['status']}")
         actions.append("Attach diagnostic k-mers or keep the assignment below species rank.")
 
-    blockers.extend(metadata_blockers(core_missing, dna_missing))
+    blockers.extend(metadata_blockers(core_missing, dna_missing, data_quality_blockers))
     actions.extend(metadata_actions(core_missing, dna_missing))
 
+    published_taxon = published_taxon_for_status(taxonomic_status, candidate_taxon, top_hit)
     decision_class = taxonomic_status
-    if not publication_ready:
+    if taxonomic_status in SAFE_TAXONOMIC_STATUSES and publication_stage == "record_not_ready":
         decision_class = "not-publishable"
+        published_taxon = NONE_TAXON
+    elif taxonomic_status not in SAFE_TAXONOMIC_STATUSES:
+        published_taxon = NONE_TAXON
 
     return build_decision(
         record=record,
@@ -156,12 +176,15 @@ def decide_record(record: SequenceRecord, request: BarcodeCompilerRequest) -> di
         top_hit=top_hit,
         sequence_length=sequence_length,
         match_type=match_type,
-        safe_taxon=safe_taxon,
+        candidate_taxon=candidate_taxon,
+        published_taxon=published_taxon,
         indistinguishable_hits=indistinguishable_hits,
         barcode_gap_result=barcode_gap_result,
         diagnostic_result=diagnostic_result,
         taxonomic_status=taxonomic_status,
         decision_class=decision_class,
+        publication_stage=publication_stage,
+        publication_checks=publication_checks,
         core_pass=core_pass,
         dna_pass=dna_pass,
         core_missing=core_missing,
@@ -276,23 +299,33 @@ def evaluate_barcode_gap(record: SequenceRecord) -> dict[str, Any]:
 
 def evaluate_diagnostic_kmers(record: SequenceRecord) -> dict[str, Any]:
     if not record.diagnostic:
-        return {"status": "missing", "support_count": 0, "support_rate": 0, "k": None, "expected_random_hits": None}
+        return {"status": "missing", "support_count": 0, "support_rate": 0, "k": None, "expected_random_hits": None, "p_false_positive": None}
     diagnostic_kmers = {item.upper() for item in record.diagnostic.diagnostic_kmers if item}
     if not diagnostic_kmers:
-        return {"status": "missing", "support_count": 0, "support_rate": 0, "k": record.diagnostic.k, "expected_random_hits": None}
+        return {"status": "missing", "support_count": 0, "support_rate": 0, "k": record.diagnostic.k, "expected_random_hits": None, "p_false_positive": None}
     k = record.diagnostic.k or infer_k(record.diagnostic.reference_total_windows, record.diagnostic.epsilon, diagnostic_kmers)
-    query_kmers = set(kmers(record.sequence, k))
+    query_kmer_windows = kmers(record.sequence, k)
+    query_kmers = set(query_kmer_windows)
     support_count = len(query_kmers & diagnostic_kmers)
-    support_rate = support_count / max(len(query_kmers), 1)
-    expected_random_hits = expected_diagnostic_collisions(len(query_kmers), len(diagnostic_kmers), k)
+    query_window_count = len(query_kmer_windows)
+    support_rate = support_count / max(query_window_count, 1)
+    expected_random_hits = expected_diagnostic_collisions(query_window_count, len(diagnostic_kmers), k)
+    p_false_positive = false_positive_probability(query_window_count, len(diagnostic_kmers), k)
+    status = "pass" if support_count >= 1 and p_false_positive <= record.diagnostic.alpha else "fail"
+    if support_count < 1:
+        status = "fail_no_support"
+    elif p_false_positive > record.diagnostic.alpha:
+        status = "fail_false_positive_risk"
     return {
-        "status": "pass" if support_count > 0 else "fail",
+        "status": status,
         "support_count": support_count,
         "support_rate": round(support_rate, 6),
         "k": k,
-        "query_window_count": len(query_kmers),
+        "query_window_count": query_window_count,
         "diagnostic_kmer_count": len(diagnostic_kmers),
         "expected_random_hits": round(expected_random_hits, 6),
+        "p_false_positive": round(p_false_positive, 8),
+        "alpha": record.diagnostic.alpha,
     }
 
 
@@ -311,16 +344,23 @@ def expected_diagnostic_collisions(query_windows: int, diagnostic_count: int, k:
     return query_windows * (diagnostic_count / (4**k))
 
 
+def false_positive_probability(query_windows: int, diagnostic_count: int, k: int) -> float:
+    if query_windows <= 0 or diagnostic_count <= 0:
+        return 0.0
+    single_window_probability = min(1.0, diagnostic_count / (4**k))
+    return 1 - ((1 - single_window_probability) ** query_windows)
+
+
 def classify_taxonomic_status(
     *,
     match_type: str,
-    safe_taxon: dict[str, Any],
+    candidate_taxon: dict[str, Any],
     indistinguishable_hits: list[ReferenceHit],
     barcode_gap_result: dict[str, Any],
     diagnostic_result: dict[str, Any],
     top_hit: ReferenceHit,
 ) -> str:
-    safe_rank = safe_taxon["rank"]
+    safe_rank = candidate_taxon["rank"]
     if match_type == "weak":
         return "weak"
     if (
@@ -357,12 +397,62 @@ def missing_fields(metadata: dict[str, Any], fields: list[str]) -> list[str]:
     return missing
 
 
-def metadata_blockers(core_missing: list[str], dna_missing: list[str]) -> list[str]:
+def metadata_quality_blockers(metadata: dict[str, Any]) -> list[str]:
+    blockers = []
+    event_date = metadata.get("eventDate")
+    if event_date and not re.match(r"^\d{4}(-\d{2})?(-\d{2})?$", str(event_date)):
+        blockers.append("publication blocked: eventDate must follow ISO 8601 date format")
+    uncertainty = metadata.get("coordinateUncertaintyInMeters")
+    if uncertainty is not None and str(uncertainty).strip() != "":
+        try:
+            if float(uncertainty) == 0:
+                blockers.append("publication blocked: coordinateUncertaintyInMeters cannot be 0")
+        except (TypeError, ValueError):
+            blockers.append("publication blocked: coordinateUncertaintyInMeters must be numeric")
+    return blockers
+
+
+def publication_stage_for(
+    metadata: dict[str, Any],
+    request: BarcodeCompilerRequest,
+    *,
+    core_pass: bool,
+    dna_pass: bool,
+) -> tuple[str, dict[str, Any]]:
+    core_recommended_missing = missing_fields(metadata, CORE_RECOMMENDED_FIELDS)
+    core_recommended_pass = not core_recommended_missing and str(metadata.get("coordinateUncertaintyInMeters")).strip() != "0"
+    dataset_metadata = request.dataset_metadata.model_dump()
+    dataset_missing = []
+    for field in DATASET_METADATA_FIELDS:
+        value = dataset_metadata.get(field)
+        if value is None or value == [] or str(value).strip() == "":
+            dataset_missing.append(field)
+    dataset_pass = not dataset_missing
+    if not (core_pass and dna_pass):
+        stage = "record_not_ready"
+    elif dataset_pass and core_recommended_pass:
+        stage = "gold_ready"
+    elif dataset_pass:
+        stage = "dataset_ready"
+    elif core_recommended_pass:
+        stage = "record_recommended_ready"
+    else:
+        stage = "record_min_ready"
+    return stage, {
+        "core_recommended_pass": core_recommended_pass,
+        "core_recommended_missing": core_recommended_missing,
+        "dataset_metadata_pass": dataset_pass,
+        "dataset_metadata_missing": dataset_missing,
+    }
+
+
+def metadata_blockers(core_missing: list[str], dna_missing: list[str], quality_blockers: list[str]) -> list[str]:
     blockers = []
     for field in core_missing:
         blockers.append(f"publication blocked: missing required Occurrence core field {field}")
     for field in dna_missing:
         blockers.append(f"publication blocked: missing DNA-derived evidence field {field}")
+    blockers.extend(quality_blockers)
     return blockers
 
 
@@ -375,6 +465,36 @@ def metadata_actions(core_missing: list[str], dna_missing: list[str]) -> list[st
     return actions
 
 
+def published_taxon_for_status(taxonomic_status: str, candidate_taxon: dict[str, Any], top_hit: ReferenceHit) -> dict[str, Any]:
+    if taxonomic_status == "species-safe" and candidate_taxon["rank"] == "species":
+        return candidate_taxon
+    if taxonomic_status == "genus-safe":
+        if candidate_taxon["rank"] == "genus":
+            return candidate_taxon
+        genus = ancestor_from_hit(top_hit, "genus")
+        return genus or NONE_TAXON
+    if taxonomic_status == "higher-rank-safe" and candidate_taxon["rank"] in HIGHER_RANKS:
+        return candidate_taxon
+    return NONE_TAXON
+
+
+def ancestor_from_hit(hit: ReferenceHit, rank: str) -> dict[str, Any] | None:
+    for item in hit.lineage:
+        if normalize_rank(item.rank) == rank:
+            return {"rank": rank, "name": item.name, "taxon_key": item.taxon_key}
+    return None
+
+
+def publication_status(decision_class: str, publication_stage: str) -> str:
+    if decision_class not in SAFE_TAXONOMIC_STATUSES:
+        return "not-ready"
+    if publication_stage in {"dataset_ready", "gold_ready"}:
+        return "gbif-ready"
+    if publication_stage in {"record_min_ready", "record_recommended_ready"}:
+        return "record-ready"
+    return "not-ready"
+
+
 def build_decision(
     *,
     record: SequenceRecord,
@@ -383,12 +503,15 @@ def build_decision(
     top_hit: ReferenceHit | None,
     sequence_length: int,
     match_type: str,
-    safe_taxon: dict[str, Any],
+    candidate_taxon: dict[str, Any],
+    published_taxon: dict[str, Any],
     indistinguishable_hits: list[ReferenceHit],
     barcode_gap_result: dict[str, Any],
     diagnostic_result: dict[str, Any],
     taxonomic_status: str,
     decision_class: str,
+    publication_stage: str,
+    publication_checks: dict[str, Any],
     core_pass: bool,
     dna_pass: bool,
     core_missing: list[str],
@@ -402,9 +525,12 @@ def build_decision(
         "sequence_length": sequence_length,
         "decision_class": decision_class,
         "taxonomic_status": taxonomic_status,
-        "publication_status": "gbif-ready" if core_pass and dna_pass and taxonomic_status in {"species-safe", "genus-safe", "higher-rank-safe"} else "not-ready",
+        "publication_status": publication_status(decision_class, publication_stage),
+        "publication_stage": publication_stage,
         "match_type": match_type,
-        "safe_taxon": safe_taxon,
+        "candidate_taxon": candidate_taxon,
+        "published_taxon": published_taxon,
+        "safe_taxon": candidate_taxon,
         "top_hit": hit_summary(top_hit),
         "indistinguishable_hits": [hit_summary(hit) for hit in indistinguishable_hits],
         "barcode_gap": barcode_gap_result,
@@ -414,6 +540,7 @@ def build_decision(
             "dna_pass": dna_pass,
             "core_missing": core_missing,
             "dna_missing": dna_missing,
+            **publication_checks,
         },
         "blockers": blockers,
         "actions": actions,
@@ -449,6 +576,8 @@ def summarize_decisions(decisions: list[dict[str, Any]]) -> dict[str, Any]:
     weak = sum(1 for item in decisions if item["taxonomic_status"] == "weak")
     no_match = sum(1 for item in decisions if item["taxonomic_status"] == "no-match")
     not_publishable = sum(1 for item in decisions if item["decision_class"] == "not-publishable")
+    record_ready = sum(1 for item in decisions if item["publication_status"] in {"record-ready", "gbif-ready"})
+    dataset_ready = sum(1 for item in decisions if item["publication_stage"] in {"dataset_ready", "gold_ready"})
     blocked_species = sum(
         1
         for item in decisions
@@ -466,6 +595,8 @@ def summarize_decisions(decisions: list[dict[str, Any]]) -> dict[str, Any]:
         "weak_records": weak,
         "no_match_records": no_match,
         "not_publishable_records": not_publishable,
+        "record_ready_records": record_ready,
+        "dataset_ready_records": dataset_ready,
         "species_safe_yield": round(species_safe / processed, 6) if processed else 0,
         "blocked_species_claims": blocked_species,
         "overclaim_prevention_proxy": 1 if blocked_species else None,
@@ -475,7 +606,7 @@ def summarize_decisions(decisions: list[dict[str, Any]]) -> dict[str, Any]:
 
 def build_run_verdict(metrics: dict[str, Any]) -> str:
     if metrics["species_safe_records"]:
-        return "At least one sequence is species-safe and GBIF-ready under the frozen molecular evidence gates."
+        return "At least one sequence is species-safe under the frozen molecular evidence gates; publication readiness is reported separately."
     if metrics["genus_safe_records"] or metrics["higher_rank_safe_records"]:
         return "The run produced safe downgraded molecular evidence, but no species-level publication candidate."
     return "The run correctly blocked species-level publication claims."
@@ -490,40 +621,88 @@ def decision_rules() -> dict[str, Any]:
         "safe_rank": "lowest common ancestor of statistically indistinguishable hits",
         "barcode_gap": "species gate requires inter_min_distance - intra_max_distance > 0",
         "diagnostic_kmers": "species gate requires at least one query k-mer unique to the target taxon in the reference set",
+        "diagnostic_false_positive_gate": "diagnostic support passes only when support_count >= 1 and p_false_positive <= alpha",
         "publication_readiness": {
             "occurrence_core_required": CORE_REQUIRED_FIELDS,
+            "occurrence_core_recommended": CORE_RECOMMENDED_FIELDS,
             "dna_required": DNA_REQUIRED_FIELDS,
+            "dataset_metadata": DATASET_METADATA_FIELDS,
         },
     }
 
 
+def build_reference_manifest(request: BarcodeCompilerRequest) -> dict[str, Any]:
+    if request.reference_manifest:
+        manifest = request.reference_manifest.model_dump()
+    else:
+        manifest = {
+            "db_name": request.reference_database,
+            "db_version": "not_supplied",
+            "source": "request.reference_database",
+            "accessed_at": datetime.now(timezone.utc).date().isoformat(),
+            "doi_or_url": None,
+            "license": None,
+            "sha256": None,
+        }
+    compact = json.dumps(manifest, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+    manifest["manifest_sha256"] = hashlib.sha256(compact.encode("utf-8")).hexdigest()
+    return manifest
+
+
 def build_evidence_graph(pack: dict[str, Any]) -> dict[str, Any]:
     run_id = pack["run"]["run_id"]
-    nodes = [{"id": f"run:{run_id}", "type": "run", "label": pack["summary"]["project_title"]}]
+    node_registry: dict[str, dict[str, Any]] = {}
     edges = []
+    add_node(node_registry, {"id": f"run:{run_id}", "type": "run", "label": pack["summary"]["project_title"]})
+    manifest_node = f"reference_manifest:{pack['reference_manifest']['manifest_sha256']}"
+    add_node(node_registry, {"id": manifest_node, "type": "reference_manifest", "label": pack["reference_manifest"]["db_name"]})
+    edges.append({"source": f"run:{run_id}", "target": manifest_node, "type": "frozen_against"})
     for record in pack["records"]:
         sequence_node = f"sequence:{record['sequence_id']}"
         assignment_node = f"assignment:{record['sequence_id']}"
-        taxon_node = f"taxon:{record['safe_taxon']['rank']}:{record['safe_taxon']['name']}"
-        nodes.extend(
-            [
-                {"id": sequence_node, "type": "sequence", "label": record["sequence_id"], "md5": record["sequence_md5"]},
-                {"id": assignment_node, "type": "assignment", "label": record["decision_class"]},
-                {"id": taxon_node, "type": "taxon", "label": record["safe_taxon"]["name"], "rank": record["safe_taxon"]["rank"]},
-            ]
-        )
+        taxon = record["published_taxon"] if record["published_taxon"]["rank"] != "none" else record["candidate_taxon"]
+        taxon_node = f"taxon:{taxon['rank']}:{taxon['name']}"
+        add_node(node_registry, {"id": sequence_node, "type": "sequence", "label": record["sequence_id"], "md5": record["sequence_md5"]})
+        add_node(node_registry, {"id": assignment_node, "type": "assignment", "label": record["decision_class"]})
+        add_node(node_registry, {"id": taxon_node, "type": "taxon", "label": taxon["name"], "rank": taxon["rank"]})
         edges.extend(
             [
                 {"source": f"run:{run_id}", "target": sequence_node, "type": "contains_sequence"},
                 {"source": sequence_node, "target": assignment_node, "type": "receives_assignment"},
-                {"source": assignment_node, "target": taxon_node, "type": "safe_taxon"},
+                {"source": assignment_node, "target": taxon_node, "type": "published_or_candidate_taxon"},
             ]
         )
+        for blocker in record["blockers"]:
+            blocker_node = f"blocker:{hashlib.sha1(blocker.encode('utf-8')).hexdigest()[:12]}"
+            add_node(node_registry, {"id": blocker_node, "type": "blocker", "label": blocker})
+            edges.append({"source": assignment_node, "target": blocker_node, "type": "blocked_by"})
         for hit in record["hits"][:5]:
             hit_node = f"hit:{record['sequence_id']}:{hit.get('reference_id') or hit['taxon']}"
-            nodes.append({"id": hit_node, "type": "hit", "label": hit["taxon"], "identity": hit["identity"], "coverage": hit["query_coverage"]})
+            add_node(node_registry, {"id": hit_node, "type": "hit", "label": hit["taxon"], "identity": hit["identity"], "coverage": hit["query_coverage"]})
             edges.append({"source": sequence_node, "target": hit_node, "type": "matches_reference"})
-    return {"nodes": nodes, "edges": edges}
+    for artifact in pack.get("exports", []):
+        artifact_node = f"artifact:{artifact['name']}"
+        add_node(node_registry, {"id": artifact_node, "type": "artifact", "label": artifact["name"], "sha256": artifact.get("sha256")})
+        edges.append({"source": f"run:{run_id}", "target": artifact_node, "type": "produces_artifact"})
+    return {
+        "meta": {
+            "run_id": run_id,
+            "ruleset_version": pack["run"]["ruleset_version"],
+            "reference_manifest_sha256": pack["reference_manifest"]["manifest_sha256"],
+            "created_at": pack["run"]["finished_at"],
+        },
+        "stats": {
+            "sequence_count": len(pack["records"]),
+            "safe_count": sum(1 for record in pack["records"] if record["decision_class"] in SAFE_TAXONOMIC_STATUSES),
+            "blocked_count": sum(1 for record in pack["records"] if record["blockers"]),
+        },
+        "nodes": list(node_registry.values()),
+        "edges": edges,
+    }
+
+
+def add_node(registry: dict[str, dict[str, Any]], node: dict[str, Any]) -> None:
+    registry.setdefault(node["id"], node)
 
 
 def fingerprint_request(payload: dict[str, Any]) -> str:

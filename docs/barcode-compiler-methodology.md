@@ -8,7 +8,7 @@ It does not prove that a species objectively exists at a site. It proves a narro
 
 ```text
 Given the supplied sequence, reference-hit metrics, taxonomy lineage, barcode gap,
-diagnostic k-mer evidence and metadata, this is the safest publication rank.
+diagnostic k-mer evidence and metadata, this is the safest candidate rank and publishable rank.
 ```
 
 ## Inputs
@@ -48,7 +48,7 @@ A competitor is statistically indistinguishable from the top hit when:
 d_competitor - d_top <= 1.96 * sqrt(SE_top^2 + SE_competitor^2)
 ```
 
-The safe taxon is the lowest common ancestor of all indistinguishable hits.
+The `candidate_taxon` is the lowest common ancestor of all indistinguishable hits. The `published_taxon` is emitted only when the taxonomic evidence and publication gates allow the record to appear in publishable Darwin Core exports. Weak, ambiguous and metadata-blocked records remain in review exports, but their `published_taxon` is `none`.
 
 ## Barcode Gap
 
@@ -74,7 +74,20 @@ The compiler computes query k-mer support against supplied diagnostic k-mers. If
 k = ceil(log4(reference_total_windows / epsilon))
 ```
 
-Species output requires at least one diagnostic k-mer hit in the query sequence.
+The compiler also estimates the chance that at least one diagnostic k-mer support hit could appear by random collision:
+
+```text
+p_false_positive = 1 - (1 - diagnostic_kmer_count / 4^k) ^ query_window_count
+```
+
+Species output requires:
+
+```text
+support_count >= 1
+p_false_positive <= alpha
+```
+
+The default `alpha` is `0.01`. This prevents a single very common or too-short diagnostic k-mer from unlocking a species claim.
 
 ## Publication Readiness
 
@@ -96,16 +109,25 @@ Required DNA-derived evidence fields:
 
 If these are missing, the compiler may still report a taxonomic status such as `species-safe`, but the final decision class becomes `not-publishable`.
 
+Publication stages:
+
+- `record_not_ready`: required Occurrence core or DNA-derived fields are missing or invalid.
+- `record_min_ready`: required fields pass, but recommended occurrence fields or dataset metadata are incomplete.
+- `record_recommended_ready`: required and recommended record-level fields pass.
+- `dataset_ready`: dataset metadata passes, but recommended record-level fields are incomplete.
+- `gold_ready`: required fields, recommended fields and dataset metadata all pass.
+
 ## Outputs
 
 The main output is an Evidence Pack with:
 
-- safe rank table
+- sequence safety table with `candidate_taxon`, `published_taxon` and `publication_stage`
 - blocked claims
 - barcode gap report
 - diagnostic k-mer report
-- Darwin Core Occurrence template
-- DNA-derived extension template
+- publishable Darwin Core Occurrence and DNA-derived extension templates
+- review-only templates for weak, blocked or not-publishable records
+- reference manifest
 - molecular evidence HTML report
 - methods and citations
 - machine-readable evidence graph

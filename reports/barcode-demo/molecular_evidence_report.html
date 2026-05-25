@@ -17,7 +17,7 @@
 <body>
   <p><strong>EcoGenesis</strong> / GBIF Ebbe Nielsen Challenge 2026</p>
   <h1>Aedes COI batch: safe, ambiguous, weak and metadata cases</h1>
-  <p>At least one sequence is species-safe and GBIF-ready under the frozen molecular evidence gates.</p>
+  <p>At least one sequence is species-safe under the frozen molecular evidence gates; publication readiness is reported separately.</p>
   <section class="summary">
     <div class="card"><strong>4</strong><br />processed</div>
     <div class="card"><strong>1</strong><br />species-safe</div>
@@ -26,11 +26,11 @@
   </section>
   <h2>Sequence decisions</h2>
   <table>
-    <thead><tr><th>Sequence</th><th>Decision</th><th>Safe taxon</th><th>Rank</th><th>Blockers</th></tr></thead>
-    <tbody><tr><td>AALB-COI-good</td><td>species-safe</td><td>Aedes albopictus</td><td>species</td><td>none</td></tr>
-<tr><td>AALB-COI-ambiguous</td><td>genus-safe</td><td>Aedes</td><td>genus</td><td>species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus</td></tr>
-<tr><td>AALB-COI-short</td><td>weak</td><td>Aedes albopictus</td><td>species</td><td>species claim blocked: top hit does not pass exact match gate identity &gt;= 99% and query coverage &gt;= 80%; species claim blocked: query coverage &lt; 80%</td></tr>
-<tr><td>AALB-COI-metadata-gap</td><td>not-publishable</td><td>Aedes albopictus</td><td>species</td><td>publication blocked: missing required Occurrence core field occurrenceID; publication blocked: missing required Occurrence core field eventDate</td></tr></tbody>
+    <thead><tr><th>Sequence</th><th>Decision</th><th>Candidate taxon</th><th>Candidate rank</th><th>Published taxon</th><th>Published rank</th><th>Publication stage</th><th>Blockers</th></tr></thead>
+    <tbody><tr><td>AALB-COI-good</td><td>species-safe</td><td>Aedes albopictus</td><td>species</td><td>Aedes albopictus</td><td>species</td><td>record_recommended_ready</td><td>none</td></tr>
+<tr><td>AALB-COI-ambiguous</td><td>genus-safe</td><td>Aedes</td><td>genus</td><td>Aedes</td><td>genus</td><td>record_recommended_ready</td><td>species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus</td></tr>
+<tr><td>AALB-COI-short</td><td>weak</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>species claim blocked: top hit does not pass exact match gate identity &gt;= 99% and query coverage &gt;= 80%; species claim blocked: query coverage &lt; 80%</td></tr>
+<tr><td>AALB-COI-metadata-gap</td><td>not-publishable</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_not_ready</td><td>publication blocked: missing required Occurrence core field occurrenceID; publication blocked: missing required Occurrence core field eventDate</td></tr></tbody>
   </table>
 </body>
 </html>

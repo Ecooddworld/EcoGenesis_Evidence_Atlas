@@ -16,7 +16,7 @@ const defaultScenario = {
     marker: 'COI-5P',
     reference_database: 'COI Animals / BOLD public clustered reference',
     method_or_sop: 'GBIF Sequence ID-compatible BLAST workflow with deterministic rank gates',
-    ruleset_version: 'barcode-gbif-compiler-v1',
+    ruleset_version: 'barcode-gbif-compiler-v2',
     records: [
       {
         sequence_id: 'fallback-sequence',
@@ -180,7 +180,7 @@ function SubmissionOverview({ referenceStatus, metrics, exports, pack, onOpenWor
         <Metric label="Processed" value={metrics.processed_records ?? '0'} />
         <Metric label="Species-safe" value={metrics.species_safe_records ?? '0'} />
         <Metric label="Blocked species claims" value={metrics.blocked_species_claims ?? '0'} />
-        <Metric label="Repair explainability" value={metrics.publication_repair_efficiency ?? '1'} />
+        <Metric label="Record-ready" value={metrics.record_ready_records ?? '0'} />
       </div>
 
       <section className="panel">
@@ -196,9 +196,9 @@ function SubmissionOverview({ referenceStatus, metrics, exports, pack, onOpenWor
         <div>
           <p className="section-label">Safe claims</p>
           <ul className="plain-list">
-            <li>Species-level output is allowed only when all molecular and metadata gates pass.</li>
+            <li>Species-level output is allowed only when molecular gates pass and the record is publication-ready.</li>
             <li>Ambiguous top hits are downgraded to the lowest common ancestor.</li>
-            <li>Publication readiness is separated from taxonomic evidence.</li>
+            <li>Candidate taxonomy is separated from the taxon that can actually be published.</li>
           </ul>
         </div>
         <div>
@@ -270,7 +270,7 @@ function CompilerWorkbench({
                 <Metric label="Processed" value={pack.metrics.processed_records} />
                 <Metric label="Species-safe" value={pack.metrics.species_safe_records} />
                 <Metric label="Genus-safe" value={pack.metrics.genus_safe_records} />
-                <Metric label="Not publishable" value={pack.metrics.not_publishable_records} />
+                <Metric label="Record-ready" value={pack.metrics.record_ready_records} />
               </div>
             </section>
 
@@ -282,8 +282,9 @@ function CompilerWorkbench({
                     <tr>
                       <th>Sequence</th>
                       <th>Decision</th>
-                      <th>Safe taxon</th>
-                      <th>Rank</th>
+                      <th>Candidate</th>
+                      <th>Published</th>
+                      <th>Stage</th>
                       <th>Blockers</th>
                     </tr>
                   </thead>
@@ -292,8 +293,9 @@ function CompilerWorkbench({
                       <tr key={record.sequence_id}>
                         <td>{record.sequence_id}</td>
                         <td><span className={`pill ${record.decision_class}`}>{record.decision_class}</span></td>
-                        <td>{record.safe_taxon.name}</td>
-                        <td>{record.safe_taxon.rank}</td>
+                        <td>{record.candidate_taxon.name} <span className="muted">({record.candidate_taxon.rank})</span></td>
+                        <td>{record.published_taxon.rank === 'none' ? 'Review only' : `${record.published_taxon.name} (${record.published_taxon.rank})`}</td>
+                        <td>{record.publication_stage}</td>
                         <td>{record.blockers.length ? record.blockers.slice(0, 2).join('; ') : 'none'}</td>
                       </tr>
                     ))}

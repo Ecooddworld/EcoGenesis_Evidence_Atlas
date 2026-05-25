@@ -1,7 +1,7 @@
 # Barcode Demo Evidence Pack
 
-Run ID: `7c69b698e8f54cb5b95717c6bea1e3b0`
+Run ID: `29ffe42344a64897a6703b9cafad35e2`
 Project: Aedes COI batch: safe, ambiguous, weak and metadata cases
-Verdict: At least one sequence is species-safe and GBIF-ready under the frozen molecular evidence gates.
+Verdict: At least one sequence is species-safe under the frozen molecular evidence gates; publication readiness is reported separately.
 
 Open `molecular_evidence_report.html` or inspect `sequence_safety_table.csv`.
