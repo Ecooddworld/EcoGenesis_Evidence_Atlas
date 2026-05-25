@@ -77,7 +77,7 @@ describe('Barcode compiler UI', () => {
 
     render(<App />);
 
-    expect(await screen.findByText('Barcode-to-GBIF Evidence Compiler')).toBeInTheDocument();
+    expect(await screen.findByText('Molecular Evidence Conversion & Repair Engine for GBIF')).toBeInTheDocument();
     expect(screen.getByText('Submission overview')).toBeInTheDocument();
 
     fireEvent.click(screen.getByText('Run mixed demo'));
@@ -124,6 +124,10 @@ describe('Barcode compiler UI', () => {
     fireEvent.click(await screen.findByText('Proof & formulas'));
 
     expect(screen.getByText('Evidence basis')).toBeInTheDocument();
+    expect(screen.getAllByText('Evidence Conversion Problem').length).toBeGreaterThan(0);
+    expect(screen.getByText('Repair optimizer')).toBeInTheDocument();
+    expect(screen.getByText('Protein sanity')).toBeInTheDocument();
+    expect(screen.getByText('Evidence graph')).toBeInTheDocument();
     expect(screen.getByText('Decision function')).toBeInTheDocument();
     expect(screen.getByText('Proof by contradiction')).toBeInTheDocument();
     expect(screen.getAllByText(/p_false_positive/).length).toBeGreaterThan(0);

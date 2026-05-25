@@ -1,8 +1,8 @@
-# Barcode-to-GBIF Evidence Compiler Methodology
+# Molecular Evidence Conversion & Repair Engine Methodology
 
 ## Goal
 
-The compiler determines the maximum safe taxonomic rank for a DNA barcode or metabarcoding result and reports what must be fixed before the record can become GBIF-ready.
+The current Barcode-to-GBIF Evidence Compiler is the first working layer of the Molecular Evidence Conversion & Repair Engine for GBIF. It determines the maximum safe taxonomic rank for a DNA barcode or metabarcoding result and reports what must be fixed before the record can become GBIF-ready.
 
 It does not prove that a species objectively exists at a site. It proves a narrower, reproducible statement:
 
@@ -10,6 +10,23 @@ It does not prove that a species objectively exists at a site. It proves a narro
 Given the supplied sequence, reference-hit metrics, taxonomy lineage, barcode gap,
 diagnostic k-mer evidence and metadata, this is the safest candidate rank and publishable rank.
 ```
+
+The global Evidence Conversion Problem is:
+
+```text
+How can a large stream of DNA / metabarcoding results be converted into the
+maximum number of safe, reproducible and GBIF-ready occurrence records without
+manual calibration and without false species-level claims?
+```
+
+The compiler therefore separates:
+
+```text
+TaxStatus(r_i) in {speciesSafe, genusSafe, higherRankSafe, ambiguous, weak, noMatch}
+PubStatus(r_i) in {gbifReady, repairable, notReady}
+```
+
+A record can be taxonomically safe but still repairable or not ready for publication because required GBIF/DNA-derived metadata are missing.
 
 ## Inputs
 
@@ -131,3 +148,83 @@ The main output is an Evidence Pack with:
 - molecular evidence HTML report
 - methods and citations
 - machine-readable evidence graph
+
+## Conversion Metrics
+
+For a batch of molecular observations:
+
+```text
+MECY = N_gbifReady / N
+RY   = N_repairable / N
+SRY  = (N_species + N_genus + N_higher) / N
+SSY  = N_species / N
+```
+
+Unsafe top-hit species claims are counted as:
+
+```text
+UnsafeTopSpecies =
+  sum I(topHitRank_i = species AND TaxStatus_i != speciesSafe)
+
+OR_naive = UnsafeTopSpecies / sum I(topHitRank_i = species)
+OR_compiler = 0 under the frozen rules
+```
+
+The compiler does not make species-level claims when the gates fail, so unsafe top-hit species claims are blocked before export.
+
+## Repair Optimizer Direction
+
+Each record has blockers:
+
+```text
+B(r_i) = {b_i1, b_i2, ..., b_ik}
+```
+
+Each repair action unlocks a set of records:
+
+```text
+Unlock(a) = {r_i : action a removes a blocker for r_i}
+```
+
+The future optimizer ranks actions by maximum coverage:
+
+```text
+max over A' subset A, |A'| <= k
+  | union over a in A' of Unlock(a) |
+```
+
+This is how the engine becomes useful to publishers and GBIF nodes: it can say which metadata repairs, reference-library curation tasks or workflow checks unlock the most GBIF-ready records.
+
+## Protein And Assay Guardrails
+
+Protein translation is a future quality-control layer for coding markers, not a species-identification shortcut:
+
+```text
+if marker_type != coding:
+  amino_acid_layer = not_applicable
+
+Frame* = argmin_f StopCodons(Translate(sequence, f))
+pass if InternalStopCount = 0, length(sequence) mod 3 = 0 and FrameshiftRisk = 0
+```
+
+The assay layer will track controls, replicates, contamination flags and workflow metadata. The engine should not claim that eDNA proves a living organism is present at a site; it should say that sequence-derived molecular evidence was detected under the supplied sampling and workflow context.
+
+## Molecular Evidence Graph Direction
+
+The current `evidence_graph.json` is the seed for a broader graph:
+
+```text
+Fragment -> Taxon / clade -> GBIF occurrence context
+Fragment -> Protein motif / domain, when coding and QC passes
+Claim -> supported_by evidence
+Claim -> blocked_by blocker
+```
+
+For a fragment `f`:
+
+```text
+T(f) = {taxa where f occurs}
+SafeTaxon(f) = LCA(T(f))
+```
+
+Shared fragments are not discarded. They become genus-level, family-level or conserved-clade evidence instead of unsafe species claims.

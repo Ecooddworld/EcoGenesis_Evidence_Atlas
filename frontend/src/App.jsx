@@ -195,6 +195,216 @@ Gain = Ready_after - Ready_before`,
   },
 ];
 
+const engineFormulaSections = [
+  {
+    label: 'Global problem',
+    title: 'Evidence Conversion Problem',
+    formula: `Omega = {r_1, r_2, ..., r_N}
+r_i = (s_i, H_i, T_i, M_i, R_i)
+
+Goal:
+convert the largest possible stream of DNA / metabarcoding results into
+safe, reproducible and GBIF-ready occurrence evidence
+
+without:
+  manual calibration
+  blind top-hit species claims
+  hidden confidence weights`,
+    proof: 'The project is not trying to guess life from a sequence. It classifies every molecular observation into safe taxonomic evidence, publication readiness, blockers and repair actions.',
+  },
+  {
+    label: 'Two-axis output',
+    title: 'Taxonomy and publication readiness must be separated',
+    formula: `TaxStatus(r_i) in {
+  speciesSafe,
+  genusSafe,
+  higherRankSafe,
+  ambiguous,
+  weak,
+  noMatch
+}
+
+PubStatus(r_i) in {
+  gbifReady,
+  repairable,
+  notReady
+}
+
+Example:
+TaxStatus = speciesSafe
+PubStatus = repairable
+
+Meaning:
+the taxon is defensible, but GBIF fields are missing`,
+    proof: 'A strong sequence match can still be blocked by missing occurrenceID, eventDate or method metadata. Separating the axes preserves useful evidence instead of collapsing everything into one vague status.',
+  },
+  {
+    label: 'Conversion funnel',
+    title: 'The engine shows where molecular evidence is lost',
+    formula: `N =
+  N_species
+  + N_genus
+  + N_higher
+  + N_ambiguous
+  + N_weak
+  + N_noMatch
+
+and separately:
+
+N =
+  N_gbifReady
+  + N_repairable
+  + N_notReady`,
+    proof: 'This makes the result understandable to GBIF reviewers and publishers: the output is a funnel of safe evidence, downgraded evidence, weak evidence, missing metadata and reference-library problems.',
+  },
+  {
+    label: 'Conversion metrics',
+    title: 'Project value is measured as workflow conversion',
+    formula: `MECY = N_gbifReady / N
+RY   = N_repairable / N
+SRY  = (N_species + N_genus + N_higher) / N
+SSY  = N_species / N
+
+UnsafeTopSpecies =
+  sum I(topHitRank_i = species AND TaxStatus_i != speciesSafe)
+
+OR_naive =
+  UnsafeTopSpecies / sum I(topHitRank_i = species)
+
+OR_compiler = 0 under the frozen rules,
+because the compiler never emits species when gates fail`,
+    proof: 'The metric that matters is not a cosmetic score. It is how many records become GBIF-ready, how many are repairable and how many unsafe species claims are prevented.',
+  },
+  {
+    label: 'Repair optimizer',
+    title: 'Find the smallest actions that unlock the most records',
+    formula: `B(r_i) = {b_i1, b_i2, ..., b_ik}
+
+Unlock(a) = {r_i : action a removes a blocker for r_i}
+
+Maximum coverage objective:
+
+max over A' subset A, |A'| <= k
+  | union over a in A' of Unlock(a) |
+
+Examples:
+add eventDate -> unlocks 430 records
+add occurrenceID -> unlocks 430 records
+curate reference pair A/B -> unlocks 85 species-level claims`,
+    proof: 'This turns the tool from a passive report into a prioritization engine for publishers, GBIF nodes and labs: fix the bottlenecks that unlock the most publishable evidence first.',
+  },
+  {
+    label: 'Reference gap index',
+    title: 'Show where reference libraries block species-safe conversion',
+    formula: `Attempts(t,m,g) =
+  sum I(topTaxon_i = t AND marker_i = m AND region_i = g)
+
+Blocked_ref(t,m,g) =
+  sum I(reason_i in {
+    ambiguous,
+    LCA_downgrade,
+    barcode_gap <= 0,
+    diagnostic_support = 0,
+    noMatch
+  })
+
+RGI(t,m,g) = Blocked_ref(t,m,g) / Attempts(t,m,g)
+
+Reference completeness:
+RCI(clade,marker) =
+  species_with_reference / accepted_species_in_clade`,
+    proof: 'When RGI is high, the problem is not necessarily the user. It may be the reference library, marker choice or taxonomic coverage. That is actionable for GBIF communities.',
+  },
+  {
+    label: 'Publisher bottleneck',
+    title: 'Separate DNA problems from metadata problems',
+    formula: `PBI(dataset) =
+  count(records in dataset where PubStatus != gbifReady)
+  / count(records in dataset)
+
+FieldLoss(field,dataset) =
+  count(records in dataset missing field)
+  / count(records in dataset)
+
+Example:
+72% of records are blocked by missing eventDate,
+not by weak sequence evidence`,
+    proof: 'This helps publishers see whether they need new lab work, metadata repair or reference curation. Many records can be unlocked without resequencing.',
+  },
+  {
+    label: 'Protein sanity',
+    title: 'Amino acids are a QC layer, not species truth',
+    formula: `marker_type in {coding, noncoding, rRNA, unknown}
+
+if marker_type != coding:
+  amino_acid_layer = not_applicable
+
+For coding markers:
+Frame* = argmin_f StopCodons(Translate(s, f))
+
+Pass if:
+  InternalStopCount = 0
+  length(s) mod 3 = 0
+  FrameshiftRisk = 0
+
+DNA-level evidence -> taxonomy / barcode safety
+Protein-level evidence -> coding QC, pseudogene / NUMT warnings`,
+    proof: 'DNA to protein translation loses information because multiple codons can encode the same amino acid. Protein checks are useful for frameshifts, stop codons and pseudogene risk, not for claiming species by themselves.',
+  },
+  {
+    label: 'Fragment sharedness',
+    title: 'Turn ambiguous fragments into knowledge instead of throwing them away',
+    formula: `For fragment f:
+T(f) = {taxa where f occurs}
+G(f) = occurrence context of those taxa through GBIF
+
+c(f,t) = count of fragment f in taxon t
+p(t|f) = c(f,t) / sum_u c(f,u)
+
+H_tax(f) = - sum_t p(t|f) log p(t|f)
+Spec(f) = 1 - H_tax(f) / log |T(f)|
+
+SafeTaxon(f) = LCA(T(f))
+
+If f occurs in multiple Aedes species:
+SafeTaxon(f) = Aedes / genus`,
+    proof: 'A fragment shared by several species is not useless. It becomes genus-level or clade-level evidence, and the UI can show all taxa carrying it instead of pretending one top species is enough.',
+  },
+  {
+    label: 'Evidence graph',
+    title: 'The compiler is the ingestion layer for a broader Molecular Evidence Graph',
+    formula: `Nodes:
+  Fragment
+  DNA k-mer / window
+  Amino acid motif
+  Protein domain
+  Taxon / clade
+  Occurrence region
+  Dataset
+  Claim
+  Blocker
+
+Edges:
+  fragment_occurs_in_taxon
+  fragment_shared_by_clade
+  fragment_diagnostic_for_taxon
+  fragment_maps_to_protein
+  taxon_observed_in_region
+  claim_supported_by
+  claim_blocked_by`,
+    proof: 'This is the larger research direction: taxonomy, geography, protein context and safe claims in one auditable graph. The current Barcode Compiler is the first working safety layer.',
+  },
+];
+
+const engineLayers = [
+  ['1', 'Taxonomic Evidence Compiler', 'Current working module: identity, coverage, ambiguity/LCA, barcode gap and diagnostic k-mers produce safe rank decisions.'],
+  ['2', 'Publication Repair Optimizer', 'Ranks blockers by how many GBIF-ready records each repair can unlock.'],
+  ['3', 'Reference Gap Dashboard', 'Shows taxa, markers and regions where reference libraries prevent species-safe conversion.'],
+  ['4', 'Protein Sanity Layer', 'For coding markers only: reading frame, stop codons, frameshift and pseudogene/NUMT warnings.'],
+  ['5', 'Assay Evidence Gate', 'For eDNA/metabarcoding: controls, replicates, contamination flags and workflow metadata.'],
+  ['6', 'Molecular Evidence Graph', 'Connects fragments, taxa, GBIF geography, protein context, datasets, claims and blockers.'],
+];
+
 const proofSteps = [
   'Assume the compiler emits species-safe.',
   'Then Exact(top), species-level LCA, positive barcode gap, diagnostic support with low p_false_positive, and publication metadata must all be true.',
@@ -211,6 +421,8 @@ const userTaskRows = [
   ['Data publisher', 'What blocks GBIF publication?', 'Publication blockers and Darwin Core / DNA-derived templates.'],
   ['GBIF node or data manager', 'How do I explain that top hit is not always a species?', 'Formula cards, failure-mode proof and plain-language blockers.'],
   ['Taxonomist', 'Where does the marker fail to separate close taxa?', 'Ambiguity/LCA logic, barcode gap report and diagnostic k-mer evidence.'],
+  ['Reference library curator', 'Which taxon/marker/region combinations need new references?', 'Reference Gap Index and ranked curation targets.'],
+  ['Lab or monitoring team', 'Which fixes unlock the most records?', 'Repair optimizer with record counts per action.'],
   ['Reviewer or journal', 'Can the sequence-to-occurrence decision be reproduced?', 'Methods text, citations, evidence graph and complete evidence pack.'],
 ];
 
@@ -269,10 +481,13 @@ const evidencePackRows = [
 
 const nonClaims = [
   ['Gene to phenotype prediction', 'The project only makes safe taxonomic assignments and publication checks.'],
+  ['Protein sequence as species truth', 'Protein translation is a coding-quality layer; nucleotide evidence remains the taxonomic discriminator.'],
   ['Absolute biological truth', 'All decisions are reproducible under supplied evidence and reference context.'],
   ['Replacement for GBIF Sequence ID', 'The compiler is a downstream decision layer after Sequence ID / BLAST-style matching.'],
   ['Universal readiness score', 'The project uses deterministic gates and blockers, not arbitrary weights.'],
   ['Presence or absence in nature', 'The output is molecular occurrence evidence with caveats, not a distribution truth model.'],
+  ['Geography of a fragment as direct sampling proof', 'GBIF geography is occurrence context for taxa carrying the fragment unless the molecular sample itself has coordinates.'],
+  ['Automatic phenotype proof', 'Future trait/function links are hypotheses unless supported by curated external evidence.'],
 ];
 
 const decisionCopy = {
@@ -396,9 +611,9 @@ function App() {
       <header className="topbar">
         <div>
           <p className="eyebrow">EcoGenesis for GBIF Ebbe Nielsen Challenge 2026</p>
-          <h1>Barcode-to-GBIF Evidence Compiler</h1>
+          <h1>Molecular Evidence Conversion & Repair Engine for GBIF</h1>
           <p className="topbar-subtitle">
-            A deterministic workflow that turns DNA barcode, metabarcoding or Sequence ID results into safe, rank-aware and GBIF-ready molecular occurrence evidence.
+            The Barcode-to-GBIF Evidence Compiler is the first working layer: it turns DNA barcode, metabarcoding or Sequence ID results into safe, rank-aware and GBIF-ready molecular occurrence evidence.
           </p>
         </div>
         <nav className="mode-switch" aria-label="View mode">
@@ -449,9 +664,9 @@ function SubmissionOverview({ referenceStatus, metrics, exports, pack, onOpenWor
       <div className="hero-panel">
         <div>
           <p className="eyebrow">Final project direction</p>
-          <h2>Not an abstract atlas score. A fail-closed compiler for molecular evidence.</h2>
+          <h2>From molecular detections to safe, repairable GBIF evidence.</h2>
           <p>
-            The tool answers a narrow, judge-readable question: can this barcode-derived record safely support a species-level occurrence, or must it be downgraded to genus, higher rank, ambiguous, weak, no-match or not-publishable?
+            The engine answers the Evidence Conversion Problem: from a large stream of DNA and metabarcoding results, which records are safe to publish, which must be downgraded, which are blocked, and which repair actions unlock the most GBIF-ready evidence?
           </p>
           <div className="hero-actions">
             <button className="primary" onClick={onOpenWorkbench}>Open Workbench</button>
@@ -462,8 +677,8 @@ function SubmissionOverview({ referenceStatus, metrics, exports, pack, onOpenWor
           </div>
         </div>
         <div className="verdict-card">
-          <span>Current verdict</span>
-          <strong>{pack?.summary?.verdict || 'Ready to compile a molecular evidence package.'}</strong>
+          <span>Working module</span>
+          <strong>{pack?.summary?.verdict || 'Barcode Compiler ready: deterministic gates, safe rank decisions and repairable blockers.'}</strong>
           <small>{referenceStatus?.message || 'Loading compiler reference status...'}</small>
         </div>
       </div>
@@ -480,6 +695,20 @@ function SubmissionOverview({ referenceStatus, metrics, exports, pack, onOpenWor
         <div className="pipeline">
           {['identity', 'coverage', 'ambiguity LCA', 'barcode gap', 'diagnostic k-mers', 'GBIF metadata', 'publication pack'].map((step) => (
             <div key={step}>{step}</div>
+          ))}
+        </div>
+      </section>
+
+      <section className="panel">
+        <p className="section-label">Engine roadmap</p>
+        <h2>One working compiler now, six layers in the full engine.</h2>
+        <div className="layer-grid">
+          {engineLayers.map(([index, title, body]) => (
+            <article className="layer-card" key={title}>
+              <span>{index}</span>
+              <h3>{title}</h3>
+              <p>{body}</p>
+            </article>
           ))}
         </div>
       </section>
@@ -512,30 +741,74 @@ function ProofAndFormulas() {
       <section className="proof-hero panel">
         <div>
           <p className="section-label">Evidence basis</p>
-          <h2>Why the compiler can say "publish", "downgrade" or "block".</h2>
+          <h2>Why the engine can say "publish", "repair", "downgrade" or "block".</h2>
           <p>
-            This page exposes the full decision logic behind the Barcode-to-GBIF Evidence Compiler. The key point is simple:
-            species-level output is allowed only when every molecular and publication gate passes. Otherwise the record is
-            downgraded, kept for review or blocked from publishable exports.
+            This page exposes the mathematical basis behind the Molecular Evidence Conversion & Repair Engine for GBIF.
+            The Barcode-to-GBIF Evidence Compiler is the first implemented layer: species-level output is allowed only
+            when every molecular and publication gate passes. Otherwise the record is downgraded, kept for repair or
+            blocked from publishable exports.
           </p>
         </div>
         <div className="proof-summary">
-          <strong>Fail-closed rule</strong>
-          <span>No arbitrary score. No hidden weights. No blind top-hit species claims.</span>
+          <strong>Evidence Conversion Problem</strong>
+          <span>Maximize GBIF-ready evidence and safe-rank reuse while preventing unsafe species claims.</span>
         </div>
       </section>
 
       <section className="panel">
         <p className="section-label">Plain-language contract</p>
-        <h2>Technical quality control before DNA-derived records become GBIF-ready evidence.</h2>
+        <h2>Technical quality control before DNA-derived detections become GBIF-ready evidence.</h2>
         <p className="proof-copy">
-          A sequence match is not automatically a species occurrence. The compiler checks whether the match is strong,
+          A sequence match is not automatically a species occurrence. The engine checks whether the match is strong,
           whether close species are indistinguishable, whether the marker separates the taxon, whether diagnostic sequence
-          signal exists, and whether the record has the metadata needed for publication.
+          signal exists, whether a coding marker passes protein sanity checks, and whether the record has the metadata
+          needed for GBIF publication.
         </p>
         <div className="status-strip" aria-label="Decision classes">
           {['species-safe', 'genus-safe', 'higher-rank-safe', 'ambiguous', 'weak', 'no-match', 'not-publishable'].map((status) => (
             <span key={status}>{status}</span>
+          ))}
+        </div>
+      </section>
+
+      <section className="panel">
+        <p className="section-label">Final project goal</p>
+        <h2>Molecular Evidence Conversion & Repair Engine for GBIF</h2>
+        <p className="proof-copy">
+          The current Barcode Compiler is the first working version of a larger engine. Its job is to stop unsafe
+          top-hit species claims, preserve useful safe-rank evidence, expose publication blockers and generate a
+          reproducible evidence pack. The full engine extends this with repair optimization, reference-gap analytics,
+          protein sanity for coding markers, assay evidence checks and a Molecular Evidence Graph.
+        </p>
+        <div className="engine-equation">
+          <span>maximize</span>
+          <strong>N_gbifReady + N_safeRank</strong>
+          <span>while minimizing</span>
+          <strong>N_unsafeSpeciesClaims</strong>
+        </div>
+      </section>
+
+      <section className="formula-grid">
+        {engineFormulaSections.map((section) => (
+          <article className="formula-card engine-card" key={section.label}>
+            <p className="section-label">{section.label}</p>
+            <h3>{section.title}</h3>
+            <pre className="formula-code"><code>{section.formula}</code></pre>
+            <p>{section.proof}</p>
+          </article>
+        ))}
+      </section>
+
+      <section className="panel">
+        <p className="section-label">Engine layers</p>
+        <h2>What is implemented now and what the contest story leads to.</h2>
+        <div className="layer-grid">
+          {engineLayers.map(([index, title, body]) => (
+            <article className="layer-card" key={title}>
+              <span>{index}</span>
+              <h3>{title}</h3>
+              <p>{body}</p>
+            </article>
           ))}
         </div>
       </section>
@@ -629,6 +902,19 @@ function ProofAndFormulas() {
             </div>
           ))}
         </div>
+      </section>
+
+      <section className="panel final-proof">
+        <p className="section-label">Final conclusion</p>
+        <h2>The core contribution is not species guessing. It is evidence conversion with repairable loss accounting.</h2>
+        <p>
+          The strongest version of the project is a deterministic GBIF-facing engine that receives molecular evidence,
+          prevents unsafe species overclaiming, keeps safe genus or higher-rank evidence, identifies metadata and
+          reference-library blockers, and tells users which repairs will convert the most records into publishable
+          biodiversity evidence. Protein and phenotype layers remain carefully scoped: protein translation is a
+          quality-control and context layer for coding markers, while phenotype links are future hypotheses that require
+          curated external evidence.
+        </p>
       </section>
     </section>
   );
