@@ -716,6 +716,55 @@ th {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.math-notebook {
+  display: grid;
+  gap: 16px;
+}
+
+.math-section {
+  background: #fff;
+  border: 1px solid #dbe4dd;
+  border-radius: 8px;
+  box-shadow: 0 14px 30px rgba(26, 36, 29, 0.05);
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+  padding: 18px;
+}
+
+.math-heading {
+  align-items: center;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: auto minmax(0, 1fr);
+}
+
+.math-heading span {
+  align-items: center;
+  background: #1e5b69;
+  border-radius: 999px;
+  color: #fff;
+  display: inline-flex;
+  font-size: 0.82rem;
+  font-weight: 900;
+  height: 34px;
+  justify-content: center;
+  width: 34px;
+}
+
+.math-heading h3 {
+  font-size: 1.18rem;
+  line-height: 1.24;
+  margin: 0;
+}
+
+.math-section p {
+  color: #53655c;
+  line-height: 1.55;
+  margin: 0;
+  max-width: 1080px;
+}
+
 .formula-card {
   background: #fff;
   border: 1px solid #dbe4dd;
@@ -792,6 +841,46 @@ th {
   grid-template-columns: minmax(0, 0.38fr) minmax(0, 0.62fr);
 }
 
+.analysis-table {
+  border: 1px solid #dbe4dd;
+  border-radius: 8px;
+  margin-top: 16px;
+  overflow: hidden;
+}
+
+.analysis-table > div {
+  display: grid;
+  grid-template-columns: minmax(0, 0.28fr) minmax(0, 0.2fr) minmax(0, 0.52fr);
+}
+
+.analysis-table.compact-analysis > div {
+  grid-template-columns: minmax(0, 0.22fr) minmax(0, 0.18fr) minmax(0, 0.22fr) minmax(0, 0.38fr);
+}
+
+.analysis-table > div:first-child {
+  background: #eef4ef;
+}
+
+.analysis-table strong,
+.analysis-table span {
+  border-bottom: 1px solid #dbe4dd;
+  line-height: 1.45;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  padding: 12px;
+}
+
+.analysis-table > div:last-child span {
+  border-bottom: 0;
+}
+
+.test-metrics {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  margin-top: 16px;
+}
+
 .proof-steps {
   color: #2a382f;
   display: grid;
@@ -863,6 +952,7 @@ th {
   .example-grid,
   .formula-grid,
   .layer-grid,
+  .test-metrics,
   .pipeline,
   .export-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -893,7 +983,14 @@ th {
   }
 
   .task-table > div,
-  .artifact-table > div {
+  .artifact-table > div,
+  .analysis-table > div,
+  .analysis-table.compact-analysis > div {
+    grid-template-columns: 1fr;
+  }
+
+  .math-heading {
+    align-items: start;
     grid-template-columns: 1fr;
   }
 }

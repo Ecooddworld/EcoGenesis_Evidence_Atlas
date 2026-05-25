@@ -125,9 +125,15 @@ describe('Barcode compiler UI', () => {
 
     expect(screen.getByText('Evidence basis')).toBeInTheDocument();
     expect(screen.getAllByText('Evidence Conversion Problem').length).toBeGreaterThan(0);
-    expect(screen.getByText('Repair optimizer')).toBeInTheDocument();
-    expect(screen.getByText('Protein sanity')).toBeInTheDocument();
-    expect(screen.getByText('Evidence graph')).toBeInTheDocument();
+    expect(screen.getAllByText('Repair optimizer').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Protein sanity').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Evidence graph').length).toBeGreaterThan(0);
+    expect(screen.getByText('Full mathematical notebook')).toBeInTheDocument();
+    expect(screen.getByText('Reference Completeness Gate')).toBeInTheDocument();
+    expect(screen.getByText('Assay Evidence Gate for eDNA and metabarcoding')).toBeInTheDocument();
+    expect(screen.getByText('Conversion and overclaim metrics')).toBeInTheDocument();
+    expect(screen.getByText('Test analysis')).toBeInTheDocument();
+    expect(screen.getByText('Live GBIF smoke')).toBeInTheDocument();
     expect(screen.getByText('Decision function')).toBeInTheDocument();
     expect(screen.getByText('Proof by contradiction')).toBeInTheDocument();
     expect(screen.getAllByText(/p_false_positive/).length).toBeGreaterThan(0);
