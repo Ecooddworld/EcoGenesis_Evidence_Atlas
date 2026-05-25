@@ -107,4 +107,25 @@ describe('Barcode compiler UI', () => {
     fireEvent.click(screen.getByText('Advanced request JSON'));
     expect(screen.getByLabelText('Compiler request JSON')).toBeInTheDocument();
   });
+
+  it('opens the proof and formulas page', async () => {
+    vi.spyOn(globalThis, 'fetch').mockImplementation((url) => {
+      const textUrl = String(url);
+      if (textUrl.endsWith('/api/barcode/demo-scenarios')) {
+        return Promise.resolve(new Response(JSON.stringify(demoScenarios), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/reference-status')) {
+        return Promise.resolve(new Response(JSON.stringify({ status: 'ready', message: 'Compiler ready.' }), { status: 200 }));
+      }
+      return Promise.resolve(new Response('{}', { status: 404 }));
+    });
+
+    render(<App />);
+    fireEvent.click(await screen.findByText('Proof & formulas'));
+
+    expect(screen.getByText('Evidence basis')).toBeInTheDocument();
+    expect(screen.getByText('Decision function')).toBeInTheDocument();
+    expect(screen.getByText('Proof by contradiction')).toBeInTheDocument();
+    expect(screen.getAllByText(/p_false_positive/).length).toBeGreaterThan(0);
+  });
 });
