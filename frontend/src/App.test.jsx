@@ -82,7 +82,7 @@ describe('Barcode compiler UI', () => {
 
     fireEvent.click(screen.getByText('Run mixed demo'));
 
-    await waitFor(() => expect(screen.getByText('AALB-COI-good')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getAllByText('AALB-COI-good').length).toBeGreaterThan(0));
     expect(screen.getByText('species-safe')).toBeInTheDocument();
     expect(screen.getByText('evidence_pack.zip')).toBeInTheDocument();
   });
@@ -103,7 +103,8 @@ describe('Barcode compiler UI', () => {
     fireEvent.click(await screen.findByText('Compiler workbench'));
 
     expect(screen.getByLabelText('Demo case')).toBeInTheDocument();
-    expect(screen.getByLabelText('Compiler request JSON')).toBeInTheDocument();
     expect(screen.getByText('Generate Evidence Package')).toBeInTheDocument();
+    fireEvent.click(screen.getByText('Advanced request JSON'));
+    expect(screen.getByLabelText('Compiler request JSON')).toBeInTheDocument();
   });
 });

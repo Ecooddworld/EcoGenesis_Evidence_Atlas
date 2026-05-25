@@ -39,6 +39,60 @@ const modeLabels = {
   workbench: 'Compiler workbench',
 };
 
+const decisionCopy = {
+  'species-safe': {
+    title: 'Publish as species',
+    body: 'All species-level gates passed. This record can enter the publishable Darwin Core export at species rank.',
+  },
+  'genus-safe': {
+    title: 'Publish as genus',
+    body: 'Species is unsafe, but the shared genus is supported. The export is downgraded instead of overclaiming.',
+  },
+  'higher-rank-safe': {
+    title: 'Publish at higher rank',
+    body: 'The safest shared taxon is above genus. Keep the record, but publish only at the supported rank.',
+  },
+  ambiguous: {
+    title: 'Review ambiguity',
+    body: 'The evidence cannot support a clear publishable rank. Keep it in review until additional evidence resolves it.',
+  },
+  weak: {
+    title: 'Do not publish yet',
+    body: 'The match is too weak or incomplete for publication. Improve coverage, sequence quality or reference evidence.',
+  },
+  'no-match': {
+    title: 'No reference match',
+    body: 'No usable reference hit was supplied. Run identification again with a marker-appropriate reference database.',
+  },
+  'not-publishable': {
+    title: 'Fix metadata first',
+    body: 'The taxonomic evidence may be strong, but required GBIF/DNA-derived publication fields are missing.',
+  },
+};
+
+const exportGroups = [
+  {
+    title: 'Open first',
+    description: 'Human-readable decision, methods and the complete zipped evidence pack.',
+    match: ['molecular_evidence_report.html', 'sequence_safety_table.csv', 'evidence_pack.zip', 'methods_text.md', 'citations.md'],
+  },
+  {
+    title: 'Publishable templates',
+    description: 'Only records with a non-empty published taxon are included here.',
+    match: ['dwc_occurrence_core_publishable.csv', 'dna_derived_extension_publishable.csv', 'safe_taxonomic_assignments.csv'],
+  },
+  {
+    title: 'Review and repair',
+    description: 'Blocked records, ambiguity evidence, missing fields and molecular gates.',
+    match: ['review_taxonomic_hints.csv', 'publication_blockers.csv', 'ambiguous_sequences.csv', 'barcode_gap_report.csv', 'diagnostic_kmer_report.csv'],
+  },
+  {
+    title: 'Audit trail',
+    description: 'Machine-readable provenance for repeatability and contest review.',
+    match: ['reference_manifest.json', 'evidence_graph.json', 'evidence_pack.json', 'run.json', 'gbif_backbone_matches.csv', 'dwc_occurrence_core_review.csv', 'dwc_occurrence_core_template.csv', 'dna_derived_extension_template.csv', 'proof_by_failure_modes.md'],
+  },
+];
+
 function App() {
   const [mode, setMode] = useState('overview');
   const [scenarios, setScenarios] = useState([defaultScenario]);
@@ -227,8 +281,11 @@ function CompilerWorkbench({
   records,
   exports,
 }) {
+  const publishableRecords = records.filter((record) => record.published_taxon?.rank && record.published_taxon.rank !== 'none');
+  const reviewRecords = records.filter((record) => !record.published_taxon?.rank || record.published_taxon.rank === 'none');
+
   return (
-    <section className="workspace">
+    <section className={`workspace ${pack ? 'has-results' : ''}`}>
       <aside className="control-panel">
         <p className="section-label">Input</p>
         <label>
@@ -240,15 +297,15 @@ function CompilerWorkbench({
           </select>
         </label>
         <p className="hint">{selectedScenario?.description}</p>
-        <label>
-          Compiler request JSON
-          <textarea value={jsonInput} onChange={(event) => setJsonInput(event.target.value)} spellCheck="false" />
-        </label>
         <button className="primary wide" onClick={runCompiler} disabled={loading}>
           {loading ? 'Compiling evidence...' : 'Generate Evidence Package'}
         </button>
-        <details>
-          <summary>Accepted input shape</summary>
+        <details className="advanced-input">
+          <summary>Advanced request JSON</summary>
+          <label>
+            Compiler request JSON
+            <textarea value={jsonInput} onChange={(event) => setJsonInput(event.target.value)} spellCheck="false" />
+          </label>
           <p className="hint">
             Use records with sequence, metadata, reference hits, barcode gap evidence and optional diagnostic k-mers. This can be produced from GBIF Sequence ID CSV, BLAST-like outputs or lab pipelines.
           </p>
@@ -266,11 +323,47 @@ function CompilerWorkbench({
             <section className="panel">
               <p className="section-label">Decision memo</p>
               <h2>{pack.summary.verdict}</h2>
+              <p className="decision-lead">{buildRunExplanation(pack.metrics, publishableRecords.length, reviewRecords.length)}</p>
               <div className="metrics-grid compact">
                 <Metric label="Processed" value={pack.metrics.processed_records} />
                 <Metric label="Species-safe" value={pack.metrics.species_safe_records} />
                 <Metric label="Genus-safe" value={pack.metrics.genus_safe_records} />
                 <Metric label="Record-ready" value={pack.metrics.record_ready_records} />
+              </div>
+            </section>
+
+            <OutcomeSummary records={records} />
+
+            <section className="panel two-column">
+              <div>
+                <p className="section-label">Publishable output</p>
+                <h3>{publishableRecords.length} {pluralize('record', publishableRecords.length)} can be exported now</h3>
+                <p className="hint">
+                  These records have a `published_taxon` and are included in the publishable Darwin Core and DNA-derived templates.
+                </p>
+                <ul className="record-list">
+                  {publishableRecords.map((record) => (
+                    <li key={record.sequence_id}>
+                      <strong>{record.sequence_id}</strong>
+                      <span>{record.published_taxon.name} / {record.published_taxon.rank}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <p className="section-label">Review queue</p>
+                <h3>{reviewRecords.length} {pluralize('record', reviewRecords.length)} need attention</h3>
+                <p className="hint">
+                  These stay out of publishable templates. They remain useful as repair tasks with explicit blockers.
+                </p>
+                <ul className="record-list blocked">
+                  {reviewRecords.map((record) => (
+                    <li key={record.sequence_id}>
+                      <strong>{record.sequence_id}</strong>
+                      <span>{record.blockers[0] || decisionCopy[record.decision_class]?.body}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </section>
 
@@ -285,6 +378,7 @@ function CompilerWorkbench({
                       <th>Candidate</th>
                       <th>Published</th>
                       <th>Stage</th>
+                      <th>Meaning</th>
                       <th>Blockers</th>
                     </tr>
                   </thead>
@@ -295,7 +389,8 @@ function CompilerWorkbench({
                         <td><span className={`pill ${record.decision_class}`}>{record.decision_class}</span></td>
                         <td>{record.candidate_taxon.name} <span className="muted">({record.candidate_taxon.rank})</span></td>
                         <td>{record.published_taxon.rank === 'none' ? 'Review only' : `${record.published_taxon.name} (${record.published_taxon.rank})`}</td>
-                        <td>{record.publication_stage}</td>
+                        <td>{formatStage(record.publication_stage)}</td>
+                        <td>{decisionCopy[record.decision_class]?.title || record.decision_class}</td>
                         <td>{record.blockers.length ? record.blockers.slice(0, 2).join('; ') : 'none'}</td>
                       </tr>
                     ))}
@@ -306,16 +401,78 @@ function CompilerWorkbench({
 
             <section className="panel">
               <p className="section-label">Evidence pack</p>
-              <div className="export-grid">
-                {exports.map((item) => (
-                  <a key={item.name} href={exportUrl(item.url)}>{item.name}</a>
-                ))}
-              </div>
+              <GroupedExports exports={exports} />
             </section>
           </>
         )}
       </div>
     </section>
+  );
+}
+
+function OutcomeSummary({ records }) {
+  const counts = records.reduce((acc, record) => {
+    acc[record.decision_class] = (acc[record.decision_class] || 0) + 1;
+    return acc;
+  }, {});
+  const cards = [
+    ['species-safe', counts['species-safe'] || 0],
+    ['genus-safe', (counts['genus-safe'] || 0) + (counts['higher-rank-safe'] || 0)],
+    ['weak', (counts.weak || 0) + (counts.ambiguous || 0) + (counts['no-match'] || 0)],
+    ['not-publishable', counts['not-publishable'] || 0],
+  ];
+
+  return (
+    <section className="outcome-grid">
+      {cards.map(([decision, count]) => (
+        <article key={decision} className={`outcome-card ${decision}`}>
+          <span>{count}</span>
+          <h3>{decisionCopy[decision].title}</h3>
+          <p>{decisionCopy[decision].body}</p>
+        </article>
+      ))}
+    </section>
+  );
+}
+
+function GroupedExports({ exports }) {
+  const remaining = new Set(exports.map((item) => item.name));
+  return (
+    <div className="export-groups">
+      {exportGroups.map((group) => {
+        const items = group.match
+          .map((name) => exports.find((item) => item.name === name))
+          .filter(Boolean);
+        items.forEach((item) => remaining.delete(item.name));
+        if (!items.length) return null;
+        return (
+          <section key={group.title} className="export-group">
+            <div>
+              <h3>{group.title}</h3>
+              <p>{group.description}</p>
+            </div>
+            <div className="export-grid">
+              {items.map((item) => (
+                <a key={item.name} href={exportUrl(item.url)}>{item.name}</a>
+              ))}
+            </div>
+          </section>
+        );
+      })}
+      {[...remaining].length > 0 && (
+        <section className="export-group">
+          <div>
+            <h3>Other files</h3>
+            <p>Additional generated artifacts.</p>
+          </div>
+          <div className="export-grid">
+            {exports.filter((item) => remaining.has(item.name)).map((item) => (
+              <a key={item.name} href={exportUrl(item.url)}>{item.name}</a>
+            ))}
+          </div>
+        </section>
+      )}
+    </div>
   );
 }
 
@@ -326,6 +483,25 @@ function Metric({ label, value }) {
       <span>{label}</span>
     </div>
   );
+}
+
+function buildRunExplanation(metrics, publishableCount, reviewCount) {
+  const species = metrics.species_safe_records || 0;
+  const genus = metrics.genus_safe_records || 0;
+  const blocked = metrics.blocked_species_claims || 0;
+  return `This run produces ${publishableCount} publishable ${pluralize('record', publishableCount)}: ${species} at species rank and ${genus} downgraded to genus or safer rank. ${reviewCount} ${pluralize('record', reviewCount)} stay in the review queue. ${blocked} unsafe species-level ${pluralize('claim', blocked)} were blocked before export.`;
+}
+
+function formatStage(stage) {
+  return String(stage || '')
+    .replaceAll('_', ' ')
+    .replace('record ', 'record: ')
+    .replace('dataset ', 'dataset: ')
+    .replace('gold ', 'gold: ');
+}
+
+function pluralize(word, count) {
+  return Number(count) === 1 ? word : `${word}s`;
 }
 
 export default App;
