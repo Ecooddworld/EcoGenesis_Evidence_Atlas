@@ -19,15 +19,20 @@ EXPECTED_CLASSES = {
 }
 
 REQUIRED_EXPORTS = {
+    "reference_manifest.json",
     "sequence_safety_table.csv",
     "safe_taxonomic_assignments.csv",
+    "review_taxonomic_hints.csv",
     "ambiguous_sequences.csv",
     "barcode_gap_report.csv",
     "diagnostic_kmer_report.csv",
     "gbif_backbone_matches.csv",
     "publication_blockers.csv",
     "dwc_occurrence_core_template.csv",
+    "dwc_occurrence_core_publishable.csv",
+    "dwc_occurrence_core_review.csv",
     "dna_derived_extension_template.csv",
+    "dna_derived_extension_publishable.csv",
     "molecular_evidence_report.html",
     "methods_text.md",
     "citations.md",
@@ -141,11 +146,14 @@ def actual_results(pack: dict) -> list[dict]:
                 "decision_class": record["decision_class"],
                 "taxonomic_status": record["taxonomic_status"],
                 "publication_status": record["publication_status"],
-                "safe_taxon": record["safe_taxon"],
+                "publication_stage": record["publication_stage"],
+                "candidate_taxon": record["candidate_taxon"],
+                "published_taxon": record["published_taxon"],
                 "top_identity": top.get("identity"),
                 "top_query_coverage": top.get("query_coverage"),
                 "barcode_gap_status": record["barcode_gap"]["status"],
                 "diagnostic_kmer_status": record["diagnostic_kmers"]["status"],
+                "diagnostic_p_false_positive": record["diagnostic_kmers"].get("p_false_positive"),
                 "blockers": record["blockers"],
             }
         )
@@ -160,18 +168,20 @@ def markdown_report(report: dict) -> str:
         "",
         "## Real Results",
         "",
-        "| Sequence | Decision | Taxonomic status | Publication status | Safe taxon | Main blockers |",
-        "|---|---:|---:|---:|---|---|",
+        "| Sequence | Decision | Taxonomic status | Publication | Candidate | Published | Main blockers |",
+        "|---|---:|---:|---:|---|---|---|",
     ]
     for row in report["actual_results"]:
         blockers = "; ".join(row["blockers"][:2]) if row["blockers"] else "none"
         lines.append(
-            "| {sequence_id} | {decision_class} | {taxonomic_status} | {publication_status} | {safe_taxon} | {blockers} |".format(
+            "| {sequence_id} | {decision_class} | {taxonomic_status} | {publication_status} / {publication_stage} | {candidate_taxon} | {published_taxon} | {blockers} |".format(
                 sequence_id=row["sequence_id"],
                 decision_class=row["decision_class"],
                 taxonomic_status=row["taxonomic_status"],
                 publication_status=row["publication_status"],
-                safe_taxon=f"{row['safe_taxon']['name']} ({row['safe_taxon']['rank']})",
+                publication_stage=row["publication_stage"],
+                candidate_taxon=f"{row['candidate_taxon']['name']} ({row['candidate_taxon']['rank']})",
+                published_taxon=f"{row['published_taxon']['name']} ({row['published_taxon']['rank']})",
                 blockers=blockers,
             )
         )

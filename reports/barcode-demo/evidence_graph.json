@@ -1,9 +1,25 @@
 {
+  "meta": {
+    "run_id": "29ffe42344a64897a6703b9cafad35e2",
+    "ruleset_version": "barcode-gbif-compiler-v2",
+    "reference_manifest_sha256": "e2cb18927983e1a5940a5f169b3463fc7839764c68f9a58f6c19fce03ce699ae",
+    "created_at": "2026-05-25T00:12:17.210342+00:00"
+  },
+  "stats": {
+    "sequence_count": 4,
+    "safe_count": 2,
+    "blocked_count": 3
+  },
   "nodes": [
     {
-      "id": "run:7c69b698e8f54cb5b95717c6bea1e3b0",
+      "id": "run:29ffe42344a64897a6703b9cafad35e2",
       "type": "run",
       "label": "Aedes COI batch: safe, ambiguous, weak and metadata cases"
+    },
+    {
+      "id": "reference_manifest:e2cb18927983e1a5940a5f169b3463fc7839764c68f9a58f6c19fce03ce699ae",
+      "type": "reference_manifest",
+      "label": "COI Animals / BOLD public clustered reference"
     },
     {
       "id": "sequence:AALB-COI-good",
@@ -54,6 +70,11 @@
       "rank": "genus"
     },
     {
+      "id": "blocker:8c7ec566665a",
+      "type": "blocker",
+      "label": "species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus"
+    },
+    {
       "id": "hit:AALB-COI-ambiguous:BOLD:Aedes_albopictus",
       "type": "hit",
       "label": "Aedes albopictus",
@@ -79,10 +100,14 @@
       "label": "weak"
     },
     {
-      "id": "taxon:species:Aedes albopictus",
-      "type": "taxon",
-      "label": "Aedes albopictus",
-      "rank": "species"
+      "id": "blocker:37272f3b3b15",
+      "type": "blocker",
+      "label": "species claim blocked: top hit does not pass exact match gate identity >= 99% and query coverage >= 80%"
+    },
+    {
+      "id": "blocker:4b566aab621e",
+      "type": "blocker",
+      "label": "species claim blocked: query coverage < 80%"
     },
     {
       "id": "hit:AALB-COI-short:BOLD:Aedes_albopictus",
@@ -103,10 +128,14 @@
       "label": "not-publishable"
     },
     {
-      "id": "taxon:species:Aedes albopictus",
-      "type": "taxon",
-      "label": "Aedes albopictus",
-      "rank": "species"
+      "id": "blocker:78cdd7c7e0d6",
+      "type": "blocker",
+      "label": "publication blocked: missing required Occurrence core field occurrenceID"
+    },
+    {
+      "id": "blocker:bafd053aee5e",
+      "type": "blocker",
+      "label": "publication blocked: missing required Occurrence core field eventDate"
     },
     {
       "id": "hit:AALB-COI-metadata-gap:BOLD:Aedes_albopictus",
@@ -114,11 +143,148 @@
       "label": "Aedes albopictus",
       "identity": 99.6,
       "coverage": 96.0
+    },
+    {
+      "id": "artifact:ambiguous_sequences.csv",
+      "type": "artifact",
+      "label": "ambiguous_sequences.csv",
+      "sha256": "970910f408014e09d7eaa6449d3e548bdb4b703fed7ab9a82f6d8605129dc028"
+    },
+    {
+      "id": "artifact:barcode_gap_report.csv",
+      "type": "artifact",
+      "label": "barcode_gap_report.csv",
+      "sha256": "79f151decd9d704c17228a1d0f80a16c1cb7b92527e07aa7a5863c030958fdf8"
+    },
+    {
+      "id": "artifact:citations.md",
+      "type": "artifact",
+      "label": "citations.md",
+      "sha256": "b57b5c71eeea6f138a14d57495e298cb379fabb25053b310245b8b306905fd3a"
+    },
+    {
+      "id": "artifact:diagnostic_kmer_report.csv",
+      "type": "artifact",
+      "label": "diagnostic_kmer_report.csv",
+      "sha256": "140b983e06fd2764f72f62679bef29ecd255509bb6743c3bdbb4c94869e7a2b6"
+    },
+    {
+      "id": "artifact:dna_derived_extension_publishable.csv",
+      "type": "artifact",
+      "label": "dna_derived_extension_publishable.csv",
+      "sha256": "8063186891b9c9f2d88fc0d834f1538b980176e25e2b06598130670efd940054"
+    },
+    {
+      "id": "artifact:dna_derived_extension_template.csv",
+      "type": "artifact",
+      "label": "dna_derived_extension_template.csv",
+      "sha256": "5fa5aa2ec52b32dd81a5ba49cd80194d9c170d4d702fa929f8ea4f4733ac47a0"
+    },
+    {
+      "id": "artifact:dwc_occurrence_core_publishable.csv",
+      "type": "artifact",
+      "label": "dwc_occurrence_core_publishable.csv",
+      "sha256": "51a19624a731fc50fa87420c282c4e755ee9fe0d46d5239506f30762fb005428"
+    },
+    {
+      "id": "artifact:dwc_occurrence_core_review.csv",
+      "type": "artifact",
+      "label": "dwc_occurrence_core_review.csv",
+      "sha256": "2fd7c7cda1582a900c9b0e530eef97e3e839656b043058950ffe6f13d407662f"
+    },
+    {
+      "id": "artifact:dwc_occurrence_core_template.csv",
+      "type": "artifact",
+      "label": "dwc_occurrence_core_template.csv",
+      "sha256": "2fd7c7cda1582a900c9b0e530eef97e3e839656b043058950ffe6f13d407662f"
+    },
+    {
+      "id": "artifact:evidence_graph.json",
+      "type": "artifact",
+      "label": "evidence_graph.json",
+      "sha256": "12e09e6b7d7c08bf35b11c1e64c62be7fa5464bc52b36dc45543983680df3cd4"
+    },
+    {
+      "id": "artifact:evidence_pack.json",
+      "type": "artifact",
+      "label": "evidence_pack.json",
+      "sha256": "af1843316fa79aa6b424b82bc3407f72c96560d6afb5fbf4687f2a2110ac3c94"
+    },
+    {
+      "id": "artifact:evidence_pack.zip",
+      "type": "artifact",
+      "label": "evidence_pack.zip",
+      "sha256": "28ee361209680d9546e9c34490e40c5345c4250eb563c0446375524f42259fdf"
+    },
+    {
+      "id": "artifact:gbif_backbone_matches.csv",
+      "type": "artifact",
+      "label": "gbif_backbone_matches.csv",
+      "sha256": "0f4bd2c8ee811bdbf078bf5560f430fed589b99a21bde1e08a6cfacc0a53e405"
+    },
+    {
+      "id": "artifact:methods_text.md",
+      "type": "artifact",
+      "label": "methods_text.md",
+      "sha256": "45cdcee2bd4a5c20421f94ad5a83193b56bf7050fd45c64e507cbce15285edd1"
+    },
+    {
+      "id": "artifact:molecular_evidence_report.html",
+      "type": "artifact",
+      "label": "molecular_evidence_report.html",
+      "sha256": "a6bef3f7409b41de2cb45644bc7ce373407185d83ca1ca1d73240ee09485225d"
+    },
+    {
+      "id": "artifact:proof_by_failure_modes.md",
+      "type": "artifact",
+      "label": "proof_by_failure_modes.md",
+      "sha256": "213971993cc1d2beaab7bf0bd0cace4af294feefdb54d450858e424fbf123edf"
+    },
+    {
+      "id": "artifact:publication_blockers.csv",
+      "type": "artifact",
+      "label": "publication_blockers.csv",
+      "sha256": "020240f72b9d02b64f438aef7a8f6813d7f63c5241bd42a1140fffe1405e76e6"
+    },
+    {
+      "id": "artifact:reference_manifest.json",
+      "type": "artifact",
+      "label": "reference_manifest.json",
+      "sha256": "718148b6105e45a9fc471bace097703773cda8c2292cbe2b028d0d8a3f5b6bb5"
+    },
+    {
+      "id": "artifact:review_taxonomic_hints.csv",
+      "type": "artifact",
+      "label": "review_taxonomic_hints.csv",
+      "sha256": "fc46886912fb7cd3e219cb5face1a300d84d424ce81877eef4c822cf1256efff"
+    },
+    {
+      "id": "artifact:run.json",
+      "type": "artifact",
+      "label": "run.json",
+      "sha256": "734cb33435b2148081c5d87220b9caed1abe4cccb63b6428b00600df7d5308f4"
+    },
+    {
+      "id": "artifact:safe_taxonomic_assignments.csv",
+      "type": "artifact",
+      "label": "safe_taxonomic_assignments.csv",
+      "sha256": "b705bf4352a6fda01dbcddda7e3b724863b4f1b57b92b24710e1bc0372843ebd"
+    },
+    {
+      "id": "artifact:sequence_safety_table.csv",
+      "type": "artifact",
+      "label": "sequence_safety_table.csv",
+      "sha256": "7b4b9cbeb40ce85f5a2ae3dced0776470163dbf323eb3d74b4a06d7a99e1f128"
     }
   ],
   "edges": [
     {
-      "source": "run:7c69b698e8f54cb5b95717c6bea1e3b0",
+      "source": "run:29ffe42344a64897a6703b9cafad35e2",
+      "target": "reference_manifest:e2cb18927983e1a5940a5f169b3463fc7839764c68f9a58f6c19fce03ce699ae",
+      "type": "frozen_against"
+    },
+    {
+      "source": "run:29ffe42344a64897a6703b9cafad35e2",
       "target": "sequence:AALB-COI-good",
       "type": "contains_sequence"
     },
@@ -130,7 +296,7 @@
     {
       "source": "assignment:AALB-COI-good",
       "target": "taxon:species:Aedes albopictus",
-      "type": "safe_taxon"
+      "type": "published_or_candidate_taxon"
     },
     {
       "source": "sequence:AALB-COI-good",
@@ -143,7 +309,7 @@
       "type": "matches_reference"
     },
     {
-      "source": "run:7c69b698e8f54cb5b95717c6bea1e3b0",
+      "source": "run:29ffe42344a64897a6703b9cafad35e2",
       "target": "sequence:AALB-COI-ambiguous",
       "type": "contains_sequence"
     },
@@ -155,7 +321,12 @@
     {
       "source": "assignment:AALB-COI-ambiguous",
       "target": "taxon:genus:Aedes",
-      "type": "safe_taxon"
+      "type": "published_or_candidate_taxon"
+    },
+    {
+      "source": "assignment:AALB-COI-ambiguous",
+      "target": "blocker:8c7ec566665a",
+      "type": "blocked_by"
     },
     {
       "source": "sequence:AALB-COI-ambiguous",
@@ -168,7 +339,7 @@
       "type": "matches_reference"
     },
     {
-      "source": "run:7c69b698e8f54cb5b95717c6bea1e3b0",
+      "source": "run:29ffe42344a64897a6703b9cafad35e2",
       "target": "sequence:AALB-COI-short",
       "type": "contains_sequence"
     },
@@ -180,7 +351,17 @@
     {
       "source": "assignment:AALB-COI-short",
       "target": "taxon:species:Aedes albopictus",
-      "type": "safe_taxon"
+      "type": "published_or_candidate_taxon"
+    },
+    {
+      "source": "assignment:AALB-COI-short",
+      "target": "blocker:37272f3b3b15",
+      "type": "blocked_by"
+    },
+    {
+      "source": "assignment:AALB-COI-short",
+      "target": "blocker:4b566aab621e",
+      "type": "blocked_by"
     },
     {
       "source": "sequence:AALB-COI-short",
@@ -188,7 +369,7 @@
       "type": "matches_reference"
     },
     {
-      "source": "run:7c69b698e8f54cb5b95717c6bea1e3b0",
+      "source": "run:29ffe42344a64897a6703b9cafad35e2",
       "target": "sequence:AALB-COI-metadata-gap",
       "type": "contains_sequence"
     },
@@ -200,12 +381,132 @@
     {
       "source": "assignment:AALB-COI-metadata-gap",
       "target": "taxon:species:Aedes albopictus",
-      "type": "safe_taxon"
+      "type": "published_or_candidate_taxon"
+    },
+    {
+      "source": "assignment:AALB-COI-metadata-gap",
+      "target": "blocker:78cdd7c7e0d6",
+      "type": "blocked_by"
+    },
+    {
+      "source": "assignment:AALB-COI-metadata-gap",
+      "target": "blocker:bafd053aee5e",
+      "type": "blocked_by"
     },
     {
       "source": "sequence:AALB-COI-metadata-gap",
       "target": "hit:AALB-COI-metadata-gap:BOLD:Aedes_albopictus",
       "type": "matches_reference"
+    },
+    {
+      "source": "run:29ffe42344a64897a6703b9cafad35e2",
+      "target": "artifact:ambiguous_sequences.csv",
+      "type": "produces_artifact"
+    },
+    {
+      "source": "run:29ffe42344a64897a6703b9cafad35e2",
+      "target": "artifact:barcode_gap_report.csv",
+      "type": "produces_artifact"
+    },
+    {
+      "source": "run:29ffe42344a64897a6703b9cafad35e2",
+      "target": "artifact:citations.md",
+      "type": "produces_artifact"
+    },
+    {
+      "source": "run:29ffe42344a64897a6703b9cafad35e2",
+      "target": "artifact:diagnostic_kmer_report.csv",
+      "type": "produces_artifact"
+    },
+    {
+      "source": "run:29ffe42344a64897a6703b9cafad35e2",
+      "target": "artifact:dna_derived_extension_publishable.csv",
+      "type": "produces_artifact"
+    },
+    {
+      "source": "run:29ffe42344a64897a6703b9cafad35e2",
+      "target": "artifact:dna_derived_extension_template.csv",
+      "type": "produces_artifact"
+    },
+    {
+      "source": "run:29ffe42344a64897a6703b9cafad35e2",
+      "target": "artifact:dwc_occurrence_core_publishable.csv",
+      "type": "produces_artifact"
+    },
+    {
+      "source": "run:29ffe42344a64897a6703b9cafad35e2",
+      "target": "artifact:dwc_occurrence_core_review.csv",
+      "type": "produces_artifact"
+    },
+    {
+      "source": "run:29ffe42344a64897a6703b9cafad35e2",
+      "target": "artifact:dwc_occurrence_core_template.csv",
+      "type": "produces_artifact"
+    },
+    {
+      "source": "run:29ffe42344a64897a6703b9cafad35e2",
+      "target": "artifact:evidence_graph.json",
+      "type": "produces_artifact"
+    },
+    {
+      "source": "run:29ffe42344a64897a6703b9cafad35e2",
+      "target": "artifact:evidence_pack.json",
+      "type": "produces_artifact"
+    },
+    {
+      "source": "run:29ffe42344a64897a6703b9cafad35e2",
+      "target": "artifact:evidence_pack.zip",
+      "type": "produces_artifact"
+    },
+    {
+      "source": "run:29ffe42344a64897a6703b9cafad35e2",
+      "target": "artifact:gbif_backbone_matches.csv",
+      "type": "produces_artifact"
+    },
+    {
+      "source": "run:29ffe42344a64897a6703b9cafad35e2",
+      "target": "artifact:methods_text.md",
+      "type": "produces_artifact"
+    },
+    {
+      "source": "run:29ffe42344a64897a6703b9cafad35e2",
+      "target": "artifact:molecular_evidence_report.html",
+      "type": "produces_artifact"
+    },
+    {
+      "source": "run:29ffe42344a64897a6703b9cafad35e2",
+      "target": "artifact:proof_by_failure_modes.md",
+      "type": "produces_artifact"
+    },
+    {
+      "source": "run:29ffe42344a64897a6703b9cafad35e2",
+      "target": "artifact:publication_blockers.csv",
+      "type": "produces_artifact"
+    },
+    {
+      "source": "run:29ffe42344a64897a6703b9cafad35e2",
+      "target": "artifact:reference_manifest.json",
+      "type": "produces_artifact"
+    },
+    {
+      "source": "run:29ffe42344a64897a6703b9cafad35e2",
+      "target": "artifact:review_taxonomic_hints.csv",
+      "type": "produces_artifact"
+    },
+    {
+      "source": "run:29ffe42344a64897a6703b9cafad35e2",
+      "target": "artifact:run.json",
+      "type": "produces_artifact"
+    },
+    {
+      "source": "run:29ffe42344a64897a6703b9cafad35e2",
+      "target": "artifact:safe_taxonomic_assignments.csv",
+      "type": "produces_artifact"
+    },
+    {
+      "source": "run:29ffe42344a64897a6703b9cafad35e2",
+      "target": "artifact:sequence_safety_table.csv",
+      "type": "produces_artifact"
     }
   ]
 }

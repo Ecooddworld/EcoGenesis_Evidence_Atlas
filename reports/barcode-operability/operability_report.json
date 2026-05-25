@@ -13,7 +13,7 @@
   },
   "direct_compiler": {
     "pass": true,
-    "run_id": "205e61617b8c45cca59838a797375216",
+    "run_id": "307c63019a9a44d3910274540e763556",
     "metrics": {
       "processed_records": 4,
       "processing_coverage": 1,
@@ -24,6 +24,8 @@
       "weak_records": 1,
       "no_match_records": 0,
       "not_publishable_records": 1,
+      "record_ready_records": 2,
+      "dataset_ready_records": 0,
       "species_safe_yield": 0.25,
       "blocked_species_claims": 3,
       "overclaim_prevention_proxy": 1,
@@ -39,7 +41,7 @@
     "missing_exports": [],
     "zip_ok": true,
     "zip_contains_required_exports": true,
-    "evidence_pack_json_sha256": "c4cc4256baf36aa14db15eea45718bb3b24ea05a4c6925c58f68c66ebf87ebf7"
+    "evidence_pack_json_sha256": "132527ee9d4319714df93dfea39bfa3afb41461d06f9d8e282af4cd7c248f81f"
   },
   "api": {
     "run_endpoint_status": 200,
@@ -55,15 +57,21 @@
       "AALB-COI-metadata-gap": "not-publishable"
     },
     "api_expected_classes_pass": true,
-    "api_export_count": 17
+    "api_export_count": 22
   },
   "actual_results": [
     {
       "sequence_id": "AALB-COI-good",
       "decision_class": "species-safe",
       "taxonomic_status": "species-safe",
-      "publication_status": "gbif-ready",
-      "safe_taxon": {
+      "publication_status": "record-ready",
+      "publication_stage": "record_recommended_ready",
+      "candidate_taxon": {
+        "rank": "species",
+        "name": "Aedes albopictus",
+        "taxon_key": 1651430
+      },
+      "published_taxon": {
         "rank": "species",
         "name": "Aedes albopictus",
         "taxon_key": 1651430
@@ -72,14 +80,21 @@
       "top_query_coverage": 96.0,
       "barcode_gap_status": "pass",
       "diagnostic_kmer_status": "pass",
+      "diagnostic_p_false_positive": 1.7e-06,
       "blockers": []
     },
     {
       "sequence_id": "AALB-COI-ambiguous",
       "decision_class": "genus-safe",
       "taxonomic_status": "genus-safe",
-      "publication_status": "gbif-ready",
-      "safe_taxon": {
+      "publication_status": "record-ready",
+      "publication_stage": "record_recommended_ready",
+      "candidate_taxon": {
+        "rank": "genus",
+        "name": "Aedes",
+        "taxon_key": null
+      },
+      "published_taxon": {
         "rank": "genus",
         "name": "Aedes",
         "taxon_key": null
@@ -88,6 +103,7 @@
       "top_query_coverage": 96.0,
       "barcode_gap_status": "pass",
       "diagnostic_kmer_status": "pass",
+      "diagnostic_p_false_positive": 1.7e-06,
       "blockers": [
         "species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus"
       ]
@@ -97,15 +113,22 @@
       "decision_class": "weak",
       "taxonomic_status": "weak",
       "publication_status": "not-ready",
-      "safe_taxon": {
+      "publication_stage": "record_recommended_ready",
+      "candidate_taxon": {
         "rank": "species",
         "name": "Aedes albopictus",
         "taxon_key": 1651430
+      },
+      "published_taxon": {
+        "rank": "none",
+        "name": "None",
+        "taxon_key": null
       },
       "top_identity": 99.5,
       "top_query_coverage": 72.0,
       "barcode_gap_status": "pass",
       "diagnostic_kmer_status": "pass",
+      "diagnostic_p_false_positive": 1.7e-06,
       "blockers": [
         "species claim blocked: top hit does not pass exact match gate identity >= 99% and query coverage >= 80%",
         "species claim blocked: query coverage < 80%"
@@ -116,15 +139,22 @@
       "decision_class": "not-publishable",
       "taxonomic_status": "species-safe",
       "publication_status": "not-ready",
-      "safe_taxon": {
+      "publication_stage": "record_not_ready",
+      "candidate_taxon": {
         "rank": "species",
         "name": "Aedes albopictus",
         "taxon_key": 1651430
+      },
+      "published_taxon": {
+        "rank": "none",
+        "name": "None",
+        "taxon_key": null
       },
       "top_identity": 99.6,
       "top_query_coverage": 96.0,
       "barcode_gap_status": "pass",
       "diagnostic_kmer_status": "pass",
+      "diagnostic_p_false_positive": 1.7e-06,
       "blockers": [
         "publication blocked: missing required Occurrence core field occurrenceID",
         "publication blocked: missing required Occurrence core field eventDate"

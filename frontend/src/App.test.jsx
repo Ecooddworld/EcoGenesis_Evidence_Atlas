@@ -12,7 +12,7 @@ const demoScenarios = [
       marker: 'COI-5P',
       reference_database: 'COI Animals / BOLD public clustered reference',
       method_or_sop: 'GBIF Sequence ID-compatible BLAST workflow',
-      ruleset_version: 'barcode-gbif-compiler-v1',
+      ruleset_version: 'barcode-gbif-compiler-v2',
       records: [{ sequence_id: 'AALB-COI-good', sequence: 'ACGT', hits: [] }],
     },
   },
@@ -28,20 +28,23 @@ const createdRun = {
     not_publishable_records: 0,
     blocked_species_claims: 0,
     publication_repair_efficiency: 1,
-    verdict: 'At least one sequence is species-safe and GBIF-ready under the frozen molecular evidence gates.',
+    record_ready_records: 1,
+    verdict: 'At least one sequence is species-safe under the frozen molecular evidence gates; publication readiness is reported separately.',
   },
   exports: [{ name: 'evidence_pack.zip', url: '/api/barcode/runs/barcode123/exports/evidence_pack.zip' }],
 };
 
 const runDetail = {
-  run: { run_id: 'barcode123', ruleset_version: 'barcode-gbif-compiler-v1' },
+  run: { run_id: 'barcode123', ruleset_version: 'barcode-gbif-compiler-v2' },
   summary: createdRun.summary,
   metrics: createdRun.summary,
   records: [
     {
       sequence_id: 'AALB-COI-good',
       decision_class: 'species-safe',
-      safe_taxon: { name: 'Aedes albopictus', rank: 'species' },
+      candidate_taxon: { name: 'Aedes albopictus', rank: 'species' },
+      published_taxon: { name: 'Aedes albopictus', rank: 'species' },
+      publication_stage: 'record_recommended_ready',
       blockers: [],
     },
   ],

@@ -11,15 +11,20 @@ def build_barcode_artifacts(pack: dict[str, Any]) -> dict[str, str]:
     return {
         "evidence_pack.json": json.dumps(pack, indent=2, ensure_ascii=False),
         "run.json": json.dumps(pack["run"], indent=2, ensure_ascii=False),
+        "reference_manifest.json": json.dumps(pack["reference_manifest"], indent=2, ensure_ascii=False),
         "sequence_safety_table.csv": sequence_safety_csv(pack),
         "safe_taxonomic_assignments.csv": safe_assignments_csv(pack),
+        "review_taxonomic_hints.csv": review_hints_csv(pack),
         "ambiguous_sequences.csv": filtered_sequences_csv(pack, {"ambiguous", "genus-safe", "higher-rank-safe"}),
         "barcode_gap_report.csv": barcode_gap_csv(pack),
         "diagnostic_kmer_report.csv": diagnostic_kmer_csv(pack),
         "gbif_backbone_matches.csv": gbif_matches_csv(pack),
         "publication_blockers.csv": blockers_csv(pack),
-        "dwc_occurrence_core_template.csv": occurrence_core_csv(pack),
-        "dna_derived_extension_template.csv": dna_extension_csv(pack),
+        "dwc_occurrence_core_template.csv": occurrence_core_csv(pack, publishable_only=False),
+        "dwc_occurrence_core_publishable.csv": occurrence_core_csv(pack, publishable_only=True),
+        "dwc_occurrence_core_review.csv": occurrence_core_csv(pack, publishable_only=False),
+        "dna_derived_extension_template.csv": dna_extension_csv(pack, publishable_only=False),
+        "dna_derived_extension_publishable.csv": dna_extension_csv(pack, publishable_only=True),
         "molecular_evidence_report.html": molecular_report_html(pack),
         "methods_text.md": methods_text_md(pack),
         "citations.md": citations_md(pack),
@@ -38,14 +43,18 @@ def sequence_safety_csv(pack: dict[str, Any]) -> str:
                 "decisionClass": record["decision_class"],
                 "taxonomicStatus": record["taxonomic_status"],
                 "publicationStatus": record["publication_status"],
-                "safeTaxon": record["safe_taxon"]["name"],
-                "safeRank": record["safe_taxon"]["rank"],
+                "publicationStage": record["publication_stage"],
+                "candidateTaxon": record["candidate_taxon"]["name"],
+                "candidateRank": record["candidate_taxon"]["rank"],
+                "publishedTaxon": record["published_taxon"]["name"],
+                "publishedRank": record["published_taxon"]["rank"],
                 "matchType": record["match_type"],
                 "topHit": top.get("taxon"),
                 "identity": top.get("identity"),
                 "queryCoverage": top.get("query_coverage"),
                 "barcodeGap": record["barcode_gap"].get("gap"),
                 "diagnosticKmerSupport": record["diagnostic_kmers"].get("support_count"),
+                "diagnosticPFalsePositive": record["diagnostic_kmers"].get("p_false_positive"),
                 "blockers": "; ".join(record["blockers"]),
             }
         )
@@ -57,13 +66,33 @@ def safe_assignments_csv(pack: dict[str, Any]) -> str:
     for record in pack["records"]:
         if record["decision_class"] not in {"species-safe", "genus-safe", "higher-rank-safe"}:
             continue
+        if record["published_taxon"]["rank"] == "none":
+            continue
         rows.append(
             {
                 "sequenceID": record["sequence_id"],
-                "acceptedScientificName": record["safe_taxon"]["name"],
-                "taxonRank": record["safe_taxon"]["rank"],
+                "acceptedScientificName": record["published_taxon"]["name"],
+                "taxonRank": record["published_taxon"]["rank"],
                 "decisionClass": record["decision_class"],
                 "basis": "deterministic identity/coverage, ambiguity LCA, barcode gap, diagnostic k-mer and GBIF metadata gates",
+            }
+        )
+    return write_csv(rows)
+
+
+def review_hints_csv(pack: dict[str, Any]) -> str:
+    rows = []
+    for record in pack["records"]:
+        if record["published_taxon"]["rank"] != "none":
+            continue
+        rows.append(
+            {
+                "sequenceID": record["sequence_id"],
+                "decisionClass": record["decision_class"],
+                "candidateTaxon": record["candidate_taxon"]["name"],
+                "candidateRank": record["candidate_taxon"]["rank"],
+                "publicationStage": record["publication_stage"],
+                "reviewReason": "; ".join(record["blockers"]),
             }
         )
     return write_csv(rows)
@@ -75,8 +104,10 @@ def filtered_sequences_csv(pack: dict[str, Any], statuses: set[str]) -> str:
             "sequenceID": record["sequence_id"],
             "taxonomicStatus": record["taxonomic_status"],
             "decisionClass": record["decision_class"],
-            "safeTaxon": record["safe_taxon"]["name"],
-            "safeRank": record["safe_taxon"]["rank"],
+            "candidateTaxon": record["candidate_taxon"]["name"],
+            "candidateRank": record["candidate_taxon"]["rank"],
+            "publishedTaxon": record["published_taxon"]["name"],
+            "publishedRank": record["published_taxon"]["rank"],
             "indistinguishableHits": "; ".join(hit["taxon"] for hit in record["indistinguishable_hits"]),
             "blockers": "; ".join(record["blockers"]),
         }
@@ -113,6 +144,8 @@ def diagnostic_kmer_csv(pack: dict[str, Any]) -> str:
                 "supportCount": record["diagnostic_kmers"].get("support_count"),
                 "supportRate": record["diagnostic_kmers"].get("support_rate"),
                 "expectedRandomHits": record["diagnostic_kmers"].get("expected_random_hits"),
+                "pFalsePositive": record["diagnostic_kmers"].get("p_false_positive"),
+                "alpha": record["diagnostic_kmers"].get("alpha"),
             }
             for record in pack["records"]
         ]
@@ -146,31 +179,39 @@ def blockers_csv(pack: dict[str, Any]) -> str:
     return write_csv(rows)
 
 
-def occurrence_core_csv(pack: dict[str, Any]) -> str:
+def occurrence_core_csv(pack: dict[str, Any], *, publishable_only: bool) -> str:
     rows = []
     for record in pack["records"]:
+        if publishable_only and record["published_taxon"]["rank"] == "none":
+            continue
         metadata = record["metadata"]
+        taxon = record["published_taxon"]
         rows.append(
             {
                 "occurrenceID": metadata.get("occurrenceID"),
                 "basisOfRecord": metadata.get("basisOfRecord") or "MaterialSample",
-                "scientificName": record["safe_taxon"]["name"],
-                "taxonRank": record["safe_taxon"]["rank"],
+                "scientificName": "" if taxon["rank"] == "none" else taxon["name"],
+                "taxonRank": "" if taxon["rank"] == "none" else taxon["rank"],
                 "eventDate": metadata.get("eventDate"),
                 "countryCode": metadata.get("countryCode"),
                 "decimalLatitude": metadata.get("decimalLatitude"),
                 "decimalLongitude": metadata.get("decimalLongitude"),
                 "geodeticDatum": metadata.get("geodeticDatum"),
                 "coordinateUncertaintyInMeters": metadata.get("coordinateUncertaintyInMeters"),
+                "verbatimIdentification": record["candidate_taxon"]["name"],
+                "candidateTaxonRank": record["candidate_taxon"]["rank"],
+                "publicationStage": record["publication_stage"],
                 "identificationRemarks": identification_remarks(record, pack),
             }
         )
     return write_csv(rows)
 
 
-def dna_extension_csv(pack: dict[str, Any]) -> str:
+def dna_extension_csv(pack: dict[str, Any], *, publishable_only: bool) -> str:
     rows = []
     for record in pack["records"]:
+        if publishable_only and record["published_taxon"]["rank"] == "none":
+            continue
         metadata = record["metadata"]
         top = record["top_hit"] or {}
         rows.append(
@@ -195,14 +236,18 @@ def identification_remarks(record: dict[str, Any], pack: dict[str, Any]) -> str:
         f"{record['decision_class']} by {pack['run']['ruleset_version']}; "
         f"match={record['match_type']}; top={top.get('taxon')} "
         f"identity={top.get('identity')} coverage={top.get('query_coverage')}; "
-        f"safe rank={record['safe_taxon']['rank']}."
+        f"candidate rank={record['candidate_taxon']['rank']}; "
+        f"published rank={record['published_taxon']['rank']}; "
+        f"publication stage={record['publication_stage']}."
     )
 
 
 def molecular_report_html(pack: dict[str, Any]) -> str:
     rows = "\n".join(
         f"<tr><td>{html.escape(record['sequence_id'])}</td><td>{html.escape(record['decision_class'])}</td>"
-        f"<td>{html.escape(record['safe_taxon']['name'])}</td><td>{html.escape(record['safe_taxon']['rank'])}</td>"
+        f"<td>{html.escape(record['candidate_taxon']['name'])}</td><td>{html.escape(record['candidate_taxon']['rank'])}</td>"
+        f"<td>{html.escape(record['published_taxon']['name'])}</td><td>{html.escape(record['published_taxon']['rank'])}</td>"
+        f"<td>{html.escape(record['publication_stage'])}</td>"
         f"<td>{html.escape('; '.join(record['blockers']) or 'none')}</td></tr>"
         for record in pack["records"]
     )
@@ -234,7 +279,7 @@ def molecular_report_html(pack: dict[str, Any]) -> str:
   </section>
   <h2>Sequence decisions</h2>
   <table>
-    <thead><tr><th>Sequence</th><th>Decision</th><th>Safe taxon</th><th>Rank</th><th>Blockers</th></tr></thead>
+    <thead><tr><th>Sequence</th><th>Decision</th><th>Candidate taxon</th><th>Candidate rank</th><th>Published taxon</th><th>Published rank</th><th>Publication stage</th><th>Blockers</th></tr></thead>
     <tbody>{rows}</tbody>
   </table>
 </body>
@@ -246,11 +291,13 @@ def methods_text_md(pack: dict[str, Any]) -> str:
 
 This run used **Barcode-to-GBIF Evidence Compiler** ruleset `{pack['run']['ruleset_version']}`.
 
-For each DNA barcode/metabarcoding sequence, the compiler evaluated percent identity, query coverage, a 95% ambiguity test over mismatch-rate standard errors, lowest common ancestor of indistinguishable hits, barcode gap, diagnostic k-mer support and GBIF publication metadata readiness.
+For each DNA barcode/metabarcoding sequence, the compiler evaluated percent identity, query coverage, a 95% ambiguity test over mismatch-rate standard errors, lowest common ancestor of indistinguishable hits, barcode gap, diagnostic k-mer support, diagnostic false-positive probability and GBIF publication metadata readiness.
 
 Species-level output is fail-closed: a sequence is `species-safe` only when the exact match gate, ambiguity/LCA gate, positive barcode gap gate, diagnostic k-mer gate and publication-readiness gates all pass.
 
 Reference context: {pack['summary']['reference_database']}. Marker: {pack['summary']['marker']}.
+
+The pack separates `candidate_taxon` from `published_taxon`: blocked or weak records can remain useful as review hints, but they are not emitted as publishable Darwin Core species records.
 """
 
 
@@ -274,7 +321,7 @@ The compiler blocks species-level claims when any required gate fails:
 - identity below 99% or coverage below 80%;
 - statistically indistinguishable competitor collapses the safe taxon to genus or higher;
 - barcode gap is missing or non-positive;
-- diagnostic k-mer support is missing or zero;
+- diagnostic k-mer support is missing, zero or above the configured false-positive probability threshold;
 - required Occurrence core or DNA-derived metadata is missing.
 
 Therefore `species-safe` is not a blind top-hit label. It means the record passed all frozen molecular evidence and GBIF-readiness gates in this run.

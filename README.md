@@ -16,7 +16,7 @@ This compiler does not claim absolute biological truth. It produces a reproducib
 
 ## Decision Classes
 
-- `species-safe`: exact match, no indistinguishable competitor outside the species, positive barcode gap, diagnostic k-mer support and required GBIF/DNA metadata all pass.
+- `species-safe`: exact match, no indistinguishable competitor outside the species, positive barcode gap, diagnostic k-mer support with low false-positive probability and required GBIF/DNA metadata all pass.
 - `genus-safe`: species-level claim is unsafe, but indistinguishable hits share a genus.
 - `higher-rank-safe`: the safe LCA is family or higher.
 - `ambiguous`: the evidence cannot support a clear safe rank.
@@ -34,6 +34,7 @@ identity
 -> ambiguity / LCA
 -> barcode gap
 -> diagnostic k-mers
+-> diagnostic false-positive probability
 -> GBIF Occurrence core metadata
 -> DNA-derived metadata
 -> publication package
@@ -115,19 +116,26 @@ Minimal request shape:
 
 The legacy occurrence-passport API remains available under `/api/evidence/*` for regression and comparison.
 
+The compiler separates `candidate_taxon` from `published_taxon`. A weak or blocked sequence can still be useful as a review hint, but it is never placed into the publishable Darwin Core exports as a species.
+
 ## Evidence Pack Artifacts
 
 Each barcode run exports:
 
 - `sequence_safety_table.csv`
 - `safe_taxonomic_assignments.csv`
+- `review_taxonomic_hints.csv`
 - `ambiguous_sequences.csv`
 - `barcode_gap_report.csv`
 - `diagnostic_kmer_report.csv`
 - `gbif_backbone_matches.csv`
 - `publication_blockers.csv`
+- `reference_manifest.json`
 - `dwc_occurrence_core_template.csv`
+- `dwc_occurrence_core_publishable.csv`
+- `dwc_occurrence_core_review.csv`
 - `dna_derived_extension_template.csv`
+- `dna_derived_extension_publishable.csv`
 - `molecular_evidence_report.html`
 - `methods_text.md`
 - `citations.md`

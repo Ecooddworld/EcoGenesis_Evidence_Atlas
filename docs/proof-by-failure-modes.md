@@ -9,7 +9,7 @@ If the compiler outputs `species-safe`, then:
 - the top hit is an exact match;
 - no statistically indistinguishable competitor collapses the safe LCA above species;
 - the reference set has a positive barcode gap;
-- the query contains diagnostic k-mer support;
+- the query contains diagnostic k-mer support with false-positive probability at or below the configured alpha;
 - required Occurrence core and DNA-derived metadata are present.
 
 Assume the compiler outputs `species-safe`, but the species claim is unsafe within the supplied reference context.
@@ -19,7 +19,7 @@ At least one failure mode must exist:
 - weak or incomplete top hit;
 - indistinguishable competitor from another species;
 - non-positive barcode gap;
-- missing diagnostic signal;
+- missing diagnostic signal or high diagnostic false-positive risk;
 - missing publication metadata.
 
 Each of those failure modes is an explicit blocker in the code. Therefore the compiler could not have emitted `species-safe`. Contradiction.
@@ -36,7 +36,7 @@ Aedes albopictus + Aedes aegypti indistinguishable -> Aedes genus-safe
 
 ## Metadata Separation
 
-Taxonomic evidence and publication readiness are separate.
+Taxonomic evidence and publication readiness are separate. The compiler also separates `candidate_taxon` from `published_taxon`, so review hints never silently become publishable Darwin Core taxa.
 
 Example:
 

@@ -1,29 +1,35 @@
 {
   "run": {
-    "run_id": "7c69b698e8f54cb5b95717c6bea1e3b0",
-    "started_at": "2026-05-24T17:55:13.853820+00:00",
-    "finished_at": "2026-05-24T17:55:13.854685+00:00",
+    "run_id": "29ffe42344a64897a6703b9cafad35e2",
+    "started_at": "2026-05-25T00:12:17.209234+00:00",
+    "finished_at": "2026-05-25T00:12:17.210342+00:00",
     "tool": "Barcode-to-GBIF Evidence Compiler",
-    "ruleset_version": "barcode-gbif-compiler-v1",
-    "request_fingerprint": "c23fd2da7912c6983bcd663323a7fbf2884c29a313af9bb85bc47830c863e6b3",
+    "ruleset_version": "barcode-gbif-compiler-v2",
+    "request_fingerprint": "2db79fb6aa3d29894ea2c28899c84e5e37bba5daf4acf2ee292c4fd22c61550f",
+    "reference_manifest_sha256": "37c07e960e962a3d42df2de32da62fa808f8159b51751b1794778e7a7661be76",
     "artifact_checksums": {
-      "ambiguous_sequences.csv": "2b2dbce912471ee5d7c6afa3490c5412c5bc4dbe72ec2c2164a26b1ba6550d09",
+      "ambiguous_sequences.csv": "970910f408014e09d7eaa6449d3e548bdb4b703fed7ab9a82f6d8605129dc028",
       "barcode_gap_report.csv": "79f151decd9d704c17228a1d0f80a16c1cb7b92527e07aa7a5863c030958fdf8",
       "citations.md": "b57b5c71eeea6f138a14d57495e298cb379fabb25053b310245b8b306905fd3a",
-      "diagnostic_kmer_report.csv": "ca4297d5d00165a34a1056b6f94bb959169b1855f4c6a5949a56d7507f332ff7",
-      "dna_derived_extension_template.csv": "1af050ca9c5a667e8d0da130e93ca6b4730b38404cb91ea6c197b4107daaa284",
-      "dwc_occurrence_core_template.csv": "9d9a3a301a50c96b5502c60f1bfefcdcac7a3873effdc8a8e5a6ae3a5b16ce0a",
-      "evidence_graph.json": "a3e825c77c218c3277d183ea4650c08bd8bd9151117419f0d377f1dd7727065d",
-      "evidence_pack.json": "b7ebbecb71ca4f839298ab43ebc1685c63098766a6958a390e81eed6051ac5cc",
-      "evidence_pack.zip": "0c1dcc855111ba4fbe744a780920dd5c2d1f67618395ec13b780b96e5fdc4881",
+      "diagnostic_kmer_report.csv": "140b983e06fd2764f72f62679bef29ecd255509bb6743c3bdbb4c94869e7a2b6",
+      "dna_derived_extension_publishable.csv": "8063186891b9c9f2d88fc0d834f1538b980176e25e2b06598130670efd940054",
+      "dna_derived_extension_template.csv": "5fa5aa2ec52b32dd81a5ba49cd80194d9c170d4d702fa929f8ea4f4733ac47a0",
+      "dwc_occurrence_core_publishable.csv": "51a19624a731fc50fa87420c282c4e755ee9fe0d46d5239506f30762fb005428",
+      "dwc_occurrence_core_review.csv": "2fd7c7cda1582a900c9b0e530eef97e3e839656b043058950ffe6f13d407662f",
+      "dwc_occurrence_core_template.csv": "2fd7c7cda1582a900c9b0e530eef97e3e839656b043058950ffe6f13d407662f",
+      "evidence_graph.json": "12e09e6b7d7c08bf35b11c1e64c62be7fa5464bc52b36dc45543983680df3cd4",
+      "evidence_pack.json": "af1843316fa79aa6b424b82bc3407f72c96560d6afb5fbf4687f2a2110ac3c94",
+      "evidence_pack.zip": "28ee361209680d9546e9c34490e40c5345c4250eb563c0446375524f42259fdf",
       "gbif_backbone_matches.csv": "0f4bd2c8ee811bdbf078bf5560f430fed589b99a21bde1e08a6cfacc0a53e405",
-      "methods_text.md": "0fdeb7fe066d97661fc2754cef2d151b8419bde98ae50d74fd0c2f21393e490a",
-      "molecular_evidence_report.html": "1806ca8707f731d575590c5181196877ee5f223fae43d8c23823b978cc54b712",
-      "proof_by_failure_modes.md": "f5dccc2a2b2dd21ec34d518e733b5228392416d2e88388e09c23ce25b60d9211",
+      "methods_text.md": "45cdcee2bd4a5c20421f94ad5a83193b56bf7050fd45c64e507cbce15285edd1",
+      "molecular_evidence_report.html": "a6bef3f7409b41de2cb45644bc7ce373407185d83ca1ca1d73240ee09485225d",
+      "proof_by_failure_modes.md": "213971993cc1d2beaab7bf0bd0cace4af294feefdb54d450858e424fbf123edf",
       "publication_blockers.csv": "020240f72b9d02b64f438aef7a8f6813d7f63c5241bd42a1140fffe1405e76e6",
-      "run.json": "73daa863f96ffe34f6288f7ec8485a40c95bc7302342b8f43c3fa40ce81f9b17",
+      "reference_manifest.json": "718148b6105e45a9fc471bace097703773cda8c2292cbe2b028d0d8a3f5b6bb5",
+      "review_taxonomic_hints.csv": "fc46886912fb7cd3e219cb5face1a300d84d424ce81877eef4c822cf1256efff",
+      "run.json": "734cb33435b2148081c5d87220b9caed1abe4cccb63b6428b00600df7d5308f4",
       "safe_taxonomic_assignments.csv": "b705bf4352a6fda01dbcddda7e3b724863b4f1b57b92b24710e1bc0372843ebd",
-      "sequence_safety_table.csv": "3fe3cfd83ad5b704590db111a4c8d8e1702c2992c47a695711134886d6b3f5a3"
+      "sequence_safety_table.csv": "7b4b9cbeb40ce85f5a2ae3dced0776470163dbf323eb3d74b4a06d7a99e1f128"
     }
   },
   "summary": {
@@ -36,8 +42,20 @@
     "species_safe_records": 1,
     "genus_safe_records": 1,
     "not_publishable_records": 1,
+    "record_ready_records": 2,
+    "dataset_ready_records": 0,
     "blocked_species_claims": 3,
-    "verdict": "At least one sequence is species-safe and GBIF-ready under the frozen molecular evidence gates."
+    "verdict": "At least one sequence is species-safe under the frozen molecular evidence gates; publication readiness is reported separately."
+  },
+  "reference_manifest": {
+    "db_name": "COI Animals / BOLD public clustered reference",
+    "db_version": "not_supplied",
+    "source": "request.reference_database",
+    "accessed_at": "2026-05-25",
+    "doi_or_url": null,
+    "license": null,
+    "sha256": null,
+    "manifest_sha256": "e2cb18927983e1a5940a5f169b3463fc7839764c68f9a58f6c19fce03ce699ae"
   },
   "decision_rules": {
     "exact_match": "identity >= 99% and queryCoverage >= 80%",
@@ -47,12 +65,20 @@
     "safe_rank": "lowest common ancestor of statistically indistinguishable hits",
     "barcode_gap": "species gate requires inter_min_distance - intra_max_distance > 0",
     "diagnostic_kmers": "species gate requires at least one query k-mer unique to the target taxon in the reference set",
+    "diagnostic_false_positive_gate": "diagnostic support passes only when support_count >= 1 and p_false_positive <= alpha",
     "publication_readiness": {
       "occurrence_core_required": [
         "occurrenceID",
         "basisOfRecord",
         "scientificName",
         "eventDate"
+      ],
+      "occurrence_core_recommended": [
+        "countryCode",
+        "decimalLatitude",
+        "decimalLongitude",
+        "geodeticDatum",
+        "coordinateUncertaintyInMeters"
       ],
       "dna_required": [
         "marker",
@@ -61,6 +87,16 @@
         "identity",
         "queryCoverage",
         "methodOrSOP"
+      ],
+      "dataset_metadata": [
+        "title",
+        "description",
+        "publishingOrganization",
+        "type",
+        "license",
+        "contact",
+        "creator",
+        "metadataProvider"
       ]
     }
   },
@@ -74,6 +110,8 @@
     "weak_records": 1,
     "no_match_records": 0,
     "not_publishable_records": 1,
+    "record_ready_records": 2,
+    "dataset_ready_records": 0,
     "species_safe_yield": 0.25,
     "blocked_species_claims": 3,
     "overclaim_prevention_proxy": 1,
@@ -86,8 +124,19 @@
       "sequence_length": 622,
       "decision_class": "species-safe",
       "taxonomic_status": "species-safe",
-      "publication_status": "gbif-ready",
+      "publication_status": "record-ready",
+      "publication_stage": "record_recommended_ready",
       "match_type": "exact",
+      "candidate_taxon": {
+        "rank": "species",
+        "name": "Aedes albopictus",
+        "taxon_key": 1651430
+      },
+      "published_taxon": {
+        "rank": "species",
+        "name": "Aedes albopictus",
+        "taxon_key": 1651430
+      },
       "safe_taxon": {
         "rank": "species",
         "name": "Aedes albopictus",
@@ -202,17 +251,32 @@
       "diagnostic_kmers": {
         "status": "pass",
         "support_count": 3,
-        "support_rate": 0.02069,
+        "support_rate": 0.004934,
         "k": 15,
-        "query_window_count": 145,
+        "query_window_count": 608,
         "diagnostic_kmer_count": 3,
-        "expected_random_hits": 0.0
+        "expected_random_hits": 2e-06,
+        "p_false_positive": 1.7e-06,
+        "alpha": 0.01
       },
       "metadata_readiness": {
         "core_pass": true,
         "dna_pass": true,
         "core_missing": [],
-        "dna_missing": []
+        "dna_missing": [],
+        "core_recommended_pass": true,
+        "core_recommended_missing": [],
+        "dataset_metadata_pass": false,
+        "dataset_metadata_missing": [
+          "title",
+          "description",
+          "publishingOrganization",
+          "type",
+          "license",
+          "contact",
+          "creator",
+          "metadataProvider"
+        ]
       },
       "blockers": [],
       "actions": [],
@@ -226,7 +290,7 @@
         "decimalLongitude": -3.7038,
         "geodeticDatum": "WGS84",
         "coordinateUncertaintyInMeters": 50,
-        "methodOrSOP": "GBIF Sequence ID-compatible COI BLAST workflow; ruleset barcode-gbif-compiler-v1",
+        "methodOrSOP": "GBIF Sequence ID-compatible COI BLAST workflow; ruleset barcode-gbif-compiler-v2",
         "marker": "COI-5P",
         "sequenceID": "AALB-COI-good",
         "referenceDatabase": "COI Animals / BOLD public clustered reference",
@@ -340,8 +404,19 @@
       "sequence_length": 622,
       "decision_class": "genus-safe",
       "taxonomic_status": "genus-safe",
-      "publication_status": "gbif-ready",
+      "publication_status": "record-ready",
+      "publication_stage": "record_recommended_ready",
       "match_type": "exact",
+      "candidate_taxon": {
+        "rank": "genus",
+        "name": "Aedes",
+        "taxon_key": null
+      },
+      "published_taxon": {
+        "rank": "genus",
+        "name": "Aedes",
+        "taxon_key": null
+      },
       "safe_taxon": {
         "rank": "genus",
         "name": "Aedes",
@@ -505,17 +580,32 @@
       "diagnostic_kmers": {
         "status": "pass",
         "support_count": 3,
-        "support_rate": 0.02069,
+        "support_rate": 0.004934,
         "k": 15,
-        "query_window_count": 145,
+        "query_window_count": 608,
         "diagnostic_kmer_count": 3,
-        "expected_random_hits": 0.0
+        "expected_random_hits": 2e-06,
+        "p_false_positive": 1.7e-06,
+        "alpha": 0.01
       },
       "metadata_readiness": {
         "core_pass": true,
         "dna_pass": true,
         "core_missing": [],
-        "dna_missing": []
+        "dna_missing": [],
+        "core_recommended_pass": true,
+        "core_recommended_missing": [],
+        "dataset_metadata_pass": false,
+        "dataset_metadata_missing": [
+          "title",
+          "description",
+          "publishingOrganization",
+          "type",
+          "license",
+          "contact",
+          "creator",
+          "metadataProvider"
+        ]
       },
       "blockers": [
         "species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus"
@@ -533,7 +623,7 @@
         "decimalLongitude": -3.7038,
         "geodeticDatum": "WGS84",
         "coordinateUncertaintyInMeters": 50,
-        "methodOrSOP": "GBIF Sequence ID-compatible COI BLAST workflow; ruleset barcode-gbif-compiler-v1",
+        "methodOrSOP": "GBIF Sequence ID-compatible COI BLAST workflow; ruleset barcode-gbif-compiler-v2",
         "marker": "COI-5P",
         "sequenceID": "AALB-COI-ambiguous",
         "referenceDatabase": "COI Animals / BOLD public clustered reference",
@@ -648,7 +738,18 @@
       "decision_class": "weak",
       "taxonomic_status": "weak",
       "publication_status": "not-ready",
+      "publication_stage": "record_recommended_ready",
       "match_type": "weak",
+      "candidate_taxon": {
+        "rank": "species",
+        "name": "Aedes albopictus",
+        "taxon_key": 1651430
+      },
+      "published_taxon": {
+        "rank": "none",
+        "name": "None",
+        "taxon_key": null
+      },
       "safe_taxon": {
         "rank": "species",
         "name": "Aedes albopictus",
@@ -763,17 +864,32 @@
       "diagnostic_kmers": {
         "status": "pass",
         "support_count": 3,
-        "support_rate": 0.02069,
+        "support_rate": 0.004934,
         "k": 15,
-        "query_window_count": 145,
+        "query_window_count": 608,
         "diagnostic_kmer_count": 3,
-        "expected_random_hits": 0.0
+        "expected_random_hits": 2e-06,
+        "p_false_positive": 1.7e-06,
+        "alpha": 0.01
       },
       "metadata_readiness": {
         "core_pass": true,
         "dna_pass": true,
         "core_missing": [],
-        "dna_missing": []
+        "dna_missing": [],
+        "core_recommended_pass": true,
+        "core_recommended_missing": [],
+        "dataset_metadata_pass": false,
+        "dataset_metadata_missing": [
+          "title",
+          "description",
+          "publishingOrganization",
+          "type",
+          "license",
+          "contact",
+          "creator",
+          "metadataProvider"
+        ]
       },
       "blockers": [
         "species claim blocked: top hit does not pass exact match gate identity >= 99% and query coverage >= 80%",
@@ -792,7 +908,7 @@
         "decimalLongitude": -3.7038,
         "geodeticDatum": "WGS84",
         "coordinateUncertaintyInMeters": 50,
-        "methodOrSOP": "GBIF Sequence ID-compatible COI BLAST workflow; ruleset barcode-gbif-compiler-v1",
+        "methodOrSOP": "GBIF Sequence ID-compatible COI BLAST workflow; ruleset barcode-gbif-compiler-v2",
         "marker": "COI-5P",
         "sequenceID": "AALB-COI-short",
         "referenceDatabase": "COI Animals / BOLD public clustered reference",
@@ -858,7 +974,18 @@
       "decision_class": "not-publishable",
       "taxonomic_status": "species-safe",
       "publication_status": "not-ready",
+      "publication_stage": "record_not_ready",
       "match_type": "exact",
+      "candidate_taxon": {
+        "rank": "species",
+        "name": "Aedes albopictus",
+        "taxon_key": 1651430
+      },
+      "published_taxon": {
+        "rank": "none",
+        "name": "None",
+        "taxon_key": null
+      },
       "safe_taxon": {
         "rank": "species",
         "name": "Aedes albopictus",
@@ -973,11 +1100,13 @@
       "diagnostic_kmers": {
         "status": "pass",
         "support_count": 3,
-        "support_rate": 0.02069,
+        "support_rate": 0.004934,
         "k": 15,
-        "query_window_count": 145,
+        "query_window_count": 608,
         "diagnostic_kmer_count": 3,
-        "expected_random_hits": 0.0
+        "expected_random_hits": 2e-06,
+        "p_false_positive": 1.7e-06,
+        "alpha": 0.01
       },
       "metadata_readiness": {
         "core_pass": false,
@@ -986,7 +1115,25 @@
           "occurrenceID",
           "eventDate"
         ],
-        "dna_missing": []
+        "dna_missing": [],
+        "core_recommended_pass": false,
+        "core_recommended_missing": [
+          "decimalLatitude",
+          "decimalLongitude",
+          "geodeticDatum",
+          "coordinateUncertaintyInMeters"
+        ],
+        "dataset_metadata_pass": false,
+        "dataset_metadata_missing": [
+          "title",
+          "description",
+          "publishingOrganization",
+          "type",
+          "license",
+          "contact",
+          "creator",
+          "metadataProvider"
+        ]
       },
       "blockers": [
         "publication blocked: missing required Occurrence core field occurrenceID",
@@ -999,7 +1146,7 @@
         "basisOfRecord": "MaterialSample",
         "scientificName": "Aedes albopictus",
         "countryCode": "ES",
-        "methodOrSOP": "GBIF Sequence ID-compatible COI BLAST workflow; ruleset barcode-gbif-compiler-v1",
+        "methodOrSOP": "GBIF Sequence ID-compatible COI BLAST workflow; ruleset barcode-gbif-compiler-v2",
         "marker": "COI-5P",
         "sequenceID": "AALB-COI-metadata-gap",
         "referenceDatabase": "COI Animals / BOLD public clustered reference",
@@ -1064,7 +1211,18 @@
     "marker": "COI-5P",
     "reference_database": "COI Animals / BOLD public clustered reference",
     "method_or_sop": "GBIF Sequence ID-compatible BLAST workflow with deterministic rank gates",
-    "ruleset_version": "barcode-gbif-compiler-v1",
+    "ruleset_version": "barcode-gbif-compiler-v2",
+    "dataset_metadata": {
+      "title": null,
+      "description": null,
+      "publishingOrganization": null,
+      "type": null,
+      "license": null,
+      "contact": [],
+      "creator": [],
+      "metadataProvider": []
+    },
+    "reference_manifest": null,
     "records": [
       {
         "sequence_id": "AALB-COI-good",
@@ -1079,7 +1237,7 @@
           "decimalLongitude": -3.7038,
           "geodeticDatum": "WGS84",
           "coordinateUncertaintyInMeters": 50,
-          "methodOrSOP": "GBIF Sequence ID-compatible COI BLAST workflow; ruleset barcode-gbif-compiler-v1"
+          "methodOrSOP": "GBIF Sequence ID-compatible COI BLAST workflow; ruleset barcode-gbif-compiler-v2"
         },
         "hits": [
           {
@@ -1193,6 +1351,7 @@
           ],
           "reference_total_windows": 5000000,
           "epsilon": 0.01,
+          "alpha": 0.01,
           "k": null
         }
       },
@@ -1209,7 +1368,7 @@
           "decimalLongitude": -3.7038,
           "geodeticDatum": "WGS84",
           "coordinateUncertaintyInMeters": 50,
-          "methodOrSOP": "GBIF Sequence ID-compatible COI BLAST workflow; ruleset barcode-gbif-compiler-v1"
+          "methodOrSOP": "GBIF Sequence ID-compatible COI BLAST workflow; ruleset barcode-gbif-compiler-v2"
         },
         "hits": [
           {
@@ -1323,6 +1482,7 @@
           ],
           "reference_total_windows": 5000000,
           "epsilon": 0.01,
+          "alpha": 0.01,
           "k": null
         }
       },
@@ -1339,7 +1499,7 @@
           "decimalLongitude": -3.7038,
           "geodeticDatum": "WGS84",
           "coordinateUncertaintyInMeters": 50,
-          "methodOrSOP": "GBIF Sequence ID-compatible COI BLAST workflow; ruleset barcode-gbif-compiler-v1"
+          "methodOrSOP": "GBIF Sequence ID-compatible COI BLAST workflow; ruleset barcode-gbif-compiler-v2"
         },
         "hits": [
           {
@@ -1404,6 +1564,7 @@
           ],
           "reference_total_windows": 5000000,
           "epsilon": 0.01,
+          "alpha": 0.01,
           "k": null
         }
       },
@@ -1414,7 +1575,7 @@
           "basisOfRecord": "MaterialSample",
           "scientificName": "Aedes albopictus",
           "countryCode": "ES",
-          "methodOrSOP": "GBIF Sequence ID-compatible COI BLAST workflow; ruleset barcode-gbif-compiler-v1"
+          "methodOrSOP": "GBIF Sequence ID-compatible COI BLAST workflow; ruleset barcode-gbif-compiler-v2"
         },
         "hits": [
           {
@@ -1479,17 +1640,34 @@
           ],
           "reference_total_windows": 5000000,
           "epsilon": 0.01,
+          "alpha": 0.01,
           "k": null
         }
       }
     ]
   },
   "evidence_graph": {
+    "meta": {
+      "run_id": "29ffe42344a64897a6703b9cafad35e2",
+      "ruleset_version": "barcode-gbif-compiler-v2",
+      "reference_manifest_sha256": "e2cb18927983e1a5940a5f169b3463fc7839764c68f9a58f6c19fce03ce699ae",
+      "created_at": "2026-05-25T00:12:17.210342+00:00"
+    },
+    "stats": {
+      "sequence_count": 4,
+      "safe_count": 2,
+      "blocked_count": 3
+    },
     "nodes": [
       {
-        "id": "run:7c69b698e8f54cb5b95717c6bea1e3b0",
+        "id": "run:29ffe42344a64897a6703b9cafad35e2",
         "type": "run",
         "label": "Aedes COI batch: safe, ambiguous, weak and metadata cases"
+      },
+      {
+        "id": "reference_manifest:e2cb18927983e1a5940a5f169b3463fc7839764c68f9a58f6c19fce03ce699ae",
+        "type": "reference_manifest",
+        "label": "COI Animals / BOLD public clustered reference"
       },
       {
         "id": "sequence:AALB-COI-good",
@@ -1540,6 +1718,11 @@
         "rank": "genus"
       },
       {
+        "id": "blocker:8c7ec566665a",
+        "type": "blocker",
+        "label": "species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus"
+      },
+      {
         "id": "hit:AALB-COI-ambiguous:BOLD:Aedes_albopictus",
         "type": "hit",
         "label": "Aedes albopictus",
@@ -1565,10 +1748,14 @@
         "label": "weak"
       },
       {
-        "id": "taxon:species:Aedes albopictus",
-        "type": "taxon",
-        "label": "Aedes albopictus",
-        "rank": "species"
+        "id": "blocker:37272f3b3b15",
+        "type": "blocker",
+        "label": "species claim blocked: top hit does not pass exact match gate identity >= 99% and query coverage >= 80%"
+      },
+      {
+        "id": "blocker:4b566aab621e",
+        "type": "blocker",
+        "label": "species claim blocked: query coverage < 80%"
       },
       {
         "id": "hit:AALB-COI-short:BOLD:Aedes_albopictus",
@@ -1589,10 +1776,14 @@
         "label": "not-publishable"
       },
       {
-        "id": "taxon:species:Aedes albopictus",
-        "type": "taxon",
-        "label": "Aedes albopictus",
-        "rank": "species"
+        "id": "blocker:78cdd7c7e0d6",
+        "type": "blocker",
+        "label": "publication blocked: missing required Occurrence core field occurrenceID"
+      },
+      {
+        "id": "blocker:bafd053aee5e",
+        "type": "blocker",
+        "label": "publication blocked: missing required Occurrence core field eventDate"
       },
       {
         "id": "hit:AALB-COI-metadata-gap:BOLD:Aedes_albopictus",
@@ -1600,11 +1791,148 @@
         "label": "Aedes albopictus",
         "identity": 99.6,
         "coverage": 96.0
+      },
+      {
+        "id": "artifact:ambiguous_sequences.csv",
+        "type": "artifact",
+        "label": "ambiguous_sequences.csv",
+        "sha256": "970910f408014e09d7eaa6449d3e548bdb4b703fed7ab9a82f6d8605129dc028"
+      },
+      {
+        "id": "artifact:barcode_gap_report.csv",
+        "type": "artifact",
+        "label": "barcode_gap_report.csv",
+        "sha256": "79f151decd9d704c17228a1d0f80a16c1cb7b92527e07aa7a5863c030958fdf8"
+      },
+      {
+        "id": "artifact:citations.md",
+        "type": "artifact",
+        "label": "citations.md",
+        "sha256": "b57b5c71eeea6f138a14d57495e298cb379fabb25053b310245b8b306905fd3a"
+      },
+      {
+        "id": "artifact:diagnostic_kmer_report.csv",
+        "type": "artifact",
+        "label": "diagnostic_kmer_report.csv",
+        "sha256": "140b983e06fd2764f72f62679bef29ecd255509bb6743c3bdbb4c94869e7a2b6"
+      },
+      {
+        "id": "artifact:dna_derived_extension_publishable.csv",
+        "type": "artifact",
+        "label": "dna_derived_extension_publishable.csv",
+        "sha256": "8063186891b9c9f2d88fc0d834f1538b980176e25e2b06598130670efd940054"
+      },
+      {
+        "id": "artifact:dna_derived_extension_template.csv",
+        "type": "artifact",
+        "label": "dna_derived_extension_template.csv",
+        "sha256": "5fa5aa2ec52b32dd81a5ba49cd80194d9c170d4d702fa929f8ea4f4733ac47a0"
+      },
+      {
+        "id": "artifact:dwc_occurrence_core_publishable.csv",
+        "type": "artifact",
+        "label": "dwc_occurrence_core_publishable.csv",
+        "sha256": "51a19624a731fc50fa87420c282c4e755ee9fe0d46d5239506f30762fb005428"
+      },
+      {
+        "id": "artifact:dwc_occurrence_core_review.csv",
+        "type": "artifact",
+        "label": "dwc_occurrence_core_review.csv",
+        "sha256": "2fd7c7cda1582a900c9b0e530eef97e3e839656b043058950ffe6f13d407662f"
+      },
+      {
+        "id": "artifact:dwc_occurrence_core_template.csv",
+        "type": "artifact",
+        "label": "dwc_occurrence_core_template.csv",
+        "sha256": "2fd7c7cda1582a900c9b0e530eef97e3e839656b043058950ffe6f13d407662f"
+      },
+      {
+        "id": "artifact:evidence_graph.json",
+        "type": "artifact",
+        "label": "evidence_graph.json",
+        "sha256": "12e09e6b7d7c08bf35b11c1e64c62be7fa5464bc52b36dc45543983680df3cd4"
+      },
+      {
+        "id": "artifact:evidence_pack.json",
+        "type": "artifact",
+        "label": "evidence_pack.json",
+        "sha256": "af1843316fa79aa6b424b82bc3407f72c96560d6afb5fbf4687f2a2110ac3c94"
+      },
+      {
+        "id": "artifact:evidence_pack.zip",
+        "type": "artifact",
+        "label": "evidence_pack.zip",
+        "sha256": "28ee361209680d9546e9c34490e40c5345c4250eb563c0446375524f42259fdf"
+      },
+      {
+        "id": "artifact:gbif_backbone_matches.csv",
+        "type": "artifact",
+        "label": "gbif_backbone_matches.csv",
+        "sha256": "0f4bd2c8ee811bdbf078bf5560f430fed589b99a21bde1e08a6cfacc0a53e405"
+      },
+      {
+        "id": "artifact:methods_text.md",
+        "type": "artifact",
+        "label": "methods_text.md",
+        "sha256": "45cdcee2bd4a5c20421f94ad5a83193b56bf7050fd45c64e507cbce15285edd1"
+      },
+      {
+        "id": "artifact:molecular_evidence_report.html",
+        "type": "artifact",
+        "label": "molecular_evidence_report.html",
+        "sha256": "a6bef3f7409b41de2cb45644bc7ce373407185d83ca1ca1d73240ee09485225d"
+      },
+      {
+        "id": "artifact:proof_by_failure_modes.md",
+        "type": "artifact",
+        "label": "proof_by_failure_modes.md",
+        "sha256": "213971993cc1d2beaab7bf0bd0cace4af294feefdb54d450858e424fbf123edf"
+      },
+      {
+        "id": "artifact:publication_blockers.csv",
+        "type": "artifact",
+        "label": "publication_blockers.csv",
+        "sha256": "020240f72b9d02b64f438aef7a8f6813d7f63c5241bd42a1140fffe1405e76e6"
+      },
+      {
+        "id": "artifact:reference_manifest.json",
+        "type": "artifact",
+        "label": "reference_manifest.json",
+        "sha256": "718148b6105e45a9fc471bace097703773cda8c2292cbe2b028d0d8a3f5b6bb5"
+      },
+      {
+        "id": "artifact:review_taxonomic_hints.csv",
+        "type": "artifact",
+        "label": "review_taxonomic_hints.csv",
+        "sha256": "fc46886912fb7cd3e219cb5face1a300d84d424ce81877eef4c822cf1256efff"
+      },
+      {
+        "id": "artifact:run.json",
+        "type": "artifact",
+        "label": "run.json",
+        "sha256": "734cb33435b2148081c5d87220b9caed1abe4cccb63b6428b00600df7d5308f4"
+      },
+      {
+        "id": "artifact:safe_taxonomic_assignments.csv",
+        "type": "artifact",
+        "label": "safe_taxonomic_assignments.csv",
+        "sha256": "b705bf4352a6fda01dbcddda7e3b724863b4f1b57b92b24710e1bc0372843ebd"
+      },
+      {
+        "id": "artifact:sequence_safety_table.csv",
+        "type": "artifact",
+        "label": "sequence_safety_table.csv",
+        "sha256": "7b4b9cbeb40ce85f5a2ae3dced0776470163dbf323eb3d74b4a06d7a99e1f128"
       }
     ],
     "edges": [
       {
-        "source": "run:7c69b698e8f54cb5b95717c6bea1e3b0",
+        "source": "run:29ffe42344a64897a6703b9cafad35e2",
+        "target": "reference_manifest:e2cb18927983e1a5940a5f169b3463fc7839764c68f9a58f6c19fce03ce699ae",
+        "type": "frozen_against"
+      },
+      {
+        "source": "run:29ffe42344a64897a6703b9cafad35e2",
         "target": "sequence:AALB-COI-good",
         "type": "contains_sequence"
       },
@@ -1616,7 +1944,7 @@
       {
         "source": "assignment:AALB-COI-good",
         "target": "taxon:species:Aedes albopictus",
-        "type": "safe_taxon"
+        "type": "published_or_candidate_taxon"
       },
       {
         "source": "sequence:AALB-COI-good",
@@ -1629,7 +1957,7 @@
         "type": "matches_reference"
       },
       {
-        "source": "run:7c69b698e8f54cb5b95717c6bea1e3b0",
+        "source": "run:29ffe42344a64897a6703b9cafad35e2",
         "target": "sequence:AALB-COI-ambiguous",
         "type": "contains_sequence"
       },
@@ -1641,7 +1969,12 @@
       {
         "source": "assignment:AALB-COI-ambiguous",
         "target": "taxon:genus:Aedes",
-        "type": "safe_taxon"
+        "type": "published_or_candidate_taxon"
+      },
+      {
+        "source": "assignment:AALB-COI-ambiguous",
+        "target": "blocker:8c7ec566665a",
+        "type": "blocked_by"
       },
       {
         "source": "sequence:AALB-COI-ambiguous",
@@ -1654,7 +1987,7 @@
         "type": "matches_reference"
       },
       {
-        "source": "run:7c69b698e8f54cb5b95717c6bea1e3b0",
+        "source": "run:29ffe42344a64897a6703b9cafad35e2",
         "target": "sequence:AALB-COI-short",
         "type": "contains_sequence"
       },
@@ -1666,7 +1999,17 @@
       {
         "source": "assignment:AALB-COI-short",
         "target": "taxon:species:Aedes albopictus",
-        "type": "safe_taxon"
+        "type": "published_or_candidate_taxon"
+      },
+      {
+        "source": "assignment:AALB-COI-short",
+        "target": "blocker:37272f3b3b15",
+        "type": "blocked_by"
+      },
+      {
+        "source": "assignment:AALB-COI-short",
+        "target": "blocker:4b566aab621e",
+        "type": "blocked_by"
       },
       {
         "source": "sequence:AALB-COI-short",
@@ -1674,7 +2017,7 @@
         "type": "matches_reference"
       },
       {
-        "source": "run:7c69b698e8f54cb5b95717c6bea1e3b0",
+        "source": "run:29ffe42344a64897a6703b9cafad35e2",
         "target": "sequence:AALB-COI-metadata-gap",
         "type": "contains_sequence"
       },
@@ -1686,117 +2029,267 @@
       {
         "source": "assignment:AALB-COI-metadata-gap",
         "target": "taxon:species:Aedes albopictus",
-        "type": "safe_taxon"
+        "type": "published_or_candidate_taxon"
+      },
+      {
+        "source": "assignment:AALB-COI-metadata-gap",
+        "target": "blocker:78cdd7c7e0d6",
+        "type": "blocked_by"
+      },
+      {
+        "source": "assignment:AALB-COI-metadata-gap",
+        "target": "blocker:bafd053aee5e",
+        "type": "blocked_by"
       },
       {
         "source": "sequence:AALB-COI-metadata-gap",
         "target": "hit:AALB-COI-metadata-gap:BOLD:Aedes_albopictus",
         "type": "matches_reference"
+      },
+      {
+        "source": "run:29ffe42344a64897a6703b9cafad35e2",
+        "target": "artifact:ambiguous_sequences.csv",
+        "type": "produces_artifact"
+      },
+      {
+        "source": "run:29ffe42344a64897a6703b9cafad35e2",
+        "target": "artifact:barcode_gap_report.csv",
+        "type": "produces_artifact"
+      },
+      {
+        "source": "run:29ffe42344a64897a6703b9cafad35e2",
+        "target": "artifact:citations.md",
+        "type": "produces_artifact"
+      },
+      {
+        "source": "run:29ffe42344a64897a6703b9cafad35e2",
+        "target": "artifact:diagnostic_kmer_report.csv",
+        "type": "produces_artifact"
+      },
+      {
+        "source": "run:29ffe42344a64897a6703b9cafad35e2",
+        "target": "artifact:dna_derived_extension_publishable.csv",
+        "type": "produces_artifact"
+      },
+      {
+        "source": "run:29ffe42344a64897a6703b9cafad35e2",
+        "target": "artifact:dna_derived_extension_template.csv",
+        "type": "produces_artifact"
+      },
+      {
+        "source": "run:29ffe42344a64897a6703b9cafad35e2",
+        "target": "artifact:dwc_occurrence_core_publishable.csv",
+        "type": "produces_artifact"
+      },
+      {
+        "source": "run:29ffe42344a64897a6703b9cafad35e2",
+        "target": "artifact:dwc_occurrence_core_review.csv",
+        "type": "produces_artifact"
+      },
+      {
+        "source": "run:29ffe42344a64897a6703b9cafad35e2",
+        "target": "artifact:dwc_occurrence_core_template.csv",
+        "type": "produces_artifact"
+      },
+      {
+        "source": "run:29ffe42344a64897a6703b9cafad35e2",
+        "target": "artifact:evidence_graph.json",
+        "type": "produces_artifact"
+      },
+      {
+        "source": "run:29ffe42344a64897a6703b9cafad35e2",
+        "target": "artifact:evidence_pack.json",
+        "type": "produces_artifact"
+      },
+      {
+        "source": "run:29ffe42344a64897a6703b9cafad35e2",
+        "target": "artifact:evidence_pack.zip",
+        "type": "produces_artifact"
+      },
+      {
+        "source": "run:29ffe42344a64897a6703b9cafad35e2",
+        "target": "artifact:gbif_backbone_matches.csv",
+        "type": "produces_artifact"
+      },
+      {
+        "source": "run:29ffe42344a64897a6703b9cafad35e2",
+        "target": "artifact:methods_text.md",
+        "type": "produces_artifact"
+      },
+      {
+        "source": "run:29ffe42344a64897a6703b9cafad35e2",
+        "target": "artifact:molecular_evidence_report.html",
+        "type": "produces_artifact"
+      },
+      {
+        "source": "run:29ffe42344a64897a6703b9cafad35e2",
+        "target": "artifact:proof_by_failure_modes.md",
+        "type": "produces_artifact"
+      },
+      {
+        "source": "run:29ffe42344a64897a6703b9cafad35e2",
+        "target": "artifact:publication_blockers.csv",
+        "type": "produces_artifact"
+      },
+      {
+        "source": "run:29ffe42344a64897a6703b9cafad35e2",
+        "target": "artifact:reference_manifest.json",
+        "type": "produces_artifact"
+      },
+      {
+        "source": "run:29ffe42344a64897a6703b9cafad35e2",
+        "target": "artifact:review_taxonomic_hints.csv",
+        "type": "produces_artifact"
+      },
+      {
+        "source": "run:29ffe42344a64897a6703b9cafad35e2",
+        "target": "artifact:run.json",
+        "type": "produces_artifact"
+      },
+      {
+        "source": "run:29ffe42344a64897a6703b9cafad35e2",
+        "target": "artifact:safe_taxonomic_assignments.csv",
+        "type": "produces_artifact"
+      },
+      {
+        "source": "run:29ffe42344a64897a6703b9cafad35e2",
+        "target": "artifact:sequence_safety_table.csv",
+        "type": "produces_artifact"
       }
     ]
   },
   "exports": [
     {
       "name": "ambiguous_sequences.csv",
-      "url": "/api/barcode/runs/7c69b698e8f54cb5b95717c6bea1e3b0/exports/ambiguous_sequences.csv",
-      "size_bytes": 275,
-      "sha256": "2b2dbce912471ee5d7c6afa3490c5412c5bc4dbe72ec2c2164a26b1ba6550d09"
+      "url": "/api/barcode/runs/29ffe42344a64897a6703b9cafad35e2/exports/ambiguous_sequences.csv",
+      "size_bytes": 326,
+      "sha256": "970910f408014e09d7eaa6449d3e548bdb4b703fed7ab9a82f6d8605129dc028"
     },
     {
       "name": "barcode_gap_report.csv",
-      "url": "/api/barcode/runs/7c69b698e8f54cb5b95717c6bea1e3b0/exports/barcode_gap_report.csv",
+      "url": "/api/barcode/runs/29ffe42344a64897a6703b9cafad35e2/exports/barcode_gap_report.csv",
       "size_bytes": 225,
       "sha256": "79f151decd9d704c17228a1d0f80a16c1cb7b92527e07aa7a5863c030958fdf8"
     },
     {
       "name": "citations.md",
-      "url": "/api/barcode/runs/7c69b698e8f54cb5b95717c6bea1e3b0/exports/citations.md",
+      "url": "/api/barcode/runs/29ffe42344a64897a6703b9cafad35e2/exports/citations.md",
       "size_bytes": 531,
       "sha256": "b57b5c71eeea6f138a14d57495e298cb379fabb25053b310245b8b306905fd3a"
     },
     {
       "name": "diagnostic_kmer_report.csv",
-      "url": "/api/barcode/runs/7c69b698e8f54cb5b95717c6bea1e3b0/exports/diagnostic_kmer_report.csv",
-      "size_bytes": 283,
-      "sha256": "ca4297d5d00165a34a1056b6f94bb959169b1855f4c6a5949a56d7507f332ff7"
+      "url": "/api/barcode/runs/29ffe42344a64897a6703b9cafad35e2/exports/diagnostic_kmer_report.csv",
+      "size_bytes": 368,
+      "sha256": "140b983e06fd2764f72f62679bef29ecd255509bb6743c3bdbb4c94869e7a2b6"
+    },
+    {
+      "name": "dna_derived_extension_publishable.csv",
+      "url": "/api/barcode/runs/29ffe42344a64897a6703b9cafad35e2/exports/dna_derived_extension_publishable.csv",
+      "size_bytes": 1114,
+      "sha256": "8063186891b9c9f2d88fc0d834f1538b980176e25e2b06598130670efd940054"
     },
     {
       "name": "dna_derived_extension_template.csv",
-      "url": "/api/barcode/runs/7c69b698e8f54cb5b95717c6bea1e3b0/exports/dna_derived_extension_template.csv",
-      "size_bytes": 1765,
-      "sha256": "1af050ca9c5a667e8d0da130e93ca6b4730b38404cb91ea6c197b4107daaa284"
+      "url": "/api/barcode/runs/29ffe42344a64897a6703b9cafad35e2/exports/dna_derived_extension_template.csv",
+      "size_bytes": 2041,
+      "sha256": "5fa5aa2ec52b32dd81a5ba49cd80194d9c170d4d702fa929f8ea4f4733ac47a0"
+    },
+    {
+      "name": "dwc_occurrence_core_publishable.csv",
+      "url": "/api/barcode/runs/29ffe42344a64897a6703b9cafad35e2/exports/dwc_occurrence_core_publishable.csv",
+      "size_bytes": 925,
+      "sha256": "51a19624a731fc50fa87420c282c4e755ee9fe0d46d5239506f30762fb005428"
+    },
+    {
+      "name": "dwc_occurrence_core_review.csv",
+      "url": "/api/barcode/runs/29ffe42344a64897a6703b9cafad35e2/exports/dwc_occurrence_core_review.csv",
+      "size_bytes": 1508,
+      "sha256": "2fd7c7cda1582a900c9b0e530eef97e3e839656b043058950ffe6f13d407662f"
     },
     {
       "name": "dwc_occurrence_core_template.csv",
-      "url": "/api/barcode/runs/7c69b698e8f54cb5b95717c6bea1e3b0/exports/dwc_occurrence_core_template.csv",
-      "size_bytes": 1040,
-      "sha256": "9d9a3a301a50c96b5502c60f1bfefcdcac7a3873effdc8a8e5a6ae3a5b16ce0a"
+      "url": "/api/barcode/runs/29ffe42344a64897a6703b9cafad35e2/exports/dwc_occurrence_core_template.csv",
+      "size_bytes": 1508,
+      "sha256": "2fd7c7cda1582a900c9b0e530eef97e3e839656b043058950ffe6f13d407662f"
     },
     {
       "name": "evidence_graph.json",
-      "url": "/api/barcode/runs/7c69b698e8f54cb5b95717c6bea1e3b0/exports/evidence_graph.json",
-      "size_bytes": 5494,
-      "sha256": "a3e825c77c218c3277d183ea4650c08bd8bd9151117419f0d377f1dd7727065d"
+      "url": "/api/barcode/runs/29ffe42344a64897a6703b9cafad35e2/exports/evidence_graph.json",
+      "size_bytes": 7545,
+      "sha256": "12e09e6b7d7c08bf35b11c1e64c62be7fa5464bc52b36dc45543983680df3cd4"
     },
     {
       "name": "evidence_pack.json",
-      "url": "/api/barcode/runs/7c69b698e8f54cb5b95717c6bea1e3b0/exports/evidence_pack.json",
-      "size_bytes": 51205,
-      "sha256": "b7ebbecb71ca4f839298ab43ebc1685c63098766a6958a390e81eed6051ac5cc"
+      "url": "/api/barcode/runs/29ffe42344a64897a6703b9cafad35e2/exports/evidence_pack.json",
+      "size_bytes": 57880,
+      "sha256": "af1843316fa79aa6b424b82bc3407f72c96560d6afb5fbf4687f2a2110ac3c94"
     },
     {
       "name": "evidence_pack.zip",
-      "url": "/api/barcode/runs/7c69b698e8f54cb5b95717c6bea1e3b0/exports/evidence_pack.zip",
-      "size_bytes": 11010,
-      "sha256": "0c1dcc855111ba4fbe744a780920dd5c2d1f67618395ec13b780b96e5fdc4881"
+      "url": "/api/barcode/runs/29ffe42344a64897a6703b9cafad35e2/exports/evidence_pack.zip",
+      "size_bytes": 15582,
+      "sha256": "28ee361209680d9546e9c34490e40c5345c4250eb563c0446375524f42259fdf"
     },
     {
       "name": "gbif_backbone_matches.csv",
-      "url": "/api/barcode/runs/7c69b698e8f54cb5b95717c6bea1e3b0/exports/gbif_backbone_matches.csv",
+      "url": "/api/barcode/runs/29ffe42344a64897a6703b9cafad35e2/exports/gbif_backbone_matches.csv",
       "size_bytes": 845,
       "sha256": "0f4bd2c8ee811bdbf078bf5560f430fed589b99a21bde1e08a6cfacc0a53e405"
     },
     {
       "name": "methods_text.md",
-      "url": "/api/barcode/runs/7c69b698e8f54cb5b95717c6bea1e3b0/exports/methods_text.md",
-      "size_bytes": 681,
-      "sha256": "0fdeb7fe066d97661fc2754cef2d151b8419bde98ae50d74fd0c2f21393e490a"
+      "url": "/api/barcode/runs/29ffe42344a64897a6703b9cafad35e2/exports/methods_text.md",
+      "size_bytes": 910,
+      "sha256": "45cdcee2bd4a5c20421f94ad5a83193b56bf7050fd45c64e507cbce15285edd1"
     },
     {
       "name": "molecular_evidence_report.html",
-      "url": "/api/barcode/runs/7c69b698e8f54cb5b95717c6bea1e3b0/exports/molecular_evidence_report.html",
-      "size_bytes": 2270,
-      "sha256": "1806ca8707f731d575590c5181196877ee5f223fae43d8c23823b978cc54b712"
+      "url": "/api/barcode/runs/29ffe42344a64897a6703b9cafad35e2/exports/molecular_evidence_report.html",
+      "size_bytes": 2634,
+      "sha256": "a6bef3f7409b41de2cb45644bc7ce373407185d83ca1ca1d73240ee09485225d"
     },
     {
       "name": "proof_by_failure_modes.md",
-      "url": "/api/barcode/runs/7c69b698e8f54cb5b95717c6bea1e3b0/exports/proof_by_failure_modes.md",
-      "size_bytes": 535,
-      "sha256": "f5dccc2a2b2dd21ec34d518e733b5228392416d2e88388e09c23ce25b60d9211"
+      "url": "/api/barcode/runs/29ffe42344a64897a6703b9cafad35e2/exports/proof_by_failure_modes.md",
+      "size_bytes": 594,
+      "sha256": "213971993cc1d2beaab7bf0bd0cace4af294feefdb54d450858e424fbf123edf"
     },
     {
       "name": "publication_blockers.csv",
-      "url": "/api/barcode/runs/7c69b698e8f54cb5b95717c6bea1e3b0/exports/publication_blockers.csv",
+      "url": "/api/barcode/runs/29ffe42344a64897a6703b9cafad35e2/exports/publication_blockers.csv",
       "size_bytes": 502,
       "sha256": "020240f72b9d02b64f438aef7a8f6813d7f63c5241bd42a1140fffe1405e76e6"
     },
     {
+      "name": "reference_manifest.json",
+      "url": "/api/barcode/runs/29ffe42344a64897a6703b9cafad35e2/exports/reference_manifest.json",
+      "size_bytes": 317,
+      "sha256": "718148b6105e45a9fc471bace097703773cda8c2292cbe2b028d0d8a3f5b6bb5"
+    },
+    {
+      "name": "review_taxonomic_hints.csv",
+      "url": "/api/barcode/runs/29ffe42344a64897a6703b9cafad35e2/exports/review_taxonomic_hints.csv",
+      "size_bytes": 527,
+      "sha256": "fc46886912fb7cd3e219cb5face1a300d84d424ce81877eef4c822cf1256efff"
+    },
+    {
       "name": "run.json",
-      "url": "/api/barcode/runs/7c69b698e8f54cb5b95717c6bea1e3b0/exports/run.json",
-      "size_bytes": 344,
-      "sha256": "73daa863f96ffe34f6288f7ec8485a40c95bc7302342b8f43c3fa40ce81f9b17"
+      "url": "/api/barcode/runs/29ffe42344a64897a6703b9cafad35e2/exports/run.json",
+      "size_bytes": 443,
+      "sha256": "734cb33435b2148081c5d87220b9caed1abe4cccb63b6428b00600df7d5308f4"
     },
     {
       "name": "safe_taxonomic_assignments.csv",
-      "url": "/api/barcode/runs/7c69b698e8f54cb5b95717c6bea1e3b0/exports/safe_taxonomic_assignments.csv",
+      "url": "/api/barcode/runs/29ffe42344a64897a6703b9cafad35e2/exports/safe_taxonomic_assignments.csv",
       "size_bytes": 366,
       "sha256": "b705bf4352a6fda01dbcddda7e3b724863b4f1b57b92b24710e1bc0372843ebd"
     },
     {
       "name": "sequence_safety_table.csv",
-      "url": "/api/barcode/runs/7c69b698e8f54cb5b95717c6bea1e3b0/exports/sequence_safety_table.csv",
-      "size_bytes": 1002,
-      "sha256": "3fe3cfd83ad5b704590db111a4c8d8e1702c2992c47a695711134886d6b3f5a3"
+      "url": "/api/barcode/runs/29ffe42344a64897a6703b9cafad35e2/exports/sequence_safety_table.csv",
+      "size_bytes": 1268,
+      "sha256": "7b4b9cbeb40ce85f5a2ae3dced0776470163dbf323eb3d74b4a06d7a99e1f128"
     }
   ]
 }

@@ -4,12 +4,12 @@ Status: **PASS**
 
 ## Real Results
 
-| Sequence | Decision | Taxonomic status | Publication status | Safe taxon | Main blockers |
-|---|---:|---:|---:|---|---|
-| AALB-COI-good | species-safe | species-safe | gbif-ready | Aedes albopictus (species) | none |
-| AALB-COI-ambiguous | genus-safe | genus-safe | gbif-ready | Aedes (genus) | species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus |
-| AALB-COI-short | weak | weak | not-ready | Aedes albopictus (species) | species claim blocked: top hit does not pass exact match gate identity >= 99% and query coverage >= 80%; species claim blocked: query coverage < 80% |
-| AALB-COI-metadata-gap | not-publishable | species-safe | not-ready | Aedes albopictus (species) | publication blocked: missing required Occurrence core field occurrenceID; publication blocked: missing required Occurrence core field eventDate |
+| Sequence | Decision | Taxonomic status | Publication | Candidate | Published | Main blockers |
+|---|---:|---:|---:|---|---|---|
+| AALB-COI-good | species-safe | species-safe | record-ready / record_recommended_ready | Aedes albopictus (species) | Aedes albopictus (species) | none |
+| AALB-COI-ambiguous | genus-safe | genus-safe | record-ready / record_recommended_ready | Aedes (genus) | Aedes (genus) | species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus |
+| AALB-COI-short | weak | weak | not-ready / record_recommended_ready | Aedes albopictus (species) | None (none) | species claim blocked: top hit does not pass exact match gate identity >= 99% and query coverage >= 80%; species claim blocked: query coverage < 80% |
+| AALB-COI-metadata-gap | not-publishable | species-safe | not-ready / record_not_ready | Aedes albopictus (species) | None (none) | publication blocked: missing required Occurrence core field occurrenceID; publication blocked: missing required Occurrence core field eventDate |
 
 ## Metrics
 
@@ -24,6 +24,8 @@ Status: **PASS**
   "weak_records": 1,
   "no_match_records": 0,
   "not_publishable_records": 1,
+  "record_ready_records": 2,
+  "dataset_ready_records": 0,
   "species_safe_yield": 0.25,
   "blocked_species_claims": 3,
   "overclaim_prevention_proxy": 1,
