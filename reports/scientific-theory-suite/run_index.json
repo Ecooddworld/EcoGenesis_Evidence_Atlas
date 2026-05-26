@@ -1,0 +1,41 @@
+{
+  "generated_at": "2026-05-26T04:17:45.847774+00:00",
+  "target_records": 1000,
+  "target_claims": 100,
+  "attempted_scenarios": 10,
+  "successful_online_scenarios": 10,
+  "deduplicated_records_written": 1000,
+  "hypothesis_claims_written": 100,
+  "duplicate_records_skipped": 149,
+  "acceptance": {
+    "minimum_1000_deduplicated_records": true,
+    "minimum_10_successful_online_scenarios": true,
+    "no_fixture_records_counted": true,
+    "minimum_100_hypothesis_claims": true,
+    "every_claim_has_status_evidence_and_caveat": true
+  },
+  "scenario_order": [
+    "aedes-spain",
+    "aedes-italy",
+    "aedes-france",
+    "quercus-western-europe",
+    "quercus-germany",
+    "lynx-iberia",
+    "apis-western-europe",
+    "apis-france",
+    "passer-western-europe",
+    "passer-united-states"
+  ],
+  "successful_scenarios": [
+    "aedes-spain",
+    "aedes-italy",
+    "aedes-france",
+    "quercus-western-europe",
+    "quercus-germany",
+    "lynx-iberia",
+    "apis-western-europe",
+    "apis-france",
+    "passer-western-europe",
+    "passer-united-states"
+  ]
+}
