@@ -13,6 +13,7 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from app.evidence.gbif import GBIFClient
 from app.evidence.pipeline import run_evidence_passport
 from app.evidence.schemas import EvidenceRunRequest
 
@@ -200,11 +201,21 @@ def main() -> None:
     successful: list[dict[str, Any]] = []
     deduped_records: dict[str, dict[str, Any]] = {}
     duplicate_count = 0
+    dataset_client = GBIFClient(mode="online")
+    dataset_cache: dict[str, dict[str, Any]] = {}
+    organization_cache: dict[str, dict[str, Any]] = {}
 
     for scenario in [*PRIMARY_SCENARIOS, *RESERVE_SCENARIOS]:
         if len(successful) >= 10 and len(deduped_records) >= args.target_records:
             break
-        result = run_scenario(scenario, max_records=args.max_records, raw_dir=raw_dir)
+        result = run_scenario(
+            scenario,
+            max_records=args.max_records,
+            raw_dir=raw_dir,
+            dataset_client=dataset_client,
+            dataset_cache=dataset_cache,
+            organization_cache=organization_cache,
+        )
         attempted.append(result)
         pack = result.get("pack")
         if not result["eligible"] or not pack:
@@ -234,7 +245,15 @@ def main() -> None:
         raise SystemExit(1)
 
 
-def run_scenario(scenario: dict[str, Any], *, max_records: int, raw_dir: Path) -> dict[str, Any]:
+def run_scenario(
+    scenario: dict[str, Any],
+    *,
+    max_records: int,
+    raw_dir: Path,
+    dataset_client: GBIFClient,
+    dataset_cache: dict[str, dict[str, Any]],
+    organization_cache: dict[str, dict[str, Any]],
+) -> dict[str, Any]:
     request = EvidenceRunRequest(
         taxon=scenario["taxon"],
         taxon_key=scenario["taxon_key"],
@@ -256,6 +275,8 @@ def run_scenario(scenario: dict[str, Any], *, max_records: int, raw_dir: Path) -
     }
     try:
         pack = run_evidence_passport(request)
+        enrichment = enrich_dataset_metadata(pack, dataset_client, dataset_cache, organization_cache)
+        pack["dataset_metadata_enrichment"] = enrichment
         write_json(raw_dir / f"{scenario['id']}.json", pack)
         source = pack["source_summary"]
         eligible = source.get("used_source_mode") == "online" and source.get("gbif_api_status") == "ok" and not source.get("fallback_used")
@@ -271,11 +292,137 @@ def run_scenario(scenario: dict[str, Any], *, max_records: int, raw_dir: Path) -
                 "fallback_used": source.get("fallback_used"),
                 "gbif_result_count": source.get("gbif_result_count"),
                 "gbif_returned_records": source.get("gbif_returned_records"),
+                "dataset_metadata_enriched_count": enrichment["enriched_count"],
+                "dataset_metadata_failed_count": enrichment["failed_count"],
+                "publisher_enriched_count": enrichment["publisher_enriched_count"],
             }
         )
     except Exception as exc:  # noqa: BLE001 - report suite must capture every scenario failure.
         result["error"] = f"{type(exc).__name__}: {exc}"
     return result
+
+
+def enrich_dataset_metadata(
+    pack: dict[str, Any],
+    client: GBIFClient,
+    cache: dict[str, dict[str, Any]],
+    organization_cache: dict[str, dict[str, Any]],
+) -> dict[str, Any]:
+    dataset_keys = sorted(
+        {
+            str(record.get("dataset_key") or "")
+            for record in pack.get("normalized_records", [])
+            if record.get("dataset_key") and record.get("dataset_key") != "unknown_dataset"
+        }
+        | {
+            str(row.get("datasetKey") or "")
+            for row in pack.get("dataset_contributions", [])
+            if row.get("datasetKey") and row.get("datasetKey") != "unknown_dataset"
+        }
+    )
+    rows = []
+    enriched_at = datetime.now(timezone.utc).isoformat()
+    for dataset_key in dataset_keys:
+        rows.append(resolve_dataset_metadata(dataset_key, client, cache, organization_cache, enriched_at))
+    metadata_by_key = {row["datasetKey"]: row for row in rows}
+
+    for record in pack.get("normalized_records", []):
+        dataset_key = str(record.get("dataset_key") or "")
+        metadata = metadata_by_key.get(dataset_key)
+        if not metadata:
+            continue
+        record["dataset_title"] = record.get("dataset_title") or metadata.get("datasetTitle")
+        record["publisher"] = record.get("publisher") or metadata.get("publisher")
+        record["license"] = record.get("license") or metadata.get("license")
+        record["dataset_doi"] = metadata.get("doi")
+        record["dataset_citation"] = metadata.get("citation")
+        record["dataset_homepage"] = metadata.get("homepage")
+        record["publishing_organization_key"] = metadata.get("publishingOrganizationKey")
+        record["dataset_metadata_source"] = metadata.get("source")
+        record["dataset_metadata_enriched_at"] = metadata.get("dataset_metadata_enriched_at")
+
+    for row in pack.get("dataset_contributions", []):
+        metadata = metadata_by_key.get(str(row.get("datasetKey") or ""))
+        if not metadata:
+            continue
+        row["datasetTitle"] = row.get("datasetTitle") or metadata.get("datasetTitle")
+        row["publisher"] = row.get("publisher") or metadata.get("publisher")
+        row["license"] = row.get("license") or metadata.get("license")
+        row["doi"] = metadata.get("doi")
+        row["citation"] = metadata.get("citation")
+        row["homepage"] = metadata.get("homepage")
+        row["publishingOrganizationKey"] = metadata.get("publishingOrganizationKey")
+        row["dataset_metadata_source"] = metadata.get("source")
+
+    return {
+        "enriched_at": enriched_at,
+        "source": "GBIF dataset API",
+        "dataset_count": len(rows),
+        "enriched_count": sum(1 for row in rows if row["status"] == "ok"),
+        "failed_count": sum(1 for row in rows if row["status"] != "ok"),
+        "publisher_enriched_count": sum(1 for row in rows if row.get("publisher")),
+        "datasets": rows,
+    }
+
+
+def resolve_dataset_metadata(
+    dataset_key: str,
+    client: GBIFClient,
+    cache: dict[str, dict[str, Any]],
+    organization_cache: dict[str, dict[str, Any]],
+    enriched_at: str,
+) -> dict[str, Any]:
+    if dataset_key not in cache:
+        try:
+            cache[dataset_key] = {"status": "ok", "payload": client.dataset_by_key(dataset_key)}
+        except Exception as exc:  # noqa: BLE001 - report suite should capture enrichment gaps.
+            cache[dataset_key] = {"status": "failed", "error": f"{type(exc).__name__}: {exc}", "payload": {}}
+    cached = cache[dataset_key]
+    payload = cached.get("payload") or {}
+    organization = payload.get("publishingOrganizationTitle") or payload.get("publishingOrganization") or payload.get("publisher")
+    organization_key = payload.get("publishingOrganizationKey")
+    publisher_source = "dataset"
+    if not organization and organization_key:
+        if organization_key not in organization_cache:
+            try:
+                organization_cache[organization_key] = {"status": "ok", "payload": client.organization_by_key(organization_key)}
+            except Exception as exc:  # noqa: BLE001 - keep the suite running and expose the gap in reports.
+                organization_cache[organization_key] = {
+                    "status": "failed",
+                    "error": f"{type(exc).__name__}: {exc}",
+                    "payload": {},
+                }
+        organization_payload = organization_cache[organization_key].get("payload") or {}
+        organization = organization_payload.get("title") or organization_payload.get("name") or organization_payload.get("abbreviation")
+        publisher_source = "organization" if organization else "missing"
+    if not organization:
+        organization = contact_organization(payload)
+        publisher_source = "dataset_contact" if organization else "missing"
+    return {
+        "datasetKey": dataset_key,
+        "status": cached.get("status", "failed"),
+        "datasetTitle": payload.get("title") or payload.get("alias") or payload.get("description"),
+        "publisher": organization,
+        "publisher_source": publisher_source,
+        "publishingOrganizationKey": organization_key,
+        "license": payload.get("license"),
+        "doi": payload.get("doi"),
+        "citation": payload.get("citation", {}).get("text") if isinstance(payload.get("citation"), dict) else payload.get("citation"),
+        "homepage": payload.get("homepage") or payload.get("url"),
+        "source": payload.get("source") or "gbif_api",
+        "dataset_metadata_enriched_at": enriched_at,
+        "error": cached.get("error", ""),
+    }
+
+
+def contact_organization(dataset_payload: dict[str, Any]) -> str | None:
+    for contact in dataset_payload.get("contacts") or []:
+        if not isinstance(contact, dict):
+            continue
+        organization = contact.get("organization") or contact.get("lastName")
+        if organization:
+            return str(organization)
+    return None
 
 
 def add_deduped_records(deduped: dict[str, dict[str, Any]], scenario: dict[str, Any], pack: dict[str, Any]) -> int:
@@ -299,6 +446,12 @@ def flatten_record(record: dict[str, Any], scenario: dict[str, Any], pack: dict[
         "datasetTitle": record.get("dataset_title"),
         "publisher": record.get("publisher"),
         "license": record.get("license"),
+        "datasetDOI": record.get("dataset_doi"),
+        "datasetCitation": record.get("dataset_citation"),
+        "datasetHomepage": record.get("dataset_homepage"),
+        "publishingOrganizationKey": record.get("publishing_organization_key"),
+        "dataset_metadata_source": record.get("dataset_metadata_source"),
+        "dataset_metadata_enriched_at": record.get("dataset_metadata_enriched_at"),
         "scientificName": record.get("scientific_name"),
         "acceptedTaxonKey": record.get("accepted_taxon_key"),
         "taxonKey": record.get("taxon_key"),
@@ -339,6 +492,7 @@ def claim_templates(scenario: dict[str, Any], pack: dict[str, Any]) -> list[dict
     grid = pack["grid_metrics"]["meta"]
     readiness = pack["evidence_readiness"]
     citation = pack["citation_autopilot"]
+    records = pack.get("normalized_records") or []
     records_used = pack["passport"]["records_used"]
     datasets_used = pack["passport"]["datasets_used"]
     score = readiness["score"]
@@ -350,69 +504,99 @@ def claim_templates(scenario: dict[str, Any], pack: dict[str, Any]) -> list[dict
     empty_cells = grid["empty_cell_count"]
     survey_priority_cells = grid["survey_priority_cells"]
     dataset_share = top_dataset_share(pack)
+    issue_name, issue_count = top_issue(records)
+    missing_uncertainty_rate = missing_uncertainty(records)
+    median_uncertainty = median_coordinate_uncertainty(records)
+    dataset_bias_status = "weak" if dataset_share >= 0.8 or datasets_used <= 1 else "supported"
+    coordinate_status = "weak" if high_uncertainty or missing_uncertainty_rate > 0.2 else "supported"
     return [
         claim(
-            "Occurrence evidence exists in selected region",
+            f"Occurrence evidence exists for {scenario['taxon']} in {scenario['region_name']}",
             "supported" if records_used > 0 else "blocked",
             {"records_used": records_used, "gbif_result_count": pack["source_summary"].get("gbif_result_count")},
             "This supports only a retained GBIF-mediated occurrence-evidence claim, not abundance or absence.",
             "Use records as evidence context and preserve source_summary.json.",
+            trigger=f"records_used={records_used}",
+            risk="low" if records_used else "high",
         ),
         claim(
-            "Evidence readiness is sufficient or insufficient for selected purpose",
+            f"Evidence readiness score is {score}/100 for {scenario['purpose']}",
             "supported" if score >= 75 else "weak" if score >= 55 else "blocked",
             {"readiness_score": score, "purpose": scenario["purpose"], "components": readiness.get("components")},
             "The score is purpose-aware and must be interpreted with the component scores.",
             "Inspect the weakest readiness components before reuse.",
+            trigger=f"readiness_score={score}",
+            risk="low" if score >= 75 else "medium" if score >= 55 else "high",
         ),
         claim(
-            "Dataset provenance is multi-source or single-source biased",
-            "supported" if datasets_used >= 2 and dataset_share < 0.8 else "weak" if datasets_used >= 1 else "blocked",
+            f"Dataset provenance is {'single-source biased' if datasets_used <= 1 else 'top-heavy' if dataset_share >= 0.8 else 'multi-source'}",
+            dataset_bias_status if datasets_used >= 1 else "blocked",
             {"datasets_used": datasets_used, "top_dataset_share": round(dataset_share, 4)},
             "Single-dataset dominance can reflect publisher or platform bias.",
             "Use dataset_contributions.csv to audit source concentration.",
+            trigger=f"top_dataset_share={round(dataset_share, 4)}",
+            risk="high" if dataset_share >= 0.9 or datasets_used <= 1 else "medium" if dataset_share >= 0.8 else "low",
         ),
         claim(
-            "Coordinate quality supports or weakens fine-scale interpretation",
-            "supported" if valid_coordinate_rate >= 0.95 and high_uncertainty == 0 else "weak" if valid_coordinate_rate >= 0.8 else "requires_verification",
-            {"valid_coordinate_rate": valid_coordinate_rate, "high_uncertainty_count": high_uncertainty},
+            f"Fine-scale coordinate interpretation is {'weakened' if coordinate_status == 'weak' else 'supported'} by uncertainty profile",
+            coordinate_status if valid_coordinate_rate >= 0.8 else "requires_verification",
+            {
+                "valid_coordinate_rate": valid_coordinate_rate,
+                "high_uncertainty_count": high_uncertainty,
+                "missing_uncertainty_rate": round(missing_uncertainty_rate, 4),
+                "median_uncertainty_m": median_uncertainty,
+                "top_gbif_issue": issue_name,
+                "top_gbif_issue_count": issue_count,
+            },
             "Fine-scale interpretation is unsafe when coordinates are uncertain or invalid.",
             "Review records with high coordinate uncertainty before local decisions.",
+            trigger=f"high_uncertainty_count={high_uncertainty}; missing_uncertainty_rate={round(missing_uncertainty_rate, 4)}; top_issue={issue_name or 'none'}",
+            risk="high" if high_uncertainty / max(records_used, 1) >= 0.25 else "medium" if high_uncertainty or missing_uncertainty_rate > 0.2 else "low",
         ),
         claim(
-            "Temporal completeness supports or blocks time-based interpretation",
+            f"Temporal completeness is {round(date_rate * 100, 1)}% for eventDate/year evidence",
             "supported" if date_rate >= 0.9 else "weak" if date_rate >= 0.7 else "requires_verification",
             {"date_present_rate": date_rate, "missing_date_count": missing_dates},
             "Temporal claims need eventDate/year; missing dates weaken any time-based inference.",
             "Repair missing eventDate/year before temporal interpretation.",
+            trigger=f"date_present_rate={date_rate}",
+            risk="low" if date_rate >= 0.9 else "medium" if date_rate >= 0.7 else "high",
         ),
         claim(
-            "Recent evidence exists or needs verification",
+            f"Recent evidence rate is {round(recent_rate * 100, 1)}% within the last 10 years",
             "supported" if recent_rate >= 0.5 else "weak" if recent_rate > 0 else "requires_verification",
             {"recent_record_rate": recent_rate, "current_year_window": "last 10 years"},
             "Recent records are not trend evidence; they only show recent retained GBIF evidence.",
             "Separate recent occurrence evidence from population trend claims.",
+            trigger=f"recent_record_rate={recent_rate}",
+            risk="low" if recent_rate >= 0.5 else "medium" if recent_rate > 0 else "high",
         ),
         claim(
-            "Survey-priority cells identify where more sampling is needed",
+            f"Survey-priority grid cells detected: {survey_priority_cells}",
             "requires_verification" if survey_priority_cells else "supported",
             {"survey_priority_cells": survey_priority_cells, "under_sampled_cells": grid["under_sampled_cells"]},
             "Survey priorities are planning hints, not confirmed biodiversity gaps.",
             "Use priority cells to design field/literature review, not to infer absence.",
+            trigger=f"survey_priority_cells={survey_priority_cells}",
+            risk="medium" if survey_priority_cells else "low",
         ),
         claim(
-            "Empty cells are no-evidence cells, not absence evidence",
+            f"Empty grid cells are no-evidence cells, not absence evidence ({empty_cells} cells)",
             "blocked",
             {"empty_cell_count": empty_cells, "grid_size": grid["grid_size"]},
             "GBIF occurrence data cannot prove species absence in empty cells.",
             "Label empty cells as no-evidence and avoid absence claims.",
+            trigger=f"empty_cell_count={empty_cells}",
+            risk="high",
         ),
         claim(
-            "Observed GBIF distribution is not true species distribution",
+            f"Observed GBIF map has {grid['occupied_cell_count']} occupied cells but is not true distribution",
             "blocked",
             {"records_used": records_used, "occupied_cell_count": grid["occupied_cell_count"]},
             "Observed GBIF distribution is shaped by sampling effort, data sharing and dataset coverage.",
             "Treat maps as evidence context, not a distribution model.",
+            trigger=f"occupied_cell_count={grid['occupied_cell_count']}",
+            risk="high",
         ),
         claim(
             "DOI/citation readiness is incomplete until GBIF download DOI or derived dataset is attached",
@@ -420,15 +604,28 @@ def claim_templates(scenario: dict[str, Any], pack: dict[str, Any]) -> list[dict
             {"citation_status": citation["citation_status"], "doi_ready": citation["citation_status"] == "doi_backed"},
             "API search results are not a DOI-backed publication dataset.",
             "Create a GBIF download DOI or derived dataset recipe before publication use.",
+            trigger=f"citation_status={citation['citation_status']}",
+            risk="medium" if citation["citation_status"] != "doi_backed" else "low",
         ),
     ]
 
 
-def claim(hypothesis: str, status: str, evidence_fields: dict[str, Any], caveat: str, action: str) -> dict[str, Any]:
+def claim(
+    hypothesis: str,
+    status: str,
+    evidence_fields: dict[str, Any],
+    caveat: str,
+    action: str,
+    *,
+    trigger: str,
+    risk: str,
+) -> dict[str, Any]:
     return {
         "hypothesis": hypothesis,
         "status": status,
         "evidence_fields": json.dumps(evidence_fields, ensure_ascii=False, sort_keys=True),
+        "data_driven_trigger": trigger,
+        "risk_level": risk,
         "caveat": caveat,
         "recommended_action": action,
     }
@@ -442,12 +639,46 @@ def top_dataset_share(pack: dict[str, Any]) -> float:
     return max(int(row.get("record_count") or 0) for row in rows) / total
 
 
+def top_issue(records: list[dict[str, Any]]) -> tuple[str, int]:
+    counts: dict[str, int] = {}
+    for record in records:
+        for issue in record.get("issues") or []:
+            counts[str(issue)] = counts.get(str(issue), 0) + 1
+    if not counts:
+        return "", 0
+    issue, count = max(counts.items(), key=lambda item: (item[1], item[0]))
+    return issue, count
+
+
+def missing_uncertainty(records: list[dict[str, Any]]) -> float:
+    if not records:
+        return 0.0
+    missing = sum(1 for record in records if record.get("coordinate_uncertainty_m") in {None, ""})
+    return missing / len(records)
+
+
+def median_coordinate_uncertainty(records: list[dict[str, Any]]) -> float | None:
+    values = sorted(
+        float(record["coordinate_uncertainty_m"])
+        for record in records
+        if record.get("coordinate_uncertainty_m") not in {None, ""}
+    )
+    if not values:
+        return None
+    midpoint = len(values) // 2
+    if len(values) % 2:
+        return values[midpoint]
+    return round((values[midpoint - 1] + values[midpoint]) / 2, 4)
+
+
 def scenario_metric_row(result: dict[str, Any]) -> dict[str, Any]:
     pack = result.get("pack") or {}
     quality = pack.get("quality_metrics") or {}
     grid = (pack.get("grid_metrics") or {}).get("meta") or {}
     citation = pack.get("citation_autopilot") or {}
     scenario = result["scenario"]
+    records = pack.get("normalized_records") or []
+    issue_name, issue_count = top_issue(records)
     return {
         "scenario_id": scenario["id"],
         "label": scenario["label"],
@@ -462,15 +693,24 @@ def scenario_metric_row(result: dict[str, Any]) -> dict[str, Any]:
         "fallback_used": result.get("fallback_used", ""),
         "gbif_result_count": result.get("gbif_result_count", ""),
         "gbif_returned_records": result.get("gbif_returned_records", ""),
-        "records_used": result.get("records_used", 0),
+        "downloaded_records": result.get("records_used", 0),
         "deduped_records_added": result.get("deduped_records_added", 0),
+        "records_used_for_metrics": result.get("records_used", 0),
         "datasets_used": result.get("datasets_used", 0),
+        "dataset_metadata_enriched_count": result.get("dataset_metadata_enriched_count", 0),
+        "dataset_metadata_failed_count": result.get("dataset_metadata_failed_count", 0),
+        "publisher_enriched_count": result.get("publisher_enriched_count", 0),
+        "top_dataset_share": round(top_dataset_share(pack), 4) if pack else "",
         "readiness_score": (pack.get("evidence_readiness") or {}).get("score", ""),
         "valid_coordinate_rate": quality.get("valid_coordinate_rate", ""),
         "date_present_rate": quality.get("date_present_rate", ""),
         "recent_record_rate": quality.get("recent_record_rate", ""),
         "high_uncertainty_count": quality.get("high_uncertainty_count", ""),
         "missing_date_count": quality.get("missing_date_count", ""),
+        "missing_uncertainty_rate": round(missing_uncertainty(records), 4) if records else "",
+        "median_uncertainty_m": median_coordinate_uncertainty(records) if records else "",
+        "top_gbif_issue": issue_name,
+        "top_gbif_issue_count": issue_count,
         "empty_cell_count": grid.get("empty_cell_count", ""),
         "survey_priority_cells": grid.get("survey_priority_cells", ""),
         "citation_status": citation.get("citation_status", ""),
@@ -520,6 +760,9 @@ def build_bottleneck_report(
     failed = [row for row in scenario_rows if not row["eligible"]]
     high_uncertainty_total = sum(int(row.get("high_uncertainty_count") or 0) for row in scenario_rows if row["eligible"])
     missing_date_total = sum(int(row.get("missing_date_count") or 0) for row in scenario_rows if row["eligible"])
+    publisher_missing = sum(1 for row in records if not row.get("publisher"))
+    dataset_title_missing = sum(1 for row in records if not row.get("datasetTitle"))
+    uncertainty_missing = sum(1 for row in records if row.get("coordinateUncertaintyInMeters") in {None, ""})
     single_dataset = [row for row in scenario_rows if row["eligible"] and int(row.get("datasets_used") or 0) <= 1]
     blocked_claims = sum(1 for row in claims if row["status"] == "blocked")
     verification_claims = sum(1 for row in claims if row["status"] == "requires_verification")
@@ -536,6 +779,9 @@ def build_bottleneck_report(
         f"- Requires-verification claims: {verification_claims}",
         f"- High coordinate uncertainty records across scenarios: {high_uncertainty_total}",
         f"- Missing eventDate/year records across scenarios: {missing_date_total}",
+        f"- Records still missing publisher after dataset enrichment: {publisher_missing}",
+        f"- Records still missing datasetTitle after dataset enrichment: {dataset_title_missing}",
+        f"- Records missing coordinateUncertaintyInMeters: {uncertainty_missing}",
         "",
         "## Fixed Methodological Bottlenecks",
         "",
@@ -546,7 +792,7 @@ def build_bottleneck_report(
     ]
     lines.extend([f"- {row['scenario_id']}: {row['error'] or row['used_source_mode']}" for row in failed] or ["- None detected."])
     lines.extend(["", "## Low Record / High Duplicate Scenarios", ""])
-    lines.extend([f"- {row['scenario_id']}: {row['deduped_records_added']} deduped records added from {row['records_used']} retained records." for row in low_record] or ["- None below the 100-record target."])
+    lines.extend([f"- {row['scenario_id']}: {row['deduped_records_added']} deduped records added from {row['downloaded_records']} downloaded records." for row in low_record] or ["- None below the 100-record target."])
     lines.extend(["", "## Single Dataset Bias", ""])
     lines.extend([f"- {row['scenario_id']}: only {row['datasets_used']} dataset(s) represented." for row in single_dataset] or ["- No scenario had one or zero datasets."])
     return "\n".join(lines) + "\n"
@@ -575,12 +821,12 @@ def build_summary(run_index: dict[str, Any], scenario_rows: list[dict[str, Any]]
         "",
         "## Scenario Metrics",
         "",
-        "| Scenario | Source | GBIF | Records | Datasets | Score | Missing dates | High uncertainty |",
-        "| --- | --- | --- | ---: | ---: | ---: | ---: | ---: |",
+        "| Scenario | Source | GBIF | Downloaded | Deduped | Datasets | Top dataset share | Score | Missing dates | High uncertainty |",
+        "| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     ]
     for row in scenario_rows:
         lines.append(
-            f"| {row['scenario_id']} | {row['used_source_mode']} | {row['gbif_api_status']} | {row['records_used']} | {row['datasets_used']} | {row['readiness_score']} | {row['missing_date_count']} | {row['high_uncertainty_count']} |"
+            f"| {row['scenario_id']} | {row['used_source_mode']} | {row['gbif_api_status']} | {row['downloaded_records']} | {row['deduped_records_added']} | {row['datasets_used']} | {row['top_dataset_share']} | {row['readiness_score']} | {row['missing_date_count']} | {row['high_uncertainty_count']} |"
         )
     lines.extend(
         [
@@ -611,8 +857,10 @@ def build_html_report(run_index: dict[str, Any], scenario_rows: list[dict[str, A
         f"<td>{escape(str(row['scenario_id']))}</td>"
         f"<td>{escape(str(row['used_source_mode']))}</td>"
         f"<td>{escape(str(row['gbif_api_status']))}</td>"
-        f"<td>{escape(str(row['records_used']))}</td>"
+        f"<td>{escape(str(row['downloaded_records']))}</td>"
+        f"<td>{escape(str(row['deduped_records_added']))}</td>"
         f"<td>{escape(str(row['datasets_used']))}</td>"
+        f"<td>{escape(str(row['top_dataset_share']))}</td>"
         f"<td>{escape(str(row['readiness_score']))}</td>"
         "</tr>"
         for row in scenario_rows
@@ -638,7 +886,7 @@ def build_html_report(run_index: dict[str, Any], scenario_rows: list[dict[str, A
   <h2>Acceptance</h2>
   <pre>{escape(json.dumps(run_index['acceptance'], indent=2, ensure_ascii=False))}</pre>
   <h2>Scenario Metrics</h2>
-  <table><thead><tr><th>Scenario</th><th>Source</th><th>GBIF</th><th>Records</th><th>Datasets</th><th>Score</th></tr></thead><tbody>{scenario_html}</tbody></table>
+  <table><thead><tr><th>Scenario</th><th>Source</th><th>GBIF</th><th>Downloaded</th><th>Deduped</th><th>Datasets</th><th>Top share</th><th>Score</th></tr></thead><tbody>{scenario_html}</tbody></table>
   <h2>100 Hypothesis Claims</h2>
   <table><thead><tr><th>ID</th><th>Status</th><th>Taxon</th><th>Region</th><th>Hypothesis</th><th>Caveat</th></tr></thead><tbody>{claim_rows}</tbody></table>
   <h2>Bottlenecks And Errors</h2>
@@ -655,7 +903,7 @@ def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
         return
     fieldnames = list(rows[0].keys())
     with path.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer = csv.DictWriter(handle, fieldnames=fieldnames, lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
 

@@ -1,8 +1,8 @@
 {
   "run": {
-    "run_id": "31c4eb5d38cf41bfab94306884254f09",
-    "started_at": "2026-05-26T04:17:42.695990+00:00",
-    "finished_at": "2026-05-26T04:17:44.126547+00:00",
+    "run_id": "a09ed8b2048240c1a216329387ad82a3",
+    "started_at": "2026-05-26T23:02:03.415888+00:00",
+    "finished_at": "2026-05-26T23:02:04.210088+00:00",
     "source_mode": "online",
     "request": {
       "taxon": "Passer domesticus",
@@ -71,27 +71,27 @@
       {
         "name": "species_match",
         "status": "completed",
-        "duration_ms": 206.48
+        "duration_ms": 260.42
       },
       {
         "name": "occurrence_fetch",
         "status": "completed",
-        "duration_ms": 1222.45
+        "duration_ms": 532.09
       },
       {
         "name": "normalize",
         "status": "completed",
-        "duration_ms": 0.49
+        "duration_ms": 0.44
       },
       {
         "name": "score",
         "status": "completed",
-        "duration_ms": 0.6
+        "duration_ms": 0.53
       },
       {
         "name": "exports",
         "status": "completed",
-        "duration_ms": 45.13,
+        "duration_ms": 48.64,
         "details": {
           "artifact_count": 31
         }
@@ -103,27 +103,27 @@
       "dataset_contributions.csv": "dd25b7476b5e9dea595239794dc3f33456f4ab20c309c897d6e9b80c928e3d0f",
       "decision_memo.json": "6fd5dc90eb0541fdb516d93462dfbcb3b3e26c595e47bcea6da19e45b16d4c27",
       "decision_memo.md": "51c6f7b00e0e25f982b3be86369cd16820dbcb069e888189af3bc551eb8278a2",
-      "demo_scenario.json": "80d8dbe8a8adf53ee0a61b31c951b9df96ed2a80c523118c47503738322ff0d0",
+      "demo_scenario.json": "bced7b1277341c2597117ea52fef0b924256bb666cdb3b0329cbbc3b27f201c0",
       "derived_dataset_recipe.json": "364430ce1060311907c3f2b2df235e1842968dc7424eaa53ae083e052b2324d0",
-      "evidence_graph.json": "fa1b2fa5548514781abfbffb0b82e465e66b1e578eab744b2fef1b837668a756",
-      "evidence_pack.json": "87f743b53ce62a031437af8508022e021c4dd215ed961fac077de615094deeb1",
-      "evidence_pack.zip": "dfddff3c5a9699a699e3aa88e30e34adc8aa64528d1d5776016d3846748c560b",
-      "evidence_vault.zip": "a163c6aac0e4a27d96942d5b1a2b02f5e5655bf4108cc7e8ee2d0f177ef17bc7",
+      "evidence_graph.json": "6cb706e345ed53e83cf9954fc73e015acaf2b955b3b201442d841a6c59a4a00b",
+      "evidence_pack.json": "51f9d6c72da44ac9b1a14dbbdf75329cf0004e0628808e161b750ae9500b4665",
+      "evidence_pack.zip": "a96805fd9989ee3edb2ad974d612ce2c2c4ad7189b1f43832d4d6e075ab2f58d",
+      "evidence_vault.zip": "fbfc527afb61ef2f665b8c00ff32927f2c94fdd1860abcdff44c3e3737db81e2",
       "gap_priorities.csv": "cabdfccbafd4709534aace25972e91198c137ec06d524497353affb24b5bc2ac",
-      "graph_memory.md": "9d3b3cf987aa1e236f7ce5078e4a7cfde2350bcb830d97310963db13f168a8e8",
+      "graph_memory.md": "5fe0f4750e26065581854130e7e38d883e5f47654de821993af00792eb3d9714",
       "impact_brief.md": "772b141eb2efc23b7a185c7554b28a12303c4e280fd4fce6f1c0adc69384b294",
       "methods_text.md": "981aa942ac31a38e74e774d3c1e280dfdf5c3a6f3759603d28bb05ef8e15b662",
       "passport.html": "9f79087c6b42b45aaaac6f8ad6080c803a686958919b51dcb00e257642b864d6",
       "passport.md": "0b2e1e7d68f4e8cfa9fe2e24dc347a841cf675fbb2b7ec2bff2d8803733ad565",
-      "provenance.json": "a278808b7c72a9eea6e9c52b28fb6d11d85d10b907035d9630207650d55d0cf8",
+      "provenance.json": "19a01df89c1babe95f1a4c8d31a4daa147a065b7e7787b88480ab3cc003baa08",
       "publisher_feedback.csv": "6f7b4ddd8cbe883d0684267996fae4c919748fe693c98f9d4dc02af57ee041d9",
       "publisher_feedback.md": "c985dfec44cd08c3fe02b45c164f37ee9f8c5015dab178f7eb105026a844d900",
       "publisher_issue_templates.md": "2744d3e8b1c926ce2175c43d194b252d5f1af8b0f3f2c014f80fb9e7f6897e41",
       "quality_metrics.csv": "2f1e79b5ed9157bd4d4a4a4a2fa341b0aec340219334a23b498e72b33836135a",
       "readiness_scorecard.csv": "06826d53c5c42cc2023decb42bf54b7f29f78cd00f22e77222d5a6d34537fdcf",
       "records.geojson": "fe6ff7c901322cb3f62190f6a7ff965b0adbc9517d769abeaabfe6baaaa1f042",
-      "run.json": "35f5f8ab44b89961fabdc6acbdb32bf206345abc8db9f3f9680804aac806b0f2",
-      "source_summary.json": "1257c0076cd3b8944680b46e30bff64b7ccde8508bb14151e00dfa1018de6351",
+      "run.json": "0cd8b1185a1a7288d6c4d20bcb42671ef8139db5b908107f910822dfc5df3cad",
+      "source_summary.json": "6574f5fcd796028ea3c930d0fc67bfd5bcab41059be4b5e925b2a73dc6dc04c9",
       "submission_readiness.json": "c157243933ee034a0c3c228638ab8aea8a8bf5adbfc1f0b423ae127527b0ffae",
       "submission_readiness.md": "17ac980a361a5f977886954ebbf15fb807d1d1aab8ca3aca70ad113f1b9946f2",
       "validation_summary.json": "76ee13659e4b98ad0ecc67ec9f6c637e7b4dc710df6f21322b564cba1b5a7495",
@@ -158,7 +158,7 @@
     "gbif_base_url": "https://api.gbif.org/v1",
     "selected_taxon_key": 5231190,
     "matched_taxon_key": 5231190,
-    "gbif_result_count": 3808458,
+    "gbif_result_count": 3808511,
     "gbif_returned_records": 120,
     "gbif_limit": 120,
     "gbif_offset": 0
@@ -292,19 +292,29 @@
   "dataset_contributions": [
     {
       "datasetKey": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "datasetTitle": null,
-      "publisher": null,
+      "datasetTitle": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "record_count": 114,
-      "main_issues": "COORDINATE_ROUNDED, GEODETIC_DATUM_ASSUMED_WGS84, CONTINENT_DERIVED_FROM_COORDINATES"
+      "main_issues": "COORDINATE_ROUNDED, GEODETIC_DATUM_ASSUMED_WGS84, CONTINENT_DERIVED_FROM_COORDINATES",
+      "doi": "10.15468/uc1apo",
+      "citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "homepage": null,
+      "publishingOrganizationKey": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api"
     },
     {
       "datasetKey": "aa6c5ee6-d4d7-4a65-a04f-379cffbf4842",
-      "datasetTitle": null,
-      "publisher": null,
+      "datasetTitle": "ArtenFinder",
+      "publisher": "ArtenFinder bei der Stiftung Natur und Umwelt RLP und der Stiftung Naturschutz Berlin",
       "license": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
       "record_count": 6,
-      "main_issues": "COUNTRY_DERIVED_FROM_COORDINATES, CONTINENT_DERIVED_FROM_COORDINATES"
+      "main_issues": "COUNTRY_DERIVED_FROM_COORDINATES, CONTINENT_DERIVED_FROM_COORDINATES",
+      "doi": "10.15468/jnnald",
+      "citation": "ArtenFinder bei der Stiftung Natur und Umwelt RLP und der Stiftung Naturschutz Berlin. ArtenFinder. Occurrence dataset https://doi.org/10.15468/jnnald accessed via GBIF.org on 2026-05-26.",
+      "homepage": "https://artenfinder.net",
+      "publishingOrganizationKey": "2754e9c0-0e43-4f65-968a-6f16b9c378ce",
+      "dataset_metadata_source": "gbif_api"
     }
   ],
   "claim_guardrails": {
@@ -4554,8 +4564,8 @@
     {
       "gbif_id": "5937958407",
       "dataset_key": "aa6c5ee6-d4d7-4a65-a04f-379cffbf4842",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "ArtenFinder",
+      "publisher": "ArtenFinder bei der Stiftung Natur und Umwelt RLP und der Stiftung Naturschutz Berlin",
       "license": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -4826,13 +4836,19 @@
         "gbifID": "5937958407",
         "collectionCode": "artenfinder",
         "occurrenceID": "cd39b505-7a96-5d57-ad98-270cac672780"
-      }
+      },
+      "dataset_doi": "10.15468/jnnald",
+      "dataset_citation": "ArtenFinder bei der Stiftung Natur und Umwelt RLP und der Stiftung Naturschutz Berlin. ArtenFinder. Occurrence dataset https://doi.org/10.15468/jnnald accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://artenfinder.net",
+      "publishing_organization_key": "2754e9c0-0e43-4f65-968a-6f16b9c378ce",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937958565",
       "dataset_key": "aa6c5ee6-d4d7-4a65-a04f-379cffbf4842",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "ArtenFinder",
+      "publisher": "ArtenFinder bei der Stiftung Natur und Umwelt RLP und der Stiftung Naturschutz Berlin",
       "license": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -5103,13 +5119,19 @@
         "gbifID": "5937958565",
         "collectionCode": "artenfinder",
         "occurrenceID": "5a181daa-76c8-5a08-ba53-935eb052a8dd"
-      }
+      },
+      "dataset_doi": "10.15468/jnnald",
+      "dataset_citation": "ArtenFinder bei der Stiftung Natur und Umwelt RLP und der Stiftung Naturschutz Berlin. ArtenFinder. Occurrence dataset https://doi.org/10.15468/jnnald accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://artenfinder.net",
+      "publishing_organization_key": "2754e9c0-0e43-4f65-968a-6f16b9c378ce",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937958919",
       "dataset_key": "aa6c5ee6-d4d7-4a65-a04f-379cffbf4842",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "ArtenFinder",
+      "publisher": "ArtenFinder bei der Stiftung Natur und Umwelt RLP und der Stiftung Naturschutz Berlin",
       "license": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -5380,13 +5402,19 @@
         "gbifID": "5937958919",
         "collectionCode": "artenfinder",
         "occurrenceID": "768c7889-0e92-5d85-b378-f74ec77bbdb6"
-      }
+      },
+      "dataset_doi": "10.15468/jnnald",
+      "dataset_citation": "ArtenFinder bei der Stiftung Natur und Umwelt RLP und der Stiftung Naturschutz Berlin. ArtenFinder. Occurrence dataset https://doi.org/10.15468/jnnald accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://artenfinder.net",
+      "publishing_organization_key": "2754e9c0-0e43-4f65-968a-6f16b9c378ce",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937959394",
       "dataset_key": "aa6c5ee6-d4d7-4a65-a04f-379cffbf4842",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "ArtenFinder",
+      "publisher": "ArtenFinder bei der Stiftung Natur und Umwelt RLP und der Stiftung Naturschutz Berlin",
       "license": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -5657,13 +5685,19 @@
         "gbifID": "5937959394",
         "collectionCode": "artenfinder",
         "occurrenceID": "6e86b85d-6f4b-52e2-8aef-228fdecac69a"
-      }
+      },
+      "dataset_doi": "10.15468/jnnald",
+      "dataset_citation": "ArtenFinder bei der Stiftung Natur und Umwelt RLP und der Stiftung Naturschutz Berlin. ArtenFinder. Occurrence dataset https://doi.org/10.15468/jnnald accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://artenfinder.net",
+      "publishing_organization_key": "2754e9c0-0e43-4f65-968a-6f16b9c378ce",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937959478",
       "dataset_key": "aa6c5ee6-d4d7-4a65-a04f-379cffbf4842",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "ArtenFinder",
+      "publisher": "ArtenFinder bei der Stiftung Natur und Umwelt RLP und der Stiftung Naturschutz Berlin",
       "license": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -5934,13 +5968,19 @@
         "gbifID": "5937959478",
         "collectionCode": "artenfinder",
         "occurrenceID": "8cb91976-ae11-5599-a6f0-84d2d9fd034b"
-      }
+      },
+      "dataset_doi": "10.15468/jnnald",
+      "dataset_citation": "ArtenFinder bei der Stiftung Natur und Umwelt RLP und der Stiftung Naturschutz Berlin. ArtenFinder. Occurrence dataset https://doi.org/10.15468/jnnald accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://artenfinder.net",
+      "publishing_organization_key": "2754e9c0-0e43-4f65-968a-6f16b9c378ce",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937959511",
       "dataset_key": "aa6c5ee6-d4d7-4a65-a04f-379cffbf4842",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "ArtenFinder",
+      "publisher": "ArtenFinder bei der Stiftung Natur und Umwelt RLP und der Stiftung Naturschutz Berlin",
       "license": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -6211,13 +6251,19 @@
         "gbifID": "5937959511",
         "collectionCode": "artenfinder",
         "occurrenceID": "3e6262a2-976f-59e6-a941-60c8a3030f5f"
-      }
+      },
+      "dataset_doi": "10.15468/jnnald",
+      "dataset_citation": "ArtenFinder bei der Stiftung Natur und Umwelt RLP und der Stiftung Naturschutz Berlin. ArtenFinder. Occurrence dataset https://doi.org/10.15468/jnnald accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://artenfinder.net",
+      "publishing_organization_key": "2754e9c0-0e43-4f65-968a-6f16b9c378ce",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937961377",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -6488,13 +6534,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937961377",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937961405",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -6765,13 +6817,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937961405",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937961481",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -7042,13 +7100,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937961481",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937961549",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -7319,13 +7383,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937961549",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937962111",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -7596,13 +7666,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937962111",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937962135",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -7873,13 +7949,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937962135",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937962433",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -8150,13 +8232,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937962433",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937962678",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -8427,13 +8515,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937962678",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937962728",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -8760,13 +8854,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937962728",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937962898",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -9037,13 +9137,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937962898",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937962932",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -9314,13 +9420,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937962932",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937963183",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -9591,13 +9703,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937963183",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937963414",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -9868,13 +9986,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937963414",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937963468",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -10145,13 +10269,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937963468",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937963692",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -10422,13 +10552,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937963692",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937964013",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -10699,13 +10835,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937964013",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937964188",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -10976,13 +11118,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937964188",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937964524",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -11253,13 +11401,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937964524",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937964759",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -11530,13 +11684,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937964759",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937964766",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -11807,13 +11967,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937964766",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937965095",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -12084,13 +12250,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937965095",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937965355",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -12378,13 +12550,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937965355",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937965607",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -12655,13 +12833,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937965607",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937965802",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -12932,13 +13116,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937965802",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937965896",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -13209,13 +13399,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937965896",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937966185",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -13486,13 +13682,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937966185",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937966285",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -13763,13 +13965,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937966285",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937966339",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -14040,13 +14248,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937966339",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937966360",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -14317,13 +14531,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937966360",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937966368",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -14594,13 +14814,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937966368",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937966628",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -14871,13 +15097,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937966628",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937966636",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -15148,13 +15380,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937966636",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937966648",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -15425,13 +15663,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937966648",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937966691",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -15702,13 +15946,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937966691",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937966718",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -15979,13 +16229,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937966718",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937966751",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -16256,13 +16512,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937966751",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937966779",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -16533,13 +16795,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937966779",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937967496",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -16810,13 +17078,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937967496",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937967723",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -17087,13 +17361,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937967723",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937967797",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -17360,13 +17640,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937967797",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937967898",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -17637,13 +17923,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937967898",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937967921",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -17914,13 +18206,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937967921",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937967941",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -18191,13 +18489,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937967941",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937968508",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -18468,13 +18772,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937968508",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937968544",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -18788,13 +19098,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937968544",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937968563",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -19065,13 +19381,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937968563",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937968564",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -19342,13 +19664,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937968564",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937968668",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -19619,13 +19947,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937968668",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937968676",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -19896,13 +20230,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937968676",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937968785",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -20173,13 +20513,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937968785",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937968888",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -20450,13 +20796,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937968888",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937968922",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -20727,13 +21079,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937968922",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937969004",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -21004,13 +21362,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937969004",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937969114",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -21281,13 +21645,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937969114",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937969263",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -21558,13 +21928,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937969263",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937969390",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -21835,13 +22211,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937969390",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937969509",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -22112,13 +22494,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937969509",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937969512",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -22389,13 +22777,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937969512",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937969561",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -22666,13 +23060,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937969561",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937969678",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -22943,13 +23343,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937969678",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937969720",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -23220,13 +23626,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937969720",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937969766",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -23497,13 +23909,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937969766",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937970176",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -23817,13 +24235,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937970176",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937970247",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -24094,13 +24518,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937970247",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937970415",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -24371,13 +24801,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937970415",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937970471",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -24648,13 +25084,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937970471",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937970633",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -24925,13 +25367,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937970633",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937971135",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -25202,13 +25650,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937971135",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937971255",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -25479,13 +25933,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937971255",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937971389",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -25756,13 +26216,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937971389",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937971436",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -26033,13 +26499,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937971436",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937971460",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -26310,13 +26782,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937971460",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937971569",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -26587,13 +27065,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937971569",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937971602",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -26864,13 +27348,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937971602",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937971688",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -27137,13 +27627,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937971688",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937971689",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -27414,13 +27910,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937971689",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937971711",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -27691,13 +28193,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937971711",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937971754",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -27998,13 +28506,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937971754",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937972027",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -28275,13 +28789,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937972027",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937972052",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -28552,13 +29072,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937972052",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937972136",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -28829,13 +29355,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937972136",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937972170",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -29106,13 +29638,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937972170",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937972380",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -29383,13 +29921,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937972380",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937972880",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -29660,13 +30204,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937972880",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937972925",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -29937,13 +30487,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937972925",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937973073",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -30214,13 +30770,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937973073",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937973144",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -30508,13 +31070,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937973144",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937973374",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -30785,13 +31353,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937973374",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937973409",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -31062,13 +31636,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937973409",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937973492",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -31339,13 +31919,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937973492",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937973552",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -31616,13 +32202,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937973552",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937973584",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -31893,13 +32485,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937973584",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937973728",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -32170,13 +32768,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937973728",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937973812",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -32447,13 +33051,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937973812",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937973830",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -32724,13 +33334,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937973830",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937973904",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -33001,13 +33617,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937973904",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937973945",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -33278,13 +33900,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937973945",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937973977",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -33555,13 +34183,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937973977",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937974024",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -33832,13 +34466,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937974024",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937974206",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -34109,13 +34749,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937974206",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937974386",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -34386,13 +35032,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937974386",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937974845",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -34663,13 +35315,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937974845",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937974860",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -34940,13 +35598,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937974860",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937974868",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -35217,13 +35881,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937974868",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937975061",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -35494,13 +36164,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937975061",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937975398",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -35771,13 +36447,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937975398",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937975430",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -36048,13 +36730,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937975430",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937975587",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -36325,13 +37013,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937975587",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937975596",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -36602,13 +37296,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937975596",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937975747",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -36879,13 +37579,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937975747",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937975838",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -37156,13 +37862,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937975838",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937976209",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -37450,13 +38162,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937976209",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937976389",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -37727,13 +38445,19 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937976389",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     },
     {
       "gbif_id": "5937976447",
       "dataset_key": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
-      "dataset_title": null,
-      "publisher": null,
+      "dataset_title": "NABU|naturgucker",
+      "publisher": "naturgucker.de",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -38004,7 +38728,13 @@
         "http://unknown.org/status": "not_reviewed",
         "gbifID": "5937976447",
         "collectionCode": "NABU|naturgucker"
-      }
+      },
+      "dataset_doi": "10.15468/uc1apo",
+      "dataset_citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": null,
+      "publishing_organization_key": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00"
     }
   ],
   "main_risks": [
@@ -38243,7 +38973,7 @@
     "graph": {
       "summary": {
         "title": "EcoGenesis Evidence Graph Memory",
-        "run_id": "31c4eb5d38cf41bfab94306884254f09",
+        "run_id": "a09ed8b2048240c1a216329387ad82a3",
         "taxon": "Passer domesticus (Linnaeus, 1758)",
         "region_name": "Western Europe live bbox",
         "purpose": "sampling_gaps",
@@ -38251,7 +38981,7 @@
         "score": 66.25,
         "records_used": 120,
         "datasets_used": 2,
-        "created_at": "2026-05-26T04:17:44.126547+00:00"
+        "created_at": "2026-05-26T23:02:04.210088+00:00"
       },
       "node_counts": {
         "runs": 1,
@@ -38265,11 +38995,11 @@
       },
       "nodes": [
         {
-          "id": "run:31c4eb5d38cf41bfab94306884254f09",
+          "id": "run:a09ed8b2048240c1a216329387ad82a3",
           "type": "run",
           "label": "Passer domesticus (Linnaeus, 1758) in Western Europe live bbox",
           "properties": {
-            "run_id": "31c4eb5d38cf41bfab94306884254f09"
+            "run_id": "a09ed8b2048240c1a216329387ad82a3"
           }
         },
         {
@@ -38484,25 +39214,25 @@
       ],
       "edges": [
         {
-          "source": "run:31c4eb5d38cf41bfab94306884254f09",
+          "source": "run:a09ed8b2048240c1a216329387ad82a3",
           "relation": "uses_taxon",
           "target": "taxon:5231190",
           "properties": {}
         },
         {
-          "source": "run:31c4eb5d38cf41bfab94306884254f09",
+          "source": "run:a09ed8b2048240c1a216329387ad82a3",
           "relation": "covers_region",
           "target": "region:western-europe-live-bbox",
           "properties": {}
         },
         {
-          "source": "run:31c4eb5d38cf41bfab94306884254f09",
+          "source": "run:a09ed8b2048240c1a216329387ad82a3",
           "relation": "serves_purpose",
           "target": "purpose:sampling_gaps",
           "properties": {}
         },
         {
-          "source": "run:31c4eb5d38cf41bfab94306884254f09",
+          "source": "run:a09ed8b2048240c1a216329387ad82a3",
           "relation": "draws_from_dataset",
           "target": "dataset:6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
           "properties": {
@@ -38510,7 +39240,7 @@
           }
         },
         {
-          "source": "run:31c4eb5d38cf41bfab94306884254f09",
+          "source": "run:a09ed8b2048240c1a216329387ad82a3",
           "relation": "draws_from_dataset",
           "target": "dataset:aa6c5ee6-d4d7-4a65-a04f-379cffbf4842",
           "properties": {
@@ -38518,139 +39248,139 @@
           }
         },
         {
-          "source": "run:31c4eb5d38cf41bfab94306884254f09",
+          "source": "run:a09ed8b2048240c1a216329387ad82a3",
           "relation": "supported_claim",
           "target": "claim:supported-gbif-mediated-records-matching-the-selected-taxon-and-region-are-present-in-th",
           "properties": {}
         },
         {
-          "source": "run:31c4eb5d38cf41bfab94306884254f09",
+          "source": "run:a09ed8b2048240c1a216329387ad82a3",
           "relation": "supported_claim",
           "target": "claim:supported-dataset-provenance-is-preserved-through-datasetkey-level-contribution-summarie",
           "properties": {}
         },
         {
-          "source": "run:31c4eb5d38cf41bfab94306884254f09",
+          "source": "run:a09ed8b2048240c1a216329387ad82a3",
           "relation": "weak_claim",
           "target": "claim:weak-record-clusters-can-indicate-areas-of-observation-activity-but-they-may-also-reflec",
           "properties": {}
         },
         {
-          "source": "run:31c4eb5d38cf41bfab94306884254f09",
+          "source": "run:a09ed8b2048240c1a216329387ad82a3",
           "relation": "weak_claim",
           "target": "claim:weak-the-selected-purpose-readiness-score-is-66-25-100-and-should-be-interpreted-with-th",
           "properties": {}
         },
         {
-          "source": "run:31c4eb5d38cf41bfab94306884254f09",
+          "source": "run:a09ed8b2048240c1a216329387ad82a3",
           "relation": "blocked_claim",
           "target": "claim:blocked-absence-cannot-be-inferred-from-empty-or-low-evidence-grid-cells",
           "properties": {}
         },
         {
-          "source": "run:31c4eb5d38cf41bfab94306884254f09",
+          "source": "run:a09ed8b2048240c1a216329387ad82a3",
           "relation": "blocked_claim",
           "target": "claim:blocked-observed-gbif-distribution-must-not-be-treated-as-the-true-species-distribution",
           "properties": {}
         },
         {
-          "source": "run:31c4eb5d38cf41bfab94306884254f09",
+          "source": "run:a09ed8b2048240c1a216329387ad82a3",
           "relation": "blocked_claim",
           "target": "claim:blocked-population-trend-cannot-be-inferred-without-temporal-sampling-bias-correction",
           "properties": {}
         },
         {
-          "source": "run:31c4eb5d38cf41bfab94306884254f09",
+          "source": "run:a09ed8b2048240c1a216329387ad82a3",
           "relation": "requires_verification_claim",
           "target": "claim:requires-verification-create-a-doi-backed-gbif-occurrence-download-or-derived-dataset-be",
           "properties": {}
         },
         {
-          "source": "run:31c4eb5d38cf41bfab94306884254f09",
+          "source": "run:a09ed8b2048240c1a216329387ad82a3",
           "relation": "requires_verification_claim",
           "target": "claim:requires-verification-inspect-high-coordinate-uncertainty-records-before-using-them-in-f",
           "properties": {}
         },
         {
-          "source": "run:31c4eb5d38cf41bfab94306884254f09",
+          "source": "run:a09ed8b2048240c1a216329387ad82a3",
           "relation": "requires_verification_claim",
           "target": "claim:requires-verification-treat-undersampled-occupied-cells-as-survey-priorities-not-confirm",
           "properties": {}
         },
         {
-          "source": "run:31c4eb5d38cf41bfab94306884254f09",
+          "source": "run:a09ed8b2048240c1a216329387ad82a3",
           "relation": "requires_verification_claim",
           "target": "claim:requires-verification-treat-empty-grid-cells-as-no-evidence-cells-not-absence-evidence",
           "properties": {}
         },
         {
-          "source": "run:31c4eb5d38cf41bfab94306884254f09",
+          "source": "run:a09ed8b2048240c1a216329387ad82a3",
           "relation": "recommends_action",
           "target": "action:create-a-doi-backed-gbif-occurrence-download-or-derived-dataset-before-publication",
           "properties": {}
         },
         {
-          "source": "run:31c4eb5d38cf41bfab94306884254f09",
+          "source": "run:a09ed8b2048240c1a216329387ad82a3",
           "relation": "recommends_action",
           "target": "action:preserve-datasetkey-and-run-json-with-any-downstream-analysis",
           "properties": {}
         },
         {
-          "source": "run:31c4eb5d38cf41bfab94306884254f09",
+          "source": "run:a09ed8b2048240c1a216329387ad82a3",
           "relation": "recommends_action",
           "target": "action:avoid-absence-claims-for-empty-or-low-effort-grid-cells",
           "properties": {}
         },
         {
-          "source": "run:31c4eb5d38cf41bfab94306884254f09",
+          "source": "run:a09ed8b2048240c1a216329387ad82a3",
           "relation": "recommends_action",
           "target": "action:prioritize-survey-design-around-no-evidence-and-under-sampled-grid-cells",
           "properties": {}
         },
         {
-          "source": "run:31c4eb5d38cf41bfab94306884254f09",
+          "source": "run:a09ed8b2048240c1a216329387ad82a3",
           "relation": "produces_artifact",
           "target": "artifact:passport.html",
           "properties": {}
         },
         {
-          "source": "run:31c4eb5d38cf41bfab94306884254f09",
+          "source": "run:a09ed8b2048240c1a216329387ad82a3",
           "relation": "produces_artifact",
           "target": "artifact:decision_memo.md",
           "properties": {}
         },
         {
-          "source": "run:31c4eb5d38cf41bfab94306884254f09",
+          "source": "run:a09ed8b2048240c1a216329387ad82a3",
           "relation": "produces_artifact",
           "target": "artifact:submission_readiness.md",
           "properties": {}
         },
         {
-          "source": "run:31c4eb5d38cf41bfab94306884254f09",
+          "source": "run:a09ed8b2048240c1a216329387ad82a3",
           "relation": "produces_artifact",
           "target": "artifact:validation_summary.md",
           "properties": {}
         },
         {
-          "source": "run:31c4eb5d38cf41bfab94306884254f09",
+          "source": "run:a09ed8b2048240c1a216329387ad82a3",
           "relation": "produces_artifact",
           "target": "artifact:run.json",
           "properties": {}
         },
         {
-          "source": "run:31c4eb5d38cf41bfab94306884254f09",
+          "source": "run:a09ed8b2048240c1a216329387ad82a3",
           "relation": "produces_artifact",
           "target": "artifact:citations.md",
           "properties": {}
         },
         {
-          "source": "run:31c4eb5d38cf41bfab94306884254f09",
+          "source": "run:a09ed8b2048240c1a216329387ad82a3",
           "relation": "produces_artifact",
           "target": "artifact:publisher_feedback.md",
           "properties": {}
         },
         {
-          "source": "run:31c4eb5d38cf41bfab94306884254f09",
+          "source": "run:a09ed8b2048240c1a216329387ad82a3",
           "relation": "produces_artifact",
           "target": "artifact:evidence_pack.zip",
           "properties": {}
@@ -38676,217 +39406,257 @@
       ]
     },
     "vault": {
-      "index.md": "---\ntype: \"vault_index\"\nrun_id: \"31c4eb5d38cf41bfab94306884254f09\"\ntaxon: \"Passer domesticus\"\nregion: \"Western Europe live bbox\"\npurpose: \"sampling_gaps\"\n---\n# EcoGenesis Evidence Vault\n\nThis vault is a human-readable memory layer for the Evidence Passport.\n\n## Core Links\n\n- Run: [31c4eb5d38cf41bfab94306884254f09](runs/31c4eb5d38cf41bfab94306884254f09.md)\n- Taxon: [Passer domesticus (Linnaeus, 1758)](taxa/passer-domesticus-linnaeus-1758.md)\n- Region: [Western Europe live bbox](regions/western-europe-live-bbox.md)\n- Purpose: [Sampling gap analysis](purposes/sampling_gaps.md)\n\n## Graph Summary\n\n- runs: 1\n- taxa: 1\n- regions: 1\n- datasets: 2\n- issues: 0\n- claims: 11\n- actions: 4\n- artifacts: 8\n\n## Review Files\n\n- `../passport.html`\n- `../decision_memo.md`\n- `../submission_readiness.md`\n- `../validation_summary.md`\n- `../citations.md`\n- `../publisher_feedback.md`\n- `../run.json`\n",
-      "runs/31c4eb5d38cf41bfab94306884254f09.md": "---\ntype: \"run\"\nrun_id: \"31c4eb5d38cf41bfab94306884254f09\"\ntaxon: \"Passer domesticus\"\nregion: \"Western Europe live bbox\"\npurpose: \"sampling_gaps\"\nscore: 66.25\nrecords_used: 120\ndatasets_used: 2\n---\n# Run: Passer domesticus - Western Europe live bbox - Sampling gap analysis\n\nTaxon: [Passer domesticus (Linnaeus, 1758)](../taxa/passer-domesticus-linnaeus-1758.md)\nRegion: [Western Europe live bbox](../regions/western-europe-live-bbox.md)\nPurpose: [Sampling gap analysis](../purposes/sampling_gaps.md)\n\n## Decision Memo\n\n- Verdict: Usable for screening, but not enough for fine-scale or publication claims without review\n- Question: Can GBIF-mediated occurrence evidence for Passer domesticus in Western Europe live bbox support the purpose 'Sampling gap analysis'?\n- Next action: Create a DOI-backed GBIF occurrence download or derived dataset before publication.\n\n## Readiness\n\n- Score: 66.25/100\n- Interpretation: Moderate readiness: useful evidence, but caveats and verification steps matter.\n\n## Datasets\n\n- [6ac3f774-d9fb-4796-b3e9-92bf6c81c084](../datasets/6ac3f774-d9fb-4796-b3e9-92bf6c81c084.md) (114 records)\n- [aa6c5ee6-d4d7-4a65-a04f-379cffbf4842](../datasets/aa6c5ee6-d4d7-4a65-a04f-379cffbf4842.md) (6 records)\n\n## Claims\n\n- supported: [GBIF-mediated records matching the selected taxon and region are present in the evidence pack.](../claims/supported-gbif-mediated-records-matching-the-selected-taxon-and-region-are-present-in-th.md)\n- supported: [Dataset provenance is preserved through datasetKey-level contribution summaries.](../claims/supported-dataset-provenance-is-preserved-through-datasetkey-level-contribution-summarie.md)\n- weak: [Record clusters can indicate areas of observation activity, but they may also reflect observer effort.](../claims/weak-record-clusters-can-indicate-areas-of-observation-activity-but-they-may-also-reflec.md)\n- weak: [The selected-purpose readiness score is 66.25/100 and should be interpreted with the component scores.](../claims/weak-the-selected-purpose-readiness-score-is-66-25-100-and-should-be-interpreted-with-th.md)\n- blocked: [Absence cannot be inferred from empty or low-evidence grid cells.](../claims/blocked-absence-cannot-be-inferred-from-empty-or-low-evidence-grid-cells.md)\n- blocked: [Observed GBIF distribution must not be treated as the true species distribution.](../claims/blocked-observed-gbif-distribution-must-not-be-treated-as-the-true-species-distribution.md)\n- blocked: [Population trend cannot be inferred without temporal sampling-bias correction.](../claims/blocked-population-trend-cannot-be-inferred-without-temporal-sampling-bias-correction.md)\n- requires_verification: [Create a DOI-backed GBIF occurrence download or derived dataset before formal publication.](../claims/requires-verification-create-a-doi-backed-gbif-occurrence-download-or-derived-dataset-be.md)\n- requires_verification: [Inspect high coordinate-uncertainty records before using them in fine-scale decisions.](../claims/requires-verification-inspect-high-coordinate-uncertainty-records-before-using-them-in-f.md)\n- requires_verification: [Treat undersampled occupied cells as survey priorities, not confirmed absences.](../claims/requires-verification-treat-undersampled-occupied-cells-as-survey-priorities-not-confirm.md)\n- requires_verification: [Treat empty grid cells as no-evidence cells, not absence evidence.](../claims/requires-verification-treat-empty-grid-cells-as-no-evidence-cells-not-absence-evidence.md)\n\n## Actions\n\n- [Create a DOI-backed GBIF occurrence download or derived dataset before publication.](../actions/create-a-doi-backed-gbif-occurrence-download-or-derived-dataset-before-publication.md)\n- [Preserve datasetKey and run.json with any downstream analysis.](../actions/preserve-datasetkey-and-run-json-with-any-downstream-analysis.md)\n- [Avoid absence claims for empty or low-effort grid cells.](../actions/avoid-absence-claims-for-empty-or-low-effort-grid-cells.md)\n- [Prioritize survey design around no-evidence and under-sampled grid cells.](../actions/prioritize-survey-design-around-no-evidence-and-under-sampled-grid-cells.md)\n",
-      "taxa/passer-domesticus-linnaeus-1758.md": "---\ntype: \"taxon\"\ntitle: \"Passer domesticus (Linnaeus, 1758)\"\ntaxonKey: 5231190\nmatch_confidence: 100\n---\n# Passer domesticus (Linnaeus, 1758)\n\n## Links\n\n- [Current run](../runs/31c4eb5d38cf41bfab94306884254f09.md)\n\n## Notes\n\n- Accepted name: Passer domesticus (Linnaeus, 1758)\n",
-      "regions/western-europe-live-bbox.md": "---\ntype: \"region\"\ntitle: \"Western Europe live bbox\"\nbbox: [-10.0, 42.0, 12.0, 56.0]\n---\n# Western Europe live bbox\n\n## Links\n\n- [Current run](../runs/31c4eb5d38cf41bfab94306884254f09.md)\n\n## Notes\n\n- BBox: `[-10.0, 42.0, 12.0, 56.0]`\n",
-      "purposes/sampling_gaps.md": "---\ntype: \"purpose\"\ntitle: \"Sampling gap analysis\"\npurpose: \"sampling_gaps\"\nscore: 66.25\n---\n# Sampling gap analysis\n\n## Links\n\n- [Current run](../runs/31c4eb5d38cf41bfab94306884254f09.md)\n\n## Notes\n\n- Moderate readiness: useful evidence, but caveats and verification steps matter.\n",
+      "index.md": "---\ntype: \"vault_index\"\nrun_id: \"a09ed8b2048240c1a216329387ad82a3\"\ntaxon: \"Passer domesticus\"\nregion: \"Western Europe live bbox\"\npurpose: \"sampling_gaps\"\n---\n# EcoGenesis Evidence Vault\n\nThis vault is a human-readable memory layer for the Evidence Passport.\n\n## Core Links\n\n- Run: [a09ed8b2048240c1a216329387ad82a3](runs/a09ed8b2048240c1a216329387ad82a3.md)\n- Taxon: [Passer domesticus (Linnaeus, 1758)](taxa/passer-domesticus-linnaeus-1758.md)\n- Region: [Western Europe live bbox](regions/western-europe-live-bbox.md)\n- Purpose: [Sampling gap analysis](purposes/sampling_gaps.md)\n\n## Graph Summary\n\n- runs: 1\n- taxa: 1\n- regions: 1\n- datasets: 2\n- issues: 0\n- claims: 11\n- actions: 4\n- artifacts: 8\n\n## Review Files\n\n- `../passport.html`\n- `../decision_memo.md`\n- `../submission_readiness.md`\n- `../validation_summary.md`\n- `../citations.md`\n- `../publisher_feedback.md`\n- `../run.json`\n",
+      "runs/a09ed8b2048240c1a216329387ad82a3.md": "---\ntype: \"run\"\nrun_id: \"a09ed8b2048240c1a216329387ad82a3\"\ntaxon: \"Passer domesticus\"\nregion: \"Western Europe live bbox\"\npurpose: \"sampling_gaps\"\nscore: 66.25\nrecords_used: 120\ndatasets_used: 2\n---\n# Run: Passer domesticus - Western Europe live bbox - Sampling gap analysis\n\nTaxon: [Passer domesticus (Linnaeus, 1758)](../taxa/passer-domesticus-linnaeus-1758.md)\nRegion: [Western Europe live bbox](../regions/western-europe-live-bbox.md)\nPurpose: [Sampling gap analysis](../purposes/sampling_gaps.md)\n\n## Decision Memo\n\n- Verdict: Usable for screening, but not enough for fine-scale or publication claims without review\n- Question: Can GBIF-mediated occurrence evidence for Passer domesticus in Western Europe live bbox support the purpose 'Sampling gap analysis'?\n- Next action: Create a DOI-backed GBIF occurrence download or derived dataset before publication.\n\n## Readiness\n\n- Score: 66.25/100\n- Interpretation: Moderate readiness: useful evidence, but caveats and verification steps matter.\n\n## Datasets\n\n- [6ac3f774-d9fb-4796-b3e9-92bf6c81c084](../datasets/6ac3f774-d9fb-4796-b3e9-92bf6c81c084.md) (114 records)\n- [aa6c5ee6-d4d7-4a65-a04f-379cffbf4842](../datasets/aa6c5ee6-d4d7-4a65-a04f-379cffbf4842.md) (6 records)\n\n## Claims\n\n- supported: [GBIF-mediated records matching the selected taxon and region are present in the evidence pack.](../claims/supported-gbif-mediated-records-matching-the-selected-taxon-and-region-are-present-in-th.md)\n- supported: [Dataset provenance is preserved through datasetKey-level contribution summaries.](../claims/supported-dataset-provenance-is-preserved-through-datasetkey-level-contribution-summarie.md)\n- weak: [Record clusters can indicate areas of observation activity, but they may also reflect observer effort.](../claims/weak-record-clusters-can-indicate-areas-of-observation-activity-but-they-may-also-reflec.md)\n- weak: [The selected-purpose readiness score is 66.25/100 and should be interpreted with the component scores.](../claims/weak-the-selected-purpose-readiness-score-is-66-25-100-and-should-be-interpreted-with-th.md)\n- blocked: [Absence cannot be inferred from empty or low-evidence grid cells.](../claims/blocked-absence-cannot-be-inferred-from-empty-or-low-evidence-grid-cells.md)\n- blocked: [Observed GBIF distribution must not be treated as the true species distribution.](../claims/blocked-observed-gbif-distribution-must-not-be-treated-as-the-true-species-distribution.md)\n- blocked: [Population trend cannot be inferred without temporal sampling-bias correction.](../claims/blocked-population-trend-cannot-be-inferred-without-temporal-sampling-bias-correction.md)\n- requires_verification: [Create a DOI-backed GBIF occurrence download or derived dataset before formal publication.](../claims/requires-verification-create-a-doi-backed-gbif-occurrence-download-or-derived-dataset-be.md)\n- requires_verification: [Inspect high coordinate-uncertainty records before using them in fine-scale decisions.](../claims/requires-verification-inspect-high-coordinate-uncertainty-records-before-using-them-in-f.md)\n- requires_verification: [Treat undersampled occupied cells as survey priorities, not confirmed absences.](../claims/requires-verification-treat-undersampled-occupied-cells-as-survey-priorities-not-confirm.md)\n- requires_verification: [Treat empty grid cells as no-evidence cells, not absence evidence.](../claims/requires-verification-treat-empty-grid-cells-as-no-evidence-cells-not-absence-evidence.md)\n\n## Actions\n\n- [Create a DOI-backed GBIF occurrence download or derived dataset before publication.](../actions/create-a-doi-backed-gbif-occurrence-download-or-derived-dataset-before-publication.md)\n- [Preserve datasetKey and run.json with any downstream analysis.](../actions/preserve-datasetkey-and-run-json-with-any-downstream-analysis.md)\n- [Avoid absence claims for empty or low-effort grid cells.](../actions/avoid-absence-claims-for-empty-or-low-effort-grid-cells.md)\n- [Prioritize survey design around no-evidence and under-sampled grid cells.](../actions/prioritize-survey-design-around-no-evidence-and-under-sampled-grid-cells.md)\n",
+      "taxa/passer-domesticus-linnaeus-1758.md": "---\ntype: \"taxon\"\ntitle: \"Passer domesticus (Linnaeus, 1758)\"\ntaxonKey: 5231190\nmatch_confidence: 100\n---\n# Passer domesticus (Linnaeus, 1758)\n\n## Links\n\n- [Current run](../runs/a09ed8b2048240c1a216329387ad82a3.md)\n\n## Notes\n\n- Accepted name: Passer domesticus (Linnaeus, 1758)\n",
+      "regions/western-europe-live-bbox.md": "---\ntype: \"region\"\ntitle: \"Western Europe live bbox\"\nbbox: [-10.0, 42.0, 12.0, 56.0]\n---\n# Western Europe live bbox\n\n## Links\n\n- [Current run](../runs/a09ed8b2048240c1a216329387ad82a3.md)\n\n## Notes\n\n- BBox: `[-10.0, 42.0, 12.0, 56.0]`\n",
+      "purposes/sampling_gaps.md": "---\ntype: \"purpose\"\ntitle: \"Sampling gap analysis\"\npurpose: \"sampling_gaps\"\nscore: 66.25\n---\n# Sampling gap analysis\n\n## Links\n\n- [Current run](../runs/a09ed8b2048240c1a216329387ad82a3.md)\n\n## Notes\n\n- Moderate readiness: useful evidence, but caveats and verification steps matter.\n",
       "methods/gbif-citation-checklist.md": "---\ntype: \"method\"\ntopic: \"gbif_citation_checklist\"\n---\n# GBIF Citation Checklist\n\nThis evidence pack does not include a GBIF download DOI. For publication, create and cite a DOI-backed GBIF occurrence download or derived dataset. Fixture or fallback packs are demo artifacts, not publication evidence.\n\n## Checklist\n\n- [x] datasetKey provenance preserved: Keep datasetKey in every record, aggregate and derived export.\n- [x] contribution counts generated: Use dataset_contributions.csv to show records per contributing dataset.\n- [x] license fields retained: Review missing or unknown licenses before formal publication.\n- [ ] GBIF download DOI or derived dataset attached: Create a DOI-backed GBIF occurrence download or derived dataset and attach it to the report.\n- [x] methods text generated: Review plain-English and journal-ready methods blocks before submission.\n\n## Methods Text\n\nOccurrence evidence for Passer domesticus in Western Europe live bbox was assembled from GBIF-mediated occurrence-style records using bbox [-10.0, 42.0, 12.0, 56.0]. The workflow retained datasetKey provenance, record counts per contributing dataset, coordinate uncertainty, event dates, licenses and GBIF issue flags. The evidence readiness score was computed for purpose 'sampling_gaps' from spatial, temporal, taxonomic, sampling and provenance components. Empty grid cells were treated as no-evidence cells rather than absences.\n\n## Journal Methods Text\n\nGBIF-mediated occurrence-style records for Passer domesticus were queried for Western Europe live bbox using bounding box [-10.0, 42.0, 12.0, 56.0]. Records were retained with datasetKey-level provenance, contribution counts, coordinate uncertainty, event dates, licenses and issue flags. The EcoGenesis Evidence Passport computed a purpose-aware readiness score for sampling_gaps; empty grid cells were interpreted as no-evidence cells and not as absences.\n",
-      "datasets/6ac3f774-d9fb-4796-b3e9-92bf6c81c084.md": "---\ntype: \"dataset\"\ndatasetKey: \"6ac3f774-d9fb-4796-b3e9-92bf6c81c084\"\npublisher: null\nlicense: \"http://creativecommons.org/licenses/by/4.0/legalcode\"\nrecord_count: 114\n---\n# Dataset: 6ac3f774-d9fb-4796-b3e9-92bf6c81c084\n\nCurrent run: [run](../runs/31c4eb5d38cf41bfab94306884254f09.md)\n\n## Contribution\n\n- Records used: 114\n- License: http://creativecommons.org/licenses/by/4.0/legalcode\n- Main issues: COORDINATE_ROUNDED, GEODETIC_DATUM_ASSUMED_WGS84, CONTINENT_DERIVED_FROM_COORDINATES\n\n## Publisher Feedback\n\n- No publisher feedback rows generated for this dataset.\n",
-      "datasets/aa6c5ee6-d4d7-4a65-a04f-379cffbf4842.md": "---\ntype: \"dataset\"\ndatasetKey: \"aa6c5ee6-d4d7-4a65-a04f-379cffbf4842\"\npublisher: null\nlicense: \"http://creativecommons.org/publicdomain/zero/1.0/legalcode\"\nrecord_count: 6\n---\n# Dataset: aa6c5ee6-d4d7-4a65-a04f-379cffbf4842\n\nCurrent run: [run](../runs/31c4eb5d38cf41bfab94306884254f09.md)\n\n## Contribution\n\n- Records used: 6\n- License: http://creativecommons.org/publicdomain/zero/1.0/legalcode\n- Main issues: COUNTRY_DERIVED_FROM_COORDINATES, CONTINENT_DERIVED_FROM_COORDINATES\n\n## Publisher Feedback\n\n- No publisher feedback rows generated for this dataset.\n",
-      "claims/supported-gbif-mediated-records-matching-the-selected-taxon-and-region-are-present-in-th.md": "---\ntype: \"claim\"\nstatus: \"supported\"\n---\n# Claim: GBIF-mediated records matching the selected taxon and region are present in the evidence pack.\n\nStatus: **supported**\nCurrent run: [run](../runs/31c4eb5d38cf41bfab94306884254f09.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
-      "claims/supported-dataset-provenance-is-preserved-through-datasetkey-level-contribution-summarie.md": "---\ntype: \"claim\"\nstatus: \"supported\"\n---\n# Claim: Dataset provenance is preserved through datasetKey-level contribution summaries.\n\nStatus: **supported**\nCurrent run: [run](../runs/31c4eb5d38cf41bfab94306884254f09.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
-      "claims/weak-record-clusters-can-indicate-areas-of-observation-activity-but-they-may-also-reflec.md": "---\ntype: \"claim\"\nstatus: \"weak\"\n---\n# Claim: Record clusters can indicate areas of observation activity, but they may also reflect observer effort.\n\nStatus: **weak**\nCurrent run: [run](../runs/31c4eb5d38cf41bfab94306884254f09.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
-      "claims/weak-the-selected-purpose-readiness-score-is-66-25-100-and-should-be-interpreted-with-th.md": "---\ntype: \"claim\"\nstatus: \"weak\"\n---\n# Claim: The selected-purpose readiness score is 66.25/100 and should be interpreted with the component scores.\n\nStatus: **weak**\nCurrent run: [run](../runs/31c4eb5d38cf41bfab94306884254f09.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
-      "claims/blocked-absence-cannot-be-inferred-from-empty-or-low-evidence-grid-cells.md": "---\ntype: \"claim\"\nstatus: \"blocked\"\n---\n# Claim: Absence cannot be inferred from empty or low-evidence grid cells.\n\nStatus: **blocked**\nCurrent run: [run](../runs/31c4eb5d38cf41bfab94306884254f09.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
-      "claims/blocked-observed-gbif-distribution-must-not-be-treated-as-the-true-species-distribution.md": "---\ntype: \"claim\"\nstatus: \"blocked\"\n---\n# Claim: Observed GBIF distribution must not be treated as the true species distribution.\n\nStatus: **blocked**\nCurrent run: [run](../runs/31c4eb5d38cf41bfab94306884254f09.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
-      "claims/blocked-population-trend-cannot-be-inferred-without-temporal-sampling-bias-correction.md": "---\ntype: \"claim\"\nstatus: \"blocked\"\n---\n# Claim: Population trend cannot be inferred without temporal sampling-bias correction.\n\nStatus: **blocked**\nCurrent run: [run](../runs/31c4eb5d38cf41bfab94306884254f09.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
-      "claims/requires-verification-create-a-doi-backed-gbif-occurrence-download-or-derived-dataset-be.md": "---\ntype: \"claim\"\nstatus: \"requires_verification\"\n---\n# Claim: Create a DOI-backed GBIF occurrence download or derived dataset before formal publication.\n\nStatus: **requires_verification**\nCurrent run: [run](../runs/31c4eb5d38cf41bfab94306884254f09.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
-      "claims/requires-verification-inspect-high-coordinate-uncertainty-records-before-using-them-in-f.md": "---\ntype: \"claim\"\nstatus: \"requires_verification\"\n---\n# Claim: Inspect high coordinate-uncertainty records before using them in fine-scale decisions.\n\nStatus: **requires_verification**\nCurrent run: [run](../runs/31c4eb5d38cf41bfab94306884254f09.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
-      "claims/requires-verification-treat-undersampled-occupied-cells-as-survey-priorities-not-confirm.md": "---\ntype: \"claim\"\nstatus: \"requires_verification\"\n---\n# Claim: Treat undersampled occupied cells as survey priorities, not confirmed absences.\n\nStatus: **requires_verification**\nCurrent run: [run](../runs/31c4eb5d38cf41bfab94306884254f09.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
-      "claims/requires-verification-treat-empty-grid-cells-as-no-evidence-cells-not-absence-evidence.md": "---\ntype: \"claim\"\nstatus: \"requires_verification\"\n---\n# Claim: Treat empty grid cells as no-evidence cells, not absence evidence.\n\nStatus: **requires_verification**\nCurrent run: [run](../runs/31c4eb5d38cf41bfab94306884254f09.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
-      "actions/create-a-doi-backed-gbif-occurrence-download-or-derived-dataset-before-publication.md": "---\ntype: \"action\"\n---\n# Action: Create a DOI-backed GBIF occurrence download or derived dataset before publication.\n\nCurrent run: [run](../runs/31c4eb5d38cf41bfab94306884254f09.md)\n\nUse this action as a review or follow-up task for the evidence workflow.\n",
-      "actions/preserve-datasetkey-and-run-json-with-any-downstream-analysis.md": "---\ntype: \"action\"\n---\n# Action: Preserve datasetKey and run.json with any downstream analysis.\n\nCurrent run: [run](../runs/31c4eb5d38cf41bfab94306884254f09.md)\n\nUse this action as a review or follow-up task for the evidence workflow.\n",
-      "actions/avoid-absence-claims-for-empty-or-low-effort-grid-cells.md": "---\ntype: \"action\"\n---\n# Action: Avoid absence claims for empty or low-effort grid cells.\n\nCurrent run: [run](../runs/31c4eb5d38cf41bfab94306884254f09.md)\n\nUse this action as a review or follow-up task for the evidence workflow.\n",
-      "actions/prioritize-survey-design-around-no-evidence-and-under-sampled-grid-cells.md": "---\ntype: \"action\"\n---\n# Action: Prioritize survey design around no-evidence and under-sampled grid cells.\n\nCurrent run: [run](../runs/31c4eb5d38cf41bfab94306884254f09.md)\n\nUse this action as a review or follow-up task for the evidence workflow.\n"
+      "datasets/6ac3f774-d9fb-4796-b3e9-92bf6c81c084.md": "---\ntype: \"dataset\"\ndatasetKey: \"6ac3f774-d9fb-4796-b3e9-92bf6c81c084\"\npublisher: null\nlicense: \"http://creativecommons.org/licenses/by/4.0/legalcode\"\nrecord_count: 114\n---\n# Dataset: 6ac3f774-d9fb-4796-b3e9-92bf6c81c084\n\nCurrent run: [run](../runs/a09ed8b2048240c1a216329387ad82a3.md)\n\n## Contribution\n\n- Records used: 114\n- License: http://creativecommons.org/licenses/by/4.0/legalcode\n- Main issues: COORDINATE_ROUNDED, GEODETIC_DATUM_ASSUMED_WGS84, CONTINENT_DERIVED_FROM_COORDINATES\n\n## Publisher Feedback\n\n- No publisher feedback rows generated for this dataset.\n",
+      "datasets/aa6c5ee6-d4d7-4a65-a04f-379cffbf4842.md": "---\ntype: \"dataset\"\ndatasetKey: \"aa6c5ee6-d4d7-4a65-a04f-379cffbf4842\"\npublisher: null\nlicense: \"http://creativecommons.org/publicdomain/zero/1.0/legalcode\"\nrecord_count: 6\n---\n# Dataset: aa6c5ee6-d4d7-4a65-a04f-379cffbf4842\n\nCurrent run: [run](../runs/a09ed8b2048240c1a216329387ad82a3.md)\n\n## Contribution\n\n- Records used: 6\n- License: http://creativecommons.org/publicdomain/zero/1.0/legalcode\n- Main issues: COUNTRY_DERIVED_FROM_COORDINATES, CONTINENT_DERIVED_FROM_COORDINATES\n\n## Publisher Feedback\n\n- No publisher feedback rows generated for this dataset.\n",
+      "claims/supported-gbif-mediated-records-matching-the-selected-taxon-and-region-are-present-in-th.md": "---\ntype: \"claim\"\nstatus: \"supported\"\n---\n# Claim: GBIF-mediated records matching the selected taxon and region are present in the evidence pack.\n\nStatus: **supported**\nCurrent run: [run](../runs/a09ed8b2048240c1a216329387ad82a3.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
+      "claims/supported-dataset-provenance-is-preserved-through-datasetkey-level-contribution-summarie.md": "---\ntype: \"claim\"\nstatus: \"supported\"\n---\n# Claim: Dataset provenance is preserved through datasetKey-level contribution summaries.\n\nStatus: **supported**\nCurrent run: [run](../runs/a09ed8b2048240c1a216329387ad82a3.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
+      "claims/weak-record-clusters-can-indicate-areas-of-observation-activity-but-they-may-also-reflec.md": "---\ntype: \"claim\"\nstatus: \"weak\"\n---\n# Claim: Record clusters can indicate areas of observation activity, but they may also reflect observer effort.\n\nStatus: **weak**\nCurrent run: [run](../runs/a09ed8b2048240c1a216329387ad82a3.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
+      "claims/weak-the-selected-purpose-readiness-score-is-66-25-100-and-should-be-interpreted-with-th.md": "---\ntype: \"claim\"\nstatus: \"weak\"\n---\n# Claim: The selected-purpose readiness score is 66.25/100 and should be interpreted with the component scores.\n\nStatus: **weak**\nCurrent run: [run](../runs/a09ed8b2048240c1a216329387ad82a3.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
+      "claims/blocked-absence-cannot-be-inferred-from-empty-or-low-evidence-grid-cells.md": "---\ntype: \"claim\"\nstatus: \"blocked\"\n---\n# Claim: Absence cannot be inferred from empty or low-evidence grid cells.\n\nStatus: **blocked**\nCurrent run: [run](../runs/a09ed8b2048240c1a216329387ad82a3.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
+      "claims/blocked-observed-gbif-distribution-must-not-be-treated-as-the-true-species-distribution.md": "---\ntype: \"claim\"\nstatus: \"blocked\"\n---\n# Claim: Observed GBIF distribution must not be treated as the true species distribution.\n\nStatus: **blocked**\nCurrent run: [run](../runs/a09ed8b2048240c1a216329387ad82a3.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
+      "claims/blocked-population-trend-cannot-be-inferred-without-temporal-sampling-bias-correction.md": "---\ntype: \"claim\"\nstatus: \"blocked\"\n---\n# Claim: Population trend cannot be inferred without temporal sampling-bias correction.\n\nStatus: **blocked**\nCurrent run: [run](../runs/a09ed8b2048240c1a216329387ad82a3.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
+      "claims/requires-verification-create-a-doi-backed-gbif-occurrence-download-or-derived-dataset-be.md": "---\ntype: \"claim\"\nstatus: \"requires_verification\"\n---\n# Claim: Create a DOI-backed GBIF occurrence download or derived dataset before formal publication.\n\nStatus: **requires_verification**\nCurrent run: [run](../runs/a09ed8b2048240c1a216329387ad82a3.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
+      "claims/requires-verification-inspect-high-coordinate-uncertainty-records-before-using-them-in-f.md": "---\ntype: \"claim\"\nstatus: \"requires_verification\"\n---\n# Claim: Inspect high coordinate-uncertainty records before using them in fine-scale decisions.\n\nStatus: **requires_verification**\nCurrent run: [run](../runs/a09ed8b2048240c1a216329387ad82a3.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
+      "claims/requires-verification-treat-undersampled-occupied-cells-as-survey-priorities-not-confirm.md": "---\ntype: \"claim\"\nstatus: \"requires_verification\"\n---\n# Claim: Treat undersampled occupied cells as survey priorities, not confirmed absences.\n\nStatus: **requires_verification**\nCurrent run: [run](../runs/a09ed8b2048240c1a216329387ad82a3.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
+      "claims/requires-verification-treat-empty-grid-cells-as-no-evidence-cells-not-absence-evidence.md": "---\ntype: \"claim\"\nstatus: \"requires_verification\"\n---\n# Claim: Treat empty grid cells as no-evidence cells, not absence evidence.\n\nStatus: **requires_verification**\nCurrent run: [run](../runs/a09ed8b2048240c1a216329387ad82a3.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
+      "actions/create-a-doi-backed-gbif-occurrence-download-or-derived-dataset-before-publication.md": "---\ntype: \"action\"\n---\n# Action: Create a DOI-backed GBIF occurrence download or derived dataset before publication.\n\nCurrent run: [run](../runs/a09ed8b2048240c1a216329387ad82a3.md)\n\nUse this action as a review or follow-up task for the evidence workflow.\n",
+      "actions/preserve-datasetkey-and-run-json-with-any-downstream-analysis.md": "---\ntype: \"action\"\n---\n# Action: Preserve datasetKey and run.json with any downstream analysis.\n\nCurrent run: [run](../runs/a09ed8b2048240c1a216329387ad82a3.md)\n\nUse this action as a review or follow-up task for the evidence workflow.\n",
+      "actions/avoid-absence-claims-for-empty-or-low-effort-grid-cells.md": "---\ntype: \"action\"\n---\n# Action: Avoid absence claims for empty or low-effort grid cells.\n\nCurrent run: [run](../runs/a09ed8b2048240c1a216329387ad82a3.md)\n\nUse this action as a review or follow-up task for the evidence workflow.\n",
+      "actions/prioritize-survey-design-around-no-evidence-and-under-sampled-grid-cells.md": "---\ntype: \"action\"\n---\n# Action: Prioritize survey design around no-evidence and under-sampled grid cells.\n\nCurrent run: [run](../runs/a09ed8b2048240c1a216329387ad82a3.md)\n\nUse this action as a review or follow-up task for the evidence workflow.\n"
     }
   },
   "exports": [
     {
       "name": "citations.md",
-      "url": "/api/evidence/runs/31c4eb5d38cf41bfab94306884254f09/exports/citations.md",
+      "url": "/api/evidence/runs/a09ed8b2048240c1a216329387ad82a3/exports/citations.md",
       "size_bytes": 2337,
       "sha256": "3904925242f1a60e19cd1db987c29ffa4f4e601c83fe780e8b63f19d8a7b9002"
     },
     {
       "name": "claim_guardrails.md",
-      "url": "/api/evidence/runs/31c4eb5d38cf41bfab94306884254f09/exports/claim_guardrails.md",
+      "url": "/api/evidence/runs/a09ed8b2048240c1a216329387ad82a3/exports/claim_guardrails.md",
       "size_bytes": 1064,
       "sha256": "2b64847deabb98e4fe3580d0ecc4e7a071d064ecef2450a0f8e7ca65b2b68c31"
     },
     {
       "name": "dataset_contributions.csv",
-      "url": "/api/evidence/runs/31c4eb5d38cf41bfab94306884254f09/exports/dataset_contributions.csv",
+      "url": "/api/evidence/runs/a09ed8b2048240c1a216329387ad82a3/exports/dataset_contributions.csv",
       "size_bytes": 421,
       "sha256": "dd25b7476b5e9dea595239794dc3f33456f4ab20c309c897d6e9b80c928e3d0f"
     },
     {
       "name": "decision_memo.json",
-      "url": "/api/evidence/runs/31c4eb5d38cf41bfab94306884254f09/exports/decision_memo.json",
+      "url": "/api/evidence/runs/a09ed8b2048240c1a216329387ad82a3/exports/decision_memo.json",
       "size_bytes": 2715,
       "sha256": "6fd5dc90eb0541fdb516d93462dfbcb3b3e26c595e47bcea6da19e45b16d4c27"
     },
     {
       "name": "decision_memo.md",
-      "url": "/api/evidence/runs/31c4eb5d38cf41bfab94306884254f09/exports/decision_memo.md",
+      "url": "/api/evidence/runs/a09ed8b2048240c1a216329387ad82a3/exports/decision_memo.md",
       "size_bytes": 2223,
       "sha256": "51c6f7b00e0e25f982b3be86369cd16820dbcb069e888189af3bc551eb8278a2"
     },
     {
       "name": "demo_scenario.json",
-      "url": "/api/evidence/runs/31c4eb5d38cf41bfab94306884254f09/exports/demo_scenario.json",
+      "url": "/api/evidence/runs/a09ed8b2048240c1a216329387ad82a3/exports/demo_scenario.json",
       "size_bytes": 898,
-      "sha256": "80d8dbe8a8adf53ee0a61b31c951b9df96ed2a80c523118c47503738322ff0d0"
+      "sha256": "bced7b1277341c2597117ea52fef0b924256bb666cdb3b0329cbbc3b27f201c0"
     },
     {
       "name": "derived_dataset_recipe.json",
-      "url": "/api/evidence/runs/31c4eb5d38cf41bfab94306884254f09/exports/derived_dataset_recipe.json",
+      "url": "/api/evidence/runs/a09ed8b2048240c1a216329387ad82a3/exports/derived_dataset_recipe.json",
       "size_bytes": 456,
       "sha256": "364430ce1060311907c3f2b2df235e1842968dc7424eaa53ae083e052b2324d0"
     },
     {
       "name": "evidence_graph.json",
-      "url": "/api/evidence/runs/31c4eb5d38cf41bfab94306884254f09/exports/evidence_graph.json",
+      "url": "/api/evidence/runs/a09ed8b2048240c1a216329387ad82a3/exports/evidence_graph.json",
       "size_bytes": 14240,
-      "sha256": "fa1b2fa5548514781abfbffb0b82e465e66b1e578eab744b2fef1b837668a756"
+      "sha256": "6cb706e345ed53e83cf9954fc73e015acaf2b955b3b201442d841a6c59a4a00b"
     },
     {
       "name": "evidence_pack.json",
-      "url": "/api/evidence/runs/31c4eb5d38cf41bfab94306884254f09/exports/evidence_pack.json",
+      "url": "/api/evidence/runs/a09ed8b2048240c1a216329387ad82a3/exports/evidence_pack.json",
       "size_bytes": 1293216,
-      "sha256": "87f743b53ce62a031437af8508022e021c4dd215ed961fac077de615094deeb1"
+      "sha256": "51f9d6c72da44ac9b1a14dbbdf75329cf0004e0628808e161b750ae9500b4665"
     },
     {
       "name": "evidence_pack.zip",
-      "url": "/api/evidence/runs/31c4eb5d38cf41bfab94306884254f09/exports/evidence_pack.zip",
-      "size_bytes": 106666,
-      "sha256": "dfddff3c5a9699a699e3aa88e30e34adc8aa64528d1d5776016d3846748c560b"
+      "url": "/api/evidence/runs/a09ed8b2048240c1a216329387ad82a3/exports/evidence_pack.zip",
+      "size_bytes": 106633,
+      "sha256": "a96805fd9989ee3edb2ad974d612ce2c2c4ad7189b1f43832d4d6e075ab2f58d"
     },
     {
       "name": "evidence_vault.zip",
-      "url": "/api/evidence/runs/31c4eb5d38cf41bfab94306884254f09/exports/evidence_vault.zip",
-      "size_bytes": 12402,
-      "sha256": "a163c6aac0e4a27d96942d5b1a2b02f5e5655bf4108cc7e8ee2d0f177ef17bc7"
+      "url": "/api/evidence/runs/a09ed8b2048240c1a216329387ad82a3/exports/evidence_vault.zip",
+      "size_bytes": 12386,
+      "sha256": "fbfc527afb61ef2f665b8c00ff32927f2c94fdd1860abcdff44c3e3737db81e2"
     },
     {
       "name": "gap_priorities.csv",
-      "url": "/api/evidence/runs/31c4eb5d38cf41bfab94306884254f09/exports/gap_priorities.csv",
+      "url": "/api/evidence/runs/a09ed8b2048240c1a216329387ad82a3/exports/gap_priorities.csv",
       "size_bytes": 3063,
       "sha256": "cabdfccbafd4709534aace25972e91198c137ec06d524497353affb24b5bc2ac"
     },
     {
       "name": "graph_memory.md",
-      "url": "/api/evidence/runs/31c4eb5d38cf41bfab94306884254f09/exports/graph_memory.md",
+      "url": "/api/evidence/runs/a09ed8b2048240c1a216329387ad82a3/exports/graph_memory.md",
       "size_bytes": 4472,
-      "sha256": "9d3b3cf987aa1e236f7ce5078e4a7cfde2350bcb830d97310963db13f168a8e8"
+      "sha256": "5fe0f4750e26065581854130e7e38d883e5f47654de821993af00792eb3d9714"
     },
     {
       "name": "impact_brief.md",
-      "url": "/api/evidence/runs/31c4eb5d38cf41bfab94306884254f09/exports/impact_brief.md",
+      "url": "/api/evidence/runs/a09ed8b2048240c1a216329387ad82a3/exports/impact_brief.md",
       "size_bytes": 1407,
       "sha256": "772b141eb2efc23b7a185c7554b28a12303c4e280fd4fce6f1c0adc69384b294"
     },
     {
       "name": "methods_text.md",
-      "url": "/api/evidence/runs/31c4eb5d38cf41bfab94306884254f09/exports/methods_text.md",
+      "url": "/api/evidence/runs/a09ed8b2048240c1a216329387ad82a3/exports/methods_text.md",
       "size_bytes": 847,
       "sha256": "981aa942ac31a38e74e774d3c1e280dfdf5c3a6f3759603d28bb05ef8e15b662"
     },
     {
       "name": "passport.html",
-      "url": "/api/evidence/runs/31c4eb5d38cf41bfab94306884254f09/exports/passport.html",
+      "url": "/api/evidence/runs/a09ed8b2048240c1a216329387ad82a3/exports/passport.html",
       "size_bytes": 35667,
       "sha256": "9f79087c6b42b45aaaac6f8ad6080c803a686958919b51dcb00e257642b864d6"
     },
     {
       "name": "passport.md",
-      "url": "/api/evidence/runs/31c4eb5d38cf41bfab94306884254f09/exports/passport.md",
+      "url": "/api/evidence/runs/a09ed8b2048240c1a216329387ad82a3/exports/passport.md",
       "size_bytes": 5151,
       "sha256": "0b2e1e7d68f4e8cfa9fe2e24dc347a841cf675fbb2b7ec2bff2d8803733ad565"
     },
     {
       "name": "provenance.json",
-      "url": "/api/evidence/runs/31c4eb5d38cf41bfab94306884254f09/exports/provenance.json",
+      "url": "/api/evidence/runs/a09ed8b2048240c1a216329387ad82a3/exports/provenance.json",
       "size_bytes": 33823,
-      "sha256": "a278808b7c72a9eea6e9c52b28fb6d11d85d10b907035d9630207650d55d0cf8"
+      "sha256": "19a01df89c1babe95f1a4c8d31a4daa147a065b7e7787b88480ab3cc003baa08"
     },
     {
       "name": "publisher_feedback.csv",
-      "url": "/api/evidence/runs/31c4eb5d38cf41bfab94306884254f09/exports/publisher_feedback.csv",
+      "url": "/api/evidence/runs/a09ed8b2048240c1a216329387ad82a3/exports/publisher_feedback.csv",
       "size_bytes": 75,
       "sha256": "6f7b4ddd8cbe883d0684267996fae4c919748fe693c98f9d4dc02af57ee041d9"
     },
     {
       "name": "publisher_feedback.md",
-      "url": "/api/evidence/runs/31c4eb5d38cf41bfab94306884254f09/exports/publisher_feedback.md",
+      "url": "/api/evidence/runs/a09ed8b2048240c1a216329387ad82a3/exports/publisher_feedback.md",
       "size_bytes": 152,
       "sha256": "c985dfec44cd08c3fe02b45c164f37ee9f8c5015dab178f7eb105026a844d900"
     },
     {
       "name": "publisher_issue_templates.md",
-      "url": "/api/evidence/runs/31c4eb5d38cf41bfab94306884254f09/exports/publisher_issue_templates.md",
+      "url": "/api/evidence/runs/a09ed8b2048240c1a216329387ad82a3/exports/publisher_issue_templates.md",
       "size_bytes": 236,
       "sha256": "2744d3e8b1c926ce2175c43d194b252d5f1af8b0f3f2c014f80fb9e7f6897e41"
     },
     {
       "name": "quality_metrics.csv",
-      "url": "/api/evidence/runs/31c4eb5d38cf41bfab94306884254f09/exports/quality_metrics.csv",
+      "url": "/api/evidence/runs/a09ed8b2048240c1a216329387ad82a3/exports/quality_metrics.csv",
       "size_bytes": 294,
       "sha256": "2f1e79b5ed9157bd4d4a4a4a2fa341b0aec340219334a23b498e72b33836135a"
     },
     {
       "name": "readiness_scorecard.csv",
-      "url": "/api/evidence/runs/31c4eb5d38cf41bfab94306884254f09/exports/readiness_scorecard.csv",
+      "url": "/api/evidence/runs/a09ed8b2048240c1a216329387ad82a3/exports/readiness_scorecard.csv",
       "size_bytes": 454,
       "sha256": "06826d53c5c42cc2023decb42bf54b7f29f78cd00f22e77222d5a6d34537fdcf"
     },
     {
       "name": "records.geojson",
-      "url": "/api/evidence/runs/31c4eb5d38cf41bfab94306884254f09/exports/records.geojson",
+      "url": "/api/evidence/runs/a09ed8b2048240c1a216329387ad82a3/exports/records.geojson",
       "size_bytes": 86597,
       "sha256": "fe6ff7c901322cb3f62190f6a7ff965b0adbc9517d769abeaabfe6baaaa1f042"
     },
     {
       "name": "run.json",
-      "url": "/api/evidence/runs/31c4eb5d38cf41bfab94306884254f09/exports/run.json",
+      "url": "/api/evidence/runs/a09ed8b2048240c1a216329387ad82a3/exports/run.json",
       "size_bytes": 2597,
-      "sha256": "35f5f8ab44b89961fabdc6acbdb32bf206345abc8db9f3f9680804aac806b0f2"
+      "sha256": "0cd8b1185a1a7288d6c4d20bcb42671ef8139db5b908107f910822dfc5df3cad"
     },
     {
       "name": "source_summary.json",
-      "url": "/api/evidence/runs/31c4eb5d38cf41bfab94306884254f09/exports/source_summary.json",
+      "url": "/api/evidence/runs/a09ed8b2048240c1a216329387ad82a3/exports/source_summary.json",
       "size_bytes": 378,
-      "sha256": "1257c0076cd3b8944680b46e30bff64b7ccde8508bb14151e00dfa1018de6351"
+      "sha256": "6574f5fcd796028ea3c930d0fc67bfd5bcab41059be4b5e925b2a73dc6dc04c9"
     },
     {
       "name": "submission_readiness.json",
-      "url": "/api/evidence/runs/31c4eb5d38cf41bfab94306884254f09/exports/submission_readiness.json",
+      "url": "/api/evidence/runs/a09ed8b2048240c1a216329387ad82a3/exports/submission_readiness.json",
       "size_bytes": 3749,
       "sha256": "c157243933ee034a0c3c228638ab8aea8a8bf5adbfc1f0b423ae127527b0ffae"
     },
     {
       "name": "submission_readiness.md",
-      "url": "/api/evidence/runs/31c4eb5d38cf41bfab94306884254f09/exports/submission_readiness.md",
+      "url": "/api/evidence/runs/a09ed8b2048240c1a216329387ad82a3/exports/submission_readiness.md",
       "size_bytes": 2601,
       "sha256": "17ac980a361a5f977886954ebbf15fb807d1d1aab8ca3aca70ad113f1b9946f2"
     },
     {
       "name": "validation_summary.json",
-      "url": "/api/evidence/runs/31c4eb5d38cf41bfab94306884254f09/exports/validation_summary.json",
+      "url": "/api/evidence/runs/a09ed8b2048240c1a216329387ad82a3/exports/validation_summary.json",
       "size_bytes": 3223,
       "sha256": "76ee13659e4b98ad0ecc67ec9f6c637e7b4dc710df6f21322b564cba1b5a7495"
     },
     {
       "name": "validation_summary.md",
-      "url": "/api/evidence/runs/31c4eb5d38cf41bfab94306884254f09/exports/validation_summary.md",
+      "url": "/api/evidence/runs/a09ed8b2048240c1a216329387ad82a3/exports/validation_summary.md",
       "size_bytes": 2246,
       "sha256": "416f91b612899b23e0b3204bb5c44e306d1fc4c664e0ac18876160ca1391f55f"
     },
     {
       "name": "video_script.md",
-      "url": "/api/evidence/runs/31c4eb5d38cf41bfab94306884254f09/exports/video_script.md",
+      "url": "/api/evidence/runs/a09ed8b2048240c1a216329387ad82a3/exports/video_script.md",
       "size_bytes": 1135,
       "sha256": "d77d467c83bdb74a0f16b58eec58b796358ce209537450b63157c87005bc3c6a"
     }
-  ]
+  ],
+  "dataset_metadata_enrichment": {
+    "enriched_at": "2026-05-26T23:02:04.381559+00:00",
+    "source": "GBIF dataset API",
+    "dataset_count": 2,
+    "enriched_count": 2,
+    "failed_count": 0,
+    "publisher_enriched_count": 2,
+    "datasets": [
+      {
+        "datasetKey": "6ac3f774-d9fb-4796-b3e9-92bf6c81c084",
+        "status": "ok",
+        "datasetTitle": "NABU|naturgucker",
+        "publisher": "naturgucker.de",
+        "publisher_source": "organization",
+        "publishingOrganizationKey": "bb646dff-a905-4403-a49b-6d378c2cf0d9",
+        "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
+        "doi": "10.15468/uc1apo",
+        "citation": "naturgucker.de. NABU|naturgucker. Occurrence dataset https://doi.org/10.15468/uc1apo accessed via GBIF.org on 2026-05-26.",
+        "homepage": null,
+        "source": "gbif_api",
+        "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00",
+        "error": ""
+      },
+      {
+        "datasetKey": "aa6c5ee6-d4d7-4a65-a04f-379cffbf4842",
+        "status": "ok",
+        "datasetTitle": "ArtenFinder",
+        "publisher": "ArtenFinder bei der Stiftung Natur und Umwelt RLP und der Stiftung Naturschutz Berlin",
+        "publisher_source": "organization",
+        "publishingOrganizationKey": "2754e9c0-0e43-4f65-968a-6f16b9c378ce",
+        "license": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+        "doi": "10.15468/jnnald",
+        "citation": "ArtenFinder bei der Stiftung Natur und Umwelt RLP und der Stiftung Naturschutz Berlin. ArtenFinder. Occurrence dataset https://doi.org/10.15468/jnnald accessed via GBIF.org on 2026-05-26.",
+        "homepage": "https://artenfinder.net",
+        "source": "gbif_api",
+        "dataset_metadata_enriched_at": "2026-05-26T23:02:04.381559+00:00",
+        "error": ""
+      }
+    ]
+  }
 }

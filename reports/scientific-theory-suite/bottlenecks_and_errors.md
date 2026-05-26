@@ -10,6 +10,9 @@
 - Requires-verification claims: 20
 - High coordinate uncertainty records across scenarios: 130
 - Missing eventDate/year records across scenarios: 0
+- Records still missing publisher after dataset enrichment: 0
+- Records still missing datasetTitle after dataset enrichment: 0
+- Records missing coordinateUncertaintyInMeters: 154
 
 ## Fixed Methodological Bottlenecks
 
@@ -32,9 +35,9 @@
 
 ## Low Record / High Duplicate Scenarios
 
-- aedes-france: 77 deduped records added from 120 retained records.
-- quercus-germany: 75 deduped records added from 120 retained records.
-- apis-france: 59 deduped records added from 120 retained records.
+- aedes-france: 77 deduped records added from 120 downloaded records.
+- quercus-germany: 75 deduped records added from 120 downloaded records.
+- apis-france: 59 deduped records added from 120 downloaded records.
 
 ## Single Dataset Bias
 

@@ -154,6 +154,32 @@ class GBIFClient:
         response.raise_for_status()
         return response.json()
 
+    def dataset_by_key(self, dataset_key: str, *, use_fixture: bool = False) -> dict[str, Any]:
+        if self.mode != "online" or use_fixture or not dataset_key or dataset_key == "unknown_dataset":
+            return {}
+        response = requests.get(
+            f"{self.base_url}/dataset/{dataset_key}",
+            headers={"User-Agent": USER_AGENT},
+            timeout=30,
+        )
+        response.raise_for_status()
+        payload = response.json()
+        payload["source"] = "gbif_api"
+        return payload
+
+    def organization_by_key(self, organization_key: str, *, use_fixture: bool = False) -> dict[str, Any]:
+        if self.mode != "online" or use_fixture or not organization_key:
+            return {}
+        response = requests.get(
+            f"{self.base_url}/organization/{organization_key}",
+            headers={"User-Agent": USER_AGENT},
+            timeout=30,
+        )
+        response.raise_for_status()
+        payload = response.json()
+        payload["source"] = "gbif_api"
+        return payload
+
 
 def normalize_occurrences(payload: dict[str, Any], *, max_records: int) -> list[NormalizedOccurrence]:
     records: list[NormalizedOccurrence] = []
