@@ -78,7 +78,11 @@ describe('Barcode compiler UI', () => {
     render(<App />);
 
     expect(await screen.findByText('Molecular Evidence Conversion & Repair Engine for GBIF')).toBeInTheDocument();
-    expect(screen.getByText('Submission overview')).toBeInTheDocument();
+    expect(screen.getByText('Judge overview')).toBeInTheDocument();
+    expect(screen.getByText('Decision cockpit for safe molecular evidence, not another biodiversity dashboard.')).toBeInTheDocument();
+    expect(screen.getByText('Evidence funnel')).toBeInTheDocument();
+    expect(screen.getByText('Claim matrix')).toBeInTheDocument();
+    expect(screen.getByText('Repair optimizer')).toBeInTheDocument();
     expect(screen.getByText('Research audit')).toBeInTheDocument();
 
     fireEvent.click(screen.getByText('Run mixed demo'));
@@ -101,7 +105,7 @@ describe('Barcode compiler UI', () => {
     });
 
     render(<App />);
-    fireEvent.click(await screen.findByText('Compiler workbench'));
+    fireEvent.click(await screen.findByText('Run compiler'));
 
     expect(screen.getByLabelText('Demo case')).toBeInTheDocument();
     expect(screen.getByText('Generate Evidence Package')).toBeInTheDocument();
@@ -122,7 +126,7 @@ describe('Barcode compiler UI', () => {
     });
 
     render(<App />);
-    fireEvent.click(await screen.findByText('Proof & formulas'));
+    fireEvent.click(await screen.findByText('Math & proof'));
 
     expect(screen.getByText('Evidence basis')).toBeInTheDocument();
     expect(screen.getAllByText('Evidence Conversion Problem').length).toBeGreaterThan(0);
@@ -160,6 +164,7 @@ describe('Barcode compiler UI', () => {
     expect(screen.getByText('Research audit layer')).toBeInTheDocument();
     expect(screen.getByText('Occurrence Evidence Audit Shell')).toBeInTheDocument();
     expect(screen.getByText('Downloaded records are now separated from deduplicated records.')).toBeInTheDocument();
+    expect(screen.getByText('Risk heatmap')).toBeInTheDocument();
     expect(screen.getByText('theory_claims_100.csv')).toBeInTheDocument();
     expect(screen.getByText('The next winning step is fragment-level evidence, not another abstract score.')).toBeInTheDocument();
   });
