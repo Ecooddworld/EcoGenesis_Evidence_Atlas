@@ -20,18 +20,18 @@ This live suite tests whether EcoGenesis can convert GBIF-mediated occurrence da
 
 ## Scenario Metrics
 
-| Scenario | Source | GBIF | Records | Datasets | Score | Missing dates | High uncertainty |
-| --- | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| aedes-spain | online | ok | 120 | 4 | 94.69 | 0 | 6 |
-| aedes-italy | online | ok | 120 | 3 | 89.17 | 0 | 2 |
-| aedes-france | online | ok | 120 | 5 | 94.91 | 0 | 3 |
-| quercus-western-europe | online | ok | 120 | 7 | 82.56 | 0 | 0 |
-| quercus-germany | online | ok | 120 | 6 | 83.12 | 0 | 0 |
-| lynx-iberia | online | ok | 120 | 4 | 85.8 | 0 | 97 |
-| apis-western-europe | online | ok | 120 | 4 | 95.08 | 0 | 4 |
-| apis-france | online | ok | 120 | 4 | 84.64 | 0 | 3 |
-| passer-western-europe | online | ok | 120 | 2 | 66.25 | 0 | 0 |
-| passer-united-states | online | ok | 120 | 1 | 95.78 | 0 | 15 |
+| Scenario | Source | GBIF | Downloaded | Deduped | Datasets | Top dataset share | Score | Missing dates | High uncertainty |
+| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| aedes-spain | online | ok | 120 | 120 | 4 | 0.8417 | 94.69 | 0 | 6 |
+| aedes-italy | online | ok | 120 | 120 | 3 | 0.75 | 89.17 | 0 | 2 |
+| aedes-france | online | ok | 120 | 77 | 5 | 0.6167 | 94.91 | 0 | 3 |
+| quercus-western-europe | online | ok | 120 | 120 | 7 | 0.3667 | 82.56 | 0 | 0 |
+| quercus-germany | online | ok | 120 | 75 | 6 | 0.5667 | 83.12 | 0 | 0 |
+| lynx-iberia | online | ok | 120 | 120 | 4 | 0.8083 | 85.8 | 0 | 97 |
+| apis-western-europe | online | ok | 120 | 120 | 4 | 0.4917 | 95.08 | 0 | 4 |
+| apis-france | online | ok | 120 | 59 | 4 | 0.6167 | 84.64 | 0 | 3 |
+| passer-western-europe | online | ok | 120 | 120 | 2 | 0.95 | 66.25 | 0 | 0 |
+| passer-united-states | online | ok | 120 | 120 | 1 | 1.0 | 95.78 | 0 | 15 |
 
 ## Interpretation
 

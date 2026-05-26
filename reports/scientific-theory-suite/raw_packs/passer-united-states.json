@@ -1,8 +1,8 @@
 {
   "run": {
-    "run_id": "80993cc658df4ee2a746db935e553f1f",
-    "started_at": "2026-05-26T04:17:44.309762+00:00",
-    "finished_at": "2026-05-26T04:17:45.633740+00:00",
+    "run_id": "da26fa96134a43939878cc3ff1c07655",
+    "started_at": "2026-05-26T23:02:04.407672+00:00",
+    "finished_at": "2026-05-26T23:02:05.257031+00:00",
     "source_mode": "online",
     "request": {
       "taxon": "Passer domesticus",
@@ -71,27 +71,27 @@
       {
         "name": "species_match",
         "status": "completed",
-        "duration_ms": 202.26
+        "duration_ms": 201.54
       },
       {
         "name": "occurrence_fetch",
         "status": "completed",
-        "duration_ms": 1120.18
+        "duration_ms": 646.34
       },
       {
         "name": "normalize",
         "status": "completed",
-        "duration_ms": 0.47
+        "duration_ms": 0.42
       },
       {
         "name": "score",
         "status": "completed",
-        "duration_ms": 0.6
+        "duration_ms": 0.58
       },
       {
         "name": "exports",
         "status": "completed",
-        "duration_ms": 50.47,
+        "duration_ms": 56.07,
         "details": {
           "artifact_count": 31
         }
@@ -105,24 +105,24 @@
       "decision_memo.md": "16b05c4874ca7306082db2e59424e287b4077657a25caf97a63ee86086f8a03e",
       "demo_scenario.json": "8b688333be7bea100031f9fab0fcef63369cf6b0d19855d6f0a63d55053c2c13",
       "derived_dataset_recipe.json": "364430ce1060311907c3f2b2df235e1842968dc7424eaa53ae083e052b2324d0",
-      "evidence_graph.json": "80cb48726a0af3fcf5a06dc99e7d2ff3ecf01a23c9dfaf4ef8bfde720b979848",
-      "evidence_pack.json": "5fd127b65f69ffcba6e163e289d39c0170080e482b7a03988c360b6692bca929",
-      "evidence_pack.zip": "7a2533b7dcce5e87ba8baa0ebffe62b00ab753d8cb627f0ef8c3e1e66adf2c67",
-      "evidence_vault.zip": "1a39600be8e1967fbc79272d4099dc8c633417c1e6be5f433f9ab441a9c4f306",
+      "evidence_graph.json": "6ae903ed57965fabc3d309caa1cfcb468a0842f9f8788be4cf0cf777f893a959",
+      "evidence_pack.json": "4c6e80f50c2ebad6a69a3c921aade2fa4e3541afea0697ff74f5f289101db3c7",
+      "evidence_pack.zip": "8d6fe331a1e98b340df7522c079066de8432ab8316f1f07410363f087179ad46",
+      "evidence_vault.zip": "1374e08706a4330ce2931f18d07303d3acd6233fb3883ba48e0d7a7da4568766",
       "gap_priorities.csv": "108200067c4ffe7064a169e9548b8c15f19ea936877ee7ff423e3a13ee884a57",
-      "graph_memory.md": "77beaf7b4962e534908e23dcb280847a19eed70fed4c7d673d4be8b5eb884ef3",
+      "graph_memory.md": "cab5c0b8e7f593a3244a9e69c8f0e91c9ad1b5a84b519db961e5239476f68662",
       "impact_brief.md": "d65c43a0295126499ef42a128b48a73c2a72211b6bfec23b0c48749c5245793c",
       "methods_text.md": "fc013c30d93ccf6f64b60e8107b1ecf0d1c54bfcf0cfd5e58fc5e38fc82aa0ff",
       "passport.html": "f7e7166bed78cf48dcb2cf47fb28a5a4c2fc40281dd8a3d95fc3ebe1da57991c",
       "passport.md": "09c6c25698f4504fb2b4885668b5c433b7bb2b1bea2453c94754a37071e19f8f",
-      "provenance.json": "d587a30bbe5801e6bbbf9704852459f26479ed2968f05677c6b4ff19e4dbdc3a",
+      "provenance.json": "ff8e806d78e7a84c95c1a50f6c480269ea8c707289c3ce614071ff012318bb50",
       "publisher_feedback.csv": "0b8e62f2d6bd44d3a10208b8539de2673497d8542ac8b19b2c79481b7e10adea",
       "publisher_feedback.md": "401020b1d84f8905639d2b5a52edcd169581f506002dc334152fccfe1fa21e66",
       "publisher_issue_templates.md": "a52f70cc8f0771469237e4c97fb09915f5eca84a0b9600395e312828f70160fd",
       "quality_metrics.csv": "4da3b95f17120c1e1084450f26bd03a93fe9a1a22a06247903e09c591a751e8a",
       "readiness_scorecard.csv": "11d3b608192adcd93c59477c64a0f3a5fc110cc25fea9681de9fd41ac7ddc4bc",
       "records.geojson": "1662c44e7949f8e34ac99ab17bb9b9758018366e540d4a3c4d9db663a6ab9a33",
-      "run.json": "13fbab9fd7f70e1c7ecd4b7910fedeb00eed8f2193216594c4819624135f4d5f",
+      "run.json": "274ab0965023971d4374a37f7687973324a9544ac73b552b9f6a28608f22bd44",
       "source_summary.json": "14e7ccfcca6358d3e396e9c2e3b9e62316c6889af70c11d59e233bb2b1dfac39",
       "submission_readiness.json": "2edcde1d887357aa226afd4c07fda626b336ef6fd7ade7385be123ce7bef779d",
       "submission_readiness.md": "42f1f19c7ef72f3c2a33ca12788519c3dae7fe9aaf16d5a17e7679fc5bf597f7",
@@ -293,10 +293,15 @@
     {
       "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "datasetTitle": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "record_count": 120,
-      "main_issues": "CONTINENT_DERIVED_FROM_COORDINATES, TAXON_ID_NOT_FOUND, COORDINATE_ROUNDED"
+      "main_issues": "CONTINENT_DERIVED_FROM_COORDINATES, TAXON_ID_NOT_FOUND, COORDINATE_ROUNDED",
+      "doi": "10.15468/ab3s5x",
+      "citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "homepage": "https://www.inaturalist.org/observations",
+      "publishingOrganizationKey": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api"
     }
   ],
   "claim_guardrails": {
@@ -4555,7 +4560,7 @@
       "gbif_id": "5938031064",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -4935,13 +4940,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "14:55:00-05:00",
         "identificationID": "746530827"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938031817",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -5252,13 +5263,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "15:40:00-05:00",
         "identificationID": "746219175"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938031905",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -5570,13 +5587,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "16:20:00-05:00",
         "identificationID": "746426911"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938031996",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -5886,13 +5909,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "10:05:00-06:00",
         "identificationID": "746614153"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938032590",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -6205,13 +6234,19 @@
         "eventTime": "17:08:00-08:00",
         "occurrenceRemarks": "Screenshot",
         "identificationID": "745712835"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938032792",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -6522,13 +6557,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "11:30:00-07:00",
         "identificationID": "746567272"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938035937",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -6844,13 +6885,19 @@
         "vitality": "alive",
         "eventTime": "11:43:10-08:00",
         "identificationID": "745725949"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938036029",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -7188,13 +7235,19 @@
         "vitality": "alive",
         "eventTime": "14:17:16-06:00",
         "identificationID": "746110321"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938036713",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -7510,13 +7563,19 @@
         "eventTime": "08:24:00-05:00",
         "occurrenceRemarks": "Birdfeeder photos",
         "identificationID": "745986792"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938036785",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -7837,13 +7896,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "15:00:00-06:00",
         "identificationID": "746101598"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938041299",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -8177,13 +8242,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "11:04:31-05:00",
         "identificationID": "745600076"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938042376",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -8543,13 +8614,19 @@
         "catalogNumber": "333459666",
         "institutionCode": "iNaturalist",
         "identificationID": "746441942"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938043762",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -8860,13 +8937,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "10:20:00-05:00",
         "identificationID": "745394145"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938044764",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -9180,13 +9263,19 @@
         "vitality": "alive",
         "eventTime": "11:50:00-07:00",
         "identificationID": "746137050"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938048446",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -9524,13 +9613,19 @@
         "vitality": "alive",
         "eventTime": "10:08:20-06:00",
         "identificationID": "746429658"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938050943",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -9841,13 +9936,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "07:46:10-06:00",
         "identificationID": "745691850"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938052915",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -10150,13 +10251,19 @@
         "eventTime": "13:59:00-08:00",
         "occurrenceRemarks": "White Rock Pier, White Rock, BC, Canada",
         "identificationID": "746113044"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938053150",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -10494,13 +10601,19 @@
         "vitality": "alive",
         "eventTime": "16:05:00-06:00",
         "identificationID": "745318262"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938053333",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -10834,13 +10947,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "20:29:06-05:00",
         "identificationID": "746191124"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938064909",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -11198,13 +11317,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "11:07:22-08:00",
         "identificationID": "746054552"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938067340",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -11515,13 +11640,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "09:34:44-06:00",
         "identificationID": "745690257"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938068970",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -11832,13 +11963,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "09:21:00-06:00",
         "identificationID": "746150493"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938070488",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -12149,13 +12286,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "15:02:00-08:00",
         "identificationID": "745819798"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938072405",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -12469,13 +12612,19 @@
         "vitality": "alive",
         "eventTime": "08:31:00-05:00",
         "identificationID": "745144661"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938083017",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -12786,13 +12935,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "20:28:00-05:00",
         "identificationID": "746944493"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938083362",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -13125,13 +13280,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "09:42:39-06:00",
         "identificationID": "745185592"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938084017",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -13469,13 +13630,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "12:02:00-05:00",
         "identificationID": "745326167"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938087998",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -13786,13 +13953,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "10:00:11-07:00",
         "identificationID": "746849760"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938092610",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -14151,13 +14324,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "14:04:05-05:00",
         "identificationID": "746519689"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938093868",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -14468,13 +14647,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "10:01:00-06:00",
         "identificationID": "746574065"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938096224",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -14758,13 +14943,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "11:34:00-05:00",
         "identificationID": "745272665"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938096363",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
       "scientific_name": "Passer domesticus domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231191",
@@ -15085,13 +15276,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "11:44:00-05:00",
         "identificationID": "746452587"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938098627",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -15403,13 +15600,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "14:40:55-05:00",
         "identificationID": "745666952"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938098665",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -15771,13 +15974,19 @@
         "eventTime": "14:39:00-06:00",
         "occurrenceRemarks": "Visitor at the seed feeder outside my kitchen window on New Years Day.",
         "identificationID": "745770107"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938102340",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -16091,13 +16300,19 @@
         "vitality": "alive",
         "eventTime": "10:44:13-05:00",
         "identificationID": "745585027"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938102610",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -16455,13 +16670,19 @@
         "eventTime": "09:13:09-06:00",
         "occurrenceRemarks": "6-8 individuals",
         "identificationID": "745699876"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938109395",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -16819,13 +17040,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "11:49:00-07:00",
         "identificationID": "746566672"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938109799",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -17107,13 +17334,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "13:46:00-05:00",
         "identificationID": "746986999"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938109973",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -17425,13 +17658,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "16:30:21-05:00",
         "identificationID": "746100157"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938110532",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -17742,13 +17981,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "16:29:17-05:00",
         "identificationID": "746978736"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938111091",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -18062,13 +18307,19 @@
         "vitality": "alive",
         "eventTime": "09:54:00-05:00",
         "identificationID": "745206567"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938117648",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -18379,13 +18630,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "12:28:42-06:00",
         "identificationID": "746979530"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938120382",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -18699,13 +18956,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "10:10:00-08:00",
         "identificationID": "745258176"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938120480",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -19066,13 +19329,19 @@
         "vitality": "alive",
         "eventTime": "13:55:46-05:00",
         "identificationID": "745248532"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938122741",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -19383,13 +19652,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "11:07:25-08:00",
         "identificationID": "745281555"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938126918",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -19700,13 +19975,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "13:08:00-06:00",
         "identificationID": "746502699"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938127571",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -20017,13 +20298,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "16:08:58-06:00",
         "identificationID": "746121640"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938129640",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -20338,13 +20625,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "13:59:00-08:00",
         "identificationID": "746097954"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938132606",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -20656,13 +20949,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "11:19:00-08:00",
         "identificationID": "746966519"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938133269",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -20973,13 +21272,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "09:03:11-06:00",
         "identificationID": "745705461"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938138442",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -21298,13 +21603,19 @@
         "eventTime": "09:27:55-05:00",
         "occurrenceRemarks": "At least 4 of these guys.",
         "identificationID": "746801753"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938141404",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -21614,13 +21925,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "10:13:33-05:00",
         "identificationID": "745974197"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938146278",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -21957,13 +22274,19 @@
         "vitality": "alive",
         "eventTime": "14:50:00-07:00",
         "identificationID": "746560064"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938150166",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -22275,13 +22598,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "11:18:40-08:00",
         "identificationID": "745734927"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938151155",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -22596,13 +22925,19 @@
         "vitality": "alive",
         "eventTime": "20:23:52-06:00",
         "identificationID": "745559353"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938164896",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -22914,13 +23249,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "15:16:00-05:00",
         "identificationID": "746111066"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938165594",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -23260,13 +23601,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "09:28:37-06:00",
         "identificationID": "746430956"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938170406",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -23578,13 +23925,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "23:33:00-06:00",
         "identificationID": "745658114"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938173125",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -23922,13 +24275,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "11:13:00-05:00",
         "identificationID": "746421101"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938175138",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -24237,13 +24596,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "22:14:27-06:00",
         "identificationID": "745433769"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938175365",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -24558,13 +24923,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "13:58:00-08:00",
         "identificationID": "746097944"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938181537",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -24877,13 +25248,19 @@
         "vitality": "alive",
         "eventTime": "16:50:33-05:00",
         "identificationID": "745348507"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938184806",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -25251,13 +25628,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "14:37:27-05:00",
         "identificationID": "746495620"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938186055",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -25616,13 +25999,19 @@
         "vitality": "alive",
         "eventTime": "08:25:22-06:00",
         "identificationID": "745349812"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938191761",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -25933,13 +26322,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "07:50:00-06:00",
         "identificationID": "745669310"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938191891",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -26251,13 +26646,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "12:46:43-05:00",
         "identificationID": "746023611"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938196931",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -26568,13 +26969,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "15:59:15-06:00",
         "identificationID": "745294663"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938197298",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -26907,13 +27314,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "10:51:25-05:00",
         "identificationID": "745354812"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938198404",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -27225,13 +27638,19 @@
         "eventTime": "08:59:11-06:00",
         "occurrenceRemarks": "House sparrow, behind the white breasted nuthatch, for this post. Nuthatch submitted separately",
         "identificationID": "745776691"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938199942",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -27636,13 +28055,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "10:06:31-05:00",
         "identificationID": "746070552"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938201066",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -27954,13 +28379,19 @@
         "eventTime": "07:46:08-06:00",
         "occurrenceRemarks": "2 individuals",
         "identificationID": "745691826"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938202024",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -28271,13 +28702,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "12:35:12-07:00",
         "identificationID": "746503539"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938204372",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -28613,13 +29050,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "12:12:49-05:00",
         "identificationID": "746072257"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938204503",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -28988,13 +29431,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "14:39:24-05:00",
         "identificationID": "746071854"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938210470",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -29305,13 +29754,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "13:17:47-06:00",
         "identificationID": "746926174"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938214862",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -29622,13 +30077,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "09:02:26-06:00",
         "identificationID": "745705571"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938216951",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -29938,13 +30399,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "13:57:34-06:00",
         "identificationID": "745313836"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938218453",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -30258,13 +30725,19 @@
         "institutionCode": "iNaturalist",
         "vitality": "alive",
         "identificationID": "746233328"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938222702",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -30576,13 +31049,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "09:10:00-07:00",
         "identificationID": "746057044"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938223550",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -30895,13 +31374,19 @@
         "vitality": "alive",
         "eventTime": "12:59:00-08:00",
         "identificationID": "746931749"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938223652",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -31258,13 +31743,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "13:20:09-06:00",
         "identificationID": "746696619"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938224110",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -31576,13 +32067,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "11:18:41-08:00",
         "identificationID": "746953473"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938226995",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -31964,13 +32461,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "14:04:45-05:00",
         "identificationID": "746516810"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938229606",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -32282,13 +32785,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "08:10:42-06:00",
         "identificationID": "745154805"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938229651",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -32627,13 +33136,19 @@
         "eventTime": "12:22:00-05:00",
         "occurrenceRemarks": "Birdfeeder",
         "identificationID": "745505195"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938229661",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -32944,13 +33459,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "09:04:50-06:00",
         "identificationID": "745705356"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938229849",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -33284,13 +33805,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "09:04:45-06:00",
         "identificationID": "745705346"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938238439",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -33677,13 +34204,19 @@
         "vitality": "alive",
         "eventTime": "08:46:13-05:00",
         "identificationID": "746419588"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938239475",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -34063,13 +34596,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "12:25:19-06:00",
         "identificationID": "746796394"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938242094",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -34380,13 +34919,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "02:41:00-05:00",
         "identificationID": "746928618"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938243343",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -34700,13 +35245,19 @@
         "vitality": "alive",
         "eventTime": "10:09:58-05:00",
         "identificationID": "745972673"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938250301",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -35004,13 +35555,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "14:00:00-08:00",
         "identificationID": "746097957"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938250418",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -35321,13 +35878,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "08:34:44-05:00",
         "identificationID": "746806538"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938253964",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -35638,13 +36201,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "07:28:00-06:00",
         "identificationID": "746405253"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938254594",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -35955,13 +36524,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "09:03:10-06:00",
         "identificationID": "745705448"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938256004",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -36391,13 +36966,19 @@
         "vitality": "alive",
         "eventTime": "16:31:25-08:00",
         "identificationID": "746173394"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938257388",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -36733,13 +37314,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "12:11:55-05:00",
         "identificationID": "746072510"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938258252",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -37050,13 +37637,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "12:30:24-05:00",
         "identificationID": "746570186"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938258455",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -37414,13 +38007,19 @@
         "eventTime": "16:11:41-07:00",
         "occurrenceRemarks": "TURBO speed",
         "identificationID": "745340446"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938261149",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -37754,13 +38353,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "13:07:44-05:00",
         "identificationID": "745137890"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938263340",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -38071,13 +38676,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "10:29:00-06:00",
         "identificationID": "746019389"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938263404",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -38388,13 +38999,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "09:43:12-06:00",
         "identificationID": "745585692"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938273259",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -38668,13 +39285,19 @@
         "vitality": "alive",
         "eventTime": "13:08:00-05:00",
         "identificationID": "745751354"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938277017",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -39009,13 +39632,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "11:07:44-08:00",
         "identificationID": "746053796"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938278945",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -39330,13 +39959,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "13:22:00-05:00",
         "identificationID": "745324200"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938279777",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -39675,13 +40310,19 @@
         "vitality": "alive",
         "eventTime": "10:11:00-07:00",
         "identificationID": "746467841"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938280414",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -39994,13 +40635,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "12:13:21-05:00",
         "identificationID": "746072146"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938280594",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -40311,13 +40958,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "12:42:14-06:00",
         "identificationID": "746475555"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938283041",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -40631,13 +41284,19 @@
         "vitality": "alive",
         "eventTime": "08:13:00-05:00",
         "identificationID": "746032238"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938286093",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -40952,13 +41611,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "10:26:00-05:00",
         "identificationID": "745343670"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938291191",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -41294,13 +41959,19 @@
         "vitality": "alive",
         "eventTime": "14:24:25-05:00",
         "identificationID": "745680512"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938291196",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -41634,13 +42305,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "09:05:01-06:00",
         "identificationID": "745705311"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938291282",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -42025,13 +42702,19 @@
         "eventTime": "08:21:00-05:00",
         "occurrenceRemarks": "Birdfeeder photos",
         "identificationID": "745986782"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938299227",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -42393,13 +43076,19 @@
         "eventTime": "08:22:00-05:00",
         "occurrenceRemarks": "Birdfeeder photos",
         "identificationID": "745986788"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938301101",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -42710,13 +43399,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "08:46:00-06:00",
         "identificationID": "745240000"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938304425",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -43050,13 +43745,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "14:12:31-06:00",
         "identificationID": "746952087"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938306123",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -43367,13 +44068,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "09:10:19-05:00",
         "identificationID": "745956082"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938309659",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -43685,13 +44392,19 @@
         "institutionCode": "iNaturalist",
         "eventTime": "13:54:33-08:00",
         "identificationID": "745461496"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938311908",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -44029,13 +44742,19 @@
         "vitality": "alive",
         "eventTime": "09:24:00-07:00",
         "identificationID": "746671907"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     },
     {
       "gbif_id": "5938312418",
       "dataset_key": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
       "dataset_title": "iNaturalist research-grade observations",
-      "publisher": null,
+      "publisher": "iNaturalist.org",
       "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
       "scientific_name": "Passer domesticus (Linnaeus, 1758)",
       "accepted_taxon_key": "5231190",
@@ -44346,7 +45065,13 @@
         "institutionCode": "iNaturalist",
         "eventTime": "12:14:01-05:00",
         "identificationID": "746445158"
-      }
+      },
+      "dataset_doi": "10.15468/ab3s5x",
+      "dataset_citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+      "dataset_homepage": "https://www.inaturalist.org/observations",
+      "publishing_organization_key": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+      "dataset_metadata_source": "gbif_api",
+      "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00"
     }
   ],
   "main_risks": [
@@ -44589,7 +45314,7 @@
     "graph": {
       "summary": {
         "title": "EcoGenesis Evidence Graph Memory",
-        "run_id": "80993cc658df4ee2a746db935e553f1f",
+        "run_id": "da26fa96134a43939878cc3ff1c07655",
         "taxon": "Passer domesticus (Linnaeus, 1758)",
         "region_name": "United States live GBIF bbox",
         "purpose": "dataset_quality_review",
@@ -44597,7 +45322,7 @@
         "score": 95.78,
         "records_used": 120,
         "datasets_used": 1,
-        "created_at": "2026-05-26T04:17:45.633740+00:00"
+        "created_at": "2026-05-26T23:02:05.257031+00:00"
       },
       "node_counts": {
         "runs": 1,
@@ -44611,11 +45336,11 @@
       },
       "nodes": [
         {
-          "id": "run:80993cc658df4ee2a746db935e553f1f",
+          "id": "run:da26fa96134a43939878cc3ff1c07655",
           "type": "run",
           "label": "Passer domesticus (Linnaeus, 1758) in United States live GBIF bbox",
           "properties": {
-            "run_id": "80993cc658df4ee2a746db935e553f1f"
+            "run_id": "da26fa96134a43939878cc3ff1c07655"
           }
         },
         {
@@ -44840,25 +45565,25 @@
       ],
       "edges": [
         {
-          "source": "run:80993cc658df4ee2a746db935e553f1f",
+          "source": "run:da26fa96134a43939878cc3ff1c07655",
           "relation": "uses_taxon",
           "target": "taxon:5231190",
           "properties": {}
         },
         {
-          "source": "run:80993cc658df4ee2a746db935e553f1f",
+          "source": "run:da26fa96134a43939878cc3ff1c07655",
           "relation": "covers_region",
           "target": "region:united-states-live-gbif-bbox",
           "properties": {}
         },
         {
-          "source": "run:80993cc658df4ee2a746db935e553f1f",
+          "source": "run:da26fa96134a43939878cc3ff1c07655",
           "relation": "serves_purpose",
           "target": "purpose:dataset_quality_review",
           "properties": {}
         },
         {
-          "source": "run:80993cc658df4ee2a746db935e553f1f",
+          "source": "run:da26fa96134a43939878cc3ff1c07655",
           "relation": "draws_from_dataset",
           "target": "dataset:50c9509d-22c7-4a22-a47d-8c48425ef4a7",
           "properties": {
@@ -44866,7 +45591,7 @@
           }
         },
         {
-          "source": "run:80993cc658df4ee2a746db935e553f1f",
+          "source": "run:da26fa96134a43939878cc3ff1c07655",
           "relation": "detects_issue",
           "target": "issue:high-coordinate-uncertainty",
           "properties": {}
@@ -44881,31 +45606,31 @@
           }
         },
         {
-          "source": "run:80993cc658df4ee2a746db935e553f1f",
+          "source": "run:da26fa96134a43939878cc3ff1c07655",
           "relation": "supported_claim",
           "target": "claim:supported-gbif-mediated-records-matching-the-selected-taxon-and-region-are-present-in-th",
           "properties": {}
         },
         {
-          "source": "run:80993cc658df4ee2a746db935e553f1f",
+          "source": "run:da26fa96134a43939878cc3ff1c07655",
           "relation": "supported_claim",
           "target": "claim:supported-dataset-provenance-is-preserved-through-datasetkey-level-contribution-summarie",
           "properties": {}
         },
         {
-          "source": "run:80993cc658df4ee2a746db935e553f1f",
+          "source": "run:da26fa96134a43939878cc3ff1c07655",
           "relation": "weak_claim",
           "target": "claim:weak-record-clusters-can-indicate-areas-of-observation-activity-but-they-may-also-reflec",
           "properties": {}
         },
         {
-          "source": "run:80993cc658df4ee2a746db935e553f1f",
+          "source": "run:da26fa96134a43939878cc3ff1c07655",
           "relation": "weak_claim",
           "target": "claim:weak-the-selected-purpose-readiness-score-is-95-78-100-and-should-be-interpreted-with-th",
           "properties": {}
         },
         {
-          "source": "run:80993cc658df4ee2a746db935e553f1f",
+          "source": "run:da26fa96134a43939878cc3ff1c07655",
           "relation": "blocked_claim",
           "target": "claim:blocked-absence-cannot-be-inferred-from-empty-or-low-evidence-grid-cells",
           "properties": {}
@@ -44917,7 +45642,7 @@
           "properties": {}
         },
         {
-          "source": "run:80993cc658df4ee2a746db935e553f1f",
+          "source": "run:da26fa96134a43939878cc3ff1c07655",
           "relation": "blocked_claim",
           "target": "claim:blocked-observed-gbif-distribution-must-not-be-treated-as-the-true-species-distribution",
           "properties": {}
@@ -44929,7 +45654,7 @@
           "properties": {}
         },
         {
-          "source": "run:80993cc658df4ee2a746db935e553f1f",
+          "source": "run:da26fa96134a43939878cc3ff1c07655",
           "relation": "blocked_claim",
           "target": "claim:blocked-population-trend-cannot-be-inferred-without-temporal-sampling-bias-correction",
           "properties": {}
@@ -44941,7 +45666,7 @@
           "properties": {}
         },
         {
-          "source": "run:80993cc658df4ee2a746db935e553f1f",
+          "source": "run:da26fa96134a43939878cc3ff1c07655",
           "relation": "requires_verification_claim",
           "target": "claim:requires-verification-create-a-doi-backed-gbif-occurrence-download-or-derived-dataset-be",
           "properties": {}
@@ -44953,7 +45678,7 @@
           "properties": {}
         },
         {
-          "source": "run:80993cc658df4ee2a746db935e553f1f",
+          "source": "run:da26fa96134a43939878cc3ff1c07655",
           "relation": "requires_verification_claim",
           "target": "claim:requires-verification-inspect-high-coordinate-uncertainty-records-before-using-them-in-f",
           "properties": {}
@@ -44965,7 +45690,7 @@
           "properties": {}
         },
         {
-          "source": "run:80993cc658df4ee2a746db935e553f1f",
+          "source": "run:da26fa96134a43939878cc3ff1c07655",
           "relation": "requires_verification_claim",
           "target": "claim:requires-verification-treat-undersampled-occupied-cells-as-survey-priorities-not-confirm",
           "properties": {}
@@ -44977,7 +45702,7 @@
           "properties": {}
         },
         {
-          "source": "run:80993cc658df4ee2a746db935e553f1f",
+          "source": "run:da26fa96134a43939878cc3ff1c07655",
           "relation": "requires_verification_claim",
           "target": "claim:requires-verification-treat-empty-grid-cells-as-no-evidence-cells-not-absence-evidence",
           "properties": {}
@@ -44989,85 +45714,85 @@
           "properties": {}
         },
         {
-          "source": "run:80993cc658df4ee2a746db935e553f1f",
+          "source": "run:da26fa96134a43939878cc3ff1c07655",
           "relation": "recommends_action",
           "target": "action:create-a-doi-backed-gbif-occurrence-download-or-derived-dataset-before-publication",
           "properties": {}
         },
         {
-          "source": "run:80993cc658df4ee2a746db935e553f1f",
+          "source": "run:da26fa96134a43939878cc3ff1c07655",
           "relation": "recommends_action",
           "target": "action:preserve-datasetkey-and-run-json-with-any-downstream-analysis",
           "properties": {}
         },
         {
-          "source": "run:80993cc658df4ee2a746db935e553f1f",
+          "source": "run:da26fa96134a43939878cc3ff1c07655",
           "relation": "recommends_action",
           "target": "action:avoid-absence-claims-for-empty-or-low-effort-grid-cells",
           "properties": {}
         },
         {
-          "source": "run:80993cc658df4ee2a746db935e553f1f",
+          "source": "run:da26fa96134a43939878cc3ff1c07655",
           "relation": "recommends_action",
           "target": "action:review-records-with-coordinate-uncertainty-above-10-km",
           "properties": {}
         },
         {
-          "source": "run:80993cc658df4ee2a746db935e553f1f",
+          "source": "run:da26fa96134a43939878cc3ff1c07655",
           "relation": "recommends_action",
           "target": "action:prioritize-survey-design-around-no-evidence-and-under-sampled-grid-cells",
           "properties": {}
         },
         {
-          "source": "run:80993cc658df4ee2a746db935e553f1f",
+          "source": "run:da26fa96134a43939878cc3ff1c07655",
           "relation": "recommends_action",
           "target": "action:share-the-publisher-feedback-pack-with-dataset-managers-for-prioritized-fixes",
           "properties": {}
         },
         {
-          "source": "run:80993cc658df4ee2a746db935e553f1f",
+          "source": "run:da26fa96134a43939878cc3ff1c07655",
           "relation": "produces_artifact",
           "target": "artifact:passport.html",
           "properties": {}
         },
         {
-          "source": "run:80993cc658df4ee2a746db935e553f1f",
+          "source": "run:da26fa96134a43939878cc3ff1c07655",
           "relation": "produces_artifact",
           "target": "artifact:decision_memo.md",
           "properties": {}
         },
         {
-          "source": "run:80993cc658df4ee2a746db935e553f1f",
+          "source": "run:da26fa96134a43939878cc3ff1c07655",
           "relation": "produces_artifact",
           "target": "artifact:submission_readiness.md",
           "properties": {}
         },
         {
-          "source": "run:80993cc658df4ee2a746db935e553f1f",
+          "source": "run:da26fa96134a43939878cc3ff1c07655",
           "relation": "produces_artifact",
           "target": "artifact:validation_summary.md",
           "properties": {}
         },
         {
-          "source": "run:80993cc658df4ee2a746db935e553f1f",
+          "source": "run:da26fa96134a43939878cc3ff1c07655",
           "relation": "produces_artifact",
           "target": "artifact:run.json",
           "properties": {}
         },
         {
-          "source": "run:80993cc658df4ee2a746db935e553f1f",
+          "source": "run:da26fa96134a43939878cc3ff1c07655",
           "relation": "produces_artifact",
           "target": "artifact:citations.md",
           "properties": {}
         },
         {
-          "source": "run:80993cc658df4ee2a746db935e553f1f",
+          "source": "run:da26fa96134a43939878cc3ff1c07655",
           "relation": "produces_artifact",
           "target": "artifact:publisher_feedback.md",
           "properties": {}
         },
         {
-          "source": "run:80993cc658df4ee2a746db935e553f1f",
+          "source": "run:da26fa96134a43939878cc3ff1c07655",
           "relation": "produces_artifact",
           "target": "artifact:evidence_pack.zip",
           "properties": {}
@@ -45093,219 +45818,244 @@
       ]
     },
     "vault": {
-      "index.md": "---\ntype: \"vault_index\"\nrun_id: \"80993cc658df4ee2a746db935e553f1f\"\ntaxon: \"Passer domesticus\"\nregion: \"United States live GBIF bbox\"\npurpose: \"dataset_quality_review\"\n---\n# EcoGenesis Evidence Vault\n\nThis vault is a human-readable memory layer for the Evidence Passport.\n\n## Core Links\n\n- Run: [80993cc658df4ee2a746db935e553f1f](runs/80993cc658df4ee2a746db935e553f1f.md)\n- Taxon: [Passer domesticus (Linnaeus, 1758)](taxa/passer-domesticus-linnaeus-1758.md)\n- Region: [United States live GBIF bbox](regions/united-states-live-gbif-bbox.md)\n- Purpose: [Dataset quality review](purposes/dataset_quality_review.md)\n\n## Graph Summary\n\n- runs: 1\n- taxa: 1\n- regions: 1\n- datasets: 1\n- issues: 1\n- claims: 11\n- actions: 6\n- artifacts: 8\n\n## Review Files\n\n- `../passport.html`\n- `../decision_memo.md`\n- `../submission_readiness.md`\n- `../validation_summary.md`\n- `../citations.md`\n- `../publisher_feedback.md`\n- `../run.json`\n",
-      "runs/80993cc658df4ee2a746db935e553f1f.md": "---\ntype: \"run\"\nrun_id: \"80993cc658df4ee2a746db935e553f1f\"\ntaxon: \"Passer domesticus\"\nregion: \"United States live GBIF bbox\"\npurpose: \"dataset_quality_review\"\nscore: 95.78\nrecords_used: 120\ndatasets_used: 1\n---\n# Run: Passer domesticus - United States live GBIF bbox - Dataset quality review\n\nTaxon: [Passer domesticus (Linnaeus, 1758)](../taxa/passer-domesticus-linnaeus-1758.md)\nRegion: [United States live GBIF bbox](../regions/united-states-live-gbif-bbox.md)\nPurpose: [Dataset quality review](../purposes/dataset_quality_review.md)\n\n## Decision Memo\n\n- Verdict: Usable for the selected decision with documented caveats\n- Question: Can GBIF-mediated occurrence evidence for Passer domesticus in United States live GBIF bbox support the purpose 'Dataset quality review'?\n- Next action: Create a DOI-backed GBIF occurrence download or derived dataset before publication.\n\n## Readiness\n\n- Score: 95.78/100\n- Interpretation: High readiness: evidence is strong for the selected purpose, with remaining caveats documented.\n\n## Datasets\n\n- [50c9509d-22c7-4a22-a47d-8c48425ef4a7](../datasets/50c9509d-22c7-4a22-a47d-8c48425ef4a7.md) (120 records)\n\n## Claims\n\n- supported: [GBIF-mediated records matching the selected taxon and region are present in the evidence pack.](../claims/supported-gbif-mediated-records-matching-the-selected-taxon-and-region-are-present-in-th.md)\n- supported: [Dataset provenance is preserved through datasetKey-level contribution summaries.](../claims/supported-dataset-provenance-is-preserved-through-datasetkey-level-contribution-summarie.md)\n- weak: [Record clusters can indicate areas of observation activity, but they may also reflect observer effort.](../claims/weak-record-clusters-can-indicate-areas-of-observation-activity-but-they-may-also-reflec.md)\n- weak: [The selected-purpose readiness score is 95.78/100 and should be interpreted with the component scores.](../claims/weak-the-selected-purpose-readiness-score-is-95-78-100-and-should-be-interpreted-with-th.md)\n- blocked: [Absence cannot be inferred from empty or low-evidence grid cells.](../claims/blocked-absence-cannot-be-inferred-from-empty-or-low-evidence-grid-cells.md)\n- blocked: [Observed GBIF distribution must not be treated as the true species distribution.](../claims/blocked-observed-gbif-distribution-must-not-be-treated-as-the-true-species-distribution.md)\n- blocked: [Population trend cannot be inferred without temporal sampling-bias correction.](../claims/blocked-population-trend-cannot-be-inferred-without-temporal-sampling-bias-correction.md)\n- requires_verification: [Create a DOI-backed GBIF occurrence download or derived dataset before formal publication.](../claims/requires-verification-create-a-doi-backed-gbif-occurrence-download-or-derived-dataset-be.md)\n- requires_verification: [Inspect high coordinate-uncertainty records before using them in fine-scale decisions.](../claims/requires-verification-inspect-high-coordinate-uncertainty-records-before-using-them-in-f.md)\n- requires_verification: [Treat undersampled occupied cells as survey priorities, not confirmed absences.](../claims/requires-verification-treat-undersampled-occupied-cells-as-survey-priorities-not-confirm.md)\n- requires_verification: [Treat empty grid cells as no-evidence cells, not absence evidence.](../claims/requires-verification-treat-empty-grid-cells-as-no-evidence-cells-not-absence-evidence.md)\n\n## Actions\n\n- [Create a DOI-backed GBIF occurrence download or derived dataset before publication.](../actions/create-a-doi-backed-gbif-occurrence-download-or-derived-dataset-before-publication.md)\n- [Preserve datasetKey and run.json with any downstream analysis.](../actions/preserve-datasetkey-and-run-json-with-any-downstream-analysis.md)\n- [Avoid absence claims for empty or low-effort grid cells.](../actions/avoid-absence-claims-for-empty-or-low-effort-grid-cells.md)\n- [Review records with coordinate uncertainty above 10 km.](../actions/review-records-with-coordinate-uncertainty-above-10-km.md)\n- [Prioritize survey design around no-evidence and under-sampled grid cells.](../actions/prioritize-survey-design-around-no-evidence-and-under-sampled-grid-cells.md)\n- [Share the Publisher Feedback Pack with dataset managers for prioritized fixes.](../actions/share-the-publisher-feedback-pack-with-dataset-managers-for-prioritized-fixes.md)\n",
-      "taxa/passer-domesticus-linnaeus-1758.md": "---\ntype: \"taxon\"\ntitle: \"Passer domesticus (Linnaeus, 1758)\"\ntaxonKey: 5231190\nmatch_confidence: 100\n---\n# Passer domesticus (Linnaeus, 1758)\n\n## Links\n\n- [Current run](../runs/80993cc658df4ee2a746db935e553f1f.md)\n\n## Notes\n\n- Accepted name: Passer domesticus (Linnaeus, 1758)\n",
-      "regions/united-states-live-gbif-bbox.md": "---\ntype: \"region\"\ntitle: \"United States live GBIF bbox\"\nbbox: [-125.0, 24.0, -66.5, 49.5]\n---\n# United States live GBIF bbox\n\n## Links\n\n- [Current run](../runs/80993cc658df4ee2a746db935e553f1f.md)\n\n## Notes\n\n- BBox: `[-125.0, 24.0, -66.5, 49.5]`\n",
-      "purposes/dataset_quality_review.md": "---\ntype: \"purpose\"\ntitle: \"Dataset quality review\"\npurpose: \"dataset_quality_review\"\nscore: 95.78\n---\n# Dataset quality review\n\n## Links\n\n- [Current run](../runs/80993cc658df4ee2a746db935e553f1f.md)\n\n## Notes\n\n- High readiness: evidence is strong for the selected purpose, with remaining caveats documented.\n",
+      "index.md": "---\ntype: \"vault_index\"\nrun_id: \"da26fa96134a43939878cc3ff1c07655\"\ntaxon: \"Passer domesticus\"\nregion: \"United States live GBIF bbox\"\npurpose: \"dataset_quality_review\"\n---\n# EcoGenesis Evidence Vault\n\nThis vault is a human-readable memory layer for the Evidence Passport.\n\n## Core Links\n\n- Run: [da26fa96134a43939878cc3ff1c07655](runs/da26fa96134a43939878cc3ff1c07655.md)\n- Taxon: [Passer domesticus (Linnaeus, 1758)](taxa/passer-domesticus-linnaeus-1758.md)\n- Region: [United States live GBIF bbox](regions/united-states-live-gbif-bbox.md)\n- Purpose: [Dataset quality review](purposes/dataset_quality_review.md)\n\n## Graph Summary\n\n- runs: 1\n- taxa: 1\n- regions: 1\n- datasets: 1\n- issues: 1\n- claims: 11\n- actions: 6\n- artifacts: 8\n\n## Review Files\n\n- `../passport.html`\n- `../decision_memo.md`\n- `../submission_readiness.md`\n- `../validation_summary.md`\n- `../citations.md`\n- `../publisher_feedback.md`\n- `../run.json`\n",
+      "runs/da26fa96134a43939878cc3ff1c07655.md": "---\ntype: \"run\"\nrun_id: \"da26fa96134a43939878cc3ff1c07655\"\ntaxon: \"Passer domesticus\"\nregion: \"United States live GBIF bbox\"\npurpose: \"dataset_quality_review\"\nscore: 95.78\nrecords_used: 120\ndatasets_used: 1\n---\n# Run: Passer domesticus - United States live GBIF bbox - Dataset quality review\n\nTaxon: [Passer domesticus (Linnaeus, 1758)](../taxa/passer-domesticus-linnaeus-1758.md)\nRegion: [United States live GBIF bbox](../regions/united-states-live-gbif-bbox.md)\nPurpose: [Dataset quality review](../purposes/dataset_quality_review.md)\n\n## Decision Memo\n\n- Verdict: Usable for the selected decision with documented caveats\n- Question: Can GBIF-mediated occurrence evidence for Passer domesticus in United States live GBIF bbox support the purpose 'Dataset quality review'?\n- Next action: Create a DOI-backed GBIF occurrence download or derived dataset before publication.\n\n## Readiness\n\n- Score: 95.78/100\n- Interpretation: High readiness: evidence is strong for the selected purpose, with remaining caveats documented.\n\n## Datasets\n\n- [50c9509d-22c7-4a22-a47d-8c48425ef4a7](../datasets/50c9509d-22c7-4a22-a47d-8c48425ef4a7.md) (120 records)\n\n## Claims\n\n- supported: [GBIF-mediated records matching the selected taxon and region are present in the evidence pack.](../claims/supported-gbif-mediated-records-matching-the-selected-taxon-and-region-are-present-in-th.md)\n- supported: [Dataset provenance is preserved through datasetKey-level contribution summaries.](../claims/supported-dataset-provenance-is-preserved-through-datasetkey-level-contribution-summarie.md)\n- weak: [Record clusters can indicate areas of observation activity, but they may also reflect observer effort.](../claims/weak-record-clusters-can-indicate-areas-of-observation-activity-but-they-may-also-reflec.md)\n- weak: [The selected-purpose readiness score is 95.78/100 and should be interpreted with the component scores.](../claims/weak-the-selected-purpose-readiness-score-is-95-78-100-and-should-be-interpreted-with-th.md)\n- blocked: [Absence cannot be inferred from empty or low-evidence grid cells.](../claims/blocked-absence-cannot-be-inferred-from-empty-or-low-evidence-grid-cells.md)\n- blocked: [Observed GBIF distribution must not be treated as the true species distribution.](../claims/blocked-observed-gbif-distribution-must-not-be-treated-as-the-true-species-distribution.md)\n- blocked: [Population trend cannot be inferred without temporal sampling-bias correction.](../claims/blocked-population-trend-cannot-be-inferred-without-temporal-sampling-bias-correction.md)\n- requires_verification: [Create a DOI-backed GBIF occurrence download or derived dataset before formal publication.](../claims/requires-verification-create-a-doi-backed-gbif-occurrence-download-or-derived-dataset-be.md)\n- requires_verification: [Inspect high coordinate-uncertainty records before using them in fine-scale decisions.](../claims/requires-verification-inspect-high-coordinate-uncertainty-records-before-using-them-in-f.md)\n- requires_verification: [Treat undersampled occupied cells as survey priorities, not confirmed absences.](../claims/requires-verification-treat-undersampled-occupied-cells-as-survey-priorities-not-confirm.md)\n- requires_verification: [Treat empty grid cells as no-evidence cells, not absence evidence.](../claims/requires-verification-treat-empty-grid-cells-as-no-evidence-cells-not-absence-evidence.md)\n\n## Actions\n\n- [Create a DOI-backed GBIF occurrence download or derived dataset before publication.](../actions/create-a-doi-backed-gbif-occurrence-download-or-derived-dataset-before-publication.md)\n- [Preserve datasetKey and run.json with any downstream analysis.](../actions/preserve-datasetkey-and-run-json-with-any-downstream-analysis.md)\n- [Avoid absence claims for empty or low-effort grid cells.](../actions/avoid-absence-claims-for-empty-or-low-effort-grid-cells.md)\n- [Review records with coordinate uncertainty above 10 km.](../actions/review-records-with-coordinate-uncertainty-above-10-km.md)\n- [Prioritize survey design around no-evidence and under-sampled grid cells.](../actions/prioritize-survey-design-around-no-evidence-and-under-sampled-grid-cells.md)\n- [Share the Publisher Feedback Pack with dataset managers for prioritized fixes.](../actions/share-the-publisher-feedback-pack-with-dataset-managers-for-prioritized-fixes.md)\n",
+      "taxa/passer-domesticus-linnaeus-1758.md": "---\ntype: \"taxon\"\ntitle: \"Passer domesticus (Linnaeus, 1758)\"\ntaxonKey: 5231190\nmatch_confidence: 100\n---\n# Passer domesticus (Linnaeus, 1758)\n\n## Links\n\n- [Current run](../runs/da26fa96134a43939878cc3ff1c07655.md)\n\n## Notes\n\n- Accepted name: Passer domesticus (Linnaeus, 1758)\n",
+      "regions/united-states-live-gbif-bbox.md": "---\ntype: \"region\"\ntitle: \"United States live GBIF bbox\"\nbbox: [-125.0, 24.0, -66.5, 49.5]\n---\n# United States live GBIF bbox\n\n## Links\n\n- [Current run](../runs/da26fa96134a43939878cc3ff1c07655.md)\n\n## Notes\n\n- BBox: `[-125.0, 24.0, -66.5, 49.5]`\n",
+      "purposes/dataset_quality_review.md": "---\ntype: \"purpose\"\ntitle: \"Dataset quality review\"\npurpose: \"dataset_quality_review\"\nscore: 95.78\n---\n# Dataset quality review\n\n## Links\n\n- [Current run](../runs/da26fa96134a43939878cc3ff1c07655.md)\n\n## Notes\n\n- High readiness: evidence is strong for the selected purpose, with remaining caveats documented.\n",
       "methods/gbif-citation-checklist.md": "---\ntype: \"method\"\ntopic: \"gbif_citation_checklist\"\n---\n# GBIF Citation Checklist\n\nThis evidence pack does not include a GBIF download DOI. For publication, create and cite a DOI-backed GBIF occurrence download or derived dataset. Fixture or fallback packs are demo artifacts, not publication evidence.\n\n## Checklist\n\n- [x] datasetKey provenance preserved: Keep datasetKey in every record, aggregate and derived export.\n- [x] contribution counts generated: Use dataset_contributions.csv to show records per contributing dataset.\n- [x] license fields retained: Review missing or unknown licenses before formal publication.\n- [ ] GBIF download DOI or derived dataset attached: Create a DOI-backed GBIF occurrence download or derived dataset and attach it to the report.\n- [x] methods text generated: Review plain-English and journal-ready methods blocks before submission.\n\n## Methods Text\n\nOccurrence evidence for Passer domesticus in United States live GBIF bbox was assembled from GBIF-mediated occurrence-style records using bbox [-125.0, 24.0, -66.5, 49.5]. The workflow retained datasetKey provenance, record counts per contributing dataset, coordinate uncertainty, event dates, licenses and GBIF issue flags. The evidence readiness score was computed for purpose 'dataset_quality_review' from spatial, temporal, taxonomic, sampling and provenance components. Empty grid cells were treated as no-evidence cells rather than absences.\n\n## Journal Methods Text\n\nGBIF-mediated occurrence-style records for Passer domesticus were queried for United States live GBIF bbox using bounding box [-125.0, 24.0, -66.5, 49.5]. Records were retained with datasetKey-level provenance, contribution counts, coordinate uncertainty, event dates, licenses and issue flags. The EcoGenesis Evidence Passport computed a purpose-aware readiness score for dataset_quality_review; empty grid cells were interpreted as no-evidence cells and not as absences.\n",
-      "datasets/50c9509d-22c7-4a22-a47d-8c48425ef4a7.md": "---\ntype: \"dataset\"\ndatasetKey: \"50c9509d-22c7-4a22-a47d-8c48425ef4a7\"\npublisher: null\nlicense: \"http://creativecommons.org/licenses/by-nc/4.0/legalcode\"\nrecord_count: 120\n---\n# Dataset: 50c9509d-22c7-4a22-a47d-8c48425ef4a7\n\nCurrent run: [run](../runs/80993cc658df4ee2a746db935e553f1f.md)\n\n## Contribution\n\n- Records used: 120\n- License: http://creativecommons.org/licenses/by-nc/4.0/legalcode\n- Main issues: CONTINENT_DERIVED_FROM_COORDINATES, TAXON_ID_NOT_FOUND, COORDINATE_ROUNDED\n\n## Publisher Feedback\n\n- P1 medium: High coordinate uncertainty - Improve georeferencing or flag coarse records for coarse-scale use only.\n",
-      "issues/high-coordinate-uncertainty.md": "---\ntype: \"issue\"\nissue: \"High coordinate uncertainty\"\naffected_datasets: 1\n---\n# Issue: High coordinate uncertainty\n\nCurrent run: [run](../runs/80993cc658df4ee2a746db935e553f1f.md)\n\n## Affected Datasets\n\n- [50c9509d-22c7-4a22-a47d-8c48425ef4a7](../datasets/50c9509d-22c7-4a22-a47d-8c48425ef4a7.md): 15 records, medium severity\n",
-      "claims/supported-gbif-mediated-records-matching-the-selected-taxon-and-region-are-present-in-th.md": "---\ntype: \"claim\"\nstatus: \"supported\"\n---\n# Claim: GBIF-mediated records matching the selected taxon and region are present in the evidence pack.\n\nStatus: **supported**\nCurrent run: [run](../runs/80993cc658df4ee2a746db935e553f1f.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
-      "claims/supported-dataset-provenance-is-preserved-through-datasetkey-level-contribution-summarie.md": "---\ntype: \"claim\"\nstatus: \"supported\"\n---\n# Claim: Dataset provenance is preserved through datasetKey-level contribution summaries.\n\nStatus: **supported**\nCurrent run: [run](../runs/80993cc658df4ee2a746db935e553f1f.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
-      "claims/weak-record-clusters-can-indicate-areas-of-observation-activity-but-they-may-also-reflec.md": "---\ntype: \"claim\"\nstatus: \"weak\"\n---\n# Claim: Record clusters can indicate areas of observation activity, but they may also reflect observer effort.\n\nStatus: **weak**\nCurrent run: [run](../runs/80993cc658df4ee2a746db935e553f1f.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
-      "claims/weak-the-selected-purpose-readiness-score-is-95-78-100-and-should-be-interpreted-with-th.md": "---\ntype: \"claim\"\nstatus: \"weak\"\n---\n# Claim: The selected-purpose readiness score is 95.78/100 and should be interpreted with the component scores.\n\nStatus: **weak**\nCurrent run: [run](../runs/80993cc658df4ee2a746db935e553f1f.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
-      "claims/blocked-absence-cannot-be-inferred-from-empty-or-low-evidence-grid-cells.md": "---\ntype: \"claim\"\nstatus: \"blocked\"\n---\n# Claim: Absence cannot be inferred from empty or low-evidence grid cells.\n\nStatus: **blocked**\nCurrent run: [run](../runs/80993cc658df4ee2a746db935e553f1f.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
-      "claims/blocked-observed-gbif-distribution-must-not-be-treated-as-the-true-species-distribution.md": "---\ntype: \"claim\"\nstatus: \"blocked\"\n---\n# Claim: Observed GBIF distribution must not be treated as the true species distribution.\n\nStatus: **blocked**\nCurrent run: [run](../runs/80993cc658df4ee2a746db935e553f1f.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
-      "claims/blocked-population-trend-cannot-be-inferred-without-temporal-sampling-bias-correction.md": "---\ntype: \"claim\"\nstatus: \"blocked\"\n---\n# Claim: Population trend cannot be inferred without temporal sampling-bias correction.\n\nStatus: **blocked**\nCurrent run: [run](../runs/80993cc658df4ee2a746db935e553f1f.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
-      "claims/requires-verification-create-a-doi-backed-gbif-occurrence-download-or-derived-dataset-be.md": "---\ntype: \"claim\"\nstatus: \"requires_verification\"\n---\n# Claim: Create a DOI-backed GBIF occurrence download or derived dataset before formal publication.\n\nStatus: **requires_verification**\nCurrent run: [run](../runs/80993cc658df4ee2a746db935e553f1f.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
-      "claims/requires-verification-inspect-high-coordinate-uncertainty-records-before-using-them-in-f.md": "---\ntype: \"claim\"\nstatus: \"requires_verification\"\n---\n# Claim: Inspect high coordinate-uncertainty records before using them in fine-scale decisions.\n\nStatus: **requires_verification**\nCurrent run: [run](../runs/80993cc658df4ee2a746db935e553f1f.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
-      "claims/requires-verification-treat-undersampled-occupied-cells-as-survey-priorities-not-confirm.md": "---\ntype: \"claim\"\nstatus: \"requires_verification\"\n---\n# Claim: Treat undersampled occupied cells as survey priorities, not confirmed absences.\n\nStatus: **requires_verification**\nCurrent run: [run](../runs/80993cc658df4ee2a746db935e553f1f.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
-      "claims/requires-verification-treat-empty-grid-cells-as-no-evidence-cells-not-absence-evidence.md": "---\ntype: \"claim\"\nstatus: \"requires_verification\"\n---\n# Claim: Treat empty grid cells as no-evidence cells, not absence evidence.\n\nStatus: **requires_verification**\nCurrent run: [run](../runs/80993cc658df4ee2a746db935e553f1f.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
-      "actions/create-a-doi-backed-gbif-occurrence-download-or-derived-dataset-before-publication.md": "---\ntype: \"action\"\n---\n# Action: Create a DOI-backed GBIF occurrence download or derived dataset before publication.\n\nCurrent run: [run](../runs/80993cc658df4ee2a746db935e553f1f.md)\n\nUse this action as a review or follow-up task for the evidence workflow.\n",
-      "actions/preserve-datasetkey-and-run-json-with-any-downstream-analysis.md": "---\ntype: \"action\"\n---\n# Action: Preserve datasetKey and run.json with any downstream analysis.\n\nCurrent run: [run](../runs/80993cc658df4ee2a746db935e553f1f.md)\n\nUse this action as a review or follow-up task for the evidence workflow.\n",
-      "actions/avoid-absence-claims-for-empty-or-low-effort-grid-cells.md": "---\ntype: \"action\"\n---\n# Action: Avoid absence claims for empty or low-effort grid cells.\n\nCurrent run: [run](../runs/80993cc658df4ee2a746db935e553f1f.md)\n\nUse this action as a review or follow-up task for the evidence workflow.\n",
-      "actions/review-records-with-coordinate-uncertainty-above-10-km.md": "---\ntype: \"action\"\n---\n# Action: Review records with coordinate uncertainty above 10 km.\n\nCurrent run: [run](../runs/80993cc658df4ee2a746db935e553f1f.md)\n\nUse this action as a review or follow-up task for the evidence workflow.\n",
-      "actions/prioritize-survey-design-around-no-evidence-and-under-sampled-grid-cells.md": "---\ntype: \"action\"\n---\n# Action: Prioritize survey design around no-evidence and under-sampled grid cells.\n\nCurrent run: [run](../runs/80993cc658df4ee2a746db935e553f1f.md)\n\nUse this action as a review or follow-up task for the evidence workflow.\n",
-      "actions/share-the-publisher-feedback-pack-with-dataset-managers-for-prioritized-fixes.md": "---\ntype: \"action\"\n---\n# Action: Share the Publisher Feedback Pack with dataset managers for prioritized fixes.\n\nCurrent run: [run](../runs/80993cc658df4ee2a746db935e553f1f.md)\n\nUse this action as a review or follow-up task for the evidence workflow.\n"
+      "datasets/50c9509d-22c7-4a22-a47d-8c48425ef4a7.md": "---\ntype: \"dataset\"\ndatasetKey: \"50c9509d-22c7-4a22-a47d-8c48425ef4a7\"\npublisher: null\nlicense: \"http://creativecommons.org/licenses/by-nc/4.0/legalcode\"\nrecord_count: 120\n---\n# Dataset: 50c9509d-22c7-4a22-a47d-8c48425ef4a7\n\nCurrent run: [run](../runs/da26fa96134a43939878cc3ff1c07655.md)\n\n## Contribution\n\n- Records used: 120\n- License: http://creativecommons.org/licenses/by-nc/4.0/legalcode\n- Main issues: CONTINENT_DERIVED_FROM_COORDINATES, TAXON_ID_NOT_FOUND, COORDINATE_ROUNDED\n\n## Publisher Feedback\n\n- P1 medium: High coordinate uncertainty - Improve georeferencing or flag coarse records for coarse-scale use only.\n",
+      "issues/high-coordinate-uncertainty.md": "---\ntype: \"issue\"\nissue: \"High coordinate uncertainty\"\naffected_datasets: 1\n---\n# Issue: High coordinate uncertainty\n\nCurrent run: [run](../runs/da26fa96134a43939878cc3ff1c07655.md)\n\n## Affected Datasets\n\n- [50c9509d-22c7-4a22-a47d-8c48425ef4a7](../datasets/50c9509d-22c7-4a22-a47d-8c48425ef4a7.md): 15 records, medium severity\n",
+      "claims/supported-gbif-mediated-records-matching-the-selected-taxon-and-region-are-present-in-th.md": "---\ntype: \"claim\"\nstatus: \"supported\"\n---\n# Claim: GBIF-mediated records matching the selected taxon and region are present in the evidence pack.\n\nStatus: **supported**\nCurrent run: [run](../runs/da26fa96134a43939878cc3ff1c07655.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
+      "claims/supported-dataset-provenance-is-preserved-through-datasetkey-level-contribution-summarie.md": "---\ntype: \"claim\"\nstatus: \"supported\"\n---\n# Claim: Dataset provenance is preserved through datasetKey-level contribution summaries.\n\nStatus: **supported**\nCurrent run: [run](../runs/da26fa96134a43939878cc3ff1c07655.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
+      "claims/weak-record-clusters-can-indicate-areas-of-observation-activity-but-they-may-also-reflec.md": "---\ntype: \"claim\"\nstatus: \"weak\"\n---\n# Claim: Record clusters can indicate areas of observation activity, but they may also reflect observer effort.\n\nStatus: **weak**\nCurrent run: [run](../runs/da26fa96134a43939878cc3ff1c07655.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
+      "claims/weak-the-selected-purpose-readiness-score-is-95-78-100-and-should-be-interpreted-with-th.md": "---\ntype: \"claim\"\nstatus: \"weak\"\n---\n# Claim: The selected-purpose readiness score is 95.78/100 and should be interpreted with the component scores.\n\nStatus: **weak**\nCurrent run: [run](../runs/da26fa96134a43939878cc3ff1c07655.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
+      "claims/blocked-absence-cannot-be-inferred-from-empty-or-low-evidence-grid-cells.md": "---\ntype: \"claim\"\nstatus: \"blocked\"\n---\n# Claim: Absence cannot be inferred from empty or low-evidence grid cells.\n\nStatus: **blocked**\nCurrent run: [run](../runs/da26fa96134a43939878cc3ff1c07655.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
+      "claims/blocked-observed-gbif-distribution-must-not-be-treated-as-the-true-species-distribution.md": "---\ntype: \"claim\"\nstatus: \"blocked\"\n---\n# Claim: Observed GBIF distribution must not be treated as the true species distribution.\n\nStatus: **blocked**\nCurrent run: [run](../runs/da26fa96134a43939878cc3ff1c07655.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
+      "claims/blocked-population-trend-cannot-be-inferred-without-temporal-sampling-bias-correction.md": "---\ntype: \"claim\"\nstatus: \"blocked\"\n---\n# Claim: Population trend cannot be inferred without temporal sampling-bias correction.\n\nStatus: **blocked**\nCurrent run: [run](../runs/da26fa96134a43939878cc3ff1c07655.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
+      "claims/requires-verification-create-a-doi-backed-gbif-occurrence-download-or-derived-dataset-be.md": "---\ntype: \"claim\"\nstatus: \"requires_verification\"\n---\n# Claim: Create a DOI-backed GBIF occurrence download or derived dataset before formal publication.\n\nStatus: **requires_verification**\nCurrent run: [run](../runs/da26fa96134a43939878cc3ff1c07655.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
+      "claims/requires-verification-inspect-high-coordinate-uncertainty-records-before-using-them-in-f.md": "---\ntype: \"claim\"\nstatus: \"requires_verification\"\n---\n# Claim: Inspect high coordinate-uncertainty records before using them in fine-scale decisions.\n\nStatus: **requires_verification**\nCurrent run: [run](../runs/da26fa96134a43939878cc3ff1c07655.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
+      "claims/requires-verification-treat-undersampled-occupied-cells-as-survey-priorities-not-confirm.md": "---\ntype: \"claim\"\nstatus: \"requires_verification\"\n---\n# Claim: Treat undersampled occupied cells as survey priorities, not confirmed absences.\n\nStatus: **requires_verification**\nCurrent run: [run](../runs/da26fa96134a43939878cc3ff1c07655.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
+      "claims/requires-verification-treat-empty-grid-cells-as-no-evidence-cells-not-absence-evidence.md": "---\ntype: \"claim\"\nstatus: \"requires_verification\"\n---\n# Claim: Treat empty grid cells as no-evidence cells, not absence evidence.\n\nStatus: **requires_verification**\nCurrent run: [run](../runs/da26fa96134a43939878cc3ff1c07655.md)\n\nThis claim is stored as graph memory so future runs can reuse or challenge it.\n",
+      "actions/create-a-doi-backed-gbif-occurrence-download-or-derived-dataset-before-publication.md": "---\ntype: \"action\"\n---\n# Action: Create a DOI-backed GBIF occurrence download or derived dataset before publication.\n\nCurrent run: [run](../runs/da26fa96134a43939878cc3ff1c07655.md)\n\nUse this action as a review or follow-up task for the evidence workflow.\n",
+      "actions/preserve-datasetkey-and-run-json-with-any-downstream-analysis.md": "---\ntype: \"action\"\n---\n# Action: Preserve datasetKey and run.json with any downstream analysis.\n\nCurrent run: [run](../runs/da26fa96134a43939878cc3ff1c07655.md)\n\nUse this action as a review or follow-up task for the evidence workflow.\n",
+      "actions/avoid-absence-claims-for-empty-or-low-effort-grid-cells.md": "---\ntype: \"action\"\n---\n# Action: Avoid absence claims for empty or low-effort grid cells.\n\nCurrent run: [run](../runs/da26fa96134a43939878cc3ff1c07655.md)\n\nUse this action as a review or follow-up task for the evidence workflow.\n",
+      "actions/review-records-with-coordinate-uncertainty-above-10-km.md": "---\ntype: \"action\"\n---\n# Action: Review records with coordinate uncertainty above 10 km.\n\nCurrent run: [run](../runs/da26fa96134a43939878cc3ff1c07655.md)\n\nUse this action as a review or follow-up task for the evidence workflow.\n",
+      "actions/prioritize-survey-design-around-no-evidence-and-under-sampled-grid-cells.md": "---\ntype: \"action\"\n---\n# Action: Prioritize survey design around no-evidence and under-sampled grid cells.\n\nCurrent run: [run](../runs/da26fa96134a43939878cc3ff1c07655.md)\n\nUse this action as a review or follow-up task for the evidence workflow.\n",
+      "actions/share-the-publisher-feedback-pack-with-dataset-managers-for-prioritized-fixes.md": "---\ntype: \"action\"\n---\n# Action: Share the Publisher Feedback Pack with dataset managers for prioritized fixes.\n\nCurrent run: [run](../runs/da26fa96134a43939878cc3ff1c07655.md)\n\nUse this action as a review or follow-up task for the evidence workflow.\n"
     }
   },
   "exports": [
     {
       "name": "citations.md",
-      "url": "/api/evidence/runs/80993cc658df4ee2a746db935e553f1f/exports/citations.md",
+      "url": "/api/evidence/runs/da26fa96134a43939878cc3ff1c07655/exports/citations.md",
       "size_bytes": 2264,
       "sha256": "f4cda26e8b61bea245f847a56b44a171d9cd35a78615056a674bdc39d3bb9177"
     },
     {
       "name": "claim_guardrails.md",
-      "url": "/api/evidence/runs/80993cc658df4ee2a746db935e553f1f/exports/claim_guardrails.md",
+      "url": "/api/evidence/runs/da26fa96134a43939878cc3ff1c07655/exports/claim_guardrails.md",
       "size_bytes": 1064,
       "sha256": "9ed4df7e86d313553176f86f18caa3ea598584c9c142cc3009d9b8c825c22957"
     },
     {
       "name": "dataset_contributions.csv",
-      "url": "/api/evidence/runs/80993cc658df4ee2a746db935e553f1f/exports/dataset_contributions.csv",
+      "url": "/api/evidence/runs/da26fa96134a43939878cc3ff1c07655/exports/dataset_contributions.csv",
       "size_bytes": 282,
       "sha256": "1644add83cfcd84579745fcae2bb027efab6bc770d91d03845e78af7246bb3ed"
     },
     {
       "name": "decision_memo.json",
-      "url": "/api/evidence/runs/80993cc658df4ee2a746db935e553f1f/exports/decision_memo.json",
+      "url": "/api/evidence/runs/da26fa96134a43939878cc3ff1c07655/exports/decision_memo.json",
       "size_bytes": 2764,
       "sha256": "697789cc2f3294e14a4a475f8bb87a4295ce5f9bf4da72f0df1026f7300066c4"
     },
     {
       "name": "decision_memo.md",
-      "url": "/api/evidence/runs/80993cc658df4ee2a746db935e553f1f/exports/decision_memo.md",
+      "url": "/api/evidence/runs/da26fa96134a43939878cc3ff1c07655/exports/decision_memo.md",
       "size_bytes": 2269,
       "sha256": "16b05c4874ca7306082db2e59424e287b4077657a25caf97a63ee86086f8a03e"
     },
     {
       "name": "demo_scenario.json",
-      "url": "/api/evidence/runs/80993cc658df4ee2a746db935e553f1f/exports/demo_scenario.json",
+      "url": "/api/evidence/runs/da26fa96134a43939878cc3ff1c07655/exports/demo_scenario.json",
       "size_bytes": 927,
       "sha256": "8b688333be7bea100031f9fab0fcef63369cf6b0d19855d6f0a63d55053c2c13"
     },
     {
       "name": "derived_dataset_recipe.json",
-      "url": "/api/evidence/runs/80993cc658df4ee2a746db935e553f1f/exports/derived_dataset_recipe.json",
+      "url": "/api/evidence/runs/da26fa96134a43939878cc3ff1c07655/exports/derived_dataset_recipe.json",
       "size_bytes": 456,
       "sha256": "364430ce1060311907c3f2b2df235e1842968dc7424eaa53ae083e052b2324d0"
     },
     {
       "name": "evidence_graph.json",
-      "url": "/api/evidence/runs/80993cc658df4ee2a746db935e553f1f/exports/evidence_graph.json",
+      "url": "/api/evidence/runs/da26fa96134a43939878cc3ff1c07655/exports/evidence_graph.json",
       "size_bytes": 16949,
-      "sha256": "80cb48726a0af3fcf5a06dc99e7d2ff3ecf01a23c9dfaf4ef8bfde720b979848"
+      "sha256": "6ae903ed57965fabc3d309caa1cfcb468a0842f9f8788be4cf0cf777f893a959"
     },
     {
       "name": "evidence_pack.json",
-      "url": "/api/evidence/runs/80993cc658df4ee2a746db935e553f1f/exports/evidence_pack.json",
+      "url": "/api/evidence/runs/da26fa96134a43939878cc3ff1c07655/exports/evidence_pack.json",
       "size_bytes": 1640001,
-      "sha256": "5fd127b65f69ffcba6e163e289d39c0170080e482b7a03988c360b6692bca929"
+      "sha256": "4c6e80f50c2ebad6a69a3c921aade2fa4e3541afea0697ff74f5f289101db3c7"
     },
     {
       "name": "evidence_pack.zip",
-      "url": "/api/evidence/runs/80993cc658df4ee2a746db935e553f1f/exports/evidence_pack.zip",
-      "size_bytes": 136822,
-      "sha256": "7a2533b7dcce5e87ba8baa0ebffe62b00ab753d8cb627f0ef8c3e1e66adf2c67"
+      "url": "/api/evidence/runs/da26fa96134a43939878cc3ff1c07655/exports/evidence_pack.zip",
+      "size_bytes": 136816,
+      "sha256": "8d6fe331a1e98b340df7522c079066de8432ab8316f1f07410363f087179ad46"
     },
     {
       "name": "evidence_vault.zip",
-      "url": "/api/evidence/runs/80993cc658df4ee2a746db935e553f1f/exports/evidence_vault.zip",
-      "size_bytes": 13235,
-      "sha256": "1a39600be8e1967fbc79272d4099dc8c633417c1e6be5f433f9ab441a9c4f306"
+      "url": "/api/evidence/runs/da26fa96134a43939878cc3ff1c07655/exports/evidence_vault.zip",
+      "size_bytes": 13244,
+      "sha256": "1374e08706a4330ce2931f18d07303d3acd6233fb3883ba48e0d7a7da4568766"
     },
     {
       "name": "gap_priorities.csv",
-      "url": "/api/evidence/runs/80993cc658df4ee2a746db935e553f1f/exports/gap_priorities.csv",
+      "url": "/api/evidence/runs/da26fa96134a43939878cc3ff1c07655/exports/gap_priorities.csv",
       "size_bytes": 2795,
       "sha256": "108200067c4ffe7064a169e9548b8c15f19ea936877ee7ff423e3a13ee884a57"
     },
     {
       "name": "graph_memory.md",
-      "url": "/api/evidence/runs/80993cc658df4ee2a746db935e553f1f/exports/graph_memory.md",
+      "url": "/api/evidence/runs/da26fa96134a43939878cc3ff1c07655/exports/graph_memory.md",
       "size_bytes": 4688,
-      "sha256": "77beaf7b4962e534908e23dcb280847a19eed70fed4c7d673d4be8b5eb884ef3"
+      "sha256": "cab5c0b8e7f593a3244a9e69c8f0e91c9ad1b5a84b519db961e5239476f68662"
     },
     {
       "name": "impact_brief.md",
-      "url": "/api/evidence/runs/80993cc658df4ee2a746db935e553f1f/exports/impact_brief.md",
+      "url": "/api/evidence/runs/da26fa96134a43939878cc3ff1c07655/exports/impact_brief.md",
       "size_bytes": 1379,
       "sha256": "d65c43a0295126499ef42a128b48a73c2a72211b6bfec23b0c48749c5245793c"
     },
     {
       "name": "methods_text.md",
-      "url": "/api/evidence/runs/80993cc658df4ee2a746db935e553f1f/exports/methods_text.md",
+      "url": "/api/evidence/runs/da26fa96134a43939878cc3ff1c07655/exports/methods_text.md",
       "size_bytes": 862,
       "sha256": "fc013c30d93ccf6f64b60e8107b1ecf0d1c54bfcf0cfd5e58fc5e38fc82aa0ff"
     },
     {
       "name": "passport.html",
-      "url": "/api/evidence/runs/80993cc658df4ee2a746db935e553f1f/exports/passport.html",
+      "url": "/api/evidence/runs/da26fa96134a43939878cc3ff1c07655/exports/passport.html",
       "size_bytes": 35892,
       "sha256": "f7e7166bed78cf48dcb2cf47fb28a5a4c2fc40281dd8a3d95fc3ebe1da57991c"
     },
     {
       "name": "passport.md",
-      "url": "/api/evidence/runs/80993cc658df4ee2a746db935e553f1f/exports/passport.md",
+      "url": "/api/evidence/runs/da26fa96134a43939878cc3ff1c07655/exports/passport.md",
       "size_bytes": 5370,
       "sha256": "09c6c25698f4504fb2b4885668b5c433b7bb2b1bea2453c94754a37071e19f8f"
     },
     {
       "name": "provenance.json",
-      "url": "/api/evidence/runs/80993cc658df4ee2a746db935e553f1f/exports/provenance.json",
+      "url": "/api/evidence/runs/da26fa96134a43939878cc3ff1c07655/exports/provenance.json",
       "size_bytes": 36524,
-      "sha256": "d587a30bbe5801e6bbbf9704852459f26479ed2968f05677c6b4ff19e4dbdc3a"
+      "sha256": "ff8e806d78e7a84c95c1a50f6c480269ea8c707289c3ce614071ff012318bb50"
     },
     {
       "name": "publisher_feedback.csv",
-      "url": "/api/evidence/runs/80993cc658df4ee2a746db935e553f1f/exports/publisher_feedback.csv",
+      "url": "/api/evidence/runs/da26fa96134a43939878cc3ff1c07655/exports/publisher_feedback.csv",
       "size_bytes": 225,
       "sha256": "0b8e62f2d6bd44d3a10208b8539de2673497d8542ac8b19b2c79481b7e10adea"
     },
     {
       "name": "publisher_feedback.md",
-      "url": "/api/evidence/runs/80993cc658df4ee2a746db935e553f1f/exports/publisher_feedback.md",
+      "url": "/api/evidence/runs/da26fa96134a43939878cc3ff1c07655/exports/publisher_feedback.md",
       "size_bytes": 316,
       "sha256": "401020b1d84f8905639d2b5a52edcd169581f506002dc334152fccfe1fa21e66"
     },
     {
       "name": "publisher_issue_templates.md",
-      "url": "/api/evidence/runs/80993cc658df4ee2a746db935e553f1f/exports/publisher_issue_templates.md",
+      "url": "/api/evidence/runs/da26fa96134a43939878cc3ff1c07655/exports/publisher_issue_templates.md",
       "size_bytes": 731,
       "sha256": "a52f70cc8f0771469237e4c97fb09915f5eca84a0b9600395e312828f70160fd"
     },
     {
       "name": "quality_metrics.csv",
-      "url": "/api/evidence/runs/80993cc658df4ee2a746db935e553f1f/exports/quality_metrics.csv",
+      "url": "/api/evidence/runs/da26fa96134a43939878cc3ff1c07655/exports/quality_metrics.csv",
       "size_bytes": 297,
       "sha256": "4da3b95f17120c1e1084450f26bd03a93fe9a1a22a06247903e09c591a751e8a"
     },
     {
       "name": "readiness_scorecard.csv",
-      "url": "/api/evidence/runs/80993cc658df4ee2a746db935e553f1f/exports/readiness_scorecard.csv",
+      "url": "/api/evidence/runs/da26fa96134a43939878cc3ff1c07655/exports/readiness_scorecard.csv",
       "size_bytes": 460,
       "sha256": "11d3b608192adcd93c59477c64a0f3a5fc110cc25fea9681de9fd41ac7ddc4bc"
     },
     {
       "name": "records.geojson",
-      "url": "/api/evidence/runs/80993cc658df4ee2a746db935e553f1f/exports/records.geojson",
+      "url": "/api/evidence/runs/da26fa96134a43939878cc3ff1c07655/exports/records.geojson",
       "size_bytes": 90649,
       "sha256": "1662c44e7949f8e34ac99ab17bb9b9758018366e540d4a3c4d9db663a6ab9a33"
     },
     {
       "name": "run.json",
-      "url": "/api/evidence/runs/80993cc658df4ee2a746db935e553f1f/exports/run.json",
+      "url": "/api/evidence/runs/da26fa96134a43939878cc3ff1c07655/exports/run.json",
       "size_bytes": 2612,
-      "sha256": "13fbab9fd7f70e1c7ecd4b7910fedeb00eed8f2193216594c4819624135f4d5f"
+      "sha256": "274ab0965023971d4374a37f7687973324a9544ac73b552b9f6a28608f22bd44"
     },
     {
       "name": "source_summary.json",
-      "url": "/api/evidence/runs/80993cc658df4ee2a746db935e553f1f/exports/source_summary.json",
+      "url": "/api/evidence/runs/da26fa96134a43939878cc3ff1c07655/exports/source_summary.json",
       "size_bytes": 379,
       "sha256": "14e7ccfcca6358d3e396e9c2e3b9e62316c6889af70c11d59e233bb2b1dfac39"
     },
     {
       "name": "submission_readiness.json",
-      "url": "/api/evidence/runs/80993cc658df4ee2a746db935e553f1f/exports/submission_readiness.json",
+      "url": "/api/evidence/runs/da26fa96134a43939878cc3ff1c07655/exports/submission_readiness.json",
       "size_bytes": 3748,
       "sha256": "2edcde1d887357aa226afd4c07fda626b336ef6fd7ade7385be123ce7bef779d"
     },
     {
       "name": "submission_readiness.md",
-      "url": "/api/evidence/runs/80993cc658df4ee2a746db935e553f1f/exports/submission_readiness.md",
+      "url": "/api/evidence/runs/da26fa96134a43939878cc3ff1c07655/exports/submission_readiness.md",
       "size_bytes": 2597,
       "sha256": "42f1f19c7ef72f3c2a33ca12788519c3dae7fe9aaf16d5a17e7679fc5bf597f7"
     },
     {
       "name": "validation_summary.json",
-      "url": "/api/evidence/runs/80993cc658df4ee2a746db935e553f1f/exports/validation_summary.json",
+      "url": "/api/evidence/runs/da26fa96134a43939878cc3ff1c07655/exports/validation_summary.json",
       "size_bytes": 3235,
       "sha256": "c29a57652a37b532620128bc968e8bb8eaf8d321c7efc85e2f365aea4065b9a2"
     },
     {
       "name": "validation_summary.md",
-      "url": "/api/evidence/runs/80993cc658df4ee2a746db935e553f1f/exports/validation_summary.md",
+      "url": "/api/evidence/runs/da26fa96134a43939878cc3ff1c07655/exports/validation_summary.md",
       "size_bytes": 2246,
       "sha256": "3d8e5ca447fbeebab25648a02abff5c3fef6d53356d141968a9edae0dfea5687"
     },
     {
       "name": "video_script.md",
-      "url": "/api/evidence/runs/80993cc658df4ee2a746db935e553f1f/exports/video_script.md",
+      "url": "/api/evidence/runs/da26fa96134a43939878cc3ff1c07655/exports/video_script.md",
       "size_bytes": 1107,
       "sha256": "fbf0aa126c47e544421064178c935abc5c9c497cfd85e4a36bc2893285c9e6e8"
     }
-  ]
+  ],
+  "dataset_metadata_enrichment": {
+    "enriched_at": "2026-05-26T23:02:05.472396+00:00",
+    "source": "GBIF dataset API",
+    "dataset_count": 1,
+    "enriched_count": 1,
+    "failed_count": 0,
+    "publisher_enriched_count": 1,
+    "datasets": [
+      {
+        "datasetKey": "50c9509d-22c7-4a22-a47d-8c48425ef4a7",
+        "status": "ok",
+        "datasetTitle": "iNaturalist Research-grade Observations",
+        "publisher": "iNaturalist.org",
+        "publisher_source": "organization",
+        "publishingOrganizationKey": "28eb1a3f-1c15-4a95-931a-4af90ecb574d",
+        "license": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+        "doi": "10.15468/ab3s5x",
+        "citation": "iNaturalist contributors, iNaturalist (2026). iNaturalist Research-grade Observations. iNaturalist.org. Occurrence dataset https://doi.org/10.15468/ab3s5x accessed via GBIF.org on 2026-05-26.",
+        "homepage": "https://www.inaturalist.org/observations",
+        "source": "gbif_api",
+        "dataset_metadata_enriched_at": "2026-05-26T23:02:05.472396+00:00",
+        "error": ""
+      }
+    ]
+  }
 }

@@ -37,8 +37,53 @@ const defaultScenario = {
 const modeLabels = {
   overview: 'Submission overview',
   workbench: 'Compiler workbench',
+  research: 'Research audit',
   formulas: 'Proof & formulas',
 };
+
+const scientificSuiteMetrics = [
+  ['Live GBIF records', '1000', 'Deduplicated occurrence records from 10 online scenarios.'],
+  ['Hypothesis claims', '100', '48 supported, 12 weak, 20 blocked and 20 requiring verification.'],
+  ['Duplicate records skipped', '149', 'The suite separates downloaded records from deduplicated records.'],
+  ['High uncertainty records', '130', 'Fine-scale interpretation is weakened where coordinate uncertainty is high.'],
+];
+
+const architectureLevels = [
+  ['Level A', 'Occurrence Evidence Audit Shell', 'Live GBIF occurrence context, dataset concentration, issue flags, coordinate/date risks and claim guardrails.'],
+  ['Level B', 'Barcode-to-GBIF Evidence Compiler', 'The implemented molecular safety layer: identity, coverage, ambiguity, LCA, barcode gap, diagnostic k-mers and GBIF/DNA metadata.'],
+  ['Level C', 'Molecular Evidence Graph', 'The expanded direction: fragments, taxa, geography, protein/domain context, function hypotheses and safe/blocked claims in one graph.'],
+];
+
+const scientificSuiteScenarios = [
+  ['aedes-spain', '120', '120', '4', '0.842', '94.69', '6'],
+  ['aedes-italy', '120', '120', '3', '0.750', '89.17', '2'],
+  ['aedes-france', '120', '77', '5', '0.617', '94.91', '3'],
+  ['quercus-western-europe', '120', '120', '7', '0.367', '82.56', '0'],
+  ['quercus-germany', '120', '75', '6', '0.567', '83.12', '0'],
+  ['lynx-iberia', '120', '120', '4', '0.808', '85.8', '97'],
+  ['apis-western-europe', '120', '120', '4', '0.492', '95.08', '4'],
+  ['apis-france', '120', '59', '4', '0.617', '84.64', '3'],
+  ['passer-western-europe', '120', '120', '2', '0.950', '66.25', '0'],
+  ['passer-united-states', '120', '120', '1', '1.000', '95.78', '15'],
+];
+
+const researchBottlenecks = [
+  ['Readiness score overconfidence', 'Some scenarios have high score despite strong caveats, so the UI must lead with claim status and blockers.'],
+  ['Single-dataset bias', 'Passer domesticus in the United States is dominated by one dataset; distribution-looking patterns may be publisher patterns.'],
+  ['High coordinate uncertainty', 'Lynx pardinus in Iberia has many records above 10 km uncertainty, blocking fine-scale interpretation.'],
+  ['Downloaded vs deduped mismatch', 'Reports now separate downloaded_records, deduped_records and records_used_for_metrics.'],
+  ['Publisher metadata enrichment', 'Dataset provenance now uses GBIF dataset and organization APIs, with publisher, title, DOI and citation filled in the 1000-record CSV.'],
+  ['Missing uncertainty fields', '154 records still lack coordinateUncertaintyInMeters, so fine-scale decisions must stay guarded even when coordinates exist.'],
+  ['Molecular scope boundary', 'The 1000-record suite validates occurrence audit, not Sequence ID, protein or fragment truth.'],
+];
+
+const researchArtifacts = [
+  ['records_1000.csv', '1000 deduplicated GBIF occurrence records with dataset and quality fields.'],
+  ['theory_claims_100.csv', '100 safe scientific hypotheses with evidence fields, caveats and recommended actions.'],
+  ['scenario_metrics.csv', 'Downloaded vs deduped counts, scores, dataset concentration and quality indicators.'],
+  ['bottlenecks_and_errors.md', 'All known methodological and data-quality limitations.'],
+  ['raw_packs/*.json', 'Full per-scenario evidence packs for audit and reproduction.'],
+];
 
 const formulaSections = [
   {
@@ -1538,6 +1583,8 @@ function App() {
         />
       ) : mode === 'formulas' ? (
         <ProofAndFormulas />
+      ) : mode === 'research' ? (
+        <ResearchAudit />
       ) : (
         <CompilerWorkbench
           scenarios={scenarios}
@@ -1629,6 +1676,114 @@ function SubmissionOverview({ referenceStatus, metrics, exports, pack, onOpenWor
             <li>Missing occurrenceID or eventDate blocks GBIF-ready publication.</li>
           </ul>
         </div>
+      </section>
+    </section>
+  );
+}
+
+function ResearchAudit() {
+  return (
+    <section className="research-page">
+      <section className="research-hero panel">
+        <div>
+          <p className="section-label">Research audit layer</p>
+          <h2>What the 1000-record live GBIF suite really proves, and what it does not prove.</h2>
+          <p>
+            This layer keeps the project honest: the 1000-record suite validates occurrence evidence auditing,
+            source concentration, metadata risks and safe scientific claim generation. It does not pretend to be
+            the molecular fragment graph itself. The molecular compiler remains the core implemented engine, and
+            the expanded Molecular Evidence Graph is the next research layer.
+          </p>
+        </div>
+        <div className="proof-summary">
+          <strong>Accepted separation</strong>
+          <span>Occurrence audit is context. Barcode Compiler is the working molecular safety engine. Molecular Evidence Graph is the full direction.</span>
+        </div>
+      </section>
+
+      <section className="metrics-grid">
+        {scientificSuiteMetrics.map(([label, value, detail]) => (
+          <article className="metric-card" key={label}>
+            <strong>{value}</strong>
+            <span>{label}</span>
+            <small>{detail}</small>
+          </article>
+        ))}
+      </section>
+
+      <section className="panel">
+        <p className="section-label">Product architecture</p>
+        <h2>Three levels, no mixed promises.</h2>
+        <div className="layer-grid">
+          {architectureLevels.map(([level, title, body]) => (
+            <article className="layer-card" key={level}>
+              <span>{level.replace('Level ', '')}</span>
+              <h3>{title}</h3>
+              <p>{body}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="panel">
+        <p className="section-label">Live suite result</p>
+        <h2>Downloaded records are now separated from deduplicated records.</h2>
+        <p className="proof-copy">
+          The previous summary could look inconsistent because scenario metrics used retained/downloaded counts while
+          `records_1000.csv` used deduplicated counts. The suite report now exposes both numbers so reviewers can see
+          where duplicates and repeated records were removed.
+        </p>
+        <div className="analysis-table compact-analysis research-table">
+          <div><strong>Scenario</strong><strong>Downloaded</strong><strong>Deduped</strong><strong>Datasets</strong><strong>Top share</strong><strong>Score</strong><strong>High uncertainty</strong></div>
+          {scientificSuiteScenarios.map(([scenario, downloaded, deduped, datasets, share, score, uncertainty]) => (
+            <div key={scenario}>
+              <span>{scenario}</span>
+              <span>{downloaded}</span>
+              <span>{deduped}</span>
+              <span>{datasets}</span>
+              <span>{share}</span>
+              <span>{score}</span>
+              <span>{uncertainty}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="panel two-column">
+        <div>
+          <p className="section-label">Main bottlenecks</p>
+          <div className="stack-list">
+            {researchBottlenecks.map(([title, body]) => (
+              <article key={title}>
+                <h3>{title}</h3>
+                <p>{body}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+        <div>
+          <p className="section-label">Report artifacts</p>
+          <div className="artifact-table compact-artifacts">
+            <div><strong>File</strong><strong>Meaning</strong></div>
+            {researchArtifacts.map(([name, purpose]) => (
+              <div key={name}>
+                <strong>{name}</strong>
+                <span>{purpose}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="panel final-proof">
+        <p className="section-label">Upgrade direction</p>
+        <h2>The next winning step is fragment-level evidence, not another abstract score.</h2>
+        <p>
+          The project should now evolve from occurrence audit into fragment sharedness: sequence fragment to all
+          taxa carrying it, LCA safe rank, specificity, GBIF geography context, coding-marker protein sanity and
+          safe/blocked claims. That turns ambiguous fragments into knowledge instead of hiding them behind a single
+          top-hit label.
+        </p>
       </section>
     </section>
   );

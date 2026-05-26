@@ -79,6 +79,7 @@ describe('Barcode compiler UI', () => {
 
     expect(await screen.findByText('Molecular Evidence Conversion & Repair Engine for GBIF')).toBeInTheDocument();
     expect(screen.getByText('Submission overview')).toBeInTheDocument();
+    expect(screen.getByText('Research audit')).toBeInTheDocument();
 
     fireEvent.click(screen.getByText('Run mixed demo'));
 
@@ -139,5 +140,27 @@ describe('Barcode compiler UI', () => {
     expect(screen.getByText('Decision function')).toBeInTheDocument();
     expect(screen.getByText('Proof by contradiction')).toBeInTheDocument();
     expect(screen.getAllByText(/p_false_positive/).length).toBeGreaterThan(0);
+  });
+
+  it('opens the research audit page', async () => {
+    vi.spyOn(globalThis, 'fetch').mockImplementation((url) => {
+      const textUrl = String(url);
+      if (textUrl.endsWith('/api/barcode/demo-scenarios')) {
+        return Promise.resolve(new Response(JSON.stringify(demoScenarios), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/reference-status')) {
+        return Promise.resolve(new Response(JSON.stringify({ status: 'ready', message: 'Compiler ready.' }), { status: 200 }));
+      }
+      return Promise.resolve(new Response('{}', { status: 404 }));
+    });
+
+    render(<App />);
+    fireEvent.click(await screen.findByText('Research audit'));
+
+    expect(screen.getByText('Research audit layer')).toBeInTheDocument();
+    expect(screen.getByText('Occurrence Evidence Audit Shell')).toBeInTheDocument();
+    expect(screen.getByText('Downloaded records are now separated from deduplicated records.')).toBeInTheDocument();
+    expect(screen.getByText('theory_claims_100.csv')).toBeInTheDocument();
+    expect(screen.getByText('The next winning step is fragment-level evidence, not another abstract score.')).toBeInTheDocument();
   });
 });
