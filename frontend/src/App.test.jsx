@@ -129,6 +129,8 @@ describe('Barcode compiler UI', () => {
     expect(screen.getAllByText('Protein sanity').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Evidence graph').length).toBeGreaterThan(0);
     expect(screen.getByText('Full mathematical notebook')).toBeInTheDocument();
+    expect(screen.getByText('Rendered mathematical notation')).toBeInTheDocument();
+    expect(screen.getByText('Reference completeness')).toBeInTheDocument();
     expect(screen.getByText('Reference Completeness Gate')).toBeInTheDocument();
     expect(screen.getByText('Assay Evidence Gate for eDNA and metabarcoding')).toBeInTheDocument();
     expect(screen.getByText('Conversion and overclaim metrics')).toBeInTheDocument();

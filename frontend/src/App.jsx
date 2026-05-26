@@ -993,6 +993,178 @@ Every published claim must have:
   },
 ];
 
+const renderedFormulaSections = [
+  {
+    label: '01',
+    title: 'Input space',
+    equations: [
+      <MathRow key="omega"><Mi>Omega</Mi><Op>=</Op><MathSet><Mi>r</Mi><Sub>1</Sub>, <Mi>r</Mi><Sub>2</Sub>, ..., <Mi>r</Mi><Sub>N</Sub></MathSet></MathRow>,
+      <MathRow key="ri"><Mi>r</Mi><Sub>i</Sub><Op>=</Op><Paren><Mi>s</Mi><Sub>i</Sub>, <Mi>H</Mi><Sub>i</Sub>, <Mi>T</Mi><Sub>i</Sub>, <Mi>M</Mi><Sub>i</Sub>, <Mi>R</Mi><Sub>i</Sub>, <Mi>A</Mi><Sub>i</Sub></Paren></MathRow>,
+    ],
+    explanation: 'Each molecular observation is sequence evidence plus hits, taxonomy, metadata, reference context and assay context.',
+  },
+  {
+    label: '02',
+    title: 'Compiler mapping',
+    equations: [
+      <MathRow key="compiler"><Func>Compiler</Func><Paren><Mi>s</Mi>, <Mi>H</Mi>, <Mi>T</Mi>, <Mi>M</Mi>, <Mi>R</Mi>, <Mi>A</Mi></Paren><Op>to</Op><Paren><Mi>tau</Mi><Sub>safe</Sub>, <Mi>TaxStatus</Mi>, <Mi>PubStatus</Mi>, <Mi>B</Mi>, <Mi>Actions</Mi>, <Mi>Exports</Mi></Paren></MathRow>,
+    ],
+    explanation: 'The output is not a score. It is a safe taxon, publication status, blockers, repair actions and exports.',
+  },
+  {
+    label: '03',
+    title: 'Identity and coverage gates',
+    equations: [
+      <MathRow key="exact"><Func>Exact</Func><Paren><Mi>h</Mi><Sub>i</Sub></Paren><Op>=</Op><Indicator><Mi>identity</Mi><Sub>i</Sub><Op>&gt;=</Op>0.99</Indicator><Op>*</Op><Indicator><Mi>coverage</Mi><Sub>i</Sub><Op>&gt;=</Op>0.80</Indicator></MathRow>,
+      <MathRow key="close"><Func>Close</Func><Paren><Mi>h</Mi><Sub>i</Sub></Paren><Op>=</Op><Indicator>0.90<Op>&lt;</Op><Mi>identity</Mi><Sub>i</Sub><Op>&lt;</Op>0.99</Indicator><Op>*</Op><Indicator><Mi>coverage</Mi><Sub>i</Sub><Op>&gt;=</Op>0.80</Indicator></MathRow>,
+      <MathRow key="weak"><Func>Weak</Func><Paren><Mi>h</Mi><Sub>i</Sub></Paren><Op>=</Op><Indicator><Mi>identity</Mi><Sub>i</Sub><Op>&lt;</Op>0.90<Op>or</Op><Mi>coverage</Mi><Sub>i</Sub><Op>&lt;</Op>0.80</Indicator></MathRow>,
+    ],
+    explanation: 'Species-level claims are forbidden unless the top hit passes the exact identity and coverage gate.',
+  },
+  {
+    label: '04',
+    title: 'Ambiguity boundary',
+    equations: [
+      <MathRow key="d"><Mi>d</Mi><Sub>i</Sub><Op>=</Op>1<Op>-</Op><Mi>identity</Mi><Sub>i</Sub></MathRow>,
+      <MathRow key="se"><Mi>SE</Mi><Sub>i</Sub><Op>=</Op><Sqrt><Frac top={<><Mi>d</Mi><Sub>i</Sub><Paren>1<Op>-</Op><Mi>d</Mi><Sub>i</Sub></Paren></>} bottom={<><Mi>L</Mi><Sub>i</Sub></>} /></Sqrt></MathRow>,
+      <MathRow key="boundary"><Mi>Delta</Mi><Sub>j</Sub><Op>=</Op><Mi>d</Mi><Sub>j</Sub><Op>-</Op><Mi>d</Mi><Sub>top</Sub><Op>,</Op><Mi>B</Mi><Sub>j</Sub><Op>=</Op>1.96<Sqrt><Mi>SE</Mi><Sub>top</Sub><Sup>2</Sup><Op>+</Op><Mi>SE</Mi><Sub>j</Sub><Sup>2</Sup></Sqrt></MathRow>,
+      <MathRow key="ambiguous"><Mi>h</Mi><Sub>j</Sub><Op>in</Op><Mi>U</Mi><Paren><Mi>s</Mi></Paren><Op>iff</Op><Mi>Delta</Mi><Sub>j</Sub><Op>&lt;=</Op><Mi>B</Mi><Sub>j</Sub></MathRow>,
+    ],
+    explanation: 'A species competitor that is too close to the top hit collapses the safe rank through LCA.',
+  },
+  {
+    label: '05',
+    title: 'Safe taxon through LCA',
+    equations: [
+      <MathRow key="u"><Mi>U</Mi><Paren><Mi>s</Mi></Paren><Op>=</Op><MathSet><Mi>h</Mi><Sub>j</Sub><Op>in</Op><Mi>H</Mi><Paren><Mi>s</Mi></Paren><Op>:</Op><Mi>Delta</Mi><Sub>j</Sub><Op>&lt;=</Op><Mi>B</Mi><Sub>j</Sub></MathSet></MathRow>,
+      <MathRow key="lca"><Mi>tau</Mi><Sub>safe</Sub><Paren><Mi>s</Mi></Paren><Op>=</Op><Func>LCA</Func><Paren><MathSet><Mi>taxon</Mi><Sub>j</Sub><Op>:</Op><Mi>h</Mi><Sub>j</Sub><Op>in</Op><Mi>U</Mi><Paren><Mi>s</Mi></Paren></MathSet></Paren></MathRow>,
+    ],
+    explanation: 'If species cannot be separated, the record is preserved at genus, family or another safe ancestor.',
+  },
+  {
+    label: '06',
+    title: 'Barcode gap',
+    equations: [
+      <MathRow key="dintra"><Mi>D</Mi><Sub>intra</Sub><Paren><Mi>t</Mi></Paren><Op>=</Op><Func>max</Func><Sub><Mi>a</Mi>,<Mi>b</Mi><Op>in</Op><Mi>R</Mi><Sub>t</Sub></Sub><Mi>d</Mi><Paren><Mi>a</Mi>,<Mi>b</Mi></Paren></MathRow>,
+      <MathRow key="dinter"><Mi>D</Mi><Sub>inter</Sub><Paren><Mi>t</Mi></Paren><Op>=</Op><Func>min</Func><Sub><Mi>a</Mi><Op>in</Op><Mi>R</Mi><Sub>t</Sub>, <Mi>b</Mi><Op>notin</Op><Mi>R</Mi><Sub>t</Sub></Sub><Mi>d</Mi><Paren><Mi>a</Mi>,<Mi>b</Mi></Paren></MathRow>,
+      <MathRow key="bg"><Mi>BG</Mi><Paren><Mi>t</Mi></Paren><Op>=</Op><Mi>D</Mi><Sub>inter</Sub><Paren><Mi>t</Mi></Paren><Op>-</Op><Mi>D</Mi><Sub>intra</Sub><Paren><Mi>t</Mi></Paren></MathRow>,
+    ],
+    explanation: 'Species-level output requires a positive barcode gap.',
+  },
+  {
+    label: '07',
+    title: 'Diagnostic k-mer support',
+    equations: [
+      <MathRow key="dk"><Mi>D</Mi><Sub>k</Sub><Paren><Mi>t</Mi></Paren><Op>=</Op><Mi>K</Mi><Sub>k</Sub><Paren><Mi>R</Mi><Sub>t</Sub></Paren><Op>setminus</Op><BigUnion lower={<><Mi>u</Mi><Op>!=</Op><Mi>t</Mi></>}><Mi>K</Mi><Sub>k</Sub><Paren><Mi>R</Mi><Sub>u</Sub></Paren></BigUnion></MathRow>,
+      <MathRow key="ds"><Mi>DS</Mi><Paren><Mi>s</Mi>,<Mi>t</Mi></Paren><Op>=</Op><Frac top={<Abs><Mi>K</Mi><Sub>k</Sub><Paren><Mi>s</Mi></Paren><Op>cap</Op><Mi>D</Mi><Sub>k</Sub><Paren><Mi>t</Mi></Paren></Abs>} bottom={<Abs><Mi>K</Mi><Sub>k</Sub><Paren><Mi>s</Mi></Paren></Abs>} /></MathRow>,
+      <MathRow key="pfalse"><Mi>p</Mi><Sub>false-positive</Sub><Op>=</Op>1<Op>-</Op><Paren>1<Op>-</Op><Frac top={<Abs><Mi>D</Mi><Sub>k</Sub><Paren><Mi>t</Mi></Paren></Abs>} bottom={<>4<Sup>k</Sup></>} /></Paren><Sup><Abs><Mi>K</Mi><Sub>k</Sub><Paren><Mi>s</Mi></Paren></Abs></Sup></MathRow>,
+    ],
+    explanation: 'Diagnostic k-mer evidence must exist and the random-collision probability must stay below alpha.',
+  },
+  {
+    label: '08',
+    title: 'Reference completeness',
+    equations: [
+      <MathRow key="rc"><Mi>RC</Mi><Paren><Mi>g</Mi>,<Mi>m</Mi></Paren><Op>=</Op><Frac top={<Abs><Mi>Species</Mi><Sub>GBIF</Sub><Paren><Mi>g</Mi></Paren><Op>cap</Op><Mi>Species</Mi><Sub>ref</Sub><Paren><Mi>g</Mi>,<Mi>m</Mi></Paren></Abs>} bottom={<Abs><Mi>Species</Mi><Sub>GBIF</Sub><Paren><Mi>g</Mi></Paren></Abs>} /></MathRow>,
+    ],
+    explanation: 'This is the exact form you pointed to: species-safe claims need a visible reference completeness caveat when the clade is not fully represented.',
+  },
+  {
+    label: '09',
+    title: 'Protein sanity',
+    equations: [
+      <MathRow key="frame"><Mi>Frame</Mi><Sup>*</Sup><Op>=</Op><Func>arg min</Func><Sub><Mi>f</Mi><Op>in</Op><MathSet>0,1,2</MathSet></Sub><Func>StopCodons</Func><Paren><Func>Translate</Func><Paren><Mi>s</Mi>,<Mi>f</Mi></Paren></Paren></MathRow>,
+      <MathRow key="protein-pass"><Mi>ProteinSanityPass</Mi><Op>=</Op><Indicator><Mi>InternalStopCount</Mi><Op>=</Op>0</Indicator><Op>*</Op><Indicator><Mi>Length</Mi><Paren><Mi>s</Mi></Paren><Op>mod</Op>3<Op>=</Op>0</Indicator><Op>*</Op><Indicator><Mi>FrameshiftRisk</Mi><Op>=</Op>0</Indicator></MathRow>,
+    ],
+    explanation: 'Protein translation is a coding-marker QC layer, not a species-truth layer.',
+  },
+  {
+    label: '10',
+    title: 'Publication readiness',
+    equations: [
+      <MathRow key="core"><Mi>CorePass</Mi><Paren><Mi>M</Mi></Paren><Op>=</Op><Product><Sub><Mi>f</Mi><Op>in</Op><Mi>F</Mi><Sub>core</Sub></Sub><Indicator><Mi>M</Mi><Sub>f</Sub><Op>!=</Op><Empty /></Indicator></Product></MathRow>,
+      <MathRow key="dna"><Mi>DNAPass</Mi><Paren><Mi>M</Mi></Paren><Op>=</Op><Product><Sub><Mi>f</Mi><Op>in</Op><Mi>F</Mi><Sub>dna</Sub></Sub><Indicator><Mi>M</Mi><Sub>f</Sub><Op>!=</Op><Empty /></Indicator></Product></MathRow>,
+    ],
+    explanation: 'Taxonomic evidence and GBIF publication readiness are calculated separately.',
+  },
+  {
+    label: '11',
+    title: 'Taxonomic decision',
+    equations: [
+      <Cases key="tax-decision" lhs={<><Mi>TaxDecision</Mi><Paren><Mi>s</Mi></Paren></>} rows={[
+        [<><Mi>speciesSafe</Mi></>, <><Func>Exact</Func><Paren><Mi>h</Mi><Sub>top</Sub></Paren><Op>=</Op>1 <Op>and</Op> <Func>rank</Func><Paren><Func>LCA</Func><Paren><Mi>U</Mi><Paren><Mi>s</Mi></Paren></Paren></Paren><Op>=</Op><Mi>species</Mi> <Op>and</Op> <Mi>BG</Mi><Paren><Mi>t</Mi></Paren><Op>&gt;</Op>0</>],
+        [<><Mi>genusSafe</Mi></>, <><Func>rank</Func><Paren><Func>LCA</Func><Paren><Mi>U</Mi><Paren><Mi>s</Mi></Paren></Paren></Paren><Op>=</Op><Mi>genus</Mi></>],
+        [<><Mi>weak</Mi></>, <><Mi>identity</Mi><Sub>top</Sub><Op>&lt;</Op>0.90 <Op>or</Op> <Mi>coverage</Mi><Sub>top</Sub><Op>&lt;</Op>0.80</>],
+        [<><Mi>noMatch</Mi></>, <><Mi>H</Mi><Paren><Mi>s</Mi></Paren><Op>=</Op><Empty /></>],
+      ]} />,
+    ],
+    explanation: 'The decision function is fail-closed: failed species gates never produce a published species.',
+  },
+  {
+    label: '12',
+    title: 'Conversion metrics',
+    equations: [
+      <MathRow key="mecy"><Mi>MECY</Mi><Op>=</Op><Frac top={<><Mi>N</Mi><Sub>gbifReady</Sub></>} bottom={<Mi>N</Mi>} /></MathRow>,
+      <MathRow key="ry"><Mi>RY</Mi><Op>=</Op><Frac top={<><Mi>N</Mi><Sub>repairable</Sub></>} bottom={<Mi>N</Mi>} /><Op>,</Op><Mi>SSY</Mi><Op>=</Op><Frac top={<><Mi>N</Mi><Sub>species</Sub></>} bottom={<Mi>N</Mi>} /></MathRow>,
+      <MathRow key="or"><Mi>OR</Mi><Sub>naive</Sub><Op>=</Op><Frac top={<><Sum><Sub><Mi>i</Mi></Sub></Sum><Indicator><Mi>TopSpecies</Mi><Sub>i</Sub><Op>=</Op>1 <Op>and</Op> <Mi>SpeciesSafe</Mi><Sub>i</Sub><Op>=</Op>0</Indicator></>} bottom={<><Sum><Sub><Mi>i</Mi></Sub></Sum><Indicator><Mi>TopSpecies</Mi><Sub>i</Sub><Op>=</Op>1</Indicator></>} /><Op>,</Op><Mi>OR</Mi><Sub>compiler</Sub><Op>=</Op>0</MathRow>,
+    ],
+    explanation: 'These metrics show conversion yield, repairability and prevented species overclaiming.',
+  },
+  {
+    label: '13',
+    title: 'Repair optimizer',
+    equations: [
+      <MathRow key="unlock"><Func>Unlock</Func><Paren><Mi>a</Mi></Paren><Op>=</Op><MathSet><Mi>r</Mi><Sub>i</Sub><Op>in</Op><Mi>Omega</Mi><Op>:</Op><Func>Fix</Func><Paren><Mi>a</Mi></Paren><Op>cap</Op><Mi>B</Mi><Paren><Mi>r</Mi><Sub>i</Sub></Paren><Op>!=</Op><Empty /></MathSet></MathRow>,
+      <MathRow key="max"><Func>maximize</Func><Sub><Mi>A</Mi><Sup>'</Sup><Op>subset</Op><Mi>A</Mi>, <Abs><Mi>A</Mi><Sup>'</Sup></Abs><Op>&lt;=</Op><Mi>k</Mi></Sub><Abs><BigUnion lower={<><Mi>a</Mi><Op>in</Op><Mi>A</Mi><Sup>'</Sup></>}><Func>Unlock</Func><Paren><Mi>a</Mi></Paren></BigUnion></Abs></MathRow>,
+    ],
+    explanation: 'The optimizer asks which repairs unlock the largest number of GBIF-ready records.',
+  },
+  {
+    label: '14',
+    title: 'Reference and publisher bottlenecks',
+    equations: [
+      <MathRow key="rgi"><Mi>RGI</Mi><Paren><Mi>t</Mi>,<Mi>m</Mi>,<Mi>g</Mi></Paren><Op>=</Op><Frac top={<><Mi>Blocked</Mi><Sub>ref</Sub><Paren><Mi>t</Mi>,<Mi>m</Mi>,<Mi>g</Mi></Paren></>} bottom={<><Mi>Attempts</Mi><Paren><Mi>t</Mi>,<Mi>m</Mi>,<Mi>g</Mi></Paren></>} /></MathRow>,
+      <MathRow key="pbi"><Mi>PBI</Mi><Paren><Mi>d</Mi></Paren><Op>=</Op><Frac top={<><Sum><Sub><Mi>i</Mi></Sub></Sum><Indicator><Mi>dataset</Mi><Sub>i</Sub><Op>=</Op><Mi>d</Mi> <Op>and</Op> <Mi>PubStatus</Mi><Sub>i</Sub><Op>!=</Op><Mi>gbifReady</Mi></Indicator></>} bottom={<><Sum><Sub><Mi>i</Mi></Sub></Sum><Indicator><Mi>dataset</Mi><Sub>i</Sub><Op>=</Op><Mi>d</Mi></Indicator></>} /></MathRow>,
+    ],
+    explanation: 'These indices separate reference-library problems from publisher metadata problems.',
+  },
+  {
+    label: '15',
+    title: 'Fragment sharedness',
+    equations: [
+      <MathRow key="entropy"><Mi>H</Mi><Sub>tax</Sub><Paren><Mi>f</Mi></Paren><Op>=</Op><Op>-</Op><Sum><Sub><Mi>t</Mi></Sub></Sum><Mi>p</Mi><Paren><Mi>t</Mi><Op>|</Op><Mi>f</Mi></Paren><Func>log</Func><Mi>p</Mi><Paren><Mi>t</Mi><Op>|</Op><Mi>f</Mi></Paren></MathRow>,
+      <MathRow key="spec"><Mi>Spec</Mi><Paren><Mi>f</Mi></Paren><Op>=</Op>1<Op>-</Op><Frac top={<><Mi>H</Mi><Sub>tax</Sub><Paren><Mi>f</Mi></Paren></>} bottom={<><Func>log</Func><Abs><Mi>T</Mi><Paren><Mi>f</Mi></Paren></Abs></>} /></MathRow>,
+      <MathRow key="safe-frag"><Mi>SafeTaxon</Mi><Paren><Mi>f</Mi></Paren><Op>=</Op><Func>LCA</Func><Paren><Mi>T</Mi><Paren><Mi>f</Mi></Paren></Paren></MathRow>,
+    ],
+    explanation: 'Shared fragments become clade evidence instead of unsafe species claims.',
+  },
+  {
+    label: '16',
+    title: 'Geography as context',
+    equations: [
+      <MathRow key="geo"><Mi>GeoScore</Mi><Paren><Mi>f</Mi>,<Mi>g</Mi></Paren><Op>=</Op><Func>log</Func><Frac top={<><Mi>P</Mi><Paren><Mi>g</Mi><Op>|</Op><Mi>f</Mi></Paren><Op>+</Op><Mi>epsilon</Mi></>} bottom={<><Mi>P</Mi><Paren><Mi>g</Mi><Op>|</Op><Op>not</Op><Mi>f</Mi></Paren><Op>+</Op><Mi>epsilon</Mi></>} /></MathRow>,
+    ],
+    explanation: 'This is geographic association or evidence context, not proof that a DNA fragment was directly sampled in every region.',
+  },
+  {
+    label: '17',
+    title: 'Multi-marker consensus',
+    equations: [
+      <MathRow key="consensus"><Mi>ConsensusSafeTaxon</Mi><Op>=</Op><Func>LCA</Func><Paren><MathSet><Mi>tau</Mi><Sub>m1</Sub>, <Mi>tau</Mi><Sub>m2</Sub>, ..., <Mi>tau</Mi><Sub>mk</Sub></MathSet></Paren></MathRow>,
+    ],
+    explanation: 'Multiple markers converge by LCA, and deep disagreement becomes a conflict that requires review.',
+  },
+  {
+    label: '18',
+    title: 'Graph claim rule',
+    equations: [
+      <MathRow key="graph"><Mi>G</Mi><Op>=</Op><Paren><Mi>V</Mi>,<Mi>E</Mi></Paren></MathRow>,
+      <MathRow key="claim"><Mi>PublishedClaim</Mi><Paren><Mi>c</Mi></Paren><Op>iff</Op><Abs><Func>supported_by</Func><Paren><Mi>c</Mi></Paren></Abs><Op>&gt;</Op>0<Op>and</Op><Abs><Func>hard_blockers</Func><Paren><Mi>c</Mi></Paren></Abs><Op>=</Op>0</MathRow>,
+    ],
+    explanation: 'A claim must have evidence support and no unresolved hard blockers before it can appear in publishable output.',
+  },
+];
+
 const solvedRows = [
   ['Unsafe top-hit species claims', 'Solved in the current compiler', 'The mixed batch blocked 3 unsafe species-level claims before export.'],
   ['Safe-rank downgrade', 'Solved in the current compiler', 'Ambiguous Aedes hits are exported at genus rank instead of forcing species.'],
@@ -1158,6 +1330,118 @@ const exportGroups = [
     match: ['reference_manifest.json', 'evidence_graph.json', 'evidence_pack.json', 'run.json', 'gbif_backbone_matches.csv', 'dwc_occurrence_core_review.csv', 'dwc_occurrence_core_template.csv', 'dna_derived_extension_template.csv', 'proof_by_failure_modes.md'],
   },
 ];
+
+const mathOperatorMap = {
+  '<=': '≤',
+  '>=': '≥',
+  '!=': '≠',
+  and: '∧',
+  cap: '∩',
+  in: '∈',
+  not: '¬',
+  notin: '∉',
+  or: '∨',
+  subset: '⊆',
+  to: '→',
+  iff: '⇔',
+  cup: '∪',
+  setminus: '∖',
+  '*': '·',
+};
+
+function MathRow({ children }) {
+  return <div className="math-row">{children}</div>;
+}
+
+function Mi({ children }) {
+  return <span className="math-mi">{children}</span>;
+}
+
+function Func({ children }) {
+  return <span className="math-func">{children}</span>;
+}
+
+function Op({ children }) {
+  return <span className="math-op">{mathOperatorMap[children] || children}</span>;
+}
+
+function Sub({ children }) {
+  return <sub>{children}</sub>;
+}
+
+function Sup({ children }) {
+  return <sup>{children}</sup>;
+}
+
+function MathSet({ children }) {
+  return <><span className="math-paren">{'{'}</span><span>{children}</span><span className="math-paren">{'}'}</span></>;
+}
+
+function Paren({ children }) {
+  return <><span className="math-paren">(</span><span>{children}</span><span className="math-paren">)</span></>;
+}
+
+function Frac({ top, bottom }) {
+  return (
+    <span className="math-frac">
+      <span className="math-frac-top">{top}</span>
+      <span className="math-frac-bottom">{bottom}</span>
+    </span>
+  );
+}
+
+function Abs({ children }) {
+  return <span className="math-abs"><span>|</span><span>{children}</span><span>|</span></span>;
+}
+
+function Sqrt({ children }) {
+  return <span className="math-sqrt"><span className="sqrt-symbol">√</span><span className="sqrt-body">{children}</span></span>;
+}
+
+function Indicator({ children }) {
+  return <span className="math-indicator"><span>I</span><span>[</span><span>{children}</span><span>]</span></span>;
+}
+
+function Product({ children }) {
+  return <span className="math-bigop"><span className="bigop-symbol">∏</span>{children}</span>;
+}
+
+function Sum({ children }) {
+  return <span className="math-bigop"><span className="bigop-symbol">∑</span>{children}</span>;
+}
+
+function BigUnion({ lower, children }) {
+  return (
+    <span className="math-bigunion">
+      <span className="bigunion-stack">
+        <span className="bigop-symbol">∪</span>
+        <span className="bigunion-lower">{lower}</span>
+      </span>
+      <span>{children}</span>
+    </span>
+  );
+}
+
+function Empty() {
+  return <span className="math-empty">∅</span>;
+}
+
+function Cases({ lhs, rows }) {
+  return (
+    <div className="math-cases">
+      <div className="cases-left">{lhs}<Op>=</Op></div>
+      <div className="case-brace">{'{'}</div>
+      <div className="case-rows">
+        {rows.map(([value, condition], index) => (
+          <div className="case-row" key={index}>
+            <span className="case-value">{value}</span>
+            <span className="case-condition">{condition}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 function App() {
   const [mode, setMode] = useState('overview');
@@ -1412,6 +1696,31 @@ function ProofAndFormulas() {
           gates; the reference completeness, protein sanity, assay evidence, repair optimizer and graph layers are
           now explicitly specified as the next implementation targets.
         </p>
+      </section>
+
+      <section className="panel">
+        <p className="section-label">Rendered mathematical notation</p>
+        <h2>The same formulas in mathematical form.</h2>
+        <p className="proof-copy">
+          These are the judge-facing formulas: fractions are rendered with bars, indices are real subscripts, and
+          set operations are shown as mathematical operators. The text notebook below remains as the implementation
+          contract, but this section is the visual proof layer.
+        </p>
+      </section>
+
+      <section className="rendered-math-grid">
+        {renderedFormulaSections.map((section) => (
+          <article className="rendered-math-card" key={section.label}>
+            <div className="math-heading">
+              <span>{section.label}</span>
+              <h3>{section.title}</h3>
+            </div>
+            <div className="math-display" aria-label={section.title}>
+              {section.equations}
+            </div>
+            <p>{section.explanation}</p>
+          </article>
+        ))}
       </section>
 
       <section className="math-notebook">
