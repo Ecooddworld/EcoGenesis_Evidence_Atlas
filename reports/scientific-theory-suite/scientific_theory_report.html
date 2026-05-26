@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>EcoGenesis Scientific Hypothesis Suite</title>
+  <style>
+    body { font-family: Inter, system-ui, sans-serif; margin: 32px; color: #1d2b24; background: #f6f8f4; }
+    h1, h2 { color: #10251b; }
+    table { border-collapse: collapse; width: 100%; margin: 18px 0 28px; background: white; }
+    th, td { border: 1px solid #dce6dd; padding: 8px; text-align: left; vertical-align: top; }
+    th { background: #113425; color: white; }
+    code, pre { background: #edf2ee; padding: 2px 4px; border-radius: 4px; }
+    .ok { color: #0e6b45; font-weight: 800; }
+  </style>
+</head>
+<body>
+  <h1>EcoGenesis Scientific Hypothesis Suite</h1>
+  <p>Live GBIF records: <strong>1000</strong>. Hypothesis claims: <strong>100</strong>.</p>
+  <h2>Acceptance</h2>
+  <pre>{
+  &quot;minimum_1000_deduplicated_records&quot;: true,
+  &quot;minimum_10_successful_online_scenarios&quot;: true,
+  &quot;no_fixture_records_counted&quot;: true,
+  &quot;minimum_100_hypothesis_claims&quot;: true,
+  &quot;every_claim_has_status_evidence_and_caveat&quot;: true
+}</pre>
+  <h2>Scenario Metrics</h2>
+  <table><thead><tr><th>Scenario</th><th>Source</th><th>GBIF</th><th>Records</th><th>Datasets</th><th>Score</th></tr></thead><tbody><tr><td>aedes-spain</td><td>online</td><td>ok</td><td>120</td><td>4</td><td>94.69</td></tr>
+<tr><td>aedes-italy</td><td>online</td><td>ok</td><td>120</td><td>3</td><td>89.17</td></tr>
+<tr><td>aedes-france</td><td>online</td><td>ok</td><td>120</td><td>5</td><td>94.91</td></tr>
+<tr><td>quercus-western-europe</td><td>online</td><td>ok</td><td>120</td><td>7</td><td>82.56</td></tr>
+<tr><td>quercus-germany</td><td>online</td><td>ok</td><td>120</td><td>6</td><td>83.12</td></tr>
+<tr><td>lynx-iberia</td><td>online</td><td>ok</td><td>120</td><td>4</td><td>85.8</td></tr>
+<tr><td>apis-western-europe</td><td>online</td><td>ok</td><td>120</td><td>4</td><td>95.08</td></tr>
+<tr><td>apis-france</td><td>online</td><td>ok</td><td>120</td><td>4</td><td>84.64</td></tr>
+<tr><td>passer-western-europe</td><td>online</td><td>ok</td><td>120</td><td>2</td><td>66.25</td></tr>
+<tr><td>passer-united-states</td><td>online</td><td>ok</td><td>120</td><td>1</td><td>95.78</td></tr></tbody></table>
+  <h2>100 Hypothesis Claims</h2>
+  <table><thead><tr><th>ID</th><th>Status</th><th>Taxon</th><th>Region</th><th>Hypothesis</th><th>Caveat</th></tr></thead><tbody><tr><td>aedes-spain-H01</td><td>supported</td><td>Aedes albopictus</td><td>Spain live GBIF bbox</td><td>Occurrence evidence exists in selected region</td><td>This supports only a retained GBIF-mediated occurrence-evidence claim, not abundance or absence.</td></tr>
+<tr><td>aedes-spain-H02</td><td>supported</td><td>Aedes albopictus</td><td>Spain live GBIF bbox</td><td>Evidence readiness is sufficient or insufficient for selected purpose</td><td>The score is purpose-aware and must be interpreted with the component scores.</td></tr>
+<tr><td>aedes-spain-H03</td><td>weak</td><td>Aedes albopictus</td><td>Spain live GBIF bbox</td><td>Dataset provenance is multi-source or single-source biased</td><td>Single-dataset dominance can reflect publisher or platform bias.</td></tr>
+<tr><td>aedes-spain-H04</td><td>weak</td><td>Aedes albopictus</td><td>Spain live GBIF bbox</td><td>Coordinate quality supports or weakens fine-scale interpretation</td><td>Fine-scale interpretation is unsafe when coordinates are uncertain or invalid.</td></tr>
+<tr><td>aedes-spain-H05</td><td>supported</td><td>Aedes albopictus</td><td>Spain live GBIF bbox</td><td>Temporal completeness supports or blocks time-based interpretation</td><td>Temporal claims need eventDate/year; missing dates weaken any time-based inference.</td></tr>
+<tr><td>aedes-spain-H06</td><td>supported</td><td>Aedes albopictus</td><td>Spain live GBIF bbox</td><td>Recent evidence exists or needs verification</td><td>Recent records are not trend evidence; they only show recent retained GBIF evidence.</td></tr>
+<tr><td>aedes-spain-H07</td><td>requires_verification</td><td>Aedes albopictus</td><td>Spain live GBIF bbox</td><td>Survey-priority cells identify where more sampling is needed</td><td>Survey priorities are planning hints, not confirmed biodiversity gaps.</td></tr>
+<tr><td>aedes-spain-H08</td><td>blocked</td><td>Aedes albopictus</td><td>Spain live GBIF bbox</td><td>Empty cells are no-evidence cells, not absence evidence</td><td>GBIF occurrence data cannot prove species absence in empty cells.</td></tr>
+<tr><td>aedes-spain-H09</td><td>blocked</td><td>Aedes albopictus</td><td>Spain live GBIF bbox</td><td>Observed GBIF distribution is not true species distribution</td><td>Observed GBIF distribution is shaped by sampling effort, data sharing and dataset coverage.</td></tr>
+<tr><td>aedes-spain-H10</td><td>requires_verification</td><td>Aedes albopictus</td><td>Spain live GBIF bbox</td><td>DOI/citation readiness is incomplete until GBIF download DOI or derived dataset is attached</td><td>API search results are not a DOI-backed publication dataset.</td></tr>
+<tr><td>aedes-italy-H01</td><td>supported</td><td>Aedes albopictus</td><td>Italy live GBIF bbox</td><td>Occurrence evidence exists in selected region</td><td>This supports only a retained GBIF-mediated occurrence-evidence claim, not abundance or absence.</td></tr>
+<tr><td>aedes-italy-H02</td><td>supported</td><td>Aedes albopictus</td><td>Italy live GBIF bbox</td><td>Evidence readiness is sufficient or insufficient for selected purpose</td><td>The score is purpose-aware and must be interpreted with the component scores.</td></tr>
+<tr><td>aedes-italy-H03</td><td>supported</td><td>Aedes albopictus</td><td>Italy live GBIF bbox</td><td>Dataset provenance is multi-source or single-source biased</td><td>Single-dataset dominance can reflect publisher or platform bias.</td></tr>
+<tr><td>aedes-italy-H04</td><td>weak</td><td>Aedes albopictus</td><td>Italy live GBIF bbox</td><td>Coordinate quality supports or weakens fine-scale interpretation</td><td>Fine-scale interpretation is unsafe when coordinates are uncertain or invalid.</td></tr>
+<tr><td>aedes-italy-H05</td><td>supported</td><td>Aedes albopictus</td><td>Italy live GBIF bbox</td><td>Temporal completeness supports or blocks time-based interpretation</td><td>Temporal claims need eventDate/year; missing dates weaken any time-based inference.</td></tr>
+<tr><td>aedes-italy-H06</td><td>supported</td><td>Aedes albopictus</td><td>Italy live GBIF bbox</td><td>Recent evidence exists or needs verification</td><td>Recent records are not trend evidence; they only show recent retained GBIF evidence.</td></tr>
+<tr><td>aedes-italy-H07</td><td>requires_verification</td><td>Aedes albopictus</td><td>Italy live GBIF bbox</td><td>Survey-priority cells identify where more sampling is needed</td><td>Survey priorities are planning hints, not confirmed biodiversity gaps.</td></tr>
+<tr><td>aedes-italy-H08</td><td>blocked</td><td>Aedes albopictus</td><td>Italy live GBIF bbox</td><td>Empty cells are no-evidence cells, not absence evidence</td><td>GBIF occurrence data cannot prove species absence in empty cells.</td></tr>
+<tr><td>aedes-italy-H09</td><td>blocked</td><td>Aedes albopictus</td><td>Italy live GBIF bbox</td><td>Observed GBIF distribution is not true species distribution</td><td>Observed GBIF distribution is shaped by sampling effort, data sharing and dataset coverage.</td></tr>
+<tr><td>aedes-italy-H10</td><td>requires_verification</td><td>Aedes albopictus</td><td>Italy live GBIF bbox</td><td>DOI/citation readiness is incomplete until GBIF download DOI or derived dataset is attached</td><td>API search results are not a DOI-backed publication dataset.</td></tr>
+<tr><td>aedes-france-H01</td><td>supported</td><td>Aedes albopictus</td><td>France live GBIF bbox</td><td>Occurrence evidence exists in selected region</td><td>This supports only a retained GBIF-mediated occurrence-evidence claim, not abundance or absence.</td></tr>
+<tr><td>aedes-france-H02</td><td>supported</td><td>Aedes albopictus</td><td>France live GBIF bbox</td><td>Evidence readiness is sufficient or insufficient for selected purpose</td><td>The score is purpose-aware and must be interpreted with the component scores.</td></tr>
+<tr><td>aedes-france-H03</td><td>supported</td><td>Aedes albopictus</td><td>France live GBIF bbox</td><td>Dataset provenance is multi-source or single-source biased</td><td>Single-dataset dominance can reflect publisher or platform bias.</td></tr>
+<tr><td>aedes-france-H04</td><td>weak</td><td>Aedes albopictus</td><td>France live GBIF bbox</td><td>Coordinate quality supports or weakens fine-scale interpretation</td><td>Fine-scale interpretation is unsafe when coordinates are uncertain or invalid.</td></tr>
+<tr><td>aedes-france-H05</td><td>supported</td><td>Aedes albopictus</td><td>France live GBIF bbox</td><td>Temporal completeness supports or blocks time-based interpretation</td><td>Temporal claims need eventDate/year; missing dates weaken any time-based inference.</td></tr>
+<tr><td>aedes-france-H06</td><td>supported</td><td>Aedes albopictus</td><td>France live GBIF bbox</td><td>Recent evidence exists or needs verification</td><td>Recent records are not trend evidence; they only show recent retained GBIF evidence.</td></tr>
+<tr><td>aedes-france-H07</td><td>requires_verification</td><td>Aedes albopictus</td><td>France live GBIF bbox</td><td>Survey-priority cells identify where more sampling is needed</td><td>Survey priorities are planning hints, not confirmed biodiversity gaps.</td></tr>
+<tr><td>aedes-france-H08</td><td>blocked</td><td>Aedes albopictus</td><td>France live GBIF bbox</td><td>Empty cells are no-evidence cells, not absence evidence</td><td>GBIF occurrence data cannot prove species absence in empty cells.</td></tr>
+<tr><td>aedes-france-H09</td><td>blocked</td><td>Aedes albopictus</td><td>France live GBIF bbox</td><td>Observed GBIF distribution is not true species distribution</td><td>Observed GBIF distribution is shaped by sampling effort, data sharing and dataset coverage.</td></tr>
+<tr><td>aedes-france-H10</td><td>requires_verification</td><td>Aedes albopictus</td><td>France live GBIF bbox</td><td>DOI/citation readiness is incomplete until GBIF download DOI or derived dataset is attached</td><td>API search results are not a DOI-backed publication dataset.</td></tr>
+<tr><td>quercus-western-europe-H01</td><td>supported</td><td>Quercus robur</td><td>Western Europe live bbox</td><td>Occurrence evidence exists in selected region</td><td>This supports only a retained GBIF-mediated occurrence-evidence claim, not abundance or absence.</td></tr>
+<tr><td>quercus-western-europe-H02</td><td>supported</td><td>Quercus robur</td><td>Western Europe live bbox</td><td>Evidence readiness is sufficient or insufficient for selected purpose</td><td>The score is purpose-aware and must be interpreted with the component scores.</td></tr>
+<tr><td>quercus-western-europe-H03</td><td>supported</td><td>Quercus robur</td><td>Western Europe live bbox</td><td>Dataset provenance is multi-source or single-source biased</td><td>Single-dataset dominance can reflect publisher or platform bias.</td></tr>
+<tr><td>quercus-western-europe-H04</td><td>supported</td><td>Quercus robur</td><td>Western Europe live bbox</td><td>Coordinate quality supports or weakens fine-scale interpretation</td><td>Fine-scale interpretation is unsafe when coordinates are uncertain or invalid.</td></tr>
+<tr><td>quercus-western-europe-H05</td><td>supported</td><td>Quercus robur</td><td>Western Europe live bbox</td><td>Temporal completeness supports or blocks time-based interpretation</td><td>Temporal claims need eventDate/year; missing dates weaken any time-based inference.</td></tr>
+<tr><td>quercus-western-europe-H06</td><td>supported</td><td>Quercus robur</td><td>Western Europe live bbox</td><td>Recent evidence exists or needs verification</td><td>Recent records are not trend evidence; they only show recent retained GBIF evidence.</td></tr>
+<tr><td>quercus-western-europe-H07</td><td>requires_verification</td><td>Quercus robur</td><td>Western Europe live bbox</td><td>Survey-priority cells identify where more sampling is needed</td><td>Survey priorities are planning hints, not confirmed biodiversity gaps.</td></tr>
+<tr><td>quercus-western-europe-H08</td><td>blocked</td><td>Quercus robur</td><td>Western Europe live bbox</td><td>Empty cells are no-evidence cells, not absence evidence</td><td>GBIF occurrence data cannot prove species absence in empty cells.</td></tr>
+<tr><td>quercus-western-europe-H09</td><td>blocked</td><td>Quercus robur</td><td>Western Europe live bbox</td><td>Observed GBIF distribution is not true species distribution</td><td>Observed GBIF distribution is shaped by sampling effort, data sharing and dataset coverage.</td></tr>
+<tr><td>quercus-western-europe-H10</td><td>requires_verification</td><td>Quercus robur</td><td>Western Europe live bbox</td><td>DOI/citation readiness is incomplete until GBIF download DOI or derived dataset is attached</td><td>API search results are not a DOI-backed publication dataset.</td></tr>
+<tr><td>quercus-germany-H01</td><td>supported</td><td>Quercus robur</td><td>Germany live GBIF bbox</td><td>Occurrence evidence exists in selected region</td><td>This supports only a retained GBIF-mediated occurrence-evidence claim, not abundance or absence.</td></tr>
+<tr><td>quercus-germany-H02</td><td>supported</td><td>Quercus robur</td><td>Germany live GBIF bbox</td><td>Evidence readiness is sufficient or insufficient for selected purpose</td><td>The score is purpose-aware and must be interpreted with the component scores.</td></tr>
+<tr><td>quercus-germany-H03</td><td>supported</td><td>Quercus robur</td><td>Germany live GBIF bbox</td><td>Dataset provenance is multi-source or single-source biased</td><td>Single-dataset dominance can reflect publisher or platform bias.</td></tr>
+<tr><td>quercus-germany-H04</td><td>supported</td><td>Quercus robur</td><td>Germany live GBIF bbox</td><td>Coordinate quality supports or weakens fine-scale interpretation</td><td>Fine-scale interpretation is unsafe when coordinates are uncertain or invalid.</td></tr>
+<tr><td>quercus-germany-H05</td><td>supported</td><td>Quercus robur</td><td>Germany live GBIF bbox</td><td>Temporal completeness supports or blocks time-based interpretation</td><td>Temporal claims need eventDate/year; missing dates weaken any time-based inference.</td></tr>
+<tr><td>quercus-germany-H06</td><td>supported</td><td>Quercus robur</td><td>Germany live GBIF bbox</td><td>Recent evidence exists or needs verification</td><td>Recent records are not trend evidence; they only show recent retained GBIF evidence.</td></tr>
+<tr><td>quercus-germany-H07</td><td>requires_verification</td><td>Quercus robur</td><td>Germany live GBIF bbox</td><td>Survey-priority cells identify where more sampling is needed</td><td>Survey priorities are planning hints, not confirmed biodiversity gaps.</td></tr>
+<tr><td>quercus-germany-H08</td><td>blocked</td><td>Quercus robur</td><td>Germany live GBIF bbox</td><td>Empty cells are no-evidence cells, not absence evidence</td><td>GBIF occurrence data cannot prove species absence in empty cells.</td></tr>
+<tr><td>quercus-germany-H09</td><td>blocked</td><td>Quercus robur</td><td>Germany live GBIF bbox</td><td>Observed GBIF distribution is not true species distribution</td><td>Observed GBIF distribution is shaped by sampling effort, data sharing and dataset coverage.</td></tr>
+<tr><td>quercus-germany-H10</td><td>requires_verification</td><td>Quercus robur</td><td>Germany live GBIF bbox</td><td>DOI/citation readiness is incomplete until GBIF download DOI or derived dataset is attached</td><td>API search results are not a DOI-backed publication dataset.</td></tr>
+<tr><td>lynx-iberia-H01</td><td>supported</td><td>Lynx pardinus</td><td>Iberian Peninsula live bbox</td><td>Occurrence evidence exists in selected region</td><td>This supports only a retained GBIF-mediated occurrence-evidence claim, not abundance or absence.</td></tr>
+<tr><td>lynx-iberia-H02</td><td>supported</td><td>Lynx pardinus</td><td>Iberian Peninsula live bbox</td><td>Evidence readiness is sufficient or insufficient for selected purpose</td><td>The score is purpose-aware and must be interpreted with the component scores.</td></tr>
+<tr><td>lynx-iberia-H03</td><td>weak</td><td>Lynx pardinus</td><td>Iberian Peninsula live bbox</td><td>Dataset provenance is multi-source or single-source biased</td><td>Single-dataset dominance can reflect publisher or platform bias.</td></tr>
+<tr><td>lynx-iberia-H04</td><td>weak</td><td>Lynx pardinus</td><td>Iberian Peninsula live bbox</td><td>Coordinate quality supports or weakens fine-scale interpretation</td><td>Fine-scale interpretation is unsafe when coordinates are uncertain or invalid.</td></tr>
+<tr><td>lynx-iberia-H05</td><td>supported</td><td>Lynx pardinus</td><td>Iberian Peninsula live bbox</td><td>Temporal completeness supports or blocks time-based interpretation</td><td>Temporal claims need eventDate/year; missing dates weaken any time-based inference.</td></tr>
+<tr><td>lynx-iberia-H06</td><td>supported</td><td>Lynx pardinus</td><td>Iberian Peninsula live bbox</td><td>Recent evidence exists or needs verification</td><td>Recent records are not trend evidence; they only show recent retained GBIF evidence.</td></tr>
+<tr><td>lynx-iberia-H07</td><td>requires_verification</td><td>Lynx pardinus</td><td>Iberian Peninsula live bbox</td><td>Survey-priority cells identify where more sampling is needed</td><td>Survey priorities are planning hints, not confirmed biodiversity gaps.</td></tr>
+<tr><td>lynx-iberia-H08</td><td>blocked</td><td>Lynx pardinus</td><td>Iberian Peninsula live bbox</td><td>Empty cells are no-evidence cells, not absence evidence</td><td>GBIF occurrence data cannot prove species absence in empty cells.</td></tr>
+<tr><td>lynx-iberia-H09</td><td>blocked</td><td>Lynx pardinus</td><td>Iberian Peninsula live bbox</td><td>Observed GBIF distribution is not true species distribution</td><td>Observed GBIF distribution is shaped by sampling effort, data sharing and dataset coverage.</td></tr>
+<tr><td>lynx-iberia-H10</td><td>requires_verification</td><td>Lynx pardinus</td><td>Iberian Peninsula live bbox</td><td>DOI/citation readiness is incomplete until GBIF download DOI or derived dataset is attached</td><td>API search results are not a DOI-backed publication dataset.</td></tr>
+<tr><td>apis-western-europe-H01</td><td>supported</td><td>Apis mellifera</td><td>Western Europe live bbox</td><td>Occurrence evidence exists in selected region</td><td>This supports only a retained GBIF-mediated occurrence-evidence claim, not abundance or absence.</td></tr>
+<tr><td>apis-western-europe-H02</td><td>supported</td><td>Apis mellifera</td><td>Western Europe live bbox</td><td>Evidence readiness is sufficient or insufficient for selected purpose</td><td>The score is purpose-aware and must be interpreted with the component scores.</td></tr>
+<tr><td>apis-western-europe-H03</td><td>supported</td><td>Apis mellifera</td><td>Western Europe live bbox</td><td>Dataset provenance is multi-source or single-source biased</td><td>Single-dataset dominance can reflect publisher or platform bias.</td></tr>
+<tr><td>apis-western-europe-H04</td><td>weak</td><td>Apis mellifera</td><td>Western Europe live bbox</td><td>Coordinate quality supports or weakens fine-scale interpretation</td><td>Fine-scale interpretation is unsafe when coordinates are uncertain or invalid.</td></tr>
+<tr><td>apis-western-europe-H05</td><td>supported</td><td>Apis mellifera</td><td>Western Europe live bbox</td><td>Temporal completeness supports or blocks time-based interpretation</td><td>Temporal claims need eventDate/year; missing dates weaken any time-based inference.</td></tr>
+<tr><td>apis-western-europe-H06</td><td>supported</td><td>Apis mellifera</td><td>Western Europe live bbox</td><td>Recent evidence exists or needs verification</td><td>Recent records are not trend evidence; they only show recent retained GBIF evidence.</td></tr>
+<tr><td>apis-western-europe-H07</td><td>requires_verification</td><td>Apis mellifera</td><td>Western Europe live bbox</td><td>Survey-priority cells identify where more sampling is needed</td><td>Survey priorities are planning hints, not confirmed biodiversity gaps.</td></tr>
+<tr><td>apis-western-europe-H08</td><td>blocked</td><td>Apis mellifera</td><td>Western Europe live bbox</td><td>Empty cells are no-evidence cells, not absence evidence</td><td>GBIF occurrence data cannot prove species absence in empty cells.</td></tr>
+<tr><td>apis-western-europe-H09</td><td>blocked</td><td>Apis mellifera</td><td>Western Europe live bbox</td><td>Observed GBIF distribution is not true species distribution</td><td>Observed GBIF distribution is shaped by sampling effort, data sharing and dataset coverage.</td></tr>
+<tr><td>apis-western-europe-H10</td><td>requires_verification</td><td>Apis mellifera</td><td>Western Europe live bbox</td><td>DOI/citation readiness is incomplete until GBIF download DOI or derived dataset is attached</td><td>API search results are not a DOI-backed publication dataset.</td></tr>
+<tr><td>apis-france-H01</td><td>supported</td><td>Apis mellifera</td><td>France live GBIF bbox</td><td>Occurrence evidence exists in selected region</td><td>This supports only a retained GBIF-mediated occurrence-evidence claim, not abundance or absence.</td></tr>
+<tr><td>apis-france-H02</td><td>supported</td><td>Apis mellifera</td><td>France live GBIF bbox</td><td>Evidence readiness is sufficient or insufficient for selected purpose</td><td>The score is purpose-aware and must be interpreted with the component scores.</td></tr>
+<tr><td>apis-france-H03</td><td>supported</td><td>Apis mellifera</td><td>France live GBIF bbox</td><td>Dataset provenance is multi-source or single-source biased</td><td>Single-dataset dominance can reflect publisher or platform bias.</td></tr>
+<tr><td>apis-france-H04</td><td>weak</td><td>Apis mellifera</td><td>France live GBIF bbox</td><td>Coordinate quality supports or weakens fine-scale interpretation</td><td>Fine-scale interpretation is unsafe when coordinates are uncertain or invalid.</td></tr>
+<tr><td>apis-france-H05</td><td>supported</td><td>Apis mellifera</td><td>France live GBIF bbox</td><td>Temporal completeness supports or blocks time-based interpretation</td><td>Temporal claims need eventDate/year; missing dates weaken any time-based inference.</td></tr>
+<tr><td>apis-france-H06</td><td>supported</td><td>Apis mellifera</td><td>France live GBIF bbox</td><td>Recent evidence exists or needs verification</td><td>Recent records are not trend evidence; they only show recent retained GBIF evidence.</td></tr>
+<tr><td>apis-france-H07</td><td>requires_verification</td><td>Apis mellifera</td><td>France live GBIF bbox</td><td>Survey-priority cells identify where more sampling is needed</td><td>Survey priorities are planning hints, not confirmed biodiversity gaps.</td></tr>
+<tr><td>apis-france-H08</td><td>blocked</td><td>Apis mellifera</td><td>France live GBIF bbox</td><td>Empty cells are no-evidence cells, not absence evidence</td><td>GBIF occurrence data cannot prove species absence in empty cells.</td></tr>
+<tr><td>apis-france-H09</td><td>blocked</td><td>Apis mellifera</td><td>France live GBIF bbox</td><td>Observed GBIF distribution is not true species distribution</td><td>Observed GBIF distribution is shaped by sampling effort, data sharing and dataset coverage.</td></tr>
+<tr><td>apis-france-H10</td><td>requires_verification</td><td>Apis mellifera</td><td>France live GBIF bbox</td><td>DOI/citation readiness is incomplete until GBIF download DOI or derived dataset is attached</td><td>API search results are not a DOI-backed publication dataset.</td></tr>
+<tr><td>passer-western-europe-H01</td><td>supported</td><td>Passer domesticus</td><td>Western Europe live bbox</td><td>Occurrence evidence exists in selected region</td><td>This supports only a retained GBIF-mediated occurrence-evidence claim, not abundance or absence.</td></tr>
+<tr><td>passer-western-europe-H02</td><td>weak</td><td>Passer domesticus</td><td>Western Europe live bbox</td><td>Evidence readiness is sufficient or insufficient for selected purpose</td><td>The score is purpose-aware and must be interpreted with the component scores.</td></tr>
+<tr><td>passer-western-europe-H03</td><td>weak</td><td>Passer domesticus</td><td>Western Europe live bbox</td><td>Dataset provenance is multi-source or single-source biased</td><td>Single-dataset dominance can reflect publisher or platform bias.</td></tr>
+<tr><td>passer-western-europe-H04</td><td>supported</td><td>Passer domesticus</td><td>Western Europe live bbox</td><td>Coordinate quality supports or weakens fine-scale interpretation</td><td>Fine-scale interpretation is unsafe when coordinates are uncertain or invalid.</td></tr>
+<tr><td>passer-western-europe-H05</td><td>supported</td><td>Passer domesticus</td><td>Western Europe live bbox</td><td>Temporal completeness supports or blocks time-based interpretation</td><td>Temporal claims need eventDate/year; missing dates weaken any time-based inference.</td></tr>
+<tr><td>passer-western-europe-H06</td><td>supported</td><td>Passer domesticus</td><td>Western Europe live bbox</td><td>Recent evidence exists or needs verification</td><td>Recent records are not trend evidence; they only show recent retained GBIF evidence.</td></tr>
+<tr><td>passer-western-europe-H07</td><td>requires_verification</td><td>Passer domesticus</td><td>Western Europe live bbox</td><td>Survey-priority cells identify where more sampling is needed</td><td>Survey priorities are planning hints, not confirmed biodiversity gaps.</td></tr>
+<tr><td>passer-western-europe-H08</td><td>blocked</td><td>Passer domesticus</td><td>Western Europe live bbox</td><td>Empty cells are no-evidence cells, not absence evidence</td><td>GBIF occurrence data cannot prove species absence in empty cells.</td></tr>
+<tr><td>passer-western-europe-H09</td><td>blocked</td><td>Passer domesticus</td><td>Western Europe live bbox</td><td>Observed GBIF distribution is not true species distribution</td><td>Observed GBIF distribution is shaped by sampling effort, data sharing and dataset coverage.</td></tr>
+<tr><td>passer-western-europe-H10</td><td>requires_verification</td><td>Passer domesticus</td><td>Western Europe live bbox</td><td>DOI/citation readiness is incomplete until GBIF download DOI or derived dataset is attached</td><td>API search results are not a DOI-backed publication dataset.</td></tr>
+<tr><td>passer-united-states-H01</td><td>supported</td><td>Passer domesticus</td><td>United States live GBIF bbox</td><td>Occurrence evidence exists in selected region</td><td>This supports only a retained GBIF-mediated occurrence-evidence claim, not abundance or absence.</td></tr>
+<tr><td>passer-united-states-H02</td><td>supported</td><td>Passer domesticus</td><td>United States live GBIF bbox</td><td>Evidence readiness is sufficient or insufficient for selected purpose</td><td>The score is purpose-aware and must be interpreted with the component scores.</td></tr>
+<tr><td>passer-united-states-H03</td><td>weak</td><td>Passer domesticus</td><td>United States live GBIF bbox</td><td>Dataset provenance is multi-source or single-source biased</td><td>Single-dataset dominance can reflect publisher or platform bias.</td></tr>
+<tr><td>passer-united-states-H04</td><td>weak</td><td>Passer domesticus</td><td>United States live GBIF bbox</td><td>Coordinate quality supports or weakens fine-scale interpretation</td><td>Fine-scale interpretation is unsafe when coordinates are uncertain or invalid.</td></tr>
+<tr><td>passer-united-states-H05</td><td>supported</td><td>Passer domesticus</td><td>United States live GBIF bbox</td><td>Temporal completeness supports or blocks time-based interpretation</td><td>Temporal claims need eventDate/year; missing dates weaken any time-based inference.</td></tr>
+<tr><td>passer-united-states-H06</td><td>supported</td><td>Passer domesticus</td><td>United States live GBIF bbox</td><td>Recent evidence exists or needs verification</td><td>Recent records are not trend evidence; they only show recent retained GBIF evidence.</td></tr>
+<tr><td>passer-united-states-H07</td><td>requires_verification</td><td>Passer domesticus</td><td>United States live GBIF bbox</td><td>Survey-priority cells identify where more sampling is needed</td><td>Survey priorities are planning hints, not confirmed biodiversity gaps.</td></tr>
+<tr><td>passer-united-states-H08</td><td>blocked</td><td>Passer domesticus</td><td>United States live GBIF bbox</td><td>Empty cells are no-evidence cells, not absence evidence</td><td>GBIF occurrence data cannot prove species absence in empty cells.</td></tr>
+<tr><td>passer-united-states-H09</td><td>blocked</td><td>Passer domesticus</td><td>United States live GBIF bbox</td><td>Observed GBIF distribution is not true species distribution</td><td>Observed GBIF distribution is shaped by sampling effort, data sharing and dataset coverage.</td></tr>
+<tr><td>passer-united-states-H10</td><td>requires_verification</td><td>Passer domesticus</td><td>United States live GBIF bbox</td><td>DOI/citation readiness is incomplete until GBIF download DOI or derived dataset is attached</td><td>API search results are not a DOI-backed publication dataset.</td></tr></tbody></table>
+  <h2>Bottlenecks And Errors</h2>
+  <pre># Bottlenecks And Errors
+
+## Suite Totals
+
+- Successful online scenarios: 10
+- Deduplicated records written: 1000
+- Duplicate records skipped: 149
+- Hypothesis claims: 100
+- Blocked claims: 20
+- Requires-verification claims: 20
+- High coordinate uncertainty records across scenarios: 130
+- Missing eventDate/year records across scenarios: 0
+
+## Fixed Methodological Bottlenecks
+
+- GBIF API can be unavailable or degraded; empty fallback runs are not counted as valid live evidence.
+- The current GBIF API path reads search results, not a DOI-backed GBIF download; formal publication still needs a DOI or derived dataset citation.
+- The current client uses the first occurrence-search page for each scenario; large research studies need GBIF download API or pagination.
+- A bbox is not the same as an administrative country boundary.
+- GBIF occurrence records do not prove species absence.
+- Occurrence clusters can reflect observer effort rather than true abundance or distribution.
+- Population trend claims are blocked without temporal sampling-bias correction.
+- High coordinate uncertainty weakens fine-scale claims.
+- Missing eventDate/year weakens temporal claims.
+- Single-dataset dominance can bias apparent evidence patterns.
+- TaxonKey improves reproducibility, but synonyms and taxonomic changes still need review.
+- Barcode/protein layers are outside this live occurrence test because the GBIF occurrence API is not Sequence ID.
+
+## Scenario Failures Or Empty Fallbacks
+
+- None detected.
+
+## Low Record / High Duplicate Scenarios
+
+- aedes-france: 77 deduped records added from 120 retained records.
+- quercus-germany: 75 deduped records added from 120 retained records.
+- apis-france: 59 deduped records added from 120 retained records.
+
+## Single Dataset Bias
+
+- passer-united-states: only 1 dataset(s) represented.
+</pre>
+</body>
+</html>
