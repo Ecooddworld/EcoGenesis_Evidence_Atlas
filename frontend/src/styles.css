@@ -716,6 +716,209 @@ th {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.rendered-math-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 1fr;
+}
+
+.rendered-math-card {
+  background: #fff;
+  border: 1px solid #dbe4dd;
+  border-radius: 8px;
+  box-shadow: 0 14px 30px rgba(26, 36, 29, 0.05);
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+  padding: 18px;
+}
+
+.rendered-math-card p {
+  color: #53655c;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.math-display {
+  align-items: center;
+  background: #0f2119;
+  border-radius: 8px;
+  color: #f4fbf5;
+  display: grid;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.04rem, 1.5vw, 1.48rem);
+  font-style: italic;
+  gap: 14px;
+  line-height: 1.55;
+  margin: 0;
+  overflow-x: auto;
+  padding: 18px;
+}
+
+.math-row {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.28em;
+  justify-content: center;
+  min-width: 0;
+  text-align: center;
+}
+
+.math-mi {
+  font-style: italic;
+  font-weight: 700;
+}
+
+.math-func,
+.math-op,
+.math-empty {
+  font-style: normal;
+  font-weight: 700;
+}
+
+.math-op {
+  padding: 0 0.12em;
+}
+
+.math-paren {
+  font-style: normal;
+  font-weight: 600;
+}
+
+.math-frac {
+  align-items: center;
+  display: inline-flex;
+  flex-direction: column;
+  line-height: 1.12;
+  margin: 0 0.16em;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.math-frac-top,
+.math-frac-bottom {
+  display: block;
+  padding: 0.08em 0.36em;
+  white-space: nowrap;
+}
+
+.math-frac-top {
+  border-bottom: 2px solid currentColor;
+}
+
+.math-abs {
+  align-items: center;
+  display: inline-flex;
+  gap: 0.08em;
+  white-space: nowrap;
+}
+
+.math-sqrt {
+  align-items: stretch;
+  display: inline-flex;
+  gap: 0.02em;
+  margin: 0 0.12em;
+  vertical-align: middle;
+}
+
+.sqrt-symbol {
+  font-size: 1.18em;
+  line-height: 1;
+  padding-top: 0.14em;
+}
+
+.sqrt-body {
+  border-top: 2px solid currentColor;
+  padding: 0.03em 0.12em 0;
+}
+
+.math-indicator {
+  align-items: center;
+  display: inline-flex;
+  gap: 0.1em;
+  white-space: nowrap;
+}
+
+.math-bigop {
+  align-items: center;
+  display: inline-flex;
+  gap: 0.04em;
+}
+
+.bigop-symbol {
+  font-size: 1.18em;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.math-bigunion {
+  align-items: center;
+  display: inline-flex;
+  gap: 0.18em;
+  margin: 0 0.08em;
+  vertical-align: middle;
+}
+
+.bigunion-stack {
+  align-items: center;
+  display: inline-grid;
+  justify-items: center;
+  line-height: 1;
+}
+
+.bigunion-lower {
+  font-size: 0.58em;
+  font-style: normal;
+  font-weight: 800;
+  margin-top: -0.08em;
+}
+
+.math-cases {
+  align-items: stretch;
+  display: grid;
+  gap: 0.2em;
+  grid-template-columns: auto auto minmax(0, 1fr);
+  max-width: 100%;
+  min-width: 0;
+}
+
+.cases-left {
+  align-self: center;
+  display: inline-flex;
+  gap: 0.2em;
+}
+
+.case-brace {
+  align-self: stretch;
+  display: flex;
+  font-size: 4.2em;
+  line-height: 0.92;
+}
+
+.case-rows {
+  display: grid;
+  gap: 0.35em;
+}
+
+.case-row {
+  align-items: baseline;
+  display: grid;
+  gap: 0.8em;
+  grid-template-columns: minmax(120px, auto) minmax(0, 1fr);
+}
+
+.case-value {
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.case-condition {
+  color: #dcebe1;
+  font-size: 0.92em;
+  min-width: 0;
+}
+
 .math-notebook {
   display: grid;
   gap: 16px;
@@ -968,7 +1171,9 @@ th {
   .outcome-grid,
   .example-grid,
   .formula-grid,
+  .rendered-math-grid,
   .layer-grid,
+  .test-metrics,
   .pipeline,
   .export-grid {
     grid-template-columns: 1fr;
