@@ -661,6 +661,7 @@ label {
 }
 
 select,
+input,
 textarea {
   background: #fbfdfb;
   border: 1px solid #cdd9d1;
@@ -707,6 +708,107 @@ summary {
 
 .advanced-input label {
   margin-top: 12px;
+}
+
+.upload-card,
+.validation-card,
+.source-note {
+  background: #f8fbf8;
+  border: 1px solid #dbe4dd;
+  border-radius: 8px;
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+}
+
+.upload-card.has-file {
+  border-color: #95b9a1;
+  box-shadow: inset 0 0 0 1px #d9eadf;
+}
+
+.upload-card h3,
+.validation-card h3 {
+  font-size: 1rem;
+  line-height: 1.25;
+  margin: 0 0 6px;
+}
+
+.upload-card p,
+.source-note span {
+  color: #53655c;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.file-picker input {
+  background: #fff;
+  cursor: pointer;
+  padding: 9px;
+}
+
+.upload-actions,
+.quick-downloads,
+.filter-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.upload-actions .button-link,
+.upload-actions button,
+.quick-downloads .button-link {
+  align-items: center;
+  display: inline-flex;
+}
+
+.validation-grid {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.validation-grid .metric-card {
+  padding: 10px;
+}
+
+.validation-grid .metric-card strong {
+  font-size: 1.35rem;
+}
+
+.csv-preview {
+  margin-top: 12px;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.csv-preview table {
+  font-size: 0.78rem;
+  min-width: 720px;
+}
+
+.csv-preview th,
+.csv-preview td {
+  padding: 8px;
+}
+
+.source-note strong {
+  color: #17201a;
+  display: block;
+  font-size: 0.96rem;
+}
+
+.filter-tabs {
+  margin: 12px 0;
+}
+
+.filter-tabs button {
+  min-height: 34px;
+}
+
+.filter-tabs button.active {
+  background: #1e5b69;
+  color: #fff;
 }
 
 .result-stack {

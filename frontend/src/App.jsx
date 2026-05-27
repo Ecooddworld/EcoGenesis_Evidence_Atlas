@@ -1,10 +1,13 @@
 import { useEffect, useMemo, useState } from 'react';
 import {
+  barcodeCsvTemplateUrl,
   exportUrl,
   getBarcodeDemoScenarios,
   getBarcodeReferenceStatus,
   getBarcodeRun,
+  importBarcodeCsv,
   runBarcodeCompiler,
+  runBarcodeCsv,
 } from './api.js';
 
 const defaultScenario = {
@@ -1553,6 +1556,9 @@ function App() {
   const [pack, setPack] = useState(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [csvFile, setCsvFile] = useState(null);
+  const [csvImport, setCsvImport] = useState(null);
+  const [csvLoading, setCsvLoading] = useState(false);
 
   useEffect(() => {
     let mounted = true;
@@ -1605,6 +1611,39 @@ function App() {
     }
   }
 
+  async function previewCsvUpload(file) {
+    if (!file) return;
+    setCsvFile(file);
+    setCsvImport(null);
+    setError('');
+    setCsvLoading(true);
+    try {
+      const imported = await importBarcodeCsv(file);
+      setCsvImport(imported);
+    } catch (err) {
+      setError(err.message || 'CSV import failed');
+    } finally {
+      setCsvLoading(false);
+    }
+  }
+
+  async function runCsvCompiler() {
+    if (!csvFile) return;
+    setLoading(true);
+    setError('');
+    try {
+      const summary = await runBarcodeCsv(csvFile);
+      setRunSummary(summary);
+      const detail = await getBarcodeRun(summary.run_id);
+      setPack(detail);
+      setMode('workbench');
+    } catch (err) {
+      setError(err.message || 'CSV compiler run failed');
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <main className="app-shell">
       <header className="topbar">
@@ -1649,7 +1688,13 @@ function App() {
           jsonInput={jsonInput}
           setJsonInput={setJsonInput}
           runCompiler={runCompiler}
+          runCsvCompiler={runCsvCompiler}
+          previewCsvUpload={previewCsvUpload}
           loading={loading}
+          csvLoading={csvLoading}
+          csvFile={csvFile}
+          csvImport={csvImport}
+          referenceStatus={referenceStatus}
           pack={pack}
           records={records}
           exports={exports}
@@ -2340,18 +2385,106 @@ function CompilerWorkbench({
   jsonInput,
   setJsonInput,
   runCompiler,
+  runCsvCompiler,
+  previewCsvUpload,
   loading,
+  csvLoading,
+  csvFile,
+  csvImport,
+  referenceStatus,
   pack,
   records,
   exports,
 }) {
+  const [decisionFilter, setDecisionFilter] = useState('all');
   const publishableRecords = records.filter((record) => record.published_taxon?.rank && record.published_taxon.rank !== 'none');
   const reviewRecords = records.filter((record) => !record.published_taxon?.rank || record.published_taxon.rank === 'none');
+  const blockedRecords = records.filter((record) => record.blockers?.length || ['weak', 'ambiguous', 'not-publishable', 'no-match'].includes(record.decision_class));
+  const filteredRecords = filterDecisionRecords(records, decisionFilter);
+  const csvValidation = csvImport?.validation;
+  const csvHasFatalErrors = csvValidation && !csvValidation.ok;
+  const keyExports = ['evidence_pack.zip', 'sequence_safety_table.csv', 'publication_blockers.csv', 'dwc_occurrence_core_publishable.csv', 'molecular_evidence_report.html']
+    .map((name) => exports.find((item) => item.name === name))
+    .filter(Boolean);
 
   return (
     <section className={`workspace ${pack ? 'has-results' : ''}`}>
       <aside className="control-panel">
-        <p className="section-label">Input</p>
+        <p className="section-label">Upload and score</p>
+        <section
+          className={`upload-card ${csvFile ? 'has-file' : ''}`}
+          onDragOver={(event) => event.preventDefault()}
+          onDrop={(event) => {
+            event.preventDefault();
+            previewCsvUpload(event.dataTransfer.files?.[0]);
+          }}
+        >
+          <div>
+            <h3>Upload CSV results</h3>
+            <p>
+              Use a CSV exported from GBIF Sequence ID, BLAST, BOLD, UNITE, or your lab pipeline. Required columns:
+              <strong> sequenceID</strong> and <strong>sequence</strong>. Match metrics unlock safe taxonomic decisions.
+            </p>
+          </div>
+          <label className="file-picker">
+            CSV file
+            <input
+              aria-label="CSV file"
+              type="file"
+              accept=".csv,text/csv"
+              onChange={(event) => previewCsvUpload(event.target.files?.[0])}
+            />
+          </label>
+          <div className="upload-actions">
+            <a className="button-link" href={barcodeCsvTemplateUrl()}>Download CSV template</a>
+            <button className="primary" onClick={runCsvCompiler} disabled={!csvFile || csvHasFatalErrors || loading || csvLoading}>
+              {loading ? 'Generating...' : 'Generate from CSV'}
+            </button>
+          </div>
+          <p className="hint">
+            Not enough: FASTA-only without Sequence ID/BLAST-style hit results cannot produce species-safe claims.
+          </p>
+        </section>
+
+        {csvFile && (
+          <section className="validation-card">
+            <p className="section-label">Validation</p>
+            <h3>{csvLoading ? 'Reading CSV...' : csvValidation?.ok ? 'CSV ready to run' : 'CSV needs repair'}</h3>
+            <div className="validation-grid">
+              <Metric label="Rows" value={csvValidation?.records_found ?? '-'} />
+              <Metric label="Invalid DNA" value={csvValidation?.invalid_sequence_count ?? '-'} />
+              <Metric label="Weak/no-hit" value={csvValidation?.weak_or_no_hit_count ?? '-'} />
+              <Metric label="Missing columns" value={csvValidation?.missing_required_columns?.length ?? '-'} />
+            </div>
+            {csvValidation?.errors?.length > 0 && (
+              <ul className="plain-list blocked">
+                {csvValidation.errors.map((item) => <li key={item}>{item}</li>)}
+              </ul>
+            )}
+            {csvValidation?.warnings?.length > 0 && (
+              <ul className="plain-list">
+                {csvValidation.warnings.map((item) => <li key={item}>{item}</li>)}
+              </ul>
+            )}
+          </section>
+        )}
+
+        {csvImport?.preview_rows?.length > 0 && (
+          <details className="advanced-input" open>
+            <summary>CSV preview</summary>
+            <CsvPreview rows={csvImport.preview_rows} />
+          </details>
+        )}
+
+        <section className="source-note">
+          <p className="section-label">Data source</p>
+          <strong>{referenceStatus?.status === 'ready' ? 'Compiler ready' : 'Compiler status'}</strong>
+          <span>
+            Molecular scoring uses your supplied Sequence ID / BLAST-style CSV. Live GBIF occurrence audit is available in Research audit, but it is not used as hidden molecular evidence.
+          </span>
+        </section>
+
+        <p className="section-label">Demo fallback</p>
         <label>
           Demo case
           <select value={selectedScenarioId} onChange={(event) => chooseScenario(event.target.value)}>
@@ -2362,7 +2495,7 @@ function CompilerWorkbench({
         </label>
         <p className="hint">{selectedScenario?.description}</p>
         <button className="primary wide" onClick={runCompiler} disabled={loading}>
-          {loading ? 'Compiling evidence...' : 'Generate Evidence Package'}
+          {loading ? 'Compiling evidence...' : 'Run selected demo'}
         </button>
         <details className="advanced-input">
           <summary>Advanced request JSON</summary>
@@ -2397,6 +2530,17 @@ function CompilerWorkbench({
             </section>
 
             <OutcomeSummary records={records} />
+
+            {keyExports.length > 0 && (
+              <section className="panel">
+                <p className="section-label">Download outputs</p>
+                <div className="quick-downloads">
+                  {keyExports.map((item) => (
+                    <a key={item.name} className="button-link" href={exportUrl(item.url)}>{item.name}</a>
+                  ))}
+                </div>
+              </section>
+            )}
 
             <section className="panel two-column">
               <div>
@@ -2433,6 +2577,18 @@ function CompilerWorkbench({
 
             <section className="panel">
               <p className="section-label">Sequence decisions</p>
+              <div className="filter-tabs" aria-label="Sequence decision filters">
+                {[
+                  ['all', `All (${records.length})`],
+                  ['publishable', `Publishable (${publishableRecords.length})`],
+                  ['review', `Review (${reviewRecords.length})`],
+                  ['blocked', `Blocked (${blockedRecords.length})`],
+                ].map(([id, label]) => (
+                  <button key={id} className={decisionFilter === id ? 'active' : ''} onClick={() => setDecisionFilter(id)}>
+                    {label}
+                  </button>
+                ))}
+              </div>
               <div className="table-wrap">
                 <table>
                   <thead>
@@ -2447,7 +2603,7 @@ function CompilerWorkbench({
                     </tr>
                   </thead>
                   <tbody>
-                    {records.map((record) => (
+                    {filteredRecords.map((record) => (
                       <tr key={record.sequence_id}>
                         <td>{record.sequence_id}</td>
                         <td><span className={`pill ${record.decision_class}`}>{record.decision_class}</span></td>
@@ -2472,6 +2628,41 @@ function CompilerWorkbench({
       </div>
     </section>
   );
+}
+
+function CsvPreview({ rows }) {
+  const columns = ['sequenceID', 'scientificName', 'eventDate', 'marker', 'topTaxon', 'topIdentity', 'topCoverage'];
+  return (
+    <div className="csv-preview">
+      <table>
+        <thead>
+          <tr>
+            {columns.map((column) => <th key={column}>{column}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row, index) => (
+            <tr key={`${row.sequenceID || 'row'}-${index}`}>
+              {columns.map((column) => <td key={column}>{row[column] || '-'}</td>)}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function filterDecisionRecords(records, filter) {
+  if (filter === 'publishable') {
+    return records.filter((record) => record.published_taxon?.rank && record.published_taxon.rank !== 'none');
+  }
+  if (filter === 'review') {
+    return records.filter((record) => !record.published_taxon?.rank || record.published_taxon.rank === 'none');
+  }
+  if (filter === 'blocked') {
+    return records.filter((record) => record.blockers?.length || ['weak', 'ambiguous', 'not-publishable', 'no-match'].includes(record.decision_class));
+  }
+  return records;
 }
 
 function OutcomeSummary({ records }) {
