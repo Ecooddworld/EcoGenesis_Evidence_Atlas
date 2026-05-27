@@ -4,11 +4,12 @@ import mimetypes
 import os
 
 import requests
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, File, Form, HTTPException, Query, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, HTMLResponse, Response
 
 from .barcode.compiler import run_barcode_compiler
+from .barcode.csv_import import CSV_TEMPLATE_TEXT, parse_barcode_csv
 from .barcode.demo import BARCODE_DEMO_SCENARIOS, DEFAULT_BARCODE_REQUEST
 from .barcode.schemas import BarcodeCompilerCreated, BarcodeCompilerRequest
 from .barcode.storage import barcode_artifact_path, list_barcode_summaries, load_barcode_pack
@@ -69,6 +70,60 @@ def barcode_reference_status() -> dict:
     }
 
 
+@app.get("/api/barcode/csv-template")
+def barcode_csv_template() -> Response:
+    return Response(
+        content=CSV_TEMPLATE_TEXT,
+        media_type="text/csv",
+        headers={"Content-Disposition": 'attachment; filename="barcode_compiler_template.csv"'},
+    )
+
+
+@app.post("/api/barcode/import-csv")
+async def import_barcode_csv(
+    file: UploadFile = File(...),
+    project_title: str | None = Form(default=None),
+    marker: str | None = Form(default=None),
+    reference_database: str | None = Form(default=None),
+    method_or_sop: str | None = Form(default=None),
+) -> dict:
+    text = await read_uploaded_csv(file)
+    return parse_barcode_csv(
+        text,
+        project_title=project_title,
+        marker=marker,
+        reference_database=reference_database,
+        method_or_sop=method_or_sop,
+    )
+
+
+@app.post("/api/barcode/run-csv", response_model=BarcodeCompilerCreated)
+async def run_barcode_csv(
+    file: UploadFile = File(...),
+    project_title: str | None = Form(default=None),
+    marker: str | None = Form(default=None),
+    reference_database: str | None = Form(default=None),
+    method_or_sop: str | None = Form(default=None),
+) -> dict:
+    text = await read_uploaded_csv(file)
+    parsed = parse_barcode_csv(
+        text,
+        project_title=project_title,
+        marker=marker,
+        reference_database=reference_database,
+        method_or_sop=method_or_sop,
+    )
+    if not parsed["validation"]["ok"] or not parsed["request"]:
+        raise HTTPException(status_code=422, detail=parsed["validation"])
+    pack = run_barcode_compiler(BarcodeCompilerRequest(**parsed["request"]))
+    return {
+        "run_id": pack["run"]["run_id"],
+        "status": "completed",
+        "summary": pack["summary"],
+        "exports": pack["exports"],
+    }
+
+
 @app.post("/api/barcode/run", response_model=BarcodeCompilerCreated)
 def run_barcode(request: BarcodeCompilerRequest) -> dict:
     pack = run_barcode_compiler(request)
@@ -78,6 +133,14 @@ def run_barcode(request: BarcodeCompilerRequest) -> dict:
         "summary": pack["summary"],
         "exports": pack["exports"],
     }
+
+
+async def read_uploaded_csv(file: UploadFile) -> str:
+    content = await file.read()
+    try:
+        return content.decode("utf-8-sig")
+    except UnicodeDecodeError as exc:
+        raise HTTPException(status_code=400, detail="CSV file must be UTF-8 encoded.") from exc
 
 
 @app.get("/api/barcode/runs")

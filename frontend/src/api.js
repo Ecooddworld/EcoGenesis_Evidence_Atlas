@@ -45,6 +45,43 @@ export async function runBarcodeCompiler(payload) {
   return response.json();
 }
 
+export function barcodeCsvTemplateUrl() {
+  return `${API_BASE_URL}/api/barcode/csv-template`;
+}
+
+function barcodeCsvForm(file, fields = {}) {
+  const formData = new FormData();
+  formData.append('file', file);
+  Object.entries(fields).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && String(value).trim() !== '') {
+      formData.append(key, value);
+    }
+  });
+  return formData;
+}
+
+export async function importBarcodeCsv(file, fields = {}) {
+  const response = await fetch(`${API_BASE_URL}/api/barcode/import-csv`, {
+    method: 'POST',
+    body: barcodeCsvForm(file, fields),
+  });
+  if (!response.ok) {
+    throw new Error(`Barcode CSV import failed: ${response.status}`);
+  }
+  return response.json();
+}
+
+export async function runBarcodeCsv(file, fields = {}) {
+  const response = await fetch(`${API_BASE_URL}/api/barcode/run-csv`, {
+    method: 'POST',
+    body: barcodeCsvForm(file, fields),
+  });
+  if (!response.ok) {
+    throw new Error(`Barcode CSV run failed: ${response.status}`);
+  }
+  return response.json();
+}
+
 export async function getBarcodeRun(runId) {
   const response = await fetch(`${API_BASE_URL}/api/barcode/runs/${runId}`);
   if (!response.ok) {

@@ -51,6 +51,56 @@ const runDetail = {
   exports: createdRun.exports,
 };
 
+const csvImportPayload = {
+  request: {
+    project_title: 'Uploaded molecular evidence CSV',
+    marker: 'COI-5P',
+    reference_database: 'COI Animals / BOLD public clustered reference',
+    method_or_sop: 'GBIF Sequence ID-compatible BLAST workflow',
+    records: [{ sequence_id: 'AALB-COI-good', sequence: 'ACGT', hits: [{ taxon: 'Aedes albopictus', identity: 99.6, query_coverage: 96 }] }],
+  },
+  preview_rows: [
+    {
+      sequenceID: 'AALB-COI-good',
+      scientificName: 'Aedes albopictus',
+      eventDate: '2026-04-18',
+      marker: 'COI-5P',
+      topTaxon: 'Aedes albopictus',
+      topIdentity: '99.6',
+      topCoverage: '96',
+    },
+  ],
+  validation: {
+    ok: true,
+    errors: [],
+    warnings: ['Some strongly recommended GBIF/DNA fields are missing; publication readiness may be blocked.'],
+    records_found: 1,
+    missing_required_columns: [],
+    missing_recommended_fields: { occurrenceID: 1 },
+    invalid_sequence_count: 0,
+    weak_or_no_hit_count: 0,
+    no_hit_count: 0,
+  },
+};
+
+const createdCsvRun = {
+  ...createdRun,
+  run_id: 'barcodecsv123',
+  exports: [
+    { name: 'evidence_pack.zip', url: '/api/barcode/runs/barcodecsv123/exports/evidence_pack.zip' },
+    { name: 'sequence_safety_table.csv', url: '/api/barcode/runs/barcodecsv123/exports/sequence_safety_table.csv' },
+    { name: 'publication_blockers.csv', url: '/api/barcode/runs/barcodecsv123/exports/publication_blockers.csv' },
+    { name: 'dwc_occurrence_core_publishable.csv', url: '/api/barcode/runs/barcodecsv123/exports/dwc_occurrence_core_publishable.csv' },
+    { name: 'molecular_evidence_report.html', url: '/api/barcode/runs/barcodecsv123/exports/molecular_evidence_report.html' },
+  ],
+};
+
+const csvRunDetail = {
+  ...runDetail,
+  run: { run_id: 'barcodecsv123', ruleset_version: 'barcode-gbif-compiler-v2' },
+  exports: createdCsvRun.exports,
+};
+
 afterEach(() => {
   cleanup();
   vi.restoreAllMocks();
@@ -89,7 +139,7 @@ describe('Barcode compiler UI', () => {
 
     await waitFor(() => expect(screen.getAllByText('AALB-COI-good').length).toBeGreaterThan(0));
     expect(screen.getByText('species-safe')).toBeInTheDocument();
-    expect(screen.getByText('evidence_pack.zip')).toBeInTheDocument();
+    expect(screen.getAllByText('evidence_pack.zip').length).toBeGreaterThan(0);
   });
 
   it('opens the workbench and exposes the request editor', async () => {
@@ -108,9 +158,50 @@ describe('Barcode compiler UI', () => {
     fireEvent.click(await screen.findByText('Run compiler'));
 
     expect(screen.getByLabelText('Demo case')).toBeInTheDocument();
-    expect(screen.getByText('Generate Evidence Package')).toBeInTheDocument();
+    expect(screen.getByText('Run selected demo')).toBeInTheDocument();
     fireEvent.click(screen.getByText('Advanced request JSON'));
     expect(screen.getByLabelText('Compiler request JSON')).toBeInTheDocument();
+  });
+
+  it('imports a CSV, shows validation preview, and runs the compiler from upload', async () => {
+    vi.spyOn(globalThis, 'fetch').mockImplementation((url, options) => {
+      const textUrl = String(url);
+      if (textUrl.endsWith('/api/barcode/demo-scenarios')) {
+        return Promise.resolve(new Response(JSON.stringify(demoScenarios), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/reference-status')) {
+        return Promise.resolve(new Response(JSON.stringify({ status: 'ready', message: 'Compiler ready.' }), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/import-csv') && options?.method === 'POST') {
+        return Promise.resolve(new Response(JSON.stringify(csvImportPayload), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/run-csv') && options?.method === 'POST') {
+        return Promise.resolve(new Response(JSON.stringify(createdCsvRun), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/runs/barcodecsv123')) {
+        return Promise.resolve(new Response(JSON.stringify(csvRunDetail), { status: 200 }));
+      }
+      return Promise.resolve(new Response('{}', { status: 404 }));
+    });
+
+    render(<App />);
+    fireEvent.click(await screen.findByText('Run compiler'));
+
+    expect(screen.getByText('Upload CSV results')).toBeInTheDocument();
+    expect(screen.getByText('Download CSV template')).toBeInTheDocument();
+    const file = new File(['sequenceID,sequence\nAALB-COI-good,ACGT\n'], 'aedes_good.csv', { type: 'text/csv' });
+    fireEvent.change(screen.getByLabelText('CSV file'), { target: { files: [file] } });
+
+    expect(await screen.findByText('CSV ready to run')).toBeInTheDocument();
+    expect(screen.getByText('AALB-COI-good')).toBeInTheDocument();
+    expect(screen.getByText('Some strongly recommended GBIF/DNA fields are missing; publication readiness may be blocked.')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByText('Generate from CSV'));
+
+    await waitFor(() => expect(screen.getAllByText('species-safe').length).toBeGreaterThan(0));
+    expect(screen.getAllByText('sequence_safety_table.csv').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('molecular_evidence_report.html').length).toBeGreaterThan(0);
+    expect(screen.getByText('Publishable (1)')).toBeInTheDocument();
   });
 
   it('opens the proof and formulas page', async () => {
