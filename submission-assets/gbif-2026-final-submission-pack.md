@@ -21,6 +21,7 @@ One-liner:
 - Abstract and rationale: copy from `submission-assets/gbif-entry-form-draft.md`.
 - Operating instructions: copy from `submission-assets/gbif-entry-form-draft.md`.
 - Video URL: TODO after uploading final video.
+- Local final video for upload: `submission-assets/barcode-video/video/ecogenesis-barcode-to-gbif-english-voice-ru-subs.mp4`.
 - Source/docs links:
   - https://github.com/oddworld666/EcoGenesis_Evidence_Atlas
   - https://github.com/oddworld666/EcoGenesis_Evidence_Atlas/blob/main/README.md
@@ -76,7 +77,7 @@ Before final submission, re-run the commands in `submission-assets/final-submiss
 
 - Make repository public.
 - Fill team/member details.
-- Record and upload the final CSV Upload -> Score demo video.
+- Upload the final CSV Upload -> Score demo video from `submission-assets/barcode-video/video/ecogenesis-barcode-to-gbif-english-voice-ru-subs.mp4`.
 - Replace TODO video URL in `submission-assets/gbif-entry-form-draft.md`.
 - Create GitHub release `v1.0-gbif-2026`.
 - Confirm every submitted URL opens without login.

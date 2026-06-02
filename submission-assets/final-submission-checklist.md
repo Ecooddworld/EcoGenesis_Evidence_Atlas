@@ -22,14 +22,16 @@ Entry form: https://www.survey-xact.dk/LinkCollector?key=YCAEZQR4SPC1
 - [x] Mathematical methodology and proof-by-failure-mode docs exist.
 - [x] License, citation and data license files exist.
 - [x] Entry form draft is prepared in `submission-assets/gbif-entry-form-draft.md`.
+- [x] Final local explainer video exists: `submission-assets/barcode-video/video/ecogenesis-barcode-to-gbif-english-voice-ru-subs.mp4`.
+- [x] Russian subtitles and English transcript exist for the final local video.
 
 ## Must Do Before Pressing Submit
 
 - [ ] Make the GitHub repository public and confirm it opens without login.
 - [ ] Fill final team member names, affiliations, country and contact email.
-- [ ] Record or rebuild the final video around the current CSV Upload -> Score workflow.
+- [x] Record or rebuild the final video around the current CSV Upload -> Score workflow.
 - [ ] Upload the video to a public no-cost URL that plays without login.
-- [ ] Add captions or transcript for the video.
+- [x] Add captions or transcript for the video.
 - [ ] Replace the TODO video URL in `submission-assets/gbif-entry-form-draft.md`.
 - [ ] Create a GitHub release, for example `v1.0-gbif-2026`.
 - [ ] Add the release URL to the final entry form if available.
@@ -70,7 +72,7 @@ npm run build
 - Team members: TODO.
 - Abstract and rationale: ready.
 - Operating instructions: ready.
-- Video link: TODO after upload.
+- Video link: TODO after public upload. Local file is ready at `submission-assets/barcode-video/video/ecogenesis-barcode-to-gbif-english-voice-ru-subs.mp4`.
 - Source/documentation links: ready, but must be public.
 
 ## Risk Notes

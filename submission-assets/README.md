@@ -10,13 +10,18 @@ This folder contains the materials prepared for the 2026 GBIF Ebbe Nielsen Chall
 - `barcode-video-script.md`: final video script for the current CSV Upload -> Score workflow.
 - `barcode-entry-form-draft.md`: shorter project-specific entry text.
 
-## Existing Local Media
+## Final Local Video
+
+- `barcode-video/video/ecogenesis-barcode-to-gbif-english-voice-ru-subs.mp4`: current final explainer video for the CSV Upload -> Score workflow, with English voiceover and burned Russian subtitles.
+- `barcode-video/video/ecogenesis-barcode-to-gbif-english-voice-ru-subs.srt`: external Russian subtitle file.
+- `barcode-video/video/ecogenesis-barcode-to-gbif-english-voiceover.txt`: English voiceover transcript.
+- `barcode-video/video/demo-thumbnail-english-voice-ru-subs.png`: local thumbnail.
+
+## Older Local Media
 
 - `video/ecogenesis-evidence-atlas-demo.mp4`: older local demo video for the previous Evidence Atlas flow.
 - `video/ecogenesis-evidence-atlas-demo.srt`: captions for the older video.
 - `screenshots/*.png`: older Evidence Atlas screenshots.
-
-For the final submission, record or rebuild a new video using `barcode-video-script.md`, because the current primary product flow is CSV Upload -> Score -> Evidence Pack.
 
 ## Recommended Public Links
 
@@ -29,7 +34,7 @@ For the final submission, record or rebuild a new video using `barcode-video-scr
 
 1. Make the repository public.
 2. Fill team/member details in `gbif-entry-form-draft.md`.
-3. Record and upload the final video.
+3. Upload `barcode-video/video/ecogenesis-barcode-to-gbif-english-voice-ru-subs.mp4` to a public no-login URL.
 4. Replace the TODO video URL.
 5. Create a GitHub release, for example `v1.0-gbif-2026`.
 6. Re-run backend tests, frontend tests, build, operability verification and browser smoke.
