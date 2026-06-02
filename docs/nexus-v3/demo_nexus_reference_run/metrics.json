@@ -1,0 +1,15 @@
+{
+  "processed_records": 4,
+  "species_safe": 2,
+  "genus_safe": 1,
+  "higher_rank_safe": 0,
+  "gbif_ready_safe": 0,
+  "top_species_hits": 3,
+  "blocked_or_downgraded_top_species_hits": 1,
+  "repairable_records": 3,
+  "SCY_safe_conversion_yield": 0.0,
+  "SRY_safe_rank_yield": 0.75,
+  "SPY_species_preservation_yield": 0.666667,
+  "OPR_overclaim_prevention_rate": 0.333333,
+  "RY_repairable_yield": 0.75
+}

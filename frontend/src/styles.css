@@ -587,6 +587,92 @@ button:disabled {
   margin-top: 8px;
 }
 
+.nexus-audit-panel {
+  background: linear-gradient(180deg, #ffffff 0%, #f5fbf7 100%);
+  border-color: #bfd7cc;
+}
+
+.panel-heading-row {
+  align-items: start;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.panel-heading-row h3 {
+  margin: 0;
+}
+
+.audit-status {
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 900;
+  padding: 7px 10px;
+  white-space: nowrap;
+}
+
+.audit-status.pass {
+  background: #d9f1df;
+  color: #155125;
+}
+
+.audit-status.warn {
+  background: #f7e2d9;
+  color: #7a321e;
+}
+
+.nexus-kpi-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: 16px;
+}
+
+.nexus-kpi-grid .metric-card {
+  background: #fff;
+}
+
+.nexus-mini {
+  border-top: 1px solid #dfe8e2;
+  margin-top: 16px;
+  padding-top: 16px;
+}
+
+.ranked-list {
+  display: grid;
+  gap: 10px;
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+}
+
+.ranked-list li {
+  background: #fff;
+  border: 1px solid #dbe4dd;
+  border-left: 5px solid #287844;
+  border-radius: 8px;
+  display: grid;
+  gap: 4px;
+  padding: 10px 12px;
+}
+
+.ranked-list.blocked li {
+  border-left-color: #a14227;
+}
+
+.ranked-list strong {
+  color: #17201a;
+  font-size: 0.92rem;
+  line-height: 1.25;
+}
+
+.ranked-list span {
+  color: #53655c;
+  font-size: 0.85rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
 .panel,
 .empty-state,
 .control-panel,
@@ -1749,6 +1835,7 @@ th {
   .formula-grid,
   .layer-grid,
   .test-metrics,
+  .nexus-kpi-grid,
   .pipeline,
   .export-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1767,6 +1854,7 @@ th {
   .rendered-math-grid,
   .layer-grid,
   .test-metrics,
+  .nexus-kpi-grid,
   .pipeline,
   .export-grid {
     grid-template-columns: 1fr;
@@ -1777,6 +1865,7 @@ th {
   }
 
   .donut-wrap,
+  .panel-heading-row,
   .claim-matrix > div {
     grid-template-columns: 1fr;
   }

@@ -72,6 +72,8 @@ The frozen gates are documented in:
 - `docs/barcode-compiler-methodology.md`
 - `docs/proof-by-failure-modes.md`
 - `docs/gbif-dna-derived-readiness.md`
+- `docs/nexus-v3/EcoGenesis_Nexus_V3_FULL_PROJECT_RU.md`
+- `docs/nexus-v3/EcoGenesis_Nexus_V3_scientific_validation_report.md`
 
 ## Quick Start
 
@@ -173,16 +175,26 @@ Each barcode run exports:
 - `diagnostic_kmer_report.csv`
 - `gbif_backbone_matches.csv`
 - `publication_blockers.csv`
+- `repair_plan.csv`
+- `metadata_bottlenecks.csv`
+- `reference_gap_index.csv`
+- `hard_gate_audit.csv`
+- `naive_top_hit_overclaims.csv`
 - `reference_manifest.json`
 - `dwc_occurrence_core_template.csv`
 - `dwc_occurrence_core_publishable.csv`
+- `dwc_occurrence_core_gbif_ready.csv`
 - `dwc_occurrence_core_review.csv`
+- `dwc_occurrence_core_review_or_repair.csv`
 - `dna_derived_extension_template.csv`
 - `dna_derived_extension_publishable.csv`
+- `dna_derived_extension_gbif_ready.csv`
 - `molecular_evidence_report.html`
 - `methods_text.md`
 - `citations.md`
 - `evidence_graph.json`
+- `nexus_v3_summary.json`
+- `external_tool_adapter_matrix.csv`
 - `proof_by_failure_modes.md`
 - `evidence_pack.json`
 - `evidence_pack.zip`
@@ -251,3 +263,4 @@ Prepared submission materials live in `submission-assets/`, especially:
 - `submission-assets/gbif-entry-form-draft.md`
 - `submission-assets/barcode-video-script.md`
 - `submission-assets/final-submission-checklist.md`
+- `submission-assets/barcode-video/video/ecogenesis-barcode-to-gbif-english-voice-ru-subs.mp4`

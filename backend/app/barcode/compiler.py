@@ -29,6 +29,7 @@ def run_barcode_compiler(request: BarcodeCompilerRequest) -> dict[str, Any]:
     reference_manifest = build_reference_manifest(request)
     decisions = [decide_record(record, request) for record in request.records]
     metrics = summarize_decisions(decisions)
+    nexus = build_nexus_v3_summary(decisions, metrics)
     finished_at = datetime.now(timezone.utc)
     request_payload = request.model_dump()
     manifest_sha256 = fingerprint_request(reference_manifest)
@@ -61,6 +62,12 @@ def run_barcode_compiler(request: BarcodeCompilerRequest) -> dict[str, Any]:
         "reference_manifest": reference_manifest,
         "decision_rules": decision_rules(),
         "metrics": metrics,
+        "nexus_v3": nexus,
+        "hard_gate_audit": hard_gate_audit(decisions),
+        "naive_top_hit_overclaims": naive_top_hit_overclaims(decisions),
+        "metadata_bottlenecks": metadata_bottlenecks(decisions),
+        "reference_gap_index": reference_gap_index(decisions),
+        "repair_plan": repair_plan(decisions),
         "records": decisions,
         "request": request_payload,
     }
@@ -583,8 +590,13 @@ def summarize_decisions(decisions: list[dict[str, Any]]) -> dict[str, Any]:
         for item in decisions
         if item["top_hit"] and item["top_hit"]["rank"] == "species" and item["decision_class"] != "species-safe"
     )
+    top_species = sum(1 for item in decisions if item["top_hit"] and item["top_hit"]["rank"] == "species")
+    safe_rank_records = species_safe + genus_safe + higher_rank_safe
+    publishable_template_records = sum(1 for item in decisions if item["published_taxon"]["rank"] != "none")
+    repairable_records = sum(1 for item in decisions if item["actions"] or item["blockers"])
     not_ready_with_blockers = sum(1 for item in decisions if item["publication_status"] == "not-ready" and item["blockers"])
     not_ready = sum(1 for item in decisions if item["publication_status"] == "not-ready")
+    hard_gate_failures = sum(1 for item in hard_gate_audit(decisions) if item["hardGateViolation"])
     return {
         "processed_records": processed,
         "processing_coverage": 1 if processed else 0,
@@ -597,19 +609,230 @@ def summarize_decisions(decisions: list[dict[str, Any]]) -> dict[str, Any]:
         "not_publishable_records": not_publishable,
         "record_ready_records": record_ready,
         "dataset_ready_records": dataset_ready,
+        "publishable_template_records": publishable_template_records,
+        "safe_rank_records": safe_rank_records,
+        "repairable_records": repairable_records,
+        "top_species_hits": top_species,
+        "blocked_or_downgraded_top_species_hits": blocked_species,
         "species_safe_yield": round(species_safe / processed, 6) if processed else 0,
+        "safe_rank_yield": round(safe_rank_records / processed, 6) if processed else 0,
+        "molecular_evidence_conversion_yield": round(publishable_template_records / processed, 6) if processed else 0,
+        "repairable_yield": round(repairable_records / processed, 6) if processed else 0,
         "blocked_species_claims": blocked_species,
+        "overclaim_prevention_rate": round(blocked_species / top_species, 6) if top_species else 0,
         "overclaim_prevention_proxy": 1 if blocked_species else None,
         "publication_repair_efficiency": round(not_ready_with_blockers / not_ready, 6) if not_ready else 1,
+        "hard_gate_failures": hard_gate_failures,
     }
 
 
 def build_run_verdict(metrics: dict[str, Any]) -> str:
+    if metrics.get("hard_gate_failures"):
+        return "Hard-gate audit found a species-safe inconsistency; do not use this run for publication until the rules are fixed."
     if metrics["species_safe_records"]:
         return "At least one sequence is species-safe under the frozen molecular evidence gates; publication readiness is reported separately."
     if metrics["genus_safe_records"] or metrics["higher_rank_safe_records"]:
         return "The run produced safe downgraded molecular evidence, but no species-level publication candidate."
     return "The run correctly blocked species-level publication claims."
+
+
+def build_nexus_v3_summary(decisions: list[dict[str, Any]], metrics: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "positioning": "Molecular Evidence Conversion & Repair Engine for GBIF",
+        "working_layer": "Barcode-to-GBIF Evidence Compiler",
+        "ruleset_family": "EcoGenesis Nexus V3 conservative hard-gate workflow",
+        "scientific_claim": (
+            "The compiler computes the safest publishable taxonomic rank and repair actions under supplied "
+            "molecular hits, reference evidence and GBIF/DNA-derived metadata. It does not treat a top hit as species truth."
+        ),
+        "conversion_metrics": {
+            "MECY_molecular_evidence_conversion_yield": metrics["molecular_evidence_conversion_yield"],
+            "SRY_safe_rank_yield": metrics["safe_rank_yield"],
+            "SSY_species_safe_yield": metrics["species_safe_yield"],
+            "RY_repairable_yield": metrics["repairable_yield"],
+            "OPR_overclaim_prevention_rate": metrics["overclaim_prevention_rate"],
+        },
+        "audit": {
+            "hard_gate_failures": metrics["hard_gate_failures"],
+            "top_species_hits": metrics["top_species_hits"],
+            "blocked_or_downgraded_top_species_hits": metrics["blocked_or_downgraded_top_species_hits"],
+            "species_safe_records": metrics["species_safe_records"],
+            "publishable_template_records": metrics["publishable_template_records"],
+        },
+        "next_platform_layers": [
+            "reference completeness gate",
+            "protein sanity gate for coding markers",
+            "assay evidence gate for eDNA/metabarcoding controls",
+            "fragment sharedness atlas",
+            "Molecular Evidence Graph",
+        ],
+        "safe_language": [
+            "sequence-derived occurrence evidence, not proof of living presence",
+            "empty cells are no-evidence cells, not absence",
+            "observed GBIF records are evidence context, not true distribution",
+            "protein/phenotype links remain hypotheses unless external curated evidence is attached",
+        ],
+    }
+
+
+def hard_gate_audit(decisions: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    rows = []
+    for record in decisions:
+        top = record["top_hit"] or {}
+        exact_pass = record["match_type"] == "exact"
+        ambiguity_pass = record["candidate_taxon"]["rank"] == "species" and len({hit["taxon"] for hit in record["indistinguishable_hits"]}) == 1
+        barcode_pass = record["barcode_gap"]["status"] == "pass"
+        diagnostic_pass = record["diagnostic_kmers"]["status"] == "pass"
+        core_pass = record["metadata_readiness"]["core_pass"] is True
+        dna_pass = record["metadata_readiness"]["dna_pass"] is True
+        species_safe = record["decision_class"] == "species-safe"
+        hard_gate_violation = species_safe and not all([exact_pass, ambiguity_pass, barcode_pass, diagnostic_pass, core_pass, dna_pass])
+        rows.append(
+            {
+                "sequenceID": record["sequence_id"],
+                "topHit": top.get("taxon"),
+                "topHitRank": top.get("rank"),
+                "decisionClass": record["decision_class"],
+                "exactMatchGate": gate_status(exact_pass),
+                "ambiguityLcaGate": gate_status(ambiguity_pass),
+                "barcodeGapGate": record["barcode_gap"]["status"],
+                "diagnosticKmerGate": record["diagnostic_kmers"]["status"],
+                "occurrenceCoreGate": gate_status(core_pass),
+                "dnaMetadataGate": gate_status(dna_pass),
+                "hardGateViolation": hard_gate_violation,
+                "auditConclusion": "FAIL: species-safe emitted with failed gate" if hard_gate_violation else "pass: fail-closed rules preserved",
+            }
+        )
+    return rows
+
+
+def naive_top_hit_overclaims(decisions: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    rows = []
+    for record in decisions:
+        top = record["top_hit"] or {}
+        if top.get("rank") != "species" or record["decision_class"] == "species-safe":
+            continue
+        rows.append(
+            {
+                "sequenceID": record["sequence_id"],
+                "naiveClaim": top.get("taxon"),
+                "naiveRank": top.get("rank"),
+                "compilerDecision": record["decision_class"],
+                "safeTaxon": record["safe_taxon"]["name"],
+                "safeRank": record["safe_taxon"]["rank"],
+                "publishedTaxon": record["published_taxon"]["name"],
+                "publishedRank": record["published_taxon"]["rank"],
+                "reason": "; ".join(record["blockers"]) or "species gate did not pass",
+            }
+        )
+    return rows
+
+
+def metadata_bottlenecks(decisions: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    counts: dict[str, int] = {}
+    total = max(len(decisions), 1)
+    for record in decisions:
+        readiness = record["metadata_readiness"]
+        for field in readiness.get("core_missing", []):
+            counts[f"missing Occurrence core field: {field}"] = counts.get(f"missing Occurrence core field: {field}", 0) + 1
+        for field in readiness.get("dna_missing", []):
+            counts[f"missing DNA-derived field: {field}"] = counts.get(f"missing DNA-derived field: {field}", 0) + 1
+        for field in readiness.get("core_recommended_missing", []):
+            counts[f"missing recommended field: {field}"] = counts.get(f"missing recommended field: {field}", 0) + 1
+        for field in readiness.get("dataset_metadata_missing", []):
+            counts[f"missing dataset metadata: {field}"] = counts.get(f"missing dataset metadata: {field}", 0) + 1
+    return [
+        {"bottleneck": key, "records": value, "MBI_metadata_bottleneck_index": round(value / total, 6)}
+        for key, value in sorted(counts.items(), key=lambda item: item[1], reverse=True)
+    ]
+
+
+def reference_gap_index(decisions: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    buckets: dict[str, dict[str, Any]] = {}
+    for record in decisions:
+        marker = record["metadata"].get("marker") or "unknown-marker"
+        safe = record["safe_taxon"]
+        key = f"{marker}|{safe['rank']}|{safe['name']}"
+        bucket = buckets.setdefault(
+            key,
+            {
+                "markerRankTaxon": key,
+                "marker": marker,
+                "safeRank": safe["rank"],
+                "safeTaxon": safe["name"],
+                "records": 0,
+                "referenceBlockedRecords": 0,
+                "blockerExamples": set(),
+            },
+        )
+        bucket["records"] += 1
+        reference_blockers = reference_blocker_reasons(record)
+        if reference_blockers:
+            bucket["referenceBlockedRecords"] += 1
+            bucket["blockerExamples"].update(reference_blockers)
+    rows = []
+    for bucket in buckets.values():
+        rows.append(
+            {
+                "markerRankTaxon": bucket["markerRankTaxon"],
+                "marker": bucket["marker"],
+                "safeRank": bucket["safeRank"],
+                "safeTaxon": bucket["safeTaxon"],
+                "records": bucket["records"],
+                "referenceBlockedRecords": bucket["referenceBlockedRecords"],
+                "RGI_reference_gap_index": round(bucket["referenceBlockedRecords"] / bucket["records"], 6) if bucket["records"] else 0,
+                "blockerExamples": "; ".join(sorted(bucket["blockerExamples"])),
+            }
+        )
+    return sorted(rows, key=lambda row: row["RGI_reference_gap_index"], reverse=True)
+
+
+def repair_plan(decisions: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    action_to_records: dict[str, set[str]] = {}
+    for record in decisions:
+        for action in record["actions"]:
+            action_to_records.setdefault(action, set()).add(record["sequence_id"])
+    rows = []
+    total = max(len(decisions), 1)
+    for action, record_ids in action_to_records.items():
+        rows.append(
+            {
+                "repairAction": action,
+                "unlockableRecords": len(record_ids),
+                "estimatedGain": round(len(record_ids) / total, 6),
+                "estimatedCost": repair_cost(action),
+                "exampleRecords": "; ".join(sorted(record_ids)[:8]),
+            }
+        )
+    return sorted(rows, key=lambda row: (row["unlockableRecords"], row["estimatedGain"]), reverse=True)
+
+
+def reference_blocker_reasons(record: dict[str, Any]) -> list[str]:
+    reasons = []
+    if not record["hits"]:
+        reasons.append("no reference hits")
+    if record["barcode_gap"]["status"] != "pass":
+        reasons.append(f"barcode gap {record['barcode_gap']['status']}")
+    if record["diagnostic_kmers"]["status"] != "pass":
+        reasons.append(f"diagnostic k-mer {record['diagnostic_kmers']['status']}")
+    if len({hit["taxon"] for hit in record["indistinguishable_hits"]}) > 1 and record["safe_taxon"]["rank"] != "species":
+        reasons.append("LCA downgrade from indistinguishable competitors")
+    return reasons
+
+
+def repair_cost(action: str) -> str:
+    lowered = action.lower()
+    if lowered.startswith("complete") or lowered.startswith("attach marker"):
+        return "low"
+    if "reference" in lowered or "diagnostic" in lowered or "barcode" in lowered:
+        return "medium"
+    if "sequence" in lowered or "marker" in lowered:
+        return "high"
+    return "medium"
+
+
+def gate_status(value: bool) -> str:
+    return "pass" if value else "fail"
 
 
 def decision_rules() -> dict[str, Any]:

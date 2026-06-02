@@ -9,3 +9,11 @@ The compiler blocks species-level claims when any required gate fails:
 - required Occurrence core or DNA-derived metadata is missing.
 
 Therefore `species-safe` is not a blind top-hit label. It means the record passed all frozen molecular evidence and GBIF-readiness gates in this run.
+
+## Nexus V3 Hard-Gate Audit
+
+The `hard_gate_audit.csv` export verifies the contradiction condition explicitly:
+
+If a record is emitted as `species-safe`, then the exact match gate, ambiguity/LCA gate, barcode gap gate, diagnostic k-mer gate, Occurrence core gate and DNA metadata gate must all pass.
+
+If any of those gates fail while `species-safe` is emitted, `hardGateViolation=true`. A valid run must have zero hard-gate failures.

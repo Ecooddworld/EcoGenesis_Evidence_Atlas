@@ -1,0 +1,15 @@
+bottleneck,records,MBI_metadata_bottleneck_index
+missing dataset metadata: title,4,1.0
+missing dataset metadata: description,4,1.0
+missing dataset metadata: publishingOrganization,4,1.0
+missing dataset metadata: type,4,1.0
+missing dataset metadata: license,4,1.0
+missing dataset metadata: contact,4,1.0
+missing dataset metadata: creator,4,1.0
+missing dataset metadata: metadataProvider,4,1.0
+missing Occurrence core field: occurrenceID,1,0.25
+missing Occurrence core field: eventDate,1,0.25
+missing recommended field: decimalLatitude,1,0.25
+missing recommended field: decimalLongitude,1,0.25
+missing recommended field: geodeticDatum,1,0.25
+missing recommended field: coordinateUncertaintyInMeters,1,0.25

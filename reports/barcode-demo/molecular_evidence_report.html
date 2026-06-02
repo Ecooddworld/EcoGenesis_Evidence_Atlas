@@ -8,7 +8,10 @@
     body { font-family: Inter, system-ui, sans-serif; margin: 32px; color: #17201a; }
     h1 { max-width: 880px; }
     .summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 24px 0; }
+    .nexus { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin: 24px 0; }
     .card { border: 1px solid #d7e2dc; border-radius: 8px; padding: 14px; background: #f8fbf8; }
+    .ok { background:#ecf8ef; border-color:#b7dac0; }
+    .warn { background:#fff8e8; border-color:#e6c776; }
     table { border-collapse: collapse; width: 100%; }
     th, td { border-bottom: 1px solid #d7e2dc; padding: 10px; text-align: left; vertical-align: top; }
     th { background: #eef5ef; }
@@ -24,6 +27,28 @@
     <div class="card"><strong>3</strong><br />blocked species claims</div>
     <div class="card"><strong>1.0</strong><br />repair explainability</div>
   </section>
+  <h2>Nexus V3 conversion audit</h2>
+  <section class="nexus">
+    <div class="card"><strong>0.5</strong><br />MECY conversion yield</div>
+    <div class="card"><strong>0.5</strong><br />safe-rank yield</div>
+    <div class="card"><strong>0.75</strong><br />overclaim prevention</div>
+    <div class="card"><strong>0.75</strong><br />repairable yield</div>
+    <div class="card ok"><strong>0</strong><br />hard-gate failures</div>
+  </section>
+  <h2>Top repair actions</h2>
+  <table>
+    <thead><tr><th>Repair action</th><th>Unlockable records</th><th>Cost</th><th>Examples</th></tr></thead>
+    <tbody><tr><td>Publish the molecular assignment at genus rank unless additional evidence resolves the ambiguity.</td><td>1</td><td>medium</td><td>AALB-COI-ambiguous</td></tr>
+<tr><td>Use a longer/cleaner marker sequence or treat the assignment below species rank.</td><td>1</td><td>high</td><td>AALB-COI-short</td></tr>
+<tr><td>Complete required Darwin Core Occurrence core fields before GBIF publication.</td><td>1</td><td>low</td><td>AALB-COI-metadata-gap</td></tr></tbody>
+  </table>
+  <h2>Naive top-hit overclaims prevented</h2>
+  <table>
+    <thead><tr><th>Sequence</th><th>Naive species claim</th><th>Compiler decision</th><th>Safe taxon</th></tr></thead>
+    <tbody><tr><td>AALB-COI-ambiguous</td><td>Aedes albopictus</td><td>genus-safe</td><td>genus Aedes</td></tr>
+<tr><td>AALB-COI-short</td><td>Aedes albopictus</td><td>weak</td><td>species Aedes albopictus</td></tr>
+<tr><td>AALB-COI-metadata-gap</td><td>Aedes albopictus</td><td>not-publishable</td><td>species Aedes albopictus</td></tr></tbody>
+  </table>
   <h2>Sequence decisions</h2>
   <table>
     <thead><tr><th>Sequence</th><th>Decision</th><th>Candidate taxon</th><th>Candidate rank</th><th>Published taxon</th><th>Published rank</th><th>Publication stage</th><th>Blockers</th></tr></thead>

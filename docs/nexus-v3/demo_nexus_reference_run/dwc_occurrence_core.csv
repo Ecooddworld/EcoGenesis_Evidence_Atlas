@@ -1,0 +1,4 @@
+occurrenceID,basisOfRecord,scientificName,taxonRank,eventDate,eventID,materialSampleID,organismQuantity,organismQuantityType,identificationRemarks
+urn:ecogenesis:q_species_safe,MaterialSample,Aedes albopictus,species,,,,,DNA sequence detection,EcoGenesis Nexus decision=species_safe; safe_taxon=Aedes albopictus; evidence=exact_match;lca_species;barcode_gap;diagnostic_kmer;curated_reference_singleton
+urn:ecogenesis:q_ambiguous_aedes_shared_region,MaterialSample,Aedes,genus,,,,,DNA sequence detection,EcoGenesis Nexus decision=genus_safe; safe_taxon=Aedes; evidence=lca_genus
+urn:ecogenesis:q_culex_candidate_missing_metadata,MaterialSample,Culex pipiens,species,,,,,DNA sequence detection,EcoGenesis Nexus decision=species_safe; safe_taxon=Culex pipiens; evidence=exact_match;lca_species;diagnostic_kmer;curated_reference_singleton

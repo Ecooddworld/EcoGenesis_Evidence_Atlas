@@ -14,6 +14,8 @@ One-liner:
 
 > A deterministic workflow that turns DNA barcode, metabarcoding and Sequence ID-style outputs into safe, rank-aware and GBIF-ready molecular occurrence evidence.
 
+Current architecture: **EcoGenesis Nexus V3**. The working compiler now exports hard-gate audit, prevented naive top-hit overclaims, reference gap index, metadata bottlenecks, repair plan and split GBIF-ready/review templates.
+
 ## What To Submit
 
 - Submission name/title: use the title above.
@@ -27,6 +29,7 @@ One-liner:
   - https://github.com/oddworld666/EcoGenesis_Evidence_Atlas/blob/main/README.md
   - https://github.com/oddworld666/EcoGenesis_Evidence_Atlas/blob/main/docs/submission.md
   - https://github.com/oddworld666/EcoGenesis_Evidence_Atlas/blob/main/docs/barcode-compiler-methodology.md
+  - https://github.com/oddworld666/EcoGenesis_Evidence_Atlas/blob/main/docs/nexus-v3/EcoGenesis_Nexus_V3_FULL_PROJECT_RU.md
   - https://github.com/oddworld666/EcoGenesis_Evidence_Atlas/blob/main/docs/testing.md
 
 ## Current Working Demo
@@ -69,6 +72,8 @@ frontend tests: 5 passed
 frontend build: passed
 GBIF API status: ok
 CSV run good case: species_safe_records=1
+Nexus V3 audit: hard_gate_failures=0
+Browser smoke: Nexus V3 audit visible, console errors=0
 ```
 
 Before final submission, re-run the commands in `submission-assets/final-submission-checklist.md` on the release commit.

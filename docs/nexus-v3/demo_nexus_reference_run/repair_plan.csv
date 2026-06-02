@@ -1,0 +1,6 @@
+repair_action,unlockable_records,estimated_gain,cost,example_records
+publish at safe LCA rank or sequence a more diagnostic marker/region,1,0.25,high,q_ambiguous_aedes_shared_region
+add Darwin Core required field: occurrenceID,1,0.25,low,q_culex_candidate_missing_metadata
+add Darwin Core required field: eventDate,1,0.25,low,q_culex_candidate_missing_metadata
+add Darwin Core required field: scientificName,1,0.25,low,q_no_match_unknown
+run against a marker-appropriate frozen reference library,1,0.25,medium,q_no_match_unknown

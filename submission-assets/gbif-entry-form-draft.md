@@ -24,6 +24,8 @@ The compiler addresses this gap with explicit evidence gates. It checks identity
 
 The output is not a black-box score. Each run produces decision classes such as `species-safe`, `genus-safe`, `higher-rank-safe`, `ambiguous`, `weak`, `no-match` and `not-publishable`. The generated Evidence Pack includes `sequence_safety_table.csv`, `safe_taxonomic_assignments.csv`, `publication_blockers.csv`, `barcode_gap_report.csv`, `diagnostic_kmer_report.csv`, Darwin Core Occurrence templates, DNA-derived extension templates, a molecular evidence HTML report, methods text, citations, an evidence graph, JSON and ZIP exports.
 
+The current Nexus V3 implementation also adds a hard-gate audit, naive top-hit overclaim report, reference gap index, metadata bottleneck table, repair plan, external tool adapter matrix and split GBIF-ready versus review/repair exports. These files make the system useful not only as a classifier, but as a publication repair and evidence-conversion engine.
+
 For data users, the tool answers: “Can I safely use this molecular detection as a species-level occurrence, or should I downgrade or review it?” For data publishers, it gives concrete repair actions such as adding required metadata, improving sequence coverage or attaching reference-set evidence. For GBIF nodes and reviewers, it provides a reproducible audit trail that separates supported claims from blocked claims and keeps publication templates aligned with GBIF-ready data practices.
 
 The project uses GBIF in two complementary ways. The molecular compiler is designed as a downstream safety layer for GBIF Sequence ID-style or BLAST-style results and for DNA-derived publication workflows. The repository also includes a live GBIF occurrence audit layer that tests GBIF API access, uses GBIF-mediated occurrence data for evidence-context checks, and demonstrates safe claim language around no-evidence cells, sampling gaps and citation readiness. The system does not claim species absence, true distribution, trend or phenotype truth from occurrence points or molecular matches alone.
@@ -112,6 +114,7 @@ Russian subtitles and English transcript are included in the same folder. Import
 - Main README: https://github.com/oddworld666/EcoGenesis_Evidence_Atlas/blob/main/README.md
 - Submission documentation: https://github.com/oddworld666/EcoGenesis_Evidence_Atlas/blob/main/docs/submission.md
 - Methodology: https://github.com/oddworld666/EcoGenesis_Evidence_Atlas/blob/main/docs/barcode-compiler-methodology.md
+- Nexus V3 full project: https://github.com/oddworld666/EcoGenesis_Evidence_Atlas/blob/main/docs/nexus-v3/EcoGenesis_Nexus_V3_FULL_PROJECT_RU.md
 - Proof by failure modes: https://github.com/oddworld666/EcoGenesis_Evidence_Atlas/blob/main/docs/proof-by-failure-modes.md
 - GBIF DNA-derived readiness: https://github.com/oddworld666/EcoGenesis_Evidence_Atlas/blob/main/docs/gbif-dna-derived-readiness.md
 - Testing: https://github.com/oddworld666/EcoGenesis_Evidence_Atlas/blob/main/docs/testing.md

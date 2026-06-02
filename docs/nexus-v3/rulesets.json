@@ -1,0 +1,72 @@
+{
+  "default_seqid_conservative": {
+    "description": "Conservative GBIF Sequence ID-compatible default. Exact match follows identity >= 99 and queryCoverage >= 80, but species-safe still requires LCA resolution and at least one reference support path.",
+    "identity_species_min": 99.0,
+    "identity_close_min": 90.0,
+    "coverage_species_min": 80.0,
+    "aligned_length_min": 80,
+    "ambiguity_z": 1.96,
+    "diagnostic_alpha": 0.01,
+    "diagnostic_min_support": 1,
+    "kmer_k": 15
+  },
+  "COI-5P_animals": {
+    "marker": "COI",
+    "target_gene": "cytochrome c oxidase I",
+    "target_subfragment": "5P",
+    "coding_marker": true,
+    "identity_species_min": 99.0,
+    "identity_close_min": 90.0,
+    "coverage_species_min": 80.0,
+    "length_min": 300,
+    "length_max": 800,
+    "diagnostic_min_support": 1,
+    "kmer_k": 15
+  },
+  "ITS_fungi": {
+    "marker": "ITS",
+    "target_gene": "internal transcribed spacer",
+    "target_subfragment": "ITS1/ITS2",
+    "coding_marker": false,
+    "identity_species_min": 98.5,
+    "identity_close_min": 90.0,
+    "coverage_species_min": 80.0,
+    "length_min": 120,
+    "length_max": 900,
+    "diagnostic_min_support": 2,
+    "kmer_k": 13
+  },
+  "16S_prokaryotes": {
+    "marker": "16S rRNA",
+    "target_gene": "16S rRNA",
+    "target_subfragment": "V-region",
+    "coding_marker": false,
+    "identity_species_min": 99.0,
+    "identity_close_min": 90.0,
+    "coverage_species_min": 80.0,
+    "length_min": 100,
+    "length_max": 1700,
+    "diagnostic_min_support": 2,
+    "kmer_k": 13
+  },
+  "18S_eukaryotes": {
+    "marker": "18S rRNA",
+    "target_gene": "18S rRNA",
+    "target_subfragment": "V-region",
+    "coding_marker": false,
+    "identity_species_min": 99.0,
+    "identity_close_min": 90.0,
+    "coverage_species_min": 80.0,
+    "length_min": 100,
+    "length_max": 1900,
+    "diagnostic_min_support": 2,
+    "kmer_k": 13
+  },
+  "custom_research": {
+    "description": "User-tuned research profile. The UI must show that thresholds were user-defined.",
+    "identity_species_min": null,
+    "coverage_species_min": null,
+    "diagnostic_min_support": null,
+    "kmer_k": null
+  }
+}

@@ -1,0 +1,4 @@
+bottleneck,records,MBI
+missing:occurrenceID,1,0.25
+missing:eventDate,1,0.25
+missing:scientificName,1,0.25
