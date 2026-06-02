@@ -101,6 +101,38 @@ const csvRunDetail = {
   exports: createdCsvRun.exports,
 };
 
+const searchStatus = {
+  status: 'degraded',
+  preferred_backend: 'python-local',
+  available_backends: { vsearch: false, blastn: false, 'python-local': true },
+  message: 'External VSEARCH/BLAST+ binary was not found; deterministic local mini-search is available.',
+};
+
+const referenceDatasets = [
+  {
+    id: 'aedes_coi_mini',
+    title: 'EcoGenesis mini COI reference dataset for Aedes smoke tests',
+    marker: 'COI-5P',
+    records: 3,
+  },
+];
+
+const searchPayload = {
+  search: {
+    backend_used: 'python-local',
+    hits: [
+      {
+        reference_id: 'AALB_COI_MINI_REF',
+        taxon: 'Aedes albopictus',
+        identity: 100,
+        query_coverage: 100,
+      },
+    ],
+  },
+  run: createdCsvRun,
+  pack: csvRunDetail,
+};
+
 afterEach(() => {
   cleanup();
   vi.restoreAllMocks();
@@ -115,6 +147,12 @@ describe('Barcode compiler UI', () => {
       }
       if (textUrl.endsWith('/api/barcode/reference-status')) {
         return Promise.resolve(new Response(JSON.stringify({ status: 'ready', message: 'Compiler ready.' }), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/search-status')) {
+        return Promise.resolve(new Response(JSON.stringify(searchStatus), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/reference-datasets')) {
+        return Promise.resolve(new Response(JSON.stringify(referenceDatasets), { status: 200 }));
       }
       if (textUrl.endsWith('/api/barcode/run') && options?.method === 'POST') {
         return Promise.resolve(new Response(JSON.stringify(createdRun), { status: 200 }));
@@ -151,6 +189,12 @@ describe('Barcode compiler UI', () => {
       if (textUrl.endsWith('/api/barcode/reference-status')) {
         return Promise.resolve(new Response(JSON.stringify({ status: 'ready', message: 'Compiler ready.' }), { status: 200 }));
       }
+      if (textUrl.endsWith('/api/barcode/search-status')) {
+        return Promise.resolve(new Response(JSON.stringify(searchStatus), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/reference-datasets')) {
+        return Promise.resolve(new Response(JSON.stringify(referenceDatasets), { status: 200 }));
+      }
       return Promise.resolve(new Response('{}', { status: 404 }));
     });
 
@@ -159,6 +203,7 @@ describe('Barcode compiler UI', () => {
 
     expect(screen.getByLabelText('Demo case')).toBeInTheDocument();
     expect(screen.getByText('Run selected demo')).toBeInTheDocument();
+    expect(screen.getByText('Search a real reference dataset')).toBeInTheDocument();
     fireEvent.click(screen.getByText('Advanced request JSON'));
     expect(screen.getByLabelText('Compiler request JSON')).toBeInTheDocument();
   });
@@ -171,6 +216,12 @@ describe('Barcode compiler UI', () => {
       }
       if (textUrl.endsWith('/api/barcode/reference-status')) {
         return Promise.resolve(new Response(JSON.stringify({ status: 'ready', message: 'Compiler ready.' }), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/search-status')) {
+        return Promise.resolve(new Response(JSON.stringify(searchStatus), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/reference-datasets')) {
+        return Promise.resolve(new Response(JSON.stringify(referenceDatasets), { status: 200 }));
       }
       if (textUrl.endsWith('/api/barcode/import-csv') && options?.method === 'POST') {
         return Promise.resolve(new Response(JSON.stringify(csvImportPayload), { status: 200 }));
@@ -204,6 +255,36 @@ describe('Barcode compiler UI', () => {
     expect(screen.getByText('Publishable (1)')).toBeInTheDocument();
   });
 
+  it('runs reference search and compiles the returned hits', async () => {
+    vi.spyOn(globalThis, 'fetch').mockImplementation((url, options) => {
+      const textUrl = String(url);
+      if (textUrl.endsWith('/api/barcode/demo-scenarios')) {
+        return Promise.resolve(new Response(JSON.stringify(demoScenarios), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/reference-status')) {
+        return Promise.resolve(new Response(JSON.stringify({ status: 'ready', message: 'Compiler ready.' }), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/search-status')) {
+        return Promise.resolve(new Response(JSON.stringify(searchStatus), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/reference-datasets')) {
+        return Promise.resolve(new Response(JSON.stringify(referenceDatasets), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/search') && options?.method === 'POST') {
+        return Promise.resolve(new Response(JSON.stringify(searchPayload), { status: 200 }));
+      }
+      return Promise.resolve(new Response('{}', { status: 404 }));
+    });
+
+    render(<App />);
+    fireEvent.click(await screen.findByText('Run compiler'));
+    fireEvent.click(screen.getByText('Search reference & compile'));
+
+    await waitFor(() => expect(screen.getAllByText('species-safe').length).toBeGreaterThan(0));
+    expect(screen.getByText('Naive vs EcoGenesis')).toBeInTheDocument();
+    expect(screen.getByText('python-local')).toBeInTheDocument();
+  });
+
   it('opens the proof and formulas page', async () => {
     vi.spyOn(globalThis, 'fetch').mockImplementation((url) => {
       const textUrl = String(url);
@@ -212,6 +293,12 @@ describe('Barcode compiler UI', () => {
       }
       if (textUrl.endsWith('/api/barcode/reference-status')) {
         return Promise.resolve(new Response(JSON.stringify({ status: 'ready', message: 'Compiler ready.' }), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/search-status')) {
+        return Promise.resolve(new Response(JSON.stringify(searchStatus), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/reference-datasets')) {
+        return Promise.resolve(new Response(JSON.stringify(referenceDatasets), { status: 200 }));
       }
       return Promise.resolve(new Response('{}', { status: 404 }));
     });
@@ -245,6 +332,12 @@ describe('Barcode compiler UI', () => {
       }
       if (textUrl.endsWith('/api/barcode/reference-status')) {
         return Promise.resolve(new Response(JSON.stringify({ status: 'ready', message: 'Compiler ready.' }), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/search-status')) {
+        return Promise.resolve(new Response(JSON.stringify(searchStatus), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/reference-datasets')) {
+        return Promise.resolve(new Response(JSON.stringify(referenceDatasets), { status: 200 }));
       }
       return Promise.resolve(new Response('{}', { status: 404 }));
     });

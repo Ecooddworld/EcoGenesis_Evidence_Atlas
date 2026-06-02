@@ -356,15 +356,39 @@ def molecular_report_html(pack: dict[str, Any]) -> str:
 def methods_text_md(pack: dict[str, Any]) -> str:
     return f"""# Methods
 
-This run used **Barcode-to-GBIF Evidence Compiler** ruleset `{pack['run']['ruleset_version']}`.
+This run used **EcoGenesis Nexus V3 / Barcode-to-GBIF Evidence Compiler** ruleset `{pack['run']['ruleset_version']}`.
+
+## Purpose
+
+The workflow converts DNA barcode, metabarcoding or Sequence ID / BLAST-style results into rank-aware molecular occurrence evidence for GBIF-oriented review. It is a downstream evidence compiler, not a replacement for GBIF Sequence ID, BOLD, UNITE, PR2, GTDB, BLAST+ or VSEARCH.
+
+## Input Evidence
+
+For each DNA sequence, the compiler consumed:
+
+- sequence identifier and nucleotide sequence;
+- reference-hit metrics: taxon, rank, lineage, percent identity, query coverage, aligned length, bit score and e-value when supplied;
+- barcode-gap evidence: maximum within-taxon distance and minimum outside-taxon distance;
+- diagnostic k-mer evidence and false-positive threshold;
+- Darwin Core Occurrence metadata and DNA-derived workflow metadata.
+
+Reference context: **{pack['summary']['reference_database']}**. Marker: **{pack['summary']['marker']}**.
+
+## Deterministic Gates
 
 For each DNA barcode/metabarcoding sequence, the compiler evaluated percent identity, query coverage, a 95% ambiguity test over mismatch-rate standard errors, lowest common ancestor of indistinguishable hits, barcode gap, diagnostic k-mer support, diagnostic false-positive probability and GBIF publication metadata readiness.
 
 Species-level output is fail-closed: a sequence is `species-safe` only when the exact match gate, ambiguity/LCA gate, positive barcode gap gate, diagnostic k-mer gate and publication-readiness gates all pass.
 
-Reference context: {pack['summary']['reference_database']}. Marker: {pack['summary']['marker']}.
-
 The pack separates `candidate_taxon` from `published_taxon`: blocked or weak records can remain useful as review hints, but they are not emitted as publishable Darwin Core species records.
+
+## Naive Top-Hit Comparison
+
+The `naive_top_hit_overclaims.csv` export lists records where a naive workflow would have published the top hit as a species, but EcoGenesis blocked, downgraded or moved the record to review. This is the core overclaim-prevention audit.
+
+## Repair Optimization
+
+The `repair_plan.csv` export ranks repair actions by unlockable record count. Metadata repairs are separated from molecular/reference blockers so publishers can see whether records need field repair, reference curation or new laboratory work.
 
 Nexus V3 audit files in this Evidence Pack add:
 
@@ -373,11 +397,31 @@ Nexus V3 audit files in this Evidence Pack add:
 - `reference_gap_index.csv` for marker/reference bottlenecks;
 - `repair_plan.csv` for publisher repair prioritization;
 - `metadata_bottlenecks.csv` for field-level publication blockers.
+
+## Claim Boundaries
+
+The output is sequence-derived occurrence evidence under supplied reference context. It does not prove living presence, absence, population trend, true distribution, phenotype truth or ecological causality. Empty or low-evidence cells must be treated as no-evidence cells, not absence.
 """
 
 
 def citations_md(pack: dict[str, Any]) -> str:
-    return """# Citations And Source Links
+    manifest = pack.get("reference_manifest", {})
+    return f"""# Citations And Source Links
+
+## Project And Tool Citation
+
+EcoGenesis Nexus V3 / Barcode-to-GBIF Evidence Compiler. Ruleset `{pack['run']['ruleset_version']}`. Run ID `{pack['run']['run_id']}`. Request fingerprint `{pack['run']['request_fingerprint']}`.
+
+## Reference Dataset Used In This Run
+
+- Database: {manifest.get('db_name') or pack['summary']['reference_database']}
+- Version: {manifest.get('db_version') or 'not supplied'}
+- Source: {manifest.get('source') or 'not supplied'}
+- DOI or URL: {manifest.get('doi_or_url') or 'not supplied'}
+- License: {manifest.get('license') or 'not supplied'}
+- SHA-256: {manifest.get('sha256') or manifest.get('manifest_sha256') or 'not supplied'}
+
+## GBIF And Methods Links
 
 - GBIF Sequence ID: https://www.gbif.org/tools/sequence-id
 - GBIF DNA-derived data publishing guide: https://docs.gbif.org/publishing-dna-derived-data/en/
@@ -385,6 +429,10 @@ def citations_md(pack: dict[str, Any]) -> str:
 - GBIF 2026 Ebbe Nielsen Challenge rules: https://www.gbif.org/awards/ebbe-2026-rules
 
 Retain reference database names, versions, sequence identifiers and GBIF taxon keys when publishing or reviewing derived molecular occurrence evidence.
+
+## DOI Caveat For Formal GBIF Use
+
+API-derived evidence packs and local reference-search examples are useful for review and reproducibility, but formal GBIF-mediated occurrence publication should attach an appropriate GBIF download DOI, derived dataset citation or source reference dataset DOI where applicable.
 """
 
 

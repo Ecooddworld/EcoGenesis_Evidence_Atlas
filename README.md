@@ -87,6 +87,14 @@ Open:
 - Backend health: http://localhost:18100/health
 - Backend docs: http://localhost:18100/docs
 
+For the V3 stack with external sequence-search binaries installed in the backend container:
+
+```bash
+docker compose -f docker-compose.v3.yml up --build
+```
+
+The V3 backend image installs **VSEARCH** and **NCBI BLAST+**. Local development can still run without those binaries; `/api/barcode/search-status` will report `python-local` as a degraded but deterministic mini-search backend for tests and small reference examples.
+
 ### Main User Flow
 
 1. Open `Run compiler`.
@@ -98,11 +106,35 @@ Open:
 
 FASTA-only input is intentionally not enough for a species-safe decision. The compiler needs supplied match results or reference-hit metrics, because it is a downstream safety and publication-readiness compiler, not a replacement for GBIF Sequence ID.
 
+### Reference Search Flow
+
+The Workbench also has a `Reference search` panel:
+
+1. Paste a barcode sequence.
+2. Select `EcoGenesis mini COI reference dataset for Aedes smoke tests`.
+3. Click `Search reference & compile`.
+4. Inspect the returned hits, the backend used (`vsearch`, `blastn` or `python-local`) and the generated Nexus V3 decision dashboard.
+
+This validates the full sequence search path:
+
+```text
+query sequence
+-> VSEARCH / BLAST+ / deterministic local mini-search
+-> normalized reference hits
+-> Nexus V3 hard-gate compiler
+-> safe/blocked claims and Evidence Pack
+```
+
+The included reference example lives in `references/aedes_coi_mini/` and contains a small FASTA, manifest, GBIF-like lineage metadata, barcode-gap evidence and diagnostic k-mers. It is a reproducible workflow example, not a replacement for curated production reference databases.
+
 ## Barcode Compiler API
 
 - `GET /api/barcode/demo-scenarios`
 - `GET /api/barcode/default-request`
 - `GET /api/barcode/reference-status`
+- `GET /api/barcode/search-status`
+- `GET /api/barcode/reference-datasets`
+- `POST /api/barcode/search`
 - `GET /api/barcode/csv-template`
 - `POST /api/barcode/import-csv`
 - `POST /api/barcode/run-csv`
@@ -207,6 +239,12 @@ Fixture CSVs live in `examples/`:
 - `examples/aedes_ambiguous.csv`
 - `examples/aedes_missing_metadata.csv`
 - `examples/aedes_weak_coverage.csv`
+- `examples/aedes_search_query.fasta`
+
+Reference dataset example:
+
+- `references/aedes_coi_mini/aedes_coi_mini.fasta`
+- `references/aedes_coi_mini/manifest.json`
 
 The built-in API demo also includes a mixed batch with species-safe, genus-safe, weak and metadata-blocked records.
 
@@ -223,6 +261,33 @@ cd backend
 
 The CLI writes the same barcode Evidence Pack artifacts as the API.
 
+## Synthetic Ambiguous Benchmark
+
+```bash
+cd backend
+.venv/bin/python scripts/run_synthetic_ambiguity_benchmark.py \
+  --records 120 \
+  --output-dir ../reports/synthetic-ambiguity-benchmark
+```
+
+Latest benchmark result:
+
+```text
+Naive top-hit would emit 120 species claims.
+EcoGenesis blocked or downgraded 90 unsafe species claims.
+EcoGenesis emitted 30 species-safe claims.
+Hard-gate failures: 0.
+Overclaim prevention rate: 0.75.
+```
+
+Benchmark artifacts:
+
+- `reports/synthetic-ambiguity-benchmark/summary.md`
+- `reports/synthetic-ambiguity-benchmark/benchmark_summary.json`
+- `reports/synthetic-ambiguity-benchmark/synthetic_ambiguous_dataset.csv`
+- `reports/synthetic-ambiguity-benchmark/naive_vs_ecogenesis.csv`
+- `reports/synthetic-ambiguity-benchmark/evidence_pack.json`
+
 ## Operability Verification
 
 ```bash
@@ -234,6 +299,7 @@ The verification script runs the compiler and API, checks expected decisions, va
 
 - `reports/barcode-operability/operability_report.md`
 - `reports/barcode-operability/operability_report.json`
+- `reports/barcode-operability/browser-v3-reference-search-dashboard.png`
 
 ## Testing
 

@@ -4,10 +4,13 @@ import {
   exportUrl,
   getBarcodeDemoScenarios,
   getBarcodeReferenceStatus,
+  getBarcodeReferenceDatasets,
+  getBarcodeSearchStatus,
   getBarcodeRun,
   importBarcodeCsv,
   runBarcodeCompiler,
   runBarcodeCsv,
+  runBarcodeReferenceSearch,
 } from './api.js';
 
 const defaultScenario = {
@@ -36,6 +39,8 @@ const defaultScenario = {
     ],
   },
 };
+
+const defaultReferenceSearchSequence = 'ACGTTGACCTAGGCTTACGATCGTACCGATGCTAGCTAGGATCCGATCGTACGATCGTAGCTAGCATCGGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTACGAT';
 
 const modeLabels = {
   overview: 'Judge overview',
@@ -1564,16 +1569,25 @@ function App() {
   const [csvFile, setCsvFile] = useState(null);
   const [csvImport, setCsvImport] = useState(null);
   const [csvLoading, setCsvLoading] = useState(false);
+  const [searchStatus, setSearchStatus] = useState(null);
+  const [referenceDatasets, setReferenceDatasets] = useState([]);
+  const [searchSequence, setSearchSequence] = useState(defaultReferenceSearchSequence);
+  const [selectedReferenceDataset, setSelectedReferenceDataset] = useState('aedes_coi_mini');
+  const [searchResult, setSearchResult] = useState(null);
+  const [searchLoading, setSearchLoading] = useState(false);
 
   useEffect(() => {
     let mounted = true;
-    Promise.all([getBarcodeDemoScenarios(), getBarcodeReferenceStatus()])
-      .then(([demoScenarios, status]) => {
+    Promise.all([getBarcodeDemoScenarios(), getBarcodeReferenceStatus(), getBarcodeSearchStatus(), getBarcodeReferenceDatasets()])
+      .then(([demoScenarios, status, backendStatus, datasets]) => {
         if (!mounted) return;
         setScenarios(demoScenarios);
         setSelectedScenarioId(demoScenarios[demoScenarios.length - 1]?.id || demoScenarios[0]?.id);
         setJsonInput(JSON.stringify(demoScenarios[demoScenarios.length - 1]?.request || demoScenarios[0]?.request, null, 2));
         setReferenceStatus(status);
+        setSearchStatus(backendStatus);
+        setReferenceDatasets(datasets);
+        setSelectedReferenceDataset(datasets[0]?.id || 'aedes_coi_mini');
       })
       .catch((err) => {
         if (mounted) setError(err.message || 'Could not load compiler defaults');
@@ -1649,6 +1663,36 @@ function App() {
     }
   }
 
+  async function runReferenceSearch() {
+    setSearchLoading(true);
+    setError('');
+    try {
+      const payload = {
+        sequence_id: 'UI_REFERENCE_SEARCH_QUERY',
+        sequence: searchSequence,
+        reference_dataset: selectedReferenceDataset,
+        backend: 'auto',
+        compile: true,
+        metadata: {
+          countryCode: 'ES',
+          decimalLatitude: 40.4168,
+          decimalLongitude: -3.7038,
+          geodeticDatum: 'WGS84',
+          coordinateUncertaintyInMeters: 50,
+        },
+      };
+      const result = await runBarcodeReferenceSearch(payload);
+      setSearchResult(result.search);
+      setRunSummary(result.run);
+      setPack(result.pack);
+      setMode('workbench');
+    } catch (err) {
+      setError(err.message || 'Reference search failed');
+    } finally {
+      setSearchLoading(false);
+    }
+  }
+
   return (
     <main className="app-shell">
       <header className="topbar">
@@ -1699,6 +1743,15 @@ function App() {
           csvLoading={csvLoading}
           csvFile={csvFile}
           csvImport={csvImport}
+          searchStatus={searchStatus}
+          referenceDatasets={referenceDatasets}
+          searchSequence={searchSequence}
+          setSearchSequence={setSearchSequence}
+          selectedReferenceDataset={selectedReferenceDataset}
+          setSelectedReferenceDataset={setSelectedReferenceDataset}
+          searchResult={searchResult}
+          searchLoading={searchLoading}
+          runReferenceSearch={runReferenceSearch}
           referenceStatus={referenceStatus}
           pack={pack}
           records={records}
@@ -2396,6 +2449,15 @@ function CompilerWorkbench({
   csvLoading,
   csvFile,
   csvImport,
+  searchStatus,
+  referenceDatasets,
+  searchSequence,
+  setSearchSequence,
+  selectedReferenceDataset,
+  setSelectedReferenceDataset,
+  searchResult,
+  searchLoading,
+  runReferenceSearch,
   referenceStatus,
   pack,
   records,
@@ -2481,6 +2543,51 @@ function CompilerWorkbench({
           </details>
         )}
 
+        <section className="reference-search-card">
+          <p className="section-label">Reference search</p>
+          <h3>Search a real reference dataset</h3>
+          <p>
+            Paste a barcode sequence and run VSEARCH/BLAST+ when available. Docker V3 includes both tools; local mode falls back to deterministic mini-search for this Aedes reference example.
+          </p>
+          <label>
+            Reference dataset
+            <select value={selectedReferenceDataset} onChange={(event) => setSelectedReferenceDataset(event.target.value)}>
+              {referenceDatasets.length ? referenceDatasets.map((dataset) => (
+                <option key={dataset.id} value={dataset.id}>{dataset.title}</option>
+              )) : (
+                <option value="aedes_coi_mini">EcoGenesis mini COI reference dataset</option>
+              )}
+            </select>
+          </label>
+          <label>
+            Query sequence
+            <textarea
+              className="compact-textarea"
+              value={searchSequence}
+              onChange={(event) => setSearchSequence(event.target.value)}
+              spellCheck="false"
+            />
+          </label>
+          <button className="primary wide" onClick={runReferenceSearch} disabled={searchLoading || !searchSequence.trim()}>
+            {searchLoading ? 'Searching reference...' : 'Search reference & compile'}
+          </button>
+          <div className="search-backend-status">
+            <span>Backend</span>
+            <strong>{searchResult?.backend_used || searchStatus?.preferred_backend || 'loading'}</strong>
+            <small>{searchStatus?.message || 'Checking external search backend...'}</small>
+          </div>
+          {searchResult?.hits?.length > 0 && (
+            <ol className="ranked-list compact-list">
+              {searchResult.hits.slice(0, 3).map((hit) => (
+                <li key={hit.reference_id}>
+                  <strong>{hit.taxon}</strong>
+                  <span>{hit.identity}% identity · {hit.query_coverage}% coverage · {hit.reference_id}</span>
+                </li>
+              ))}
+            </ol>
+          )}
+        </section>
+
         <section className="source-note">
           <p className="section-label">Data source</p>
           <strong>{referenceStatus?.status === 'ready' ? 'Compiler ready' : 'Compiler status'}</strong>
@@ -2535,6 +2642,8 @@ function CompilerWorkbench({
             </section>
 
             <NexusAuditPanel pack={pack} />
+
+            <BenchmarkComparisonPanel pack={pack} records={records} />
 
             <OutcomeSummary records={records} />
 
@@ -2758,6 +2867,49 @@ function NexusAuditPanel({ pack }) {
             <p className="hint">No unsafe top-hit species claims were detected in this run.</p>
           )}
         </div>
+      </div>
+    </section>
+  );
+}
+
+function BenchmarkComparisonPanel({ pack, records }) {
+  const metrics = pack.metrics || {};
+  const topSpecies = metrics.top_species_hits ?? records.filter((record) => record.top_hit?.rank === 'species').length;
+  const ecoSpecies = metrics.species_safe_records ?? records.filter((record) => record.decision_class === 'species-safe').length;
+  const blocked = metrics.blocked_or_downgraded_top_species_hits ?? metrics.blocked_species_claims ?? 0;
+  const safeRank = metrics.safe_rank_records ?? records.filter((record) => ['species-safe', 'genus-safe', 'higher-rank-safe'].includes(record.decision_class)).length;
+  const publishable = metrics.publishable_template_records ?? records.filter((record) => record.published_taxon?.rank && record.published_taxon.rank !== 'none').length;
+  const maxValue = Math.max(topSpecies, ecoSpecies, blocked, safeRank, publishable, 1);
+  const rows = [
+    ['Naive top-hit species claims', topSpecies, 'Would publish every species-ranked top hit.', 'risk'],
+    ['Unsafe claims blocked/downgraded', blocked, 'EcoGenesis prevents species overclaiming.', 'warn'],
+    ['EcoGenesis species-safe', ecoSpecies, 'Species claims that passed all hard gates.', 'pass'],
+    ['Safe-rank evidence', safeRank, 'Records still useful at species/genus/higher rank.', 'pass'],
+    ['Publishable templates', publishable, 'Records emitted into GBIF-ready export rows.', 'verify'],
+  ];
+
+  return (
+    <section className="panel benchmark-panel">
+      <div className="panel-heading-row">
+        <div>
+          <p className="section-label">Naive vs EcoGenesis</p>
+          <h3>What the tool actually solved in this run.</h3>
+        </div>
+        <span className="audit-status pass">fail-closed comparison</span>
+      </div>
+      <div className="comparison-bars">
+        {rows.map(([label, value, detail, tone]) => (
+          <div className="comparison-row" key={label}>
+            <div>
+              <strong>{label}</strong>
+              <span>{detail}</span>
+            </div>
+            <div className="bar-track" aria-label={`${label}: ${value}`}>
+              <span className={`bar-fill ${tone}`} style={{ width: `${Math.max(4, (value / maxValue) * 100)}%` }} />
+            </div>
+            <b>{value}</b>
+          </div>
+        ))}
       </div>
     </section>
   );

@@ -1,0 +1,12 @@
+{
+  "status": "pass",
+  "records": 120,
+  "naive_species_claims": 120,
+  "naive_unsafe_species_claims": 90,
+  "ecogenesis_species_safe_claims": 30,
+  "ecogenesis_safe_rank_records": 84,
+  "hard_gate_failures": 0,
+  "overclaim_prevention_rate": 0.75,
+  "unsafe_naive_fraction": 0.75,
+  "main_result": "Naive top-hit would emit 120 species claims; 90 are blocked or downgraded by EcoGenesis hard gates."
+}

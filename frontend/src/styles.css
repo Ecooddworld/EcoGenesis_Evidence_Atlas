@@ -592,6 +592,11 @@ button:disabled {
   border-color: #bfd7cc;
 }
 
+.benchmark-panel {
+  background: #fff;
+  border-color: #d3dfd8;
+}
+
 .panel-heading-row {
   align-items: start;
   display: grid;
@@ -671,6 +676,76 @@ button:disabled {
   font-size: 0.85rem;
   line-height: 1.35;
   overflow-wrap: anywhere;
+}
+
+.compact-list {
+  gap: 7px;
+}
+
+.compact-list li {
+  padding: 8px 10px;
+}
+
+.comparison-bars {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.comparison-row {
+  align-items: center;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: minmax(220px, 0.9fr) minmax(160px, 1.3fr) 52px;
+}
+
+.comparison-row strong,
+.comparison-row span {
+  display: block;
+}
+
+.comparison-row strong {
+  color: #17201a;
+  font-size: 0.94rem;
+}
+
+.comparison-row span {
+  color: #5b6e64;
+  font-size: 0.84rem;
+  line-height: 1.35;
+  margin-top: 2px;
+}
+
+.comparison-row b {
+  color: #17201a;
+  font-size: 1rem;
+  text-align: right;
+}
+
+.bar-track {
+  background: #edf3ef;
+  border: 1px solid #d7e2dc;
+  border-radius: 999px;
+  height: 14px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  background: #2f7b54;
+  display: block;
+  height: 100%;
+}
+
+.bar-fill.risk {
+  background: #9d3f2c;
+}
+
+.bar-fill.warn {
+  background: #c47c2e;
+}
+
+.bar-fill.verify {
+  background: #315f75;
 }
 
 .panel,
@@ -798,7 +873,8 @@ summary {
 
 .upload-card,
 .validation-card,
-.source-note {
+.source-note,
+.reference-search-card {
   background: #f8fbf8;
   border: 1px solid #dbe4dd;
   border-radius: 8px;
@@ -813,18 +889,46 @@ summary {
 }
 
 .upload-card h3,
-.validation-card h3 {
+.validation-card h3,
+.reference-search-card h3 {
   font-size: 1rem;
   line-height: 1.25;
   margin: 0 0 6px;
 }
 
 .upload-card p,
-.source-note span {
+.source-note span,
+.reference-search-card p,
+.search-backend-status small {
   color: #53655c;
   font-size: 0.88rem;
   line-height: 1.45;
   margin: 0;
+}
+
+.compact-textarea {
+  min-height: 112px;
+}
+
+.search-backend-status {
+  background: #fff;
+  border: 1px solid #dbe4dd;
+  border-radius: 8px;
+  display: grid;
+  gap: 3px;
+  padding: 10px 12px;
+}
+
+.search-backend-status span {
+  color: #577066;
+  font-size: 0.76rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.search-backend-status strong {
+  color: #17201a;
+  font-size: 1rem;
 }
 
 .file-picker input {
@@ -1839,6 +1943,14 @@ th {
   .pipeline,
   .export-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .comparison-row {
+    grid-template-columns: 1fr;
+  }
+
+  .comparison-row b {
+    text-align: left;
   }
 }
 

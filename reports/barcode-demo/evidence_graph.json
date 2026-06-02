@@ -1,9 +1,9 @@
 {
   "meta": {
-    "run_id": "3ac1eb10babf44b7a41400835f791859",
+    "run_id": "46e4a1a09d444ed39e1986d0a4a046d8",
     "ruleset_version": "barcode-gbif-compiler-v2",
     "reference_manifest_sha256": "da337f143497dd4c0ed01ce65e3f554d9c70d0bacd185e560d9f6c8f28ec45f7",
-    "created_at": "2026-06-02T03:12:16.827047+00:00"
+    "created_at": "2026-06-02T03:34:12.585406+00:00"
   },
   "stats": {
     "sequence_count": 4,
@@ -12,7 +12,7 @@
   },
   "nodes": [
     {
-      "id": "run:3ac1eb10babf44b7a41400835f791859",
+      "id": "run:46e4a1a09d444ed39e1986d0a4a046d8",
       "type": "run",
       "label": "Aedes COI batch: safe, ambiguous, weak and metadata cases"
     },
@@ -160,7 +160,7 @@
       "id": "artifact:citations.md",
       "type": "artifact",
       "label": "citations.md",
-      "sha256": "b57b5c71eeea6f138a14d57495e298cb379fabb25053b310245b8b306905fd3a"
+      "sha256": "d0a5e7c015cc5078f377f493034c953106ecd93a1dc7700eaf6aac6422c29187"
     },
     {
       "id": "artifact:diagnostic_kmer_report.csv",
@@ -220,19 +220,19 @@
       "id": "artifact:evidence_graph.json",
       "type": "artifact",
       "label": "evidence_graph.json",
-      "sha256": "d08de34e8b478e3fe0d0842bf380ec52d443c4602d09f78ec5e220c6d528dbab"
+      "sha256": "b28c57df1cd8c557c3ff0eddaddcb7395290af5e61d266b316a63cd2d6014c9c"
     },
     {
       "id": "artifact:evidence_pack.json",
       "type": "artifact",
       "label": "evidence_pack.json",
-      "sha256": "c75cfea69121f418a197d2a90d22ae60e485def85560ec0533d87568eac51b17"
+      "sha256": "8284164920f7d6a374abed0c40485018fe998aaeadef413ee44aa124cd283d91"
     },
     {
       "id": "artifact:evidence_pack.zip",
       "type": "artifact",
       "label": "evidence_pack.zip",
-      "sha256": "9968e31fcb9774fae0db147450bc5bb290e9bee21d0cba8eb71e9449a5f2feae"
+      "sha256": "ef651c03e0e8cfcfdca711fae3f3a000b4a5da0c63e38457a101baaf97cc1c97"
     },
     {
       "id": "artifact:external_tool_adapter_matrix.csv",
@@ -262,7 +262,7 @@
       "id": "artifact:methods_text.md",
       "type": "artifact",
       "label": "methods_text.md",
-      "sha256": "42175cd86ea092625bb7aad5cd60281eadb841c1653fdbeb08ae378ae09d105c"
+      "sha256": "4dcf2585bf2c5cd11a24564ff0147343edbc2471d164aacecc4720c359b03104"
     },
     {
       "id": "artifact:molecular_evidence_report.html",
@@ -322,7 +322,7 @@
       "id": "artifact:run.json",
       "type": "artifact",
       "label": "run.json",
-      "sha256": "6ee86fbdb289f961446894221da130195d96b280c8943b7954e7d3d421e2fdeb"
+      "sha256": "43029210ace1972d8520d78553e413c723cb02c48b0620494e5990cca9dc2410"
     },
     {
       "id": "artifact:safe_taxonomic_assignments.csv",
@@ -339,12 +339,12 @@
   ],
   "edges": [
     {
-      "source": "run:3ac1eb10babf44b7a41400835f791859",
+      "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
       "target": "reference_manifest:da337f143497dd4c0ed01ce65e3f554d9c70d0bacd185e560d9f6c8f28ec45f7",
       "type": "frozen_against"
     },
     {
-      "source": "run:3ac1eb10babf44b7a41400835f791859",
+      "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
       "target": "sequence:AALB-COI-good",
       "type": "contains_sequence"
     },
@@ -369,7 +369,7 @@
       "type": "matches_reference"
     },
     {
-      "source": "run:3ac1eb10babf44b7a41400835f791859",
+      "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
       "target": "sequence:AALB-COI-ambiguous",
       "type": "contains_sequence"
     },
@@ -399,7 +399,7 @@
       "type": "matches_reference"
     },
     {
-      "source": "run:3ac1eb10babf44b7a41400835f791859",
+      "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
       "target": "sequence:AALB-COI-short",
       "type": "contains_sequence"
     },
@@ -429,7 +429,7 @@
       "type": "matches_reference"
     },
     {
-      "source": "run:3ac1eb10babf44b7a41400835f791859",
+      "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
       "target": "sequence:AALB-COI-metadata-gap",
       "type": "contains_sequence"
     },
@@ -459,162 +459,162 @@
       "type": "matches_reference"
     },
     {
-      "source": "run:3ac1eb10babf44b7a41400835f791859",
+      "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
       "target": "artifact:ambiguous_sequences.csv",
       "type": "produces_artifact"
     },
     {
-      "source": "run:3ac1eb10babf44b7a41400835f791859",
+      "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
       "target": "artifact:barcode_gap_report.csv",
       "type": "produces_artifact"
     },
     {
-      "source": "run:3ac1eb10babf44b7a41400835f791859",
+      "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
       "target": "artifact:citations.md",
       "type": "produces_artifact"
     },
     {
-      "source": "run:3ac1eb10babf44b7a41400835f791859",
+      "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
       "target": "artifact:diagnostic_kmer_report.csv",
       "type": "produces_artifact"
     },
     {
-      "source": "run:3ac1eb10babf44b7a41400835f791859",
+      "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
       "target": "artifact:dna_derived_extension_gbif_ready.csv",
       "type": "produces_artifact"
     },
     {
-      "source": "run:3ac1eb10babf44b7a41400835f791859",
+      "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
       "target": "artifact:dna_derived_extension_publishable.csv",
       "type": "produces_artifact"
     },
     {
-      "source": "run:3ac1eb10babf44b7a41400835f791859",
+      "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
       "target": "artifact:dna_derived_extension_template.csv",
       "type": "produces_artifact"
     },
     {
-      "source": "run:3ac1eb10babf44b7a41400835f791859",
+      "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
       "target": "artifact:dwc_occurrence_core_gbif_ready.csv",
       "type": "produces_artifact"
     },
     {
-      "source": "run:3ac1eb10babf44b7a41400835f791859",
+      "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
       "target": "artifact:dwc_occurrence_core_publishable.csv",
       "type": "produces_artifact"
     },
     {
-      "source": "run:3ac1eb10babf44b7a41400835f791859",
+      "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
       "target": "artifact:dwc_occurrence_core_review.csv",
       "type": "produces_artifact"
     },
     {
-      "source": "run:3ac1eb10babf44b7a41400835f791859",
+      "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
       "target": "artifact:dwc_occurrence_core_review_or_repair.csv",
       "type": "produces_artifact"
     },
     {
-      "source": "run:3ac1eb10babf44b7a41400835f791859",
+      "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
       "target": "artifact:dwc_occurrence_core_template.csv",
       "type": "produces_artifact"
     },
     {
-      "source": "run:3ac1eb10babf44b7a41400835f791859",
+      "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
       "target": "artifact:evidence_graph.json",
       "type": "produces_artifact"
     },
     {
-      "source": "run:3ac1eb10babf44b7a41400835f791859",
+      "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
       "target": "artifact:evidence_pack.json",
       "type": "produces_artifact"
     },
     {
-      "source": "run:3ac1eb10babf44b7a41400835f791859",
+      "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
       "target": "artifact:evidence_pack.zip",
       "type": "produces_artifact"
     },
     {
-      "source": "run:3ac1eb10babf44b7a41400835f791859",
+      "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
       "target": "artifact:external_tool_adapter_matrix.csv",
       "type": "produces_artifact"
     },
     {
-      "source": "run:3ac1eb10babf44b7a41400835f791859",
+      "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
       "target": "artifact:gbif_backbone_matches.csv",
       "type": "produces_artifact"
     },
     {
-      "source": "run:3ac1eb10babf44b7a41400835f791859",
+      "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
       "target": "artifact:hard_gate_audit.csv",
       "type": "produces_artifact"
     },
     {
-      "source": "run:3ac1eb10babf44b7a41400835f791859",
+      "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
       "target": "artifact:metadata_bottlenecks.csv",
       "type": "produces_artifact"
     },
     {
-      "source": "run:3ac1eb10babf44b7a41400835f791859",
+      "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
       "target": "artifact:methods_text.md",
       "type": "produces_artifact"
     },
     {
-      "source": "run:3ac1eb10babf44b7a41400835f791859",
+      "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
       "target": "artifact:molecular_evidence_report.html",
       "type": "produces_artifact"
     },
     {
-      "source": "run:3ac1eb10babf44b7a41400835f791859",
+      "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
       "target": "artifact:naive_top_hit_overclaims.csv",
       "type": "produces_artifact"
     },
     {
-      "source": "run:3ac1eb10babf44b7a41400835f791859",
+      "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
       "target": "artifact:nexus_v3_summary.json",
       "type": "produces_artifact"
     },
     {
-      "source": "run:3ac1eb10babf44b7a41400835f791859",
+      "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
       "target": "artifact:proof_by_failure_modes.md",
       "type": "produces_artifact"
     },
     {
-      "source": "run:3ac1eb10babf44b7a41400835f791859",
+      "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
       "target": "artifact:publication_blockers.csv",
       "type": "produces_artifact"
     },
     {
-      "source": "run:3ac1eb10babf44b7a41400835f791859",
+      "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
       "target": "artifact:reference_gap_index.csv",
       "type": "produces_artifact"
     },
     {
-      "source": "run:3ac1eb10babf44b7a41400835f791859",
+      "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
       "target": "artifact:reference_manifest.json",
       "type": "produces_artifact"
     },
     {
-      "source": "run:3ac1eb10babf44b7a41400835f791859",
+      "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
       "target": "artifact:repair_plan.csv",
       "type": "produces_artifact"
     },
     {
-      "source": "run:3ac1eb10babf44b7a41400835f791859",
+      "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
       "target": "artifact:review_taxonomic_hints.csv",
       "type": "produces_artifact"
     },
     {
-      "source": "run:3ac1eb10babf44b7a41400835f791859",
+      "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
       "target": "artifact:run.json",
       "type": "produces_artifact"
     },
     {
-      "source": "run:3ac1eb10babf44b7a41400835f791859",
+      "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
       "target": "artifact:safe_taxonomic_assignments.csv",
       "type": "produces_artifact"
     },
     {
-      "source": "run:3ac1eb10babf44b7a41400835f791859",
+      "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
       "target": "artifact:sequence_safety_table.csv",
       "type": "produces_artifact"
     }

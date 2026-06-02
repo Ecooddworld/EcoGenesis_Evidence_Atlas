@@ -1,0 +1,65 @@
+{
+  "id": "aedes_coi_mini",
+  "title": "EcoGenesis mini COI reference dataset for Aedes smoke tests",
+  "version": "2026-06-02",
+  "marker": "COI-5P",
+  "fasta": "aedes_coi_mini.fasta",
+  "source": "EcoGenesis synthetic reference example derived from the demo Aedes COI control sequence; for workflow validation only",
+  "doi_or_url": "https://github.com/oddworld666/EcoGenesis_Evidence_Atlas",
+  "license": "CC0-1.0 for this synthetic example",
+  "reference_total_windows": 5000000,
+  "references": {
+    "AALB_COI_MINI_REF": {
+      "taxon": "Aedes albopictus",
+      "rank": "species",
+      "gbif_taxon_key": 1651430,
+      "lineage": [
+        {"rank": "kingdom", "name": "Animalia"},
+        {"rank": "phylum", "name": "Arthropoda"},
+        {"rank": "class", "name": "Insecta"},
+        {"rank": "order", "name": "Diptera"},
+        {"rank": "family", "name": "Culicidae"},
+        {"rank": "genus", "name": "Aedes"},
+        {"rank": "species", "name": "Aedes albopictus", "taxon_key": 1651430}
+      ]
+    },
+    "AAEG_COI_MINI_REF": {
+      "taxon": "Aedes aegypti",
+      "rank": "species",
+      "gbif_taxon_key": 1651431,
+      "lineage": [
+        {"rank": "kingdom", "name": "Animalia"},
+        {"rank": "phylum", "name": "Arthropoda"},
+        {"rank": "class", "name": "Insecta"},
+        {"rank": "order", "name": "Diptera"},
+        {"rank": "family", "name": "Culicidae"},
+        {"rank": "genus", "name": "Aedes"},
+        {"rank": "species", "name": "Aedes aegypti", "taxon_key": 1651431}
+      ]
+    },
+    "AJAP_COI_MINI_REF": {
+      "taxon": "Aedes japonicus",
+      "rank": "species",
+      "gbif_taxon_key": 1651428,
+      "lineage": [
+        {"rank": "kingdom", "name": "Animalia"},
+        {"rank": "phylum", "name": "Arthropoda"},
+        {"rank": "class", "name": "Insecta"},
+        {"rank": "order", "name": "Diptera"},
+        {"rank": "family", "name": "Culicidae"},
+        {"rank": "genus", "name": "Aedes"},
+        {"rank": "species", "name": "Aedes japonicus", "taxon_key": 1651428}
+      ]
+    }
+  },
+  "barcode_gap_by_taxon": {
+    "Aedes albopictus": {"intra_max_distance": 0.009, "inter_min_distance": 0.052},
+    "Aedes aegypti": {"intra_max_distance": 0.011, "inter_min_distance": 0.052},
+    "Aedes japonicus": {"intra_max_distance": 0.014, "inter_min_distance": 0.075}
+  },
+  "diagnostic_kmers_by_taxon": {
+    "Aedes albopictus": ["ACGTTGACCTAGGCT", "CGGATCGTACCGTAG"],
+    "Aedes aegypti": ["GTATCGATGCTAGCT", "ATCGGATCATACCGT"],
+    "Aedes japonicus": ["GATTACGATCGTATC", "AGATAGGATCCGATC"]
+  }
+}
