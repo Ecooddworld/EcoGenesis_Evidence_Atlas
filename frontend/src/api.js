@@ -33,6 +33,34 @@ export async function getBarcodeReferenceStatus() {
   return response.json();
 }
 
+export async function getBarcodeSearchStatus() {
+  const response = await fetch(`${API_BASE_URL}/api/barcode/search-status`);
+  if (!response.ok) {
+    throw new Error(`Barcode search status could not be loaded: ${response.status}`);
+  }
+  return response.json();
+}
+
+export async function getBarcodeReferenceDatasets() {
+  const response = await fetch(`${API_BASE_URL}/api/barcode/reference-datasets`);
+  if (!response.ok) {
+    throw new Error(`Reference datasets could not be loaded: ${response.status}`);
+  }
+  return response.json();
+}
+
+export async function runBarcodeReferenceSearch(payload) {
+  const response = await fetch(`${API_BASE_URL}/api/barcode/search`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+  if (!response.ok) {
+    throw new Error(`Reference search failed: ${response.status}`);
+  }
+  return response.json();
+}
+
 export async function runBarcodeCompiler(payload) {
   const response = await fetch(`${API_BASE_URL}/api/barcode/run`, {
     method: 'POST',

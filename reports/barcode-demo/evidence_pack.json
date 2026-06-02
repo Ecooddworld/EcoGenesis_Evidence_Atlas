@@ -1,8 +1,8 @@
 {
   "run": {
-    "run_id": "3ac1eb10babf44b7a41400835f791859",
-    "started_at": "2026-06-02T03:12:16.825977+00:00",
-    "finished_at": "2026-06-02T03:12:16.827047+00:00",
+    "run_id": "46e4a1a09d444ed39e1986d0a4a046d8",
+    "started_at": "2026-06-02T03:34:12.584299+00:00",
+    "finished_at": "2026-06-02T03:34:12.585406+00:00",
     "tool": "Barcode-to-GBIF Evidence Compiler",
     "ruleset_version": "barcode-gbif-compiler-v2",
     "request_fingerprint": "2db79fb6aa3d29894ea2c28899c84e5e37bba5daf4acf2ee292c4fd22c61550f",
@@ -10,7 +10,7 @@
     "artifact_checksums": {
       "ambiguous_sequences.csv": "970910f408014e09d7eaa6449d3e548bdb4b703fed7ab9a82f6d8605129dc028",
       "barcode_gap_report.csv": "79f151decd9d704c17228a1d0f80a16c1cb7b92527e07aa7a5863c030958fdf8",
-      "citations.md": "b57b5c71eeea6f138a14d57495e298cb379fabb25053b310245b8b306905fd3a",
+      "citations.md": "d0a5e7c015cc5078f377f493034c953106ecd93a1dc7700eaf6aac6422c29187",
       "diagnostic_kmer_report.csv": "140b983e06fd2764f72f62679bef29ecd255509bb6743c3bdbb4c94869e7a2b6",
       "dna_derived_extension_gbif_ready.csv": "8063186891b9c9f2d88fc0d834f1538b980176e25e2b06598130670efd940054",
       "dna_derived_extension_publishable.csv": "8063186891b9c9f2d88fc0d834f1538b980176e25e2b06598130670efd940054",
@@ -20,14 +20,14 @@
       "dwc_occurrence_core_review.csv": "2fd7c7cda1582a900c9b0e530eef97e3e839656b043058950ffe6f13d407662f",
       "dwc_occurrence_core_review_or_repair.csv": "2f53d9008e591b89ce3ad64bce1f84bd2c92e3118071a320fb8abfcc0da6d882",
       "dwc_occurrence_core_template.csv": "2fd7c7cda1582a900c9b0e530eef97e3e839656b043058950ffe6f13d407662f",
-      "evidence_graph.json": "d08de34e8b478e3fe0d0842bf380ec52d443c4602d09f78ec5e220c6d528dbab",
-      "evidence_pack.json": "c75cfea69121f418a197d2a90d22ae60e485def85560ec0533d87568eac51b17",
-      "evidence_pack.zip": "9968e31fcb9774fae0db147450bc5bb290e9bee21d0cba8eb71e9449a5f2feae",
+      "evidence_graph.json": "b28c57df1cd8c557c3ff0eddaddcb7395290af5e61d266b316a63cd2d6014c9c",
+      "evidence_pack.json": "8284164920f7d6a374abed0c40485018fe998aaeadef413ee44aa124cd283d91",
+      "evidence_pack.zip": "ef651c03e0e8cfcfdca711fae3f3a000b4a5da0c63e38457a101baaf97cc1c97",
       "external_tool_adapter_matrix.csv": "63aaee18447111d0fd648589c0a04ea77ad0580b9b195aaeea72ca17534cf7c6",
       "gbif_backbone_matches.csv": "0f4bd2c8ee811bdbf078bf5560f430fed589b99a21bde1e08a6cfacc0a53e405",
       "hard_gate_audit.csv": "fed05c81cf9e26294a86ff14642c641f8bb7e1aab7267993f294bc0e33223574",
       "metadata_bottlenecks.csv": "70ecbb79aae5fbd28272b31af2ddb136aeac14a49aae330b9f26e850ee06c9b7",
-      "methods_text.md": "42175cd86ea092625bb7aad5cd60281eadb841c1653fdbeb08ae378ae09d105c",
+      "methods_text.md": "4dcf2585bf2c5cd11a24564ff0147343edbc2471d164aacecc4720c359b03104",
       "molecular_evidence_report.html": "6c023e6540ca8af7b135cb756563304ba19ffbd85502ff9aba262f71229418c6",
       "naive_top_hit_overclaims.csv": "4e27d1df04a886530e94c668af33ddbb3f212e8337281b299a1339c215f938b8",
       "nexus_v3_summary.json": "75e90aad658e53408d1a0b480447da091b63eff64e317d8485acd4ad84ffde9e",
@@ -37,7 +37,7 @@
       "reference_manifest.json": "526303710aac8c6c9a0f7227339b40fe5004b2cee2689404ee2966b2f08ba083",
       "repair_plan.csv": "310ab14d8ecddb8e8ebef1f9231dc6cf88d949db7c4ee29fa6075b20da55f918",
       "review_taxonomic_hints.csv": "fc46886912fb7cd3e219cb5face1a300d84d424ce81877eef4c822cf1256efff",
-      "run.json": "6ee86fbdb289f961446894221da130195d96b280c8943b7954e7d3d421e2fdeb",
+      "run.json": "43029210ace1972d8520d78553e413c723cb02c48b0620494e5990cca9dc2410",
       "safe_taxonomic_assignments.csv": "b705bf4352a6fda01dbcddda7e3b724863b4f1b57b92b24710e1bc0372843ebd",
       "sequence_safety_table.csv": "7b4b9cbeb40ce85f5a2ae3dced0776470163dbf323eb3d74b4a06d7a99e1f128"
     }
@@ -1911,10 +1911,10 @@
   },
   "evidence_graph": {
     "meta": {
-      "run_id": "3ac1eb10babf44b7a41400835f791859",
+      "run_id": "46e4a1a09d444ed39e1986d0a4a046d8",
       "ruleset_version": "barcode-gbif-compiler-v2",
       "reference_manifest_sha256": "da337f143497dd4c0ed01ce65e3f554d9c70d0bacd185e560d9f6c8f28ec45f7",
-      "created_at": "2026-06-02T03:12:16.827047+00:00"
+      "created_at": "2026-06-02T03:34:12.585406+00:00"
     },
     "stats": {
       "sequence_count": 4,
@@ -1923,7 +1923,7 @@
     },
     "nodes": [
       {
-        "id": "run:3ac1eb10babf44b7a41400835f791859",
+        "id": "run:46e4a1a09d444ed39e1986d0a4a046d8",
         "type": "run",
         "label": "Aedes COI batch: safe, ambiguous, weak and metadata cases"
       },
@@ -2071,7 +2071,7 @@
         "id": "artifact:citations.md",
         "type": "artifact",
         "label": "citations.md",
-        "sha256": "b57b5c71eeea6f138a14d57495e298cb379fabb25053b310245b8b306905fd3a"
+        "sha256": "d0a5e7c015cc5078f377f493034c953106ecd93a1dc7700eaf6aac6422c29187"
       },
       {
         "id": "artifact:diagnostic_kmer_report.csv",
@@ -2131,19 +2131,19 @@
         "id": "artifact:evidence_graph.json",
         "type": "artifact",
         "label": "evidence_graph.json",
-        "sha256": "d08de34e8b478e3fe0d0842bf380ec52d443c4602d09f78ec5e220c6d528dbab"
+        "sha256": "b28c57df1cd8c557c3ff0eddaddcb7395290af5e61d266b316a63cd2d6014c9c"
       },
       {
         "id": "artifact:evidence_pack.json",
         "type": "artifact",
         "label": "evidence_pack.json",
-        "sha256": "c75cfea69121f418a197d2a90d22ae60e485def85560ec0533d87568eac51b17"
+        "sha256": "8284164920f7d6a374abed0c40485018fe998aaeadef413ee44aa124cd283d91"
       },
       {
         "id": "artifact:evidence_pack.zip",
         "type": "artifact",
         "label": "evidence_pack.zip",
-        "sha256": "9968e31fcb9774fae0db147450bc5bb290e9bee21d0cba8eb71e9449a5f2feae"
+        "sha256": "ef651c03e0e8cfcfdca711fae3f3a000b4a5da0c63e38457a101baaf97cc1c97"
       },
       {
         "id": "artifact:external_tool_adapter_matrix.csv",
@@ -2173,7 +2173,7 @@
         "id": "artifact:methods_text.md",
         "type": "artifact",
         "label": "methods_text.md",
-        "sha256": "42175cd86ea092625bb7aad5cd60281eadb841c1653fdbeb08ae378ae09d105c"
+        "sha256": "4dcf2585bf2c5cd11a24564ff0147343edbc2471d164aacecc4720c359b03104"
       },
       {
         "id": "artifact:molecular_evidence_report.html",
@@ -2233,7 +2233,7 @@
         "id": "artifact:run.json",
         "type": "artifact",
         "label": "run.json",
-        "sha256": "6ee86fbdb289f961446894221da130195d96b280c8943b7954e7d3d421e2fdeb"
+        "sha256": "43029210ace1972d8520d78553e413c723cb02c48b0620494e5990cca9dc2410"
       },
       {
         "id": "artifact:safe_taxonomic_assignments.csv",
@@ -2250,12 +2250,12 @@
     ],
     "edges": [
       {
-        "source": "run:3ac1eb10babf44b7a41400835f791859",
+        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
         "target": "reference_manifest:da337f143497dd4c0ed01ce65e3f554d9c70d0bacd185e560d9f6c8f28ec45f7",
         "type": "frozen_against"
       },
       {
-        "source": "run:3ac1eb10babf44b7a41400835f791859",
+        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
         "target": "sequence:AALB-COI-good",
         "type": "contains_sequence"
       },
@@ -2280,7 +2280,7 @@
         "type": "matches_reference"
       },
       {
-        "source": "run:3ac1eb10babf44b7a41400835f791859",
+        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
         "target": "sequence:AALB-COI-ambiguous",
         "type": "contains_sequence"
       },
@@ -2310,7 +2310,7 @@
         "type": "matches_reference"
       },
       {
-        "source": "run:3ac1eb10babf44b7a41400835f791859",
+        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
         "target": "sequence:AALB-COI-short",
         "type": "contains_sequence"
       },
@@ -2340,7 +2340,7 @@
         "type": "matches_reference"
       },
       {
-        "source": "run:3ac1eb10babf44b7a41400835f791859",
+        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
         "target": "sequence:AALB-COI-metadata-gap",
         "type": "contains_sequence"
       },
@@ -2370,162 +2370,162 @@
         "type": "matches_reference"
       },
       {
-        "source": "run:3ac1eb10babf44b7a41400835f791859",
+        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
         "target": "artifact:ambiguous_sequences.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:3ac1eb10babf44b7a41400835f791859",
+        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
         "target": "artifact:barcode_gap_report.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:3ac1eb10babf44b7a41400835f791859",
+        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
         "target": "artifact:citations.md",
         "type": "produces_artifact"
       },
       {
-        "source": "run:3ac1eb10babf44b7a41400835f791859",
+        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
         "target": "artifact:diagnostic_kmer_report.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:3ac1eb10babf44b7a41400835f791859",
+        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
         "target": "artifact:dna_derived_extension_gbif_ready.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:3ac1eb10babf44b7a41400835f791859",
+        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
         "target": "artifact:dna_derived_extension_publishable.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:3ac1eb10babf44b7a41400835f791859",
+        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
         "target": "artifact:dna_derived_extension_template.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:3ac1eb10babf44b7a41400835f791859",
+        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
         "target": "artifact:dwc_occurrence_core_gbif_ready.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:3ac1eb10babf44b7a41400835f791859",
+        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
         "target": "artifact:dwc_occurrence_core_publishable.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:3ac1eb10babf44b7a41400835f791859",
+        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
         "target": "artifact:dwc_occurrence_core_review.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:3ac1eb10babf44b7a41400835f791859",
+        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
         "target": "artifact:dwc_occurrence_core_review_or_repair.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:3ac1eb10babf44b7a41400835f791859",
+        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
         "target": "artifact:dwc_occurrence_core_template.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:3ac1eb10babf44b7a41400835f791859",
+        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
         "target": "artifact:evidence_graph.json",
         "type": "produces_artifact"
       },
       {
-        "source": "run:3ac1eb10babf44b7a41400835f791859",
+        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
         "target": "artifact:evidence_pack.json",
         "type": "produces_artifact"
       },
       {
-        "source": "run:3ac1eb10babf44b7a41400835f791859",
+        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
         "target": "artifact:evidence_pack.zip",
         "type": "produces_artifact"
       },
       {
-        "source": "run:3ac1eb10babf44b7a41400835f791859",
+        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
         "target": "artifact:external_tool_adapter_matrix.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:3ac1eb10babf44b7a41400835f791859",
+        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
         "target": "artifact:gbif_backbone_matches.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:3ac1eb10babf44b7a41400835f791859",
+        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
         "target": "artifact:hard_gate_audit.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:3ac1eb10babf44b7a41400835f791859",
+        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
         "target": "artifact:metadata_bottlenecks.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:3ac1eb10babf44b7a41400835f791859",
+        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
         "target": "artifact:methods_text.md",
         "type": "produces_artifact"
       },
       {
-        "source": "run:3ac1eb10babf44b7a41400835f791859",
+        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
         "target": "artifact:molecular_evidence_report.html",
         "type": "produces_artifact"
       },
       {
-        "source": "run:3ac1eb10babf44b7a41400835f791859",
+        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
         "target": "artifact:naive_top_hit_overclaims.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:3ac1eb10babf44b7a41400835f791859",
+        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
         "target": "artifact:nexus_v3_summary.json",
         "type": "produces_artifact"
       },
       {
-        "source": "run:3ac1eb10babf44b7a41400835f791859",
+        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
         "target": "artifact:proof_by_failure_modes.md",
         "type": "produces_artifact"
       },
       {
-        "source": "run:3ac1eb10babf44b7a41400835f791859",
+        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
         "target": "artifact:publication_blockers.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:3ac1eb10babf44b7a41400835f791859",
+        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
         "target": "artifact:reference_gap_index.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:3ac1eb10babf44b7a41400835f791859",
+        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
         "target": "artifact:reference_manifest.json",
         "type": "produces_artifact"
       },
       {
-        "source": "run:3ac1eb10babf44b7a41400835f791859",
+        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
         "target": "artifact:repair_plan.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:3ac1eb10babf44b7a41400835f791859",
+        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
         "target": "artifact:review_taxonomic_hints.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:3ac1eb10babf44b7a41400835f791859",
+        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
         "target": "artifact:run.json",
         "type": "produces_artifact"
       },
       {
-        "source": "run:3ac1eb10babf44b7a41400835f791859",
+        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
         "target": "artifact:safe_taxonomic_assignments.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:3ac1eb10babf44b7a41400835f791859",
+        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
         "target": "artifact:sequence_safety_table.csv",
         "type": "produces_artifact"
       }
@@ -2534,193 +2534,193 @@
   "exports": [
     {
       "name": "ambiguous_sequences.csv",
-      "url": "/api/barcode/runs/3ac1eb10babf44b7a41400835f791859/exports/ambiguous_sequences.csv",
+      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/ambiguous_sequences.csv",
       "size_bytes": 326,
       "sha256": "970910f408014e09d7eaa6449d3e548bdb4b703fed7ab9a82f6d8605129dc028"
     },
     {
       "name": "barcode_gap_report.csv",
-      "url": "/api/barcode/runs/3ac1eb10babf44b7a41400835f791859/exports/barcode_gap_report.csv",
+      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/barcode_gap_report.csv",
       "size_bytes": 225,
       "sha256": "79f151decd9d704c17228a1d0f80a16c1cb7b92527e07aa7a5863c030958fdf8"
     },
     {
       "name": "citations.md",
-      "url": "/api/barcode/runs/3ac1eb10babf44b7a41400835f791859/exports/citations.md",
-      "size_bytes": 531,
-      "sha256": "b57b5c71eeea6f138a14d57495e298cb379fabb25053b310245b8b306905fd3a"
+      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/citations.md",
+      "size_bytes": 1412,
+      "sha256": "d0a5e7c015cc5078f377f493034c953106ecd93a1dc7700eaf6aac6422c29187"
     },
     {
       "name": "diagnostic_kmer_report.csv",
-      "url": "/api/barcode/runs/3ac1eb10babf44b7a41400835f791859/exports/diagnostic_kmer_report.csv",
+      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/diagnostic_kmer_report.csv",
       "size_bytes": 368,
       "sha256": "140b983e06fd2764f72f62679bef29ecd255509bb6743c3bdbb4c94869e7a2b6"
     },
     {
       "name": "dna_derived_extension_gbif_ready.csv",
-      "url": "/api/barcode/runs/3ac1eb10babf44b7a41400835f791859/exports/dna_derived_extension_gbif_ready.csv",
+      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/dna_derived_extension_gbif_ready.csv",
       "size_bytes": 1114,
       "sha256": "8063186891b9c9f2d88fc0d834f1538b980176e25e2b06598130670efd940054"
     },
     {
       "name": "dna_derived_extension_publishable.csv",
-      "url": "/api/barcode/runs/3ac1eb10babf44b7a41400835f791859/exports/dna_derived_extension_publishable.csv",
+      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/dna_derived_extension_publishable.csv",
       "size_bytes": 1114,
       "sha256": "8063186891b9c9f2d88fc0d834f1538b980176e25e2b06598130670efd940054"
     },
     {
       "name": "dna_derived_extension_template.csv",
-      "url": "/api/barcode/runs/3ac1eb10babf44b7a41400835f791859/exports/dna_derived_extension_template.csv",
+      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/dna_derived_extension_template.csv",
       "size_bytes": 2041,
       "sha256": "5fa5aa2ec52b32dd81a5ba49cd80194d9c170d4d702fa929f8ea4f4733ac47a0"
     },
     {
       "name": "dwc_occurrence_core_gbif_ready.csv",
-      "url": "/api/barcode/runs/3ac1eb10babf44b7a41400835f791859/exports/dwc_occurrence_core_gbif_ready.csv",
+      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/dwc_occurrence_core_gbif_ready.csv",
       "size_bytes": 925,
       "sha256": "51a19624a731fc50fa87420c282c4e755ee9fe0d46d5239506f30762fb005428"
     },
     {
       "name": "dwc_occurrence_core_publishable.csv",
-      "url": "/api/barcode/runs/3ac1eb10babf44b7a41400835f791859/exports/dwc_occurrence_core_publishable.csv",
+      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/dwc_occurrence_core_publishable.csv",
       "size_bytes": 925,
       "sha256": "51a19624a731fc50fa87420c282c4e755ee9fe0d46d5239506f30762fb005428"
     },
     {
       "name": "dwc_occurrence_core_review.csv",
-      "url": "/api/barcode/runs/3ac1eb10babf44b7a41400835f791859/exports/dwc_occurrence_core_review.csv",
+      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/dwc_occurrence_core_review.csv",
       "size_bytes": 1508,
       "sha256": "2fd7c7cda1582a900c9b0e530eef97e3e839656b043058950ffe6f13d407662f"
     },
     {
       "name": "dwc_occurrence_core_review_or_repair.csv",
-      "url": "/api/barcode/runs/3ac1eb10babf44b7a41400835f791859/exports/dwc_occurrence_core_review_or_repair.csv",
+      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/dwc_occurrence_core_review_or_repair.csv",
       "size_bytes": 754,
       "sha256": "2f53d9008e591b89ce3ad64bce1f84bd2c92e3118071a320fb8abfcc0da6d882"
     },
     {
       "name": "dwc_occurrence_core_template.csv",
-      "url": "/api/barcode/runs/3ac1eb10babf44b7a41400835f791859/exports/dwc_occurrence_core_template.csv",
+      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/dwc_occurrence_core_template.csv",
       "size_bytes": 1508,
       "sha256": "2fd7c7cda1582a900c9b0e530eef97e3e839656b043058950ffe6f13d407662f"
     },
     {
       "name": "evidence_graph.json",
-      "url": "/api/barcode/runs/3ac1eb10babf44b7a41400835f791859/exports/evidence_graph.json",
+      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/evidence_graph.json",
       "size_bytes": 7545,
-      "sha256": "d08de34e8b478e3fe0d0842bf380ec52d443c4602d09f78ec5e220c6d528dbab"
+      "sha256": "b28c57df1cd8c557c3ff0eddaddcb7395290af5e61d266b316a63cd2d6014c9c"
     },
     {
       "name": "evidence_pack.json",
-      "url": "/api/barcode/runs/3ac1eb10babf44b7a41400835f791859/exports/evidence_pack.json",
+      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/evidence_pack.json",
       "size_bytes": 66347,
-      "sha256": "c75cfea69121f418a197d2a90d22ae60e485def85560ec0533d87568eac51b17"
+      "sha256": "8284164920f7d6a374abed0c40485018fe998aaeadef413ee44aa124cd283d91"
     },
     {
       "name": "evidence_pack.zip",
-      "url": "/api/barcode/runs/3ac1eb10babf44b7a41400835f791859/exports/evidence_pack.zip",
-      "size_bytes": 22776,
-      "sha256": "9968e31fcb9774fae0db147450bc5bb290e9bee21d0cba8eb71e9449a5f2feae"
+      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/evidence_pack.zip",
+      "size_bytes": 23965,
+      "sha256": "ef651c03e0e8cfcfdca711fae3f3a000b4a5da0c63e38457a101baaf97cc1c97"
     },
     {
       "name": "external_tool_adapter_matrix.csv",
-      "url": "/api/barcode/runs/3ac1eb10babf44b7a41400835f791859/exports/external_tool_adapter_matrix.csv",
+      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/external_tool_adapter_matrix.csv",
       "size_bytes": 1064,
       "sha256": "63aaee18447111d0fd648589c0a04ea77ad0580b9b195aaeea72ca17534cf7c6"
     },
     {
       "name": "gbif_backbone_matches.csv",
-      "url": "/api/barcode/runs/3ac1eb10babf44b7a41400835f791859/exports/gbif_backbone_matches.csv",
+      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/gbif_backbone_matches.csv",
       "size_bytes": 845,
       "sha256": "0f4bd2c8ee811bdbf078bf5560f430fed589b99a21bde1e08a6cfacc0a53e405"
     },
     {
       "name": "hard_gate_audit.csv",
-      "url": "/api/barcode/runs/3ac1eb10babf44b7a41400835f791859/exports/hard_gate_audit.csv",
+      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/hard_gate_audit.csv",
       "size_bytes": 673,
       "sha256": "fed05c81cf9e26294a86ff14642c641f8bb7e1aab7267993f294bc0e33223574"
     },
     {
       "name": "metadata_bottlenecks.csv",
-      "url": "/api/barcode/runs/3ac1eb10babf44b7a41400835f791859/exports/metadata_bottlenecks.csv",
+      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/metadata_bottlenecks.csv",
       "size_bytes": 704,
       "sha256": "70ecbb79aae5fbd28272b31af2ddb136aeac14a49aae330b9f26e850ee06c9b7"
     },
     {
       "name": "methods_text.md",
-      "url": "/api/barcode/runs/3ac1eb10babf44b7a41400835f791859/exports/methods_text.md",
-      "size_bytes": 1275,
-      "sha256": "42175cd86ea092625bb7aad5cd60281eadb841c1653fdbeb08ae378ae09d105c"
+      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/methods_text.md",
+      "size_bytes": 2929,
+      "sha256": "4dcf2585bf2c5cd11a24564ff0147343edbc2471d164aacecc4720c359b03104"
     },
     {
       "name": "molecular_evidence_report.html",
-      "url": "/api/barcode/runs/3ac1eb10babf44b7a41400835f791859/exports/molecular_evidence_report.html",
+      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/molecular_evidence_report.html",
       "size_bytes": 4466,
       "sha256": "6c023e6540ca8af7b135cb756563304ba19ffbd85502ff9aba262f71229418c6"
     },
     {
       "name": "naive_top_hit_overclaims.csv",
-      "url": "/api/barcode/runs/3ac1eb10babf44b7a41400835f791859/exports/naive_top_hit_overclaims.csv",
+      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/naive_top_hit_overclaims.csv",
       "size_bytes": 753,
       "sha256": "4e27d1df04a886530e94c668af33ddbb3f212e8337281b299a1339c215f938b8"
     },
     {
       "name": "nexus_v3_summary.json",
-      "url": "/api/barcode/runs/3ac1eb10babf44b7a41400835f791859/exports/nexus_v3_summary.json",
+      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/nexus_v3_summary.json",
       "size_bytes": 1415,
       "sha256": "75e90aad658e53408d1a0b480447da091b63eff64e317d8485acd4ad84ffde9e"
     },
     {
       "name": "proof_by_failure_modes.md",
-      "url": "/api/barcode/runs/3ac1eb10babf44b7a41400835f791859/exports/proof_by_failure_modes.md",
+      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/proof_by_failure_modes.md",
       "size_bytes": 1029,
       "sha256": "72bd59e8bd131429e113375ab7fba667d40bd41cb5e29f364c3322cf2f4d7f46"
     },
     {
       "name": "publication_blockers.csv",
-      "url": "/api/barcode/runs/3ac1eb10babf44b7a41400835f791859/exports/publication_blockers.csv",
+      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/publication_blockers.csv",
       "size_bytes": 502,
       "sha256": "020240f72b9d02b64f438aef7a8f6813d7f63c5241bd42a1140fffe1405e76e6"
     },
     {
       "name": "reference_gap_index.csv",
-      "url": "/api/barcode/runs/3ac1eb10babf44b7a41400835f791859/exports/reference_gap_index.csv",
+      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/reference_gap_index.csv",
       "size_bytes": 282,
       "sha256": "8ab253295406a698b75c7c17c37b6139a495fce22769709bf9b939b20f4baa01"
     },
     {
       "name": "reference_manifest.json",
-      "url": "/api/barcode/runs/3ac1eb10babf44b7a41400835f791859/exports/reference_manifest.json",
+      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/reference_manifest.json",
       "size_bytes": 317,
       "sha256": "526303710aac8c6c9a0f7227339b40fe5004b2cee2689404ee2966b2f08ba083"
     },
     {
       "name": "repair_plan.csv",
-      "url": "/api/barcode/runs/3ac1eb10babf44b7a41400835f791859/exports/repair_plan.csv",
+      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/repair_plan.csv",
       "size_bytes": 424,
       "sha256": "310ab14d8ecddb8e8ebef1f9231dc6cf88d949db7c4ee29fa6075b20da55f918"
     },
     {
       "name": "review_taxonomic_hints.csv",
-      "url": "/api/barcode/runs/3ac1eb10babf44b7a41400835f791859/exports/review_taxonomic_hints.csv",
+      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/review_taxonomic_hints.csv",
       "size_bytes": 527,
       "sha256": "fc46886912fb7cd3e219cb5face1a300d84d424ce81877eef4c822cf1256efff"
     },
     {
       "name": "run.json",
-      "url": "/api/barcode/runs/3ac1eb10babf44b7a41400835f791859/exports/run.json",
+      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/run.json",
       "size_bytes": 443,
-      "sha256": "6ee86fbdb289f961446894221da130195d96b280c8943b7954e7d3d421e2fdeb"
+      "sha256": "43029210ace1972d8520d78553e413c723cb02c48b0620494e5990cca9dc2410"
     },
     {
       "name": "safe_taxonomic_assignments.csv",
-      "url": "/api/barcode/runs/3ac1eb10babf44b7a41400835f791859/exports/safe_taxonomic_assignments.csv",
+      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/safe_taxonomic_assignments.csv",
       "size_bytes": 366,
       "sha256": "b705bf4352a6fda01dbcddda7e3b724863b4f1b57b92b24710e1bc0372843ebd"
     },
     {
       "name": "sequence_safety_table.csv",
-      "url": "/api/barcode/runs/3ac1eb10babf44b7a41400835f791859/exports/sequence_safety_table.csv",
+      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/sequence_safety_table.csv",
       "size_bytes": 1268,
       "sha256": "7b4b9cbeb40ce85f5a2ae3dced0776470163dbf323eb3d74b4a06d7a99e1f128"
     }

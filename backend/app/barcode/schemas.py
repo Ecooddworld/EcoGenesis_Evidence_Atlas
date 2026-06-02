@@ -108,3 +108,14 @@ class BarcodeCompilerCreated(BaseModel):
     status: str
     summary: dict[str, Any]
     exports: list[dict[str, Any]]
+
+
+class BarcodeReferenceSearchRequest(BaseModel):
+    sequence_id: str = Field(default="query-sequence", min_length=1)
+    sequence: str = Field(min_length=1)
+    reference_dataset: str = Field(default="aedes_coi_mini", min_length=1)
+    backend: Literal["auto", "vsearch", "blastn", "python-local"] = "auto"
+    max_hits: int = Field(default=5, ge=1, le=25)
+    compile: bool = True
+    project_title: str | None = None
+    metadata: dict[str, Any] = Field(default_factory=dict)

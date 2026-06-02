@@ -11,7 +11,8 @@ from fastapi.responses import FileResponse, HTMLResponse, Response
 from .barcode.compiler import run_barcode_compiler
 from .barcode.csv_import import CSV_TEMPLATE_TEXT, parse_barcode_csv
 from .barcode.demo import BARCODE_DEMO_SCENARIOS, DEFAULT_BARCODE_REQUEST
-from .barcode.schemas import BarcodeCompilerCreated, BarcodeCompilerRequest
+from .barcode.schemas import BarcodeCompilerCreated, BarcodeCompilerRequest, BarcodeReferenceSearchRequest
+from .barcode.search_backend import compiler_request_from_search, list_reference_datasets, search_reference, search_status
 from .barcode.storage import barcode_artifact_path, list_barcode_summaries, load_barcode_pack
 from .evidence.demo import DEMO_SCENARIOS, REGION_PRESETS
 from .evidence.gbif import GBIFClient
@@ -68,6 +69,51 @@ def barcode_reference_status() -> dict:
             "weak": "identity < 90% or queryCoverage < 80%",
         },
     }
+
+
+@app.get("/api/barcode/search-status")
+def barcode_search_status() -> dict:
+    return search_status()
+
+
+@app.get("/api/barcode/reference-datasets")
+def barcode_reference_datasets() -> list[dict]:
+    return list_reference_datasets()
+
+
+@app.post("/api/barcode/search")
+def barcode_reference_search(request: BarcodeReferenceSearchRequest) -> dict:
+    try:
+        search_result = search_reference(
+            sequence=request.sequence,
+            sequence_id=request.sequence_id,
+            reference_dataset=request.reference_dataset,
+            backend=request.backend,
+            max_hits=request.max_hits,
+        )
+        compiler_request = compiler_request_from_search(
+            search_result,
+            sequence=request.sequence,
+            sequence_id=request.sequence_id,
+            project_title=request.project_title,
+            metadata=request.metadata,
+        )
+    except (FileNotFoundError, ValueError) as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    payload: dict = {
+        "search": search_result,
+        "request": compiler_request.model_dump(),
+    }
+    if request.compile:
+        pack = run_barcode_compiler(compiler_request)
+        payload["run"] = {
+            "run_id": pack["run"]["run_id"],
+            "status": "completed",
+            "summary": pack["summary"],
+            "exports": pack["exports"],
+        }
+        payload["pack"] = pack
+    return payload
 
 
 @app.get("/api/barcode/csv-template")
