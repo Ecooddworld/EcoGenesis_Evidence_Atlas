@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>EcoGenesis Nexus Report</title>
+<style>
+body { margin:0; font-family: Inter, Arial, sans-serif; background:#eef4ef; color:#12211b; }
+header { padding:36px 48px; background:#0b615f; color:white; }
+header h1 { margin:0 0 8px; font-size:34px; }
+main { padding:32px 48px; }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:14px; }
+.card { background:white; border:1px solid #d9e4dc; border-radius:18px; padding:18px; box-shadow:0 8px 28px rgba(8,48,42,.08); }
+.card span { display:block; color:#4a665d; font-size:12px; text-transform:uppercase; letter-spacing:.05em; }
+.card strong { display:block; margin-top:8px; font-size:26px; }
+table { width:100%; border-collapse:collapse; margin-top:18px; background:white; border-radius:14px; overflow:hidden; }
+th,td { text-align:left; border-bottom:1px solid #e6eee8; padding:11px 12px; vertical-align:top; }
+th { background:#dcebe3; }
+.badge { display:inline-block; padding:4px 8px; border-radius:999px; background:#e9f4ef; }
+</style>
+</head>
+<body>
+<header><h1>EcoGenesis Nexus Report</h1><p>DNA-to-Taxon Evidence Engine for GBIF</p></header>
+<main>
+<section class='grid'><div class='card'><span>processed_records</span><strong>4</strong></div><div class='card'><span>species_safe</span><strong>2</strong></div><div class='card'><span>genus_safe</span><strong>1</strong></div><div class='card'><span>higher_rank_safe</span><strong>0</strong></div><div class='card'><span>gbif_ready_safe</span><strong>2</strong></div><div class='card'><span>top_species_hits</span><strong>3</strong></div><div class='card'><span>blocked_or_downgraded_top_species_hits</span><strong>1</strong></div><div class='card'><span>repairable_records</span><strong>3</strong></div><div class='card'><span>SCY_safe_conversion_yield</span><strong>0.5</strong></div><div class='card'><span>SRY_safe_rank_yield</span><strong>0.75</strong></div><div class='card'><span>SPY_species_preservation_yield</span><strong>0.666667</strong></div><div class='card'><span>OPR_overclaim_prevention_rate</span><strong>0.333333</strong></div><div class='card'><span>RY_repairable_yield</span><strong>0.75</strong></div></section>
+<h2>Sequence decisions</h2>
+<table><thead><tr><th>Sequence</th><th>Taxonomic decision</th><th>Publication</th><th>Safe taxon</th><th>Blockers</th></tr></thead><tbody><tr><td>q_species_safe</td><td>species_safe</td><td>gbif_ready</td><td>species Aedes albopictus</td><td></td></tr><tr><td>q_ambiguous_aedes_shared_region</td><td>genus_safe</td><td>gbif_ready</td><td>genus Aedes</td><td>species claim blocked: indistinguishable competing species collapse safe rank to genus</td></tr><tr><td>q_culex_candidate_missing_metadata</td><td>species_safe</td><td>repairable_metadata</td><td>species Culex pipiens</td><td>occurrenceID; eventDate</td></tr><tr><td>q_no_match_unknown</td><td>no_match</td><td>repairable_metadata</td><td>none No match</td><td>no reference hit returned; scientificName</td></tr></tbody></table>
+<h2>Top repair actions</h2>
+<table><thead><tr><th>Action</th><th>Unlocks</th><th>Cost</th></tr></thead><tbody><tr><td>publish at safe LCA rank or sequence a more diagnostic marker/region</td><td>1</td><td>high</td></tr><tr><td>add Darwin Core required field: occurrenceID</td><td>1</td><td>low</td></tr><tr><td>add Darwin Core required field: eventDate</td><td>1</td><td>low</td></tr><tr><td>add Darwin Core required field: scientificName</td><td>1</td><td>low</td></tr><tr><td>run against a marker-appropriate frozen reference library</td><td>1</td><td>medium</td></tr></tbody></table>
+</main>
+</body></html>

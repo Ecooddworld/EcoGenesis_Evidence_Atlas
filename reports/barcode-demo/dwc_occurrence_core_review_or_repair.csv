@@ -1,0 +1,3 @@
+occurrenceID,basisOfRecord,verbatimIdentification,candidateTaxonRank,decisionClass,publicationStage,blockers,repairActions
+urn:ecogenesis:demo:AALB-COI-short,MaterialSample,Aedes albopictus,species,weak,record_recommended_ready,species claim blocked: top hit does not pass exact match gate identity >= 99% and query coverage >= 80%; species claim blocked: query coverage < 80%,Use a longer/cleaner marker sequence or treat the assignment below species rank.
+,MaterialSample,Aedes albopictus,species,not-publishable,record_not_ready,publication blocked: missing required Occurrence core field occurrenceID; publication blocked: missing required Occurrence core field eventDate,Complete required Darwin Core Occurrence core fields before GBIF publication.

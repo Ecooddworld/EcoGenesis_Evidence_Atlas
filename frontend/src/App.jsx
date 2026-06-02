@@ -1420,12 +1420,17 @@ const exportGroups = [
   {
     title: 'Publishable templates',
     description: 'Only records with a non-empty published taxon are included here.',
-    match: ['dwc_occurrence_core_publishable.csv', 'dna_derived_extension_publishable.csv', 'safe_taxonomic_assignments.csv'],
+    match: ['dwc_occurrence_core_gbif_ready.csv', 'dna_derived_extension_gbif_ready.csv', 'dwc_occurrence_core_publishable.csv', 'dna_derived_extension_publishable.csv', 'safe_taxonomic_assignments.csv'],
   },
   {
     title: 'Review and repair',
     description: 'Blocked records, ambiguity evidence, missing fields and molecular gates.',
-    match: ['review_taxonomic_hints.csv', 'publication_blockers.csv', 'ambiguous_sequences.csv', 'barcode_gap_report.csv', 'diagnostic_kmer_report.csv'],
+    match: ['repair_plan.csv', 'metadata_bottlenecks.csv', 'review_taxonomic_hints.csv', 'publication_blockers.csv', 'dwc_occurrence_core_review_or_repair.csv', 'ambiguous_sequences.csv', 'barcode_gap_report.csv', 'diagnostic_kmer_report.csv'],
+  },
+  {
+    title: 'Nexus V3 audit',
+    description: 'Hard-gate consistency, prevented top-hit overclaims, reference gaps and adapter direction.',
+    match: ['nexus_v3_summary.json', 'hard_gate_audit.csv', 'naive_top_hit_overclaims.csv', 'reference_gap_index.csv', 'external_tool_adapter_matrix.csv'],
   },
   {
     title: 'Audit trail',
@@ -2403,7 +2408,7 @@ function CompilerWorkbench({
   const filteredRecords = filterDecisionRecords(records, decisionFilter);
   const csvValidation = csvImport?.validation;
   const csvHasFatalErrors = csvValidation && !csvValidation.ok;
-  const keyExports = ['evidence_pack.zip', 'sequence_safety_table.csv', 'publication_blockers.csv', 'dwc_occurrence_core_publishable.csv', 'molecular_evidence_report.html']
+  const keyExports = ['evidence_pack.zip', 'molecular_evidence_report.html', 'sequence_safety_table.csv', 'hard_gate_audit.csv', 'repair_plan.csv', 'naive_top_hit_overclaims.csv']
     .map((name) => exports.find((item) => item.name === name))
     .filter(Boolean);
 
@@ -2528,6 +2533,8 @@ function CompilerWorkbench({
                 <Metric label="Record-ready" value={pack.metrics.record_ready_records} />
               </div>
             </section>
+
+            <NexusAuditPanel pack={pack} />
 
             <OutcomeSummary records={records} />
 
@@ -2690,6 +2697,72 @@ function OutcomeSummary({ records }) {
   );
 }
 
+function NexusAuditPanel({ pack }) {
+  const metrics = pack.metrics || {};
+  const conversion = pack.nexus_v3?.conversion_metrics || {};
+  const audit = pack.nexus_v3?.audit || {};
+  const repairPlan = pack.repair_plan || [];
+  const overclaims = pack.naive_top_hit_overclaims || [];
+  const hardGateFailures = metrics.hard_gate_failures ?? audit.hard_gate_failures ?? 0;
+  const cards = [
+    ['MECY', conversion.MECY_molecular_evidence_conversion_yield ?? metrics.molecular_evidence_conversion_yield ?? 0, 'records entering publishable templates'],
+    ['SRY', conversion.SRY_safe_rank_yield ?? metrics.safe_rank_yield ?? 0, 'records useful at species/genus/higher rank'],
+    ['OPR', conversion.OPR_overclaim_prevention_rate ?? metrics.overclaim_prevention_rate ?? 0, 'top-hit species overclaims blocked'],
+    ['Hard gates', hardGateFailures, hardGateFailures === 0 ? 'no species-safe inconsistency' : 'review before publication'],
+  ];
+
+  return (
+    <section className="panel nexus-audit-panel">
+      <div className="panel-heading-row">
+        <div>
+          <p className="section-label">Nexus V3 audit</p>
+          <h3>Molecular evidence conversion, not species guessing.</h3>
+        </div>
+        <span className={`audit-status ${hardGateFailures === 0 ? 'pass' : 'warn'}`}>
+          {hardGateFailures === 0 ? 'Hard gates passed' : 'Hard-gate warning'}
+        </span>
+      </div>
+      <div className="nexus-kpi-grid">
+        {cards.map(([label, value, detail]) => (
+          <Metric key={label} label={label} value={value} detail={detail} />
+        ))}
+      </div>
+      <div className="two-column nexus-mini">
+        <div>
+          <p className="section-label">Top repair priorities</p>
+          {repairPlan.length ? (
+            <ol className="ranked-list">
+              {repairPlan.slice(0, 4).map((item) => (
+                <li key={item.repairAction}>
+                  <strong>{item.repairAction}</strong>
+                  <span>{item.unlockableRecords} {pluralize('record', item.unlockableRecords)} · {item.estimatedCost} cost</span>
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <p className="hint">No repair action is required in this run.</p>
+          )}
+        </div>
+        <div>
+          <p className="section-label">Overclaim prevention</p>
+          {overclaims.length ? (
+            <ol className="ranked-list blocked">
+              {overclaims.slice(0, 4).map((item) => (
+                <li key={item.sequenceID}>
+                  <strong>{item.sequenceID}</strong>
+                  <span>{item.naiveClaim} → {item.compilerDecision}; safe rank: {item.safeRank}</span>
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <p className="hint">No unsafe top-hit species claims were detected in this run.</p>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function GroupedExports({ exports }) {
   const remaining = new Set(exports.map((item) => item.name));
   return (
@@ -2731,11 +2804,12 @@ function GroupedExports({ exports }) {
   );
 }
 
-function Metric({ label, value }) {
+function Metric({ label, value, detail }) {
   return (
     <div className="metric-card">
       <strong>{value}</strong>
       <span>{label}</span>
+      {detail && <small>{detail}</small>}
     </div>
   );
 }

@@ -26,10 +26,20 @@ Status: **PASS**
   "not_publishable_records": 1,
   "record_ready_records": 2,
   "dataset_ready_records": 0,
+  "publishable_template_records": 2,
+  "safe_rank_records": 2,
+  "repairable_records": 3,
+  "top_species_hits": 4,
+  "blocked_or_downgraded_top_species_hits": 3,
   "species_safe_yield": 0.25,
+  "safe_rank_yield": 0.5,
+  "molecular_evidence_conversion_yield": 0.5,
+  "repairable_yield": 0.75,
   "blocked_species_claims": 3,
+  "overclaim_prevention_rate": 0.75,
   "overclaim_prevention_proxy": 1,
-  "publication_repair_efficiency": 1.0
+  "publication_repair_efficiency": 1.0,
+  "hard_gate_failures": 0
 }
 ```
 

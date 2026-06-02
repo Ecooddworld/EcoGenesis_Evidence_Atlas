@@ -20,6 +20,8 @@ It applies explicit gates for identity, query coverage, ambiguity, lowest common
 
 Each run exports an Evidence Pack with sequence safety tables, safe taxonomic assignments, publication blockers, barcode gap and diagnostic k-mer reports, Darwin Core Occurrence templates, DNA-derived extension templates, a molecular evidence report, methods text, citations, an evidence graph and machine-readable JSON/ZIP files.
 
+The Nexus V3 layer adds hard-gate consistency audit, naive top-hit overclaim prevention, reference gap index, metadata bottleneck analysis, repair plan and split GBIF-ready/review exports. This turns the prototype from a simple status checker into a reproducible publication-repair workflow.
+
 The tool benefits GBIF data users, publishers, nodes and reviewers by making molecular occurrence evidence more transparent, repeatable and publication-ready.
 
 ## Operating Instructions
@@ -37,4 +39,5 @@ Open http://localhost:13100, go to `Run compiler`, upload one of the CSV example
 - Main README
 - `docs/submission.md`
 - `docs/barcode-compiler-methodology.md`
+- `docs/nexus-v3/EcoGenesis_Nexus_V3_FULL_PROJECT_RU.md`
 - `docs/testing.md`

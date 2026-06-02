@@ -1,0 +1,17 @@
+{
+  "hard_gate_records": 4,
+  "hard_gate_failures": 0,
+  "naive_top_species_cases": 3,
+  "naive_species_overclaims_prevented": 1,
+  "leave_one_out_cases": 3,
+  "leave_one_out_false_species_exports": 0,
+  "decision_counts": {
+    "species_safe": 2,
+    "genus_safe": 1,
+    "no_match": 1
+  },
+  "publication_counts": {
+    "gbif_ready": 2,
+    "repairable_metadata": 2
+  }
+}

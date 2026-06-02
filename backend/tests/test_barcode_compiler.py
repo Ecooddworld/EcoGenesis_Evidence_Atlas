@@ -40,6 +40,8 @@ def test_species_safe_when_all_gates_pass(tmp_path, monkeypatch) -> None:
     assert record["diagnostic_kmers"]["p_false_positive"] <= 0.01
     assert record["metadata_readiness"]["core_pass"] is True
     assert record["metadata_readiness"]["dna_pass"] is True
+    assert pack["metrics"]["hard_gate_failures"] == 0
+    assert pack["nexus_v3"]["conversion_metrics"]["SSY_species_safe_yield"] == 1
 
 
 def test_ambiguous_hits_downgrade_to_genus(tmp_path, monkeypatch) -> None:
@@ -54,6 +56,7 @@ def test_ambiguous_hits_downgrade_to_genus(tmp_path, monkeypatch) -> None:
     assert record["published_taxon"]["rank"] == "genus"
     assert record["publication_status"] == "record-ready"
     assert any("statistically indistinguishable competitors" in blocker for blocker in record["blockers"])
+    assert pack["naive_top_hit_overclaims"][0]["compilerDecision"] == "genus-safe"
 
 
 def test_weak_coverage_blocks_species_claim(tmp_path, monkeypatch) -> None:
@@ -163,15 +166,25 @@ def test_barcode_api_and_exports(tmp_path, monkeypatch) -> None:
         "diagnostic_kmer_report.csv",
         "gbif_backbone_matches.csv",
         "publication_blockers.csv",
+        "repair_plan.csv",
+        "metadata_bottlenecks.csv",
+        "reference_gap_index.csv",
+        "hard_gate_audit.csv",
+        "naive_top_hit_overclaims.csv",
         "dwc_occurrence_core_template.csv",
         "dwc_occurrence_core_publishable.csv",
+        "dwc_occurrence_core_gbif_ready.csv",
         "dwc_occurrence_core_review.csv",
+        "dwc_occurrence_core_review_or_repair.csv",
         "dna_derived_extension_template.csv",
         "dna_derived_extension_publishable.csv",
+        "dna_derived_extension_gbif_ready.csv",
         "molecular_evidence_report.html",
         "methods_text.md",
         "citations.md",
         "evidence_graph.json",
+        "nexus_v3_summary.json",
+        "external_tool_adapter_matrix.csv",
         "evidence_pack.json",
         "evidence_pack.zip",
     }
@@ -182,10 +195,13 @@ def test_barcode_api_and_exports(tmp_path, monkeypatch) -> None:
     assert pack["metrics"]["processed_records"] == 4
     assert pack["metrics"]["species_safe_records"] == 1
     assert pack["metrics"]["blocked_species_claims"] >= 2
+    assert pack["metrics"]["hard_gate_failures"] == 0
+    assert pack["nexus_v3"]["audit"]["blocked_or_downgraded_top_species_hits"] >= 2
 
     report = client.get(f"/api/barcode/runs/{run_id}/report")
     assert report.status_code == 200
     assert "Barcode-to-GBIF Evidence Compiler" in report.text
+    assert "Nexus V3 conversion audit" in report.text
 
     blockers = client.get(f"/api/barcode/runs/{run_id}/exports/publication_blockers.csv")
     assert blockers.status_code == 200
@@ -203,6 +219,16 @@ def test_barcode_api_and_exports(tmp_path, monkeypatch) -> None:
     assert "AALB-COI-short" in review_hints.text
     assert "AALB-COI-metadata-gap" in review_hints.text
 
+    hard_gate = client.get(f"/api/barcode/runs/{run_id}/exports/hard_gate_audit.csv")
+    assert hard_gate.status_code == 200
+    assert "hardGateViolation" in hard_gate.text
+    assert "True" not in hard_gate.text
+
+    overclaims = client.get(f"/api/barcode/runs/{run_id}/exports/naive_top_hit_overclaims.csv")
+    assert overclaims.status_code == 200
+    assert "AALB-COI-ambiguous" in overclaims.text
+    assert "genus-safe" in overclaims.text
+
     zip_head = client.head(f"/api/barcode/runs/{run_id}/exports/evidence_pack.zip")
     assert zip_head.status_code == 200
     assert int(zip_head.headers["content-length"]) > 0
@@ -216,6 +242,13 @@ def test_barcode_api_and_exports(tmp_path, monkeypatch) -> None:
             "review_taxonomic_hints.csv",
             "dwc_occurrence_core_template.csv",
             "dna_derived_extension_template.csv",
+            "hard_gate_audit.csv",
+            "naive_top_hit_overclaims.csv",
+            "reference_gap_index.csv",
+            "repair_plan.csv",
+            "metadata_bottlenecks.csv",
+            "nexus_v3_summary.json",
+            "external_tool_adapter_matrix.csv",
             "proof_by_failure_modes.md",
         } <= set(archive.namelist())
 

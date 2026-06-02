@@ -9,3 +9,11 @@ Species-level output is fail-closed: a sequence is `species-safe` only when the 
 Reference context: COI Animals / BOLD public clustered reference. Marker: COI-5P.
 
 The pack separates `candidate_taxon` from `published_taxon`: blocked or weak records can remain useful as review hints, but they are not emitted as publishable Darwin Core species records.
+
+Nexus V3 audit files in this Evidence Pack add:
+
+- `hard_gate_audit.csv` for species-safe consistency checks;
+- `naive_top_hit_overclaims.csv` for overclaim prevention evidence;
+- `reference_gap_index.csv` for marker/reference bottlenecks;
+- `repair_plan.csv` for publisher repair prioritization;
+- `metadata_bottlenecks.csv` for field-level publication blockers.

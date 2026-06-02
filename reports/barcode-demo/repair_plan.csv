@@ -1,0 +1,4 @@
+repairAction,unlockableRecords,estimatedGain,estimatedCost,exampleRecords
+Publish the molecular assignment at genus rank unless additional evidence resolves the ambiguity.,1,0.25,medium,AALB-COI-ambiguous
+Use a longer/cleaner marker sequence or treat the assignment below species rank.,1,0.25,high,AALB-COI-short
+Complete required Darwin Core Occurrence core fields before GBIF publication.,1,0.25,low,AALB-COI-metadata-gap

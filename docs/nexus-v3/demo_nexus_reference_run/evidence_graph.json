@@ -1,0 +1,254 @@
+{
+  "nodes": [
+    {
+      "id": "sequence:q_species_safe",
+      "type": "sequence",
+      "label": "q_species_safe",
+      "md5": "41eb99588b5799b10f4f32593caa79f7"
+    },
+    {
+      "id": "taxon:species:Aedes albopictus",
+      "type": "taxon",
+      "label": "Aedes albopictus",
+      "rank": "species"
+    },
+    {
+      "id": "claim:q_species_safe:occurrence_species_present",
+      "type": "claim",
+      "label": "occurrence_species_present",
+      "status": "species_safe"
+    },
+    {
+      "id": "hit:q_species_safe:BOLD_AALB_001",
+      "type": "reference_hit",
+      "label": "Aedes albopictus",
+      "identity": 100.0,
+      "coverage": 100.0
+    },
+    {
+      "id": "sequence:q_ambiguous_aedes_shared_region",
+      "type": "sequence",
+      "label": "q_ambiguous_aedes_shared_region",
+      "md5": "67dbd5f58ed92598cb5a9aea29ac3f23"
+    },
+    {
+      "id": "taxon:genus:Aedes",
+      "type": "taxon",
+      "label": "Aedes",
+      "rank": "genus"
+    },
+    {
+      "id": "claim:q_ambiguous_aedes_shared_region:occurrence_genus_present",
+      "type": "claim",
+      "label": "occurrence_genus_present",
+      "status": "genus_safe"
+    },
+    {
+      "id": "hit:q_ambiguous_aedes_shared_region:BOLD_AALB_001",
+      "type": "reference_hit",
+      "label": "Aedes albopictus",
+      "identity": 100.0,
+      "coverage": 100.0
+    },
+    {
+      "id": "blocker:8417630780960581968",
+      "type": "blocker",
+      "label": "species claim blocked: indistinguishable competing species collapse safe rank to genus"
+    },
+    {
+      "id": "repair:2604027670878771316",
+      "type": "repair_action",
+      "label": "publish at safe LCA rank or sequence a more diagnostic marker/region"
+    },
+    {
+      "id": "sequence:q_culex_candidate_missing_metadata",
+      "type": "sequence",
+      "label": "q_culex_candidate_missing_metadata",
+      "md5": "992cdb842633cab2f8bfc36683bf36f4"
+    },
+    {
+      "id": "taxon:species:Culex pipiens",
+      "type": "taxon",
+      "label": "Culex pipiens",
+      "rank": "species"
+    },
+    {
+      "id": "claim:q_culex_candidate_missing_metadata:occurrence_species_present",
+      "type": "claim",
+      "label": "occurrence_species_present",
+      "status": "species_safe"
+    },
+    {
+      "id": "hit:q_culex_candidate_missing_metadata:BOLD_CPIP_001",
+      "type": "reference_hit",
+      "label": "Culex pipiens",
+      "identity": 100.0,
+      "coverage": 100.0
+    },
+    {
+      "id": "blocker:2551699996021627070",
+      "type": "blocker",
+      "label": "occurrenceID"
+    },
+    {
+      "id": "blocker:3008328331081064013",
+      "type": "blocker",
+      "label": "eventDate"
+    },
+    {
+      "id": "repair:274317450000507246",
+      "type": "repair_action",
+      "label": "add Darwin Core required field: occurrenceID"
+    },
+    {
+      "id": "repair:6621611233189040385",
+      "type": "repair_action",
+      "label": "add Darwin Core required field: eventDate"
+    },
+    {
+      "id": "sequence:q_no_match_unknown",
+      "type": "sequence",
+      "label": "q_no_match_unknown",
+      "md5": "4a15e8d37de8812d398e591a78f193fb"
+    },
+    {
+      "id": "taxon:none:No match",
+      "type": "taxon",
+      "label": "No match",
+      "rank": "none"
+    },
+    {
+      "id": "claim:q_no_match_unknown:no_public_claim",
+      "type": "claim",
+      "label": "no_public_claim",
+      "status": "no_match"
+    },
+    {
+      "id": "blocker:4628151197271311433",
+      "type": "blocker",
+      "label": "no reference hit returned"
+    },
+    {
+      "id": "blocker:4244245602869180770",
+      "type": "blocker",
+      "label": "scientificName"
+    },
+    {
+      "id": "repair:6049006770649891063",
+      "type": "repair_action",
+      "label": "add Darwin Core required field: scientificName"
+    },
+    {
+      "id": "repair:8571657455566461949",
+      "type": "repair_action",
+      "label": "run against a marker-appropriate frozen reference library"
+    }
+  ],
+  "edges": [
+    {
+      "source": "sequence:q_species_safe",
+      "target": "taxon:species:Aedes albopictus",
+      "type": "HAS_SAFE_TAXON"
+    },
+    {
+      "source": "sequence:q_species_safe",
+      "target": "claim:q_species_safe:occurrence_species_present",
+      "type": "SUPPORTS_CLAIM"
+    },
+    {
+      "source": "sequence:q_species_safe",
+      "target": "hit:q_species_safe:BOLD_AALB_001",
+      "type": "MATCHES"
+    },
+    {
+      "source": "sequence:q_ambiguous_aedes_shared_region",
+      "target": "taxon:genus:Aedes",
+      "type": "HAS_SAFE_TAXON"
+    },
+    {
+      "source": "sequence:q_ambiguous_aedes_shared_region",
+      "target": "claim:q_ambiguous_aedes_shared_region:occurrence_genus_present",
+      "type": "SUPPORTS_CLAIM"
+    },
+    {
+      "source": "sequence:q_ambiguous_aedes_shared_region",
+      "target": "hit:q_ambiguous_aedes_shared_region:BOLD_AALB_001",
+      "type": "MATCHES"
+    },
+    {
+      "source": "claim:q_ambiguous_aedes_shared_region:occurrence_genus_present",
+      "target": "blocker:8417630780960581968",
+      "type": "BLOCKED_BY"
+    },
+    {
+      "source": "claim:q_ambiguous_aedes_shared_region:occurrence_genus_present",
+      "target": "repair:2604027670878771316",
+      "type": "REPAIRED_BY"
+    },
+    {
+      "source": "sequence:q_culex_candidate_missing_metadata",
+      "target": "taxon:species:Culex pipiens",
+      "type": "HAS_SAFE_TAXON"
+    },
+    {
+      "source": "sequence:q_culex_candidate_missing_metadata",
+      "target": "claim:q_culex_candidate_missing_metadata:occurrence_species_present",
+      "type": "SUPPORTS_CLAIM"
+    },
+    {
+      "source": "sequence:q_culex_candidate_missing_metadata",
+      "target": "hit:q_culex_candidate_missing_metadata:BOLD_CPIP_001",
+      "type": "MATCHES"
+    },
+    {
+      "source": "claim:q_culex_candidate_missing_metadata:occurrence_species_present",
+      "target": "blocker:2551699996021627070",
+      "type": "BLOCKED_BY"
+    },
+    {
+      "source": "claim:q_culex_candidate_missing_metadata:occurrence_species_present",
+      "target": "blocker:3008328331081064013",
+      "type": "BLOCKED_BY"
+    },
+    {
+      "source": "claim:q_culex_candidate_missing_metadata:occurrence_species_present",
+      "target": "repair:274317450000507246",
+      "type": "REPAIRED_BY"
+    },
+    {
+      "source": "claim:q_culex_candidate_missing_metadata:occurrence_species_present",
+      "target": "repair:6621611233189040385",
+      "type": "REPAIRED_BY"
+    },
+    {
+      "source": "sequence:q_no_match_unknown",
+      "target": "taxon:none:No match",
+      "type": "HAS_SAFE_TAXON"
+    },
+    {
+      "source": "sequence:q_no_match_unknown",
+      "target": "claim:q_no_match_unknown:no_public_claim",
+      "type": "SUPPORTS_CLAIM"
+    },
+    {
+      "source": "claim:q_no_match_unknown:no_public_claim",
+      "target": "blocker:4628151197271311433",
+      "type": "BLOCKED_BY"
+    },
+    {
+      "source": "claim:q_no_match_unknown:no_public_claim",
+      "target": "blocker:4244245602869180770",
+      "type": "BLOCKED_BY"
+    },
+    {
+      "source": "claim:q_no_match_unknown:no_public_claim",
+      "target": "repair:6049006770649891063",
+      "type": "REPAIRED_BY"
+    },
+    {
+      "source": "claim:q_no_match_unknown:no_public_claim",
+      "target": "repair:8571657455566461949",
+      "type": "REPAIRED_BY"
+    }
+  ]
+}
