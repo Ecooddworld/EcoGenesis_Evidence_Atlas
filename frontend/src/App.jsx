@@ -1430,12 +1430,12 @@ const exportGroups = [
   {
     title: 'Review and repair',
     description: 'Blocked records, ambiguity evidence, missing fields and molecular gates.',
-    match: ['repair_plan.csv', 'metadata_bottlenecks.csv', 'review_taxonomic_hints.csv', 'publication_blockers.csv', 'dwc_occurrence_core_review_or_repair.csv', 'ambiguous_sequences.csv', 'barcode_gap_report.csv', 'diagnostic_kmer_report.csv'],
+    match: ['repair_plan.csv', 'repair_gain_estimates.csv', 'metadata_bottlenecks.csv', 'review_taxonomic_hints.csv', 'publication_blockers.csv', 'dwc_occurrence_core_review_or_repair.csv', 'ambiguous_sequences.csv', 'barcode_gap_report.csv', 'diagnostic_kmer_report.csv'],
   },
   {
     title: 'Nexus V3 audit',
-    description: 'Hard-gate consistency, prevented top-hit overclaims, reference gaps and adapter direction.',
-    match: ['nexus_v3_summary.json', 'hard_gate_audit.csv', 'naive_top_hit_overclaims.csv', 'reference_gap_index.csv', 'external_tool_adapter_matrix.csv'],
+    description: 'Hard-gate consistency, marker/assay profiles, prevented top-hit overclaims, reference gaps and adapter direction.',
+    match: ['nexus_v3_summary.json', 'hard_gate_audit.csv', 'marker_profile_audit.csv', 'assay_gate_audit.csv', 'dna_extension_readiness.csv', 'naive_top_hit_overclaims.csv', 'reference_gap_index.csv', 'external_tool_adapter_matrix.csv'],
   },
   {
     title: 'Audit trail',
@@ -2470,7 +2470,7 @@ function CompilerWorkbench({
   const filteredRecords = filterDecisionRecords(records, decisionFilter);
   const csvValidation = csvImport?.validation;
   const csvHasFatalErrors = csvValidation && !csvValidation.ok;
-  const keyExports = ['evidence_pack.zip', 'molecular_evidence_report.html', 'sequence_safety_table.csv', 'hard_gate_audit.csv', 'repair_plan.csv', 'naive_top_hit_overclaims.csv']
+  const keyExports = ['evidence_pack.zip', 'molecular_evidence_report.html', 'sequence_safety_table.csv', 'hard_gate_audit.csv', 'marker_profile_audit.csv', 'assay_gate_audit.csv', 'repair_plan.csv', 'naive_top_hit_overclaims.csv']
     .map((name) => exports.find((item) => item.name === name))
     .filter(Boolean);
 
@@ -2491,6 +2491,9 @@ function CompilerWorkbench({
             <p>
               Use a CSV exported from GBIF Sequence ID, BLAST, BOLD, UNITE, or your lab pipeline. Required columns:
               <strong> sequenceID</strong> and <strong>sequence</strong>. Match metrics unlock safe taxonomic decisions.
+            </p>
+            <p className="hint">
+              Stronger CSVs can include eventID, materialSampleID, assayType, primers, qPCR/ddPCR controls and DNA-derived extension fields.
             </p>
           </div>
           <label className="file-picker">
@@ -2643,6 +2646,8 @@ function CompilerWorkbench({
 
             <NexusAuditPanel pack={pack} />
 
+            <MarkerAssayPanel pack={pack} records={records} />
+
             <BenchmarkComparisonPanel pack={pack} records={records} />
 
             <OutcomeSummary records={records} />
@@ -2747,7 +2752,7 @@ function CompilerWorkbench({
 }
 
 function CsvPreview({ rows }) {
-  const columns = ['sequenceID', 'scientificName', 'eventDate', 'marker', 'topTaxon', 'topIdentity', 'topCoverage'];
+  const columns = ['sequenceID', 'scientificName', 'eventDate', 'marker', 'assayType', 'topTaxon', 'topIdentity', 'topCoverage'];
   return (
     <div className="csv-preview">
       <table>
@@ -2765,6 +2770,72 @@ function CsvPreview({ rows }) {
         </tbody>
       </table>
     </div>
+  );
+}
+
+function MarkerAssayPanel({ pack, records }) {
+  const profileCounts = records.reduce((acc, record) => {
+    const profile = record.metadata_readiness?.marker_profile?.profile_id || 'unknown';
+    acc[profile] = (acc[profile] || 0) + 1;
+    return acc;
+  }, {});
+  const assayCounts = records.reduce((acc, record) => {
+    const assay = record.metadata_readiness?.assay_gate?.assay_type || 'unknown';
+    acc[assay] = (acc[assay] || 0) + 1;
+    return acc;
+  }, {});
+  const dnaReady = pack.metrics?.dna_extension_ready_records ?? records.filter((record) => record.metadata_readiness?.dna_extension_high_priority_pass).length;
+  const assayFailures = pack.metrics?.assay_gate_failures ?? records.filter((record) => record.metadata_readiness?.assay_gate?.assay_gate_pass === false).length;
+  const speciesDisabled = pack.metrics?.marker_species_disabled_records ?? records.filter((record) => record.metadata_readiness?.marker_profile?.species_claim_allowed === false).length;
+  const rows = records.slice(0, 6);
+
+  return (
+    <section className="panel profile-assay-panel">
+      <div className="panel-heading-row">
+        <div>
+          <p className="section-label">Marker and assay gates</p>
+          <h3>Profiles make the compiler less naive.</h3>
+        </div>
+        <span className={`audit-status ${assayFailures === 0 ? 'pass' : 'warn'}`}>
+          {assayFailures === 0 ? 'assay gates ok' : `${assayFailures} assay gate warning`}
+        </span>
+      </div>
+      <div className="nexus-kpi-grid">
+        <Metric label="Marker profiles" value={Object.keys(profileCounts).length} detail={Object.entries(profileCounts).map(([key, value]) => `${key}: ${value}`).join(' · ')} />
+        <Metric label="Assay types" value={Object.keys(assayCounts).length} detail={Object.entries(assayCounts).map(([key, value]) => `${key}: ${value}`).join(' · ')} />
+        <Metric label="DNA extension ready" value={dnaReady} detail="records with all high-priority DNA-derived fields" />
+        <Metric label="Species disabled" value={speciesDisabled} detail="marker profile forced safe-rank review" />
+      </div>
+      <div className="table-wrap compact-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Sequence</th>
+              <th>Marker profile</th>
+              <th>Assay</th>
+              <th>DNA extension gaps</th>
+              <th>Caveat</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((record) => {
+              const marker = record.metadata_readiness?.marker_profile || {};
+              const assay = record.metadata_readiness?.assay_gate || {};
+              const dnaGaps = record.metadata_readiness?.dna_extension_high_priority_missing || [];
+              return (
+                <tr key={record.sequence_id}>
+                  <td>{record.sequence_id}</td>
+                  <td>{marker.profile_id || 'unknown'} · {marker.species_gate_pass ? 'species gate pass' : 'safe-rank only'}</td>
+                  <td>{assay.assay_type || 'unknown'} · {assay.assay_gate_pass ? 'pass' : 'review'}</td>
+                  <td>{dnaGaps.length ? dnaGaps.slice(0, 4).join(', ') : 'none'}</td>
+                  <td>{marker.claim_caveat || assay.claim_caveat || 'Review claim boundaries before publication.'}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </section>
   );
 }
 

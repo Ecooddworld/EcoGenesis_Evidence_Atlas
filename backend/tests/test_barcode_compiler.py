@@ -169,6 +169,10 @@ def test_barcode_api_and_exports(tmp_path, monkeypatch) -> None:
         "repair_plan.csv",
         "metadata_bottlenecks.csv",
         "reference_gap_index.csv",
+        "marker_profile_audit.csv",
+        "assay_gate_audit.csv",
+        "dna_extension_readiness.csv",
+        "repair_gain_estimates.csv",
         "hard_gate_audit.csv",
         "naive_top_hit_overclaims.csv",
         "dwc_occurrence_core_template.csv",
@@ -223,6 +227,19 @@ def test_barcode_api_and_exports(tmp_path, monkeypatch) -> None:
     assert hard_gate.status_code == 200
     assert "hardGateViolation" in hard_gate.text
     assert "True" not in hard_gate.text
+    assert "markerProfileGate" in hard_gate.text
+
+    marker_profile = client.get(f"/api/barcode/runs/{run_id}/exports/marker_profile_audit.csv")
+    assert marker_profile.status_code == 200
+    assert "coi_full_barcode" in marker_profile.text
+
+    assay_gate = client.get(f"/api/barcode/runs/{run_id}/exports/assay_gate_audit.csv")
+    assert assay_gate.status_code == 200
+    assert "single_specimen_barcode" in assay_gate.text
+
+    dna_ready = client.get(f"/api/barcode/runs/{run_id}/exports/dna_extension_readiness.csv")
+    assert dna_ready.status_code == 200
+    assert "materialSampleID" in dna_ready.text
 
     overclaims = client.get(f"/api/barcode/runs/{run_id}/exports/naive_top_hit_overclaims.csv")
     assert overclaims.status_code == 200
@@ -247,6 +264,9 @@ def test_barcode_api_and_exports(tmp_path, monkeypatch) -> None:
             "reference_gap_index.csv",
             "repair_plan.csv",
             "metadata_bottlenecks.csv",
+            "marker_profile_audit.csv",
+            "assay_gate_audit.csv",
+            "dna_extension_readiness.csv",
             "nexus_v3_summary.json",
             "external_tool_adapter_matrix.csv",
             "proof_by_failure_modes.md",
@@ -263,3 +283,39 @@ def test_barcode_reference_status_and_demos() -> None:
     demos = client.get("/api/barcode/demo-scenarios")
     assert demos.status_code == 200
     assert any(item["id"] == "mixed-batch" for item in demos.json())
+
+
+def test_marker_profile_can_force_safe_rank_review(tmp_path, monkeypatch) -> None:
+    monkeypatch.setenv("EVIDENCE_DATA_DIR", str(tmp_path))
+    record = GOOD_RECORD | {
+        "metadata": GOOD_RECORD["metadata"] | {"marker": "16S"},
+        "hits": [
+            GOOD_RECORD["hits"][0] | {"identity": 100, "query_coverage": 100, "aligned_length": 250},
+        ],
+    }
+
+    pack = compile_records(record)
+    decision = pack["records"][0]
+
+    assert decision["metadata_readiness"]["marker_profile"]["profile_id"] == "s16_short_amplicon"
+    assert decision["metadata_readiness"]["marker_profile"]["species_gate_pass"] is False
+    assert decision["decision_class"] == "genus-safe"
+    assert any("marker profile blocked species claim" in blocker for blocker in decision["blockers"])
+    assert pack["metrics"]["marker_species_disabled_records"] == 1
+
+
+def test_qpcr_assay_gate_blocks_publication_without_controls(tmp_path, monkeypatch) -> None:
+    monkeypatch.setenv("EVIDENCE_DATA_DIR", str(tmp_path))
+    record = GOOD_RECORD | {
+        "metadata": GOOD_RECORD["metadata"] | {"assayType": "qpcr_ddpcr"},
+    }
+
+    pack = compile_records(record)
+    decision = pack["records"][0]
+
+    assert decision["taxonomic_status"] == "species-safe"
+    assert decision["decision_class"] == "not-publishable"
+    assert decision["publication_stage"] == "record_not_ready"
+    assert decision["metadata_readiness"]["assay_gate"]["assay_gate_pass"] is False
+    assert "occurrenceStatus" in decision["metadata_readiness"]["assay_gate"]["assay_required_missing"]
+    assert any("assay gate blocked publication" in blocker for blocker in decision["blockers"])

@@ -9,6 +9,13 @@ from typing import Any
 from uuid import uuid4
 
 from .artifacts import build_barcode_artifacts
+from .profiles import (
+    ASSAY_PROFILES,
+    MARKER_PROFILES,
+    assay_gate_readiness,
+    dna_extension_readiness,
+    marker_profile_readiness,
+)
 from .schemas import BarcodeCompilerRequest, ReferenceHit, SequenceRecord
 from .storage import save_barcode_artifacts, save_barcode_zip_artifact
 
@@ -93,22 +100,36 @@ def run_barcode_compiler(request: BarcodeCompilerRequest) -> dict[str, Any]:
 
 def decide_record(record: SequenceRecord, request: BarcodeCompilerRequest) -> dict[str, Any]:
     hits = sorted(record.hits, key=hit_sort_key, reverse=True)
+    top_hit = hits[0] if hits else None
     metadata = normalized_metadata(record, request)
     sequence = record.sequence
     sequence_length = len(sequence)
     blockers: list[str] = []
     actions: list[str] = []
+    marker_profile = marker_profile_readiness(request, record, top_hit)
+    enrich_molecular_metadata(metadata, record, request, top_hit, marker_profile)
+    assay_gate = assay_gate_readiness(request, metadata)
+    dna_extension = dna_extension_readiness(metadata)
 
     core_missing = missing_fields(metadata, CORE_REQUIRED_FIELDS)
     dna_missing = missing_fields(metadata, DNA_REQUIRED_FIELDS)
     data_quality_blockers = metadata_quality_blockers(metadata)
     core_pass = not core_missing and not data_quality_blockers
     dna_pass = not dna_missing
-    publication_stage, publication_checks = publication_stage_for(metadata, request, core_pass=core_pass, dna_pass=dna_pass)
+    publication_stage, publication_checks = publication_stage_for(
+        metadata,
+        request,
+        core_pass=core_pass,
+        dna_pass=dna_pass,
+        assay_publication_pass=not assay_gate["assay_blockers"],
+    )
 
     if not hits:
         blockers.append("no reference hit returned")
         actions.append("Run the sequence against a marker-appropriate reference database and attach hit metrics.")
+        blockers.extend(assay_gate["assay_blockers"])
+        actions.extend(assay_gate["assay_actions"])
+        actions.extend(dna_extension_actions(dna_extension))
         return build_decision(
             record=record,
             metadata=metadata,
@@ -125,6 +146,9 @@ def decide_record(record: SequenceRecord, request: BarcodeCompilerRequest) -> di
             decision_class="not-publishable" if publication_stage == "record_not_ready" else "no-match",
             publication_stage=publication_stage,
             publication_checks=publication_checks,
+            marker_profile=marker_profile,
+            assay_gate=assay_gate,
+            dna_extension=dna_extension,
             core_pass=core_pass,
             dna_pass=dna_pass,
             core_missing=core_missing,
@@ -133,8 +157,7 @@ def decide_record(record: SequenceRecord, request: BarcodeCompilerRequest) -> di
             actions=[*actions, *metadata_actions(core_missing, dna_missing)],
         )
 
-    top_hit = hits[0]
-    match_type = classify_match(top_hit)
+    match_type = classify_match(top_hit, marker_profile)
     indistinguishable_hits = ambiguity_set(top_hit, hits, fallback_length=sequence_length)
     candidate_taxon = lowest_common_ancestor(indistinguishable_hits)
     barcode_gap_result = evaluate_barcode_gap(record)
@@ -148,13 +171,32 @@ def decide_record(record: SequenceRecord, request: BarcodeCompilerRequest) -> di
         top_hit=top_hit,
     )
 
+    if taxonomic_status == "species-safe" and not marker_profile["species_gate_pass"]:
+        profile_taxon = ancestor_from_hit(top_hit, "genus") or candidate_taxon
+        if profile_taxon["rank"] == "genus":
+            candidate_taxon = profile_taxon
+            taxonomic_status = "genus-safe"
+        else:
+            candidate_taxon = profile_taxon
+            taxonomic_status = "ambiguous"
+
+    if marker_profile["profile_blockers"]:
+        blockers.extend(marker_profile["profile_blockers"])
+        actions.append("Use a marker-specific validation profile, longer target region or safe-rank downgrade before species export.")
+    for warning in marker_profile["profile_warnings"]:
+        actions.append(f"Review marker profile warning: {warning}")
+
     if match_type != "exact":
-        blockers.append("species claim blocked: top hit does not pass exact match gate identity >= 99% and query coverage >= 80%")
+        blockers.append(
+            "species claim blocked: top hit does not pass "
+            f"{marker_profile['profile_id']} exact gate identity >= {format_threshold(marker_profile['identity_species_min'])}% "
+            f"and query coverage >= {format_threshold(marker_profile['coverage_species_min'])}%"
+        )
         actions.append("Use a longer/cleaner marker sequence or treat the assignment below species rank.")
-    if top_hit.query_coverage < 80:
-        blockers.append("species claim blocked: query coverage < 80%")
-    if top_hit.identity < 99:
-        blockers.append("species claim blocked: identity < 99%")
+    if top_hit.query_coverage < marker_profile["coverage_species_min"]:
+        blockers.append(f"species claim blocked: query coverage < {format_threshold(marker_profile['coverage_species_min'])}%")
+    if top_hit.identity < marker_profile["identity_species_min"]:
+        blockers.append(f"species claim blocked: identity < {format_threshold(marker_profile['identity_species_min'])}%")
     if len({hit.taxon for hit in indistinguishable_hits}) > 1 and candidate_taxon["rank"] != "species":
         blockers.append(f"species claim blocked: statistically indistinguishable competitors collapse the safe rank to {candidate_taxon['rank']}")
         actions.append(f"Publish the molecular assignment at {candidate_taxon['rank']} rank unless additional evidence resolves the ambiguity.")
@@ -167,6 +209,9 @@ def decide_record(record: SequenceRecord, request: BarcodeCompilerRequest) -> di
 
     blockers.extend(metadata_blockers(core_missing, dna_missing, data_quality_blockers))
     actions.extend(metadata_actions(core_missing, dna_missing))
+    blockers.extend(assay_gate["assay_blockers"])
+    actions.extend(assay_gate["assay_actions"])
+    actions.extend(dna_extension_actions(dna_extension))
 
     published_taxon = published_taxon_for_status(taxonomic_status, candidate_taxon, top_hit)
     decision_class = taxonomic_status
@@ -192,6 +237,9 @@ def decide_record(record: SequenceRecord, request: BarcodeCompilerRequest) -> di
         decision_class=decision_class,
         publication_stage=publication_stage,
         publication_checks=publication_checks,
+        marker_profile=marker_profile,
+        assay_gate=assay_gate,
+        dna_extension=dna_extension,
         core_pass=core_pass,
         dna_pass=dna_pass,
         core_missing=core_missing,
@@ -215,15 +263,36 @@ def normalized_metadata(record: SequenceRecord, request: BarcodeCompilerRequest)
     return metadata
 
 
+def enrich_molecular_metadata(
+    metadata: dict[str, Any],
+    record: SequenceRecord,
+    request: BarcodeCompilerRequest,
+    hit: ReferenceHit | None,
+    marker_profile: dict[str, Any],
+) -> None:
+    metadata.setdefault("assayType", request.assay_type)
+    metadata.setdefault("DNA_sequence", record.sequence)
+    metadata.setdefault("target_gene", marker_profile["target_gene"])
+    metadata.setdefault("target_subfragment", marker_profile["target_subfragment"])
+    metadata.setdefault("otu_db", metadata.get("referenceDatabase") or request.reference_database)
+    metadata.setdefault("otu_class_appr", metadata.get("methodOrSOP") or request.method_or_sop)
+    metadata.setdefault("sop", metadata.get("methodOrSOP") or request.method_or_sop)
+    if hit:
+        metadata.setdefault("otu_seq_comp_appr", f"identity={hit.identity}; queryCoverage={hit.query_coverage}")
+
+
 def hit_sort_key(hit: ReferenceHit) -> tuple[float, float, float]:
     bit_score = hit.bit_score if hit.bit_score is not None else hit.identity * hit.query_coverage
     return (float(bit_score), float(hit.identity), float(hit.query_coverage))
 
 
-def classify_match(hit: ReferenceHit) -> str:
-    if hit.identity >= 99 and hit.query_coverage >= 80:
+def classify_match(hit: ReferenceHit, marker_profile: dict[str, Any]) -> str:
+    if hit.identity >= marker_profile["identity_species_min"] and hit.query_coverage >= marker_profile["coverage_species_min"]:
         return "exact"
-    if 90 < hit.identity < 99 and hit.query_coverage >= 80:
+    if (
+        marker_profile["identity_close_min"] < hit.identity < marker_profile["identity_species_min"]
+        and hit.query_coverage >= marker_profile["coverage_close_min"]
+    ):
         return "close"
     return "weak"
 
@@ -425,6 +494,7 @@ def publication_stage_for(
     *,
     core_pass: bool,
     dna_pass: bool,
+    assay_publication_pass: bool,
 ) -> tuple[str, dict[str, Any]]:
     core_recommended_missing = missing_fields(metadata, CORE_RECOMMENDED_FIELDS)
     core_recommended_pass = not core_recommended_missing and str(metadata.get("coordinateUncertaintyInMeters")).strip() != "0"
@@ -435,7 +505,7 @@ def publication_stage_for(
         if value is None or value == [] or str(value).strip() == "":
             dataset_missing.append(field)
     dataset_pass = not dataset_missing
-    if not (core_pass and dna_pass):
+    if not (core_pass and dna_pass and assay_publication_pass):
         stage = "record_not_ready"
     elif dataset_pass and core_recommended_pass:
         stage = "gold_ready"
@@ -450,6 +520,7 @@ def publication_stage_for(
         "core_recommended_missing": core_recommended_missing,
         "dataset_metadata_pass": dataset_pass,
         "dataset_metadata_missing": dataset_missing,
+        "assay_publication_pass": assay_publication_pass,
     }
 
 
@@ -470,6 +541,18 @@ def metadata_actions(core_missing: list[str], dna_missing: list[str]) -> list[st
     if dna_missing:
         actions.append("Attach marker, sequence ID, reference database, identity, coverage and method/SOP metadata.")
     return actions
+
+
+def dna_extension_actions(dna_extension: dict[str, Any]) -> list[str]:
+    missing = dna_extension.get("dna_extension_high_priority_missing", [])
+    if not missing:
+        return []
+    return [
+        "Add high-priority DNA-derived extension fields: "
+        + ", ".join(missing[:8])
+        + ("..." if len(missing) > 8 else "")
+        + "."
+    ]
 
 
 def published_taxon_for_status(taxonomic_status: str, candidate_taxon: dict[str, Any], top_hit: ReferenceHit) -> dict[str, Any]:
@@ -519,6 +602,9 @@ def build_decision(
     decision_class: str,
     publication_stage: str,
     publication_checks: dict[str, Any],
+    marker_profile: dict[str, Any],
+    assay_gate: dict[str, Any],
+    dna_extension: dict[str, Any],
     core_pass: bool,
     dna_pass: bool,
     core_missing: list[str],
@@ -547,6 +633,9 @@ def build_decision(
             "dna_pass": dna_pass,
             "core_missing": core_missing,
             "dna_missing": dna_missing,
+            "marker_profile": marker_profile,
+            "assay_gate": assay_gate,
+            **dna_extension,
             **publication_checks,
         },
         "blockers": blockers,
@@ -597,6 +686,9 @@ def summarize_decisions(decisions: list[dict[str, Any]]) -> dict[str, Any]:
     not_ready_with_blockers = sum(1 for item in decisions if item["publication_status"] == "not-ready" and item["blockers"])
     not_ready = sum(1 for item in decisions if item["publication_status"] == "not-ready")
     hard_gate_failures = sum(1 for item in hard_gate_audit(decisions) if item["hardGateViolation"])
+    assay_gate_failures = sum(1 for item in decisions if not item["metadata_readiness"]["assay_gate"]["assay_gate_pass"])
+    dna_extension_ready = sum(1 for item in decisions if item["metadata_readiness"].get("dna_extension_high_priority_pass"))
+    marker_species_disabled = sum(1 for item in decisions if not item["metadata_readiness"]["marker_profile"]["species_claim_allowed"])
     return {
         "processed_records": processed,
         "processing_coverage": 1 if processed else 0,
@@ -623,6 +715,9 @@ def summarize_decisions(decisions: list[dict[str, Any]]) -> dict[str, Any]:
         "overclaim_prevention_proxy": 1 if blocked_species else None,
         "publication_repair_efficiency": round(not_ready_with_blockers / not_ready, 6) if not_ready else 1,
         "hard_gate_failures": hard_gate_failures,
+        "assay_gate_failures": assay_gate_failures,
+        "dna_extension_ready_records": dna_extension_ready,
+        "marker_species_disabled_records": marker_species_disabled,
     }
 
 
@@ -654,15 +749,18 @@ def build_nexus_v3_summary(decisions: list[dict[str, Any]], metrics: dict[str, A
         },
         "audit": {
             "hard_gate_failures": metrics["hard_gate_failures"],
+            "assay_gate_failures": metrics["assay_gate_failures"],
+            "dna_extension_ready_records": metrics["dna_extension_ready_records"],
+            "marker_species_disabled_records": metrics["marker_species_disabled_records"],
             "top_species_hits": metrics["top_species_hits"],
             "blocked_or_downgraded_top_species_hits": metrics["blocked_or_downgraded_top_species_hits"],
             "species_safe_records": metrics["species_safe_records"],
             "publishable_template_records": metrics["publishable_template_records"],
         },
         "next_platform_layers": [
-            "reference completeness gate",
+            "reference completeness gate calibrated by taxon/marker coverage",
             "protein sanity gate for coding markers",
-            "assay evidence gate for eDNA/metabarcoding controls",
+            "assay evidence gate for eDNA/metabarcoding/qPCR controls",
             "fragment sharedness atlas",
             "Molecular Evidence Graph",
         ],
@@ -685,20 +783,27 @@ def hard_gate_audit(decisions: list[dict[str, Any]]) -> list[dict[str, Any]]:
         diagnostic_pass = record["diagnostic_kmers"]["status"] == "pass"
         core_pass = record["metadata_readiness"]["core_pass"] is True
         dna_pass = record["metadata_readiness"]["dna_pass"] is True
+        marker_profile_pass = record["metadata_readiness"]["marker_profile"]["species_gate_pass"] is True
+        assay_pass = record["metadata_readiness"]["assay_gate"]["assay_gate_pass"] is True
         species_safe = record["decision_class"] == "species-safe"
-        hard_gate_violation = species_safe and not all([exact_pass, ambiguity_pass, barcode_pass, diagnostic_pass, core_pass, dna_pass])
+        hard_gate_violation = species_safe and not all(
+            [exact_pass, ambiguity_pass, barcode_pass, diagnostic_pass, marker_profile_pass, core_pass, dna_pass, assay_pass]
+        )
         rows.append(
             {
                 "sequenceID": record["sequence_id"],
                 "topHit": top.get("taxon"),
                 "topHitRank": top.get("rank"),
                 "decisionClass": record["decision_class"],
+                "markerProfile": record["metadata_readiness"]["marker_profile"]["profile_id"],
                 "exactMatchGate": gate_status(exact_pass),
                 "ambiguityLcaGate": gate_status(ambiguity_pass),
                 "barcodeGapGate": record["barcode_gap"]["status"],
                 "diagnosticKmerGate": record["diagnostic_kmers"]["status"],
+                "markerProfileGate": gate_status(marker_profile_pass),
                 "occurrenceCoreGate": gate_status(core_pass),
                 "dnaMetadataGate": gate_status(dna_pass),
+                "assayGate": gate_status(assay_pass),
                 "hardGateViolation": hard_gate_violation,
                 "auditConclusion": "FAIL: species-safe emitted with failed gate" if hard_gate_violation else "pass: fail-closed rules preserved",
             }
@@ -741,6 +846,12 @@ def metadata_bottlenecks(decisions: list[dict[str, Any]]) -> list[dict[str, Any]
             counts[f"missing recommended field: {field}"] = counts.get(f"missing recommended field: {field}", 0) + 1
         for field in readiness.get("dataset_metadata_missing", []):
             counts[f"missing dataset metadata: {field}"] = counts.get(f"missing dataset metadata: {field}", 0) + 1
+        for field in readiness.get("dna_extension_high_priority_missing", []):
+            counts[f"missing DNA-derived extension field: {field}"] = counts.get(f"missing DNA-derived extension field: {field}", 0) + 1
+        for field in readiness.get("assay_gate", {}).get("assay_required_missing", []):
+            counts[f"missing assay-required field: {field}"] = counts.get(f"missing assay-required field: {field}", 0) + 1
+        for field in readiness.get("assay_gate", {}).get("assay_recommended_missing", []):
+            counts[f"missing assay-recommended field: {field}"] = counts.get(f"missing assay-recommended field: {field}", 0) + 1
     return [
         {"bottleneck": key, "records": value, "MBI_metadata_bottleneck_index": round(value / total, 6)}
         for key, value in sorted(counts.items(), key=lambda item: item[1], reverse=True)
@@ -837,9 +948,11 @@ def gate_status(value: bool) -> str:
 
 def decision_rules() -> dict[str, Any]:
     return {
-        "exact_match": "identity >= 99% and queryCoverage >= 80%",
-        "close_match": "90% < identity < 99% and queryCoverage >= 80%",
-        "weak_match": "identity < 90% or queryCoverage < 80%",
+        "exact_match": "marker-profile-specific identity and queryCoverage thresholds",
+        "close_match": "marker-profile-specific close threshold",
+        "weak_match": "falls below marker-profile exact/close gates",
+        "marker_profiles": MARKER_PROFILES,
+        "assay_profiles": ASSAY_PROFILES,
         "ambiguity_test": "competitor is indistinguishable when delta mismatch rate <= 1.96 * combined standard error",
         "safe_rank": "lowest common ancestor of statistically indistinguishable hits",
         "barcode_gap": "species gate requires inter_min_distance - intra_max_distance > 0",
@@ -941,3 +1054,7 @@ def dedupe(items: list[str]) -> list[str]:
             result.append(item)
             seen.add(item)
     return result
+
+
+def format_threshold(value: float) -> str:
+    return str(int(value)) if float(value).is_integer() else str(value)

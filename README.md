@@ -60,6 +60,8 @@ identity
 The larger engine adds:
 
 - conversion metrics: `MECY`, `RY`, `SRY`, `SSY`, and unsafe top-hit overclaim prevention
+- marker profiles: COI full barcode, COI mini-barcode, ITS, 16S short/full and custom-marker fail-closed policies
+- assay profiles: single-specimen barcode, metabarcoding/eDNA, qPCR/ddPCR and custom targeted workflows
 - repair optimizer: rank actions by how many GBIF-ready records they unlock
 - reference gap index: find taxa/markers/regions where reference libraries block species-safe conversion
 - publisher bottleneck index: separate DNA problems from metadata problems
@@ -189,7 +191,9 @@ Minimal request shape:
 }
 ```
 
-CSV v1 expects `sequenceID` and `sequence`. Strongly recommended columns include `occurrenceID`, `basisOfRecord`, `scientificName`, `eventDate`, `marker`, `referenceDatabase`, `methodOrSOP`, `topTaxon`, `topIdentity`, `topCoverage`, `topAlignedLength`, optional competitor hit fields, barcode gap fields and pipe-separated `diagnosticKmers`.
+CSV v1 expects `sequenceID` and `sequence`. Strongly recommended columns include `occurrenceID`, `eventID`, `materialSampleID`, `basisOfRecord`, `scientificName`, `eventDate`, `marker`, `assayType`, `referenceDatabase`, `methodOrSOP`, `topTaxon`, `topIdentity`, `topCoverage`, `topAlignedLength`, optional competitor hit fields, barcode gap fields and pipe-separated `diagnosticKmers`.
+
+For stronger DNA-derived publication review, the CSV can also include `target_gene`, `target_subfragment`, `pcr_primer_forward`, `pcr_primer_reverse`, `seq_meth`, `contaminationAssessment`, `occurrenceStatus`, `experimentalVariance`, `quantificationCycle`, `estimatedNumberOfCopies`, `readCount` and `totalReads`.
 
 The live GBIF occurrence-passport API remains available under `/api/evidence/*` for live API checks, regression and comparison.
 
@@ -210,6 +214,10 @@ Each barcode run exports:
 - `repair_plan.csv`
 - `metadata_bottlenecks.csv`
 - `reference_gap_index.csv`
+- `marker_profile_audit.csv`
+- `assay_gate_audit.csv`
+- `dna_extension_readiness.csv`
+- `repair_gain_estimates.csv`
 - `hard_gate_audit.csv`
 - `naive_top_hit_overclaims.csv`
 - `reference_manifest.json`

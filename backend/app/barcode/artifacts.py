@@ -23,6 +23,10 @@ def build_barcode_artifacts(pack: dict[str, Any]) -> dict[str, str]:
         "repair_plan.csv": table_csv(pack.get("repair_plan", [])),
         "metadata_bottlenecks.csv": table_csv(pack.get("metadata_bottlenecks", [])),
         "reference_gap_index.csv": table_csv(pack.get("reference_gap_index", [])),
+        "marker_profile_audit.csv": marker_profile_audit_csv(pack),
+        "assay_gate_audit.csv": assay_gate_audit_csv(pack),
+        "dna_extension_readiness.csv": dna_extension_readiness_csv(pack),
+        "repair_gain_estimates.csv": table_csv(pack.get("repair_plan", [])),
         "hard_gate_audit.csv": table_csv(pack.get("hard_gate_audit", [])),
         "naive_top_hit_overclaims.csv": table_csv(pack.get("naive_top_hit_overclaims", [])),
         "dwc_occurrence_core_template.csv": occurrence_core_csv(pack, publishable_only=False),
@@ -54,6 +58,8 @@ def sequence_safety_csv(pack: dict[str, Any]) -> str:
                 "taxonomicStatus": record["taxonomic_status"],
                 "publicationStatus": record["publication_status"],
                 "publicationStage": record["publication_stage"],
+                "markerProfile": record["metadata_readiness"]["marker_profile"]["profile_id"],
+                "assayType": record["metadata_readiness"]["assay_gate"]["assay_type"],
                 "candidateTaxon": record["candidate_taxon"]["name"],
                 "candidateRank": record["candidate_taxon"]["rank"],
                 "publishedTaxon": record["published_taxon"]["name"],
@@ -189,6 +195,81 @@ def blockers_csv(pack: dict[str, Any]) -> str:
     return write_csv(rows)
 
 
+def marker_profile_audit_csv(pack: dict[str, Any]) -> str:
+    rows = []
+    for record in pack["records"]:
+        profile = record["metadata_readiness"]["marker_profile"]
+        rows.append(
+            {
+                "sequenceID": record["sequence_id"],
+                "markerProfile": profile["profile_id"],
+                "profileLabel": profile["profile_label"],
+                "markerFamily": profile["marker_family"],
+                "codingMarker": profile["coding_marker"],
+                "alignedSpan": profile["aligned_span"],
+                "minAlignedLength": profile["min_aligned_length"],
+                "maxAlignedLength": profile["max_aligned_length"],
+                "lengthPass": profile["length_pass"],
+                "speciesClaimAllowed": profile["species_claim_allowed"],
+                "speciesGatePass": profile["species_gate_pass"],
+                "identitySpeciesMin": profile["identity_species_min"],
+                "coverageSpeciesMin": profile["coverage_species_min"],
+                "targetGene": profile["target_gene"],
+                "targetSubfragment": profile["target_subfragment"],
+                "profileBlockers": "; ".join(profile["profile_blockers"]),
+                "profileWarnings": "; ".join(profile["profile_warnings"]),
+                "claimCaveat": profile["claim_caveat"],
+            }
+        )
+    return write_csv(rows)
+
+
+def assay_gate_audit_csv(pack: dict[str, Any]) -> str:
+    rows = []
+    for record in pack["records"]:
+        assay = record["metadata_readiness"]["assay_gate"]
+        rows.append(
+            {
+                "sequenceID": record["sequence_id"],
+                "assayType": assay["assay_type"],
+                "assayLabel": assay["assay_label"],
+                "assayGatePass": assay["assay_gate_pass"],
+                "publicationBlocking": assay["assay_publication_blocking"],
+                "requiredMissing": "; ".join(assay["assay_required_missing"]),
+                "recommendedMissing": "; ".join(assay["assay_recommended_missing"]),
+                "assayBlockers": "; ".join(assay["assay_blockers"]),
+                "claimCaveat": assay["claim_caveat"],
+            }
+        )
+    return write_csv(rows)
+
+
+def dna_extension_readiness_csv(pack: dict[str, Any]) -> str:
+    rows = []
+    for record in pack["records"]:
+        readiness = record["metadata_readiness"]
+        metadata = record["metadata"]
+        rows.append(
+            {
+                "sequenceID": record["sequence_id"],
+                "highPriorityPass": readiness["dna_extension_high_priority_pass"],
+                "missingFields": "; ".join(readiness["dna_extension_high_priority_missing"]),
+                "eventID": metadata.get("eventID"),
+                "materialSampleID": metadata.get("materialSampleID"),
+                "target_gene": metadata.get("target_gene"),
+                "target_subfragment": metadata.get("target_subfragment"),
+                "pcr_primer_forward": metadata.get("pcr_primer_forward"),
+                "pcr_primer_reverse": metadata.get("pcr_primer_reverse"),
+                "seq_meth": metadata.get("seq_meth"),
+                "otu_class_appr": metadata.get("otu_class_appr"),
+                "otu_seq_comp_appr": metadata.get("otu_seq_comp_appr"),
+                "otu_db": metadata.get("otu_db"),
+                "sop": metadata.get("sop"),
+            }
+        )
+    return write_csv(rows)
+
+
 def table_csv(rows: list[dict[str, Any]]) -> str:
     return write_csv(rows)
 
@@ -203,6 +284,8 @@ def occurrence_core_csv(pack: dict[str, Any], *, publishable_only: bool) -> str:
         rows.append(
             {
                 "occurrenceID": metadata.get("occurrenceID"),
+                "eventID": metadata.get("eventID"),
+                "materialSampleID": metadata.get("materialSampleID"),
                 "basisOfRecord": metadata.get("basisOfRecord") or "MaterialSample",
                 "scientificName": "" if taxon["rank"] == "none" else taxon["name"],
                 "taxonRank": "" if taxon["rank"] == "none" else taxon["rank"],
@@ -212,6 +295,9 @@ def occurrence_core_csv(pack: dict[str, Any], *, publishable_only: bool) -> str:
                 "decimalLongitude": metadata.get("decimalLongitude"),
                 "geodeticDatum": metadata.get("geodeticDatum"),
                 "coordinateUncertaintyInMeters": metadata.get("coordinateUncertaintyInMeters"),
+                "occurrenceStatus": metadata.get("occurrenceStatus"),
+                "organismQuantity": metadata.get("organismQuantity"),
+                "organismQuantityType": metadata.get("organismQuantityType"),
                 "verbatimIdentification": record["candidate_taxon"]["name"],
                 "candidateTaxonRank": record["candidate_taxon"]["rank"],
                 "publicationStage": record["publication_stage"],
@@ -230,6 +316,8 @@ def occurrence_review_or_repair_csv(pack: dict[str, Any]) -> str:
         rows.append(
             {
                 "occurrenceID": metadata.get("occurrenceID"),
+                "eventID": metadata.get("eventID"),
+                "materialSampleID": metadata.get("materialSampleID"),
                 "basisOfRecord": metadata.get("basisOfRecord") or "MaterialSample",
                 "verbatimIdentification": record["candidate_taxon"]["name"],
                 "candidateTaxonRank": record["candidate_taxon"]["rank"],
@@ -254,10 +342,20 @@ def dna_extension_csv(pack: dict[str, Any], *, publishable_only: bool) -> str:
                 "occurrenceID": metadata.get("occurrenceID"),
                 "sequenceID": record["sequence_id"],
                 "DNA_sequence_md5": record["sequence_md5"],
-                "target_gene": metadata.get("marker"),
-                "otu_db": metadata.get("referenceDatabase"),
-                "otu_class_appr": metadata.get("methodOrSOP"),
-                "otu_seq_comp_appr": f"identity={top.get('identity')}; queryCoverage={top.get('query_coverage')}",
+                "DNA_sequence": metadata.get("DNA_sequence"),
+                "target_gene": metadata.get("target_gene") or metadata.get("marker"),
+                "target_subfragment": metadata.get("target_subfragment"),
+                "pcr_primer_forward": metadata.get("pcr_primer_forward"),
+                "pcr_primer_reverse": metadata.get("pcr_primer_reverse"),
+                "seq_meth": metadata.get("seq_meth"),
+                "otu_db": metadata.get("otu_db") or metadata.get("referenceDatabase"),
+                "otu_class_appr": metadata.get("otu_class_appr") or metadata.get("methodOrSOP"),
+                "otu_seq_comp_appr": metadata.get("otu_seq_comp_appr") or f"identity={top.get('identity')}; queryCoverage={top.get('query_coverage')}",
+                "sop": metadata.get("sop") or metadata.get("methodOrSOP"),
+                "contaminationAssessment": metadata.get("contaminationAssessment"),
+                "experimentalVariance": metadata.get("experimentalVariance"),
+                "quantificationCycle": metadata.get("quantificationCycle"),
+                "estimatedNumberOfCopies": metadata.get("estimatedNumberOfCopies"),
                 "identificationReferences": "https://www.gbif.org/tools/sequence-id",
                 "identificationRemarks": identification_remarks(record, pack),
             }
@@ -289,6 +387,14 @@ def molecular_report_html(pack: dict[str, Any]) -> str:
         for row in pack.get("naive_top_hit_overclaims", [])[:8]
     )
     hard_gate_failures = pack["metrics"].get("hard_gate_failures", 0)
+    profile_rows = "\n".join(
+        f"<tr><td>{html.escape(record['sequence_id'])}</td><td>{html.escape(record['metadata_readiness']['marker_profile']['profile_id'])}</td>"
+        f"<td>{html.escape(str(record['metadata_readiness']['marker_profile']['species_gate_pass']))}</td>"
+        f"<td>{html.escape(record['metadata_readiness']['assay_gate']['assay_type'])}</td>"
+        f"<td>{html.escape(str(record['metadata_readiness']['assay_gate']['assay_gate_pass']))}</td>"
+        f"<td>{html.escape('; '.join(record['metadata_readiness']['dna_extension_high_priority_missing']) or 'none')}</td></tr>"
+        for record in pack["records"]
+    )
     rows = "\n".join(
         f"<tr><td>{html.escape(record['sequence_id'])}</td><td>{html.escape(record['decision_class'])}</td>"
         f"<td>{html.escape(record['candidate_taxon']['name'])}</td><td>{html.escape(record['candidate_taxon']['rank'])}</td>"
@@ -339,6 +445,11 @@ def molecular_report_html(pack: dict[str, Any]) -> str:
     <thead><tr><th>Repair action</th><th>Unlockable records</th><th>Cost</th><th>Examples</th></tr></thead>
     <tbody>{repair_rows or '<tr><td colspan="4">No repair actions required.</td></tr>'}</tbody>
   </table>
+  <h2>Marker, assay and DNA-derived readiness</h2>
+  <table>
+    <thead><tr><th>Sequence</th><th>Marker profile</th><th>Marker species gate</th><th>Assay</th><th>Assay gate</th><th>DNA extension gaps</th></tr></thead>
+    <tbody>{profile_rows}</tbody>
+  </table>
   <h2>Naive top-hit overclaims prevented</h2>
   <table>
     <thead><tr><th>Sequence</th><th>Naive species claim</th><th>Compiler decision</th><th>Safe taxon</th></tr></thead>
@@ -370,15 +481,17 @@ For each DNA sequence, the compiler consumed:
 - reference-hit metrics: taxon, rank, lineage, percent identity, query coverage, aligned length, bit score and e-value when supplied;
 - barcode-gap evidence: maximum within-taxon distance and minimum outside-taxon distance;
 - diagnostic k-mer evidence and false-positive threshold;
+- marker profile evidence: marker family, aligned span, marker-specific identity/coverage thresholds and species-claim policy;
+- assay profile evidence: single-specimen barcode, metabarcoding/eDNA, qPCR/ddPCR or custom targeted workflow metadata;
 - Darwin Core Occurrence metadata and DNA-derived workflow metadata.
 
 Reference context: **{pack['summary']['reference_database']}**. Marker: **{pack['summary']['marker']}**.
 
 ## Deterministic Gates
 
-For each DNA barcode/metabarcoding sequence, the compiler evaluated percent identity, query coverage, a 95% ambiguity test over mismatch-rate standard errors, lowest common ancestor of indistinguishable hits, barcode gap, diagnostic k-mer support, diagnostic false-positive probability and GBIF publication metadata readiness.
+For each DNA barcode/metabarcoding sequence, the compiler evaluated a marker-specific identity/coverage profile, a 95% ambiguity test over mismatch-rate standard errors, lowest common ancestor of indistinguishable hits, barcode gap, diagnostic k-mer support, diagnostic false-positive probability, assay evidence gates and GBIF publication metadata readiness.
 
-Species-level output is fail-closed: a sequence is `species-safe` only when the exact match gate, ambiguity/LCA gate, positive barcode gap gate, diagnostic k-mer gate and publication-readiness gates all pass.
+Species-level output is fail-closed: a sequence is `species-safe` only when the marker exact-match gate, ambiguity/LCA gate, positive barcode gap gate, diagnostic k-mer gate, marker-profile species gate, assay gate and publication-readiness gates all pass.
 
 The pack separates `candidate_taxon` from `published_taxon`: blocked or weak records can remain useful as review hints, but they are not emitted as publishable Darwin Core species records.
 
@@ -395,6 +508,9 @@ Nexus V3 audit files in this Evidence Pack add:
 - `hard_gate_audit.csv` for species-safe consistency checks;
 - `naive_top_hit_overclaims.csv` for overclaim prevention evidence;
 - `reference_gap_index.csv` for marker/reference bottlenecks;
+- `marker_profile_audit.csv` for marker-specific gates and caveats;
+- `assay_gate_audit.csv` for qPCR/eDNA/control metadata status;
+- `dna_extension_readiness.csv` for GBIF DNA-derived high-priority fields;
 - `repair_plan.csv` for publisher repair prioritization;
 - `metadata_bottlenecks.csv` for field-level publication blockers.
 
@@ -445,6 +561,8 @@ The compiler blocks species-level claims when any required gate fails:
 - statistically indistinguishable competitor collapses the safe taxon to genus or higher;
 - barcode gap is missing or non-positive;
 - diagnostic k-mer support is missing, zero or above the configured false-positive probability threshold;
+- marker profile disallows species export for the supplied marker/span;
+- qPCR/ddPCR required assay evidence is missing;
 - required Occurrence core or DNA-derived metadata is missing.
 
 Therefore `species-safe` is not a blind top-hit label. It means the record passed all frozen molecular evidence and GBIF-readiness gates in this run.
@@ -453,7 +571,7 @@ Therefore `species-safe` is not a blind top-hit label. It means the record passe
 
 The `hard_gate_audit.csv` export verifies the contradiction condition explicitly:
 
-If a record is emitted as `species-safe`, then the exact match gate, ambiguity/LCA gate, barcode gap gate, diagnostic k-mer gate, Occurrence core gate and DNA metadata gate must all pass.
+If a record is emitted as `species-safe`, then the marker exact-match gate, ambiguity/LCA gate, barcode gap gate, diagnostic k-mer gate, marker profile gate, Occurrence core gate, DNA metadata gate and assay gate must all pass.
 
 If any of those gates fail while `species-safe` is emitted, `hardGateViolation=true`. A valid run must have zero hard-gate failures.
 """

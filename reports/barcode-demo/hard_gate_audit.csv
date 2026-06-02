@@ -1,5 +1,5 @@
-sequenceID,topHit,topHitRank,decisionClass,exactMatchGate,ambiguityLcaGate,barcodeGapGate,diagnosticKmerGate,occurrenceCoreGate,dnaMetadataGate,hardGateViolation,auditConclusion
-AALB-COI-good,Aedes albopictus,species,species-safe,pass,pass,pass,pass,pass,pass,False,pass: fail-closed rules preserved
-AALB-COI-ambiguous,Aedes albopictus,species,genus-safe,pass,fail,pass,pass,pass,pass,False,pass: fail-closed rules preserved
-AALB-COI-short,Aedes albopictus,species,weak,fail,pass,pass,pass,pass,pass,False,pass: fail-closed rules preserved
-AALB-COI-metadata-gap,Aedes albopictus,species,not-publishable,pass,pass,pass,pass,fail,pass,False,pass: fail-closed rules preserved
+sequenceID,topHit,topHitRank,decisionClass,markerProfile,exactMatchGate,ambiguityLcaGate,barcodeGapGate,diagnosticKmerGate,markerProfileGate,occurrenceCoreGate,dnaMetadataGate,assayGate,hardGateViolation,auditConclusion
+AALB-COI-good,Aedes albopictus,species,species-safe,coi_full_barcode,pass,pass,pass,pass,pass,pass,pass,pass,False,pass: fail-closed rules preserved
+AALB-COI-ambiguous,Aedes albopictus,species,genus-safe,coi_full_barcode,pass,fail,pass,pass,pass,pass,pass,pass,False,pass: fail-closed rules preserved
+AALB-COI-short,Aedes albopictus,species,weak,coi_full_barcode,fail,pass,pass,pass,pass,pass,pass,pass,False,pass: fail-closed rules preserved
+AALB-COI-metadata-gap,Aedes albopictus,species,not-publishable,coi_full_barcode,pass,pass,pass,pass,pass,fail,pass,pass,False,pass: fail-closed rules preserved

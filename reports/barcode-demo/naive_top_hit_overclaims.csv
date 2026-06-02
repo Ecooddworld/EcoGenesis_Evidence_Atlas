@@ -1,4 +1,4 @@
 sequenceID,naiveClaim,naiveRank,compilerDecision,safeTaxon,safeRank,publishedTaxon,publishedRank,reason
 AALB-COI-ambiguous,Aedes albopictus,species,genus-safe,Aedes,genus,Aedes,genus,species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus
-AALB-COI-short,Aedes albopictus,species,weak,Aedes albopictus,species,None,none,species claim blocked: top hit does not pass exact match gate identity >= 99% and query coverage >= 80%; species claim blocked: query coverage < 80%
+AALB-COI-short,Aedes albopictus,species,weak,Aedes albopictus,species,None,none,species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%; species claim blocked: query coverage < 80%
 AALB-COI-metadata-gap,Aedes albopictus,species,not-publishable,Aedes albopictus,species,None,none,publication blocked: missing required Occurrence core field occurrenceID; publication blocked: missing required Occurrence core field eventDate

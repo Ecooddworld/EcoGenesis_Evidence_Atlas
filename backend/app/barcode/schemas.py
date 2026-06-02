@@ -17,6 +17,14 @@ Rank = Literal[
     "unranked",
 ]
 
+AssayType = Literal[
+    "single_specimen_barcode",
+    "metabarcoding",
+    "qpcr_ddpcr",
+    "custom_targeted",
+    "unknown",
+]
+
 
 class TaxonLineageItem(BaseModel):
     rank: Rank | str
@@ -95,6 +103,8 @@ class ReferenceManifest(BaseModel):
 class BarcodeCompilerRequest(BaseModel):
     project_title: str = Field(default="Aedes albopictus COI publication check", min_length=2)
     marker: str = Field(default="COI-5P", min_length=2)
+    marker_profile: str | None = Field(default=None, description="Optional marker profile id, e.g. coi_full_barcode")
+    assay_type: AssayType = "single_specimen_barcode"
     reference_database: str = Field(default="COI Animals / BOLD public clustered reference", min_length=2)
     method_or_sop: str = Field(default="GBIF Sequence ID-compatible BLAST workflow with deterministic rank gates", min_length=2)
     ruleset_version: str = Field(default="barcode-gbif-compiler-v2")
