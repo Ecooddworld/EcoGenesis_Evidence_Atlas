@@ -20,6 +20,8 @@ from .schemas import (
 CSV_REQUIRED_COLUMNS = ["sequenceID", "sequence"]
 CSV_STRONGLY_RECOMMENDED_COLUMNS = [
     "occurrenceID",
+    "eventID",
+    "materialSampleID",
     "basisOfRecord",
     "scientificName",
     "eventDate",
@@ -40,11 +42,33 @@ METADATA_FIELDS = [
     "decimalLongitude",
     "geodeticDatum",
     "coordinateUncertaintyInMeters",
+    "eventID",
+    "materialSampleID",
+    "assayType",
+    "occurrenceStatus",
+    "organismQuantity",
+    "organismQuantityType",
+    "DNA_sequence",
+    "target_gene",
+    "target_subfragment",
+    "pcr_primer_forward",
+    "pcr_primer_reverse",
+    "seq_meth",
+    "otu_class_appr",
+    "otu_seq_comp_appr",
+    "otu_db",
+    "sop",
+    "contaminationAssessment",
+    "experimentalVariance",
+    "quantificationCycle",
+    "estimatedNumberOfCopies",
+    "readCount",
+    "totalReads",
 ]
 DNA_ALPHABET = set("ACGTRYSWKMBDHVN- \t\r\n")
 
-CSV_TEMPLATE_TEXT = """sequenceID,sequence,occurrenceID,basisOfRecord,scientificName,eventDate,marker,referenceDatabase,methodOrSOP,topTaxon,topIdentity,topCoverage,topRank,topAlignedLength,secondTaxon,secondIdentity,secondCoverage,secondRank,secondAlignedLength,barcodeIntraMax,barcodeInterMin,diagnosticKmers
-AALB-COI-good,ACGTTGACCTAGGCTTACGATCGTACCGATGCTAGCTAGGATCCGATCGTACGATCGTAGCTAGCATCG,urn:example:AALB-COI-good,MaterialSample,Aedes albopictus,2026-04-18,COI-5P,COI Animals / BOLD public clustered reference,GBIF Sequence ID-compatible BLAST workflow,Aedes albopictus,99.6,96,species,79,Aedes aegypti,98.2,95,species,79,0.009,0.018,ACGTTGACCTAGGCT|TGACCTAGGCTTACG
+CSV_TEMPLATE_TEXT = """sequenceID,sequence,occurrenceID,eventID,materialSampleID,basisOfRecord,scientificName,eventDate,marker,assayType,referenceDatabase,methodOrSOP,target_gene,target_subfragment,pcr_primer_forward,pcr_primer_reverse,seq_meth,contaminationAssessment,topTaxon,topIdentity,topCoverage,topRank,topAlignedLength,secondTaxon,secondIdentity,secondCoverage,secondRank,secondAlignedLength,barcodeIntraMax,barcodeInterMin,diagnosticKmers
+AALB-COI-good,ACGTTGACCTAGGCTTACGATCGTACCGATGCTAGCTAGGATCCGATCGTACGATCGTAGCTAGCATCG,urn:example:AALB-COI-good,event-aedes-001,sample-aedes-001,MaterialSample,Aedes albopictus,2026-04-18,COI-5P,single_specimen_barcode,COI Animals / BOLD public clustered reference,GBIF Sequence ID-compatible BLAST workflow,cytochrome c oxidase subunit I,COI-5P barcode region,GGWACWGGWTGAACWGTWTAYCCYCC,TAIACYTCIGGRTGICCRAARAAYCA,Illumina MiSeq,no contamination detected,Aedes albopictus,99.6,96,species,658,Aedes aegypti,98.2,95,species,625,0.009,0.018,ACGTTGACCTAGGCT|TGACCTAGGCTTACG
 """
 
 
@@ -52,6 +76,8 @@ ALIASES: dict[str, list[str]] = {
     "sequenceID": ["sequenceID", "sequenceId", "sequence_id", "id", "queryID", "queryId", "occurrenceId", "occurrenceID"],
     "sequence": ["sequence", "dnaSequence", "nucleotideSequence", "querySequence"],
     "occurrenceID": ["occurrenceID", "occurrenceId", "occurrence_id"],
+    "eventID": ["eventID", "eventId", "event_id"],
+    "materialSampleID": ["materialSampleID", "materialSampleId", "material_sample_id", "sampleID", "sampleId"],
     "basisOfRecord": ["basisOfRecord", "basis_of_record"],
     "scientificName": ["scientificName", "scientific_name"],
     "eventDate": ["eventDate", "event_date", "date"],
@@ -68,6 +94,26 @@ ALIASES: dict[str, list[str]] = {
         "coordinateUncertainty",
         "uncertaintyMeters",
     ],
+    "assayType": ["assayType", "assay_type", "assay", "workflowType"],
+    "occurrenceStatus": ["occurrenceStatus", "occurrence_status"],
+    "organismQuantity": ["organismQuantity", "organism_quantity"],
+    "organismQuantityType": ["organismQuantityType", "organism_quantity_type"],
+    "DNA_sequence": ["DNA_sequence", "dna_sequence", "dnaSequence", "sequence"],
+    "target_gene": ["target_gene", "targetGene", "target gene"],
+    "target_subfragment": ["target_subfragment", "targetSubfragment", "target_sub_fragment", "targetRegion"],
+    "pcr_primer_forward": ["pcr_primer_forward", "pcrPrimerForward", "forwardPrimer", "primerForward"],
+    "pcr_primer_reverse": ["pcr_primer_reverse", "pcrPrimerReverse", "reversePrimer", "primerReverse"],
+    "seq_meth": ["seq_meth", "seqMeth", "sequencingMethod", "sequencing_method"],
+    "otu_class_appr": ["otu_class_appr", "otuClassAppr", "classificationApproach"],
+    "otu_seq_comp_appr": ["otu_seq_comp_appr", "otuSeqCompAppr", "sequenceComparisonApproach"],
+    "otu_db": ["otu_db", "otuDb", "referenceDatabase", "reference_database", "database", "db"],
+    "sop": ["sop", "SOP", "methodOrSOP", "method_or_sop"],
+    "contaminationAssessment": ["contaminationAssessment", "contamination_assessment", "negativeControlStatus"],
+    "experimentalVariance": ["experimentalVariance", "experimental_variance"],
+    "quantificationCycle": ["quantificationCycle", "cq", "ct", "Cq", "Ct"],
+    "estimatedNumberOfCopies": ["estimatedNumberOfCopies", "estimated_number_of_copies", "copies"],
+    "readCount": ["readCount", "read_count", "reads"],
+    "totalReads": ["totalReads", "total_reads"],
     "topTaxon": ["topTaxon", "top_taxon", "matchedTaxon", "bestTaxon", "taxon", "scientificName"],
     "topIdentity": ["topIdentity", "top_identity", "identity", "percentIdentity", "pident"],
     "topCoverage": ["topCoverage", "top_coverage", "queryCoverage", "query_coverage", "coverage", "qcov"],
@@ -300,6 +346,7 @@ def normalized_preview_row(row: dict[str, Any], header_lookup: dict[str, str]) -
         "scientificName",
         "eventDate",
         "marker",
+        "assayType",
         "topTaxon",
         "topIdentity",
         "topCoverage",

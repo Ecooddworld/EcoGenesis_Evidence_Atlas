@@ -32,15 +32,26 @@
     <div class="card"><strong>0.5</strong><br />MECY conversion yield</div>
     <div class="card"><strong>0.5</strong><br />safe-rank yield</div>
     <div class="card"><strong>0.75</strong><br />overclaim prevention</div>
-    <div class="card"><strong>0.75</strong><br />repairable yield</div>
+    <div class="card"><strong>1.0</strong><br />repairable yield</div>
     <div class="card ok"><strong>0</strong><br />hard-gate failures</div>
   </section>
   <h2>Top repair actions</h2>
   <table>
     <thead><tr><th>Repair action</th><th>Unlockable records</th><th>Cost</th><th>Examples</th></tr></thead>
-    <tbody><tr><td>Publish the molecular assignment at genus rank unless additional evidence resolves the ambiguity.</td><td>1</td><td>medium</td><td>AALB-COI-ambiguous</td></tr>
+    <tbody><tr><td>Review marker profile warning: input sequence is shorter than supplied aligned_length; length gates use the supplied alignment span</td><td>4</td><td>high</td><td>AALB-COI-ambiguous; AALB-COI-good; AALB-COI-metadata-gap; AALB-COI-short</td></tr>
+<tr><td>Add assay evidence fields: controls, primers, replicate/QC or qPCR/ddPCR quantification metadata as applicable.</td><td>4</td><td>medium</td><td>AALB-COI-ambiguous; AALB-COI-good; AALB-COI-metadata-gap; AALB-COI-short</td></tr>
+<tr><td>Add high-priority DNA-derived extension fields: eventID, materialSampleID, pcr_primer_forward, pcr_primer_reverse, seq_meth.</td><td>4</td><td>medium</td><td>AALB-COI-ambiguous; AALB-COI-good; AALB-COI-metadata-gap; AALB-COI-short</td></tr>
+<tr><td>Publish the molecular assignment at genus rank unless additional evidence resolves the ambiguity.</td><td>1</td><td>medium</td><td>AALB-COI-ambiguous</td></tr>
 <tr><td>Use a longer/cleaner marker sequence or treat the assignment below species rank.</td><td>1</td><td>high</td><td>AALB-COI-short</td></tr>
 <tr><td>Complete required Darwin Core Occurrence core fields before GBIF publication.</td><td>1</td><td>low</td><td>AALB-COI-metadata-gap</td></tr></tbody>
+  </table>
+  <h2>Marker, assay and DNA-derived readiness</h2>
+  <table>
+    <thead><tr><th>Sequence</th><th>Marker profile</th><th>Marker species gate</th><th>Assay</th><th>Assay gate</th><th>DNA extension gaps</th></tr></thead>
+    <tbody><tr><td>AALB-COI-good</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>eventID; materialSampleID; pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>AALB-COI-ambiguous</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>eventID; materialSampleID; pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>AALB-COI-short</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>eventID; materialSampleID; pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>AALB-COI-metadata-gap</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>eventID; materialSampleID; pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr></tbody>
   </table>
   <h2>Naive top-hit overclaims prevented</h2>
   <table>
@@ -54,7 +65,7 @@
     <thead><tr><th>Sequence</th><th>Decision</th><th>Candidate taxon</th><th>Candidate rank</th><th>Published taxon</th><th>Published rank</th><th>Publication stage</th><th>Blockers</th></tr></thead>
     <tbody><tr><td>AALB-COI-good</td><td>species-safe</td><td>Aedes albopictus</td><td>species</td><td>Aedes albopictus</td><td>species</td><td>record_recommended_ready</td><td>none</td></tr>
 <tr><td>AALB-COI-ambiguous</td><td>genus-safe</td><td>Aedes</td><td>genus</td><td>Aedes</td><td>genus</td><td>record_recommended_ready</td><td>species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus</td></tr>
-<tr><td>AALB-COI-short</td><td>weak</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>species claim blocked: top hit does not pass exact match gate identity &gt;= 99% and query coverage &gt;= 80%; species claim blocked: query coverage &lt; 80%</td></tr>
+<tr><td>AALB-COI-short</td><td>weak</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>species claim blocked: top hit does not pass coi_full_barcode exact gate identity &gt;= 99% and query coverage &gt;= 80%; species claim blocked: query coverage &lt; 80%</td></tr>
 <tr><td>AALB-COI-metadata-gap</td><td>not-publishable</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_not_ready</td><td>publication blocked: missing required Occurrence core field occurrenceID; publication blocked: missing required Occurrence core field eventDate</td></tr></tbody>
   </table>
 </body>

@@ -14,15 +14,17 @@ For each DNA sequence, the compiler consumed:
 - reference-hit metrics: taxon, rank, lineage, percent identity, query coverage, aligned length, bit score and e-value when supplied;
 - barcode-gap evidence: maximum within-taxon distance and minimum outside-taxon distance;
 - diagnostic k-mer evidence and false-positive threshold;
+- marker profile evidence: marker family, aligned span, marker-specific identity/coverage thresholds and species-claim policy;
+- assay profile evidence: single-specimen barcode, metabarcoding/eDNA, qPCR/ddPCR or custom targeted workflow metadata;
 - Darwin Core Occurrence metadata and DNA-derived workflow metadata.
 
 Reference context: **COI Animals / BOLD public clustered reference**. Marker: **COI-5P**.
 
 ## Deterministic Gates
 
-For each DNA barcode/metabarcoding sequence, the compiler evaluated percent identity, query coverage, a 95% ambiguity test over mismatch-rate standard errors, lowest common ancestor of indistinguishable hits, barcode gap, diagnostic k-mer support, diagnostic false-positive probability and GBIF publication metadata readiness.
+For each DNA barcode/metabarcoding sequence, the compiler evaluated a marker-specific identity/coverage profile, a 95% ambiguity test over mismatch-rate standard errors, lowest common ancestor of indistinguishable hits, barcode gap, diagnostic k-mer support, diagnostic false-positive probability, assay evidence gates and GBIF publication metadata readiness.
 
-Species-level output is fail-closed: a sequence is `species-safe` only when the exact match gate, ambiguity/LCA gate, positive barcode gap gate, diagnostic k-mer gate and publication-readiness gates all pass.
+Species-level output is fail-closed: a sequence is `species-safe` only when the marker exact-match gate, ambiguity/LCA gate, positive barcode gap gate, diagnostic k-mer gate, marker-profile species gate, assay gate and publication-readiness gates all pass.
 
 The pack separates `candidate_taxon` from `published_taxon`: blocked or weak records can remain useful as review hints, but they are not emitted as publishable Darwin Core species records.
 
@@ -39,6 +41,9 @@ Nexus V3 audit files in this Evidence Pack add:
 - `hard_gate_audit.csv` for species-safe consistency checks;
 - `naive_top_hit_overclaims.csv` for overclaim prevention evidence;
 - `reference_gap_index.csv` for marker/reference bottlenecks;
+- `marker_profile_audit.csv` for marker-specific gates and caveats;
+- `assay_gate_audit.csv` for qPCR/eDNA/control metadata status;
+- `dna_extension_readiness.csv` for GBIF DNA-derived high-priority fields;
 - `repair_plan.csv` for publisher repair prioritization;
 - `metadata_bottlenecks.csv` for field-level publication blockers.
 

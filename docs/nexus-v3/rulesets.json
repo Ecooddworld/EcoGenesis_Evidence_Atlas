@@ -23,6 +23,20 @@
     "diagnostic_min_support": 1,
     "kmer_k": 15
   },
+  "COI_mini_barcode": {
+    "marker": "COI",
+    "target_gene": "cytochrome c oxidase I",
+    "target_subfragment": "mini-barcode",
+    "coding_marker": true,
+    "identity_species_min": 99.0,
+    "identity_close_min": 95.0,
+    "coverage_species_min": 95.0,
+    "length_min": 60,
+    "length_max": 350,
+    "diagnostic_min_support": 1,
+    "species_claim_allowed": true,
+    "caveat": "Mini-barcodes need stronger coverage and explicit diagnostic/reference evidence."
+  },
   "ITS_fungi": {
     "marker": "ITS",
     "target_gene": "internal transcribed spacer",
@@ -49,6 +63,20 @@
     "diagnostic_min_support": 2,
     "kmer_k": 13
   },
+  "16S_short_amplicon": {
+    "marker": "16S rRNA",
+    "target_gene": "16S rRNA",
+    "target_subfragment": "short V-region",
+    "coding_marker": false,
+    "identity_species_min": 99.5,
+    "identity_close_min": 97.0,
+    "coverage_species_min": 95.0,
+    "length_min": 80,
+    "length_max": 600,
+    "diagnostic_min_support": 2,
+    "species_claim_allowed": false,
+    "caveat": "Short 16S amplicons are routed to safe-rank review rather than automatic species export."
+  },
   "18S_eukaryotes": {
     "marker": "18S rRNA",
     "target_gene": "18S rRNA",
@@ -68,5 +96,20 @@
     "coverage_species_min": null,
     "diagnostic_min_support": null,
     "kmer_k": null
+  },
+  "assay_profiles": {
+    "single_specimen_barcode": {
+      "required_fields": [],
+      "recommended_fields": ["eventID", "materialSampleID", "pcr_primer_forward", "pcr_primer_reverse", "seq_meth"]
+    },
+    "metabarcoding": {
+      "required_fields": [],
+      "recommended_fields": ["eventID", "materialSampleID", "readCount", "totalReads", "pcr_primer_forward", "pcr_primer_reverse", "contaminationAssessment", "methodOrSOP"]
+    },
+    "qpcr_ddpcr": {
+      "required_fields": ["occurrenceStatus", "contaminationAssessment", "methodOrSOP"],
+      "recommended_fields": ["eventID", "materialSampleID", "experimentalVariance", "quantificationCycle", "estimatedNumberOfCopies", "pcr_primer_forward", "pcr_primer_reverse"],
+      "publication_blocking": true
+    }
   }
 }

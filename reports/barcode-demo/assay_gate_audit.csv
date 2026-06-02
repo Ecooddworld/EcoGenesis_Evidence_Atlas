@@ -1,0 +1,5 @@
+sequenceID,assayType,assayLabel,assayGatePass,publicationBlocking,requiredMissing,recommendedMissing,assayBlockers,claimCaveat
+AALB-COI-good,single_specimen_barcode,Single-specimen barcode,True,False,,eventID; materialSampleID; pcr_primer_forward; pcr_primer_reverse; seq_meth,,"The record is interpreted as sequence-derived occurrence evidence, not direct ecological abundance."
+AALB-COI-ambiguous,single_specimen_barcode,Single-specimen barcode,True,False,,eventID; materialSampleID; pcr_primer_forward; pcr_primer_reverse; seq_meth,,"The record is interpreted as sequence-derived occurrence evidence, not direct ecological abundance."
+AALB-COI-short,single_specimen_barcode,Single-specimen barcode,True,False,,eventID; materialSampleID; pcr_primer_forward; pcr_primer_reverse; seq_meth,,"The record is interpreted as sequence-derived occurrence evidence, not direct ecological abundance."
+AALB-COI-metadata-gap,single_specimen_barcode,Single-specimen barcode,True,False,,eventID; materialSampleID; pcr_primer_forward; pcr_primer_reverse; seq_meth,,"The record is interpreted as sequence-derived occurrence evidence, not direct ecological abundance."

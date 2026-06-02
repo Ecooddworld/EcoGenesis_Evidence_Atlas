@@ -1,45 +1,49 @@
 {
   "run": {
-    "run_id": "46e4a1a09d444ed39e1986d0a4a046d8",
-    "started_at": "2026-06-02T03:34:12.584299+00:00",
-    "finished_at": "2026-06-02T03:34:12.585406+00:00",
+    "run_id": "ac0b76bc34ec48539c152de8845ea378",
+    "started_at": "2026-06-02T03:50:29.608458+00:00",
+    "finished_at": "2026-06-02T03:50:29.609493+00:00",
     "tool": "Barcode-to-GBIF Evidence Compiler",
     "ruleset_version": "barcode-gbif-compiler-v2",
-    "request_fingerprint": "2db79fb6aa3d29894ea2c28899c84e5e37bba5daf4acf2ee292c4fd22c61550f",
+    "request_fingerprint": "463387c1727e1d4c8152dcb1647c7e63f74d17eeabe89995a7e3470b92e31e06",
     "reference_manifest_sha256": "8a85e9ee15296f5097af5a7b049225bf02bdbbda3ce5d61ad31d40de462b61ad",
     "artifact_checksums": {
       "ambiguous_sequences.csv": "970910f408014e09d7eaa6449d3e548bdb4b703fed7ab9a82f6d8605129dc028",
+      "assay_gate_audit.csv": "4290288abfcf4dd69d5d2651d79111c8a79ec6f3e0309700f6acb8654b4c254c",
       "barcode_gap_report.csv": "79f151decd9d704c17228a1d0f80a16c1cb7b92527e07aa7a5863c030958fdf8",
-      "citations.md": "d0a5e7c015cc5078f377f493034c953106ecd93a1dc7700eaf6aac6422c29187",
+      "citations.md": "cf6bb6af16021d9922004d67965f76cd43c630956d259a2527f12e882223eed0",
       "diagnostic_kmer_report.csv": "140b983e06fd2764f72f62679bef29ecd255509bb6743c3bdbb4c94869e7a2b6",
-      "dna_derived_extension_gbif_ready.csv": "8063186891b9c9f2d88fc0d834f1538b980176e25e2b06598130670efd940054",
-      "dna_derived_extension_publishable.csv": "8063186891b9c9f2d88fc0d834f1538b980176e25e2b06598130670efd940054",
-      "dna_derived_extension_template.csv": "5fa5aa2ec52b32dd81a5ba49cd80194d9c170d4d702fa929f8ea4f4733ac47a0",
-      "dwc_occurrence_core_gbif_ready.csv": "51a19624a731fc50fa87420c282c4e755ee9fe0d46d5239506f30762fb005428",
-      "dwc_occurrence_core_publishable.csv": "51a19624a731fc50fa87420c282c4e755ee9fe0d46d5239506f30762fb005428",
-      "dwc_occurrence_core_review.csv": "2fd7c7cda1582a900c9b0e530eef97e3e839656b043058950ffe6f13d407662f",
-      "dwc_occurrence_core_review_or_repair.csv": "2f53d9008e591b89ce3ad64bce1f84bd2c92e3118071a320fb8abfcc0da6d882",
-      "dwc_occurrence_core_template.csv": "2fd7c7cda1582a900c9b0e530eef97e3e839656b043058950ffe6f13d407662f",
-      "evidence_graph.json": "b28c57df1cd8c557c3ff0eddaddcb7395290af5e61d266b316a63cd2d6014c9c",
-      "evidence_pack.json": "8284164920f7d6a374abed0c40485018fe998aaeadef413ee44aa124cd283d91",
-      "evidence_pack.zip": "ef651c03e0e8cfcfdca711fae3f3a000b4a5da0c63e38457a101baaf97cc1c97",
+      "dna_derived_extension_gbif_ready.csv": "3b3acbec2380cf09e7602162efc280cc7f5fa081877e2fd58037992014664603",
+      "dna_derived_extension_publishable.csv": "3b3acbec2380cf09e7602162efc280cc7f5fa081877e2fd58037992014664603",
+      "dna_derived_extension_template.csv": "370f87026ad87bae0ff8ec8f2642f26bf80d8eb476faf5235baf84ba3b86e87f",
+      "dna_extension_readiness.csv": "aa15fa2d0e5722aac27de4c3e0c5ee54714bc7818d406e5b8cb4e8bd2d57bbd3",
+      "dwc_occurrence_core_gbif_ready.csv": "f3c080bef7c65f7644536a80dfb54c5d27f44ca6ee7a107cb3a0a06d8b2faff5",
+      "dwc_occurrence_core_publishable.csv": "f3c080bef7c65f7644536a80dfb54c5d27f44ca6ee7a107cb3a0a06d8b2faff5",
+      "dwc_occurrence_core_review.csv": "a718586ce538f59783a86471a8d527f0540640a5ed5ea936d05b624a7cb0e92e",
+      "dwc_occurrence_core_review_or_repair.csv": "f6f681b8870c0f48cabe3ba80e8d8c6547bb96977c27638bfebc32943a47ea64",
+      "dwc_occurrence_core_template.csv": "a718586ce538f59783a86471a8d527f0540640a5ed5ea936d05b624a7cb0e92e",
+      "evidence_graph.json": "7a6e52fe7f6568052ed14a6efc358aeefbd64303eaa041a2aa72d340fccb12ce",
+      "evidence_pack.json": "4a79da4fbf24d4864d7186254bc6fa9d9f33cfefd692c5d07ce381eeeea12c3e",
+      "evidence_pack.zip": "4b1c7dfa18026c6f3e1aeaa8d95df226b146b396b6173ac1d47b0deca7572aeb",
       "external_tool_adapter_matrix.csv": "63aaee18447111d0fd648589c0a04ea77ad0580b9b195aaeea72ca17534cf7c6",
       "gbif_backbone_matches.csv": "0f4bd2c8ee811bdbf078bf5560f430fed589b99a21bde1e08a6cfacc0a53e405",
-      "hard_gate_audit.csv": "fed05c81cf9e26294a86ff14642c641f8bb7e1aab7267993f294bc0e33223574",
-      "metadata_bottlenecks.csv": "70ecbb79aae5fbd28272b31af2ddb136aeac14a49aae330b9f26e850ee06c9b7",
-      "methods_text.md": "4dcf2585bf2c5cd11a24564ff0147343edbc2471d164aacecc4720c359b03104",
-      "molecular_evidence_report.html": "6c023e6540ca8af7b135cb756563304ba19ffbd85502ff9aba262f71229418c6",
-      "naive_top_hit_overclaims.csv": "4e27d1df04a886530e94c668af33ddbb3f212e8337281b299a1339c215f938b8",
-      "nexus_v3_summary.json": "75e90aad658e53408d1a0b480447da091b63eff64e317d8485acd4ad84ffde9e",
-      "proof_by_failure_modes.md": "72bd59e8bd131429e113375ab7fba667d40bd41cb5e29f364c3322cf2f4d7f46",
-      "publication_blockers.csv": "020240f72b9d02b64f438aef7a8f6813d7f63c5241bd42a1140fffe1405e76e6",
+      "hard_gate_audit.csv": "9975c9324d913fcbabe6856235e4d57763506043f2e92fbc6a70d26510f426f5",
+      "marker_profile_audit.csv": "78e45657d152fcc6ce8012b4ffe8db3b2d2c6548bc8457407f5af0ea0325ac4e",
+      "metadata_bottlenecks.csv": "2d3972e1bddfa93fe417b08d62a9f6b1c7e4a1520a2760377626d534f182bb9b",
+      "methods_text.md": "ce64d61717a7b845b359358028defe68a805edec076b0ea01525e89ccef31a6d",
+      "molecular_evidence_report.html": "11082cc2eb5b0fa93f568fc44536bd2336064b7c0d38eef4e389743722f71984",
+      "naive_top_hit_overclaims.csv": "2e110c07acaeaa5310b873fe72b145c4b7df70df092865090c1f819e6fd034fb",
+      "nexus_v3_summary.json": "3cd81156ceaa90ea5ced1fdffdf1607dbe29ef8686804c552fbcbdddb280cea4",
+      "proof_by_failure_modes.md": "82cda506dd248454a6728a6df9c3ae97be069bb29b54ad7c91bd9406f664b1aa",
+      "publication_blockers.csv": "12d364daae79c65110839f304198a33b01c513152d87345291fa70e79753e349",
       "reference_gap_index.csv": "8ab253295406a698b75c7c17c37b6139a495fce22769709bf9b939b20f4baa01",
       "reference_manifest.json": "526303710aac8c6c9a0f7227339b40fe5004b2cee2689404ee2966b2f08ba083",
-      "repair_plan.csv": "310ab14d8ecddb8e8ebef1f9231dc6cf88d949db7c4ee29fa6075b20da55f918",
-      "review_taxonomic_hints.csv": "fc46886912fb7cd3e219cb5face1a300d84d424ce81877eef4c822cf1256efff",
-      "run.json": "43029210ace1972d8520d78553e413c723cb02c48b0620494e5990cca9dc2410",
+      "repair_gain_estimates.csv": "82baeff2d7a95729cad454a8edaf2332f6767515e1edc85bb7927fd1a34d516e",
+      "repair_plan.csv": "82baeff2d7a95729cad454a8edaf2332f6767515e1edc85bb7927fd1a34d516e",
+      "review_taxonomic_hints.csv": "651e572e18684f51f2f4f968986b2256632b1e3cdd61fac42fc0be681f46a7e1",
+      "run.json": "b218af6caa887d58f54d9be5eb54d8dd5d8b11d076192ad3a3e1f559fc4e6b99",
       "safe_taxonomic_assignments.csv": "b705bf4352a6fda01dbcddda7e3b724863b4f1b57b92b24710e1bc0372843ebd",
-      "sequence_safety_table.csv": "7b4b9cbeb40ce85f5a2ae3dced0776470163dbf323eb3d74b4a06d7a99e1f128"
+      "sequence_safety_table.csv": "c9ba890cfe05b0a83c6ec8c6c8277901195bceed8ad8a64297df5655cbc980f7"
     }
   },
   "summary": {
@@ -68,9 +72,186 @@
     "manifest_sha256": "da337f143497dd4c0ed01ce65e3f554d9c70d0bacd185e560d9f6c8f28ec45f7"
   },
   "decision_rules": {
-    "exact_match": "identity >= 99% and queryCoverage >= 80%",
-    "close_match": "90% < identity < 99% and queryCoverage >= 80%",
-    "weak_match": "identity < 90% or queryCoverage < 80%",
+    "exact_match": "marker-profile-specific identity and queryCoverage thresholds",
+    "close_match": "marker-profile-specific close threshold",
+    "weak_match": "falls below marker-profile exact/close gates",
+    "marker_profiles": {
+      "coi_full_barcode": {
+        "id": "coi_full_barcode",
+        "label": "COI full barcode / COI-5P",
+        "marker_family": "COI",
+        "identity_species_min": 99.0,
+        "coverage_species_min": 80.0,
+        "identity_close_min": 90.0,
+        "coverage_close_min": 80.0,
+        "min_aligned_length": 500,
+        "max_aligned_length": 800,
+        "species_claim_allowed": true,
+        "coding_marker": true,
+        "target_gene": "cytochrome c oxidase subunit I",
+        "target_subfragment": "COI-5P barcode region",
+        "claim_caveat": "Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates."
+      },
+      "coi_mini_barcode": {
+        "id": "coi_mini_barcode",
+        "label": "COI mini-barcode",
+        "marker_family": "COI",
+        "identity_species_min": 99.0,
+        "coverage_species_min": 95.0,
+        "identity_close_min": 95.0,
+        "coverage_close_min": 80.0,
+        "min_aligned_length": 60,
+        "max_aligned_length": 350,
+        "species_claim_allowed": true,
+        "coding_marker": true,
+        "target_gene": "cytochrome c oxidase subunit I",
+        "target_subfragment": "COI mini-barcode fragment",
+        "claim_caveat": "Mini-barcodes require stronger coverage and explicit reference/diagnostic evidence."
+      },
+      "its_fungi": {
+        "id": "its_fungi",
+        "label": "ITS fungal barcode",
+        "marker_family": "ITS",
+        "identity_species_min": 98.5,
+        "coverage_species_min": 85.0,
+        "identity_close_min": 90.0,
+        "coverage_close_min": 80.0,
+        "min_aligned_length": 120,
+        "max_aligned_length": 900,
+        "species_claim_allowed": true,
+        "coding_marker": false,
+        "target_gene": "internal transcribed spacer",
+        "target_subfragment": "ITS barcode region",
+        "claim_caveat": "ITS is not translated as protein; species output depends on reference coverage and curation."
+      },
+      "s16_full_or_near_full": {
+        "id": "s16_full_or_near_full",
+        "label": "16S full or near-full marker",
+        "marker_family": "16S",
+        "identity_species_min": 99.5,
+        "coverage_species_min": 90.0,
+        "identity_close_min": 97.0,
+        "coverage_close_min": 80.0,
+        "min_aligned_length": 900,
+        "max_aligned_length": 1800,
+        "species_claim_allowed": true,
+        "coding_marker": false,
+        "target_gene": "16S rRNA",
+        "target_subfragment": "16S full or near-full region",
+        "claim_caveat": "16S species claims are conservative and require reference-library caveats."
+      },
+      "s16_short_amplicon": {
+        "id": "s16_short_amplicon",
+        "label": "16S short amplicon",
+        "marker_family": "16S",
+        "identity_species_min": 99.5,
+        "coverage_species_min": 95.0,
+        "identity_close_min": 97.0,
+        "coverage_close_min": 80.0,
+        "min_aligned_length": 80,
+        "max_aligned_length": 600,
+        "species_claim_allowed": false,
+        "coding_marker": false,
+        "target_gene": "16S rRNA",
+        "target_subfragment": "short 16S amplicon",
+        "claim_caveat": "Short 16S amplicons are treated as safe-rank evidence, not automatic species evidence."
+      },
+      "custom_research": {
+        "id": "custom_research",
+        "label": "Custom research marker",
+        "marker_family": "custom",
+        "identity_species_min": 99.0,
+        "coverage_species_min": 80.0,
+        "identity_close_min": 90.0,
+        "coverage_close_min": 80.0,
+        "min_aligned_length": 1,
+        "max_aligned_length": null,
+        "species_claim_allowed": false,
+        "coding_marker": false,
+        "target_gene": "custom marker",
+        "target_subfragment": "user supplied marker",
+        "claim_caveat": "Custom markers require an explicit profile before species-level export is allowed."
+      }
+    },
+    "assay_profiles": {
+      "single_specimen_barcode": {
+        "id": "single_specimen_barcode",
+        "label": "Single-specimen barcode",
+        "required_fields": [],
+        "recommended_fields": [
+          "eventID",
+          "materialSampleID",
+          "pcr_primer_forward",
+          "pcr_primer_reverse",
+          "seq_meth"
+        ],
+        "publication_blocking": false,
+        "claim_caveat": "The record is interpreted as sequence-derived occurrence evidence, not direct ecological abundance."
+      },
+      "metabarcoding": {
+        "id": "metabarcoding",
+        "label": "Metabarcoding / eDNA batch",
+        "required_fields": [],
+        "recommended_fields": [
+          "eventID",
+          "materialSampleID",
+          "readCount",
+          "totalReads",
+          "pcr_primer_forward",
+          "pcr_primer_reverse",
+          "contaminationAssessment",
+          "methodOrSOP"
+        ],
+        "publication_blocking": false,
+        "claim_caveat": "Without controls and replicate/QC metadata, detections remain molecular evidence, not confirmed living presence."
+      },
+      "qpcr_ddpcr": {
+        "id": "qpcr_ddpcr",
+        "label": "Targeted qPCR / ddPCR detection",
+        "required_fields": [
+          "occurrenceStatus",
+          "contaminationAssessment",
+          "methodOrSOP"
+        ],
+        "recommended_fields": [
+          "eventID",
+          "materialSampleID",
+          "experimentalVariance",
+          "quantificationCycle",
+          "estimatedNumberOfCopies",
+          "pcr_primer_forward",
+          "pcr_primer_reverse"
+        ],
+        "publication_blocking": true,
+        "claim_caveat": "Targeted detections require explicit occurrenceStatus and contamination/control evidence."
+      },
+      "custom_targeted": {
+        "id": "custom_targeted",
+        "label": "Custom targeted assay",
+        "required_fields": [
+          "methodOrSOP"
+        ],
+        "recommended_fields": [
+          "eventID",
+          "materialSampleID",
+          "contaminationAssessment"
+        ],
+        "publication_blocking": false,
+        "claim_caveat": "Custom targeted assays need a supplied SOP and external validation for formal claims."
+      },
+      "unknown": {
+        "id": "unknown",
+        "label": "Unknown assay",
+        "required_fields": [],
+        "recommended_fields": [
+          "eventID",
+          "materialSampleID",
+          "methodOrSOP"
+        ],
+        "publication_blocking": false,
+        "claim_caveat": "Assay type was not supplied; ecological and monitoring claims require review."
+      }
+    },
     "ambiguity_test": "competitor is indistinguishable when delta mismatch rate <= 1.96 * combined standard error",
     "safe_rank": "lowest common ancestor of statistically indistinguishable hits",
     "barcode_gap": "species gate requires inter_min_distance - intra_max_distance > 0",
@@ -124,18 +305,21 @@
     "dataset_ready_records": 0,
     "publishable_template_records": 2,
     "safe_rank_records": 2,
-    "repairable_records": 3,
+    "repairable_records": 4,
     "top_species_hits": 4,
     "blocked_or_downgraded_top_species_hits": 3,
     "species_safe_yield": 0.25,
     "safe_rank_yield": 0.5,
     "molecular_evidence_conversion_yield": 0.5,
-    "repairable_yield": 0.75,
+    "repairable_yield": 1.0,
     "blocked_species_claims": 3,
     "overclaim_prevention_rate": 0.75,
     "overclaim_prevention_proxy": 1,
     "publication_repair_efficiency": 1.0,
-    "hard_gate_failures": 0
+    "hard_gate_failures": 0,
+    "assay_gate_failures": 0,
+    "dna_extension_ready_records": 0,
+    "marker_species_disabled_records": 0
   },
   "nexus_v3": {
     "positioning": "Molecular Evidence Conversion & Repair Engine for GBIF",
@@ -146,20 +330,23 @@
       "MECY_molecular_evidence_conversion_yield": 0.5,
       "SRY_safe_rank_yield": 0.5,
       "SSY_species_safe_yield": 0.25,
-      "RY_repairable_yield": 0.75,
+      "RY_repairable_yield": 1.0,
       "OPR_overclaim_prevention_rate": 0.75
     },
     "audit": {
       "hard_gate_failures": 0,
+      "assay_gate_failures": 0,
+      "dna_extension_ready_records": 0,
+      "marker_species_disabled_records": 0,
       "top_species_hits": 4,
       "blocked_or_downgraded_top_species_hits": 3,
       "species_safe_records": 1,
       "publishable_template_records": 2
     },
     "next_platform_layers": [
-      "reference completeness gate",
+      "reference completeness gate calibrated by taxon/marker coverage",
       "protein sanity gate for coding markers",
-      "assay evidence gate for eDNA/metabarcoding controls",
+      "assay evidence gate for eDNA/metabarcoding/qPCR controls",
       "fragment sharedness atlas",
       "Molecular Evidence Graph"
     ],
@@ -176,12 +363,15 @@
       "topHit": "Aedes albopictus",
       "topHitRank": "species",
       "decisionClass": "species-safe",
+      "markerProfile": "coi_full_barcode",
       "exactMatchGate": "pass",
       "ambiguityLcaGate": "pass",
       "barcodeGapGate": "pass",
       "diagnosticKmerGate": "pass",
+      "markerProfileGate": "pass",
       "occurrenceCoreGate": "pass",
       "dnaMetadataGate": "pass",
+      "assayGate": "pass",
       "hardGateViolation": false,
       "auditConclusion": "pass: fail-closed rules preserved"
     },
@@ -190,12 +380,15 @@
       "topHit": "Aedes albopictus",
       "topHitRank": "species",
       "decisionClass": "genus-safe",
+      "markerProfile": "coi_full_barcode",
       "exactMatchGate": "pass",
       "ambiguityLcaGate": "fail",
       "barcodeGapGate": "pass",
       "diagnosticKmerGate": "pass",
+      "markerProfileGate": "pass",
       "occurrenceCoreGate": "pass",
       "dnaMetadataGate": "pass",
+      "assayGate": "pass",
       "hardGateViolation": false,
       "auditConclusion": "pass: fail-closed rules preserved"
     },
@@ -204,12 +397,15 @@
       "topHit": "Aedes albopictus",
       "topHitRank": "species",
       "decisionClass": "weak",
+      "markerProfile": "coi_full_barcode",
       "exactMatchGate": "fail",
       "ambiguityLcaGate": "pass",
       "barcodeGapGate": "pass",
       "diagnosticKmerGate": "pass",
+      "markerProfileGate": "pass",
       "occurrenceCoreGate": "pass",
       "dnaMetadataGate": "pass",
+      "assayGate": "pass",
       "hardGateViolation": false,
       "auditConclusion": "pass: fail-closed rules preserved"
     },
@@ -218,12 +414,15 @@
       "topHit": "Aedes albopictus",
       "topHitRank": "species",
       "decisionClass": "not-publishable",
+      "markerProfile": "coi_full_barcode",
       "exactMatchGate": "pass",
       "ambiguityLcaGate": "pass",
       "barcodeGapGate": "pass",
       "diagnosticKmerGate": "pass",
+      "markerProfileGate": "pass",
       "occurrenceCoreGate": "fail",
       "dnaMetadataGate": "pass",
+      "assayGate": "pass",
       "hardGateViolation": false,
       "auditConclusion": "pass: fail-closed rules preserved"
     }
@@ -249,7 +448,7 @@
       "safeRank": "species",
       "publishedTaxon": "None",
       "publishedRank": "none",
-      "reason": "species claim blocked: top hit does not pass exact match gate identity >= 99% and query coverage >= 80%; species claim blocked: query coverage < 80%"
+      "reason": "species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%; species claim blocked: query coverage < 80%"
     },
     {
       "sequenceID": "AALB-COI-metadata-gap",
@@ -301,6 +500,56 @@
     },
     {
       "bottleneck": "missing dataset metadata: metadataProvider",
+      "records": 4,
+      "MBI_metadata_bottleneck_index": 1.0
+    },
+    {
+      "bottleneck": "missing DNA-derived extension field: eventID",
+      "records": 4,
+      "MBI_metadata_bottleneck_index": 1.0
+    },
+    {
+      "bottleneck": "missing DNA-derived extension field: materialSampleID",
+      "records": 4,
+      "MBI_metadata_bottleneck_index": 1.0
+    },
+    {
+      "bottleneck": "missing DNA-derived extension field: pcr_primer_forward",
+      "records": 4,
+      "MBI_metadata_bottleneck_index": 1.0
+    },
+    {
+      "bottleneck": "missing DNA-derived extension field: pcr_primer_reverse",
+      "records": 4,
+      "MBI_metadata_bottleneck_index": 1.0
+    },
+    {
+      "bottleneck": "missing DNA-derived extension field: seq_meth",
+      "records": 4,
+      "MBI_metadata_bottleneck_index": 1.0
+    },
+    {
+      "bottleneck": "missing assay-recommended field: eventID",
+      "records": 4,
+      "MBI_metadata_bottleneck_index": 1.0
+    },
+    {
+      "bottleneck": "missing assay-recommended field: materialSampleID",
+      "records": 4,
+      "MBI_metadata_bottleneck_index": 1.0
+    },
+    {
+      "bottleneck": "missing assay-recommended field: pcr_primer_forward",
+      "records": 4,
+      "MBI_metadata_bottleneck_index": 1.0
+    },
+    {
+      "bottleneck": "missing assay-recommended field: pcr_primer_reverse",
+      "records": 4,
+      "MBI_metadata_bottleneck_index": 1.0
+    },
+    {
+      "bottleneck": "missing assay-recommended field: seq_meth",
       "records": 4,
       "MBI_metadata_bottleneck_index": 1.0
     },
@@ -358,6 +607,27 @@
     }
   ],
   "repair_plan": [
+    {
+      "repairAction": "Review marker profile warning: input sequence is shorter than supplied aligned_length; length gates use the supplied alignment span",
+      "unlockableRecords": 4,
+      "estimatedGain": 1.0,
+      "estimatedCost": "high",
+      "exampleRecords": "AALB-COI-ambiguous; AALB-COI-good; AALB-COI-metadata-gap; AALB-COI-short"
+    },
+    {
+      "repairAction": "Add assay evidence fields: controls, primers, replicate/QC or qPCR/ddPCR quantification metadata as applicable.",
+      "unlockableRecords": 4,
+      "estimatedGain": 1.0,
+      "estimatedCost": "medium",
+      "exampleRecords": "AALB-COI-ambiguous; AALB-COI-good; AALB-COI-metadata-gap; AALB-COI-short"
+    },
+    {
+      "repairAction": "Add high-priority DNA-derived extension fields: eventID, materialSampleID, pcr_primer_forward, pcr_primer_reverse, seq_meth.",
+      "unlockableRecords": 4,
+      "estimatedGain": 1.0,
+      "estimatedCost": "medium",
+      "exampleRecords": "AALB-COI-ambiguous; AALB-COI-good; AALB-COI-metadata-gap; AALB-COI-short"
+    },
     {
       "repairAction": "Publish the molecular assignment at genus rank unless additional evidence resolves the ambiguity.",
       "unlockableRecords": 1,
@@ -527,6 +797,70 @@
         "dna_pass": true,
         "core_missing": [],
         "dna_missing": [],
+        "marker_profile": {
+          "profile_id": "coi_full_barcode",
+          "profile_label": "COI full barcode / COI-5P",
+          "marker_family": "COI",
+          "coding_marker": true,
+          "target_gene": "cytochrome c oxidase subunit I",
+          "target_subfragment": "COI-5P barcode region",
+          "identity_species_min": 99.0,
+          "coverage_species_min": 80.0,
+          "identity_close_min": 90.0,
+          "coverage_close_min": 80.0,
+          "aligned_span": 658,
+          "min_aligned_length": 500,
+          "max_aligned_length": 800,
+          "length_pass": true,
+          "species_claim_allowed": true,
+          "species_gate_pass": true,
+          "profile_blockers": [],
+          "profile_warnings": [
+            "input sequence is shorter than supplied aligned_length; length gates use the supplied alignment span"
+          ],
+          "claim_caveat": "Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates."
+        },
+        "assay_gate": {
+          "assay_type": "single_specimen_barcode",
+          "assay_label": "Single-specimen barcode",
+          "assay_required_missing": [],
+          "assay_recommended_missing": [
+            "eventID",
+            "materialSampleID",
+            "pcr_primer_forward",
+            "pcr_primer_reverse",
+            "seq_meth"
+          ],
+          "assay_gate_pass": true,
+          "assay_publication_blocking": false,
+          "assay_blockers": [],
+          "assay_actions": [
+            "Add assay evidence fields: controls, primers, replicate/QC or qPCR/ddPCR quantification metadata as applicable."
+          ],
+          "claim_caveat": "The record is interpreted as sequence-derived occurrence evidence, not direct ecological abundance."
+        },
+        "dna_extension_high_priority_fields": [
+          "eventID",
+          "materialSampleID",
+          "DNA_sequence",
+          "target_gene",
+          "target_subfragment",
+          "pcr_primer_forward",
+          "pcr_primer_reverse",
+          "seq_meth",
+          "otu_class_appr",
+          "otu_seq_comp_appr",
+          "otu_db",
+          "sop"
+        ],
+        "dna_extension_high_priority_missing": [
+          "eventID",
+          "materialSampleID",
+          "pcr_primer_forward",
+          "pcr_primer_reverse",
+          "seq_meth"
+        ],
+        "dna_extension_high_priority_pass": false,
         "core_recommended_pass": true,
         "core_recommended_missing": [],
         "dataset_metadata_pass": false,
@@ -539,10 +873,15 @@
           "contact",
           "creator",
           "metadataProvider"
-        ]
+        ],
+        "assay_publication_pass": true
       },
       "blockers": [],
-      "actions": [],
+      "actions": [
+        "Review marker profile warning: input sequence is shorter than supplied aligned_length; length gates use the supplied alignment span",
+        "Add assay evidence fields: controls, primers, replicate/QC or qPCR/ddPCR quantification metadata as applicable.",
+        "Add high-priority DNA-derived extension fields: eventID, materialSampleID, pcr_primer_forward, pcr_primer_reverse, seq_meth."
+      ],
       "metadata": {
         "occurrenceID": "urn:ecogenesis:demo:AALB-COI-good",
         "basisOfRecord": "MaterialSample",
@@ -558,7 +897,15 @@
         "sequenceID": "AALB-COI-good",
         "referenceDatabase": "COI Animals / BOLD public clustered reference",
         "identity": 99.6,
-        "queryCoverage": 96.0
+        "queryCoverage": 96.0,
+        "assayType": "single_specimen_barcode",
+        "DNA_sequence": "ACGTTGACCTAGGCTTACGATCGTACCGATGCTAGCTAGGATCCGATCGTACGATCGTAGCTAGCATCGGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCATCGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCATCGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCATCGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCATCGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCA",
+        "target_gene": "cytochrome c oxidase subunit I",
+        "target_subfragment": "COI-5P barcode region",
+        "otu_db": "COI Animals / BOLD public clustered reference",
+        "otu_class_appr": "GBIF Sequence ID-compatible COI BLAST workflow; ruleset barcode-gbif-compiler-v2",
+        "sop": "GBIF Sequence ID-compatible COI BLAST workflow; ruleset barcode-gbif-compiler-v2",
+        "otu_seq_comp_appr": "identity=99.6; queryCoverage=96.0"
       },
       "hits": [
         {
@@ -856,6 +1203,70 @@
         "dna_pass": true,
         "core_missing": [],
         "dna_missing": [],
+        "marker_profile": {
+          "profile_id": "coi_full_barcode",
+          "profile_label": "COI full barcode / COI-5P",
+          "marker_family": "COI",
+          "coding_marker": true,
+          "target_gene": "cytochrome c oxidase subunit I",
+          "target_subfragment": "COI-5P barcode region",
+          "identity_species_min": 99.0,
+          "coverage_species_min": 80.0,
+          "identity_close_min": 90.0,
+          "coverage_close_min": 80.0,
+          "aligned_span": 658,
+          "min_aligned_length": 500,
+          "max_aligned_length": 800,
+          "length_pass": true,
+          "species_claim_allowed": true,
+          "species_gate_pass": true,
+          "profile_blockers": [],
+          "profile_warnings": [
+            "input sequence is shorter than supplied aligned_length; length gates use the supplied alignment span"
+          ],
+          "claim_caveat": "Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates."
+        },
+        "assay_gate": {
+          "assay_type": "single_specimen_barcode",
+          "assay_label": "Single-specimen barcode",
+          "assay_required_missing": [],
+          "assay_recommended_missing": [
+            "eventID",
+            "materialSampleID",
+            "pcr_primer_forward",
+            "pcr_primer_reverse",
+            "seq_meth"
+          ],
+          "assay_gate_pass": true,
+          "assay_publication_blocking": false,
+          "assay_blockers": [],
+          "assay_actions": [
+            "Add assay evidence fields: controls, primers, replicate/QC or qPCR/ddPCR quantification metadata as applicable."
+          ],
+          "claim_caveat": "The record is interpreted as sequence-derived occurrence evidence, not direct ecological abundance."
+        },
+        "dna_extension_high_priority_fields": [
+          "eventID",
+          "materialSampleID",
+          "DNA_sequence",
+          "target_gene",
+          "target_subfragment",
+          "pcr_primer_forward",
+          "pcr_primer_reverse",
+          "seq_meth",
+          "otu_class_appr",
+          "otu_seq_comp_appr",
+          "otu_db",
+          "sop"
+        ],
+        "dna_extension_high_priority_missing": [
+          "eventID",
+          "materialSampleID",
+          "pcr_primer_forward",
+          "pcr_primer_reverse",
+          "seq_meth"
+        ],
+        "dna_extension_high_priority_pass": false,
         "core_recommended_pass": true,
         "core_recommended_missing": [],
         "dataset_metadata_pass": false,
@@ -868,13 +1279,17 @@
           "contact",
           "creator",
           "metadataProvider"
-        ]
+        ],
+        "assay_publication_pass": true
       },
       "blockers": [
         "species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus"
       ],
       "actions": [
-        "Publish the molecular assignment at genus rank unless additional evidence resolves the ambiguity."
+        "Review marker profile warning: input sequence is shorter than supplied aligned_length; length gates use the supplied alignment span",
+        "Publish the molecular assignment at genus rank unless additional evidence resolves the ambiguity.",
+        "Add assay evidence fields: controls, primers, replicate/QC or qPCR/ddPCR quantification metadata as applicable.",
+        "Add high-priority DNA-derived extension fields: eventID, materialSampleID, pcr_primer_forward, pcr_primer_reverse, seq_meth."
       ],
       "metadata": {
         "occurrenceID": "urn:ecogenesis:demo:AALB-COI-ambiguous",
@@ -891,7 +1306,15 @@
         "sequenceID": "AALB-COI-ambiguous",
         "referenceDatabase": "COI Animals / BOLD public clustered reference",
         "identity": 99.4,
-        "queryCoverage": 96.0
+        "queryCoverage": 96.0,
+        "assayType": "single_specimen_barcode",
+        "DNA_sequence": "ACGTTGACCTAGGCTTACGATCGTACCGATGCTAGCTAGGATCCGATCGTACGATCGTAGCTAGCATCGGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCATCGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCATCGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCATCGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCATCGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCA",
+        "target_gene": "cytochrome c oxidase subunit I",
+        "target_subfragment": "COI-5P barcode region",
+        "otu_db": "COI Animals / BOLD public clustered reference",
+        "otu_class_appr": "GBIF Sequence ID-compatible COI BLAST workflow; ruleset barcode-gbif-compiler-v2",
+        "sop": "GBIF Sequence ID-compatible COI BLAST workflow; ruleset barcode-gbif-compiler-v2",
+        "otu_seq_comp_appr": "identity=99.4; queryCoverage=96.0"
       },
       "hits": [
         {
@@ -1140,6 +1563,70 @@
         "dna_pass": true,
         "core_missing": [],
         "dna_missing": [],
+        "marker_profile": {
+          "profile_id": "coi_full_barcode",
+          "profile_label": "COI full barcode / COI-5P",
+          "marker_family": "COI",
+          "coding_marker": true,
+          "target_gene": "cytochrome c oxidase subunit I",
+          "target_subfragment": "COI-5P barcode region",
+          "identity_species_min": 99.0,
+          "coverage_species_min": 80.0,
+          "identity_close_min": 90.0,
+          "coverage_close_min": 80.0,
+          "aligned_span": 658,
+          "min_aligned_length": 500,
+          "max_aligned_length": 800,
+          "length_pass": true,
+          "species_claim_allowed": true,
+          "species_gate_pass": true,
+          "profile_blockers": [],
+          "profile_warnings": [
+            "input sequence is shorter than supplied aligned_length; length gates use the supplied alignment span"
+          ],
+          "claim_caveat": "Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates."
+        },
+        "assay_gate": {
+          "assay_type": "single_specimen_barcode",
+          "assay_label": "Single-specimen barcode",
+          "assay_required_missing": [],
+          "assay_recommended_missing": [
+            "eventID",
+            "materialSampleID",
+            "pcr_primer_forward",
+            "pcr_primer_reverse",
+            "seq_meth"
+          ],
+          "assay_gate_pass": true,
+          "assay_publication_blocking": false,
+          "assay_blockers": [],
+          "assay_actions": [
+            "Add assay evidence fields: controls, primers, replicate/QC or qPCR/ddPCR quantification metadata as applicable."
+          ],
+          "claim_caveat": "The record is interpreted as sequence-derived occurrence evidence, not direct ecological abundance."
+        },
+        "dna_extension_high_priority_fields": [
+          "eventID",
+          "materialSampleID",
+          "DNA_sequence",
+          "target_gene",
+          "target_subfragment",
+          "pcr_primer_forward",
+          "pcr_primer_reverse",
+          "seq_meth",
+          "otu_class_appr",
+          "otu_seq_comp_appr",
+          "otu_db",
+          "sop"
+        ],
+        "dna_extension_high_priority_missing": [
+          "eventID",
+          "materialSampleID",
+          "pcr_primer_forward",
+          "pcr_primer_reverse",
+          "seq_meth"
+        ],
+        "dna_extension_high_priority_pass": false,
         "core_recommended_pass": true,
         "core_recommended_missing": [],
         "dataset_metadata_pass": false,
@@ -1152,14 +1639,18 @@
           "contact",
           "creator",
           "metadataProvider"
-        ]
+        ],
+        "assay_publication_pass": true
       },
       "blockers": [
-        "species claim blocked: top hit does not pass exact match gate identity >= 99% and query coverage >= 80%",
+        "species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%",
         "species claim blocked: query coverage < 80%"
       ],
       "actions": [
-        "Use a longer/cleaner marker sequence or treat the assignment below species rank."
+        "Review marker profile warning: input sequence is shorter than supplied aligned_length; length gates use the supplied alignment span",
+        "Use a longer/cleaner marker sequence or treat the assignment below species rank.",
+        "Add assay evidence fields: controls, primers, replicate/QC or qPCR/ddPCR quantification metadata as applicable.",
+        "Add high-priority DNA-derived extension fields: eventID, materialSampleID, pcr_primer_forward, pcr_primer_reverse, seq_meth."
       ],
       "metadata": {
         "occurrenceID": "urn:ecogenesis:demo:AALB-COI-short",
@@ -1176,7 +1667,15 @@
         "sequenceID": "AALB-COI-short",
         "referenceDatabase": "COI Animals / BOLD public clustered reference",
         "identity": 99.5,
-        "queryCoverage": 72.0
+        "queryCoverage": 72.0,
+        "assayType": "single_specimen_barcode",
+        "DNA_sequence": "ACGTTGACCTAGGCTTACGATCGTACCGATGCTAGCTAGGATCCGATCGTACGATCGTAGCTAGCATCGGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCATCGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCATCGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCATCGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCATCGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCA",
+        "target_gene": "cytochrome c oxidase subunit I",
+        "target_subfragment": "COI-5P barcode region",
+        "otu_db": "COI Animals / BOLD public clustered reference",
+        "otu_class_appr": "GBIF Sequence ID-compatible COI BLAST workflow; ruleset barcode-gbif-compiler-v2",
+        "sop": "GBIF Sequence ID-compatible COI BLAST workflow; ruleset barcode-gbif-compiler-v2",
+        "otu_seq_comp_appr": "identity=99.5; queryCoverage=72.0"
       },
       "hits": [
         {
@@ -1379,6 +1878,70 @@
           "eventDate"
         ],
         "dna_missing": [],
+        "marker_profile": {
+          "profile_id": "coi_full_barcode",
+          "profile_label": "COI full barcode / COI-5P",
+          "marker_family": "COI",
+          "coding_marker": true,
+          "target_gene": "cytochrome c oxidase subunit I",
+          "target_subfragment": "COI-5P barcode region",
+          "identity_species_min": 99.0,
+          "coverage_species_min": 80.0,
+          "identity_close_min": 90.0,
+          "coverage_close_min": 80.0,
+          "aligned_span": 658,
+          "min_aligned_length": 500,
+          "max_aligned_length": 800,
+          "length_pass": true,
+          "species_claim_allowed": true,
+          "species_gate_pass": true,
+          "profile_blockers": [],
+          "profile_warnings": [
+            "input sequence is shorter than supplied aligned_length; length gates use the supplied alignment span"
+          ],
+          "claim_caveat": "Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates."
+        },
+        "assay_gate": {
+          "assay_type": "single_specimen_barcode",
+          "assay_label": "Single-specimen barcode",
+          "assay_required_missing": [],
+          "assay_recommended_missing": [
+            "eventID",
+            "materialSampleID",
+            "pcr_primer_forward",
+            "pcr_primer_reverse",
+            "seq_meth"
+          ],
+          "assay_gate_pass": true,
+          "assay_publication_blocking": false,
+          "assay_blockers": [],
+          "assay_actions": [
+            "Add assay evidence fields: controls, primers, replicate/QC or qPCR/ddPCR quantification metadata as applicable."
+          ],
+          "claim_caveat": "The record is interpreted as sequence-derived occurrence evidence, not direct ecological abundance."
+        },
+        "dna_extension_high_priority_fields": [
+          "eventID",
+          "materialSampleID",
+          "DNA_sequence",
+          "target_gene",
+          "target_subfragment",
+          "pcr_primer_forward",
+          "pcr_primer_reverse",
+          "seq_meth",
+          "otu_class_appr",
+          "otu_seq_comp_appr",
+          "otu_db",
+          "sop"
+        ],
+        "dna_extension_high_priority_missing": [
+          "eventID",
+          "materialSampleID",
+          "pcr_primer_forward",
+          "pcr_primer_reverse",
+          "seq_meth"
+        ],
+        "dna_extension_high_priority_pass": false,
         "core_recommended_pass": false,
         "core_recommended_missing": [
           "decimalLatitude",
@@ -1396,14 +1959,18 @@
           "contact",
           "creator",
           "metadataProvider"
-        ]
+        ],
+        "assay_publication_pass": true
       },
       "blockers": [
         "publication blocked: missing required Occurrence core field occurrenceID",
         "publication blocked: missing required Occurrence core field eventDate"
       ],
       "actions": [
-        "Complete required Darwin Core Occurrence core fields before GBIF publication."
+        "Review marker profile warning: input sequence is shorter than supplied aligned_length; length gates use the supplied alignment span",
+        "Complete required Darwin Core Occurrence core fields before GBIF publication.",
+        "Add assay evidence fields: controls, primers, replicate/QC or qPCR/ddPCR quantification metadata as applicable.",
+        "Add high-priority DNA-derived extension fields: eventID, materialSampleID, pcr_primer_forward, pcr_primer_reverse, seq_meth."
       ],
       "metadata": {
         "basisOfRecord": "MaterialSample",
@@ -1414,7 +1981,15 @@
         "sequenceID": "AALB-COI-metadata-gap",
         "referenceDatabase": "COI Animals / BOLD public clustered reference",
         "identity": 99.6,
-        "queryCoverage": 96.0
+        "queryCoverage": 96.0,
+        "assayType": "single_specimen_barcode",
+        "DNA_sequence": "ACGTTGACCTAGGCTTACGATCGTACCGATGCTAGCTAGGATCCGATCGTACGATCGTAGCTAGCATCGGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCATCGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCATCGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCATCGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCATCGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCA",
+        "target_gene": "cytochrome c oxidase subunit I",
+        "target_subfragment": "COI-5P barcode region",
+        "otu_db": "COI Animals / BOLD public clustered reference",
+        "otu_class_appr": "GBIF Sequence ID-compatible COI BLAST workflow; ruleset barcode-gbif-compiler-v2",
+        "sop": "GBIF Sequence ID-compatible COI BLAST workflow; ruleset barcode-gbif-compiler-v2",
+        "otu_seq_comp_appr": "identity=99.6; queryCoverage=96.0"
       },
       "hits": [
         {
@@ -1472,6 +2047,8 @@
   "request": {
     "project_title": "Aedes COI batch: safe, ambiguous, weak and metadata cases",
     "marker": "COI-5P",
+    "marker_profile": null,
+    "assay_type": "single_specimen_barcode",
     "reference_database": "COI Animals / BOLD public clustered reference",
     "method_or_sop": "GBIF Sequence ID-compatible BLAST workflow with deterministic rank gates",
     "ruleset_version": "barcode-gbif-compiler-v2",
@@ -1911,10 +2488,10 @@
   },
   "evidence_graph": {
     "meta": {
-      "run_id": "46e4a1a09d444ed39e1986d0a4a046d8",
+      "run_id": "ac0b76bc34ec48539c152de8845ea378",
       "ruleset_version": "barcode-gbif-compiler-v2",
       "reference_manifest_sha256": "da337f143497dd4c0ed01ce65e3f554d9c70d0bacd185e560d9f6c8f28ec45f7",
-      "created_at": "2026-06-02T03:34:12.585406+00:00"
+      "created_at": "2026-06-02T03:50:29.609493+00:00"
     },
     "stats": {
       "sequence_count": 4,
@@ -1923,7 +2500,7 @@
     },
     "nodes": [
       {
-        "id": "run:46e4a1a09d444ed39e1986d0a4a046d8",
+        "id": "run:ac0b76bc34ec48539c152de8845ea378",
         "type": "run",
         "label": "Aedes COI batch: safe, ambiguous, weak and metadata cases"
       },
@@ -2011,9 +2588,9 @@
         "label": "weak"
       },
       {
-        "id": "blocker:37272f3b3b15",
+        "id": "blocker:54c10229b6d4",
         "type": "blocker",
-        "label": "species claim blocked: top hit does not pass exact match gate identity >= 99% and query coverage >= 80%"
+        "label": "species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%"
       },
       {
         "id": "blocker:4b566aab621e",
@@ -2062,6 +2639,12 @@
         "sha256": "970910f408014e09d7eaa6449d3e548bdb4b703fed7ab9a82f6d8605129dc028"
       },
       {
+        "id": "artifact:assay_gate_audit.csv",
+        "type": "artifact",
+        "label": "assay_gate_audit.csv",
+        "sha256": "4290288abfcf4dd69d5d2651d79111c8a79ec6f3e0309700f6acb8654b4c254c"
+      },
+      {
         "id": "artifact:barcode_gap_report.csv",
         "type": "artifact",
         "label": "barcode_gap_report.csv",
@@ -2071,7 +2654,7 @@
         "id": "artifact:citations.md",
         "type": "artifact",
         "label": "citations.md",
-        "sha256": "d0a5e7c015cc5078f377f493034c953106ecd93a1dc7700eaf6aac6422c29187"
+        "sha256": "cf6bb6af16021d9922004d67965f76cd43c630956d259a2527f12e882223eed0"
       },
       {
         "id": "artifact:diagnostic_kmer_report.csv",
@@ -2083,67 +2666,73 @@
         "id": "artifact:dna_derived_extension_gbif_ready.csv",
         "type": "artifact",
         "label": "dna_derived_extension_gbif_ready.csv",
-        "sha256": "8063186891b9c9f2d88fc0d834f1538b980176e25e2b06598130670efd940054"
+        "sha256": "3b3acbec2380cf09e7602162efc280cc7f5fa081877e2fd58037992014664603"
       },
       {
         "id": "artifact:dna_derived_extension_publishable.csv",
         "type": "artifact",
         "label": "dna_derived_extension_publishable.csv",
-        "sha256": "8063186891b9c9f2d88fc0d834f1538b980176e25e2b06598130670efd940054"
+        "sha256": "3b3acbec2380cf09e7602162efc280cc7f5fa081877e2fd58037992014664603"
       },
       {
         "id": "artifact:dna_derived_extension_template.csv",
         "type": "artifact",
         "label": "dna_derived_extension_template.csv",
-        "sha256": "5fa5aa2ec52b32dd81a5ba49cd80194d9c170d4d702fa929f8ea4f4733ac47a0"
+        "sha256": "370f87026ad87bae0ff8ec8f2642f26bf80d8eb476faf5235baf84ba3b86e87f"
+      },
+      {
+        "id": "artifact:dna_extension_readiness.csv",
+        "type": "artifact",
+        "label": "dna_extension_readiness.csv",
+        "sha256": "aa15fa2d0e5722aac27de4c3e0c5ee54714bc7818d406e5b8cb4e8bd2d57bbd3"
       },
       {
         "id": "artifact:dwc_occurrence_core_gbif_ready.csv",
         "type": "artifact",
         "label": "dwc_occurrence_core_gbif_ready.csv",
-        "sha256": "51a19624a731fc50fa87420c282c4e755ee9fe0d46d5239506f30762fb005428"
+        "sha256": "f3c080bef7c65f7644536a80dfb54c5d27f44ca6ee7a107cb3a0a06d8b2faff5"
       },
       {
         "id": "artifact:dwc_occurrence_core_publishable.csv",
         "type": "artifact",
         "label": "dwc_occurrence_core_publishable.csv",
-        "sha256": "51a19624a731fc50fa87420c282c4e755ee9fe0d46d5239506f30762fb005428"
+        "sha256": "f3c080bef7c65f7644536a80dfb54c5d27f44ca6ee7a107cb3a0a06d8b2faff5"
       },
       {
         "id": "artifact:dwc_occurrence_core_review.csv",
         "type": "artifact",
         "label": "dwc_occurrence_core_review.csv",
-        "sha256": "2fd7c7cda1582a900c9b0e530eef97e3e839656b043058950ffe6f13d407662f"
+        "sha256": "a718586ce538f59783a86471a8d527f0540640a5ed5ea936d05b624a7cb0e92e"
       },
       {
         "id": "artifact:dwc_occurrence_core_review_or_repair.csv",
         "type": "artifact",
         "label": "dwc_occurrence_core_review_or_repair.csv",
-        "sha256": "2f53d9008e591b89ce3ad64bce1f84bd2c92e3118071a320fb8abfcc0da6d882"
+        "sha256": "f6f681b8870c0f48cabe3ba80e8d8c6547bb96977c27638bfebc32943a47ea64"
       },
       {
         "id": "artifact:dwc_occurrence_core_template.csv",
         "type": "artifact",
         "label": "dwc_occurrence_core_template.csv",
-        "sha256": "2fd7c7cda1582a900c9b0e530eef97e3e839656b043058950ffe6f13d407662f"
+        "sha256": "a718586ce538f59783a86471a8d527f0540640a5ed5ea936d05b624a7cb0e92e"
       },
       {
         "id": "artifact:evidence_graph.json",
         "type": "artifact",
         "label": "evidence_graph.json",
-        "sha256": "b28c57df1cd8c557c3ff0eddaddcb7395290af5e61d266b316a63cd2d6014c9c"
+        "sha256": "7a6e52fe7f6568052ed14a6efc358aeefbd64303eaa041a2aa72d340fccb12ce"
       },
       {
         "id": "artifact:evidence_pack.json",
         "type": "artifact",
         "label": "evidence_pack.json",
-        "sha256": "8284164920f7d6a374abed0c40485018fe998aaeadef413ee44aa124cd283d91"
+        "sha256": "4a79da4fbf24d4864d7186254bc6fa9d9f33cfefd692c5d07ce381eeeea12c3e"
       },
       {
         "id": "artifact:evidence_pack.zip",
         "type": "artifact",
         "label": "evidence_pack.zip",
-        "sha256": "ef651c03e0e8cfcfdca711fae3f3a000b4a5da0c63e38457a101baaf97cc1c97"
+        "sha256": "4b1c7dfa18026c6f3e1aeaa8d95df226b146b396b6173ac1d47b0deca7572aeb"
       },
       {
         "id": "artifact:external_tool_adapter_matrix.csv",
@@ -2161,49 +2750,55 @@
         "id": "artifact:hard_gate_audit.csv",
         "type": "artifact",
         "label": "hard_gate_audit.csv",
-        "sha256": "fed05c81cf9e26294a86ff14642c641f8bb7e1aab7267993f294bc0e33223574"
+        "sha256": "9975c9324d913fcbabe6856235e4d57763506043f2e92fbc6a70d26510f426f5"
+      },
+      {
+        "id": "artifact:marker_profile_audit.csv",
+        "type": "artifact",
+        "label": "marker_profile_audit.csv",
+        "sha256": "78e45657d152fcc6ce8012b4ffe8db3b2d2c6548bc8457407f5af0ea0325ac4e"
       },
       {
         "id": "artifact:metadata_bottlenecks.csv",
         "type": "artifact",
         "label": "metadata_bottlenecks.csv",
-        "sha256": "70ecbb79aae5fbd28272b31af2ddb136aeac14a49aae330b9f26e850ee06c9b7"
+        "sha256": "2d3972e1bddfa93fe417b08d62a9f6b1c7e4a1520a2760377626d534f182bb9b"
       },
       {
         "id": "artifact:methods_text.md",
         "type": "artifact",
         "label": "methods_text.md",
-        "sha256": "4dcf2585bf2c5cd11a24564ff0147343edbc2471d164aacecc4720c359b03104"
+        "sha256": "ce64d61717a7b845b359358028defe68a805edec076b0ea01525e89ccef31a6d"
       },
       {
         "id": "artifact:molecular_evidence_report.html",
         "type": "artifact",
         "label": "molecular_evidence_report.html",
-        "sha256": "6c023e6540ca8af7b135cb756563304ba19ffbd85502ff9aba262f71229418c6"
+        "sha256": "11082cc2eb5b0fa93f568fc44536bd2336064b7c0d38eef4e389743722f71984"
       },
       {
         "id": "artifact:naive_top_hit_overclaims.csv",
         "type": "artifact",
         "label": "naive_top_hit_overclaims.csv",
-        "sha256": "4e27d1df04a886530e94c668af33ddbb3f212e8337281b299a1339c215f938b8"
+        "sha256": "2e110c07acaeaa5310b873fe72b145c4b7df70df092865090c1f819e6fd034fb"
       },
       {
         "id": "artifact:nexus_v3_summary.json",
         "type": "artifact",
         "label": "nexus_v3_summary.json",
-        "sha256": "75e90aad658e53408d1a0b480447da091b63eff64e317d8485acd4ad84ffde9e"
+        "sha256": "3cd81156ceaa90ea5ced1fdffdf1607dbe29ef8686804c552fbcbdddb280cea4"
       },
       {
         "id": "artifact:proof_by_failure_modes.md",
         "type": "artifact",
         "label": "proof_by_failure_modes.md",
-        "sha256": "72bd59e8bd131429e113375ab7fba667d40bd41cb5e29f364c3322cf2f4d7f46"
+        "sha256": "82cda506dd248454a6728a6df9c3ae97be069bb29b54ad7c91bd9406f664b1aa"
       },
       {
         "id": "artifact:publication_blockers.csv",
         "type": "artifact",
         "label": "publication_blockers.csv",
-        "sha256": "020240f72b9d02b64f438aef7a8f6813d7f63c5241bd42a1140fffe1405e76e6"
+        "sha256": "12d364daae79c65110839f304198a33b01c513152d87345291fa70e79753e349"
       },
       {
         "id": "artifact:reference_gap_index.csv",
@@ -2218,22 +2813,28 @@
         "sha256": "526303710aac8c6c9a0f7227339b40fe5004b2cee2689404ee2966b2f08ba083"
       },
       {
+        "id": "artifact:repair_gain_estimates.csv",
+        "type": "artifact",
+        "label": "repair_gain_estimates.csv",
+        "sha256": "82baeff2d7a95729cad454a8edaf2332f6767515e1edc85bb7927fd1a34d516e"
+      },
+      {
         "id": "artifact:repair_plan.csv",
         "type": "artifact",
         "label": "repair_plan.csv",
-        "sha256": "310ab14d8ecddb8e8ebef1f9231dc6cf88d949db7c4ee29fa6075b20da55f918"
+        "sha256": "82baeff2d7a95729cad454a8edaf2332f6767515e1edc85bb7927fd1a34d516e"
       },
       {
         "id": "artifact:review_taxonomic_hints.csv",
         "type": "artifact",
         "label": "review_taxonomic_hints.csv",
-        "sha256": "fc46886912fb7cd3e219cb5face1a300d84d424ce81877eef4c822cf1256efff"
+        "sha256": "651e572e18684f51f2f4f968986b2256632b1e3cdd61fac42fc0be681f46a7e1"
       },
       {
         "id": "artifact:run.json",
         "type": "artifact",
         "label": "run.json",
-        "sha256": "43029210ace1972d8520d78553e413c723cb02c48b0620494e5990cca9dc2410"
+        "sha256": "b218af6caa887d58f54d9be5eb54d8dd5d8b11d076192ad3a3e1f559fc4e6b99"
       },
       {
         "id": "artifact:safe_taxonomic_assignments.csv",
@@ -2245,17 +2846,17 @@
         "id": "artifact:sequence_safety_table.csv",
         "type": "artifact",
         "label": "sequence_safety_table.csv",
-        "sha256": "7b4b9cbeb40ce85f5a2ae3dced0776470163dbf323eb3d74b4a06d7a99e1f128"
+        "sha256": "c9ba890cfe05b0a83c6ec8c6c8277901195bceed8ad8a64297df5655cbc980f7"
       }
     ],
     "edges": [
       {
-        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
         "target": "reference_manifest:da337f143497dd4c0ed01ce65e3f554d9c70d0bacd185e560d9f6c8f28ec45f7",
         "type": "frozen_against"
       },
       {
-        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
         "target": "sequence:AALB-COI-good",
         "type": "contains_sequence"
       },
@@ -2280,7 +2881,7 @@
         "type": "matches_reference"
       },
       {
-        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
         "target": "sequence:AALB-COI-ambiguous",
         "type": "contains_sequence"
       },
@@ -2310,7 +2911,7 @@
         "type": "matches_reference"
       },
       {
-        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
         "target": "sequence:AALB-COI-short",
         "type": "contains_sequence"
       },
@@ -2326,7 +2927,7 @@
       },
       {
         "source": "assignment:AALB-COI-short",
-        "target": "blocker:37272f3b3b15",
+        "target": "blocker:54c10229b6d4",
         "type": "blocked_by"
       },
       {
@@ -2340,7 +2941,7 @@
         "type": "matches_reference"
       },
       {
-        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
         "target": "sequence:AALB-COI-metadata-gap",
         "type": "contains_sequence"
       },
@@ -2370,162 +2971,182 @@
         "type": "matches_reference"
       },
       {
-        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
         "target": "artifact:ambiguous_sequences.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
+        "target": "artifact:assay_gate_audit.csv",
+        "type": "produces_artifact"
+      },
+      {
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
         "target": "artifact:barcode_gap_report.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
         "target": "artifact:citations.md",
         "type": "produces_artifact"
       },
       {
-        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
         "target": "artifact:diagnostic_kmer_report.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
         "target": "artifact:dna_derived_extension_gbif_ready.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
         "target": "artifact:dna_derived_extension_publishable.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
         "target": "artifact:dna_derived_extension_template.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
+        "target": "artifact:dna_extension_readiness.csv",
+        "type": "produces_artifact"
+      },
+      {
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
         "target": "artifact:dwc_occurrence_core_gbif_ready.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
         "target": "artifact:dwc_occurrence_core_publishable.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
         "target": "artifact:dwc_occurrence_core_review.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
         "target": "artifact:dwc_occurrence_core_review_or_repair.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
         "target": "artifact:dwc_occurrence_core_template.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
         "target": "artifact:evidence_graph.json",
         "type": "produces_artifact"
       },
       {
-        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
         "target": "artifact:evidence_pack.json",
         "type": "produces_artifact"
       },
       {
-        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
         "target": "artifact:evidence_pack.zip",
         "type": "produces_artifact"
       },
       {
-        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
         "target": "artifact:external_tool_adapter_matrix.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
         "target": "artifact:gbif_backbone_matches.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
         "target": "artifact:hard_gate_audit.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
+        "target": "artifact:marker_profile_audit.csv",
+        "type": "produces_artifact"
+      },
+      {
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
         "target": "artifact:metadata_bottlenecks.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
         "target": "artifact:methods_text.md",
         "type": "produces_artifact"
       },
       {
-        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
         "target": "artifact:molecular_evidence_report.html",
         "type": "produces_artifact"
       },
       {
-        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
         "target": "artifact:naive_top_hit_overclaims.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
         "target": "artifact:nexus_v3_summary.json",
         "type": "produces_artifact"
       },
       {
-        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
         "target": "artifact:proof_by_failure_modes.md",
         "type": "produces_artifact"
       },
       {
-        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
         "target": "artifact:publication_blockers.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
         "target": "artifact:reference_gap_index.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
         "target": "artifact:reference_manifest.json",
         "type": "produces_artifact"
       },
       {
-        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
+        "target": "artifact:repair_gain_estimates.csv",
+        "type": "produces_artifact"
+      },
+      {
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
         "target": "artifact:repair_plan.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
         "target": "artifact:review_taxonomic_hints.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
         "target": "artifact:run.json",
         "type": "produces_artifact"
       },
       {
-        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
         "target": "artifact:safe_taxonomic_assignments.csv",
         "type": "produces_artifact"
       },
       {
-        "source": "run:46e4a1a09d444ed39e1986d0a4a046d8",
+        "source": "run:ac0b76bc34ec48539c152de8845ea378",
         "target": "artifact:sequence_safety_table.csv",
         "type": "produces_artifact"
       }
@@ -2534,195 +3155,219 @@
   "exports": [
     {
       "name": "ambiguous_sequences.csv",
-      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/ambiguous_sequences.csv",
+      "url": "/api/barcode/runs/ac0b76bc34ec48539c152de8845ea378/exports/ambiguous_sequences.csv",
       "size_bytes": 326,
       "sha256": "970910f408014e09d7eaa6449d3e548bdb4b703fed7ab9a82f6d8605129dc028"
     },
     {
+      "name": "assay_gate_audit.csv",
+      "url": "/api/barcode/runs/ac0b76bc34ec48539c152de8845ea378/exports/assay_gate_audit.csv",
+      "size_bytes": 1153,
+      "sha256": "4290288abfcf4dd69d5d2651d79111c8a79ec6f3e0309700f6acb8654b4c254c"
+    },
+    {
       "name": "barcode_gap_report.csv",
-      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/barcode_gap_report.csv",
+      "url": "/api/barcode/runs/ac0b76bc34ec48539c152de8845ea378/exports/barcode_gap_report.csv",
       "size_bytes": 225,
       "sha256": "79f151decd9d704c17228a1d0f80a16c1cb7b92527e07aa7a5863c030958fdf8"
     },
     {
       "name": "citations.md",
-      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/citations.md",
+      "url": "/api/barcode/runs/ac0b76bc34ec48539c152de8845ea378/exports/citations.md",
       "size_bytes": 1412,
-      "sha256": "d0a5e7c015cc5078f377f493034c953106ecd93a1dc7700eaf6aac6422c29187"
+      "sha256": "cf6bb6af16021d9922004d67965f76cd43c630956d259a2527f12e882223eed0"
     },
     {
       "name": "diagnostic_kmer_report.csv",
-      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/diagnostic_kmer_report.csv",
+      "url": "/api/barcode/runs/ac0b76bc34ec48539c152de8845ea378/exports/diagnostic_kmer_report.csv",
       "size_bytes": 368,
       "sha256": "140b983e06fd2764f72f62679bef29ecd255509bb6743c3bdbb4c94869e7a2b6"
     },
     {
       "name": "dna_derived_extension_gbif_ready.csv",
-      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/dna_derived_extension_gbif_ready.csv",
-      "size_bytes": 1114,
-      "sha256": "8063186891b9c9f2d88fc0d834f1538b980176e25e2b06598130670efd940054"
+      "url": "/api/barcode/runs/ac0b76bc34ec48539c152de8845ea378/exports/dna_derived_extension_gbif_ready.csv",
+      "size_bytes": 2800,
+      "sha256": "3b3acbec2380cf09e7602162efc280cc7f5fa081877e2fd58037992014664603"
     },
     {
       "name": "dna_derived_extension_publishable.csv",
-      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/dna_derived_extension_publishable.csv",
-      "size_bytes": 1114,
-      "sha256": "8063186891b9c9f2d88fc0d834f1538b980176e25e2b06598130670efd940054"
+      "url": "/api/barcode/runs/ac0b76bc34ec48539c152de8845ea378/exports/dna_derived_extension_publishable.csv",
+      "size_bytes": 2800,
+      "sha256": "3b3acbec2380cf09e7602162efc280cc7f5fa081877e2fd58037992014664603"
     },
     {
       "name": "dna_derived_extension_template.csv",
-      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/dna_derived_extension_template.csv",
-      "size_bytes": 2041,
-      "sha256": "5fa5aa2ec52b32dd81a5ba49cd80194d9c170d4d702fa929f8ea4f4733ac47a0"
+      "url": "/api/barcode/runs/ac0b76bc34ec48539c152de8845ea378/exports/dna_derived_extension_template.csv",
+      "size_bytes": 5241,
+      "sha256": "370f87026ad87bae0ff8ec8f2642f26bf80d8eb476faf5235baf84ba3b86e87f"
+    },
+    {
+      "name": "dna_extension_readiness.csv",
+      "url": "/api/barcode/runs/ac0b76bc34ec48539c152de8845ea378/exports/dna_extension_readiness.csv",
+      "size_bytes": 1787,
+      "sha256": "aa15fa2d0e5722aac27de4c3e0c5ee54714bc7818d406e5b8cb4e8bd2d57bbd3"
     },
     {
       "name": "dwc_occurrence_core_gbif_ready.csv",
-      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/dwc_occurrence_core_gbif_ready.csv",
-      "size_bytes": 925,
-      "sha256": "51a19624a731fc50fa87420c282c4e755ee9fe0d46d5239506f30762fb005428"
+      "url": "/api/barcode/runs/ac0b76bc34ec48539c152de8845ea378/exports/dwc_occurrence_core_gbif_ready.csv",
+      "size_bytes": 1015,
+      "sha256": "f3c080bef7c65f7644536a80dfb54c5d27f44ca6ee7a107cb3a0a06d8b2faff5"
     },
     {
       "name": "dwc_occurrence_core_publishable.csv",
-      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/dwc_occurrence_core_publishable.csv",
-      "size_bytes": 925,
-      "sha256": "51a19624a731fc50fa87420c282c4e755ee9fe0d46d5239506f30762fb005428"
+      "url": "/api/barcode/runs/ac0b76bc34ec48539c152de8845ea378/exports/dwc_occurrence_core_publishable.csv",
+      "size_bytes": 1015,
+      "sha256": "f3c080bef7c65f7644536a80dfb54c5d27f44ca6ee7a107cb3a0a06d8b2faff5"
     },
     {
       "name": "dwc_occurrence_core_review.csv",
-      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/dwc_occurrence_core_review.csv",
-      "size_bytes": 1508,
-      "sha256": "2fd7c7cda1582a900c9b0e530eef97e3e839656b043058950ffe6f13d407662f"
+      "url": "/api/barcode/runs/ac0b76bc34ec48539c152de8845ea378/exports/dwc_occurrence_core_review.csv",
+      "size_bytes": 1608,
+      "sha256": "a718586ce538f59783a86471a8d527f0540640a5ed5ea936d05b624a7cb0e92e"
     },
     {
       "name": "dwc_occurrence_core_review_or_repair.csv",
-      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/dwc_occurrence_core_review_or_repair.csv",
-      "size_bytes": 754,
-      "sha256": "2f53d9008e591b89ce3ad64bce1f84bd2c92e3118071a320fb8abfcc0da6d882"
+      "url": "/api/barcode/runs/ac0b76bc34ec48539c152de8845ea378/exports/dwc_occurrence_core_review_or_repair.csv",
+      "size_bytes": 1542,
+      "sha256": "f6f681b8870c0f48cabe3ba80e8d8c6547bb96977c27638bfebc32943a47ea64"
     },
     {
       "name": "dwc_occurrence_core_template.csv",
-      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/dwc_occurrence_core_template.csv",
-      "size_bytes": 1508,
-      "sha256": "2fd7c7cda1582a900c9b0e530eef97e3e839656b043058950ffe6f13d407662f"
+      "url": "/api/barcode/runs/ac0b76bc34ec48539c152de8845ea378/exports/dwc_occurrence_core_template.csv",
+      "size_bytes": 1608,
+      "sha256": "a718586ce538f59783a86471a8d527f0540640a5ed5ea936d05b624a7cb0e92e"
     },
     {
       "name": "evidence_graph.json",
-      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/evidence_graph.json",
-      "size_bytes": 7545,
-      "sha256": "b28c57df1cd8c557c3ff0eddaddcb7395290af5e61d266b316a63cd2d6014c9c"
+      "url": "/api/barcode/runs/ac0b76bc34ec48539c152de8845ea378/exports/evidence_graph.json",
+      "size_bytes": 7556,
+      "sha256": "7a6e52fe7f6568052ed14a6efc358aeefbd64303eaa041a2aa72d340fccb12ce"
     },
     {
       "name": "evidence_pack.json",
-      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/evidence_pack.json",
-      "size_bytes": 66347,
-      "sha256": "8284164920f7d6a374abed0c40485018fe998aaeadef413ee44aa124cd283d91"
+      "url": "/api/barcode/runs/ac0b76bc34ec48539c152de8845ea378/exports/evidence_pack.json",
+      "size_bytes": 92227,
+      "sha256": "4a79da4fbf24d4864d7186254bc6fa9d9f33cfefd692c5d07ce381eeeea12c3e"
     },
     {
       "name": "evidence_pack.zip",
-      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/evidence_pack.zip",
-      "size_bytes": 23965,
-      "sha256": "ef651c03e0e8cfcfdca711fae3f3a000b4a5da0c63e38457a101baaf97cc1c97"
+      "url": "/api/barcode/runs/ac0b76bc34ec48539c152de8845ea378/exports/evidence_pack.zip",
+      "size_bytes": 30199,
+      "sha256": "4b1c7dfa18026c6f3e1aeaa8d95df226b146b396b6173ac1d47b0deca7572aeb"
     },
     {
       "name": "external_tool_adapter_matrix.csv",
-      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/external_tool_adapter_matrix.csv",
+      "url": "/api/barcode/runs/ac0b76bc34ec48539c152de8845ea378/exports/external_tool_adapter_matrix.csv",
       "size_bytes": 1064,
       "sha256": "63aaee18447111d0fd648589c0a04ea77ad0580b9b195aaeea72ca17534cf7c6"
     },
     {
       "name": "gbif_backbone_matches.csv",
-      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/gbif_backbone_matches.csv",
+      "url": "/api/barcode/runs/ac0b76bc34ec48539c152de8845ea378/exports/gbif_backbone_matches.csv",
       "size_bytes": 845,
       "sha256": "0f4bd2c8ee811bdbf078bf5560f430fed589b99a21bde1e08a6cfacc0a53e405"
     },
     {
       "name": "hard_gate_audit.csv",
-      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/hard_gate_audit.csv",
-      "size_bytes": 673,
-      "sha256": "fed05c81cf9e26294a86ff14642c641f8bb7e1aab7267993f294bc0e33223574"
+      "url": "/api/barcode/runs/ac0b76bc34ec48539c152de8845ea378/exports/hard_gate_audit.csv",
+      "size_bytes": 823,
+      "sha256": "9975c9324d913fcbabe6856235e4d57763506043f2e92fbc6a70d26510f426f5"
+    },
+    {
+      "name": "marker_profile_audit.csv",
+      "url": "/api/barcode/runs/ac0b76bc34ec48539c152de8845ea378/exports/marker_profile_audit.csv",
+      "size_bytes": 1658,
+      "sha256": "78e45657d152fcc6ce8012b4ffe8db3b2d2c6548bc8457407f5af0ea0325ac4e"
     },
     {
       "name": "metadata_bottlenecks.csv",
-      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/metadata_bottlenecks.csv",
-      "size_bytes": 704,
-      "sha256": "70ecbb79aae5fbd28272b31af2ddb136aeac14a49aae330b9f26e850ee06c9b7"
+      "url": "/api/barcode/runs/ac0b76bc34ec48539c152de8845ea378/exports/metadata_bottlenecks.csv",
+      "size_bytes": 1258,
+      "sha256": "2d3972e1bddfa93fe417b08d62a9f6b1c7e4a1520a2760377626d534f182bb9b"
     },
     {
       "name": "methods_text.md",
-      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/methods_text.md",
-      "size_bytes": 2929,
-      "sha256": "4dcf2585bf2c5cd11a24564ff0147343edbc2471d164aacecc4720c359b03104"
+      "url": "/api/barcode/runs/ac0b76bc34ec48539c152de8845ea378/exports/methods_text.md",
+      "size_bytes": 3464,
+      "sha256": "ce64d61717a7b845b359358028defe68a805edec076b0ea01525e89ccef31a6d"
     },
     {
       "name": "molecular_evidence_report.html",
-      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/molecular_evidence_report.html",
-      "size_bytes": 4466,
-      "sha256": "6c023e6540ca8af7b135cb756563304ba19ffbd85502ff9aba262f71229418c6"
+      "url": "/api/barcode/runs/ac0b76bc34ec48539c152de8845ea378/exports/molecular_evidence_report.html",
+      "size_bytes": 6273,
+      "sha256": "11082cc2eb5b0fa93f568fc44536bd2336064b7c0d38eef4e389743722f71984"
     },
     {
       "name": "naive_top_hit_overclaims.csv",
-      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/naive_top_hit_overclaims.csv",
-      "size_bytes": 753,
-      "sha256": "4e27d1df04a886530e94c668af33ddbb3f212e8337281b299a1339c215f938b8"
+      "url": "/api/barcode/runs/ac0b76bc34ec48539c152de8845ea378/exports/naive_top_hit_overclaims.csv",
+      "size_bytes": 764,
+      "sha256": "2e110c07acaeaa5310b873fe72b145c4b7df70df092865090c1f819e6fd034fb"
     },
     {
       "name": "nexus_v3_summary.json",
-      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/nexus_v3_summary.json",
-      "size_bytes": 1415,
-      "sha256": "75e90aad658e53408d1a0b480447da091b63eff64e317d8485acd4ad84ffde9e"
+      "url": "/api/barcode/runs/ac0b76bc34ec48539c152de8845ea378/exports/nexus_v3_summary.json",
+      "size_bytes": 1565,
+      "sha256": "3cd81156ceaa90ea5ced1fdffdf1607dbe29ef8686804c552fbcbdddb280cea4"
     },
     {
       "name": "proof_by_failure_modes.md",
-      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/proof_by_failure_modes.md",
-      "size_bytes": 1029,
-      "sha256": "72bd59e8bd131429e113375ab7fba667d40bd41cb5e29f364c3322cf2f4d7f46"
+      "url": "/api/barcode/runs/ac0b76bc34ec48539c152de8845ea378/exports/proof_by_failure_modes.md",
+      "size_bytes": 1190,
+      "sha256": "82cda506dd248454a6728a6df9c3ae97be069bb29b54ad7c91bd9406f664b1aa"
     },
     {
       "name": "publication_blockers.csv",
-      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/publication_blockers.csv",
-      "size_bytes": 502,
-      "sha256": "020240f72b9d02b64f438aef7a8f6813d7f63c5241bd42a1140fffe1405e76e6"
+      "url": "/api/barcode/runs/ac0b76bc34ec48539c152de8845ea378/exports/publication_blockers.csv",
+      "size_bytes": 513,
+      "sha256": "12d364daae79c65110839f304198a33b01c513152d87345291fa70e79753e349"
     },
     {
       "name": "reference_gap_index.csv",
-      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/reference_gap_index.csv",
+      "url": "/api/barcode/runs/ac0b76bc34ec48539c152de8845ea378/exports/reference_gap_index.csv",
       "size_bytes": 282,
       "sha256": "8ab253295406a698b75c7c17c37b6139a495fce22769709bf9b939b20f4baa01"
     },
     {
       "name": "reference_manifest.json",
-      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/reference_manifest.json",
+      "url": "/api/barcode/runs/ac0b76bc34ec48539c152de8845ea378/exports/reference_manifest.json",
       "size_bytes": 317,
       "sha256": "526303710aac8c6c9a0f7227339b40fe5004b2cee2689404ee2966b2f08ba083"
     },
     {
+      "name": "repair_gain_estimates.csv",
+      "url": "/api/barcode/runs/ac0b76bc34ec48539c152de8845ea378/exports/repair_gain_estimates.csv",
+      "size_bytes": 1053,
+      "sha256": "82baeff2d7a95729cad454a8edaf2332f6767515e1edc85bb7927fd1a34d516e"
+    },
+    {
       "name": "repair_plan.csv",
-      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/repair_plan.csv",
-      "size_bytes": 424,
-      "sha256": "310ab14d8ecddb8e8ebef1f9231dc6cf88d949db7c4ee29fa6075b20da55f918"
+      "url": "/api/barcode/runs/ac0b76bc34ec48539c152de8845ea378/exports/repair_plan.csv",
+      "size_bytes": 1053,
+      "sha256": "82baeff2d7a95729cad454a8edaf2332f6767515e1edc85bb7927fd1a34d516e"
     },
     {
       "name": "review_taxonomic_hints.csv",
-      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/review_taxonomic_hints.csv",
-      "size_bytes": 527,
-      "sha256": "fc46886912fb7cd3e219cb5face1a300d84d424ce81877eef4c822cf1256efff"
+      "url": "/api/barcode/runs/ac0b76bc34ec48539c152de8845ea378/exports/review_taxonomic_hints.csv",
+      "size_bytes": 538,
+      "sha256": "651e572e18684f51f2f4f968986b2256632b1e3cdd61fac42fc0be681f46a7e1"
     },
     {
       "name": "run.json",
-      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/run.json",
+      "url": "/api/barcode/runs/ac0b76bc34ec48539c152de8845ea378/exports/run.json",
       "size_bytes": 443,
-      "sha256": "43029210ace1972d8520d78553e413c723cb02c48b0620494e5990cca9dc2410"
+      "sha256": "b218af6caa887d58f54d9be5eb54d8dd5d8b11d076192ad3a3e1f559fc4e6b99"
     },
     {
       "name": "safe_taxonomic_assignments.csv",
-      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/safe_taxonomic_assignments.csv",
+      "url": "/api/barcode/runs/ac0b76bc34ec48539c152de8845ea378/exports/safe_taxonomic_assignments.csv",
       "size_bytes": 366,
       "sha256": "b705bf4352a6fda01dbcddda7e3b724863b4f1b57b92b24710e1bc0372843ebd"
     },
     {
       "name": "sequence_safety_table.csv",
-      "url": "/api/barcode/runs/46e4a1a09d444ed39e1986d0a4a046d8/exports/sequence_safety_table.csv",
-      "size_bytes": 1268,
-      "sha256": "7b4b9cbeb40ce85f5a2ae3dced0776470163dbf323eb3d74b4a06d7a99e1f128"
+      "url": "/api/barcode/runs/ac0b76bc34ec48539c152de8845ea378/exports/sequence_safety_table.csv",
+      "size_bytes": 1467,
+      "sha256": "c9ba890cfe05b0a83c6ec8c6c8277901195bceed8ad8a64297df5655cbc980f7"
     }
   ]
 }

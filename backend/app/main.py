@@ -11,6 +11,7 @@ from fastapi.responses import FileResponse, HTMLResponse, Response
 from .barcode.compiler import run_barcode_compiler
 from .barcode.csv_import import CSV_TEMPLATE_TEXT, parse_barcode_csv
 from .barcode.demo import BARCODE_DEMO_SCENARIOS, DEFAULT_BARCODE_REQUEST
+from .barcode.profiles import ASSAY_PROFILES, MARKER_PROFILES
 from .barcode.schemas import BarcodeCompilerCreated, BarcodeCompilerRequest, BarcodeReferenceSearchRequest
 from .barcode.search_backend import compiler_request_from_search, list_reference_datasets, search_reference, search_status
 from .barcode.storage import barcode_artifact_path, list_barcode_summaries, load_barcode_pack
@@ -67,6 +68,25 @@ def barcode_reference_status() -> dict:
             "exact": "identity >= 99% and queryCoverage >= 80%",
             "close": "90% < identity < 99% and queryCoverage >= 80%",
             "weak": "identity < 90% or queryCoverage < 80%",
+            "note": "The compiler now applies marker-specific profiles; the classic GBIF Sequence ID-style gate remains the default COI-style baseline.",
+        },
+        "marker_profiles": {
+            key: {
+                "label": value["label"],
+                "identity_species_min": value["identity_species_min"],
+                "coverage_species_min": value["coverage_species_min"],
+                "species_claim_allowed": value["species_claim_allowed"],
+            }
+            for key, value in MARKER_PROFILES.items()
+        },
+        "assay_profiles": {
+            key: {
+                "label": value["label"],
+                "required_fields": value["required_fields"],
+                "recommended_fields": value["recommended_fields"],
+                "publication_blocking": value["publication_blocking"],
+            }
+            for key, value in ASSAY_PROFILES.items()
         },
     }
 

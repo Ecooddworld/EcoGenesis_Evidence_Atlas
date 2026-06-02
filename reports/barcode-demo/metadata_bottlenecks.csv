@@ -7,6 +7,16 @@ missing dataset metadata: license,4,1.0
 missing dataset metadata: contact,4,1.0
 missing dataset metadata: creator,4,1.0
 missing dataset metadata: metadataProvider,4,1.0
+missing DNA-derived extension field: eventID,4,1.0
+missing DNA-derived extension field: materialSampleID,4,1.0
+missing DNA-derived extension field: pcr_primer_forward,4,1.0
+missing DNA-derived extension field: pcr_primer_reverse,4,1.0
+missing DNA-derived extension field: seq_meth,4,1.0
+missing assay-recommended field: eventID,4,1.0
+missing assay-recommended field: materialSampleID,4,1.0
+missing assay-recommended field: pcr_primer_forward,4,1.0
+missing assay-recommended field: pcr_primer_reverse,4,1.0
+missing assay-recommended field: seq_meth,4,1.0
 missing Occurrence core field: occurrenceID,1,0.25
 missing Occurrence core field: eventDate,1,0.25
 missing recommended field: decimalLatitude,1,0.25

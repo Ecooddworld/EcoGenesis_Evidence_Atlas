@@ -83,24 +83,24 @@ SYN-ambiguous-near-tie-051,ambiguous-near-tie,Aedes albopictus,True,True,genus-s
 SYN-ambiguous-near-tie-052,ambiguous-near-tie,Aedes albopictus,True,True,genus-safe,Aedes,genus,genus,species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus
 SYN-ambiguous-near-tie-053,ambiguous-near-tie,Aedes albopictus,True,True,genus-safe,Aedes,genus,genus,species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus
 SYN-ambiguous-near-tie-054,ambiguous-near-tie,Aedes albopictus,True,True,genus-safe,Aedes,genus,genus,species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus
-SYN-weak-coverage-001,weak-coverage,Aedes albopictus,True,True,weak,None,none,species,species claim blocked: top hit does not pass exact match gate identity >= 99% and query coverage >= 80%
-SYN-weak-coverage-002,weak-coverage,Aedes albopictus,True,True,weak,None,none,species,species claim blocked: top hit does not pass exact match gate identity >= 99% and query coverage >= 80%
-SYN-weak-coverage-003,weak-coverage,Aedes albopictus,True,True,weak,None,none,species,species claim blocked: top hit does not pass exact match gate identity >= 99% and query coverage >= 80%
-SYN-weak-coverage-004,weak-coverage,Aedes albopictus,True,True,weak,None,none,species,species claim blocked: top hit does not pass exact match gate identity >= 99% and query coverage >= 80%
-SYN-weak-coverage-005,weak-coverage,Aedes albopictus,True,True,weak,None,none,species,species claim blocked: top hit does not pass exact match gate identity >= 99% and query coverage >= 80%
-SYN-weak-coverage-006,weak-coverage,Aedes albopictus,True,True,weak,None,none,species,species claim blocked: top hit does not pass exact match gate identity >= 99% and query coverage >= 80%
-SYN-weak-coverage-007,weak-coverage,Aedes albopictus,True,True,weak,None,none,species,species claim blocked: top hit does not pass exact match gate identity >= 99% and query coverage >= 80%
-SYN-weak-coverage-008,weak-coverage,Aedes albopictus,True,True,weak,None,none,species,species claim blocked: top hit does not pass exact match gate identity >= 99% and query coverage >= 80%
-SYN-weak-coverage-009,weak-coverage,Aedes albopictus,True,True,weak,None,none,species,species claim blocked: top hit does not pass exact match gate identity >= 99% and query coverage >= 80%
-SYN-weak-coverage-010,weak-coverage,Aedes albopictus,True,True,weak,None,none,species,species claim blocked: top hit does not pass exact match gate identity >= 99% and query coverage >= 80%
-SYN-weak-coverage-011,weak-coverage,Aedes albopictus,True,True,weak,None,none,species,species claim blocked: top hit does not pass exact match gate identity >= 99% and query coverage >= 80%
-SYN-weak-coverage-012,weak-coverage,Aedes albopictus,True,True,weak,None,none,species,species claim blocked: top hit does not pass exact match gate identity >= 99% and query coverage >= 80%
-SYN-weak-coverage-013,weak-coverage,Aedes albopictus,True,True,weak,None,none,species,species claim blocked: top hit does not pass exact match gate identity >= 99% and query coverage >= 80%
-SYN-weak-coverage-014,weak-coverage,Aedes albopictus,True,True,weak,None,none,species,species claim blocked: top hit does not pass exact match gate identity >= 99% and query coverage >= 80%
-SYN-weak-coverage-015,weak-coverage,Aedes albopictus,True,True,weak,None,none,species,species claim blocked: top hit does not pass exact match gate identity >= 99% and query coverage >= 80%
-SYN-weak-coverage-016,weak-coverage,Aedes albopictus,True,True,weak,None,none,species,species claim blocked: top hit does not pass exact match gate identity >= 99% and query coverage >= 80%
-SYN-weak-coverage-017,weak-coverage,Aedes albopictus,True,True,weak,None,none,species,species claim blocked: top hit does not pass exact match gate identity >= 99% and query coverage >= 80%
-SYN-weak-coverage-018,weak-coverage,Aedes albopictus,True,True,weak,None,none,species,species claim blocked: top hit does not pass exact match gate identity >= 99% and query coverage >= 80%
+SYN-weak-coverage-001,weak-coverage,Aedes albopictus,True,True,weak,None,none,species,species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%
+SYN-weak-coverage-002,weak-coverage,Aedes albopictus,True,True,weak,None,none,species,species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%
+SYN-weak-coverage-003,weak-coverage,Aedes albopictus,True,True,weak,None,none,species,species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%
+SYN-weak-coverage-004,weak-coverage,Aedes albopictus,True,True,weak,None,none,species,species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%
+SYN-weak-coverage-005,weak-coverage,Aedes albopictus,True,True,weak,None,none,species,species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%
+SYN-weak-coverage-006,weak-coverage,Aedes albopictus,True,True,weak,None,none,species,species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%
+SYN-weak-coverage-007,weak-coverage,Aedes albopictus,True,True,weak,None,none,species,species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%
+SYN-weak-coverage-008,weak-coverage,Aedes albopictus,True,True,weak,None,none,species,species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%
+SYN-weak-coverage-009,weak-coverage,Aedes albopictus,True,True,weak,None,none,species,species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%
+SYN-weak-coverage-010,weak-coverage,Aedes albopictus,True,True,weak,None,none,species,species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%
+SYN-weak-coverage-011,weak-coverage,Aedes albopictus,True,True,weak,None,none,species,species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%
+SYN-weak-coverage-012,weak-coverage,Aedes albopictus,True,True,weak,None,none,species,species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%
+SYN-weak-coverage-013,weak-coverage,Aedes albopictus,True,True,weak,None,none,species,species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%
+SYN-weak-coverage-014,weak-coverage,Aedes albopictus,True,True,weak,None,none,species,species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%
+SYN-weak-coverage-015,weak-coverage,Aedes albopictus,True,True,weak,None,none,species,species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%
+SYN-weak-coverage-016,weak-coverage,Aedes albopictus,True,True,weak,None,none,species,species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%
+SYN-weak-coverage-017,weak-coverage,Aedes albopictus,True,True,weak,None,none,species,species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%
+SYN-weak-coverage-018,weak-coverage,Aedes albopictus,True,True,weak,None,none,species,species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%
 SYN-metadata-gap-001,metadata-gap,Aedes albopictus,True,True,not-publishable,None,none,species,publication blocked: missing required Occurrence core field occurrenceID
 SYN-metadata-gap-002,metadata-gap,Aedes albopictus,True,True,not-publishable,None,none,species,publication blocked: missing required Occurrence core field occurrenceID
 SYN-metadata-gap-003,metadata-gap,Aedes albopictus,True,True,not-publishable,None,none,species,publication blocked: missing required Occurrence core field occurrenceID

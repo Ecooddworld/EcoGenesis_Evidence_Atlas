@@ -8,7 +8,7 @@ Status: **PASS**
 |---|---:|---:|---:|---|---|---|
 | AALB-COI-good | species-safe | species-safe | record-ready / record_recommended_ready | Aedes albopictus (species) | Aedes albopictus (species) | none |
 | AALB-COI-ambiguous | genus-safe | genus-safe | record-ready / record_recommended_ready | Aedes (genus) | Aedes (genus) | species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus |
-| AALB-COI-short | weak | weak | not-ready / record_recommended_ready | Aedes albopictus (species) | None (none) | species claim blocked: top hit does not pass exact match gate identity >= 99% and query coverage >= 80%; species claim blocked: query coverage < 80% |
+| AALB-COI-short | weak | weak | not-ready / record_recommended_ready | Aedes albopictus (species) | None (none) | species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%; species claim blocked: query coverage < 80% |
 | AALB-COI-metadata-gap | not-publishable | species-safe | not-ready / record_not_ready | Aedes albopictus (species) | None (none) | publication blocked: missing required Occurrence core field occurrenceID; publication blocked: missing required Occurrence core field eventDate |
 
 ## Metrics
@@ -28,18 +28,21 @@ Status: **PASS**
   "dataset_ready_records": 0,
   "publishable_template_records": 2,
   "safe_rank_records": 2,
-  "repairable_records": 3,
+  "repairable_records": 4,
   "top_species_hits": 4,
   "blocked_or_downgraded_top_species_hits": 3,
   "species_safe_yield": 0.25,
   "safe_rank_yield": 0.5,
   "molecular_evidence_conversion_yield": 0.5,
-  "repairable_yield": 0.75,
+  "repairable_yield": 1.0,
   "blocked_species_claims": 3,
   "overclaim_prevention_rate": 0.75,
   "overclaim_prevention_proxy": 1,
   "publication_repair_efficiency": 1.0,
-  "hard_gate_failures": 0
+  "hard_gate_failures": 0,
+  "assay_gate_failures": 0,
+  "dna_extension_ready_records": 0,
+  "marker_species_disabled_records": 0
 }
 ```
 
