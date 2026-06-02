@@ -85,11 +85,25 @@ Open:
 - Backend health: http://localhost:18100/health
 - Backend docs: http://localhost:18100/docs
 
+### Main User Flow
+
+1. Open `Run compiler`.
+2. Upload a CSV exported from GBIF Sequence ID, BLAST, BOLD, UNITE or a lab pipeline.
+3. Review the preview and validation summary.
+4. Click `Generate from CSV`.
+5. Inspect `species-safe`, `genus-safe`, `weak`, `not-publishable` and blocked claims.
+6. Download `evidence_pack.zip` or individual CSV/HTML exports.
+
+FASTA-only input is intentionally not enough for a species-safe decision. The compiler needs supplied match results or reference-hit metrics, because it is a downstream safety and publication-readiness compiler, not a replacement for GBIF Sequence ID.
+
 ## Barcode Compiler API
 
 - `GET /api/barcode/demo-scenarios`
 - `GET /api/barcode/default-request`
 - `GET /api/barcode/reference-status`
+- `GET /api/barcode/csv-template`
+- `POST /api/barcode/import-csv`
+- `POST /api/barcode/run-csv`
 - `POST /api/barcode/run`
 - `GET /api/barcode/runs`
 - `GET /api/barcode/runs/{run_id}`
@@ -140,6 +154,8 @@ Minimal request shape:
   ]
 }
 ```
+
+CSV v1 expects `sequenceID` and `sequence`. Strongly recommended columns include `occurrenceID`, `basisOfRecord`, `scientificName`, `eventDate`, `marker`, `referenceDatabase`, `methodOrSOP`, `topTaxon`, `topIdentity`, `topCoverage`, `topAlignedLength`, optional competitor hit fields, barcode gap fields and pipe-separated `diagnosticKmers`.
 
 The live GBIF occurrence-passport API remains available under `/api/evidence/*` for live API checks, regression and comparison.
 
@@ -224,3 +240,14 @@ npm run build
 - Publishing DNA-derived data through biodiversity data platforms: https://docs.gbif.org/publishing-dna-derived-data/en/
 - Occurrence dataset quality requirements: https://www.gbif.org/data-quality-requirements-occurrences
 - 2026 GBIF Ebbe Nielsen Challenge rules: https://www.gbif.org/awards/ebbe-2026-rules
+
+## 2026 GBIF Challenge Submission
+
+Submission deadline: **26 June 2026, 23:59 CEST (UTC+2)**.
+
+Prepared submission materials live in `submission-assets/`, especially:
+
+- `submission-assets/gbif-2026-final-submission-pack.md`
+- `submission-assets/gbif-entry-form-draft.md`
+- `submission-assets/barcode-video-script.md`
+- `submission-assets/final-submission-checklist.md`

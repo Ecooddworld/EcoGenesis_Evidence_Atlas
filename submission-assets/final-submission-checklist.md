@@ -1,55 +1,82 @@
 # Final GBIF Submission Checklist
 
-## Already Prepared
+Deadline: **26 June 2026, 23:59 CEST (UTC+2)**
+Contest page: https://www.gbif.org/news/3DyM3tK5wgYipqyaHwG2c2/2026-ebbe-nielsen-challenge-open-for-submissions
+Official rules: https://www.gbif.org/awards/ebbe-2026-rules
+Entry form: https://www.survey-xact.dk/LinkCollector?key=YCAEZQR4SPC1
 
-- [x] Two-mode English UI: `Presentation` and `Work with GBIF`.
-- [x] Live GBIF is the default user path.
-- [x] Empty fallback is honest: no fixture records reused when GBIF is unavailable.
-- [x] GBIF API status is visible in the UI.
-- [x] Taxon search preserves selected `taxonKey`.
-- [x] Region presets and editable bbox are available.
-- [x] Evidence Pack includes decision memo, map data, quality metrics, claim guardrails, citations, publisher feedback, graph memory and machine-readable JSON.
-- [x] CLI runner exists for repeatable script use.
-- [x] JSON schema exists for the Evidence Passport.
-- [x] Three live demo cases exist in `reports/demo-cases/`.
-- [x] Intro demo video exists at `submission-assets/video/ecogenesis-evidence-atlas-demo.mp4`.
-- [x] Screenshots exist in `submission-assets/screenshots/`.
-- [x] Entry form draft exists at `submission-assets/gbif-entry-form-draft.md`.
+## Prepared
 
-## Must Do Before Submit
+- [x] Final project positioning: Molecular Evidence Conversion & Repair Engine for GBIF.
+- [x] Working module: Barcode-to-GBIF Evidence Compiler.
+- [x] Main UX: Upload CSV results -> Validate -> Generate from CSV -> Inspect safe/blocked claims -> Download exports.
+- [x] CSV template and CSV import/run API exist.
+- [x] JSON API remains compatible for developers.
+- [x] Example CSVs exist:
+  - `aedes_good.csv` -> `species-safe`
+  - `aedes_ambiguous.csv` -> `genus-safe`
+  - `aedes_missing_metadata.csv` -> `not-publishable`
+  - `aedes_weak_coverage.csv` -> `weak`
+- [x] Evidence Pack exports Darwin Core, DNA-derived templates, CSV reports, HTML report, methods, citations, evidence graph and ZIP.
+- [x] Live GBIF occurrence audit layer exists for API status and 1000-record / 100-claim validation.
+- [x] Mathematical methodology and proof-by-failure-mode docs exist.
+- [x] License, citation and data license files exist.
+- [x] Entry form draft is prepared in `submission-assets/gbif-entry-form-draft.md`.
 
-- [ ] Make the GitHub repository public and confirm judges can access it without login.
-- [ ] Upload `submission-assets/video/ecogenesis-evidence-atlas-demo.mp4` to YouTube, Vimeo, Google Drive, Figshare, OSF or another public no-cost location.
-- [ ] Confirm the uploaded video plays without login and has captions/transcript available.
+## Must Do Before Pressing Submit
+
+- [ ] Make the GitHub repository public and confirm it opens without login.
+- [ ] Fill final team member names, affiliations, country and contact email.
+- [ ] Record or rebuild the final video around the current CSV Upload -> Score workflow.
+- [ ] Upload the video to a public no-cost URL that plays without login.
+- [ ] Add captions or transcript for the video.
 - [ ] Replace the TODO video URL in `submission-assets/gbif-entry-form-draft.md`.
-- [ ] Fill final team member names, affiliations and contact details.
-- [ ] Create a GitHub release, e.g. `v2026-gbif-submission`, with the video, screenshots and evidence pack attached or linked.
-- [ ] Optional but strong: deploy the frontend/backend publicly, then add the public demo URL to the form.
-- [ ] Optional but strong: create one DOI-backed GBIF occurrence download or derived dataset example and link it in `docs/gbif-data-use-and-citation.md`.
-- [ ] Re-run tests after the final release commit.
+- [ ] Create a GitHub release, for example `v1.0-gbif-2026`.
+- [ ] Add the release URL to the final entry form if available.
+- [ ] Re-run all final verification commands on the release commit.
+- [ ] Confirm no secrets, private local paths or private API keys are present in submitted materials.
 
 ## Final Verification Commands
 
 ```bash
-backend/.venv/bin/python -m pytest backend/tests
-cd frontend && npm test -- --run && npm run build
-cd ..
-backend/.venv/bin/python backend/scripts/generate_demo_report.py
-submission-assets/build_submission_video.sh
+cd backend
+.venv/bin/python -m pytest -q
+.venv/bin/python scripts/verify_barcode_operability.py
+.venv/bin/python scripts/run_scientific_hypothesis_suite.py --fresh --output-dir /tmp/ecogenesis-scientific-theory-suite
 ```
+
+```bash
+cd frontend
+npm test -- --run
+npm run build
+```
+
+## Manual Browser Smoke
+
+1. Open http://localhost:13100.
+2. Open `Run compiler`.
+3. Upload `examples/aedes_good.csv`.
+4. Confirm CSV preview and validation are visible.
+5. Click `Generate from CSV`.
+6. Confirm `species-safe` appears.
+7. Confirm `evidence_pack.zip`, `sequence_safety_table.csv`, `publication_blockers.csv`, `dwc_occurrence_core_publishable.csv` and `molecular_evidence_report.html` are visible or downloadable.
+8. Open `Math & proof` and confirm formulas render.
+9. Open `Research audit` and confirm the 1000-record / 100-claim audit summary is visible.
+10. Confirm browser console errors are zero.
 
 ## Entry Form Fields
 
-- Submission name/title: ready in `gbif-entry-form-draft.md`.
-- Team member(s): TODO.
-- Abstract and rationale: ready in `gbif-entry-form-draft.md`.
-- Operating instructions: ready in `gbif-entry-form-draft.md`.
+- Submission name/title: ready.
+- Team members: TODO.
+- Abstract and rationale: ready.
+- Operating instructions: ready.
 - Video link: TODO after upload.
-- Source/docs links: ready, but confirm repo visibility.
+- Source/documentation links: ready, but must be public.
 
 ## Risk Notes
 
-- Do not submit only local file paths. The form needs public URLs.
+- Do not present FASTA-only upload as enough for `species-safe`; match results are required.
 - Do not claim species absence from no-evidence cells.
-- Do not claim population trend without a separate trend model and sampling-bias treatment.
-- Do not present API-only evidence as publication-ready if no GBIF download DOI or derived dataset is attached.
+- Do not claim true distribution or population trend without separate methods.
+- Do not claim phenotype truth from barcode evidence.
+- Do not submit only local file paths; use public URLs.

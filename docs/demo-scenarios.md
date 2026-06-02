@@ -1,60 +1,68 @@
 # Demo Scenarios
 
-## Scenario 1: Invasive Watch
+## Primary Molecular CSV Scenarios
 
-- Taxon: `Aedes albopictus`
-- Region: Spain live GBIF bbox
-- Purpose: `Invasive watch`
+Use these in the final GBIF Challenge video and judge walkthrough.
 
-Attempts live GBIF occurrence records, maps them on OpenStreetMap tiles and still warns against absence claims in undersampled cells.
-
-## Scenario 2: Live Oak Sampling Gaps
-
-- Taxon: `Quercus robur`
-- Region: Western Europe live bbox
-- Purpose: `Sampling gaps`
-
-Highlights cells with low Good coverage from real GBIF results and turns the result into next sampling actions.
-
-## Scenario 3: Live Dataset Quality Review
-
-- Taxon: `Lynx pardinus`
-- Region: Iberian Peninsula live bbox
-- Purpose: `Dataset quality review`
-
-Groups coordinate uncertainty, missing dates and GBIF issue flags by `datasetKey`, producing a Publisher Feedback Pack from live GBIF records when available.
-
-## Scenario 4: Offline Fixture
-
-- Taxon: `Aedes albopictus`
-- Region: Spain offline fixture bbox
-- Purpose: `Invasive watch`
-
-Uses the deterministic fixture for no-network testing and reproducible regression checks.
+| File | Expected result | What it proves |
+| --- | --- | --- |
+| `examples/aedes_good.csv` | `species-safe` | All species-level molecular and metadata gates pass. |
+| `examples/aedes_ambiguous.csv` | `genus-safe` | A near-equivalent competitor blocks species-level overclaiming and downgrades to LCA genus. |
+| `examples/aedes_missing_metadata.csv` | `not-publishable` | Taxonomic evidence can be safe while publication is blocked by missing required fields. |
+| `examples/aedes_weak_coverage.csv` | `weak` | High identity is not enough when query coverage fails the gate. |
 
 ## UI Review Path
 
 1. Open http://localhost:13100.
-2. Start in **Presentation**. Confirm the screen shows the problem statement, current verdict, live GBIF/API status, map, safe claims, blocked claims, **Open Workbench** and **Download Evidence Pack**.
-3. Switch to **Work with GBIF**. Confirm there is no public source-mode selector and the status card says live GBIF is the active source.
-4. Type a species or genus in **Taxon**, use **Find taxon in GBIF**, and choose a suggestion to lock the run to a concrete GBIF `taxonKey`; the app automatically generates a fresh passport.
-5. Pick a region preset to automatically generate a fresh passport, or edit the four bbox fields (`west`, `south`, `east`, `north`) and then generate manually.
-6. Review the Decision Memo, OpenStreetMap/Leaflet evidence map, key quality risks, safe claims, blocked claims and source/provenance panel.
-7. Open **Advanced evidence files** only when needed. Confirm Graph Memory, Submission Readiness, Publisher Feedback, raw tables and machine-readable exports are downloadable from the evidence pack without cluttering the main screen.
-8. Download `evidence_pack.zip`, then inspect `decision_memo.md`, `submission_readiness.md`, `validation_summary.md`, `publisher_issue_templates.md`, `impact_brief.md` and `video_script.md`.
+2. Open **Run compiler**.
+3. Click **Download CSV template** to show the expected input format.
+4. Upload `examples/aedes_good.csv`.
+5. Confirm CSV preview and validation summary are visible.
+6. Click **Generate from CSV**.
+7. Review the decision memo, outcome cards, sequence table and filters.
+8. Confirm `species-safe` appears for the good case.
+9. Download `evidence_pack.zip` or open individual outputs such as `sequence_safety_table.csv`, `publication_blockers.csv`, `dwc_occurrence_core_publishable.csv` and `molecular_evidence_report.html`.
+10. Repeat or describe the other three CSV examples to show downgrade, publication blocker and weak-match behavior.
+11. Open **Math & proof** to show the deterministic gates and proof-by-failure-mode logic.
+12. Open **Research audit** to show the live GBIF occurrence-audit layer and 1000-record / 100-claim validation.
 
-## Generated Demo Case Suite
+## API Review Path
+
+```bash
+curl http://127.0.0.1:18100/health
+curl http://127.0.0.1:18100/api/evidence/gbif-status
+curl http://127.0.0.1:18100/api/barcode/csv-template
+curl -F file=@examples/aedes_good.csv http://127.0.0.1:18100/api/barcode/import-csv
+curl -F file=@examples/aedes_good.csv http://127.0.0.1:18100/api/barcode/run-csv
+```
+
+Expected:
+
+- health returns `ok`;
+- GBIF status returns `ok` when the GBIF API is reachable;
+- CSV template returns the expected header;
+- import returns normalized request, preview rows and validation summary;
+- run returns `species_safe_records=1` and Evidence Pack export URLs.
+
+## Live GBIF Occurrence-Audit Scenarios
+
+The occurrence-audit layer is not the molecular compiler. It validates live GBIF API use and safe claim language for occurrence evidence.
 
 Run:
 
 ```bash
-backend/.venv/bin/python backend/scripts/generate_demo_report.py
+cd backend
+.venv/bin/python scripts/run_scientific_hypothesis_suite.py --fresh --output-dir /tmp/ecogenesis-scientific-theory-suite
 ```
 
-The script writes three contest-review folders to `reports/demo-cases/`: `invasive/`, `gaps/` and `quality/`. Each folder contains the same files a judge would download from the app, including the full ZIP, Decision Memo, source summary, claim guardrails, publisher issue templates, submission readiness and video script. `reports/demo/` mirrors the invasive-watch case for older links.
+Acceptance:
 
-## Source Modes
+- at least 1,000 deduplicated GBIF occurrence records;
+- at least 10 successful online scenarios;
+- no fixture records counted;
+- at least 100 hypothesis/claim rows;
+- every claim has status, evidence pointer and caveat.
 
-- Public workbench: always sends `source_mode: "online_with_empty_fallback"` and `use_fixture: false`.
-- GBIF unavailable: shows an empty no-evidence fallback and the message `GBIF unavailable: no fixture records reused`.
-- Offline sample: deterministic fixture kept for API compatibility, demo generation and regression checks; it is hidden from the main user flow.
+## Fixture Scope
+
+Fixture/offline data are kept for tests and deterministic regression only. The primary user-facing and submission-facing path is CSV Upload -> Score for molecular evidence and live GBIF status/audit for occurrence context.

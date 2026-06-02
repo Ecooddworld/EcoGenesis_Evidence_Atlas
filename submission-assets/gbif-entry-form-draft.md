@@ -1,8 +1,14 @@
-# GBIF Ebbe Nielsen Challenge Entry Form Draft
+# GBIF Ebbe Nielsen Challenge 2026 Entry Form Draft
+
+Submission deadline: **26 June 2026, 23:59 CEST (UTC+2)**
+Official rules: https://www.gbif.org/awards/ebbe-2026-rules
+Entry form: https://www.survey-xact.dk/LinkCollector?key=YCAEZQR4SPC1
 
 ## Submission Name / Title
 
-EcoGenesis Evidence Atlas: GBIF Evidence Passports for Safe Biodiversity Decisions
+Molecular Evidence Conversion & Repair Engine for GBIF
+
+Short title: Barcode-to-GBIF Evidence Compiler
 
 ## Team Members and Affiliations
 
@@ -10,21 +16,23 @@ TODO: Add final submitter name, team members, affiliations, country and contact 
 
 ## Abstract and Rationale
 
-EcoGenesis Evidence Atlas is a minimal GBIF-first tool that turns a taxon, region and decision purpose into a reproducible Evidence Passport. It uses GBIF-mediated occurrence data, preserves `taxonKey`, `datasetKey`, license and source metadata, checks quality and sampling limits, and produces a decision memo, evidence map, claim guardrails, citation guidance, publisher feedback and a downloadable review pack.
+Molecular Evidence Conversion & Repair Engine for GBIF is an open, deterministic workflow that turns DNA barcode, metabarcoding and Sequence ID-style outputs into safe, rank-aware and GBIF-ready molecular occurrence evidence. Its first working module, Barcode-to-GBIF Evidence Compiler, receives CSV or JSON results from tools such as GBIF Sequence ID, BLAST, BOLD, UNITE or a laboratory pipeline, then decides what can be safely claimed, what must be downgraded, and what must be repaired before publication.
 
-The problem it addresses is practical and common. GBIF makes biodiversity evidence discoverable, but downstream users still need help deciding what the data can safely support. A map of occurrence records does not explain whether the data are fit for conservation triage, invasive watch, sampling-gap planning or dataset quality review. Empty cells are often misread as species absence. Dataset attribution can be lost after filtering. Citation requirements are often handled after analysis rather than during analysis. Data publishers and GBIF node managers also need clearer feedback about the record-level issues that block reuse.
+The problem is practical and common. Molecular workflows often produce a top taxonomic hit, but a top hit is not automatically a safe species-level occurrence record. A short sequence, weak coverage, ambiguous competitor, missing barcode gap, absent diagnostic k-mer support, incomplete reference evidence or missing metadata can turn an apparently strong species label into an unsafe claim. At the same time, weak or ambiguous molecular observations should not simply be discarded: they can remain useful at genus or higher rank, or as repair tasks for data publishers and GBIF nodes.
 
-EcoGenesis Evidence Atlas changes this workflow from "where are the records?" to "what can this evidence safely support, what should be cited, and what should be fixed next?" The tool deliberately avoids pretending that GBIF occurrence data prove absence, true distribution or population trend without additional methods. It labels empty cells as no-evidence survey targets, blocks unsupported claims, and gives the user a purpose-aware readiness score with plain-language caveats.
+The compiler addresses this gap with explicit evidence gates. It checks identity, query coverage, statistical ambiguity between top and competitor hits, lowest common ancestor, barcode gap, diagnostic k-mer support, diagnostic false-positive risk and GBIF/DNA-derived publication metadata. It separates taxonomic safety from publication readiness, so a record can be taxonomically species-safe while still blocked from publication by missing `occurrenceID`, `eventDate`, method/SOP or reference database metadata. This avoids overclaiming while preserving useful evidence.
 
-The current prototype has two modes. `Presentation` is a compact contest view for judges, showing the problem, live GBIF status, current verdict, map, supported claims, blocked claims and Evidence Pack download. `Work with GBIF` is the working mode: users search GBIF taxa, select a concrete `taxonKey`, choose a region preset or bounding box, select a purpose and generate a live Evidence Passport. Live GBIF is the default path. If GBIF is unavailable, the application returns a transparent empty no-evidence fallback and does not reuse fixture records in the user workflow.
+The output is not a black-box score. Each run produces decision classes such as `species-safe`, `genus-safe`, `higher-rank-safe`, `ambiguous`, `weak`, `no-match` and `not-publishable`. The generated Evidence Pack includes `sequence_safety_table.csv`, `safe_taxonomic_assignments.csv`, `publication_blockers.csv`, `barcode_gap_report.csv`, `diagnostic_kmer_report.csv`, Darwin Core Occurrence templates, DNA-derived extension templates, a molecular evidence HTML report, methods text, citations, an evidence graph, JSON and ZIP exports.
 
-The exported Evidence Pack includes `decision_memo.md`, `passport.html`, `records.geojson`, `quality_metrics.csv`, `gap_priorities.csv`, `dataset_contributions.csv`, `citations.md`, `publisher_issue_templates.md`, `submission_readiness.md`, `validation_summary.md`, `evidence_graph.json`, `evidence_pack.json` and `evidence_pack.zip`. The same workflow is available through the web UI, API and command-line runner, making it repeatable for judges and useful for future GBIF-based analyses.
+For data users, the tool answers: “Can I safely use this molecular detection as a species-level occurrence, or should I downgrade or review it?” For data publishers, it gives concrete repair actions such as adding required metadata, improving sequence coverage or attaching reference-set evidence. For GBIF nodes and reviewers, it provides a reproducible audit trail that separates supported claims from blocked claims and keeps publication templates aligned with GBIF-ready data practices.
 
-For GBIF, the value is not another generic biodiversity dashboard. It is a responsible-use layer that strengthens citation compliance, improves interpretation of GBIF-mediated data, turns quality issues into publisher-facing feedback, and gives researchers, policy users and data managers a reusable open workflow for evidence readiness.
+The project uses GBIF in two complementary ways. The molecular compiler is designed as a downstream safety layer for GBIF Sequence ID-style or BLAST-style results and for DNA-derived publication workflows. The repository also includes a live GBIF occurrence audit layer that tests GBIF API access, uses GBIF-mediated occurrence data for evidence-context checks, and demonstrates safe claim language around no-evidence cells, sampling gaps and citation readiness. The system does not claim species absence, true distribution, trend or phenotype truth from occurrence points or molecular matches alone.
+
+This submission matters to the GBIF community because it improves the utility and quality of biodiversity data before publication and reuse. It helps prevent unsafe species-level claims, keeps ambiguous molecular evidence usable at safe rank, makes blockers repairable, and creates transparent, repeatable evidence packages that judges, reviewers, publishers and future users can inspect at no cost.
 
 ## Operating Instructions
 
-### Docker
+### Run with Docker
 
 ```bash
 docker compose up --build
@@ -36,11 +44,30 @@ Open:
 - Backend health: http://localhost:18100/health
 - Backend API docs: http://localhost:18100/docs
 
+### Main UI Flow
+
+1. Open `Run compiler`.
+2. Upload a CSV exported from GBIF Sequence ID, BLAST, BOLD, UNITE or a laboratory pipeline.
+3. Use `Download CSV template` if you need the expected format.
+4. Review CSV preview and validation warnings.
+5. Click `Generate from CSV`.
+6. Inspect the decision dashboard, sequence table, safe/blocked claims and repair actions.
+7. Download `evidence_pack.zip` or individual CSV/HTML exports.
+
+### Example CSV Runs
+
+The repository includes four small CSV examples:
+
+- `examples/aedes_good.csv` -> `species-safe`
+- `examples/aedes_ambiguous.csv` -> `genus-safe`
+- `examples/aedes_missing_metadata.csv` -> taxonomic evidence preserved, publication blocked
+- `examples/aedes_weak_coverage.csv` -> `weak`
+
 ### Local Development
 
 ```bash
 cd backend
-.venv/bin/python -m pytest tests
+.venv/bin/python -m pytest -q
 .venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 18100
 ```
 
@@ -53,47 +80,44 @@ npm test -- --run
 npm run dev -- --host 127.0.0.1 --port 13100
 ```
 
-### CLI Evidence Passport
+### Verification
 
 ```bash
-backend/.venv/bin/python backend/scripts/evidence_passport_cli.py \
-  --taxon "Aedes albopictus" \
-  --taxon-key 1651430 \
-  --region-name "Spain live GBIF bbox" \
-  --bbox=-10,35,4.5,44.5 \
-  --purpose invasive_watch \
-  --source-mode online_with_empty_fallback \
-  --output-dir reports/cli-aedes-spain
+cd backend
+.venv/bin/python scripts/verify_barcode_operability.py
+.venv/bin/python scripts/run_scientific_hypothesis_suite.py --fresh --output-dir /tmp/ecogenesis-scientific-theory-suite
 ```
 
-### Demo Case Suite
+Expected current regression status:
 
-```bash
-backend/.venv/bin/python backend/scripts/generate_demo_report.py
-```
-
-This writes three live review cases to `reports/demo-cases/`: invasive watch, sampling gaps and dataset quality review.
+- Backend: `35 passed, 1 skipped`
+- Frontend: `5 passed`
+- Frontend build: passes
+- GBIF API status: `ok` when the GBIF API is reachable
+- Live scientific suite: at least 1,000 deduplicated GBIF occurrence records and 100 evidence claims when network access is available
 
 ## Video URL
 
-TODO: Upload `submission-assets/video/ecogenesis-evidence-atlas-demo.mp4` to a public no-cost video location and paste the link here.
+TODO: Upload the final CSV Upload -> Score demo video to YouTube, Vimeo, Google Drive, Figshare, OSF or another public no-cost location and paste the public URL here.
 
-Local video file: `submission-assets/video/ecogenesis-evidence-atlas-demo.mp4`
+Important: the older local MP4 in `submission-assets/video/` demonstrates the previous Evidence Atlas flow. For final submission, use the updated `submission-assets/barcode-video-script.md` and show the current CSV Upload -> Score workflow.
 
 ## Source and Submission Documentation Links
 
 - Repository: https://github.com/oddworld666/EcoGenesis_Evidence_Atlas
-- Submission documentation: `docs/submission.md`
-- Methodology: `docs/methodology.md`
-- Testing: `docs/testing.md`
-- GBIF citation notes: `docs/gbif-data-use-and-citation.md`
-- Demo scenarios: `docs/demo-scenarios.md`
-- Evidence schema: `schemas/evidence_passport.schema.json`
-- Demo reports: `reports/demo-cases/`
+- Main README: https://github.com/oddworld666/EcoGenesis_Evidence_Atlas/blob/main/README.md
+- Submission documentation: https://github.com/oddworld666/EcoGenesis_Evidence_Atlas/blob/main/docs/submission.md
+- Methodology: https://github.com/oddworld666/EcoGenesis_Evidence_Atlas/blob/main/docs/barcode-compiler-methodology.md
+- Proof by failure modes: https://github.com/oddworld666/EcoGenesis_Evidence_Atlas/blob/main/docs/proof-by-failure-modes.md
+- GBIF DNA-derived readiness: https://github.com/oddworld666/EcoGenesis_Evidence_Atlas/blob/main/docs/gbif-dna-derived-readiness.md
+- Testing: https://github.com/oddworld666/EcoGenesis_Evidence_Atlas/blob/main/docs/testing.md
+- Final submission pack: https://github.com/oddworld666/EcoGenesis_Evidence_Atlas/blob/main/submission-assets/gbif-2026-final-submission-pack.md
 
-## Notes for Final Form
+## Notes Before Final Form Submission
 
-- Confirm the repository is public before submitting.
-- Confirm the video URL is public, playable without login and includes captions or transcript.
-- Confirm the team/member details are final.
-- Confirm the license files remain visible: `LICENSE`, `DATA_LICENSES.md`, `CITATION.cff`.
+- Confirm the GitHub repository is public.
+- Confirm all public URLs work without login.
+- Replace the TODO team details.
+- Replace the TODO video URL.
+- Create a GitHub release, for example `v1.0-gbif-2026`.
+- Do not submit local file paths as the only evidence.

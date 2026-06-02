@@ -27,12 +27,21 @@ The tool improves the utility and quality of GBIF-mediated and GBIF-ready data b
 
 ## Operating Instructions
 
-1. Open the frontend.
-2. Choose `Compiler workbench`.
-3. Select a demo case or paste a JSON request exported from a lab/Sequence ID workflow.
-4. Click `Generate Evidence Package`.
-5. Review the decision memo, sequence table and blockers.
-6. Download `evidence_pack.zip`.
+```bash
+docker compose up --build
+```
+
+Open http://localhost:13100.
+
+1. Open `Run compiler`.
+2. Upload a CSV exported from GBIF Sequence ID, BLAST, BOLD, UNITE or a lab pipeline.
+3. Use `Download CSV template` if needed.
+4. Review the CSV preview and validation summary.
+5. Click `Generate from CSV`.
+6. Review the decision memo, sequence table, filters and blockers.
+7. Download `evidence_pack.zip` or individual CSV/HTML exports.
+
+Advanced JSON remains available for developer workflows, but CSV Upload -> Score is the primary judge-facing path.
 
 ## Key Outputs
 
@@ -75,9 +84,9 @@ The project also deliberately avoids unsafe claims. Protein translation is treat
 
 Show four cases:
 
-1. A species-safe Aedes COI record.
-2. Ambiguous top hits that downgrade to genus.
-3. A high-identity short fragment blocked by coverage.
-4. A species-safe molecular match that becomes `not-publishable` because `occurrenceID` and `eventDate` are missing.
+1. `examples/aedes_good.csv`: a species-safe Aedes COI record.
+2. `examples/aedes_ambiguous.csv`: ambiguous top hits that downgrade to genus.
+3. `examples/aedes_weak_coverage.csv`: a high-identity short fragment blocked by coverage.
+4. `examples/aedes_missing_metadata.csv`: a species-safe molecular match that becomes `not-publishable` because `occurrenceID` and `eventDate` are missing.
 
 End by downloading the evidence pack and opening the molecular evidence report.
