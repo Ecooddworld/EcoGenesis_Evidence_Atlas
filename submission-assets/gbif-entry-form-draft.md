@@ -100,7 +100,11 @@ Expected current regression status:
 
 TODO: Upload the final CSV Upload -> Score demo video to YouTube, Vimeo, Google Drive, Figshare, OSF or another public no-cost location and paste the public URL here.
 
-Important: the older local MP4 in `submission-assets/video/` demonstrates the previous Evidence Atlas flow. For final submission, use the updated `submission-assets/barcode-video-script.md` and show the current CSV Upload -> Score workflow.
+Local final video file prepared for upload:
+
+`submission-assets/barcode-video/video/ecogenesis-barcode-to-gbif-english-voice-ru-subs.mp4`
+
+Russian subtitles and English transcript are included in the same folder. Important: the older local MP4 in `submission-assets/video/` demonstrates the previous Evidence Atlas flow; do not use it as the final submission video.
 
 ## Source and Submission Documentation Links
 

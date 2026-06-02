@@ -1,0 +1,1 @@
+Research audit: live GBIF occurrence data are used for evidence context and safe claim language.

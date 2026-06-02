@@ -1,0 +1,6 @@
+What EcoGenesis Does Not Claim
+
+No species absence from empty cells.
+No true distribution without bias correction.
+No population trend from raw occurrences.
+No phenotype truth from barcode evidence.

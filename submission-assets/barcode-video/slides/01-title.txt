@@ -1,0 +1,5 @@
+Molecular Evidence Conversion
+and Repair Engine for GBIF
+
+From DNA barcode and metabarcoding results
+to safe claims, repair actions, and GBIF-ready exports.
