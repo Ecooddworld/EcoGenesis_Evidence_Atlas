@@ -1,18 +1,26 @@
 # Barcode-to-GBIF Evidence Compiler Entry Form Draft
 
+Use `submission-assets/gbif-entry-form-draft.md` as the canonical copy-ready form text. This file keeps the shorter project-specific version for quick reference.
+
 ## Submission Name
 
-Barcode-to-GBIF Evidence Compiler
+Molecular Evidence Conversion & Repair Engine for GBIF
 
-## Abstract And Rationale
+Short title: Barcode-to-GBIF Evidence Compiler
 
-Barcode-to-GBIF Evidence Compiler is a deterministic workflow that turns DNA barcode, metabarcoding and Sequence ID-style outputs into safe, rank-aware and GBIF-ready molecular occurrence evidence.
+## One-Liner
 
-The problem is simple: a top sequence hit is not automatically a safe species-level occurrence record. Users must know whether a sequence can support a species claim, whether the evidence should be downgraded to genus or higher rank, and which metadata are missing before publication through GBIF-aligned workflows.
+A deterministic workflow that turns DNA barcode, metabarcoding and Sequence ID-style outputs into safe, rank-aware and GBIF-ready molecular occurrence evidence.
 
-The compiler applies frozen gates for identity, query coverage, statistical ambiguity, lowest common ancestor, barcode gap, diagnostic k-mer support and publication readiness. It outputs clear classes: `species-safe`, `genus-safe`, `higher-rank-safe`, `ambiguous`, `weak`, `no-match` and `not-publishable`.
+## Abstract
 
-The Evidence Pack includes CSV tables, Darwin Core Occurrence and DNA-derived templates, a molecular evidence HTML report, methods text, citations and an evidence graph. This helps laboratories, data publishers, GBIF nodes and reviewers prevent unsafe molecular overclaims and repair records before publication.
+Barcode-to-GBIF Evidence Compiler receives CSV or JSON results from GBIF Sequence ID, BLAST, BOLD, UNITE or laboratory pipelines and determines whether each molecular record can safely support a species-level occurrence, must be downgraded to genus or higher rank, or is blocked from publication by sequence, reference or metadata gaps.
+
+It applies explicit gates for identity, query coverage, ambiguity, lowest common ancestor, barcode gap, diagnostic k-mer support, false-positive risk and GBIF/DNA-derived publication readiness. It separates taxonomic safety from publication readiness, preventing unsafe species-level overclaims while preserving repairable molecular evidence.
+
+Each run exports an Evidence Pack with sequence safety tables, safe taxonomic assignments, publication blockers, barcode gap and diagnostic k-mer reports, Darwin Core Occurrence templates, DNA-derived extension templates, a molecular evidence report, methods text, citations, an evidence graph and machine-readable JSON/ZIP files.
+
+The tool benefits GBIF data users, publishers, nodes and reviewers by making molecular occurrence evidence more transparent, repeatable and publication-ready.
 
 ## Operating Instructions
 
@@ -20,14 +28,13 @@ The Evidence Pack includes CSV tables, Darwin Core Occurrence and DNA-derived te
 docker compose up --build
 ```
 
-Open http://localhost:13100.
+Open http://localhost:13100, go to `Run compiler`, upload one of the CSV examples in `examples/`, review validation, click `Generate from CSV`, inspect the decision table and download `evidence_pack.zip`.
 
-Use `Submission overview` for the short judge explanation. Use `Compiler workbench` to select a demo case or paste a JSON request with sequences, metadata, reference hits, barcode gap evidence and diagnostic k-mers. Click `Generate Evidence Package` and download `evidence_pack.zip`.
+## Required Final Links
 
-## Source And Documentation Links
-
-- Repository README: `README.md`
-- Methodology: `docs/barcode-compiler-methodology.md`
-- Proof by failure modes: `docs/proof-by-failure-modes.md`
-- GBIF DNA-derived readiness: `docs/gbif-dna-derived-readiness.md`
-- Testing plan: `docs/testing.md`
+- Public repository URL
+- Public video URL
+- Main README
+- `docs/submission.md`
+- `docs/barcode-compiler-methodology.md`
+- `docs/testing.md`
