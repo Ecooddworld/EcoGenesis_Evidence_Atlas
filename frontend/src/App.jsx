@@ -62,6 +62,26 @@ const architectureLevels = [
   ['Level C', 'Molecular Evidence Graph', 'The expanded direction: fragments, taxa, geography, protein/domain context, function hypotheses and safe/blocked claims in one graph.'],
 ];
 
+const userJourneySteps = [
+  ['1', 'Upload or try demo', 'Start with Sequence ID / BLAST-style CSV, the built-in Aedes demo, or the mini reference search.'],
+  ['2', 'Validate evidence', 'The app checks sequences, hit metrics, marker profile, assay type and required GBIF/DNA fields.'],
+  ['3', 'Route safe claims', 'Species claims pass only through hard gates; unsafe top hits are downgraded or blocked.'],
+  ['4', 'Export repair pack', 'Download publishable rows, review queues, methods, citations and audit CSVs.'],
+];
+
+const uploadExamples = [
+  ['Best input', 'CSV from GBIF Sequence ID, BLAST, BOLD, UNITE or lab pipeline with sequenceID, sequence, topTaxon, identity and queryCoverage.'],
+  ['Stronger input', 'Add eventID, materialSampleID, assayType, primers, target_gene, target_subfragment and contamination/QC fields.'],
+  ['Not enough', 'FASTA-only can be searched, but without hit metrics it cannot become species-safe automatically.'],
+];
+
+const resultReadingGuide = [
+  ['species-safe', 'Species claim passed every molecular and publication hard gate.'],
+  ['genus-safe', 'Species is unsafe, but the shared genus is still useful evidence.'],
+  ['weak', 'Identity, coverage or marker profile is too weak for safe publication.'],
+  ['not-publishable', 'Taxonomy may be strong, but required GBIF/DNA metadata must be repaired first.'],
+];
+
 const scientificSuiteScenarios = [
   ['aedes-spain', '120', '120', '4', '0.842', '94.69', '6'],
   ['aedes-italy', '120', '120', '3', '0.750', '89.17', '2'],
@@ -2477,6 +2497,21 @@ function CompilerWorkbench({
   return (
     <section className={`workspace ${pack ? 'has-results' : ''}`}>
       <aside className="control-panel">
+        <section className="quick-start-card">
+          <p className="section-label">Start here</p>
+          <h3>Use the demo first, then upload your CSV.</h3>
+          <p>
+            The fastest way to understand the tool is to run the mixed demo. It shows one species-safe record,
+            one downgraded record, one weak record and one metadata-blocked record.
+          </p>
+          <div className="quick-start-actions">
+            <button className="primary" onClick={runCompiler} disabled={loading}>
+              {loading ? 'Running demo...' : 'Try mixed demo'}
+            </button>
+            <a className="button-link" href={barcodeCsvTemplateUrl()}>Get CSV template</a>
+          </div>
+        </section>
+
         <p className="section-label">Upload and score</p>
         <section
           className={`upload-card ${csvFile ? 'has-file' : ''}`}
@@ -2488,12 +2523,16 @@ function CompilerWorkbench({
         >
           <div>
             <h3>Upload CSV results</h3>
+            <div className="upload-example-list">
+              {uploadExamples.map(([label, text]) => (
+                <div key={label}>
+                  <strong>{label}</strong>
+                  <span>{text}</span>
+                </div>
+              ))}
+            </div>
             <p>
-              Use a CSV exported from GBIF Sequence ID, BLAST, BOLD, UNITE, or your lab pipeline. Required columns:
-              <strong> sequenceID</strong> and <strong>sequence</strong>. Match metrics unlock safe taxonomic decisions.
-            </p>
-            <p className="hint">
-              Stronger CSVs can include eventID, materialSampleID, assayType, primers, qPCR/ddPCR controls and DNA-derived extension fields.
+              Required columns: <strong>sequenceID</strong> and <strong>sequence</strong>. Match metrics unlock safe taxonomic decisions.
             </p>
           </div>
           <label className="file-picker">
@@ -2626,16 +2665,42 @@ function CompilerWorkbench({
 
       <div className="result-stack">
         {!pack ? (
-          <section className="empty-state">
-            <h2>Run a demo or paste a request to see rank-safe molecular decisions.</h2>
-            <p>The compiler will produce CSV, JSON, HTML, Darwin Core templates, DNA-derived extension templates, methods text and citations.</p>
-          </section>
+          <>
+            <section className="empty-state onboarding-state">
+              <p className="section-label">What happens after you click run</p>
+              <h2>From a DNA match table to safe claims and repair actions.</h2>
+              <p>
+                EcoGenesis does not guess a species from the top hit. It checks whether the evidence is strong enough,
+                downgrades unsafe claims, separates publication blockers, then builds a downloadable evidence pack.
+              </p>
+              <ProcessFlow activeIndex={loading ? 1 : 0} />
+              <div className="empty-state-actions">
+                <button className="primary" onClick={runCompiler} disabled={loading}>
+                  {loading ? 'Compiling evidence...' : 'Run the mixed demo'}
+                </button>
+                <a className="button-link" href={barcodeCsvTemplateUrl()}>Get CSV template</a>
+              </div>
+            </section>
+
+            <section className="panel">
+              <p className="section-label">How to read the result</p>
+              <div className="status-guide-grid">
+                {resultReadingGuide.map(([status, meaning]) => (
+                  <article key={status} className={`status-guide-card ${status}`}>
+                    <span>{status}</span>
+                    <p>{meaning}</p>
+                  </article>
+                ))}
+              </div>
+            </section>
+          </>
         ) : (
           <>
             <section className="panel">
               <p className="section-label">Decision memo</p>
               <h2>{pack.summary.verdict}</h2>
               <p className="decision-lead">{buildRunExplanation(pack.metrics, publishableRecords.length, reviewRecords.length)}</p>
+              <ProcessFlow activeIndex={4} compact />
               <div className="metrics-grid compact">
                 <Metric label="Processed" value={pack.metrics.processed_records} />
                 <Metric label="Species-safe" value={pack.metrics.species_safe_records} />
@@ -2769,6 +2834,22 @@ function CsvPreview({ rows }) {
           ))}
         </tbody>
       </table>
+    </div>
+  );
+}
+
+function ProcessFlow({ activeIndex = 0, compact = false }) {
+  return (
+    <div className={`process-flow ${compact ? 'compact' : ''}`} aria-label="Evidence compiler workflow">
+      {userJourneySteps.map(([number, title, text], index) => (
+        <article key={number} className={`process-step ${index <= activeIndex ? 'active' : ''}`}>
+          <span>{number}</span>
+          <div>
+            <strong>{title}</strong>
+            {!compact && <p>{text}</p>}
+          </div>
+        </article>
+      ))}
     </div>
   );
 }
