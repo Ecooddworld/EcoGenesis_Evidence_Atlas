@@ -3384,105 +3384,301 @@ function FragmentGraphSvg({ graph, loading }) {
     return <SharedFragmentTreeSvg graph={graph} />;
   }
 
-  const nodes = graph.nodes || [];
-  const edges = graph.edges || [];
-  const taxonomySpine = {
-    kingdom: { x: 610, y: 106 },
-    phylum: { x: 736, y: 158 },
-    class: { x: 842, y: 238 },
-    order: { x: 846, y: 340 },
-    family: { x: 766, y: 440 },
-    genus: { x: 632, y: 520 },
-    species: { x: 968, y: 250 },
-  };
-  const positions = {};
-  const hitNodes = nodes.filter((node) => node.type === 'reference_hit').slice(0, 9);
-  const taxonNodes = nodes.filter((node) => taxonomySpine[node.type]);
-  const taxonByRank = taxonNodes.reduce((acc, node) => {
-    acc[node.type] = acc[node.type] || [];
-    acc[node.type].push(node);
-    return acc;
-  }, {});
+  return <StandardFragmentDashboardSvg graph={graph} />;
+}
 
-  nodes.forEach((node) => {
-    if (node.type === 'fragment') positions[node.id] = { x: 135, y: 328 };
-    if (node.type === 'reference_dataset') positions[node.id] = { x: 168, y: 548 };
-    if (node.type === 'warning') positions[node.id] = { x: 172, y: 108 };
-    if (node.type === 'safe_lca') {
-      const safeRank = node.rank || graph.classification?.safe_taxon?.rank;
-      const safeBase = taxonomySpine[safeRank] || { x: 820, y: 548 };
-      positions[node.id] = { x: Math.min(safeBase.x + 138, 935), y: Math.min(safeBase.y + 92, 560) };
+function StandardFragmentDashboardSvg({ graph }) {
+  const {
+    fragmentNode,
+    datasetNode,
+    warningNode,
+    safeLcaNode,
+    hitNodes,
+    lineageNodes,
+    safeTaxon,
+  } = buildStandardFragmentDashboard(graph);
+  const status = graph.classification?.status || 'not-run';
+  const safeName = safeTaxon?.name || safeLcaNode?.name || 'safe LCA';
+  const safeRank = safeTaxon?.rank || safeLcaNode?.rank || 'rank';
+  const queryLength = graph.query?.sequence_length || fragmentNode?.sequence_length || '-';
+  const [selectedItem, setSelectedItem] = useState(() => standardSelectionDetail({
+    type: 'safe',
+    safeName,
+    safeRank,
+    status,
+    hitCount: hitNodes.length,
+  }));
+  const topHit = hitNodes[0];
+  const detailLines = wrapSvgText(selectedItem.description, 44).slice(0, 2);
+  const actionLines = wrapSvgText(selectedItem.action, 58).slice(0, 2);
+  const selectedHitId = selectedItem.hitId;
+  const selectedTaxonId = selectedItem.taxonId;
+  const activateItem = (item) => setSelectedItem(item);
+  const keyboardSelect = (item) => (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      activateItem(item);
     }
-  });
-  hitNodes.forEach((node, index) => {
-    const center = 330;
-    const spread = Math.min(82, 260 / Math.max(1, hitNodes.length));
-    positions[node.id] = { x: 354, y: center + (index - (hitNodes.length - 1) / 2) * spread };
-  });
-  Object.entries(taxonByRank).forEach(([rank, rankNodes]) => {
-    rankNodes.slice(0, 9).forEach((node, index) => {
-      const base = taxonomySpine[rank];
-      const offset = index - (Math.min(rankNodes.length, 9) - 1) / 2;
-      if (rank === 'species') {
-        positions[node.id] = { x: base.x, y: base.y + offset * 88 };
-      } else {
-        positions[node.id] = { x: base.x + Math.min(index, 2) * 16, y: base.y + offset * 38 };
-      }
-    });
-  });
-  const visibleNodeIds = new Set(Object.keys(positions));
-  const visibleEdges = edges.filter((edge) => visibleNodeIds.has(edge.source) && visibleNodeIds.has(edge.target));
+  };
+  const lineagePositions = buildLineageLayout(lineageNodes);
 
   return (
-    <div className="fragment-svg-scroll" aria-label="Fragment taxon graph">
-      <svg className="fragment-graph-svg" viewBox="0 0 1080 650" role="img" aria-label="Fragment to taxa graph">
+    <div className="fragment-svg-scroll standard-dashboard" aria-label="Fragment evidence decision dashboard">
+      <svg className="fragment-graph-svg standard-dashboard-svg" viewBox="0 0 1080 650" role="img" aria-label="Fragment evidence decision dashboard">
         <defs>
-          <marker id="graphArrowhead" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
-            <path d="M0,0 L9,4.5 L0,9 Z" fill="#7f958b" />
-          </marker>
-          <filter id="safeGlow" x="-40%" y="-40%" width="180%" height="180%">
+          <filter id="standardCardShadow" x="-8%" y="-8%" width="116%" height="116%">
+            <feDropShadow dx="0" dy="12" stdDeviation="14" floodColor="#254338" floodOpacity="0.12" />
+          </filter>
+          <filter id="standardSafeGlow" x="-40%" y="-40%" width="180%" height="180%">
             <feDropShadow dx="0" dy="0" stdDeviation="5" floodColor="#2b8a4b" floodOpacity="0.42" />
           </filter>
-          <linearGradient id="graphWash" x1="0" y1="0" x2="1" y2="1">
+          <linearGradient id="standardDashWash" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0%" stopColor="#fbfdfb" />
-            <stop offset="100%" stopColor="#edf5f1" />
+            <stop offset="100%" stopColor="#eef6f3" />
           </linearGradient>
         </defs>
-        <rect x="12" y="14" width="1056" height="618" rx="18" className="graph-backdrop" />
-        <path d="M520 96 C720 54 940 105 1005 250 C1080 420 900 558 652 542 C492 530 395 452 354 330" className="graph-region-halo taxonomy" />
-        <path d="M68 328 C138 210 250 186 354 248 C448 304 458 405 354 412 C250 426 146 426 68 328" className="graph-region-halo hits" />
-        <text x="42" y="52" className="graph-title">Fragment evidence graph</text>
-        <text x="42" y="78" className="graph-subtitle">Selected reference dataset only · safe rank through LCA</text>
-        <text x="310" y="188" className="graph-cluster-label">Reference hits</text>
-        <text x="690" y="72" className="graph-cluster-label">Taxonomic lineage</text>
-        <text x="880" y="584" className="graph-cluster-label safe">Safe claim boundary</text>
-        <GraphLegend />
-        {visibleEdges.map((edge) => {
-          const source = positions[edge.source];
-          const target = positions[edge.target];
-          return (
-            <path
-              key={`${edge.source}-${edge.type}-${edge.target}`}
-              d={curvedEdgePath(source, target, edge.type)}
-              className={`graph-edge ${safeClassName(edge.type)}`}
-              markerEnd="url(#graphArrowhead)"
-            />
-          );
-        })}
-        {nodes.filter((node) => visibleNodeIds.has(node.id)).map((node) => {
-          const position = positions[node.id];
-          return (
-            <GraphNode key={node.id} node={node} x={position.x} y={position.y} />
-          );
-        })}
-        {hitNodes.length < nodes.filter((node) => node.type === 'reference_hit').length && (
-          <text x="270" y="540" textAnchor="middle" className="graph-note">
-            Showing first {hitNodes.length} hit nodes; full hit list remains in the result panel.
+        <rect x="14" y="14" width="1052" height="618" rx="22" className="standard-dashboard-shell" />
+
+        <g className="shared-card standard-summary-card" filter="url(#standardCardShadow)">
+          <rect x="34" y="38" width="394" height="574" rx="16" />
+          <text x="58" y="72" className="shared-card-title">Evidence decision</text>
+          <text x="58" y="96" className="shared-muted">A compact reading of hits, safe rank and claim boundary.</text>
+
+          <g className={`standard-status-orb ${safeClassName(status)}`} transform="translate(126 162)">
+            <circle r="56" />
+            <text y="-8" textAnchor="middle">{hitNodes.length}</text>
+            <text y="15" textAnchor="middle">hits</text>
+          </g>
+
+          <text x="208" y="138" className="shared-kpi-label">Classification</text>
+          <text x="208" y="166" className="standard-status-title">{fragmentStatusTitle(status)}</text>
+          <text x="208" y="196" className="shared-kpi-small">{queryLength} bp query · {safeRank} safe rank</text>
+
+          <g className="shared-fragment-strip" transform="translate(58 238)">
+            <rect width="344" height="58" rx="12" />
+            <text x="16" y="23">Query DNA fragment</text>
+            <text x="16" y="43">{fragmentPreview(graph.query?.sequence || fragmentNode?.sequence || 'ACGTTGACCTAGGCTTACGATCGTACCGATGC')}</text>
+          </g>
+
+          <g
+            className={`standard-safe-summary shared-click-target ${selectedItem.type === 'safe' ? 'selected' : ''}`}
+            transform="translate(58 326)"
+            role="button"
+            tabIndex="0"
+            aria-label={`Select safe LCA ${safeName}`}
+            onClick={() => activateItem(standardSelectionDetail({ type: 'safe', safeName, safeRank, status, hitCount: hitNodes.length }))}
+            onKeyDown={keyboardSelect(standardSelectionDetail({ type: 'safe', safeName, safeRank, status, hitCount: hitNodes.length }))}
+          >
+            <rect width="344" height="72" rx="12" />
+            <text x="18" y="24">Safe LCA</text>
+            <text x="18" y="48">{safeName}</text>
+            <text x="238" y="48">{safeRank}</text>
+          </g>
+
+          <g className="shared-claim-lock" transform="translate(58 500)">
+            <rect width="344" height="86" rx="12" />
+            <text x="18" y="19">Selection detail</text>
+            <text x="18" y="37">{shortenLabel(selectedItem.title, 36)}</text>
+            <text x="18" y="55">{detailLines[0] || selectedItem.description}</text>
+            {detailLines[1] && <text x="18" y="70">{detailLines[1]}</text>}
+          </g>
+        </g>
+
+        <g className="shared-card lineage-card" filter="url(#standardCardShadow)">
+          <rect x="454" y="38" width="592" height="258" rx="16" />
+          <text x="482" y="72" className="shared-card-title">Lineage path</text>
+          <text x="482" y="96" className="shared-muted">Clean rank order from broad clade to the candidate taxon.</text>
+          {lineageNodes.slice(0, -1).map((node, index) => {
+            const source = lineagePositions[node.id];
+            const target = lineagePositions[lineageNodes[index + 1].id];
+            if (!source || !target) return null;
+            return (
+              <line
+                key={`${node.id}-lineage-${lineageNodes[index + 1].id}`}
+                x1={source.x}
+                y1={source.y}
+                x2={target.x}
+                y2={target.y}
+                className={`standard-lineage-link ${selectedTaxonId === node.id || selectedTaxonId === lineageNodes[index + 1].id ? 'selected' : ''}`}
+              />
+            );
+          })}
+          {lineageNodes.map((node) => {
+            const position = lineagePositions[node.id];
+            if (!position) return null;
+            const isSafe = node.label === safeName || node.id === safeLcaNode?.id || node.is_safe_taxon;
+            return (
+              <g
+                key={node.id}
+                className={`standard-lineage-node shared-click-target ${isSafe ? 'safe' : ''} ${selectedTaxonId === node.id ? 'selected' : ''}`}
+                transform={`translate(${position.x} ${position.y})`}
+                role="button"
+                tabIndex="0"
+                aria-label={`Select lineage taxon ${node.label}`}
+                onClick={() => activateItem(standardSelectionDetail({ type: 'taxon', taxon: node, safeName, safeRank, status }))}
+                onKeyDown={keyboardSelect(standardSelectionDetail({ type: 'taxon', taxon: node, safeName, safeRank, status }))}
+              >
+                <rect x="-58" y="-22" width="116" height="44" rx="10" />
+                <text y="-3" textAnchor="middle">{shortenLabel(node.label, 16)}</text>
+                <text y="14" textAnchor="middle">{node.rank || node.type}</text>
+              </g>
+            );
+          })}
+          <text x="482" y="276" className="shared-warning-line">Lineage is reference-backed context, not proof of global distribution.</text>
+        </g>
+
+        <g className="shared-card hit-card" filter="url(#standardCardShadow)">
+          <rect x="454" y="322" width="592" height="290" rx="16" />
+          <text x="482" y="356" className="shared-card-title">Hit comparison</text>
+          <text x="482" y="380" className="shared-muted">The compiler compares top hits before allowing a safe rank.</text>
+          {hitNodes.slice(0, 4).map((hit, index) => {
+            const y = 410 + index * 45;
+            const identityWidth = Math.max(12, Math.min(178, Number(hit.identity || 0) * 1.78));
+            const coverageWidth = Math.max(12, Math.min(178, Number(hit.coverage || hit.query_coverage || 0) * 1.78));
+            return (
+              <g
+                key={hit.id}
+                className={`standard-hit-row shared-click-target ${selectedHitId === hit.id ? 'selected' : ''}`}
+                transform={`translate(482 ${y})`}
+                role="button"
+                tabIndex="0"
+                aria-label={`Select hit ${hit.label}`}
+                onClick={() => activateItem(standardSelectionDetail({ type: 'hit', hit, safeName, safeRank, status, topHit }))}
+                onKeyDown={keyboardSelect(standardSelectionDetail({ type: 'hit', hit, safeName, safeRank, status, topHit }))}
+              >
+                <rect width="244" height="36" rx="10" />
+                <text x="14" y="15">{shortenLabel(hit.label, 25)}</text>
+                <text x="14" y="29">{formatPercent(hit.identity)} id · {formatPercent(hit.coverage || hit.query_coverage)} cov</text>
+                <rect x="150" y="11" width="78" height="5" rx="3" className="standard-hit-track" />
+                <rect x="150" y="11" width={identityWidth * 0.43} height="5" rx="3" className="standard-hit-identity" />
+                <rect x="150" y="23" width="78" height="5" rx="3" className="standard-hit-track" />
+                <rect x="150" y="23" width={coverageWidth * 0.43} height="5" rx="3" className="standard-hit-coverage" />
+              </g>
+            );
+          })}
+          {hitNodes.slice(0, 4).map((hit, index) => {
+            const y = 428 + index * 45;
+            return (
+              <line
+                key={`${hit.id}-safe-connector`}
+                x1="728"
+                y1={y}
+                x2="806"
+                y2="462"
+                className={`standard-hit-safe-link ${selectedHitId === hit.id || selectedItem.type === 'safe' ? 'selected' : ''}`}
+              />
+            );
+          })}
+          <g
+            className={`standard-safe-node shared-click-target ${selectedItem.type === 'safe' ? 'selected' : ''}`}
+            transform="translate(866 462)"
+            filter="url(#standardSafeGlow)"
+            role="button"
+            tabIndex="0"
+            aria-label={`Select safe LCA ${safeName}`}
+            onClick={() => activateItem(standardSelectionDetail({ type: 'safe', safeName, safeRank, status, hitCount: hitNodes.length }))}
+            onKeyDown={keyboardSelect(standardSelectionDetail({ type: 'safe', safeName, safeRank, status, hitCount: hitNodes.length }))}
+          >
+            <rect x="-86" y="-34" width="172" height="68" rx="14" />
+            <text y="-7" textAnchor="middle">Safe claim</text>
+            <text y="15" textAnchor="middle">{shortenLabel(safeName, 20)}</text>
+          </g>
+          {warningNode && (
+            <g className="standard-warning-note" transform="translate(760 550)">
+              <rect x="-124" y="-20" width="248" height="40" rx="12" />
+              <text y="-2" textAnchor="middle">{shortenLabel(warningNode.label, 42)}</text>
+              <text y="14" textAnchor="middle">review caveat before publication</text>
+            </g>
+          )}
+        </g>
+
+        <g className="shared-action-strip" transform="translate(454 614)">
+          <rect width="592" height="24" rx="8" />
+          <text x="14" y="16">{actionLines.join(' ')}</text>
+        </g>
+
+        {datasetNode && (
+          <text x="226" y="632" className="shared-footer-note">
+            Dataset: {shortenLabel(datasetNode.label, 42)}
           </text>
         )}
       </svg>
     </div>
   );
+}
+
+function buildStandardFragmentDashboard(graph) {
+  const nodes = graph.nodes || [];
+  const rankOrder = ['kingdom', 'phylum', 'class', 'order', 'family', 'genus', 'species'];
+  const fragmentNode = nodes.find((node) => node.type === 'fragment');
+  const datasetNode = nodes.find((node) => node.type === 'reference_dataset');
+  const warningNode = nodes.find((node) => node.type === 'warning');
+  const safeLcaNode = nodes.find((node) => node.type === 'safe_lca');
+  const hitNodes = nodes.filter((node) => node.type === 'reference_hit');
+  const safeTaxon = graph.classification?.safe_taxon || {
+    rank: safeLcaNode?.rank,
+    name: safeLcaNode?.name || safeLcaNode?.label,
+    taxon_key: safeLcaNode?.taxon_key,
+  };
+  const taxonNodes = nodes
+    .filter((node) => rankOrder.includes(node.type))
+    .sort((first, second) => rankOrder.indexOf(first.type) - rankOrder.indexOf(second.type));
+  const hasSafeTaxonInLineage = taxonNodes.some((node) => node.label === safeTaxon?.name || node.name === safeTaxon?.name);
+  const lineageNodes = hasSafeTaxonInLineage || !safeLcaNode
+    ? taxonNodes
+    : [...taxonNodes, { ...safeLcaNode, type: safeLcaNode.rank || 'safe_lca', rank: safeLcaNode.rank || safeTaxon?.rank }];
+
+  return {
+    fragmentNode,
+    datasetNode,
+    warningNode,
+    safeLcaNode,
+    hitNodes,
+    lineageNodes,
+    safeTaxon,
+  };
+}
+
+function buildLineageLayout(nodes) {
+  const positions = [
+    { x: 528, y: 146 },
+    { x: 660, y: 146 },
+    { x: 792, y: 146 },
+    { x: 924, y: 146 },
+    { x: 594, y: 230 },
+    { x: 746, y: 230 },
+    { x: 898, y: 230 },
+    { x: 974, y: 230 },
+  ];
+  return Object.fromEntries(nodes.map((node, index) => [node.id, positions[index] || positions[positions.length - 1]]));
+}
+
+function standardSelectionDetail({ type, hit, taxon, safeName, safeRank, status, hitCount, topHit }) {
+  if (type === 'hit' && hit) {
+    const isTopHit = !topHit || topHit.id === hit.id;
+    return {
+      type,
+      hitId: hit.id,
+      title: hit.label,
+      description: `${isTopHit ? 'Top' : 'Alternative'} reference hit with ${formatPercent(hit.identity)} identity and ${formatPercent(hit.coverage || hit.query_coverage)} coverage. It supports the decision only after competitor and LCA checks.`,
+      action: `Do not use this hit alone; the safe claim remains ${safeRank} ${safeName} inside this reference dataset.`,
+    };
+  }
+  if (type === 'taxon' && taxon) {
+    return {
+      type,
+      taxonId: taxon.id,
+      title: `${taxon.label} (${taxon.rank || taxon.type})`,
+      description: `This lineage node explains where the evidence sits in taxonomy. It is context for interpreting the fragment, not an occurrence or distribution claim.`,
+      action: `The compiler uses the lineage to compute the lowest safe taxon, currently ${safeRank} ${safeName}.`,
+    };
+  }
+  return {
+    type: 'safe',
+    title: `Safe claim: ${safeName}`,
+    description: `${fragmentStatusTitle(status)} is the current bounded decision. ${hitCount || 0} informative hits were considered before the safe rank was chosen.`,
+    action: `Click a hit or lineage node to inspect why the safe output is ${safeRank} ${safeName}.`,
+  };
 }
 
 function SharedFragmentTreeSvg({ graph }) {
@@ -3962,6 +4158,12 @@ function shortSpeciesLabel(label, genus, limit = 12) {
     ? text.slice(genusText.length + 1)
     : text;
   return shortenLabel(withoutGenus, limit);
+}
+
+function fragmentPreview(sequence) {
+  const clean = String(sequence || '').replace(/[^ACGTURYKMSWBDHVN]/gi, '').toUpperCase();
+  if (!clean) return 'ACGTTGACCTAGGCTTACGATCGTACCGATGC';
+  return clean.length > 34 ? `${clean.slice(0, 34)}...` : clean;
 }
 
 function GraphNode({ node, x, y }) {

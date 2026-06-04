@@ -536,9 +536,22 @@ describe('Barcode compiler UI', () => {
     expect(screen.getAllByText('Animalia').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Aedes').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Safe LCA').length).toBeGreaterThan(0);
+    expect(screen.getByText('Evidence decision')).toBeInTheDocument();
+    expect(screen.getByText('Lineage path')).toBeInTheDocument();
+    expect(screen.getByText('Hit comparison')).toBeInTheDocument();
     expect(screen.getByText('Graph is limited to the selected reference dataset.')).toBeInTheDocument();
     expect(screen.getAllByText('Aedes albopictus').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Aedes aegypti').length).toBeGreaterThan(0);
+
+    fireEvent.click(screen.getByLabelText('Select hit Aedes aegypti'));
+    expect(document.querySelector('.shared-claim-lock')?.textContent).toContain('Aedes aegypti');
+    expect(document.querySelector('.shared-claim-lock')?.textContent).toContain('Alternative reference hit');
+    expect(document.querySelectorAll('.standard-hit-row.selected').length).toBe(1);
+    expect(document.querySelectorAll('.standard-hit-safe-link.selected').length).toBeGreaterThan(0);
+
+    fireEvent.click(screen.getByLabelText('Select lineage taxon Animalia'));
+    expect(document.querySelector('.shared-claim-lock')?.textContent).toContain('Animalia');
+    expect(document.querySelectorAll('.standard-lineage-node.selected').length).toBe(1);
   });
 
   it('renders the short-fragment shared dashboard without collapsing taxa into a tangled tree', async () => {

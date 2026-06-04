@@ -2236,12 +2236,27 @@ summary {
   padding: 12px;
 }
 
+.standard-dashboard {
+  background: #edf4f0;
+  padding: 12px;
+}
+
 .shared-dashboard-svg {
+  min-height: 560px;
+}
+
+.standard-dashboard-svg {
   min-height: 560px;
 }
 
 .shared-dashboard-shell {
   fill: url(#sharedDashWash);
+  stroke: #d2dfd7;
+  stroke-width: 1.2;
+}
+
+.standard-dashboard-shell {
+  fill: url(#standardDashWash);
   stroke: #d2dfd7;
   stroke-width: 1.2;
 }
@@ -2521,6 +2536,199 @@ summary {
 .shared-action-strip text {
   fill: #2d6285;
   font-size: 11px;
+  font-weight: 850;
+}
+
+.standard-status-orb circle {
+  fill: #edf8f0;
+  stroke: #9fc8a9;
+  stroke-width: 14;
+}
+
+.standard-status-orb.genus-shared circle,
+.standard-status-orb.higher-rank-shared circle {
+  fill: #fff7e7;
+  stroke: #e0a331;
+}
+
+.standard-status-orb.weak circle,
+.standard-status-orb.cross-kingdom-conserved circle {
+  fill: #fff0e8;
+  stroke: #d98961;
+}
+
+.standard-status-orb text:first-of-type {
+  fill: #17201a;
+  font-size: 26px;
+  font-weight: 950;
+}
+
+.standard-status-orb text:last-of-type {
+  fill: #53655c;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.standard-status-title {
+  fill: #17201a;
+  font-size: 16px;
+  font-weight: 950;
+}
+
+.standard-safe-summary rect {
+  fill: #edf8f0;
+  stroke: #9fc8a9;
+}
+
+.standard-safe-summary.selected rect,
+.standard-safe-summary:hover rect,
+.standard-safe-summary:focus rect {
+  stroke: #287844;
+  stroke-width: 2;
+}
+
+.standard-safe-summary text:first-of-type {
+  fill: #287844;
+  font-size: 11px;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.standard-safe-summary text:nth-of-type(2) {
+  fill: #17201a;
+  font-size: 18px;
+  font-weight: 950;
+}
+
+.standard-safe-summary text:nth-of-type(3) {
+  fill: #53655c;
+  font-size: 12px;
+  font-weight: 900;
+  text-anchor: end;
+  text-transform: uppercase;
+}
+
+.standard-lineage-link {
+  stroke: #9cb3a5;
+  stroke-linecap: round;
+  stroke-width: 2.2;
+}
+
+.standard-lineage-link.selected {
+  stroke: #17201a;
+  stroke-width: 3;
+}
+
+.standard-lineage-node rect {
+  fill: #f8fbf8;
+  stroke: #bed2c4;
+}
+
+.standard-lineage-node.safe rect,
+.standard-lineage-node.selected rect,
+.standard-lineage-node:hover rect,
+.standard-lineage-node:focus rect {
+  fill: #edf8f0;
+  stroke: #287844;
+  stroke-width: 2;
+}
+
+.standard-lineage-node text:first-of-type {
+  fill: #17201a;
+  font-size: 11px;
+  font-weight: 950;
+}
+
+.standard-lineage-node text:last-of-type {
+  fill: #66766e;
+  font-size: 9px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.standard-hit-row rect:first-child {
+  fill: #fff7e7;
+  stroke: #e5c372;
+}
+
+.standard-hit-row.selected rect:first-child,
+.standard-hit-row:hover rect:first-child,
+.standard-hit-row:focus rect:first-child {
+  stroke: #17201a;
+  stroke-width: 2;
+}
+
+.standard-hit-row text:first-of-type {
+  fill: #17201a;
+  font-size: 11px;
+  font-weight: 950;
+}
+
+.standard-hit-row text:nth-of-type(2) {
+  fill: #596b62;
+  font-size: 9px;
+  font-weight: 850;
+}
+
+.standard-hit-track {
+  fill: #ece4d2;
+}
+
+.standard-hit-identity {
+  fill: #2f8a5f;
+}
+
+.standard-hit-coverage {
+  fill: #2d6285;
+}
+
+.standard-hit-safe-link {
+  stroke: #a6b8ae;
+  stroke-linecap: round;
+  stroke-opacity: 0.7;
+  stroke-width: 1.8;
+}
+
+.standard-hit-safe-link.selected {
+  stroke: #287844;
+  stroke-opacity: 0.92;
+  stroke-width: 3;
+}
+
+.standard-safe-node rect {
+  fill: #edf8f0;
+  stroke: #287844;
+  stroke-width: 2.4;
+}
+
+.standard-safe-node.selected rect,
+.standard-safe-node:hover rect,
+.standard-safe-node:focus rect {
+  stroke: #17201a;
+  stroke-width: 3;
+}
+
+.standard-safe-node text:first-of-type {
+  fill: #287844;
+  font-size: 12px;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.standard-safe-node text:last-of-type {
+  fill: #17201a;
+  font-size: 15px;
+  font-weight: 950;
+}
+
+.standard-warning-note rect {
+  fill: #fff0e8;
+  stroke: #d98961;
+}
+
+.standard-warning-note text {
+  fill: #8b3f1f;
+  font-size: 10px;
   font-weight: 850;
 }
 
