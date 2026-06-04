@@ -220,6 +220,15 @@ const natureBenefitCards = [
   ['For nature', 'Helps teams detect threats earlier, choose better sampling priorities and avoid decisions based on false certainty.'],
 ];
 
+const animationStoryboardFrames = [
+  ['01', 'Biological material becomes marker evidence', 'The input is not one sample type. It can come from specimens, tissues, traps, swabs, bulk samples or environmental traces. EcoGenesis only starts once a marker record exists.', 'Animate: organism icons → DNA marker cards → sequence row.'],
+  ['02', 'Reference search creates competing hits', 'A query marker is compared against curated references. The important question is not just the best hit, but whether nearby hits make the species claim unsafe.', 'Animate: DNA ribbon → hit bars → competitor warning.'],
+  ['03', 'Shared fragments become a taxonomic tree', 'Short fragments may fit several species. The graph should move upward to the lowest common ancestor instead of inventing species certainty.', 'Animate: species nodes converge → genus/family safe LCA glows.'],
+  ['04', 'Hard gates decide what can be claimed', 'Identity, coverage, ambiguity, barcode gap, diagnostic k-mers and metadata are checked as visible gates. Failure creates a blocker, not a hidden score.', 'Animate: gates light up one by one → blocked claim turns amber.'],
+  ['05', 'GBIF-ready package is produced', 'Safe records, repair actions, methods text, citations and Darwin Core templates become an export package that a publisher or reviewer can inspect.', 'Animate: evidence cards stack → ZIP/package → GBIF map.'],
+  ['06', 'Evidence returns to science and nature', 'The output helps researchers find sampling gaps, reference gaps and safer monitoring priorities without claiming absence or true distribution.', 'Animate: map cells pulse → priority route → field decision.'],
+];
+
 const markerSourceCards = [
   ['Tissue / specimen', 'A leaf, insect, fungal sample, museum specimen or collected biological material.'],
   ['Swab / trap / bulk sample', 'A mixed sample can contain marker fragments from several taxa and needs safe-rank handling.'],
@@ -2224,6 +2233,7 @@ function VisualLecture() {
           <div className="lecture-actions">
             <a className="button-link" href="#sequence-picture">See sequence picture</a>
             <a className="button-link" href="#safe-claim-picture">See safe claims</a>
+            <a className="button-link" href="#animation-storyboard">Animation storyboard</a>
           </div>
         </div>
         <div className="sequence-card" aria-label="Decorative DNA sequence preview">
@@ -2370,6 +2380,8 @@ function NatureCycleVisual() {
         </figcaption>
       </figure>
 
+      <AnimationStoryboardVisual />
+
       <div className="marker-source-board">
         <div>
           <p className="section-label">What enters the tool</p>
@@ -2407,6 +2419,195 @@ function NatureCycleVisual() {
         <span>More reproducible biodiversity science</span>
       </div>
     </section>
+  );
+}
+
+function AnimationStoryboardVisual() {
+  return (
+    <section className="animation-storyboard" id="animation-storyboard" aria-label="Animation-ready visual storyboard">
+      <div className="storyboard-heading">
+        <div>
+          <p className="section-label">Animation-ready storyboard</p>
+          <h3>Six extra visual frames for turning the project into an explanatory animation.</h3>
+          <p>
+            The large cycle image stays above. These additional frames are built as layered UI/SVG pictures, so the
+            same elements can later be animated: markers can travel, graph nodes can merge, gates can light up and
+            export cards can move into a GBIF-ready package.
+          </p>
+        </div>
+        <div className="storyboard-motion-key">
+          <span>Layered DOM</span>
+          <span>SVG-friendly</span>
+          <span>Future motion cues</span>
+        </div>
+      </div>
+      <div className="storyboard-grid">
+        {animationStoryboardFrames.map(([index, title, body, motion]) => (
+          <article className="storyboard-frame" data-animation-frame={index} key={index}>
+            <div className="storyboard-visual" aria-hidden="true">
+              <StoryboardScene index={index} />
+            </div>
+            <div className="storyboard-caption">
+              <span>Frame {index}</span>
+              <strong>{title}</strong>
+              <p>{body}</p>
+              <em>{motion}</em>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function StoryboardScene({ index }) {
+  if (index === '01') return <BiologicalMaterialScene />;
+  if (index === '02') return <ReferenceSearchScene />;
+  if (index === '03') return <SharedTaxonomyScene />;
+  if (index === '04') return <CompilerGateScene />;
+  if (index === '05') return <GbifPackageScene />;
+  return <ScienceFeedbackScene />;
+}
+
+function BiologicalMaterialScene() {
+  return (
+    <div className="scene-nature scene-layered">
+      <div className="scene-sky" />
+      <div className="scene-hill one" />
+      <div className="scene-hill two" />
+      <div className="scene-ground" />
+      <div className="organism leaf">leaf</div>
+      <div className="organism insect">insect</div>
+      <div className="organism fungus">fungus</div>
+      <div className="organism bird">bird</div>
+      <div className="sample-card specimen">specimen</div>
+      <div className="sample-card trap">trap</div>
+      <div className="sample-card tissue">tissue</div>
+      <div className="dna-stream">
+        {'ACGTACGTTAGC'.split('').map((base, index) => (
+          <span key={`${base}-${index}`}>{base}</span>
+        ))}
+      </div>
+      <div className="scene-arrow arrow-nature" />
+    </div>
+  );
+}
+
+function ReferenceSearchScene() {
+  const bars = [
+    ['Aedes albopictus', '99.6%', 'strong'],
+    ['Aedes aegypti', '99.3%', 'warn'],
+    ['Culex pipiens', '87.8%', 'weak'],
+  ];
+  return (
+    <div className="scene-search scene-layered">
+      <div className="search-query-ribbon">
+        {'AACATTATACTTTATTTTCGGT'.split('').map((base, index) => (
+          <span key={`${base}-${index}`}>{base}</span>
+        ))}
+      </div>
+      <div className="reference-stack">
+        {bars.map(([label, value, tone]) => (
+          <div className={`reference-bar ${tone}`} key={label}>
+            <span>{label}</span>
+            <strong>{value}</strong>
+          </div>
+        ))}
+      </div>
+      <div className="competitor-badge">competitor check</div>
+      <div className="scene-arrow arrow-search" />
+    </div>
+  );
+}
+
+function SharedTaxonomyScene() {
+  const species = ['albopictus', 'aegypti', 'japonicus', 'pipiens'];
+  return (
+    <div className="scene-taxonomy scene-layered">
+      <div className="taxon-root">Culicidae</div>
+      <div className="taxon-genus">Aedes</div>
+      <div className="taxon-genus culex">Culex</div>
+      {species.map((name, index) => (
+        <div className={`taxon-species species-${index}`} key={name}>{name}</div>
+      ))}
+      <svg viewBox="0 0 360 210" className="taxon-link-layer" aria-hidden="true">
+        <path d="M180 50 C160 76 140 98 118 118" />
+        <path d="M180 50 C197 78 214 101 236 120" />
+        <path d="M118 118 C82 142 66 162 48 184" />
+        <path d="M118 118 C120 145 117 164 112 188" />
+        <path d="M118 118 C144 145 152 164 164 188" />
+        <path d="M236 120 C271 146 292 165 314 188" />
+      </svg>
+      <div className="safe-lca-chip">safe LCA: family</div>
+    </div>
+  );
+}
+
+function CompilerGateScene() {
+  const gates = [
+    ['identity', 'pass'],
+    ['coverage', 'pass'],
+    ['LCA', 'warn'],
+    ['barcode gap', 'warn'],
+    ['metadata', 'repair'],
+  ];
+  return (
+    <div className="scene-gates scene-layered">
+      <div className="gate-input">marker row</div>
+      <div className="gate-track">
+        {gates.map(([label, tone]) => (
+          <div className={`animated-gate ${tone}`} key={label}>
+            <span>{label}</span>
+          </div>
+        ))}
+      </div>
+      <div className="blocked-claim-card">
+        <strong>Do not claim one species</strong>
+        <span>downgrade or repair first</span>
+      </div>
+    </div>
+  );
+}
+
+function GbifPackageScene() {
+  return (
+    <div className="scene-gbif scene-layered">
+      <div className="export-stack">
+        <span>sequence_safety.csv</span>
+        <span>methods_text.md</span>
+        <span>citations.md</span>
+        <span>dwc_template.csv</span>
+      </div>
+      <div className="zip-package">Evidence Pack</div>
+      <div className="gbif-screen">
+        <strong>GBIF</strong>
+        <div className="mini-map">
+          {Array.from({ length: 24 }).map((_, index) => (
+            <i key={index} style={{ '--x': `${12 + (index * 17) % 78}%`, '--y': `${18 + (index * 23) % 64}%` }} />
+          ))}
+        </div>
+      </div>
+      <div className="scene-arrow arrow-gbif" />
+    </div>
+  );
+}
+
+function ScienceFeedbackScene() {
+  return (
+    <div className="scene-feedback scene-layered">
+      <div className="priority-map">
+        {Array.from({ length: 20 }).map((_, index) => (
+          <span className={index % 5 === 0 ? 'priority' : ''} key={index} />
+        ))}
+      </div>
+      <div className="field-team-card">sampling priority</div>
+      <div className="decision-list">
+        <span>safe evidence</span>
+        <span>reference gaps</span>
+        <span>repair actions</span>
+      </div>
+      <div className="scene-arrow arrow-feedback" />
+    </div>
   );
 }
 

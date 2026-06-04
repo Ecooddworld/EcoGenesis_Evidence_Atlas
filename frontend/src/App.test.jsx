@@ -665,6 +665,12 @@ describe('Barcode compiler UI', () => {
     expect(screen.getByAltText('Nature to DNA marker evidence cycle showing biodiversity material, sequencing, compiler, open data map and conservation feedback')).toBeInTheDocument();
     expect(screen.getByText('The full cycle: nature produces signals, science turns them into safe evidence, and the evidence returns to nature as better decisions.')).toBeInTheDocument();
     expect(screen.getByText('DNA marker evidence, not one special sample type.')).toBeInTheDocument();
+    expect(screen.getByText('Animation-ready storyboard')).toBeInTheDocument();
+    expect(screen.getByText('Six extra visual frames for turning the project into an explanatory animation.')).toBeInTheDocument();
+    expect(screen.getByText('Biological material becomes marker evidence')).toBeInTheDocument();
+    expect(screen.getByText('Reference search creates competing hits')).toBeInTheDocument();
+    expect(screen.getByText('Shared fragments become a taxonomic tree')).toBeInTheDocument();
+    expect(screen.getByText('GBIF-ready package is produced')).toBeInTheDocument();
     expect(screen.getByText('Biodiversity source')).toBeInTheDocument();
     expect(screen.getByText('Marker selection')).toBeInTheDocument();
     expect(screen.getByText('Nature feedback')).toBeInTheDocument();
