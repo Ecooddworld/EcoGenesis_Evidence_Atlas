@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:18100';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:18100';
 
 export function exportUrl(path) {
   if (!path) return '#';
