@@ -577,6 +577,17 @@ describe('Barcode compiler UI', () => {
     expect(screen.getAllByText('Aedes').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Anopheles').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Culex').length).toBeGreaterThan(0);
+
+    fireEvent.click(screen.getByLabelText('Select network species Culex quinquefasciatus'));
+    expect(screen.getAllByText('Culex quinquefasciatus').length).toBeGreaterThan(0);
+    expect(document.querySelector('.shared-claim-lock')?.textContent).toContain('Culex quinquefasciatus');
+    expect(document.querySelector('.shared-claim-lock')?.textContent).toContain('reference species');
+    expect(document.querySelectorAll('.shared-network-species.selected').length).toBe(1);
+    expect(document.querySelectorAll('.shared-network-link.selected').length).toBeGreaterThan(0);
+
+    fireEvent.click(screen.getByLabelText('Select network genus Culex'));
+    expect(document.querySelector('.shared-claim-lock')?.textContent).toContain('Culex: 3 matched species');
+    expect(document.querySelector('.shared-claim-lock')?.textContent).toContain('Several species in this genus');
   });
 
   it('uploads a custom reference FASTA and selects it for real-data search', async () => {
