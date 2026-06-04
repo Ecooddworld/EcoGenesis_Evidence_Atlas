@@ -201,6 +201,23 @@ const futureImpactSteps = [
   ['V5', 'Hypothesis engine', 'Produces cautious, testable scientific hypotheses without claiming phenotype truth.'],
 ];
 
+const natureCycleSteps = [
+  ['01', 'Ecosystem signal', 'Plants, insects, fungi, animals and microbes leave DNA traces in water, soil, air and collected material.'],
+  ['02', 'Field sampling', 'Researchers collect samples with location, date, method, controls and uncertainty metadata.'],
+  ['03', 'Lab sequencing', 'DNA is extracted, amplified or sequenced, producing barcode, metabarcoding or Sequence ID results.'],
+  ['04', 'Reference comparison', 'Hits are compared against reference libraries and GBIF backbone taxonomy.'],
+  ['05', 'Evidence compiler', 'EcoGenesis tests identity, coverage, ambiguity, LCA, barcode gap, k-mers and metadata.'],
+  ['06', 'GBIF-ready package', 'Safe records, repair queues, methods, citations and Darwin Core templates are exported.'],
+  ['07', 'Scientific reuse', 'Researchers inspect gaps, weak evidence, reference limits, sampling bias and safe claims.'],
+  ['08', 'Nature feedback', 'Better evidence supports monitoring, conservation, invasive watch and future sampling priorities.'],
+];
+
+const natureBenefitCards = [
+  ['For science', 'Turns molecular detections into reproducible evidence categories instead of fragile top-hit claims.'],
+  ['For GBIF', 'Improves publication readiness, citation discipline, metadata repair and reusable molecular occurrence data.'],
+  ['For nature', 'Helps teams detect threats earlier, choose better sampling priorities and avoid decisions based on false certainty.'],
+];
+
 const dnaQuery = 'AACATTATACTTTATTTTCGGTATTTGATCTGGAATAGTC';
 const dnaReference = 'AACATTATACTTTATTTTCGGTATTTGATCTGGAATAGTC';
 const dnaCompetitor = 'AACTTTATATTTCATTTTTGGAGTATGATCTGGAATAGTC';
@@ -2170,6 +2187,8 @@ function VisualLecture() {
         ))}
       </section>
 
+      <NatureCycleVisual />
+
       <SciencePurposeVisual />
 
       <section className="panel lecture-two-column">
@@ -2254,6 +2273,82 @@ function VisualLecture() {
           safe taxon, blocked claims, repair actions, methods text, citations and export tables.
         </p>
       </section>
+    </section>
+  );
+}
+
+function NatureCycleVisual() {
+  return (
+    <section className="panel nature-cycle-panel">
+      <div className="nature-cycle-intro">
+        <div>
+          <p className="section-label">Nature-to-evidence cycle</p>
+          <h2>The full cycle: nature produces signals, science turns them into safe evidence, and the evidence returns to nature as better decisions.</h2>
+          <p>
+            This is the bigger point of EcoGenesis. The tool is not only a DNA checker. It is a bridge between real
+            ecosystems, molecular laboratories, GBIF publication and practical biodiversity decisions.
+          </p>
+        </div>
+        <div className="nature-benefit-stack">
+          {natureBenefitCards.map(([title, body]) => (
+            <article key={title}>
+              <strong>{title}</strong>
+              <span>{body}</span>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <div className="nature-story-board" aria-label="Nature to evidence lifecycle visualization">
+        <div className="ecosystem-scene">
+          <div className="scene-sky">
+            <span className="sun-shape" />
+            <span className="bird-shape bird-one" />
+            <span className="bird-shape bird-two" />
+          </div>
+          <div className="tree-line">
+            <span />
+            <span />
+            <span />
+            <span />
+          </div>
+          <div className="water-shape">
+            <i />
+            <i />
+            <i />
+          </div>
+          <div className="soil-band">
+            <span />
+            <span />
+            <span />
+          </div>
+          <div className="dna-particles">
+            {['A', 'C', 'G', 'T', 'A', 'G', 'C', 'T'].map((base, index) => (
+              <em className={`base-tile ${base}`} key={`${base}-${index}`}>{base}</em>
+            ))}
+          </div>
+          <strong>Ecosystem DNA signals</strong>
+          <p>Water, soil, air and organisms carry molecular traces before any data table exists.</p>
+        </div>
+
+        <div className="cycle-ring">
+          {natureCycleSteps.map(([index, title, body]) => (
+            <article key={index}>
+              <span>{index}</span>
+              <strong>{title}</strong>
+              <p>{body}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <div className="nature-outcome-strip">
+        <span>Less overclaiming</span>
+        <span>Cleaner GBIF records</span>
+        <span>Visible data gaps</span>
+        <span>Better sampling priorities</span>
+        <span>More reproducible biodiversity science</span>
+      </div>
     </section>
   );
 }

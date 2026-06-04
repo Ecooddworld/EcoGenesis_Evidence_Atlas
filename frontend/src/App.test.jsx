@@ -399,6 +399,11 @@ describe('Barcode compiler UI', () => {
     expect(screen.getByText('DNA letters')).toBeInTheDocument();
     expect(screen.getByText('Query')).toBeInTheDocument();
     expect(screen.getByText('Reference hit')).toBeInTheDocument();
+    expect(screen.getByText('Nature-to-evidence cycle')).toBeInTheDocument();
+    expect(screen.getByText('The full cycle: nature produces signals, science turns them into safe evidence, and the evidence returns to nature as better decisions.')).toBeInTheDocument();
+    expect(screen.getByText('Ecosystem signal')).toBeInTheDocument();
+    expect(screen.getByText('Nature feedback')).toBeInTheDocument();
+    expect(screen.getByText('For nature')).toBeInTheDocument();
     expect(screen.getByText('Why this matters in science')).toBeInTheDocument();
     expect(screen.getByText('The project is about converting molecular signals into reusable evidence.')).toBeInTheDocument();
     expect(screen.getByText('Scientific change')).toBeInTheDocument();
