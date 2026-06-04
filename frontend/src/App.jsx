@@ -172,7 +172,7 @@ const lectureWorkflow = [
 ];
 
 const sciencePurposeSteps = [
-  ['Raw DNA detections', 'Thousands of barcode, metabarcoding or Sequence ID rows arrive from water, soil, traps, museums and lab pipelines.'],
+  ['Raw marker evidence', 'Thousands of barcode, metabarcoding or Sequence ID rows arrive from specimens, tissue, swabs, traps, museums and lab pipelines.'],
   ['Evidence conversion', 'The engine separates safe species claims, safe genus/family evidence, weak rows, missing metadata and blocked overclaims.'],
   ['GBIF-ready outputs', 'Publishable rows, review queues, methods text and citations become reusable biodiversity evidence.'],
   ['Scientific reuse', 'Researchers can audit data gaps, reference-library limits, sampling bias and repair priorities before making conclusions.'],
@@ -202,10 +202,10 @@ const futureImpactSteps = [
 ];
 
 const natureCycleSteps = [
-  ['01', 'Ecosystem signal', 'Plants, insects, fungi, animals and microbes leave DNA traces in water, soil, air and collected material.'],
-  ['02', 'Field sampling', 'Researchers collect samples with location, date, method, controls and uncertainty metadata.'],
-  ['03', 'Lab sequencing', 'DNA is extracted, amplified or sequenced, producing barcode, metabarcoding or Sequence ID results.'],
-  ['04', 'Reference comparison', 'Hits are compared against reference libraries and GBIF backbone taxonomy.'],
+  ['01', 'Biodiversity source', 'Plants, insects, fungi, animals and microbes provide biological material: tissue, specimen, swab, trap sample or environmental trace.'],
+  ['02', 'Marker selection', 'The workflow focuses on marker regions such as COI, ITS, rbcL, matK, 16S or other barcode/metabarcoding fragments.'],
+  ['03', 'Lab sequencing', 'DNA is extracted and sequenced, producing marker results from GBIF Sequence ID, BLAST, BOLD, UNITE or lab pipelines.'],
+  ['04', 'Reference comparison', 'Marker hits are compared against reference libraries and GBIF backbone taxonomy.'],
   ['05', 'Evidence compiler', 'EcoGenesis tests identity, coverage, ambiguity, LCA, barcode gap, k-mers and metadata.'],
   ['06', 'GBIF-ready package', 'Safe records, repair queues, methods, citations and Darwin Core templates are exported.'],
   ['07', 'Scientific reuse', 'Researchers inspect gaps, weak evidence, reference limits, sampling bias and safe claims.'],
@@ -216,6 +216,13 @@ const natureBenefitCards = [
   ['For science', 'Turns molecular detections into reproducible evidence categories instead of fragile top-hit claims.'],
   ['For GBIF', 'Improves publication readiness, citation discipline, metadata repair and reusable molecular occurrence data.'],
   ['For nature', 'Helps teams detect threats earlier, choose better sampling priorities and avoid decisions based on false certainty.'],
+];
+
+const markerSourceCards = [
+  ['Tissue / specimen', 'A leaf, insect, fungal sample, museum specimen or collected biological material.'],
+  ['Swab / trap / bulk sample', 'A mixed sample can contain marker fragments from several taxa and needs safe-rank handling.'],
+  ['Sequence ID / BLAST table', 'The main v1 input: sequence, hit metrics, taxon, identity, coverage and metadata.'],
+  ['Reference marker library', 'COI, ITS, rbcL, matK, 16S or another marker-specific reference context.'],
 ];
 
 const dnaQuery = 'AACATTATACTTTATTTTCGGTATTTGATCTGGAATAGTC';
@@ -2286,7 +2293,8 @@ function NatureCycleVisual() {
           <h2>The full cycle: nature produces signals, science turns them into safe evidence, and the evidence returns to nature as better decisions.</h2>
           <p>
             This is the bigger point of EcoGenesis. The tool is not only a DNA checker. It is a bridge between real
-            ecosystems, molecular laboratories, GBIF publication and practical biodiversity decisions.
+            biodiversity material, DNA marker evidence, molecular laboratories, GBIF publication and practical
+            biodiversity decisions.
           </p>
         </div>
         <div className="nature-benefit-stack">
@@ -2299,47 +2307,44 @@ function NatureCycleVisual() {
         </div>
       </div>
 
-      <div className="nature-story-board" aria-label="Nature to evidence lifecycle visualization">
-        <div className="ecosystem-scene">
-          <div className="scene-sky">
-            <span className="sun-shape" />
-            <span className="bird-shape bird-one" />
-            <span className="bird-shape bird-two" />
-          </div>
-          <div className="tree-line">
-            <span />
-            <span />
-            <span />
-            <span />
-          </div>
-          <div className="water-shape">
-            <i />
-            <i />
-            <i />
-          </div>
-          <div className="soil-band">
-            <span />
-            <span />
-            <span />
-          </div>
-          <div className="dna-particles">
-            {['A', 'C', 'G', 'T', 'A', 'G', 'C', 'T'].map((base, index) => (
-              <em className={`base-tile ${base}`} key={`${base}-${index}`}>{base}</em>
-            ))}
-          </div>
-          <strong>Ecosystem DNA signals</strong>
-          <p>Water, soil, air and organisms carry molecular traces before any data table exists.</p>
-        </div>
+      <figure className="nature-cycle-image-frame">
+        <img
+          src="/assets/nature-marker-cycle.png"
+          alt="Nature to DNA marker evidence cycle showing biodiversity material, sequencing, compiler, open data map and conservation feedback"
+        />
+        <figcaption>
+          Visual cycle: biological material and DNA marker regions move through sequencing, evidence compilation,
+          GBIF-ready export and scientific feedback to biodiversity decisions.
+        </figcaption>
+      </figure>
 
-        <div className="cycle-ring">
-          {natureCycleSteps.map(([index, title, body]) => (
-            <article key={index}>
-              <span>{index}</span>
+      <div className="marker-source-board">
+        <div>
+          <p className="section-label">What enters the tool</p>
+          <h3>DNA marker evidence, not one special sample type.</h3>
+          <p>
+            EcoGenesis evaluates marker results after identification/search: sequence, hit metrics, taxonomy,
+            marker context and GBIF metadata. The sample source can vary; the core unit is the DNA marker record.
+          </p>
+        </div>
+        <div className="marker-source-grid">
+          {markerSourceCards.map(([title, body]) => (
+            <article key={title}>
               <strong>{title}</strong>
-              <p>{body}</p>
+              <span>{body}</span>
             </article>
           ))}
         </div>
+      </div>
+
+      <div className="cycle-ring" aria-label="DNA marker evidence lifecycle visualization">
+        {natureCycleSteps.map(([index, title, body]) => (
+          <article key={index}>
+            <span>{index}</span>
+            <strong>{title}</strong>
+            <p>{body}</p>
+          </article>
+        ))}
       </div>
 
       <div className="nature-outcome-strip">
