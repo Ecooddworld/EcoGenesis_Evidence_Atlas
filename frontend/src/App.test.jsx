@@ -92,6 +92,8 @@ const createdCsvRun = {
     { name: 'publication_blockers.csv', url: '/api/barcode/runs/barcodecsv123/exports/publication_blockers.csv' },
     { name: 'dwc_occurrence_core_publishable.csv', url: '/api/barcode/runs/barcodecsv123/exports/dwc_occurrence_core_publishable.csv' },
     { name: 'molecular_evidence_report.html', url: '/api/barcode/runs/barcodecsv123/exports/molecular_evidence_report.html' },
+    { name: 'methods_text.md', url: '/api/barcode/runs/barcodecsv123/exports/methods_text.md' },
+    { name: 'citations.md', url: '/api/barcode/runs/barcodecsv123/exports/citations.md' },
   ],
 };
 
@@ -114,6 +116,31 @@ const referenceDatasets = [
     title: 'EcoGenesis mini COI reference dataset for Aedes smoke tests',
     marker: 'COI-5P',
     records: 3,
+    source_type: 'bundled',
+    example_queries: [],
+  },
+  {
+    id: 'ncbi_aedes_coi_small',
+    title: 'NCBI GenBank small COI reference pack for Aedes workflow validation',
+    marker: 'COI-5P',
+    records: 2,
+    source_type: 'bundled',
+    usage_scope: 'Small real open reference example for EcoGenesis workflow validation.',
+    gbif_backbone_enrichment: {
+      status: 'pre_enriched_manifest',
+      enriched_records: 2,
+      fallback_records: 0,
+    },
+    example_queries: [
+      {
+        id: 'LC881945_1_AALB_COI',
+        label: 'Run real Aedes COI species-safe check',
+        sequence_id: 'LC881945_1_AALB_COI',
+        sequence: 'ACGTTGACCTAGGCTTACGATCGTACCGATGCTAGCTAGGATCCGATCGTACGATCGTAGCTAGCATCG',
+        expected_decision: 'species-safe',
+        explanation: 'Real Aedes albopictus COI query should pass species-safe gates.',
+      },
+    ],
   },
 ];
 
@@ -273,10 +300,13 @@ describe('Barcode compiler UI', () => {
     await waitFor(() => expect(screen.getAllByText('species-safe').length).toBeGreaterThan(0));
     expect(screen.getAllByText('sequence_safety_table.csv').length).toBeGreaterThan(0);
     expect(screen.getAllByText('molecular_evidence_report.html').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('methods_text.md').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('citations.md').length).toBeGreaterThan(0);
     expect(screen.getByText('Publishable (1)')).toBeInTheDocument();
   });
 
   it('runs reference search and compiles the returned hits', async () => {
+    let searchRequestBody = null;
     vi.spyOn(globalThis, 'fetch').mockImplementation((url, options) => {
       const textUrl = String(url);
       if (textUrl.endsWith('/api/barcode/demo-scenarios')) {
@@ -292,6 +322,7 @@ describe('Barcode compiler UI', () => {
         return Promise.resolve(new Response(JSON.stringify(referenceDatasets), { status: 200 }));
       }
       if (textUrl.endsWith('/api/barcode/search') && options?.method === 'POST') {
+        searchRequestBody = JSON.parse(options.body);
         return Promise.resolve(new Response(JSON.stringify(searchPayload), { status: 200 }));
       }
       return Promise.resolve(new Response('{}', { status: 404 }));
@@ -299,9 +330,13 @@ describe('Barcode compiler UI', () => {
 
     render(<App />);
     fireEvent.click(await screen.findByText('Run compiler'));
-    fireEvent.click(screen.getByText('Search reference & compile'));
+    expect(await screen.findByText('Run real Aedes COI species-safe check')).toBeInTheDocument();
+    expect(await screen.findByText('GBIF backbone: pre_enriched_manifest · enriched 2 / fallback 0')).toBeInTheDocument();
+    fireEvent.click(screen.getByText('Run real data'));
 
     await waitFor(() => expect(screen.getAllByText('species-safe').length).toBeGreaterThan(0));
+    expect(searchRequestBody.reference_dataset).toBe('ncbi_aedes_coi_small');
+    expect(searchRequestBody.sequence_id).toBe('LC881945_1_AALB_COI');
     expect(screen.getByText('Naive vs EcoGenesis')).toBeInTheDocument();
     expect(screen.getByText('python-local')).toBeInTheDocument();
   });
@@ -335,7 +370,7 @@ describe('Barcode compiler UI', () => {
     fireEvent.change(screen.getByLabelText('Reference FASTA'), { target: { files: [fasta] } });
     fireEvent.click(screen.getByText('Upload reference FASTA'));
 
-    expect(await screen.findByText(/Uploaded/)).toBeInTheDocument();
+    expect((await screen.findAllByText(/Uploaded/)).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/Custom Aedes COI/).length).toBeGreaterThan(0);
   });
 

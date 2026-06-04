@@ -43,6 +43,10 @@ def test_reference_dataset_and_search_api_compile_run(tmp_path, monkeypatch) -> 
     datasets = client.get("/api/barcode/reference-datasets")
     assert datasets.status_code == 200
     assert any(row["id"] == "aedes_coi_mini" for row in datasets.json())
+    ncbi_aedes = next(row for row in datasets.json() if row["id"] == "ncbi_aedes_coi_small")
+    assert ncbi_aedes["source_type"] == "bundled"
+    assert ncbi_aedes["example_queries"][0]["expected_decision"] == "species-safe"
+    assert ncbi_aedes["gbif_backbone_enrichment"]["status"] == "pre_enriched_manifest"
 
     response = client.post(
         "/api/barcode/search",

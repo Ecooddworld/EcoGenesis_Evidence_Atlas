@@ -1613,7 +1613,13 @@ function App() {
         setReferenceStatus(status);
         setSearchStatus(backendStatus);
         setReferenceDatasets(datasets);
-        setSelectedReferenceDataset(datasets[0]?.id || 'aedes_coi_mini');
+        const preferredDataset = datasets.find((dataset) => dataset.id === 'ncbi_aedes_coi_small')
+          || datasets.find((dataset) => dataset.source_type === 'bundled')
+          || datasets[0];
+        setSelectedReferenceDataset(preferredDataset?.id || 'aedes_coi_mini');
+        if (preferredDataset?.example_queries?.[0]?.sequence) {
+          setSearchSequence(preferredDataset.example_queries[0].sequence);
+        }
       })
       .catch((err) => {
         if (mounted) setError(err.message || 'Could not load compiler defaults');
@@ -1689,14 +1695,19 @@ function App() {
     }
   }
 
-  async function runReferenceSearch() {
+  async function runReferenceSearch(overrides = {}) {
     setSearchLoading(true);
     setError('');
+    const datasetId = overrides.reference_dataset || selectedReferenceDataset;
+    const sequence = overrides.sequence || searchSequence;
+    const sequenceId = overrides.sequence_id || 'UI_REFERENCE_SEARCH_QUERY';
+    setSelectedReferenceDataset(datasetId);
+    setSearchSequence(sequence);
     try {
       const payload = {
-        sequence_id: 'UI_REFERENCE_SEARCH_QUERY',
-        sequence: searchSequence,
-        reference_dataset: selectedReferenceDataset,
+        sequence_id: sequenceId,
+        sequence,
+        reference_dataset: datasetId,
         backend: 'auto',
         compile: true,
         metadata: {
@@ -2535,9 +2546,13 @@ function CompilerWorkbench({
   const filteredRecords = filterDecisionRecords(records, decisionFilter);
   const csvValidation = csvImport?.validation;
   const csvHasFatalErrors = csvValidation && !csvValidation.ok;
-  const keyExports = ['evidence_pack.zip', 'molecular_evidence_report.html', 'sequence_safety_table.csv', 'hard_gate_audit.csv', 'marker_profile_audit.csv', 'assay_gate_audit.csv', 'repair_plan.csv', 'naive_top_hit_overclaims.csv']
+  const keyExports = ['evidence_pack.zip', 'molecular_evidence_report.html', 'sequence_safety_table.csv', 'methods_text.md', 'citations.md', 'hard_gate_audit.csv', 'marker_profile_audit.csv', 'assay_gate_audit.csv', 'repair_plan.csv', 'naive_top_hit_overclaims.csv']
     .map((name) => exports.find((item) => item.name === name))
     .filter(Boolean);
+  const selectedReferenceDatasetMeta = referenceDatasets.find((dataset) => dataset.id === selectedReferenceDataset);
+  const referenceExamples = referenceDatasets.flatMap((dataset) => (
+    (dataset.example_queries || []).map((example) => ({ dataset, example }))
+  ));
 
   return (
     <section className={`workspace ${pack ? 'has-results' : ''}`}>
@@ -2634,8 +2649,33 @@ function CompilerWorkbench({
           <p className="section-label">Reference search</p>
           <h3>Search a real reference dataset</h3>
           <p>
-            Paste a barcode sequence and run VSEARCH/BLAST+ when available. Docker V3 includes both tools; local mode falls back to deterministic mini-search for this Aedes reference example.
+            Paste a barcode sequence and run VSEARCH/BLAST+ when available. Local mode falls back to deterministic mini-search for these small bundled examples.
           </p>
+          {referenceExamples.length > 0 && (
+            <div className="reference-example-grid" aria-label="Real reference examples">
+              {referenceExamples.map(({ dataset, example }) => (
+                <article key={`${dataset.id}-${example.id}`} className="reference-example-card">
+                  <div>
+                    <strong>{example.label}</strong>
+                    <span>{dataset.marker} · expected {example.expected_decision}</span>
+                    <p>{example.explanation}</p>
+                  </div>
+                  <button
+                    className="secondary"
+                    type="button"
+                    onClick={() => runReferenceSearch({
+                      reference_dataset: dataset.id,
+                      sequence: example.sequence,
+                      sequence_id: example.sequence_id || example.id,
+                    })}
+                    disabled={searchLoading}
+                  >
+                    {searchLoading ? 'Running...' : 'Run real data'}
+                  </button>
+                </article>
+              ))}
+            </div>
+          )}
           <div className="reference-upload-panel">
             <div>
               <strong>Bring your own reference FASTA</strong>
@@ -2691,6 +2731,22 @@ function CompilerWorkbench({
               )}
             </select>
           </label>
+          {selectedReferenceDatasetMeta && (
+            <div className="reference-dataset-note">
+              <strong>{selectedReferenceDatasetMeta.source_type === 'uploaded' ? 'Uploaded reference' : 'Bundled reference'}</strong>
+              <span>{selectedReferenceDatasetMeta.records} records · {selectedReferenceDatasetMeta.marker || 'marker not declared'}</span>
+              {selectedReferenceDatasetMeta.usage_scope && <p>{selectedReferenceDatasetMeta.usage_scope}</p>}
+              {selectedReferenceDatasetMeta.gbif_backbone_enrichment && (
+                <small>
+                  GBIF backbone: {selectedReferenceDatasetMeta.gbif_backbone_enrichment.status}
+                  {' · '}
+                  enriched {selectedReferenceDatasetMeta.gbif_backbone_enrichment.enriched_records ?? 0}
+                  {' / fallback '}
+                  {selectedReferenceDatasetMeta.gbif_backbone_enrichment.fallback_records ?? 0}
+                </small>
+              )}
+            </div>
+          )}
           <label>
             Query sequence
             <textarea
@@ -2700,7 +2756,7 @@ function CompilerWorkbench({
               spellCheck="false"
             />
           </label>
-          <button className="primary wide" onClick={runReferenceSearch} disabled={searchLoading || !searchSequence.trim()}>
+          <button className="primary wide" onClick={() => runReferenceSearch()} disabled={searchLoading || !searchSequence.trim()}>
             {searchLoading ? 'Searching reference...' : 'Search reference & compile'}
           </button>
           <div className="search-backend-status">
