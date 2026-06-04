@@ -84,7 +84,7 @@ a {
   border-radius: 8px;
   display: grid;
   gap: 4px;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   padding: 5px;
 }
 
@@ -2028,6 +2028,400 @@ summary {
   font-size: 1rem;
 }
 
+.fragment-graph-page {
+  display: grid;
+  gap: 18px;
+  margin: 0 auto;
+  max-width: 1480px;
+}
+
+.fragment-graph-hero {
+  align-items: stretch;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.32fr);
+  padding: 24px;
+}
+
+.fragment-graph-hero h2 {
+  font-size: clamp(1.8rem, 3vw, 3rem);
+  line-height: 1.06;
+  margin: 0;
+  max-width: 920px;
+}
+
+.fragment-graph-hero p,
+.fragment-control-panel p,
+.fragment-boundary-note span,
+.fragment-empty-summary p,
+.fragment-caveat span,
+.fragment-claim-box span {
+  color: #53655c;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.fragment-status-card,
+.fragment-verdict,
+.fragment-safe-taxon,
+.fragment-claim-box,
+.fragment-caveat {
+  background: #f8fbf8;
+  border: 1px solid #dbe4dd;
+  border-radius: 8px;
+  display: grid;
+  gap: 7px;
+  padding: 14px;
+}
+
+.fragment-status-card span,
+.fragment-verdict span,
+.fragment-safe-taxon span {
+  color: #577066;
+  font-size: 0.76rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.fragment-status-card strong,
+.fragment-verdict strong,
+.fragment-safe-taxon strong {
+  color: #17201a;
+  font-size: 1.08rem;
+  line-height: 1.25;
+}
+
+.fragment-status-card.species-diagnostic,
+.fragment-verdict.species-diagnostic {
+  background: #edf8f0;
+  border-color: #9fc8a9;
+}
+
+.fragment-status-card.genus-shared,
+.fragment-verdict.genus-shared,
+.fragment-status-card.higher-rank-shared,
+.fragment-verdict.higher-rank-shared {
+  background: #fff7e7;
+  border-color: #e5c372;
+}
+
+.fragment-status-card.cross-kingdom-conserved,
+.fragment-verdict.cross-kingdom-conserved,
+.fragment-status-card.weak,
+.fragment-verdict.weak {
+  background: #fff0e8;
+  border-color: #df9a74;
+}
+
+.fragment-status-card.no-match,
+.fragment-verdict.no-match {
+  background: #eef3f7;
+  border-color: #b9ccd7;
+}
+
+.fragment-graph-layout {
+  align-items: start;
+  display: grid;
+  gap: 18px;
+  grid-template-columns: 340px minmax(0, 1fr) 330px;
+}
+
+.fragment-control-panel,
+.fragment-summary-panel {
+  display: grid;
+  gap: 13px;
+  padding: 18px;
+  position: sticky;
+  top: 18px;
+}
+
+.fragment-control-panel h3,
+.fragment-svg-panel h3,
+.fragment-summary-panel h3 {
+  line-height: 1.2;
+  margin: 0;
+}
+
+.fragment-textarea {
+  min-height: 180px;
+}
+
+.fragment-examples {
+  display: grid;
+  gap: 8px;
+}
+
+.fragment-examples button {
+  justify-content: start;
+  min-height: 38px;
+  text-align: left;
+}
+
+.fragment-boundary-note {
+  background: #f3f7f8;
+  border: 1px solid #d4e0e4;
+  border-left: 5px solid #2d6285;
+  border-radius: 8px;
+  display: grid;
+  gap: 7px;
+  padding: 12px;
+}
+
+.fragment-boundary-note strong,
+.fragment-claim-box strong,
+.fragment-caveat strong {
+  color: #17201a;
+}
+
+.fragment-svg-panel {
+  min-height: 690px;
+  overflow: hidden;
+  padding: 18px;
+}
+
+.fragment-panel-heading {
+  align-items: start;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.fragment-status-pill {
+  border: 1px solid #cbd8d0;
+  border-radius: 999px;
+  color: #26372e;
+  font-size: 0.75rem;
+  font-weight: 900;
+  padding: 7px 10px;
+  white-space: nowrap;
+}
+
+.fragment-status-pill.species-diagnostic {
+  background: #dff2e5;
+  border-color: #9fc8a9;
+  color: #1d5f35;
+}
+
+.fragment-status-pill.genus-shared,
+.fragment-status-pill.higher-rank-shared {
+  background: #fff2d7;
+  border-color: #e5c372;
+  color: #765617;
+}
+
+.fragment-status-pill.cross-kingdom-conserved,
+.fragment-status-pill.weak {
+  background: #ffe5d8;
+  border-color: #df9a74;
+  color: #853f22;
+}
+
+.fragment-svg-scroll {
+  background: linear-gradient(180deg, #fbfdfb 0%, #f0f5f2 100%);
+  border: 1px solid #dbe4dd;
+  border-radius: 8px;
+  overflow-x: auto;
+  padding: 8px;
+}
+
+.fragment-graph-svg {
+  display: block;
+  min-width: 760px;
+  width: 100%;
+}
+
+.rank-lane-line {
+  stroke: #d5e1d9;
+  stroke-dasharray: 4 7;
+  stroke-width: 1.2;
+}
+
+.rank-lane-label {
+  fill: #6b7c72;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.graph-edge {
+  stroke: #8a9b92;
+  stroke-opacity: 0.68;
+  stroke-width: 1.7;
+}
+
+.graph-edge.matches_reference {
+  stroke: #2d6285;
+}
+
+.graph-edge.safe_lca_of {
+  stroke: #287844;
+  stroke-width: 2.4;
+}
+
+.graph-edge.limited_by {
+  stroke: #a14227;
+}
+
+.graph-node rect {
+  fill: #fff;
+  stroke: #cbd8d0;
+  stroke-width: 1.4;
+}
+
+.graph-node.fragment rect {
+  fill: #153f49;
+  stroke: #153f49;
+}
+
+.graph-node.fragment text {
+  fill: #fff;
+}
+
+.graph-node.reference_dataset rect {
+  fill: #eff6fa;
+  stroke: #aac5d3;
+}
+
+.graph-node.reference_hit rect {
+  fill: #fff7e7;
+  stroke: #e5c372;
+}
+
+.graph-node.kingdom rect,
+.graph-node.phylum rect,
+.graph-node.class rect,
+.graph-node.order rect,
+.graph-node.family rect,
+.graph-node.genus rect,
+.graph-node.species rect {
+  fill: #f8fbf8;
+  stroke: #bed2c4;
+}
+
+.graph-node.safe_lca rect,
+.graph-node.safe-taxon-node rect {
+  fill: #edf8f0;
+  stroke: #287844;
+  stroke-width: 2.6;
+}
+
+.graph-node.warning rect {
+  fill: #fff0e8;
+  stroke: #d98961;
+}
+
+.graph-node-label {
+  fill: #17201a;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.graph-node-detail,
+.graph-note {
+  fill: #596b62;
+  font-size: 10px;
+  font-weight: 750;
+}
+
+.fragment-graph-empty {
+  align-items: center;
+  background: #f8fbf8;
+  border: 1px dashed #b9c9c0;
+  border-radius: 8px;
+  color: #53655c;
+  display: grid;
+  gap: 9px;
+  justify-items: center;
+  min-height: 520px;
+  padding: 24px;
+  text-align: center;
+}
+
+.graph-loader {
+  animation: pulse-ring 1.2s ease-in-out infinite;
+  border: 6px solid #d5e5db;
+  border-top-color: #1e5b69;
+  border-radius: 999px;
+  height: 54px;
+  width: 54px;
+}
+
+@keyframes pulse-ring {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.fragment-summary-stack {
+  display: grid;
+  gap: 12px;
+}
+
+.fragment-mini-metrics {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.fragment-mini-metrics .metric-card {
+  padding: 10px;
+}
+
+.fragment-claim-box {
+  border-left: 5px solid #287844;
+}
+
+.fragment-claim-box.blocked {
+  border-left-color: #a14227;
+}
+
+.chip-row,
+.rank-distribution {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.chip,
+.rank-distribution span {
+  background: #eef5f0;
+  border: 1px solid #d5e3d9;
+  border-radius: 999px;
+  color: #2c4236;
+  display: inline-flex;
+  font-size: 0.78rem;
+  font-weight: 850;
+  gap: 6px;
+  padding: 6px 9px;
+}
+
+.rank-distribution strong {
+  color: #586c61;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.fragment-summary-panel h4 {
+  color: #17201a;
+  font-size: 0.92rem;
+  margin: 0 0 8px;
+}
+
+.fragment-caveat {
+  background: #f3f7f8;
+  border-color: #cfdee4;
+}
+
+.fragment-empty-summary {
+  background: #f8fbf8;
+  border: 1px dashed #c9d7ce;
+  border-radius: 8px;
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+}
+
 .file-picker input {
   background: #fff;
   cursor: pointer;
@@ -3183,6 +3577,8 @@ th {
 @media (max-width: 980px) {
   .topbar,
   .hero-panel,
+  .fragment-graph-hero,
+  .fragment-graph-layout,
   .lecture-hero,
   .nature-cycle-intro,
   .marker-source-board,
@@ -3200,12 +3596,18 @@ th {
     position: static;
   }
 
+  .fragment-control-panel,
+  .fragment-summary-panel {
+    position: static;
+  }
+
   .workspace.has-results .result-stack {
     order: -1;
   }
 
   .metrics-grid,
   .decision-kpis,
+  .fragment-mini-metrics,
   .decision-cards,
   .outcome-grid,
   .example-grid,
@@ -3269,6 +3671,7 @@ th {
   .cycle-ring,
   .marker-source-grid,
   .before-after-grid,
+  .fragment-mini-metrics,
   .user-value-grid {
     grid-template-columns: 1fr;
   }

@@ -129,3 +129,11 @@ class BarcodeReferenceSearchRequest(BaseModel):
     compile: bool = True
     project_title: str | None = None
     metadata: dict[str, Any] = Field(default_factory=dict)
+
+
+class BarcodeFragmentGraphRequest(BaseModel):
+    sequence_id: str = Field(default="fragment-001", min_length=1)
+    sequence: str = Field(min_length=1)
+    reference_dataset: str = Field(default="ncbi_aedes_coi_small", min_length=1)
+    backend: Literal["auto", "vsearch", "blastn", "python-local"] = "auto"
+    max_hits: int = Field(default=50, ge=1, le=200)

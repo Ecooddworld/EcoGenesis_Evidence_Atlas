@@ -160,6 +160,61 @@ const searchPayload = {
   pack: csvRunDetail,
 };
 
+const fragmentGraphPayload = {
+  query: {
+    sequence_id: 'LC881945_1_AALB_COI',
+    sequence_length: 72,
+    sequence_md5: 'abc123',
+  },
+  reference_dataset: {
+    id: 'ncbi_aedes_coi_small',
+    title: 'NCBI GenBank small COI reference pack for Aedes workflow validation',
+    marker: 'COI-5P',
+  },
+  backend_used: 'python-local',
+  classification: {
+    status: 'genus-shared',
+    safe_taxon: { rank: 'genus', name: 'Aedes', taxon_key: 7924646 },
+    kingdoms: ['Animalia'],
+    taxa_count: 2,
+    informative_hits: 2,
+    rank_distribution: {
+      kingdom: 1,
+      phylum: 1,
+      class: 1,
+      order: 1,
+      family: 1,
+      genus: 1,
+      species: 2,
+    },
+    caveat: 'Graph is limited to the selected reference dataset.',
+  },
+  nodes: [
+    { id: 'fragment:LC881945_1_AALB_COI', type: 'fragment', label: 'Query fragment', sequence_length: 72 },
+    { id: 'reference_dataset:ncbi_aedes_coi_small', type: 'reference_dataset', label: 'NCBI GenBank small COI reference pack for Aedes workflow validation', marker: 'COI-5P' },
+    { id: 'hit:AALB', type: 'reference_hit', label: 'Aedes albopictus', identity: 100, coverage: 100, informative: true },
+    { id: 'hit:AAEG', type: 'reference_hit', label: 'Aedes aegypti', identity: 99.2, coverage: 100, informative: true },
+    { id: 'taxon:kingdom:Animalia', type: 'kingdom', label: 'Animalia', rank: 'kingdom' },
+    { id: 'taxon:genus:Aedes', type: 'genus', label: 'Aedes', rank: 'genus', is_safe_taxon: true },
+    { id: 'taxon:species:Aedes_albopictus', type: 'species', label: 'Aedes albopictus', rank: 'species' },
+    { id: 'taxon:species:Aedes_aegypti', type: 'species', label: 'Aedes aegypti', rank: 'species' },
+    { id: 'safe_lca:genus:Aedes', type: 'safe_lca', label: 'Safe LCA: Aedes', rank: 'genus', name: 'Aedes', taxon_key: 7924646 },
+    { id: 'warning:genus-shared', type: 'warning', label: 'Fragment is shared across species; use the genus-level claim.', status: 'genus-shared' },
+  ],
+  edges: [
+    { source: 'fragment:LC881945_1_AALB_COI', target: 'reference_dataset:ncbi_aedes_coi_small', type: 'searched_against' },
+    { source: 'fragment:LC881945_1_AALB_COI', target: 'hit:AALB', type: 'matches_reference' },
+    { source: 'fragment:LC881945_1_AALB_COI', target: 'hit:AAEG', type: 'matches_reference' },
+    { source: 'hit:AALB', target: 'taxon:species:Aedes_albopictus', type: 'belongs_to_taxon' },
+    { source: 'hit:AAEG', target: 'taxon:species:Aedes_aegypti', type: 'belongs_to_taxon' },
+    { source: 'safe_lca:genus:Aedes', target: 'taxon:genus:Aedes', type: 'safe_lca_of' },
+  ],
+  hits: [
+    { reference_id: 'AALB', taxon: 'Aedes albopictus', identity: 100, query_coverage: 100 },
+    { reference_id: 'AAEG', taxon: 'Aedes aegypti', identity: 99.2, query_coverage: 100 },
+  ],
+};
+
 const uploadedReferencePayload = {
   status: 'created',
   dataset: {
@@ -339,6 +394,51 @@ describe('Barcode compiler UI', () => {
     expect(searchRequestBody.sequence_id).toBe('LC881945_1_AALB_COI');
     expect(screen.getByText('Naive vs EcoGenesis')).toBeInTheDocument();
     expect(screen.getByText('python-local')).toBeInTheDocument();
+  });
+
+  it('builds a real fragment-to-taxa graph from selected reference evidence', async () => {
+    let graphRequestBody = null;
+    vi.spyOn(globalThis, 'fetch').mockImplementation((url, options) => {
+      const textUrl = String(url);
+      if (textUrl.endsWith('/api/barcode/demo-scenarios')) {
+        return Promise.resolve(new Response(JSON.stringify(demoScenarios), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/reference-status')) {
+        return Promise.resolve(new Response(JSON.stringify({ status: 'ready', message: 'Compiler ready.' }), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/search-status')) {
+        return Promise.resolve(new Response(JSON.stringify(searchStatus), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/reference-datasets')) {
+        return Promise.resolve(new Response(JSON.stringify(referenceDatasets), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/fragment-graph') && options?.method === 'POST') {
+        graphRequestBody = JSON.parse(options.body);
+        return Promise.resolve(new Response(JSON.stringify(fragmentGraphPayload), { status: 200 }));
+      }
+      return Promise.resolve(new Response('{}', { status: 404 }));
+    });
+
+    render(<App />);
+    fireEvent.click(await screen.findByText('Fragment graph'));
+
+    expect(screen.getByText('Real fragment-to-taxa explorer')).toBeInTheDocument();
+    expect(screen.getByLabelText('Fragment reference dataset')).toBeInTheDocument();
+    expect(screen.getByLabelText('DNA marker fragment')).toBeInTheDocument();
+    expect(screen.getByText('Build Taxon Graph')).toBeInTheDocument();
+    expect(screen.getByText('This graph shows where the fragment appears inside the selected reference dataset.')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByText('Build Taxon Graph'));
+
+    await waitFor(() => expect(screen.getAllByText('Shared within a genus').length).toBeGreaterThan(0));
+    expect(graphRequestBody.reference_dataset).toBe('ncbi_aedes_coi_small');
+    expect(graphRequestBody.sequence_id).toBe('LC881945_1_AALB_COI');
+    expect(screen.getAllByText('Animalia').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Aedes').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Safe LCA: Aedes').length).toBeGreaterThan(0);
+    expect(screen.getByText('Graph is limited to the selected reference dataset.')).toBeInTheDocument();
+    expect(screen.getAllByText('Aedes albopictus').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Aedes aegypti').length).toBeGreaterThan(0);
   });
 
   it('uploads a custom reference FASTA and selects it for real-data search', async () => {

@@ -237,6 +237,309 @@ def search_reference(
     }
 
 
+def build_fragment_graph(
+    *,
+    sequence: str,
+    sequence_id: str = "fragment-001",
+    reference_dataset: str = "ncbi_aedes_coi_small",
+    backend: str = "auto",
+    max_hits: int = 50,
+) -> dict[str, Any]:
+    search_result = search_reference(
+        sequence=sequence,
+        sequence_id=sequence_id,
+        reference_dataset=reference_dataset,
+        backend=backend,
+        max_hits=max_hits,
+    )
+    hits = search_result["hits"]
+    informative_hits = [
+        hit for hit in hits
+        if float(hit.get("identity") or 0) > 90 and float(hit.get("query_coverage") or 0) >= 80
+    ]
+    informative_lineages = [lineage_for_hit(hit) for hit in informative_hits]
+    kingdoms = unique_names_for_rank(informative_lineages, "kingdom")
+    safe_taxon = lowest_common_taxon(informative_lineages)
+    classification_status = classify_fragment_graph(
+        hits=hits,
+        informative_hits=informative_hits,
+        kingdoms=kingdoms,
+        safe_taxon=safe_taxon,
+    )
+    nodes, edges = fragment_graph_nodes_edges(
+        sequence_id=sequence_id,
+        search_result=search_result,
+        hits=hits,
+        informative_hits=informative_hits,
+        safe_taxon=safe_taxon,
+        classification_status=classification_status,
+    )
+    informative_taxa = {
+        (hit.get("rank") or "unknown", hit.get("taxon") or hit.get("reference_id"))
+        for hit in informative_hits
+    }
+
+    return {
+        "query": search_result["query"],
+        "reference_dataset": search_result["reference_dataset"],
+        "backend_requested": search_result["backend_requested"],
+        "backend_used": search_result["backend_used"],
+        "searched_at": search_result["searched_at"],
+        "classification": {
+            "status": classification_status,
+            "safe_taxon": safe_taxon,
+            "kingdoms": kingdoms,
+            "taxa_count": len(informative_taxa),
+            "informative_hits": len(informative_hits),
+            "rank_distribution": rank_distribution(informative_lineages),
+            "caveat": "Graph is limited to the selected reference dataset.",
+        },
+        "nodes": nodes,
+        "edges": edges,
+        "hits": hits,
+        "warnings": search_result["warnings"],
+    }
+
+
+def lineage_for_hit(hit: dict[str, Any]) -> list[dict[str, Any]]:
+    lineage = [
+        {
+            "rank": str(item.get("rank") or "").strip().lower() or "unranked",
+            "name": item.get("name") or item.get("canonicalName") or "unknown lineage",
+            "taxon_key": item.get("taxon_key"),
+        }
+        for item in hit.get("lineage", [])
+        if item.get("name")
+    ]
+    hit_rank = str(hit.get("rank") or "species").strip().lower()
+    hit_taxon = hit.get("taxon")
+    if hit_taxon and hit_rank not in {item["rank"] for item in lineage}:
+        lineage.append({"rank": hit_rank, "name": hit_taxon, "taxon_key": hit.get("gbif_taxon_key")})
+    if not lineage and hit_taxon:
+        lineage.append({"rank": hit_rank, "name": hit_taxon, "taxon_key": hit.get("gbif_taxon_key")})
+    return lineage
+
+
+def unique_names_for_rank(lineages: list[list[dict[str, Any]]], rank: str) -> list[str]:
+    names = []
+    seen = set()
+    for lineage in lineages:
+        for item in lineage:
+            if item.get("rank") != rank:
+                continue
+            name = item.get("name") or "unknown"
+            key = name.lower()
+            if key not in seen:
+                seen.add(key)
+                names.append(name)
+    return names
+
+
+def lowest_common_taxon(lineages: list[list[dict[str, Any]]]) -> dict[str, Any]:
+    if not lineages:
+        return {"rank": "none", "name": "No safe taxon", "taxon_key": None}
+
+    rank_maps = []
+    for lineage in lineages:
+        by_rank = {}
+        for item in lineage:
+            rank = str(item.get("rank") or "").strip().lower()
+            if rank in GBIF_LINEAGE_RANKS:
+                by_rank[rank] = item
+        rank_maps.append(by_rank)
+
+    candidate: dict[str, Any] | None = None
+    for rank in GBIF_LINEAGE_RANKS:
+        ranked_items = [rank_map.get(rank) for rank_map in rank_maps]
+        if any(item is None for item in ranked_items):
+            break
+        normalized_names = {str(item["name"]).strip().lower() for item in ranked_items if item}
+        if len(normalized_names) != 1:
+            break
+        item = ranked_items[0] or {}
+        candidate = {
+            "rank": rank,
+            "name": item.get("name"),
+            "taxon_key": item.get("taxon_key"),
+        }
+
+    return candidate or {"rank": "none", "name": "No shared taxon in selected reference dataset", "taxon_key": None}
+
+
+def classify_fragment_graph(
+    *,
+    hits: list[dict[str, Any]],
+    informative_hits: list[dict[str, Any]],
+    kingdoms: list[str],
+    safe_taxon: dict[str, Any],
+) -> str:
+    if not hits:
+        return "no-match"
+    if not informative_hits:
+        return "weak"
+    if len(kingdoms) > 1:
+        return "cross-kingdom-conserved"
+    rank = safe_taxon.get("rank")
+    if rank == "species":
+        return "species-diagnostic"
+    if rank == "genus":
+        return "genus-shared"
+    if rank in {"family", "order", "class", "phylum", "kingdom"}:
+        return "higher-rank-shared"
+    return "weak"
+
+
+def rank_distribution(lineages: list[list[dict[str, Any]]]) -> dict[str, int]:
+    distribution: dict[str, set[str]] = {rank: set() for rank in GBIF_LINEAGE_RANKS}
+    for lineage in lineages:
+        for item in lineage:
+            rank = str(item.get("rank") or "").strip().lower()
+            name = item.get("name")
+            if rank in distribution and name:
+                distribution[rank].add(str(name))
+    return {rank: len(names) for rank, names in distribution.items() if names}
+
+
+def fragment_graph_nodes_edges(
+    *,
+    sequence_id: str,
+    search_result: dict[str, Any],
+    hits: list[dict[str, Any]],
+    informative_hits: list[dict[str, Any]],
+    safe_taxon: dict[str, Any],
+    classification_status: str,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    nodes: dict[str, dict[str, Any]] = {}
+    edges: dict[tuple[str, str, str], dict[str, Any]] = {}
+
+    fragment_id = f"fragment:{sanitize_graph_id(sequence_id)}"
+    dataset_id = f"reference_dataset:{sanitize_graph_id(search_result['reference_dataset']['id'])}"
+    add_node(nodes, fragment_id, "fragment", "Query fragment", sequence_id=sequence_id, sequence_length=search_result["query"]["sequence_length"])
+    add_node(
+        nodes,
+        dataset_id,
+        "reference_dataset",
+        search_result["reference_dataset"]["title"],
+        dataset_id=search_result["reference_dataset"]["id"],
+        marker=search_result["reference_dataset"].get("marker"),
+    )
+    add_edge(edges, fragment_id, dataset_id, "searched_against")
+
+    informative_reference_ids = {hit.get("reference_id") for hit in informative_hits}
+    for index, hit in enumerate(hits):
+        reference_id = hit.get("reference_id") or f"hit-{index + 1}"
+        hit_id = f"hit:{sanitize_graph_id(reference_id)}"
+        add_node(
+            nodes,
+            hit_id,
+            "reference_hit",
+            hit.get("taxon") or reference_id,
+            reference_id=reference_id,
+            identity=hit.get("identity"),
+            coverage=hit.get("query_coverage"),
+            aligned_length=hit.get("aligned_length"),
+            match_type=match_type_for_graph(hit),
+            informative=reference_id in informative_reference_ids,
+        )
+        add_edge(edges, fragment_id, hit_id, "matches_reference", identity=hit.get("identity"), coverage=hit.get("query_coverage"))
+        previous_taxon_id = None
+        lineage = lineage_for_hit(hit)
+        for item in lineage:
+            taxon_id = taxon_graph_id(item)
+            is_safe_taxon = (
+                safe_taxon.get("rank") == item.get("rank")
+                and str(safe_taxon.get("name") or "").lower() == str(item.get("name") or "").lower()
+            )
+            add_node(
+                nodes,
+                taxon_id,
+                item.get("rank") or "unranked",
+                item.get("name") or "unknown lineage",
+                rank=item.get("rank"),
+                taxon_key=item.get("taxon_key"),
+                is_safe_taxon=is_safe_taxon,
+            )
+            if previous_taxon_id:
+                add_edge(edges, previous_taxon_id, taxon_id, "parent_taxon")
+            previous_taxon_id = taxon_id
+        if previous_taxon_id:
+            add_edge(edges, hit_id, previous_taxon_id, "belongs_to_taxon")
+
+    if safe_taxon.get("rank") not in {None, "none"} and safe_taxon.get("name"):
+        safe_id = f"safe_lca:{sanitize_graph_id(safe_taxon['rank'])}:{sanitize_graph_id(safe_taxon['name'])}"
+        add_node(nodes, safe_id, "safe_lca", f"Safe LCA: {safe_taxon['name']}", **safe_taxon)
+        add_edge(edges, fragment_id, safe_id, "safe_lca_of")
+        safe_taxon_id = taxon_graph_id(safe_taxon)
+        if safe_taxon_id in nodes:
+            add_edge(edges, safe_id, safe_taxon_id, "safe_lca_of")
+
+    warning_label = warning_for_fragment_status(classification_status, bool(hits), bool(informative_hits))
+    warning_id = f"warning:{classification_status}"
+    add_node(nodes, warning_id, "warning", warning_label, status=classification_status)
+    add_edge(edges, fragment_id, warning_id, "limited_by")
+
+    return list(nodes.values()), list(edges.values())
+
+
+def add_node(nodes: dict[str, dict[str, Any]], node_id: str, node_type: str, label: str, **properties: Any) -> None:
+    existing = nodes.get(node_id)
+    if existing:
+        existing.update({key: value for key, value in properties.items() if value is not None})
+        if properties.get("is_safe_taxon"):
+            existing["is_safe_taxon"] = True
+        return
+    nodes[node_id] = {
+        "id": node_id,
+        "type": node_type,
+        "label": label,
+        **{key: value for key, value in properties.items() if value is not None},
+    }
+
+
+def add_edge(edges: dict[tuple[str, str, str], dict[str, Any]], source: str, target: str, edge_type: str, **properties: Any) -> None:
+    key = (source, target, edge_type)
+    edges[key] = {
+        "source": source,
+        "target": target,
+        "type": edge_type,
+        **{item_key: value for item_key, value in properties.items() if value is not None},
+    }
+
+
+def taxon_graph_id(item: dict[str, Any]) -> str:
+    return f"taxon:{sanitize_graph_id(item.get('rank') or 'unranked')}:{sanitize_graph_id(item.get('name') or 'unknown')}"
+
+
+def sanitize_graph_id(value: Any) -> str:
+    return re.sub(r"[^a-zA-Z0-9_.:-]+", "_", str(value or "unknown").strip()).strip("_") or "unknown"
+
+
+def match_type_for_graph(hit: dict[str, Any]) -> str:
+    identity = float(hit.get("identity") or 0)
+    coverage = float(hit.get("query_coverage") or 0)
+    if identity >= 99 and coverage >= 80:
+        return "exact"
+    if identity > 90 and coverage >= 80:
+        return "close"
+    return "weak"
+
+
+def warning_for_fragment_status(status: str, has_hits: bool, has_informative_hits: bool) -> str:
+    if status == "species-diagnostic":
+        return "Species-level claim is supported only inside this selected reference dataset."
+    if status == "genus-shared":
+        return "Fragment is shared across species; use the genus-level claim."
+    if status == "higher-rank-shared":
+        return "Fragment is shared above genus; avoid species and genus claims."
+    if status == "cross-kingdom-conserved":
+        return "Fragment appears across kingdoms in this reference set; treat it as conserved or contaminated until reviewed."
+    if has_hits and not has_informative_hits:
+        return "Hits exist, but identity or coverage is too weak for a safe taxonomic claim."
+    if not has_hits:
+        return "No reference hits were returned for this selected reference dataset."
+    return "Graph is limited by the selected reference dataset."
+
+
 def compiler_request_from_search(
     search_result: dict[str, Any],
     *,

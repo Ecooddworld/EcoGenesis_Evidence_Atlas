@@ -4,7 +4,7 @@ from fastapi.testclient import TestClient
 
 from app.barcode import search_backend
 from app.barcode.compiler import run_barcode_compiler
-from app.barcode.search_backend import search_reference
+from app.barcode.search_backend import build_fragment_graph, search_reference
 from app.main import app
 
 
@@ -257,6 +257,125 @@ def test_real_ncbi_quercus_pack_downgrades_conserved_rbcl_to_genus() -> None:
     assert result["hits"][1]["identity"] == 100
     assert record["decision_class"] == "genus-safe"
     assert record["published_taxon"] == {"rank": "genus", "name": "Quercus", "taxon_key": 2877951}
+
+
+def test_fragment_graph_real_ncbi_aedes_returns_animalia_and_safe_lca() -> None:
+    manifest, fasta_path, _entries = search_backend.load_reference_dataset("ncbi_aedes_coi_small")
+    sequence = next(iter(search_backend.read_fasta(fasta_path).values()))
+
+    graph = build_fragment_graph(
+        sequence=sequence,
+        sequence_id="LC881945_1_AALB_COI",
+        reference_dataset=manifest["id"],
+        backend="python-local",
+        max_hits=5,
+    )
+
+    assert graph["classification"]["status"] in {"species-diagnostic", "genus-shared"}
+    assert "Animalia" in graph["classification"]["kingdoms"]
+    assert graph["classification"]["safe_taxon"]["rank"] in {"species", "genus"}
+    assert graph["classification"]["informative_hits"] >= 1
+    assert any(node["type"] == "fragment" for node in graph["nodes"])
+    assert any(node["type"] == "reference_hit" for node in graph["nodes"])
+    assert any(node["type"] == "safe_lca" for node in graph["nodes"])
+    assert any(edge["type"] == "matches_reference" for edge in graph["edges"])
+
+
+def test_fragment_graph_real_ncbi_quercus_returns_genus_shared() -> None:
+    manifest, fasta_path, _entries = search_backend.load_reference_dataset("ncbi_quercus_rbcl_small")
+    sequence = next(iter(search_backend.read_fasta(fasta_path).values()))
+
+    graph = build_fragment_graph(
+        sequence=sequence,
+        sequence_id="PQ178973_1_QROB_RBCL",
+        reference_dataset=manifest["id"],
+        backend="python-local",
+        max_hits=5,
+    )
+
+    assert graph["classification"]["status"] == "genus-shared"
+    assert graph["classification"]["safe_taxon"] == {"rank": "genus", "name": "Quercus", "taxon_key": 2877951}
+    assert graph["classification"]["kingdoms"] == ["Plantae"]
+    assert graph["classification"]["taxa_count"] == 2
+    assert graph["classification"]["rank_distribution"]["species"] == 2
+    assert any(node["label"] == "Safe LCA: Quercus" for node in graph["nodes"])
+
+
+def test_fragment_graph_uploaded_cross_kingdom_reference(tmp_path, monkeypatch) -> None:
+    monkeypatch.setenv("EVIDENCE_DATA_DIR", str(tmp_path))
+    monkeypatch.setenv("USER_REFERENCE_DATA_DIR", str(tmp_path / "reference-datasets"))
+    monkeypatch.setenv("GBIF_BACKBONE_ENRICH_UPLOADS", "false")
+    client = TestClient(app)
+    shared_fragment = "ACGTACGTACGTACGTACGTACGTACGT"
+    fasta = (
+        f">ANIMALIA_SHARED|Animalia|kingdom|1\n{shared_fragment}\n"
+        f">PLANTAE_SHARED|Plantae|kingdom|6\n{shared_fragment}\n"
+    )
+
+    upload = client.post(
+        "/api/barcode/reference-datasets/upload",
+        data={"dataset_id": "cross_kingdom_marker", "title": "Cross kingdom marker", "marker": "synthetic marker"},
+        files={"file": ("cross_kingdom.fasta", fasta, "text/plain")},
+    )
+    assert upload.status_code == 200
+
+    response = client.post(
+        "/api/barcode/fragment-graph",
+        json={
+            "sequence_id": "shared-cross-kingdom",
+            "sequence": shared_fragment,
+            "reference_dataset": "cross_kingdom_marker",
+            "backend": "python-local",
+            "max_hits": 10,
+        },
+    )
+
+    assert response.status_code == 200
+    graph = response.json()
+    assert graph["classification"]["status"] == "cross-kingdom-conserved"
+    assert set(graph["classification"]["kingdoms"]) == {"Animalia", "Plantae"}
+    assert graph["classification"]["safe_taxon"]["rank"] == "none"
+    assert any(node["type"] == "warning" for node in graph["nodes"])
+
+
+def test_fragment_graph_weak_invalid_and_unknown_dataset() -> None:
+    client = TestClient(app)
+    weak = client.post(
+        "/api/barcode/fragment-graph",
+        json={
+            "sequence_id": "weak-fragment",
+            "sequence": "AAAAAAAAAAAAAAAA",
+            "reference_dataset": "ncbi_aedes_coi_small",
+            "backend": "python-local",
+        },
+    )
+    assert weak.status_code == 200
+    assert weak.json()["classification"]["status"] == "weak"
+    assert weak.json()["classification"]["informative_hits"] == 0
+
+    invalid = client.post(
+        "/api/barcode/fragment-graph",
+        json={
+            "sequence_id": "bad-fragment",
+            "sequence": "ACGTXYZ",
+            "reference_dataset": "ncbi_aedes_coi_small",
+            "backend": "python-local",
+        },
+    )
+    assert invalid.status_code == 422
+    assert "unsupported characters" in invalid.json()["detail"]
+
+    missing_dataset = client.post(
+        "/api/barcode/fragment-graph",
+        json={
+            "sequence_id": "missing-dataset",
+            "sequence": QUERY,
+            "reference_dataset": "does_not_exist",
+            "backend": "python-local",
+        },
+    )
+    assert missing_dataset.status_code == 422
+    assert "Reference dataset not found" in missing_dataset.json()["detail"]
 
 
 def test_reference_search_rejects_invalid_sequence() -> None:
