@@ -462,6 +462,327 @@ button:disabled {
   margin: 0;
 }
 
+.nature-cycle-panel {
+  display: grid;
+  gap: 22px;
+  overflow: hidden;
+}
+
+.nature-cycle-intro {
+  align-items: start;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.42fr);
+}
+
+.nature-cycle-intro h2 {
+  font-size: clamp(1.65rem, 2.7vw, 2.75rem);
+  max-width: 1060px;
+}
+
+.nature-cycle-intro p {
+  color: #53655c;
+  line-height: 1.58;
+  margin: 0;
+  max-width: 940px;
+}
+
+.nature-benefit-stack {
+  display: grid;
+  gap: 10px;
+}
+
+.nature-benefit-stack article {
+  background: #f8fbf8;
+  border: 1px solid #dbe4dd;
+  border-left: 5px solid #287844;
+  border-radius: 8px;
+  display: grid;
+  gap: 7px;
+  padding: 13px;
+}
+
+.nature-benefit-stack strong {
+  color: #17201a;
+}
+
+.nature-benefit-stack span {
+  color: #53655c;
+  line-height: 1.42;
+}
+
+.nature-story-board {
+  align-items: stretch;
+  display: grid;
+  gap: 18px;
+  grid-template-columns: minmax(320px, 0.42fr) minmax(0, 1fr);
+}
+
+.ecosystem-scene {
+  background: linear-gradient(180deg, #dff1f5 0%, #edf7ed 54%, #d8b98e 100%);
+  border: 1px solid #cdded3;
+  border-radius: 8px;
+  display: grid;
+  min-height: 480px;
+  overflow: hidden;
+  padding: 18px;
+  position: relative;
+}
+
+.scene-sky,
+.tree-line,
+.water-shape,
+.soil-band,
+.dna-particles {
+  left: 0;
+  position: absolute;
+  right: 0;
+}
+
+.scene-sky {
+  height: 145px;
+  top: 0;
+}
+
+.sun-shape {
+  background: #f7c66a;
+  border-radius: 999px;
+  box-shadow: 0 0 0 16px rgba(247, 198, 106, 0.2);
+  display: block;
+  height: 56px;
+  position: absolute;
+  right: 36px;
+  top: 26px;
+  width: 56px;
+}
+
+.bird-shape {
+  border-top: 3px solid #355e68;
+  border-radius: 50%;
+  display: block;
+  height: 18px;
+  position: absolute;
+  transform: rotate(-10deg);
+  width: 38px;
+}
+
+.bird-shape::after {
+  border-top: 3px solid #355e68;
+  border-radius: 50%;
+  content: "";
+  height: 18px;
+  left: 18px;
+  position: absolute;
+  top: -3px;
+  transform: rotate(22deg);
+  width: 36px;
+}
+
+.bird-one {
+  left: 52px;
+  top: 38px;
+}
+
+.bird-two {
+  left: 134px;
+  top: 72px;
+  transform: scale(0.72) rotate(-8deg);
+}
+
+.tree-line {
+  align-items: end;
+  display: flex;
+  gap: 16px;
+  height: 190px;
+  justify-content: center;
+  top: 92px;
+}
+
+.tree-line span {
+  background: #2d6f3f;
+  border-radius: 80% 20% 70% 25%;
+  display: block;
+  height: 118px;
+  position: relative;
+  width: 74px;
+}
+
+.tree-line span:nth-child(2),
+.tree-line span:nth-child(4) {
+  background: #3f8750;
+  height: 150px;
+  width: 86px;
+}
+
+.tree-line span::after {
+  background: #6c4f30;
+  bottom: -62px;
+  content: "";
+  height: 80px;
+  left: 50%;
+  position: absolute;
+  transform: translateX(-50%);
+  width: 12px;
+}
+
+.water-shape {
+  background: linear-gradient(90deg, rgba(64, 137, 161, 0.85), rgba(123, 181, 196, 0.82));
+  border-radius: 50% 50% 0 0;
+  bottom: 105px;
+  height: 116px;
+  overflow: hidden;
+}
+
+.water-shape i {
+  border-top: 2px solid rgba(255, 255, 255, 0.68);
+  border-radius: 50%;
+  display: block;
+  height: 18px;
+  margin: 18px 0 0;
+  width: 115%;
+}
+
+.soil-band {
+  background: #c99f6f;
+  bottom: 0;
+  display: flex;
+  gap: 10px;
+  height: 118px;
+  padding: 22px;
+}
+
+.soil-band span {
+  background: rgba(91, 61, 34, 0.18);
+  border-radius: 999px;
+  height: 10px;
+  width: 28%;
+}
+
+.dna-particles {
+  bottom: 172px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  justify-content: center;
+  padding: 0 28px;
+  z-index: 1;
+}
+
+.dna-particles .base-tile {
+  box-shadow: 0 8px 18px rgba(23, 32, 26, 0.16);
+  font-style: normal;
+}
+
+.ecosystem-scene > strong,
+.ecosystem-scene > p {
+  align-self: end;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(219, 228, 221, 0.85);
+  border-radius: 8px;
+  color: #17201a;
+  margin: 0;
+  padding: 11px 12px;
+  position: relative;
+  z-index: 2;
+}
+
+.ecosystem-scene > strong {
+  align-self: end;
+  font-size: 1.08rem;
+}
+
+.ecosystem-scene > p {
+  color: #53655c;
+  line-height: 1.45;
+  margin-top: 56px;
+}
+
+.cycle-ring {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  position: relative;
+}
+
+.cycle-ring::before {
+  border: 2px dashed #b7cbbf;
+  border-radius: 999px;
+  content: "";
+  inset: 68px 88px;
+  pointer-events: none;
+  position: absolute;
+}
+
+.cycle-ring article {
+  background: #fff;
+  border: 1px solid #dbe4dd;
+  border-top: 5px solid #1e5b69;
+  border-radius: 8px;
+  display: grid;
+  gap: 9px;
+  min-height: 214px;
+  padding: 14px;
+  position: relative;
+  z-index: 1;
+}
+
+.cycle-ring article:nth-child(1),
+.cycle-ring article:nth-child(8) {
+  border-top-color: #287844;
+}
+
+.cycle-ring article:nth-child(3),
+.cycle-ring article:nth-child(4),
+.cycle-ring article:nth-child(5) {
+  border-top-color: #2d6285;
+}
+
+.cycle-ring article:nth-child(6),
+.cycle-ring article:nth-child(7) {
+  border-top-color: #b36b2c;
+}
+
+.cycle-ring span {
+  align-items: center;
+  background: #173328;
+  border-radius: 999px;
+  color: #fff;
+  display: inline-flex;
+  font-size: 0.78rem;
+  font-weight: 900;
+  height: 31px;
+  justify-content: center;
+  width: 44px;
+}
+
+.cycle-ring strong {
+  color: #17201a;
+  line-height: 1.25;
+}
+
+.cycle-ring p {
+  color: #53655c;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.nature-outcome-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.nature-outcome-strip span {
+  background: #edf6ee;
+  border: 1px solid #c6ddcc;
+  border-radius: 999px;
+  color: #1d5833;
+  font-size: 0.86rem;
+  font-weight: 900;
+  padding: 8px 11px;
+}
+
 .science-purpose-panel,
 .future-impact-panel {
   display: grid;
@@ -2963,6 +3284,8 @@ th {
   .topbar,
   .hero-panel,
   .lecture-hero,
+  .nature-cycle-intro,
+  .nature-story-board,
   .proof-hero,
   .research-hero,
   .workspace,
@@ -2997,13 +3320,18 @@ th {
   .gate-picture-grid,
   .summary-road,
   .science-flow,
-  .future-roadmap {
+  .future-roadmap,
+  .cycle-ring {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .science-flow article:not(:last-child)::after,
   .future-roadmap article:not(:last-child)::after {
     content: "";
+  }
+
+  .cycle-ring::before {
+    content: none;
   }
 
   .comparison-row {
@@ -3038,9 +3366,14 @@ th {
   .species-branch,
   .science-flow,
   .future-roadmap,
+  .cycle-ring,
   .before-after-grid,
   .user-value-grid {
     grid-template-columns: 1fr;
+  }
+
+  .ecosystem-scene {
+    min-height: 420px;
   }
 
   .mode-switch {
