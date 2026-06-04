@@ -3434,11 +3434,87 @@ function FragmentGraphSvg({ graph, loading }) {
     graph.classification?.status === 'higher-rank-shared'
     && (graph.classification?.taxa_count || 0) >= 4
   );
-  if (shouldUseSharedTree) {
-    return <SharedFragmentTreeSvg graph={graph} />;
-  }
 
-  return <StandardFragmentDashboardSvg graph={graph} />;
+  return (
+    <ZoomableFragmentGraph>
+      {shouldUseSharedTree ? <SharedFragmentTreeSvg graph={graph} /> : <StandardFragmentDashboardSvg graph={graph} />}
+    </ZoomableFragmentGraph>
+  );
+}
+
+const DEFAULT_GRAPH_ZOOM = 1.25;
+const MIN_GRAPH_ZOOM = 0.8;
+const MAX_GRAPH_ZOOM = 2.5;
+const GRAPH_ZOOM_STEP = 0.25;
+
+function ZoomableFragmentGraph({ children }) {
+  const [zoom, setZoom] = useState(DEFAULT_GRAPH_ZOOM);
+  const [fitMode, setFitMode] = useState(false);
+  const zoomPercent = Math.round(zoom * 100);
+  const zoomBy = (delta) => {
+    setFitMode(false);
+    setZoom((current) => {
+      const baseZoom = fitMode ? 1 : current;
+      return Number(Math.min(MAX_GRAPH_ZOOM, Math.max(MIN_GRAPH_ZOOM, baseZoom + delta)).toFixed(2));
+    });
+  };
+
+  return (
+    <div className="fragment-zoom-frame">
+      <div className="fragment-zoom-toolbar" aria-label="Graph zoom controls">
+        <div>
+          <strong>Graph zoom</strong>
+          <span>Use controls, then scroll inside the graph when it is enlarged.</span>
+        </div>
+        <div className="fragment-zoom-actions">
+          <button
+            type="button"
+            className="secondary compact"
+            aria-label="Zoom out graph"
+            onClick={() => zoomBy(-GRAPH_ZOOM_STEP)}
+            disabled={zoom <= MIN_GRAPH_ZOOM}
+          >
+            −
+          </button>
+          <span className="fragment-zoom-value" aria-live="polite">{fitMode ? 'Fit' : `${zoomPercent}%`}</span>
+          <button
+            type="button"
+            className="secondary compact"
+            aria-label="Zoom in graph"
+            onClick={() => zoomBy(GRAPH_ZOOM_STEP)}
+            disabled={zoom >= MAX_GRAPH_ZOOM}
+          >
+            +
+          </button>
+          <button type="button" className="secondary compact" onClick={() => setFitMode(true)} aria-label="Fit graph to panel">
+            Fit
+          </button>
+          <button
+            type="button"
+            className="secondary compact"
+            onClick={() => {
+              setFitMode(false);
+              setZoom(DEFAULT_GRAPH_ZOOM);
+            }}
+            aria-label="Reset graph zoom"
+          >
+            Reset
+          </button>
+        </div>
+      </div>
+      <div className="fragment-zoom-viewport" data-zoom-percent={fitMode ? 'fit' : zoomPercent}>
+        <div
+          className="fragment-zoom-content"
+          style={{
+            width: fitMode ? '100%' : `${Math.round(1080 * zoom)}px`,
+            marginInline: fitMode || zoom < 1 ? 'auto' : 0,
+          }}
+        >
+          {children}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 function StandardFragmentDashboardSvg({ graph }) {
