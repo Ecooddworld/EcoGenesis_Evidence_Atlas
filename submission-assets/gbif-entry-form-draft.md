@@ -46,6 +46,8 @@ Open:
 - Backend health: http://localhost:18100/health
 - Backend API docs: http://localhost:18100/docs
 
+The Docker stack is the recommended judge-facing run path. It builds the frontend as static production assets, serves them with Nginx, proxies `/api` to the backend service, installs VSEARCH and NCBI BLAST+ in the backend image, and bundles the example reference dataset required for the reference-search workflow.
+
 ### Main UI Flow
 
 1. Open `Run compiler`.

@@ -72,6 +72,8 @@ Open:
 - Frontend: http://localhost:13100
 - Backend API docs: http://localhost:18100/docs
 
+This command builds the contest-facing Docker stack: static production frontend, Nginx `/api` proxy, FastAPI backend, bundled example reference datasets, VSEARCH and NCBI BLAST+ installed in the backend image, and generated evidence packs persisted in `./data`.
+
 Run tests:
 
 ```bash

@@ -1,31 +1,40 @@
 services:
   backend:
     build:
-      context: ./backend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: backend/Dockerfile
     environment:
-      - EVIDENCE_MODE=${EVIDENCE_MODE:-fixture}
-      - EVIDENCE_DATA_DIR=/data/evidence
-      - GBIF_BASE_URL=${GBIF_BASE_URL:-https://api.gbif.org/v1}
-      - BARCODE_SEARCH_BACKEND=${BARCODE_SEARCH_BACKEND:-auto}
-      - CORS_ALLOW_ORIGINS=${CORS_ALLOW_ORIGINS:-http://localhost:13100,http://127.0.0.1:13100}
+      EVIDENCE_MODE: ${EVIDENCE_MODE:-online_with_empty_fallback}
+      EVIDENCE_DATA_DIR: /data/evidence
+      REFERENCE_DATA_DIR: /app/references
+      GBIF_BASE_URL: ${GBIF_BASE_URL:-https://api.gbif.org/v1}
+      BARCODE_SEARCH_BACKEND: ${BARCODE_SEARCH_BACKEND:-auto}
+      CORS_ALLOW_ORIGINS: ${CORS_ALLOW_ORIGINS:-http://localhost:13100,http://127.0.0.1:13100}
     ports:
       - "${BACKEND_PORT:-18100}:8000"
     volumes:
       - ./data:/data/evidence
-      - ./reports:/app/reports
-      - ./references:/app/references:ro
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health').read()"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
     restart: unless-stopped
 
   frontend:
     build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    environment:
-      - VITE_API_BASE_URL=${VITE_API_BASE_URL:-http://localhost:18100}
+      context: .
+      dockerfile: frontend/Dockerfile
+      args:
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL-}
     ports:
-      - "${FRONTEND_PORT:-13100}:5173"
-    command: npm run dev -- --host 0.0.0.0
+      - "${FRONTEND_PORT:-13100}:80"
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1/"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
     restart: unless-stopped

@@ -7,6 +7,7 @@ import json
 import shutil
 import subprocess
 import tempfile
+import os
 from pathlib import Path
 from typing import Any
 
@@ -14,7 +15,7 @@ from .schemas import BarcodeCompilerRequest, BarcodeGapEvidence, DiagnosticKmerE
 
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-REFERENCE_ROOT = REPO_ROOT / "references"
+REFERENCE_ROOT = Path(os.getenv("REFERENCE_DATA_DIR", REPO_ROOT / "references")).resolve()
 DEFAULT_REFERENCE_ID = "aedes_coi_mini"
 DNA_ALPHABET = set("ACGTRYSWKMBDHVN")
 

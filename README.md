@@ -89,13 +89,29 @@ Open:
 - Backend health: http://localhost:18100/health
 - Backend docs: http://localhost:18100/docs
 
-For the V3 stack with external sequence-search binaries installed in the backend container:
+This is the contest-facing production stack: the backend image installs **VSEARCH** and **NCBI BLAST+**, bundles the example reference datasets, and stores generated evidence packs in `./data`. The frontend is a static production build served by Nginx; `/api` is proxied to the backend inside Docker, so the UI works from one URL.
+
+The legacy V3 compose file is kept as an alias for older instructions:
 
 ```bash
 docker compose -f docker-compose.v3.yml up --build
 ```
 
-The V3 backend image installs **VSEARCH** and **NCBI BLAST+**. Local development can still run without those binaries; `/api/barcode/search-status` will report `python-local` as a degraded but deterministic mini-search backend for tests and small reference examples.
+Local development can still run without Docker or without those binaries; `/api/barcode/search-status` will report `python-local` as a degraded but deterministic mini-search backend for tests and small reference examples. The Docker stack should report `vsearch` or `blastn` as the preferred external backend.
+
+To avoid port conflicts with an already running local dev server:
+
+```bash
+FRONTEND_PORT=13200 BACKEND_PORT=18200 docker compose up --build
+```
+
+Automated Docker smoke test:
+
+```bash
+scripts/docker_smoke.sh
+```
+
+The smoke test builds the stack on ports `13200/18200`, checks frontend and backend health, verifies `/api/barcode/search-status`, and runs the mini Aedes reference-search path through the Nginx `/api` proxy.
 
 ### Main User Flow
 
