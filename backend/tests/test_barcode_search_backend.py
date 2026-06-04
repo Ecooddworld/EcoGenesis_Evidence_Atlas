@@ -111,6 +111,43 @@ def test_user_reference_fasta_upload_then_search(tmp_path, monkeypatch) -> None:
     assert payload["pack"]["records"][0]["decision_class"] == "species-safe"
 
 
+def test_uploaded_reference_ambiguous_binomials_downgrade_to_genus(tmp_path, monkeypatch) -> None:
+    monkeypatch.setenv("EVIDENCE_DATA_DIR", str(tmp_path))
+    monkeypatch.setenv("USER_REFERENCE_DATA_DIR", str(tmp_path / "reference-datasets"))
+    client = TestClient(app)
+    fasta = (
+        ">AALB_USER_REF|Aedes albopictus|species|1651430\n"
+        f"{QUERY}\n"
+        ">AAEG_USER_REF|Aedes aegypti|species|1651431\n"
+        f"{QUERY}\n"
+    )
+
+    upload = client.post(
+        "/api/barcode/reference-datasets/upload",
+        data={"dataset_id": "ambiguous_aedes_coi", "title": "Ambiguous Aedes COI", "marker": "COI-5P"},
+        files={"file": ("ambiguous_aedes.fasta", fasta, "text/plain")},
+    )
+    assert upload.status_code == 200
+
+    response = client.post(
+        "/api/barcode/search",
+        json={
+            "sequence_id": "AMBIGUOUS_QUERY",
+            "sequence": QUERY,
+            "reference_dataset": "ambiguous_aedes_coi",
+            "backend": "python-local",
+            "compile": True,
+        },
+    )
+
+    assert response.status_code == 200
+    record = response.json()["pack"]["records"][0]
+    assert record["decision_class"] == "genus-safe"
+    assert record["candidate_taxon"]["rank"] == "genus"
+    assert record["candidate_taxon"]["name"] == "Aedes"
+    assert record["published_taxon"]["rank"] == "genus"
+
+
 def test_reference_search_rejects_invalid_sequence() -> None:
     client = TestClient(app)
 

@@ -116,7 +116,7 @@ def create_user_reference_dataset(
             "taxon": taxon,
             "rank": rank,
             "gbif_taxon_key": gbif_taxon_key,
-            "lineage": [{"rank": rank, "name": taxon, "taxon_key": gbif_taxon_key}],
+            "lineage": uploaded_reference_lineage(taxon=taxon, rank=rank, gbif_taxon_key=gbif_taxon_key),
         }
         total_windows += max(len(normalized) - 14, 1)
 
@@ -548,6 +548,17 @@ def parse_reference_header(header: str) -> tuple[str, str, str, int | None]:
 def sanitize_reference_id(value: str) -> str:
     safe = re.sub(r"[^a-zA-Z0-9_.:-]+", "_", str(value or "").strip()).strip("._-:")
     return safe or "reference"
+
+
+def uploaded_reference_lineage(*, taxon: str, rank: str, gbif_taxon_key: int | None) -> list[dict[str, Any]]:
+    normalized_rank = str(rank or "species").strip().lower()
+    words = [word for word in str(taxon or "").split() if word]
+    if normalized_rank == "species" and len(words) >= 2:
+        return [
+            {"rank": "genus", "name": words[0], "taxon_key": None},
+            {"rank": "species", "name": taxon, "taxon_key": gbif_taxon_key},
+        ]
+    return [{"rank": normalized_rank, "name": taxon, "taxon_key": gbif_taxon_key}]
 
 
 def reference_evidence_from_sequences(sequences_by_taxon: dict[str, list[str]]) -> tuple[dict[str, dict[str, float]], dict[str, list[str]]]:
