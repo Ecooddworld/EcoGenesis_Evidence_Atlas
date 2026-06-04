@@ -9,6 +9,7 @@ services:
       REFERENCE_DATA_DIR: /app/references
       USER_REFERENCE_DATA_DIR: /data/evidence/reference-datasets
       GBIF_BASE_URL: ${GBIF_BASE_URL:-https://api.gbif.org/v1}
+      GBIF_BACKBONE_ENRICH_UPLOADS: ${GBIF_BACKBONE_ENRICH_UPLOADS:-true}
       BARCODE_SEARCH_BACKEND: ${BARCODE_SEARCH_BACKEND:-auto}
       CORS_ALLOW_ORIGINS: ${CORS_ALLOW_ORIGINS:-http://localhost:13100,http://127.0.0.1:13100}
     ports:

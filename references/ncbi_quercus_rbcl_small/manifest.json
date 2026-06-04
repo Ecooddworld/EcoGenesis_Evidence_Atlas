@@ -1,0 +1,127 @@
+{
+  "id": "ncbi_quercus_rbcl_small",
+  "title": "NCBI GenBank small rbcL reference pack for Quercus workflow validation",
+  "version": "2026-06-04",
+  "marker": "rbcL",
+  "fasta": "ncbi_quercus_rbcl_small.fasta",
+  "source": "NCBI GenBank nuccore FASTA records fetched through E-utilities",
+  "doi_or_url": "https://www.ncbi.nlm.nih.gov/nuccore/?term=PQ178973.1%20OR%20OM935572.1",
+  "license": "NCBI GenBank public sequence records used as a small workflow-validation pack; NCBI does not impose additional restrictions on use, but users should verify original submitter/source terms before publication.",
+  "usage_scope": "Small real open reference example for EcoGenesis workflow validation; not a curated production barcode reference database.",
+  "accessed_at": "2026-06-04",
+  "source_record_note": "Accessions: PQ178973.1 and OM935572.1; both records are cropped to the same overlapping rbcL window to avoid false barcode-gap inflation from different sequence start/end positions.",
+  "reference_total_windows": 1092,
+  "references": {
+    "PQ178973_1_QROB_RBCL": {
+      "taxon": "Quercus robur",
+      "rank": "species",
+      "gbif_taxon_key": 2878688,
+      "lineage": [
+        {
+          "rank": "kingdom",
+          "name": "Plantae",
+          "taxon_key": 6
+        },
+        {
+          "rank": "phylum",
+          "name": "Tracheophyta",
+          "taxon_key": 7707728
+        },
+        {
+          "rank": "class",
+          "name": "Magnoliopsida",
+          "taxon_key": 220
+        },
+        {
+          "rank": "order",
+          "name": "Fagales",
+          "taxon_key": 1354
+        },
+        {
+          "rank": "family",
+          "name": "Fagaceae",
+          "taxon_key": 4689
+        },
+        {
+          "rank": "genus",
+          "name": "Quercus",
+          "taxon_key": 2877951
+        },
+        {
+          "rank": "species",
+          "name": "Quercus robur",
+          "taxon_key": 2878688
+        }
+      ],
+      "accession": "PQ178973.1",
+      "source_url": "https://www.ncbi.nlm.nih.gov/nuccore/PQ178973.1",
+      "source_title": "Quercus robur voucher KS23 HER0280 rbcL gene, partial cds; chloroplast"
+    },
+    "OM935572_1_QPET_RBCL": {
+      "taxon": "Quercus petraea",
+      "rank": "species",
+      "gbif_taxon_key": 2880130,
+      "lineage": [
+        {
+          "rank": "kingdom",
+          "name": "Plantae",
+          "taxon_key": 6
+        },
+        {
+          "rank": "phylum",
+          "name": "Tracheophyta",
+          "taxon_key": 7707728
+        },
+        {
+          "rank": "class",
+          "name": "Magnoliopsida",
+          "taxon_key": 220
+        },
+        {
+          "rank": "order",
+          "name": "Fagales",
+          "taxon_key": 1354
+        },
+        {
+          "rank": "family",
+          "name": "Fagaceae",
+          "taxon_key": 4689
+        },
+        {
+          "rank": "genus",
+          "name": "Quercus",
+          "taxon_key": 2877951
+        },
+        {
+          "rank": "species",
+          "name": "Quercus petraea",
+          "taxon_key": 2880130
+        }
+      ],
+      "accession": "OM935572.1",
+      "source_url": "https://www.ncbi.nlm.nih.gov/nuccore/OM935572.1",
+      "source_title": "Quercus petraea voucher FGB14 rbcL gene, partial cds; chloroplast"
+    }
+  },
+  "barcode_gap_by_taxon": {
+    "Quercus robur": {
+      "intra_max_distance": 0.0,
+      "inter_min_distance": 0.0
+    },
+    "Quercus petraea": {
+      "intra_max_distance": 0.0,
+      "inter_min_distance": 0.0
+    }
+  },
+  "diagnostic_kmers_by_taxon": {},
+  "diagnostic_kmer_k": null,
+  "gbif_backbone_enrichment": {
+    "status": "pre_enriched_manifest",
+    "base_url": "https://api.gbif.org/v1",
+    "enriched_records": 2,
+    "fallback_records": 0,
+    "warnings": []
+  },
+  "created_at": "2026-06-04T00:00:00+00:00",
+  "sha256": "a4bdc631010b2b52802a0a51b9273136f3c84ba7c8847a4fcb5b44e40db6e5ad"
+}

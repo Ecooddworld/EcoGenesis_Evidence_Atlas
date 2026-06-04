@@ -12,12 +12,15 @@ import re
 from pathlib import Path
 from typing import Any
 
+import requests
+
 from .schemas import BarcodeCompilerRequest, BarcodeGapEvidence, DiagnosticKmerEvidence, ReferenceHit, SequenceRecord, TaxonLineageItem
 
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_REFERENCE_ID = "aedes_coi_mini"
 DNA_ALPHABET = set("ACGTRYSWKMBDHVN")
+GBIF_LINEAGE_RANKS = ["kingdom", "phylum", "class", "order", "family", "genus", "species"]
 
 
 @dataclass(frozen=True)
@@ -107,17 +110,33 @@ def create_user_reference_dataset(
     references: dict[str, dict[str, Any]] = {}
     sequences_by_taxon: dict[str, list[str]] = {}
     total_windows = 0
+    enrichment_summary = {
+        "status": "disabled" if not gbif_backbone_enrichment_enabled() else "attempted",
+        "base_url": gbif_base_url(),
+        "enriched_records": 0,
+        "fallback_records": 0,
+        "warnings": [],
+    }
     for header, sequence in parsed:
         reference_id, taxon, rank, gbif_taxon_key = parse_reference_header(header)
         normalized = normalize_sequence(sequence)
-        normalized_fasta.append(f">{reference_id} {taxon}\n{normalized}\n")
-        sequences_by_taxon.setdefault(taxon, []).append(normalized)
+        enrichment = uploaded_reference_taxon_context(taxon=taxon, rank=rank, gbif_taxon_key=gbif_taxon_key)
+        canonical_taxon = enrichment["taxon"]
+        normalized_fasta.append(f">{reference_id} {canonical_taxon}\n{normalized}\n")
+        sequences_by_taxon.setdefault(canonical_taxon, []).append(normalized)
         references[reference_id] = {
-            "taxon": taxon,
-            "rank": rank,
-            "gbif_taxon_key": gbif_taxon_key,
-            "lineage": uploaded_reference_lineage(taxon=taxon, rank=rank, gbif_taxon_key=gbif_taxon_key),
+            "taxon": canonical_taxon,
+            "rank": enrichment["rank"],
+            "gbif_taxon_key": enrichment["gbif_taxon_key"],
+            "lineage": enrichment["lineage"],
+            "gbif_backbone_match": enrichment["match"],
         }
+        if enrichment["match"]["status"] == "enriched":
+            enrichment_summary["enriched_records"] += 1
+        else:
+            enrichment_summary["fallback_records"] += 1
+            if enrichment["match"].get("message"):
+                enrichment_summary["warnings"].append(f"{reference_id}: {enrichment['match']['message']}")
         total_windows += max(len(normalized) - 14, 1)
 
     (directory / fasta_name).write_text("".join(normalized_fasta), encoding="utf-8")
@@ -140,6 +159,7 @@ def create_user_reference_dataset(
         "barcode_gap_by_taxon": barcode_gap_by_taxon,
         "diagnostic_kmers_by_taxon": diagnostic_kmers_by_taxon,
         "diagnostic_kmer_k": diagnostic_kmer_k,
+        "gbif_backbone_enrichment": enrichment_summary,
         "created_at": datetime.now(timezone.utc).isoformat(),
         "sha256": sha256_file(directory / fasta_name),
     }
@@ -559,6 +579,91 @@ def uploaded_reference_lineage(*, taxon: str, rank: str, gbif_taxon_key: int | N
             {"rank": "species", "name": taxon, "taxon_key": gbif_taxon_key},
         ]
     return [{"rank": normalized_rank, "name": taxon, "taxon_key": gbif_taxon_key}]
+
+
+def uploaded_reference_taxon_context(*, taxon: str, rank: str, gbif_taxon_key: int | None) -> dict[str, Any]:
+    fallback = {
+        "taxon": taxon,
+        "rank": str(rank or "species").strip().lower(),
+        "gbif_taxon_key": gbif_taxon_key,
+        "lineage": uploaded_reference_lineage(taxon=taxon, rank=rank, gbif_taxon_key=gbif_taxon_key),
+        "match": {
+            "status": "fallback",
+            "usageKey": gbif_taxon_key,
+            "matchType": None,
+            "confidence": None,
+            "message": "GBIF backbone enrichment disabled or unavailable; inferred lineage from FASTA header.",
+        },
+    }
+    if not gbif_backbone_enrichment_enabled():
+        fallback["match"]["status"] = "disabled"
+        fallback["match"]["message"] = "GBIF backbone enrichment disabled by GBIF_BACKBONE_ENRICH_UPLOADS."
+        return fallback
+
+    try:
+        response = requests.get(
+            f"{gbif_base_url()}/species/match",
+            params={"name": taxon},
+            timeout=float(os.getenv("GBIF_BACKBONE_TIMEOUT_SECONDS", "8")),
+        )
+        response.raise_for_status()
+        payload = response.json()
+    except (requests.RequestException, ValueError) as exc:
+        fallback["match"]["message"] = f"GBIF backbone enrichment failed: {exc}"
+        return fallback
+
+    confidence = payload.get("confidence") or 0
+    match_type = payload.get("matchType")
+    if not payload.get("usageKey") or match_type in {"NONE", "HIGHERRANK"} or confidence < 80:
+        fallback["match"]["message"] = (
+            f"GBIF backbone match was not precise enough "
+            f"(matchType={match_type}, confidence={confidence})."
+        )
+        fallback["match"]["matchType"] = match_type
+        fallback["match"]["confidence"] = confidence
+        fallback["match"]["usageKey"] = payload.get("usageKey") or gbif_taxon_key
+        return fallback
+
+    normalized_rank = str(payload.get("rank") or rank or "species").strip().lower()
+    canonical_taxon = payload.get("canonicalName") or payload.get("scientificName") or taxon
+    lineage = gbif_match_lineage(payload, rank=normalized_rank, taxon=canonical_taxon)
+    return {
+        "taxon": canonical_taxon,
+        "rank": normalized_rank,
+        "gbif_taxon_key": payload.get("usageKey") or gbif_taxon_key,
+        "lineage": lineage or fallback["lineage"],
+        "match": {
+            "status": "enriched",
+            "usageKey": payload.get("usageKey"),
+            "acceptedUsageKey": payload.get("acceptedUsageKey"),
+            "matchType": match_type,
+            "confidence": confidence,
+            "scientificName": payload.get("scientificName"),
+            "canonicalName": payload.get("canonicalName"),
+            "gbifStatus": payload.get("status"),
+            "message": "GBIF backbone lineage attached from /species/match.",
+        },
+    }
+
+
+def gbif_match_lineage(payload: dict[str, Any], *, rank: str, taxon: str) -> list[dict[str, Any]]:
+    lineage = []
+    for lineage_rank in GBIF_LINEAGE_RANKS:
+        name = payload.get(lineage_rank)
+        key = payload.get(f"{lineage_rank}Key")
+        if name:
+            lineage.append({"rank": lineage_rank, "name": name, "taxon_key": key})
+    if rank not in {item["rank"] for item in lineage} and taxon:
+        lineage.append({"rank": rank, "name": taxon, "taxon_key": payload.get("usageKey")})
+    return lineage
+
+
+def gbif_backbone_enrichment_enabled() -> bool:
+    return os.getenv("GBIF_BACKBONE_ENRICH_UPLOADS", "true").strip().lower() not in {"0", "false", "no", "off"}
+
+
+def gbif_base_url() -> str:
+    return os.getenv("GBIF_BASE_URL", "https://api.gbif.org/v1").rstrip("/")
 
 
 def reference_evidence_from_sequences(sequences_by_taxon: dict[str, list[str]]) -> tuple[dict[str, dict[str, float]], dict[str, list[str]]]:
