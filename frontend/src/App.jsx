@@ -11,6 +11,7 @@ import {
   runBarcodeCompiler,
   runBarcodeCsv,
   runBarcodeReferenceSearch,
+  uploadBarcodeReferenceDataset,
 } from './api.js';
 
 const defaultScenario = {
@@ -1595,6 +1596,11 @@ function App() {
   const [selectedReferenceDataset, setSelectedReferenceDataset] = useState('aedes_coi_mini');
   const [searchResult, setSearchResult] = useState(null);
   const [searchLoading, setSearchLoading] = useState(false);
+  const [referenceUploadFile, setReferenceUploadFile] = useState(null);
+  const [referenceUploadTitle, setReferenceUploadTitle] = useState('');
+  const [referenceUploadMarker, setReferenceUploadMarker] = useState('COI-5P');
+  const [referenceUpload, setReferenceUpload] = useState(null);
+  const [referenceUploadLoading, setReferenceUploadLoading] = useState(false);
 
   useEffect(() => {
     let mounted = true;
@@ -1713,6 +1719,27 @@ function App() {
     }
   }
 
+  async function uploadReferenceDataset() {
+    if (!referenceUploadFile) return;
+    setReferenceUploadLoading(true);
+    setError('');
+    try {
+      const result = await uploadBarcodeReferenceDataset(referenceUploadFile, {
+        title: referenceUploadTitle || referenceUploadFile.name.replace(/\.[^.]+$/, ''),
+        marker: referenceUploadMarker,
+        source: 'EcoGenesis UI reference FASTA upload',
+      });
+      setReferenceUpload(result);
+      setReferenceDatasets(result.datasets || [result.dataset]);
+      setSelectedReferenceDataset(result.dataset.id);
+      setSearchResult(null);
+    } catch (err) {
+      setError(err.message || 'Reference dataset upload failed');
+    } finally {
+      setReferenceUploadLoading(false);
+    }
+  }
+
   return (
     <main className="app-shell">
       <header className="topbar">
@@ -1772,6 +1799,15 @@ function App() {
           searchResult={searchResult}
           searchLoading={searchLoading}
           runReferenceSearch={runReferenceSearch}
+          referenceUploadFile={referenceUploadFile}
+          setReferenceUploadFile={setReferenceUploadFile}
+          referenceUploadTitle={referenceUploadTitle}
+          setReferenceUploadTitle={setReferenceUploadTitle}
+          referenceUploadMarker={referenceUploadMarker}
+          setReferenceUploadMarker={setReferenceUploadMarker}
+          referenceUpload={referenceUpload}
+          referenceUploadLoading={referenceUploadLoading}
+          uploadReferenceDataset={uploadReferenceDataset}
           referenceStatus={referenceStatus}
           pack={pack}
           records={records}
@@ -2478,6 +2514,15 @@ function CompilerWorkbench({
   searchResult,
   searchLoading,
   runReferenceSearch,
+  referenceUploadFile,
+  setReferenceUploadFile,
+  referenceUploadTitle,
+  setReferenceUploadTitle,
+  referenceUploadMarker,
+  setReferenceUploadMarker,
+  referenceUpload,
+  referenceUploadLoading,
+  uploadReferenceDataset,
   referenceStatus,
   pack,
   records,
@@ -2591,11 +2636,56 @@ function CompilerWorkbench({
           <p>
             Paste a barcode sequence and run VSEARCH/BLAST+ when available. Docker V3 includes both tools; local mode falls back to deterministic mini-search for this Aedes reference example.
           </p>
+          <div className="reference-upload-panel">
+            <div>
+              <strong>Bring your own reference FASTA</strong>
+              <p>
+                Upload a small curated FASTA to test real project data. Header format:
+                <code>{' >ref_id|Taxon name|rank|gbifTaxonKey'}</code>
+              </p>
+            </div>
+            <label>
+              Dataset title
+              <input
+                type="text"
+                value={referenceUploadTitle}
+                placeholder="My COI reference set"
+                onChange={(event) => setReferenceUploadTitle(event.target.value)}
+              />
+            </label>
+            <label>
+              Marker
+              <input
+                type="text"
+                value={referenceUploadMarker}
+                onChange={(event) => setReferenceUploadMarker(event.target.value)}
+              />
+            </label>
+            <label className="file-picker">
+              Reference FASTA
+              <input
+                aria-label="Reference FASTA"
+                type="file"
+                accept=".fasta,.fa,.fas,text/plain"
+                onChange={(event) => setReferenceUploadFile(event.target.files?.[0] || null)}
+              />
+            </label>
+            <button className="secondary wide" onClick={uploadReferenceDataset} disabled={!referenceUploadFile || referenceUploadLoading}>
+              {referenceUploadLoading ? 'Uploading reference...' : 'Upload reference FASTA'}
+            </button>
+            {referenceUpload?.dataset && (
+              <p className="upload-success">
+                Uploaded <strong>{referenceUpload.dataset.title}</strong> · {referenceUpload.dataset.records} records · selected for search.
+              </p>
+            )}
+          </div>
           <label>
             Reference dataset
             <select value={selectedReferenceDataset} onChange={(event) => setSelectedReferenceDataset(event.target.value)}>
               {referenceDatasets.length ? referenceDatasets.map((dataset) => (
-                <option key={dataset.id} value={dataset.id}>{dataset.title}</option>
+                <option key={dataset.id} value={dataset.id}>
+                  {dataset.title}{dataset.source_type === 'uploaded' ? ' · uploaded' : ''}
+                </option>
               )) : (
                 <option value="aedes_coi_mini">EcoGenesis mini COI reference dataset</option>
               )}

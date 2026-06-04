@@ -13,7 +13,13 @@ from .barcode.csv_import import CSV_TEMPLATE_TEXT, parse_barcode_csv
 from .barcode.demo import BARCODE_DEMO_SCENARIOS, DEFAULT_BARCODE_REQUEST
 from .barcode.profiles import ASSAY_PROFILES, MARKER_PROFILES
 from .barcode.schemas import BarcodeCompilerCreated, BarcodeCompilerRequest, BarcodeReferenceSearchRequest
-from .barcode.search_backend import compiler_request_from_search, list_reference_datasets, search_reference, search_status
+from .barcode.search_backend import (
+    compiler_request_from_search,
+    create_user_reference_dataset,
+    list_reference_datasets,
+    search_reference,
+    search_status,
+)
 from .barcode.storage import barcode_artifact_path, list_barcode_summaries, load_barcode_pack
 from .evidence.demo import DEMO_SCENARIOS, REGION_PRESETS
 from .evidence.gbif import GBIFClient
@@ -99,6 +105,39 @@ def barcode_search_status() -> dict:
 @app.get("/api/barcode/reference-datasets")
 def barcode_reference_datasets() -> list[dict]:
     return list_reference_datasets()
+
+
+@app.post("/api/barcode/reference-datasets/upload")
+async def upload_barcode_reference_dataset(
+    file: UploadFile = File(...),
+    dataset_id: str | None = Form(default=None),
+    title: str | None = Form(default=None),
+    marker: str | None = Form(default=None),
+    source: str | None = Form(default=None),
+    license: str | None = Form(default=None),
+    doi_or_url: str | None = Form(default=None),
+) -> dict:
+    content = await file.read()
+    try:
+        fasta_text = content.decode("utf-8-sig")
+        dataset = create_user_reference_dataset(
+            fasta_text=fasta_text,
+            dataset_id=dataset_id,
+            title=title,
+            marker=marker,
+            source=source,
+            license=license,
+            doi_or_url=doi_or_url,
+        )
+    except UnicodeDecodeError as exc:
+        raise HTTPException(status_code=400, detail="Reference FASTA file must be UTF-8 encoded.") from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    return {
+        "status": "created",
+        "dataset": dataset,
+        "datasets": list_reference_datasets(),
+    }
 
 
 @app.post("/api/barcode/search")

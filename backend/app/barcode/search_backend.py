@@ -8,6 +8,7 @@ import shutil
 import subprocess
 import tempfile
 import os
+import re
 from pathlib import Path
 from typing import Any
 
@@ -15,7 +16,6 @@ from .schemas import BarcodeCompilerRequest, BarcodeGapEvidence, DiagnosticKmerE
 
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-REFERENCE_ROOT = Path(os.getenv("REFERENCE_DATA_DIR", REPO_ROOT / "references")).resolve()
 DEFAULT_REFERENCE_ID = "aedes_coi_mini"
 DNA_ALPHABET = set("ACGTRYSWKMBDHVN")
 
@@ -50,30 +50,101 @@ def search_status() -> dict[str, Any]:
             if vsearch_path or blastn_path
             else "External VSEARCH/BLAST+ binary was not found; deterministic local mini-search is available for tests and demos."
         ),
-        "reference_root": str(REFERENCE_ROOT),
+        "reference_root": str(bundled_reference_root()),
+        "user_reference_root": str(user_reference_root()),
     }
 
 
 def list_reference_datasets() -> list[dict[str, Any]]:
     datasets = []
-    if not REFERENCE_ROOT.exists():
-        return datasets
-    for manifest_path in sorted(REFERENCE_ROOT.glob("*/manifest.json")):
-        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-        fasta_path = manifest_path.parent / manifest["fasta"]
-        datasets.append(
-            {
-                "id": manifest["id"],
-                "title": manifest["title"],
-                "marker": manifest.get("marker"),
-                "source": manifest.get("source"),
-                "license": manifest.get("license"),
-                "fasta": str(fasta_path),
-                "records": len(manifest.get("references", {})),
-                "sha256": sha256_file(fasta_path) if fasta_path.exists() else None,
-            }
-        )
+    seen = set()
+    for root, source_type in reference_roots():
+        if not root.exists():
+            continue
+        for manifest_path in sorted(root.glob("*/manifest.json")):
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            if manifest["id"] in seen:
+                continue
+            seen.add(manifest["id"])
+            fasta_path = manifest_path.parent / manifest["fasta"]
+            datasets.append(
+                {
+                    "id": manifest["id"],
+                    "title": manifest["title"],
+                    "marker": manifest.get("marker"),
+                    "source": manifest.get("source"),
+                    "source_type": source_type,
+                    "license": manifest.get("license"),
+                    "fasta": str(fasta_path),
+                    "records": len(manifest.get("references", {})),
+                    "sha256": sha256_file(fasta_path) if fasta_path.exists() else None,
+                }
+            )
     return datasets
+
+
+def create_user_reference_dataset(
+    *,
+    fasta_text: str,
+    dataset_id: str | None = None,
+    title: str | None = None,
+    marker: str | None = None,
+    source: str | None = None,
+    license: str | None = None,
+    doi_or_url: str | None = None,
+) -> dict[str, Any]:
+    parsed = parse_fasta_text(fasta_text)
+    if not parsed:
+        raise ValueError("FASTA file does not contain any reference sequences.")
+
+    digest = hashlib.sha256(fasta_text.encode("utf-8")).hexdigest()
+    safe_id = unique_user_dataset_id(dataset_id or title or f"uploaded_reference_{digest[:10]}")
+    dataset_title = title or f"Uploaded reference dataset {safe_id}"
+    directory = user_reference_root() / safe_id
+    directory.mkdir(parents=True, exist_ok=False)
+    fasta_name = f"{safe_id}.fasta"
+    normalized_fasta = []
+    references: dict[str, dict[str, Any]] = {}
+    sequences_by_taxon: dict[str, list[str]] = {}
+    total_windows = 0
+    for header, sequence in parsed:
+        reference_id, taxon, rank, gbif_taxon_key = parse_reference_header(header)
+        normalized = normalize_sequence(sequence)
+        normalized_fasta.append(f">{reference_id} {taxon}\n{normalized}\n")
+        sequences_by_taxon.setdefault(taxon, []).append(normalized)
+        references[reference_id] = {
+            "taxon": taxon,
+            "rank": rank,
+            "gbif_taxon_key": gbif_taxon_key,
+            "lineage": [{"rank": rank, "name": taxon, "taxon_key": gbif_taxon_key}],
+        }
+        total_windows += max(len(normalized) - 14, 1)
+
+    (directory / fasta_name).write_text("".join(normalized_fasta), encoding="utf-8")
+    barcode_gap_by_taxon, diagnostic_kmers_by_taxon = reference_evidence_from_sequences(sequences_by_taxon)
+    diagnostic_kmer_k = next(
+        (len(items[0]) for items in diagnostic_kmers_by_taxon.values() if items),
+        None,
+    )
+    manifest = {
+        "id": safe_id,
+        "title": dataset_title,
+        "version": datetime.now(timezone.utc).date().isoformat(),
+        "marker": marker or "COI-5P",
+        "fasta": fasta_name,
+        "source": source or "user_uploaded_reference_fasta",
+        "doi_or_url": doi_or_url,
+        "license": license or "user_supplied_license_not_declared",
+        "reference_total_windows": total_windows,
+        "references": references,
+        "barcode_gap_by_taxon": barcode_gap_by_taxon,
+        "diagnostic_kmers_by_taxon": diagnostic_kmers_by_taxon,
+        "diagnostic_kmer_k": diagnostic_kmer_k,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "sha256": sha256_file(directory / fasta_name),
+    }
+    (directory / "manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+    return next(dataset for dataset in list_reference_datasets() if dataset["id"] == safe_id)
 
 
 def search_reference(
@@ -196,6 +267,7 @@ def compiler_request_from_search(
                 reference_total_windows=manifest.get("reference_total_windows", 1_000),
                 epsilon=0.01,
                 alpha=0.01,
+                k=manifest.get("diagnostic_kmer_k"),
             )
 
     return BarcodeCompilerRequest(
@@ -226,8 +298,14 @@ def compiler_request_from_search(
 
 
 def load_reference_dataset(reference_dataset: str) -> tuple[dict[str, Any], Path, list[ReferenceEntry]]:
-    manifest_path = REFERENCE_ROOT / reference_dataset / "manifest.json"
-    if not manifest_path.exists():
+    safe_id = sanitize_dataset_id(reference_dataset)
+    manifest_path = None
+    for root, _source_type in reference_roots():
+        candidate = root / safe_id / "manifest.json"
+        if candidate.exists():
+            manifest_path = candidate
+            break
+    if not manifest_path:
         raise FileNotFoundError(f"Reference dataset not found: {reference_dataset}")
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     fasta_path = manifest_path.parent / manifest["fasta"]
@@ -389,6 +467,28 @@ def read_fasta(path: Path) -> dict[str, str]:
     return {key: "".join(parts) for key, parts in entries.items()}
 
 
+def parse_fasta_text(text: str) -> list[tuple[str, str]]:
+    entries: list[tuple[str, list[str]]] = []
+    current_header = None
+    current_parts: list[str] = []
+    for line in text.splitlines():
+        stripped = line.strip()
+        if not stripped:
+            continue
+        if stripped.startswith(">"):
+            if current_header is not None:
+                entries.append((current_header, current_parts))
+            current_header = stripped[1:].strip()
+            current_parts = []
+        elif current_header is not None:
+            current_parts.append(stripped)
+        else:
+            raise ValueError("FASTA sequence data must start with a header line beginning with '>'.")
+    if current_header is not None:
+        entries.append((current_header, current_parts))
+    return [(header, "".join(parts)) for header, parts in entries if "".join(parts).strip()]
+
+
 def normalize_sequence(sequence: str) -> str:
     clean = "".join(str(sequence or "").split()).upper().replace("-", "")
     if not clean:
@@ -397,6 +497,110 @@ def normalize_sequence(sequence: str) -> str:
     if invalid:
         raise ValueError(f"sequence contains unsupported characters: {''.join(invalid)}")
     return clean
+
+
+def bundled_reference_root() -> Path:
+    return Path(os.getenv("REFERENCE_DATA_DIR", REPO_ROOT / "references")).resolve()
+
+
+def user_reference_root() -> Path:
+    default_root = Path(os.getenv("EVIDENCE_DATA_DIR", "./data")).resolve() / "reference-datasets"
+    return Path(os.getenv("USER_REFERENCE_DATA_DIR", default_root)).resolve()
+
+
+def reference_roots() -> list[tuple[Path, str]]:
+    return [(user_reference_root(), "uploaded"), (bundled_reference_root(), "bundled")]
+
+
+def sanitize_dataset_id(value: str) -> str:
+    safe = re.sub(r"[^a-zA-Z0-9_.-]+", "_", str(value or "").strip()).strip("._-").lower()
+    if not safe:
+        raise ValueError("reference dataset id cannot be empty")
+    return safe[:80]
+
+
+def unique_user_dataset_id(value: str) -> str:
+    base = sanitize_dataset_id(value)
+    candidate = base
+    index = 2
+    root = user_reference_root()
+    while (root / candidate).exists() or (bundled_reference_root() / candidate).exists():
+        candidate = f"{base}_{index}"
+        index += 1
+    return candidate
+
+
+def parse_reference_header(header: str) -> tuple[str, str, str, int | None]:
+    parts = [part.strip() for part in header.split("|")]
+    if len(parts) >= 2:
+        reference_id = sanitize_reference_id(parts[0])
+        taxon = parts[1] or reference_id
+        rank = parts[2] if len(parts) >= 3 and parts[2] else "species"
+        gbif_taxon_key = int(parts[3]) if len(parts) >= 4 and parts[3].isdigit() else None
+        return reference_id, taxon, rank, gbif_taxon_key
+
+    tokens = header.split(maxsplit=1)
+    reference_id = sanitize_reference_id(tokens[0] if tokens else "reference")
+    taxon = tokens[1].strip() if len(tokens) > 1 else reference_id
+    return reference_id, taxon, "species", None
+
+
+def sanitize_reference_id(value: str) -> str:
+    safe = re.sub(r"[^a-zA-Z0-9_.:-]+", "_", str(value or "").strip()).strip("._-:")
+    return safe or "reference"
+
+
+def reference_evidence_from_sequences(sequences_by_taxon: dict[str, list[str]]) -> tuple[dict[str, dict[str, float]], dict[str, list[str]]]:
+    barcode_gap_by_taxon: dict[str, dict[str, float]] = {}
+    diagnostic_kmers_by_taxon: dict[str, list[str]] = {}
+    all_taxa = sorted(sequences_by_taxon)
+    for taxon, sequences in sequences_by_taxon.items():
+        intra = 0.0
+        for index, first in enumerate(sequences):
+            for second in sequences[index + 1 :]:
+                intra = max(intra, sequence_distance(first, second))
+        inter_values = [
+            sequence_distance(first, second)
+            for other_taxon in all_taxa
+            if other_taxon != taxon
+            for first in sequences
+            for second in sequences_by_taxon[other_taxon]
+        ]
+        if inter_values:
+            barcode_gap_by_taxon[taxon] = {
+                "intra_max_distance": round(intra, 6),
+                "inter_min_distance": round(min(inter_values), 6),
+            }
+
+        taxon_kmers = set().union(*(kmers_for_sequence(sequence) for sequence in sequences))
+        other_kmers = set().union(
+            *(
+                kmers_for_sequence(sequence)
+                for other_taxon in all_taxa
+                if other_taxon != taxon
+                for sequence in sequences_by_taxon[other_taxon]
+            )
+        ) if len(all_taxa) > 1 else set()
+        diagnostic = sorted(taxon_kmers - other_kmers)
+        if diagnostic:
+            diagnostic_kmers_by_taxon[taxon] = diagnostic[:50]
+    return barcode_gap_by_taxon, diagnostic_kmers_by_taxon
+
+
+def sequence_distance(first: str, second: str) -> float:
+    if not first or not second:
+        return 1.0
+    aligned = min(len(first), len(second))
+    mismatches = sum(1 for index in range(aligned) if first[index] != second[index])
+    mismatches += abs(len(first) - len(second))
+    return mismatches / max(len(first), len(second))
+
+
+def kmers_for_sequence(sequence: str, k: int = 15) -> set[str]:
+    if not sequence:
+        return set()
+    effective_k = min(k, len(sequence))
+    return {sequence[index : index + effective_k] for index in range(0, len(sequence) - effective_k + 1)}
 
 
 def backend_warnings(backend_used: str) -> list[str]:

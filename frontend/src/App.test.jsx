@@ -133,6 +133,27 @@ const searchPayload = {
   pack: csvRunDetail,
 };
 
+const uploadedReferencePayload = {
+  status: 'created',
+  dataset: {
+    id: 'custom_aedes_coi',
+    title: 'Custom Aedes COI',
+    marker: 'COI-5P',
+    records: 2,
+    source_type: 'uploaded',
+  },
+  datasets: [
+    ...referenceDatasets,
+    {
+      id: 'custom_aedes_coi',
+      title: 'Custom Aedes COI',
+      marker: 'COI-5P',
+      records: 2,
+      source_type: 'uploaded',
+    },
+  ],
+};
+
 afterEach(() => {
   cleanup();
   vi.restoreAllMocks();
@@ -283,6 +304,39 @@ describe('Barcode compiler UI', () => {
     await waitFor(() => expect(screen.getAllByText('species-safe').length).toBeGreaterThan(0));
     expect(screen.getByText('Naive vs EcoGenesis')).toBeInTheDocument();
     expect(screen.getByText('python-local')).toBeInTheDocument();
+  });
+
+  it('uploads a custom reference FASTA and selects it for real-data search', async () => {
+    vi.spyOn(globalThis, 'fetch').mockImplementation((url, options) => {
+      const textUrl = String(url);
+      if (textUrl.endsWith('/api/barcode/demo-scenarios')) {
+        return Promise.resolve(new Response(JSON.stringify(demoScenarios), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/reference-status')) {
+        return Promise.resolve(new Response(JSON.stringify({ status: 'ready', message: 'Compiler ready.' }), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/search-status')) {
+        return Promise.resolve(new Response(JSON.stringify(searchStatus), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/reference-datasets')) {
+        return Promise.resolve(new Response(JSON.stringify(referenceDatasets), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/reference-datasets/upload') && options?.method === 'POST') {
+        return Promise.resolve(new Response(JSON.stringify(uploadedReferencePayload), { status: 200 }));
+      }
+      return Promise.resolve(new Response('{}', { status: 404 }));
+    });
+
+    render(<App />);
+    fireEvent.click(await screen.findByText('Run compiler'));
+
+    fireEvent.change(screen.getByLabelText('Dataset title'), { target: { value: 'Custom Aedes COI' } });
+    const fasta = new File(['>AALB|Aedes albopictus|species|1651430\nACGT\n'], 'custom_aedes.fasta', { type: 'text/plain' });
+    fireEvent.change(screen.getByLabelText('Reference FASTA'), { target: { files: [fasta] } });
+    fireEvent.click(screen.getByText('Upload reference FASTA'));
+
+    expect(await screen.findByText(/Uploaded/)).toBeInTheDocument();
+    expect(screen.getAllByText(/Custom Aedes COI/).length).toBeGreaterThan(0);
   });
 
   it('opens the proof and formulas page', async () => {

@@ -49,6 +49,24 @@ export async function getBarcodeReferenceDatasets() {
   return response.json();
 }
 
+export async function uploadBarcodeReferenceDataset(file, fields = {}) {
+  const formData = new FormData();
+  formData.append('file', file);
+  Object.entries(fields).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && String(value).trim() !== '') {
+      formData.append(key, value);
+    }
+  });
+  const response = await fetch(`${API_BASE_URL}/api/barcode/reference-datasets/upload`, {
+    method: 'POST',
+    body: formData,
+  });
+  if (!response.ok) {
+    throw new Error(`Reference dataset upload failed: ${response.status}`);
+  }
+  return response.json();
+}
+
 export async function runBarcodeReferenceSearch(payload) {
   const response = await fetch(`${API_BASE_URL}/api/barcode/search`, {
     method: 'POST',

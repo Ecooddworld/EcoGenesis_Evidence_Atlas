@@ -68,6 +68,49 @@ def test_reference_dataset_and_search_api_compile_run(tmp_path, monkeypatch) -> 
     assert payload["pack"]["metrics"]["hard_gate_failures"] == 0
 
 
+def test_user_reference_fasta_upload_then_search(tmp_path, monkeypatch) -> None:
+    monkeypatch.setenv("EVIDENCE_DATA_DIR", str(tmp_path))
+    monkeypatch.setenv("USER_REFERENCE_DATA_DIR", str(tmp_path / "reference-datasets"))
+    client = TestClient(app)
+    fasta = (
+        ">AALB_USER_REF|Aedes albopictus|species|1651430\n"
+        f"{QUERY}\n"
+        ">AAEG_USER_REF|Aedes aegypti|species|1651431\n"
+        "ACGTTGACCTAGGCTTACGATCGTATCGATGCTAGCTAGGATCCGATCGTACGATAGTAGCTAGCATCGGATCATACCGTAGCTAGCTAGGATAGCTAGGATCGATCGTACGAT\n"
+    )
+
+    upload = client.post(
+        "/api/barcode/reference-datasets/upload",
+        data={"dataset_id": "custom_aedes_coi", "title": "Custom Aedes COI", "marker": "COI-5P"},
+        files={"file": ("custom_aedes.fasta", fasta, "text/plain")},
+    )
+
+    assert upload.status_code == 200
+    dataset = upload.json()["dataset"]
+    assert dataset["id"] == "custom_aedes_coi"
+    assert dataset["source_type"] == "uploaded"
+    assert dataset["records"] == 2
+
+    datasets = client.get("/api/barcode/reference-datasets")
+    assert any(row["id"] == "custom_aedes_coi" and row["source_type"] == "uploaded" for row in datasets.json())
+
+    response = client.post(
+        "/api/barcode/search",
+        json={
+            "sequence_id": "CUSTOM_QUERY",
+            "sequence": QUERY,
+            "reference_dataset": "custom_aedes_coi",
+            "backend": "python-local",
+            "compile": True,
+        },
+    )
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["search"]["hits"][0]["taxon"] == "Aedes albopictus"
+    assert payload["pack"]["records"][0]["decision_class"] == "species-safe"
+
+
 def test_reference_search_rejects_invalid_sequence() -> None:
     client = TestClient(app)
 
