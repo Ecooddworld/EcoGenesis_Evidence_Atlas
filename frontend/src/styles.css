@@ -2231,6 +2231,224 @@ summary {
   width: 100%;
 }
 
+.shared-dashboard {
+  background: #edf4f0;
+  padding: 12px;
+}
+
+.shared-dashboard-svg {
+  min-height: 560px;
+}
+
+.shared-dashboard-shell {
+  fill: url(#sharedDashWash);
+  stroke: #d2dfd7;
+  stroke-width: 1.2;
+}
+
+.shared-card > rect {
+  fill: rgba(255, 255, 255, 0.96);
+  stroke: #d6e1d9;
+  stroke-width: 1.2;
+}
+
+.shared-card-title {
+  fill: #17201a;
+  font-size: 18px;
+  font-weight: 950;
+}
+
+.shared-muted,
+.shared-footer-note,
+.shared-warning-line {
+  fill: #586b62;
+  font-size: 11px;
+  font-weight: 750;
+}
+
+.shared-footer-note {
+  text-anchor: middle;
+}
+
+.shared-warning-line {
+  fill: #815b18;
+  font-weight: 850;
+}
+
+.shared-donut-base {
+  fill: none;
+  stroke: #e4ece7;
+  stroke-width: 18;
+}
+
+.shared-donut-segment {
+  fill: none;
+  stroke-linecap: round;
+  stroke-width: 18;
+}
+
+.shared-donut-number {
+  fill: #17201a;
+  font-size: 28px;
+  font-weight: 950;
+}
+
+.shared-donut-label,
+.shared-kpi-label,
+.shared-kpi-small {
+  fill: #63746c;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.shared-kpi-number {
+  fill: #17201a;
+  font-size: 34px;
+  font-weight: 950;
+}
+
+.shared-fragment-strip rect {
+  fill: #f2f7f5;
+  stroke: #d9e4de;
+}
+
+.shared-fragment-strip text:first-of-type {
+  fill: #587064;
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.shared-fragment-strip text:last-of-type {
+  fill: #153f49;
+  font-family: "SFMono-Regular", ui-monospace, Consolas, monospace;
+  font-size: 13px;
+  font-weight: 950;
+  letter-spacing: 0;
+}
+
+.shared-genus-name,
+.shared-genus-count {
+  fill: #17201a;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.shared-genus-count {
+  fill: #66766e;
+  font-size: 11px;
+  text-anchor: end;
+}
+
+.shared-bar-track {
+  fill: #e7eee9;
+}
+
+.shared-claim-lock rect {
+  fill: #fff7e7;
+  stroke: #e5c372;
+}
+
+.shared-claim-lock text:first-of-type {
+  fill: #7a4d10;
+  font-size: 14px;
+  font-weight: 950;
+}
+
+.shared-claim-lock text:last-of-type {
+  fill: #3a4b3f;
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.shared-plot-area {
+  fill: #f8fbf9;
+  stroke: #d8e4dd;
+}
+
+.shared-plot-grid {
+  stroke: #dbe6df;
+  stroke-width: 1;
+}
+
+.shared-cluster-point circle {
+  opacity: 0.88;
+  stroke: #fff;
+  stroke-width: 2;
+}
+
+.shared-cluster-label text {
+  fill: #3c4f44;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.shared-network-link {
+  stroke: #8c9e94;
+  stroke-linecap: round;
+  stroke-opacity: 0.68;
+  stroke-width: 1.7;
+}
+
+.shared-network-link.safe {
+  stroke: #287844;
+  stroke-opacity: 0.82;
+  stroke-width: 2.5;
+}
+
+.shared-safe-node rect {
+  fill: #edf8f0;
+  stroke: #287844;
+  stroke-width: 2.5;
+}
+
+.shared-safe-node text:first-of-type {
+  fill: #287844;
+  font-size: 12px;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.shared-safe-node text:last-of-type {
+  fill: #17201a;
+  font-size: 15px;
+  font-weight: 950;
+}
+
+.shared-network-genus circle {
+  stroke: #fff;
+  stroke-width: 3;
+}
+
+.shared-network-genus text {
+  fill: #fff;
+  font-size: 10px;
+  font-weight: 950;
+}
+
+.shared-network-species circle {
+  opacity: 0.92;
+  stroke: #fff;
+  stroke-width: 2;
+}
+
+.shared-network-species text {
+  fill: #34463b;
+  font-size: 10px;
+  font-weight: 850;
+}
+
+.shared-warning-badge rect {
+  fill: #fff0e8;
+  stroke: #d98961;
+}
+
+.shared-warning-badge text {
+  fill: #8b3f1f;
+  font-size: 11px;
+  font-weight: 900;
+}
+
 .graph-backdrop {
   fill: url(#graphWash);
   stroke: #dbe4dd;
