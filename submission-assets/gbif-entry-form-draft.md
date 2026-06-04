@@ -58,6 +58,8 @@ The Docker stack is the recommended judge-facing run path. It builds the fronten
 6. Inspect the decision dashboard, sequence table, safe/blocked claims and repair actions.
 7. Download `evidence_pack.zip` or individual CSV/HTML exports.
 
+For sequence-search validation rather than CSV scoring, use the `Reference search` panel. Judges can upload a small curated FASTA reference dataset with headers like `>ref_id|Taxon name|rank|gbifTaxonKey`, select it in the dropdown, paste a query sequence, and run VSEARCH/BLAST+/fallback search through the same hard-gate compiler.
+
 ### Example CSV Runs
 
 The repository includes four small CSV examples:
