@@ -1,0 +1,151 @@
+{
+  "id": "culicidae_short_shared_marker",
+  "title": "EcoGenesis shared short-fragment reference tree for Culicidae",
+  "version": "2026-06-04",
+  "marker": "COI-short",
+  "fasta": "culicidae_short_shared_marker.fasta",
+  "source": "EcoGenesis bundled validation reference showing how a short conserved marker fragment can match many species",
+  "doi_or_url": "https://github.com/oddworld666/EcoGenesis_Evidence_Atlas",
+  "license": "CC0-1.0 for this synthetic validation reference",
+  "usage_scope": "Short-fragment graph validation only; not a curated production barcode reference database.",
+  "accessed_at": "2026-06-04",
+  "reference_total_windows": 520,
+  "references": {
+    "AALB_SHARED_SHORT": {
+      "taxon": "Aedes albopictus",
+      "rank": "species",
+      "gbif_taxon_key": 1651430,
+      "lineage": [
+        {"rank": "kingdom", "name": "Animalia", "taxon_key": 1},
+        {"rank": "phylum", "name": "Arthropoda", "taxon_key": 54},
+        {"rank": "class", "name": "Insecta", "taxon_key": 216},
+        {"rank": "order", "name": "Diptera", "taxon_key": 811},
+        {"rank": "family", "name": "Culicidae", "taxon_key": 3346},
+        {"rank": "genus", "name": "Aedes", "taxon_key": 7924646},
+        {"rank": "species", "name": "Aedes albopictus", "taxon_key": 1651430}
+      ]
+    },
+    "AAEG_SHARED_SHORT": {
+      "taxon": "Aedes aegypti",
+      "rank": "species",
+      "gbif_taxon_key": 1651891,
+      "lineage": [
+        {"rank": "kingdom", "name": "Animalia", "taxon_key": 1},
+        {"rank": "phylum", "name": "Arthropoda", "taxon_key": 54},
+        {"rank": "class", "name": "Insecta", "taxon_key": 216},
+        {"rank": "order", "name": "Diptera", "taxon_key": 811},
+        {"rank": "family", "name": "Culicidae", "taxon_key": 3346},
+        {"rank": "genus", "name": "Aedes", "taxon_key": 7924646},
+        {"rank": "species", "name": "Aedes aegypti", "taxon_key": 1651891}
+      ]
+    },
+    "AJAP_SHARED_SHORT": {
+      "taxon": "Aedes japonicus",
+      "rank": "species",
+      "gbif_taxon_key": 1651428,
+      "lineage": [
+        {"rank": "kingdom", "name": "Animalia", "taxon_key": 1},
+        {"rank": "phylum", "name": "Arthropoda", "taxon_key": 54},
+        {"rank": "class", "name": "Insecta", "taxon_key": 216},
+        {"rank": "order", "name": "Diptera", "taxon_key": 811},
+        {"rank": "family", "name": "Culicidae", "taxon_key": 3346},
+        {"rank": "genus", "name": "Aedes", "taxon_key": 7924646},
+        {"rank": "species", "name": "Aedes japonicus", "taxon_key": 1651428}
+      ]
+    },
+    "CPIX_SHARED_SHORT": {
+      "taxon": "Culex pipiens",
+      "rank": "species",
+      "gbif_taxon_key": null,
+      "lineage": [
+        {"rank": "kingdom", "name": "Animalia", "taxon_key": 1},
+        {"rank": "phylum", "name": "Arthropoda", "taxon_key": 54},
+        {"rank": "class", "name": "Insecta", "taxon_key": 216},
+        {"rank": "order", "name": "Diptera", "taxon_key": 811},
+        {"rank": "family", "name": "Culicidae", "taxon_key": 3346},
+        {"rank": "genus", "name": "Culex", "taxon_key": null},
+        {"rank": "species", "name": "Culex pipiens", "taxon_key": null}
+      ]
+    },
+    "CQUI_SHARED_SHORT": {
+      "taxon": "Culex quinquefasciatus",
+      "rank": "species",
+      "gbif_taxon_key": null,
+      "lineage": [
+        {"rank": "kingdom", "name": "Animalia", "taxon_key": 1},
+        {"rank": "phylum", "name": "Arthropoda", "taxon_key": 54},
+        {"rank": "class", "name": "Insecta", "taxon_key": 216},
+        {"rank": "order", "name": "Diptera", "taxon_key": 811},
+        {"rank": "family", "name": "Culicidae", "taxon_key": 3346},
+        {"rank": "genus", "name": "Culex", "taxon_key": null},
+        {"rank": "species", "name": "Culex quinquefasciatus", "taxon_key": null}
+      ]
+    },
+    "CPER_SHARED_SHORT": {
+      "taxon": "Culex perexiguus",
+      "rank": "species",
+      "gbif_taxon_key": null,
+      "lineage": [
+        {"rank": "kingdom", "name": "Animalia", "taxon_key": 1},
+        {"rank": "phylum", "name": "Arthropoda", "taxon_key": 54},
+        {"rank": "class", "name": "Insecta", "taxon_key": 216},
+        {"rank": "order", "name": "Diptera", "taxon_key": 811},
+        {"rank": "family", "name": "Culicidae", "taxon_key": 3346},
+        {"rank": "genus", "name": "Culex", "taxon_key": null},
+        {"rank": "species", "name": "Culex perexiguus", "taxon_key": null}
+      ]
+    },
+    "ASTEP_SHARED_SHORT": {
+      "taxon": "Anopheles stephensi",
+      "rank": "species",
+      "gbif_taxon_key": null,
+      "lineage": [
+        {"rank": "kingdom", "name": "Animalia", "taxon_key": 1},
+        {"rank": "phylum", "name": "Arthropoda", "taxon_key": 54},
+        {"rank": "class", "name": "Insecta", "taxon_key": 216},
+        {"rank": "order", "name": "Diptera", "taxon_key": 811},
+        {"rank": "family", "name": "Culicidae", "taxon_key": 3346},
+        {"rank": "genus", "name": "Anopheles", "taxon_key": null},
+        {"rank": "species", "name": "Anopheles stephensi", "taxon_key": null}
+      ]
+    },
+    "AGAM_SHARED_SHORT": {
+      "taxon": "Anopheles gambiae",
+      "rank": "species",
+      "gbif_taxon_key": null,
+      "lineage": [
+        {"rank": "kingdom", "name": "Animalia", "taxon_key": 1},
+        {"rank": "phylum", "name": "Arthropoda", "taxon_key": 54},
+        {"rank": "class", "name": "Insecta", "taxon_key": 216},
+        {"rank": "order", "name": "Diptera", "taxon_key": 811},
+        {"rank": "family", "name": "Culicidae", "taxon_key": 3346},
+        {"rank": "genus", "name": "Anopheles", "taxon_key": null},
+        {"rank": "species", "name": "Anopheles gambiae", "taxon_key": null}
+      ]
+    }
+  },
+  "barcode_gap_by_taxon": {},
+  "diagnostic_kmers_by_taxon": {},
+  "diagnostic_kmer_k": null,
+  "gbif_backbone_enrichment": {
+    "status": "pre_enriched_manifest",
+    "base_url": "https://api.gbif.org/v1",
+    "enriched_records": 3,
+    "fallback_records": 5,
+    "warnings": [
+      "This validation pack is intentionally shared/conserved to demonstrate safe LCA behavior for short fragments."
+    ]
+  },
+  "created_at": "2026-06-04T00:00:00+00:00",
+  "example_queries": [
+    {
+      "id": "CULICIDAE_SHARED_SHORT_QUERY",
+      "label": "Run shared short-fragment tree",
+      "sequence_id": "CULICIDAE_SHARED_SHORT_QUERY",
+      "sequence": "ACGTTGACCTAGGCTTACGATCGTACCGATGC",
+      "expected_decision": "higher-rank-shared",
+      "expected_taxon": "Culicidae",
+      "explanation": "A short conserved marker fragment matches several mosquito species across Aedes, Culex and Anopheles. The safe claim is the shared Culicidae family, not a single species."
+    }
+  ]
+}
