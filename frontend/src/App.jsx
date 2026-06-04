@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import {
   barcodeCsvTemplateUrl,
+  buildBarcodeFragmentGraph,
   exportUrl,
   getBarcodeDemoScenarios,
   getBarcodeReferenceStatus,
@@ -46,6 +47,7 @@ const defaultReferenceSearchSequence = 'ACGTTGACCTAGGCTTACGATCGTACCGATGCTAGCTAGG
 const modeLabels = {
   overview: 'Judge overview',
   workbench: 'Run compiler',
+  fragmentGraph: 'Fragment graph',
   lecture: 'Visual lecture',
   research: 'Research audit',
   formulas: 'Math & proof',
@@ -1685,6 +1687,11 @@ function App() {
   const [referenceUploadMarker, setReferenceUploadMarker] = useState('COI-5P');
   const [referenceUpload, setReferenceUpload] = useState(null);
   const [referenceUploadLoading, setReferenceUploadLoading] = useState(false);
+  const [fragmentSequenceId, setFragmentSequenceId] = useState('fragment-001');
+  const [fragmentSequence, setFragmentSequence] = useState(defaultReferenceSearchSequence);
+  const [selectedFragmentDataset, setSelectedFragmentDataset] = useState('ncbi_aedes_coi_small');
+  const [fragmentGraph, setFragmentGraph] = useState(null);
+  const [fragmentGraphLoading, setFragmentGraphLoading] = useState(false);
 
   useEffect(() => {
     let mounted = true;
@@ -1703,7 +1710,10 @@ function App() {
         setSelectedReferenceDataset(preferredDataset?.id || 'aedes_coi_mini');
         if (preferredDataset?.example_queries?.[0]?.sequence) {
           setSearchSequence(preferredDataset.example_queries[0].sequence);
+          setFragmentSequence(preferredDataset.example_queries[0].sequence);
+          setFragmentSequenceId(preferredDataset.example_queries[0].sequence_id || preferredDataset.example_queries[0].id || 'fragment-001');
         }
+        setSelectedFragmentDataset(preferredDataset?.id || 'aedes_coi_mini');
       })
       .catch((err) => {
         if (mounted) setError(err.message || 'Could not load compiler defaults');
@@ -1827,11 +1837,39 @@ function App() {
       setReferenceUpload(result);
       setReferenceDatasets(result.datasets || [result.dataset]);
       setSelectedReferenceDataset(result.dataset.id);
+      setSelectedFragmentDataset(result.dataset.id);
       setSearchResult(null);
+      setFragmentGraph(null);
     } catch (err) {
       setError(err.message || 'Reference dataset upload failed');
     } finally {
       setReferenceUploadLoading(false);
+    }
+  }
+
+  async function runFragmentGraph(overrides = {}) {
+    setFragmentGraphLoading(true);
+    setError('');
+    const datasetId = overrides.reference_dataset || selectedFragmentDataset || selectedReferenceDataset;
+    const sequence = overrides.sequence || fragmentSequence;
+    const sequenceId = overrides.sequence_id || fragmentSequenceId || 'fragment-001';
+    setSelectedFragmentDataset(datasetId);
+    setFragmentSequence(sequence);
+    setFragmentSequenceId(sequenceId);
+    try {
+      const graph = await buildBarcodeFragmentGraph({
+        sequence_id: sequenceId,
+        sequence,
+        reference_dataset: datasetId,
+        backend: 'auto',
+        max_hits: 50,
+      });
+      setFragmentGraph(graph);
+      setMode('fragmentGraph');
+    } catch (err) {
+      setError(err.message || 'Fragment graph failed');
+    } finally {
+      setFragmentGraphLoading(false);
     }
   }
 
@@ -1868,6 +1906,20 @@ function App() {
         />
       ) : mode === 'lecture' ? (
         <VisualLecture />
+      ) : mode === 'fragmentGraph' ? (
+        <FragmentGraphExplorer
+          searchStatus={searchStatus}
+          referenceDatasets={referenceDatasets}
+          selectedFragmentDataset={selectedFragmentDataset}
+          setSelectedFragmentDataset={setSelectedFragmentDataset}
+          fragmentSequenceId={fragmentSequenceId}
+          setFragmentSequenceId={setFragmentSequenceId}
+          fragmentSequence={fragmentSequence}
+          setFragmentSequence={setFragmentSequence}
+          fragmentGraph={fragmentGraph}
+          fragmentGraphLoading={fragmentGraphLoading}
+          runFragmentGraph={runFragmentGraph}
+        />
       ) : mode === 'formulas' ? (
         <ProofAndFormulas />
       ) : mode === 'research' ? (
@@ -3055,6 +3107,434 @@ function ProofAndFormulas() {
       </section>
     </section>
   );
+}
+
+function FragmentGraphExplorer({
+  searchStatus,
+  referenceDatasets,
+  selectedFragmentDataset,
+  setSelectedFragmentDataset,
+  fragmentSequenceId,
+  setFragmentSequenceId,
+  fragmentSequence,
+  setFragmentSequence,
+  fragmentGraph,
+  fragmentGraphLoading,
+  runFragmentGraph,
+}) {
+  const selectedDataset = referenceDatasets.find((dataset) => dataset.id === selectedFragmentDataset);
+  const examples = referenceDatasets.flatMap((dataset) => (
+    (dataset.example_queries || []).map((example) => ({ dataset, example }))
+  ));
+  const status = fragmentGraph?.classification?.status || 'not-run';
+
+  function loadExample(dataset, example) {
+    setSelectedFragmentDataset(dataset.id);
+    setFragmentSequenceId(example.sequence_id || example.id || 'fragment-001');
+    setFragmentSequence(example.sequence || '');
+  }
+
+  return (
+    <section className="fragment-graph-page">
+      <div className="panel fragment-graph-hero">
+        <div>
+          <p className="eyebrow">Real fragment-to-taxa explorer</p>
+          <h2>See where a DNA marker fragment appears in a reference dataset.</h2>
+          <p>
+            Paste a DNA marker fragment, choose a bundled or uploaded reference dataset, and EcoGenesis builds a
+            taxonomic graph: fragment to reference hits, lineages, kingdoms and the safe LCA. The answer is bounded:
+            it describes the selected reference evidence, not all of nature.
+          </p>
+        </div>
+        <div className={`fragment-status-card ${safeClassName(status)}`}>
+          <span>Current classification</span>
+          <strong>{fragmentStatusTitle(status)}</strong>
+          <p>{fragmentStatusExplanation(status)}</p>
+        </div>
+      </div>
+
+      <div className="fragment-graph-layout">
+        <aside className="panel fragment-control-panel">
+          <p className="section-label">Input</p>
+          <h3>Build a taxon graph</h3>
+          <p>
+            This is the right place to test “where does this exact marker region occur in my reference evidence?”
+            Use curated FASTA references for serious work.
+          </p>
+          <label>
+            Reference dataset
+            <select
+              aria-label="Fragment reference dataset"
+              value={selectedFragmentDataset}
+              onChange={(event) => {
+                const dataset = referenceDatasets.find((item) => item.id === event.target.value);
+                setSelectedFragmentDataset(event.target.value);
+                if (dataset?.example_queries?.[0]?.sequence) {
+                  setFragmentSequenceId(dataset.example_queries[0].sequence_id || dataset.example_queries[0].id || 'fragment-001');
+                  setFragmentSequence(dataset.example_queries[0].sequence);
+                }
+              }}
+            >
+              {referenceDatasets.length ? referenceDatasets.map((dataset) => (
+                <option key={dataset.id} value={dataset.id}>
+                  {dataset.title}{dataset.source_type === 'uploaded' ? ' · uploaded' : ''}
+                </option>
+              )) : (
+                <option value="ncbi_aedes_coi_small">NCBI Aedes COI small reference</option>
+              )}
+            </select>
+          </label>
+          {selectedDataset && (
+            <div className="reference-dataset-note">
+              <strong>{selectedDataset.marker || 'marker not declared'} · {selectedDataset.records} references</strong>
+              <span>{selectedDataset.source_type === 'uploaded' ? 'Uploaded reference dataset' : 'Bundled reproducible reference dataset'}</span>
+              {selectedDataset.usage_scope && <p>{selectedDataset.usage_scope}</p>}
+            </div>
+          )}
+          <label>
+            Fragment ID
+            <input
+              aria-label="Fragment sequence ID"
+              type="text"
+              value={fragmentSequenceId}
+              onChange={(event) => setFragmentSequenceId(event.target.value)}
+            />
+          </label>
+          <label>
+            DNA marker fragment
+            <textarea
+              aria-label="DNA marker fragment"
+              className="fragment-textarea"
+              value={fragmentSequence}
+              onChange={(event) => setFragmentSequence(event.target.value)}
+              spellCheck="false"
+            />
+          </label>
+          <button
+            className="primary wide"
+            type="button"
+            onClick={() => runFragmentGraph()}
+            disabled={fragmentGraphLoading || !fragmentSequence.trim()}
+          >
+            {fragmentGraphLoading ? 'Building graph...' : 'Build Taxon Graph'}
+          </button>
+          <div className="search-backend-status">
+            <span>Search backend</span>
+            <strong>{fragmentGraph?.backend_used || searchStatus?.preferred_backend || 'checking'}</strong>
+            <small>{searchStatus?.message || 'Checking VSEARCH/BLAST+ and local fallback.'}</small>
+          </div>
+
+          {examples.length > 0 && (
+            <div className="fragment-examples">
+              <p className="section-label">Reference examples</p>
+              {examples.map(({ dataset, example }) => (
+                <button
+                  key={`${dataset.id}-${example.id}`}
+                  className="secondary"
+                  type="button"
+                  onClick={() => loadExample(dataset, example)}
+                >
+                  {example.label}
+                </button>
+              ))}
+            </div>
+          )}
+
+          <div className="fragment-boundary-note">
+            <strong>Boundary of the claim</strong>
+            <span>This graph shows where the fragment appears inside the selected reference dataset.</span>
+            <span>It does not prove natural occurrence, absence, phenotype or global distribution.</span>
+            <span>To expand coverage, upload a larger curated reference FASTA in Run compiler.</span>
+          </div>
+        </aside>
+
+        <section className="panel fragment-svg-panel">
+          <div className="fragment-panel-heading">
+            <div>
+              <p className="section-label">Graph</p>
+              <h3>Fragment → hits → lineages → safe LCA</h3>
+            </div>
+            {fragmentGraph?.classification && (
+              <span className={`fragment-status-pill ${safeClassName(fragmentGraph.classification.status)}`}>
+                {fragmentGraph.classification.status}
+              </span>
+            )}
+          </div>
+          <FragmentGraphSvg graph={fragmentGraph} loading={fragmentGraphLoading} />
+        </section>
+
+        <aside className="panel fragment-summary-panel">
+          <p className="section-label">Result</p>
+          <FragmentGraphSummary graph={fragmentGraph} loading={fragmentGraphLoading} />
+        </aside>
+      </div>
+    </section>
+  );
+}
+
+function FragmentGraphSummary({ graph, loading }) {
+  if (loading) {
+    return (
+      <div className="fragment-empty-summary">
+        <h3>Building graph...</h3>
+        <p>EcoGenesis is searching the selected reference dataset and compiling safe-rank evidence.</p>
+      </div>
+    );
+  }
+  if (!graph) {
+    return (
+      <div className="fragment-empty-summary">
+        <h3>No graph yet</h3>
+        <p>Choose a reference dataset, paste a fragment and run the graph. Start with the bundled Aedes or Quercus examples.</p>
+      </div>
+    );
+  }
+  const { classification } = graph;
+  const topHits = (graph.hits || []).slice(0, 8);
+  const rankDistribution = Object.entries(classification.rank_distribution || {});
+
+  return (
+    <div className="fragment-summary-stack">
+      <div className={`fragment-verdict ${safeClassName(classification.status)}`}>
+        <span>Classification</span>
+        <strong>{fragmentStatusTitle(classification.status)}</strong>
+        <p>{fragmentStatusExplanation(classification.status)}</p>
+      </div>
+      <div className="fragment-safe-taxon">
+        <span>Safe taxon through LCA</span>
+        <strong>{classification.safe_taxon?.name || 'No safe taxon'}</strong>
+        <small>{classification.safe_taxon?.rank || 'none'}{classification.safe_taxon?.taxon_key ? ` · GBIF ${classification.safe_taxon.taxon_key}` : ''}</small>
+      </div>
+      <div className="fragment-mini-metrics">
+        <Metric label="Informative hits" value={classification.informative_hits} />
+        <Metric label="Taxa" value={classification.taxa_count} />
+        <Metric label="Query length" value={graph.query?.sequence_length} />
+      </div>
+      <div className="fragment-claim-box">
+        <strong>Safe to claim</strong>
+        <span>{safeClaimForStatus(classification.status, classification.safe_taxon)}</span>
+      </div>
+      <div className="fragment-claim-box blocked">
+        <strong>Do not claim</strong>
+        <span>Do not turn this graph into absence, true distribution, phenotype, abundance or global presence claims.</span>
+      </div>
+      <div>
+        <h4>Kingdoms found</h4>
+        <div className="chip-row">
+          {(classification.kingdoms?.length ? classification.kingdoms : ['none']).map((kingdom) => (
+            <span key={kingdom} className="chip">{kingdom}</span>
+          ))}
+        </div>
+      </div>
+      {rankDistribution.length > 0 && (
+        <div>
+          <h4>Rank distribution</h4>
+          <div className="rank-distribution">
+            {rankDistribution.map(([rank, count]) => (
+              <span key={rank}><strong>{rank}</strong>{count}</span>
+            ))}
+          </div>
+        </div>
+      )}
+      <div>
+        <h4>Top hits</h4>
+        {topHits.length ? (
+          <ol className="ranked-list compact-list">
+            {topHits.map((hit) => (
+              <li key={hit.reference_id}>
+                <strong>{hit.taxon}</strong>
+                <span>{hit.identity}% identity · {hit.query_coverage}% coverage · {hit.reference_id}</span>
+              </li>
+            ))}
+          </ol>
+        ) : (
+          <p className="hint">No hits returned for the selected reference dataset.</p>
+        )}
+      </div>
+      <div className="fragment-caveat">
+        <strong>Caveat</strong>
+        <span>{classification.caveat}</span>
+      </div>
+    </div>
+  );
+}
+
+function FragmentGraphSvg({ graph, loading }) {
+  if (loading) {
+    return (
+      <div className="fragment-graph-empty">
+        <div className="graph-loader" />
+        <strong>Searching reference hits and arranging taxonomy lanes...</strong>
+      </div>
+    );
+  }
+  if (!graph) {
+    return (
+      <div className="fragment-graph-empty">
+        <strong>Run a fragment search to build the graph.</strong>
+        <span>Nodes will appear as fragment, dataset, reference hits, taxonomic ranks and safe LCA.</span>
+      </div>
+    );
+  }
+
+  const nodes = graph.nodes || [];
+  const edges = graph.edges || [];
+  const rankX = {
+    kingdom: 360,
+    phylum: 455,
+    class: 550,
+    order: 645,
+    family: 740,
+    genus: 835,
+    species: 930,
+  };
+  const positions = {};
+  const hitNodes = nodes.filter((node) => node.type === 'reference_hit').slice(0, 9);
+  const taxonNodes = nodes.filter((node) => rankX[node.type]);
+  const taxonByRank = taxonNodes.reduce((acc, node) => {
+    acc[node.type] = acc[node.type] || [];
+    acc[node.type].push(node);
+    return acc;
+  }, {});
+
+  nodes.forEach((node) => {
+    if (node.type === 'fragment') positions[node.id] = { x: 78, y: 270 };
+    if (node.type === 'reference_dataset') positions[node.id] = { x: 245, y: 470 };
+    if (node.type === 'warning') positions[node.id] = { x: 80, y: 470 };
+    if (node.type === 'safe_lca') {
+      const safeRank = node.rank || graph.classification?.safe_taxon?.rank;
+      positions[node.id] = { x: rankX[safeRank] || 1000, y: 500 };
+    }
+  });
+  hitNodes.forEach((node, index) => {
+    positions[node.id] = { x: 270, y: 95 + index * 47 };
+  });
+  Object.entries(taxonByRank).forEach(([rank, rankNodes]) => {
+    rankNodes.slice(0, 9).forEach((node, index) => {
+      positions[node.id] = { x: rankX[rank], y: 75 + index * 47 };
+    });
+  });
+  const visibleNodeIds = new Set(Object.keys(positions));
+  const visibleEdges = edges.filter((edge) => visibleNodeIds.has(edge.source) && visibleNodeIds.has(edge.target));
+
+  return (
+    <div className="fragment-svg-scroll" aria-label="Fragment taxon graph">
+      <svg className="fragment-graph-svg" viewBox="0 0 1000 560" role="img" aria-label="Fragment to taxa graph">
+        <defs>
+          <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+            <path d="M0,0 L8,4 L0,8 Z" fill="#8a9b92" />
+          </marker>
+        </defs>
+        {Object.entries(rankX).map(([rank, x]) => (
+          <g key={rank}>
+            <line x1={x} x2={x} y1="42" y2="522" className="rank-lane-line" />
+            <text x={x} y="28" textAnchor="middle" className="rank-lane-label">{rank}</text>
+          </g>
+        ))}
+        {visibleEdges.map((edge) => {
+          const source = positions[edge.source];
+          const target = positions[edge.target];
+          return (
+            <line
+              key={`${edge.source}-${edge.type}-${edge.target}`}
+              x1={source.x}
+              y1={source.y}
+              x2={target.x}
+              y2={target.y}
+              className={`graph-edge ${safeClassName(edge.type)}`}
+              markerEnd="url(#arrowhead)"
+            />
+          );
+        })}
+        {nodes.filter((node) => visibleNodeIds.has(node.id)).map((node) => {
+          const position = positions[node.id];
+          return (
+            <GraphNode key={node.id} node={node} x={position.x} y={position.y} />
+          );
+        })}
+        {hitNodes.length < nodes.filter((node) => node.type === 'reference_hit').length && (
+          <text x="270" y="540" textAnchor="middle" className="graph-note">
+            Showing first {hitNodes.length} hit nodes; full hit list remains in the result panel.
+          </text>
+        )}
+      </svg>
+    </div>
+  );
+}
+
+function GraphNode({ node, x, y }) {
+  const width = node.type === 'safe_lca' ? 168 : node.type === 'reference_hit' ? 150 : 132;
+  const height = node.type === 'reference_hit' ? 44 : 38;
+  const safeClass = node.is_safe_taxon ? ' safe-taxon-node' : '';
+  const label = shortenLabel(node.label, node.type === 'reference_hit' ? 22 : 18);
+  const detail = node.type === 'reference_hit'
+    ? `${node.identity}% · ${node.coverage}%`
+    : node.marker || node.rank || node.status || '';
+
+  return (
+    <g className={`graph-node ${safeClassName(node.type)}${safeClass}`} transform={`translate(${x - width / 2}, ${y - height / 2})`}>
+      <rect width={width} height={height} rx="8" />
+      <text x={width / 2} y={height / 2 - (detail ? 2 : -4)} textAnchor="middle" className="graph-node-label">{label}</text>
+      {detail && <text x={width / 2} y={height - 8} textAnchor="middle" className="graph-node-detail">{detail}</text>}
+    </g>
+  );
+}
+
+function fragmentStatusTitle(status) {
+  const titles = {
+    'not-run': 'Not run yet',
+    'species-diagnostic': 'Species-diagnostic in this dataset',
+    'genus-shared': 'Shared within a genus',
+    'higher-rank-shared': 'Shared above genus',
+    'cross-kingdom-conserved': 'Cross-kingdom / conserved signal',
+    weak: 'Weak fragment evidence',
+    'no-match': 'No match in selected dataset',
+  };
+  return titles[status] || status;
+}
+
+function fragmentStatusExplanation(status) {
+  const explanations = {
+    'not-run': 'Run a fragment search to see whether the marker is specific or shared.',
+    'species-diagnostic': 'All informative hits resolve to the same species. This supports a species-level candidate only within the selected reference dataset.',
+    'genus-shared': 'Informative hits span multiple species but share one genus. Species claims are blocked; genus-level evidence is safer.',
+    'higher-rank-shared': 'The fragment is shared above genus, so it should be treated as clade-level context, not as a species identifier.',
+    'cross-kingdom-conserved': 'Informative hits span more than one kingdom. Treat this as conserved, contaminated or too generic until reviewed.',
+    weak: 'Hits exist, but identity or coverage is below the informative threshold.',
+    'no-match': 'The selected reference dataset did not return hits for this fragment.',
+  };
+  return explanations[status] || 'Classification is bounded by the selected reference dataset.';
+}
+
+function safeClaimForStatus(status, safeTaxon) {
+  if (status === 'species-diagnostic') {
+    return `${safeTaxon?.name || 'The species'} can be used as a species-level candidate within this selected reference evidence.`;
+  }
+  if (status === 'genus-shared') {
+    return `Use ${safeTaxon?.name || 'the shared genus'} as the safe taxonomic level; do not name one species from this fragment alone.`;
+  }
+  if (status === 'higher-rank-shared') {
+    return `Use only the shared ${safeTaxon?.rank || 'higher rank'} context: ${safeTaxon?.name || 'the LCA'}.`;
+  }
+  if (status === 'cross-kingdom-conserved') {
+    return 'Use this as a warning signal only; it is not taxonomically diagnostic inside this reference set.';
+  }
+  if (status === 'weak') {
+    return 'No safe taxonomic claim. Improve fragment length, reference set or sequence quality.';
+  }
+  if (status === 'no-match') {
+    return 'No claim from this selected reference dataset.';
+  }
+  return 'Run the graph first.';
+}
+
+function safeClassName(value) {
+  return String(value || 'unknown').replace(/[^a-zA-Z0-9_-]+/g, '-');
+}
+
+function shortenLabel(value, limit) {
+  const text = String(value || '');
+  return text.length > limit ? `${text.slice(0, Math.max(0, limit - 1))}…` : text;
 }
 
 function CompilerWorkbench({

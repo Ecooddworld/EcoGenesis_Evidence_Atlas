@@ -79,6 +79,18 @@ export async function runBarcodeReferenceSearch(payload) {
   return response.json();
 }
 
+export async function buildBarcodeFragmentGraph(payload) {
+  const response = await fetch(`${API_BASE_URL}/api/barcode/fragment-graph`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+  if (!response.ok) {
+    throw new Error(`Fragment graph failed: ${response.status}`);
+  }
+  return response.json();
+}
+
 export async function runBarcodeCompiler(payload) {
   const response = await fetch(`${API_BASE_URL}/api/barcode/run`, {
     method: 'POST',

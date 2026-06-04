@@ -12,8 +12,14 @@ from .barcode.compiler import run_barcode_compiler
 from .barcode.csv_import import CSV_TEMPLATE_TEXT, parse_barcode_csv
 from .barcode.demo import BARCODE_DEMO_SCENARIOS, DEFAULT_BARCODE_REQUEST
 from .barcode.profiles import ASSAY_PROFILES, MARKER_PROFILES
-from .barcode.schemas import BarcodeCompilerCreated, BarcodeCompilerRequest, BarcodeReferenceSearchRequest
+from .barcode.schemas import (
+    BarcodeCompilerCreated,
+    BarcodeCompilerRequest,
+    BarcodeFragmentGraphRequest,
+    BarcodeReferenceSearchRequest,
+)
 from .barcode.search_backend import (
+    build_fragment_graph,
     compiler_request_from_search,
     create_user_reference_dataset,
     list_reference_datasets,
@@ -173,6 +179,20 @@ def barcode_reference_search(request: BarcodeReferenceSearchRequest) -> dict:
         }
         payload["pack"] = pack
     return payload
+
+
+@app.post("/api/barcode/fragment-graph")
+def barcode_fragment_graph(request: BarcodeFragmentGraphRequest) -> dict:
+    try:
+        return build_fragment_graph(
+            sequence=request.sequence,
+            sequence_id=request.sequence_id,
+            reference_dataset=request.reference_dataset,
+            backend=request.backend,
+            max_hits=request.max_hits,
+        )
+    except (FileNotFoundError, ValueError) as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
 
 
 @app.get("/api/barcode/csv-template")
