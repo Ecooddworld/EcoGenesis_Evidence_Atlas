@@ -539,6 +539,12 @@ describe('Barcode compiler UI', () => {
     expect(screen.getByText('Evidence decision')).toBeInTheDocument();
     expect(screen.getByText('Lineage path')).toBeInTheDocument();
     expect(screen.getByText('Hit comparison')).toBeInTheDocument();
+    expect(screen.getByText('Graph zoom')).toBeInTheDocument();
+    expect(screen.getByText('125%')).toBeInTheDocument();
+    fireEvent.click(screen.getByLabelText('Zoom in graph'));
+    expect(screen.getByText('150%')).toBeInTheDocument();
+    fireEvent.click(screen.getByLabelText('Fit graph to panel'));
+    expect(document.querySelector('.fragment-zoom-value')?.textContent).toBe('Fit');
     expect(screen.getByText('Graph is limited to the selected reference dataset.')).toBeInTheDocument();
     expect(screen.getAllByText('Aedes albopictus').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Aedes aegypti').length).toBeGreaterThan(0);
@@ -583,6 +589,8 @@ describe('Barcode compiler UI', () => {
 
     await waitFor(() => expect(screen.getByText('Short-fragment evidence')).toBeInTheDocument());
     expect(graphRequestBody.reference_dataset).toBe('culicidae_short_shared_marker');
+    expect(screen.getByText('Graph zoom')).toBeInTheDocument();
+    expect(screen.getByText('125%')).toBeInTheDocument();
     expect(screen.getByText('Taxonomic cluster map')).toBeInTheDocument();
     expect(screen.getByText('Safe LCA network')).toBeInTheDocument();
     expect(screen.getByText('Species claim blocked')).toBeInTheDocument();
