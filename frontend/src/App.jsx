@@ -46,6 +46,7 @@ const defaultReferenceSearchSequence = 'ACGTTGACCTAGGCTTACGATCGTACCGATGCTAGCTAGG
 const modeLabels = {
   overview: 'Judge overview',
   workbench: 'Run compiler',
+  lecture: 'Visual lecture',
   research: 'Research audit',
   formulas: 'Math & proof',
 };
@@ -152,6 +153,35 @@ const molecularGraphPreview = [
   ['GBIF context', 'Occurrence geography is shown as evidence context, not true distribution.'],
   ['Protein sanity', 'Coding markers get frame, stop-codon and pseudogene checks.'],
   ['Safe claims', 'Only supported claims without hard blockers enter export.'],
+];
+
+const lectureTakeaways = [
+  ['DNA is a text', 'A sequence is a long word made from A, C, G and T. The tool compares that word with reference sequences.'],
+  ['A match is evidence, not truth', 'A top hit can be close, short or shared by several species. That is why the compiler checks gates.'],
+  ['Safe rank matters', 'If a fragment fits several species, the tool moves upward to the shared genus or family instead of inventing certainty.'],
+  ['Publication is separate', 'A good taxon match still needs occurrenceID, date, method and DNA-derived metadata before GBIF-ready export.'],
+];
+
+const lectureWorkflow = [
+  ['1', 'Input', 'Sequence, hits, lineage, metadata and reference evidence arrive together.'],
+  ['2', 'Compare', 'Identity and coverage say how similar the query is to each reference.'],
+  ['3', 'Challenge', 'Competitors are tested: is the second hit too close to ignore?'],
+  ['4', 'Downgrade', 'If species are indistinguishable, LCA chooses the safe shared rank.'],
+  ['5', 'Repair', 'Missing fields become actions, not hidden failures.'],
+  ['6', 'Export', 'Only safe claims enter publishable templates; everything else goes to review.'],
+];
+
+const dnaQuery = 'AACATTATACTTTATTTTCGGTATTTGATCTGGAATAGTC';
+const dnaReference = 'AACATTATACTTTATTTTCGGTATTTGATCTGGAATAGTC';
+const dnaCompetitor = 'AACTTTATATTTCATTTTTGGAGTATGATCTGGAATAGTC';
+const kmerTiles = ['AACATTATACTTTAT', 'ACATTATACTTTATT', 'CATTATACTTTATTT', 'ATTATACTTTATTTT', 'TTATACTTTATTTTC'];
+const gateCards = [
+  ['Identity', '99.6%', 'How many letters match?'],
+  ['Coverage', '96%', 'How much of the query was compared?'],
+  ['Ambiguity', 'clear', 'Is another species too close?'],
+  ['Barcode gap', 'pass', 'Does the marker separate species?'],
+  ['k-mers', '27', 'Does the query contain diagnostic fragments?'],
+  ['Metadata', 'repairable', 'Can this become a GBIF record?'],
 ];
 
 const scenarioHeatmapRows = [
@@ -1782,6 +1812,8 @@ function App() {
           onRunCompiler={runCompiler}
           loading={loading}
         />
+      ) : mode === 'lecture' ? (
+        <VisualLecture />
       ) : mode === 'formulas' ? (
         <ProofAndFormulas />
       ) : mode === 'research' ? (
@@ -2068,6 +2100,297 @@ function MolecularGraphPreview() {
         ))}
       </div>
     </section>
+  );
+}
+
+function VisualLecture() {
+  return (
+    <section className="visual-lecture page-grid">
+      <section className="lecture-hero panel">
+        <div>
+          <p className="section-label">Visual explanation</p>
+          <h2>Sequence visual lab: from DNA letters to safe GBIF evidence.</h2>
+          <p>
+            This page explains the project like a guided science board. A DNA sequence is compared with reference
+            sequences, competitors are checked, unsafe species claims are downgraded, and missing GBIF fields become
+            repair actions instead of hidden failures.
+          </p>
+          <div className="lecture-actions">
+            <a className="button-link" href="#sequence-picture">See sequence picture</a>
+            <a className="button-link" href="#safe-claim-picture">See safe claims</a>
+          </div>
+        </div>
+        <div className="sequence-card" aria-label="Decorative DNA sequence preview">
+          <div className="helix-strip">
+            {dnaQuery.slice(0, 28).split('').map((base, index) => (
+              <span className={`base-tile ${base}`} key={`${base}-${index}`}>{base}</span>
+            ))}
+          </div>
+          <strong>DNA letters are evidence inputs, not final truth.</strong>
+          <p>The compiler asks: how strong is the match, who else is close, and what can be safely published?</p>
+        </div>
+      </section>
+
+      <section className="lecture-grid">
+        {lectureTakeaways.map(([title, body]) => (
+          <article className="lecture-takeaway panel" key={title}>
+            <strong>{title}</strong>
+            <p>{body}</p>
+          </article>
+        ))}
+      </section>
+
+      <section className="panel">
+        <p className="section-label">Process map</p>
+        <h2>Six visible steps from input to export.</h2>
+        <div className="lecture-workflow">
+          {lectureWorkflow.map(([index, title, body]) => (
+            <article key={title}>
+              <span>{index}</span>
+              <strong>{title}</strong>
+              <p>{body}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="panel lecture-two-column" id="sequence-picture">
+        <div>
+          <p className="section-label">DNA letters</p>
+          <h2>A sequence is a long word made from A, C, G and T.</h2>
+          <p className="lecture-copy">
+            The first visual check is simple: compare the query sequence with a reference hit. Green positions match.
+            Warm positions show differences. A high top hit is useful, but it is still only evidence.
+          </p>
+          <div className="formula-snapshot">
+            <MathRow><Mi>identity</Mi><Op>=</Op><Frac top={<><Mi>matching letters</Mi></>} bottom={<><Mi>aligned letters</Mi></>} /></MathRow>
+            <MathRow><Mi>coverage</Mi><Op>=</Op><Frac top={<><Mi>aligned letters</Mi></>} bottom={<><Mi>query length</Mi></>} /></MathRow>
+          </div>
+        </div>
+        <AlignmentVisual />
+      </section>
+
+      <section className="panel">
+        <p className="section-label">Hard gates</p>
+        <h2>The tool does not trust one top hit blindly.</h2>
+        <div className="gate-picture-grid">
+          {gateCards.map(([title, value, body]) => (
+            <article key={title} className={`gate-picture ${title === 'Metadata' ? 'repairable' : 'pass'}`}>
+              <span>{title}</span>
+              <strong>{value}</strong>
+              <p>{body}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="panel lecture-two-column">
+        <TopHitTrapVisual />
+        <LcaTreeVisual />
+      </section>
+
+      <section className="panel lecture-two-column">
+        <BarcodeGapVisual />
+        <KmerVisual />
+      </section>
+
+      <section className="panel lecture-two-column">
+        <PublicationVisual />
+        <ClaimBoundaryVisual />
+      </section>
+
+      <section className="panel visual-summary" id="safe-claim-picture">
+        <p className="section-label">Final mental model</p>
+        <h2>EcoGenesis is a scientific checkpoint before GBIF publication.</h2>
+        <div className="summary-road">
+          <span>Sequence</span>
+          <span>Match</span>
+          <span>Competitors</span>
+          <span>Safe rank</span>
+          <span>Metadata</span>
+          <span>Evidence pack</span>
+        </div>
+        <p>
+          The result is not “the computer guessed a species”. The result is a reproducible evidence package:
+          safe taxon, blocked claims, repair actions, methods text, citations and export tables.
+        </p>
+      </section>
+    </section>
+  );
+}
+
+function AlignmentVisual() {
+  return (
+    <div className="alignment-visual" aria-label="DNA sequence alignment visual">
+      <SequenceRow label="Query" sequence={dnaQuery} reference={dnaQuery} />
+      <SequenceRow label="Reference hit" sequence={dnaReference} reference={dnaQuery} />
+      <SequenceRow label="Competitor hit" sequence={dnaCompetitor} reference={dnaQuery} />
+      <div className="alignment-legend">
+        <span><i className="match-swatch" /> match</span>
+        <span><i className="mismatch-swatch" /> mismatch</span>
+        <span><i className="coverage-swatch" /> aligned window</span>
+      </div>
+    </div>
+  );
+}
+
+function SequenceRow({ label, sequence, reference }) {
+  return (
+    <div className="sequence-row">
+      <strong>{label}</strong>
+      <div className="sequence-strip">
+        {sequence.split('').map((base, index) => {
+          const match = base === reference[index];
+          return (
+            <span className={`base-tile ${base} ${match ? 'match' : 'mismatch'}`} key={`${label}-${index}`}>
+              {base}
+            </span>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function TopHitTrapVisual() {
+  return (
+    <div className="visual-card">
+      <p className="section-label">Top-hit trap</p>
+      <h3>High score is not enough if a competitor is too close.</h3>
+      <div className="hit-stack">
+        <div className="hit-row top">
+          <span>Aedes albopictus</span>
+          <strong>99.6%</strong>
+        </div>
+        <div className="hit-row competitor">
+          <span>Aedes aegypti</span>
+          <strong>98.2%</strong>
+        </div>
+        <div className="hit-row review">
+          <span>Second hit boundary</span>
+          <strong>tested</strong>
+        </div>
+      </div>
+      <div className="formula-snapshot compact-formula">
+        <MathRow><Mi>Delta</Mi><Sub>j</Sub><Op>=</Op><Mi>d</Mi><Sub>j</Sub><Op>-</Op><Mi>d</Mi><Sub>top</Sub></MathRow>
+        <MathRow><Mi>B</Mi><Sub>j</Sub><Op>=</Op>1.96<Sqrt><Mi>SE</Mi><Sub>top</Sub><Sup>2</Sup><Op>+</Op><Mi>SE</Mi><Sub>j</Sub><Sup>2</Sup></Sqrt></MathRow>
+      </div>
+      <p>If the competitor is indistinguishable, species is blocked and LCA chooses the safe rank.</p>
+    </div>
+  );
+}
+
+function LcaTreeVisual() {
+  return (
+    <div className="visual-card">
+      <p className="section-label">LCA tree</p>
+      <h3>Shared fragments move upward to a safe taxon.</h3>
+      <div className="tree-visual" aria-label="Taxonomic tree with safe LCA">
+        <div>Arthropoda</div>
+        <div>Insecta</div>
+        <div>Diptera</div>
+        <div>Culicidae</div>
+        <div className="safe-node">Aedes genus: safe rank</div>
+        <div className="species-branch">
+          <span>A. albopictus</span>
+          <span>A. aegypti</span>
+        </div>
+      </div>
+      <div className="formula-snapshot compact-formula">
+        <MathRow><Mi>SafeTaxon</Mi><Paren><Mi>f</Mi></Paren><Op>=</Op><Func>LCA</Func><Paren><Mi>T</Mi><Paren><Mi>f</Mi></Paren></Paren></MathRow>
+      </div>
+    </div>
+  );
+}
+
+function BarcodeGapVisual() {
+  return (
+    <div className="visual-card">
+      <p className="section-label">Barcode gap</p>
+      <h3>The marker must separate inside-species and outside-species distance.</h3>
+      <div className="gap-bars" aria-label="Barcode gap bars">
+        <div>
+          <span>Inside species variation</span>
+          <i style={{ width: '42%' }} />
+          <strong>D_intra = 0.009</strong>
+        </div>
+        <div>
+          <span>Nearest outside species</span>
+          <i style={{ width: '78%' }} />
+          <strong>D_inter = 0.018</strong>
+        </div>
+      </div>
+      <div className="formula-snapshot compact-formula">
+        <MathRow><Mi>BG</Mi><Paren><Mi>t</Mi></Paren><Op>=</Op><Mi>D</Mi><Sub>inter</Sub><Paren><Mi>t</Mi></Paren><Op>-</Op><Mi>D</Mi><Sub>intra</Sub><Paren><Mi>t</Mi></Paren></MathRow>
+        <MathRow><Mi>BG</Mi><Paren><Mi>t</Mi></Paren><Op>&gt;</Op>0<Op>=</Op><Mi>pass</Mi></MathRow>
+      </div>
+    </div>
+  );
+}
+
+function KmerVisual() {
+  return (
+    <div className="visual-card">
+      <p className="section-label">Diagnostic k-mers</p>
+      <h3>The sequence is sliced into small windows and checked for unique signal.</h3>
+      <div className="kmer-window-stack">
+        {kmerTiles.map((tile, index) => (
+          <div key={tile} style={{ marginLeft: `${index * 12}px` }}>
+            <span>{tile}</span>
+            <strong>{index === 0 ? 'diagnostic' : index === 3 ? 'shared' : 'checked'}</strong>
+          </div>
+        ))}
+      </div>
+      <div className="formula-snapshot compact-formula">
+        <MathRow><Mi>DS</Mi><Paren><Mi>s</Mi>,<Mi>t</Mi></Paren><Op>=</Op><Frac top={<Abs><Mi>K</Mi><Sub>k</Sub><Paren><Mi>s</Mi></Paren><Op>cap</Op><Mi>D</Mi><Sub>k</Sub><Paren><Mi>t</Mi></Paren></Abs>} bottom={<Abs><Mi>K</Mi><Sub>k</Sub><Paren><Mi>s</Mi></Paren></Abs>} /></MathRow>
+      </div>
+    </div>
+  );
+}
+
+function PublicationVisual() {
+  const core = ['occurrenceID', 'basisOfRecord', 'scientificName', 'eventDate'];
+  const dna = ['marker', 'sequenceID', 'referenceDatabase', 'identity', 'queryCoverage', 'methodOrSOP'];
+
+  return (
+    <div className="visual-card">
+      <p className="section-label">GBIF readiness</p>
+      <h3>A good taxon match still needs publication metadata.</h3>
+      <div className="field-buckets">
+        <div>
+          <strong>Occurrence core</strong>
+          {core.map((field) => <span key={field}>{field}</span>)}
+        </div>
+        <div>
+          <strong>DNA-derived layer</strong>
+          {dna.map((field) => <span key={field}>{field}</span>)}
+        </div>
+      </div>
+      <p>Missing fields do not vanish. They become blockers and repair actions in the Evidence Pack.</p>
+    </div>
+  );
+}
+
+function ClaimBoundaryVisual() {
+  return (
+    <div className="visual-card">
+      <p className="section-label">What can I claim?</p>
+      <h3>The UI separates supported claims from tempting overclaims.</h3>
+      <div className="claim-boundary-grid">
+        <article className="safe">
+          <strong>Safe</strong>
+          <span>Sequence-derived evidence supports this safe rank under supplied references.</span>
+        </article>
+        <article className="repair">
+          <strong>Repair first</strong>
+          <span>Taxonomy may be useful, but date, DOI, method or occurrence fields are missing.</span>
+        </article>
+        <article className="blocked">
+          <strong>Blocked</strong>
+          <span>No absence, true distribution, trend or phenotype truth from these data alone.</span>
+        </article>
+      </div>
+    </div>
   );
 }
 

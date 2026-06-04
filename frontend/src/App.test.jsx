@@ -374,6 +374,38 @@ describe('Barcode compiler UI', () => {
     expect(screen.getAllByText(/Custom Aedes COI/).length).toBeGreaterThan(0);
   });
 
+  it('opens the visual lecture page with sequence and decision illustrations', async () => {
+    vi.spyOn(globalThis, 'fetch').mockImplementation((url) => {
+      const textUrl = String(url);
+      if (textUrl.endsWith('/api/barcode/demo-scenarios')) {
+        return Promise.resolve(new Response(JSON.stringify(demoScenarios), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/reference-status')) {
+        return Promise.resolve(new Response(JSON.stringify({ status: 'ready', message: 'Compiler ready.' }), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/search-status')) {
+        return Promise.resolve(new Response(JSON.stringify(searchStatus), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/reference-datasets')) {
+        return Promise.resolve(new Response(JSON.stringify(referenceDatasets), { status: 200 }));
+      }
+      return Promise.resolve(new Response('{}', { status: 404 }));
+    });
+
+    render(<App />);
+    fireEvent.click(await screen.findByText('Visual lecture'));
+
+    expect(screen.getByText('Sequence visual lab: from DNA letters to safe GBIF evidence.')).toBeInTheDocument();
+    expect(screen.getByText('DNA letters')).toBeInTheDocument();
+    expect(screen.getByText('Query')).toBeInTheDocument();
+    expect(screen.getByText('Reference hit')).toBeInTheDocument();
+    expect(screen.getByText('Top-hit trap')).toBeInTheDocument();
+    expect(screen.getByText('LCA tree')).toBeInTheDocument();
+    expect(screen.getAllByText('Barcode gap').length).toBeGreaterThan(0);
+    expect(screen.getByText('Diagnostic k-mers')).toBeInTheDocument();
+    expect(screen.getByText('What can I claim?')).toBeInTheDocument();
+  });
+
   it('opens the proof and formulas page', async () => {
     vi.spyOn(globalThis, 'fetch').mockImplementation((url) => {
       const textUrl = String(url);
