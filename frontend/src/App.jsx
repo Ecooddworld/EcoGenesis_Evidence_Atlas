@@ -171,6 +171,36 @@ const lectureWorkflow = [
   ['6', 'Export', 'Only safe claims enter publishable templates; everything else goes to review.'],
 ];
 
+const sciencePurposeSteps = [
+  ['Raw DNA detections', 'Thousands of barcode, metabarcoding or Sequence ID rows arrive from water, soil, traps, museums and lab pipelines.'],
+  ['Evidence conversion', 'The engine separates safe species claims, safe genus/family evidence, weak rows, missing metadata and blocked overclaims.'],
+  ['GBIF-ready outputs', 'Publishable rows, review queues, methods text and citations become reusable biodiversity evidence.'],
+  ['Scientific reuse', 'Researchers can audit data gaps, reference-library limits, sampling bias and repair priorities before making conclusions.'],
+  ['Better decisions', 'Monitoring, conservation, invasion watch and data publishing become more reproducible and less vulnerable to false certainty.'],
+];
+
+const beforeAfterScience = [
+  ['Before', 'A spreadsheet says “top hit = species”, but the user cannot see ambiguity, missing fields, reference gaps or unsafe claims.'],
+  ['After', 'Every row has a safe rank, blockers, evidence pointers, repair actions and a clear boundary between supported and blocked claims.'],
+];
+
+const scienceUsers = [
+  ['eDNA researcher', 'Knows which detections can be species-level and which must stay genus/family-level.'],
+  ['GBIF publisher', 'Gets exact missing fields and GBIF-ready templates instead of a vague error list.'],
+  ['Taxonomist', 'Sees where markers or reference libraries fail to separate close taxa.'],
+  ['Conservation team', 'Uses cautious evidence context without turning empty cells into false absence.'],
+  ['Reviewer', 'Can reproduce why a record was accepted, downgraded or blocked.'],
+  ['GBIF network', 'Receives cleaner, better cited and more reusable molecular occurrence evidence.'],
+];
+
+const futureImpactSteps = [
+  ['V1', 'Barcode-to-GBIF Evidence Compiler', 'Working layer: CSV/search results become safe rank decisions and export packs.'],
+  ['V2', 'Reference Gap Atlas', 'Shows taxa, markers and regions where species-safe conversion fails because references are incomplete.'],
+  ['V3', 'Repair Optimizer', 'Ranks metadata and reference curation actions by how many records they unlock.'],
+  ['V4', 'Molecular Evidence Graph', 'Connects fragments, taxa, GBIF geography, protein context, claims and blockers.'],
+  ['V5', 'Hypothesis engine', 'Produces cautious, testable scientific hypotheses without claiming phenotype truth.'],
+];
+
 const dnaQuery = 'AACATTATACTTTATTTTCGGTATTTGATCTGGAATAGTC';
 const dnaReference = 'AACATTATACTTTATTTTCGGTATTTGATCTGGAATAGTC';
 const dnaCompetitor = 'AACTTTATATTTCATTTTTGGAGTATGATCTGGAATAGTC';
@@ -2140,6 +2170,13 @@ function VisualLecture() {
         ))}
       </section>
 
+      <SciencePurposeVisual />
+
+      <section className="panel lecture-two-column">
+        <BeforeAfterScienceVisual />
+        <UserValueVisual />
+      </section>
+
       <section className="panel">
         <p className="section-label">Process map</p>
         <h2>Six visible steps from input to export.</h2>
@@ -2199,6 +2236,8 @@ function VisualLecture() {
         <ClaimBoundaryVisual />
       </section>
 
+      <FutureImpactVisual />
+
       <section className="panel visual-summary" id="safe-claim-picture">
         <p className="section-label">Final mental model</p>
         <h2>EcoGenesis is a scientific checkpoint before GBIF publication.</h2>
@@ -2215,6 +2254,99 @@ function VisualLecture() {
           safe taxon, blocked claims, repair actions, methods text, citations and export tables.
         </p>
       </section>
+    </section>
+  );
+}
+
+function SciencePurposeVisual() {
+  return (
+    <section className="panel science-purpose-panel">
+      <div>
+        <p className="section-label">Why this matters in science</p>
+        <h2>The project is about converting molecular signals into reusable evidence.</h2>
+        <p>
+          Modern biodiversity science produces enormous streams of molecular detections. The hard part is not only
+          finding a similar sequence. The hard part is deciding what can be claimed safely, what must be downgraded,
+          and what must be repaired before the record enters GBIF-mediated reuse.
+        </p>
+      </div>
+      <div className="science-flow">
+        {sciencePurposeSteps.map(([title, body], index) => (
+          <article key={title}>
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            <strong>{title}</strong>
+            <p>{body}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function BeforeAfterScienceVisual() {
+  return (
+    <div className="visual-card science-comparison">
+      <p className="section-label">Scientific change</p>
+      <h3>From fragile top-hit spreadsheets to auditable evidence.</h3>
+      <div className="before-after-grid">
+        {beforeAfterScience.map(([title, body]) => (
+          <article className={title.toLowerCase()} key={title}>
+            <strong>{title}</strong>
+            <p>{body}</p>
+          </article>
+        ))}
+      </div>
+      <div className="science-equation">
+        <span>sequence match</span>
+        <span>+</span>
+        <span>safe rank</span>
+        <span>+</span>
+        <span>metadata</span>
+        <span>=</span>
+        <strong>reusable evidence</strong>
+      </div>
+    </div>
+  );
+}
+
+function UserValueVisual() {
+  return (
+    <div className="visual-card">
+      <p className="section-label">Who uses it</p>
+      <h3>One workflow, several scientific audiences.</h3>
+      <div className="user-value-grid">
+        {scienceUsers.map(([title, body]) => (
+          <article key={title}>
+            <strong>{title}</strong>
+            <span>{body}</span>
+          </article>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function FutureImpactVisual() {
+  return (
+    <section className="panel future-impact-panel">
+      <div>
+        <p className="section-label">Where this leads</p>
+        <h2>From one compiler to a Molecular Evidence Graph for GBIF.</h2>
+        <p>
+          The current project is the first working safety layer. The bigger scientific direction is a graph that
+          connects DNA fragments, taxa, GBIF occurrence context, reference gaps, protein sanity checks, repair actions
+          and cautious hypotheses in one reproducible evidence system.
+        </p>
+      </div>
+      <div className="future-roadmap">
+        {futureImpactSteps.map(([version, title, body]) => (
+          <article key={version}>
+            <span>{version}</span>
+            <strong>{title}</strong>
+            <p>{body}</p>
+          </article>
+        ))}
+      </div>
     </section>
   );
 }
