@@ -3498,6 +3498,13 @@ function SharedFragmentTreeSvg({ graph }) {
   const safeName = graph.classification?.safe_taxon?.name || safeLcaNode?.name || 'shared LCA';
   const safeRank = graph.classification?.safe_taxon?.rank || safeLcaNode?.rank || 'higher rank';
   const queryLength = graph.query?.sequence_length || fragmentNode?.sequence_length || '-';
+  const [selectedItem, setSelectedItem] = useState(() => sharedSelectionDetail({
+    type: 'safe',
+    safeName,
+    safeRank,
+    totalSpecies,
+    groups,
+  }));
   const circumference = 2 * Math.PI * 49;
   let donutOffset = 0;
   const donutSegments = groups.map((group) => {
@@ -3538,10 +3545,24 @@ function SharedFragmentTreeSvg({ graph }) {
         color: group.color,
         label: species.label,
         genus: group.genus.label,
+        species,
+        group,
       };
     });
   });
   const network = buildSharedNetworkLayout(groups, safeName);
+  const detailLines = wrapSvgText(selectedItem.description, 58).slice(0, 3);
+  const leftDetailLines = wrapSvgText(selectedItem.description, 44).slice(0, 2);
+  const actionLines = wrapSvgText(selectedItem.action, 58).slice(0, 2);
+  const selectedGroupId = selectedItem.groupId;
+  const selectedSpeciesId = selectedItem.speciesId;
+  const activateItem = (item) => setSelectedItem(item);
+  const keyboardSelect = (item) => (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      activateItem(item);
+    }
+  };
 
   return (
     <div className="fragment-svg-scroll shared-dashboard" aria-label="Shared short fragment dashboard">
@@ -3565,7 +3586,17 @@ function SharedFragmentTreeSvg({ graph }) {
           <text x="58" y="72" className="shared-card-title">Short-fragment evidence</text>
           <text x="58" y="96" className="shared-muted">The same marker segment appears in several reference taxa.</text>
 
-          <circle cx="126" cy="166" r="49" className="shared-donut-base" />
+          <circle
+            cx="126"
+            cy="166"
+            r="49"
+            className="shared-donut-base shared-click-target"
+            role="button"
+            tabIndex="0"
+            aria-label="Select all shared fragment evidence"
+            onClick={() => activateItem(sharedSelectionDetail({ type: 'safe', safeName, safeRank, totalSpecies, groups }))}
+            onKeyDown={keyboardSelect(sharedSelectionDetail({ type: 'safe', safeName, safeRank, totalSpecies, groups }))}
+          />
           {donutSegments.map((segment, index) => (
             <circle
               key={`${segment.color}-${index}`}
@@ -3595,7 +3626,16 @@ function SharedFragmentTreeSvg({ graph }) {
             const y = 334 + index * 55;
             const barWidth = totalSpecies ? Math.max(32, (group.species.length / totalSpecies) * 168) : 32;
             return (
-              <g key={group.genus.id} className="shared-genus-row" transform={`translate(58 ${y})`}>
+              <g
+                key={group.genus.id}
+                className={`shared-genus-row shared-click-target ${selectedGroupId === group.genus.id ? 'selected' : ''}`}
+                transform={`translate(58 ${y})`}
+                role="button"
+                tabIndex="0"
+                aria-label={`Select summary genus ${group.genus.label}`}
+                onClick={() => activateItem(sharedSelectionDetail({ type: 'genus', group, safeName, safeRank, totalSpecies }))}
+                onKeyDown={keyboardSelect(sharedSelectionDetail({ type: 'genus', group, safeName, safeRank, totalSpecies }))}
+              >
                 <circle cx="9" cy="8" r="7" fill={group.color} />
                 <text x="26" y="13" className="shared-genus-name">{group.genus.label}</text>
                 <text x="260" y="13" className="shared-genus-count">{group.species.length} species</text>
@@ -3605,10 +3645,12 @@ function SharedFragmentTreeSvg({ graph }) {
             );
           })}
 
-          <g className="shared-claim-lock" transform="translate(58 520)">
-            <rect width="344" height="66" rx="12" />
-            <text x="18" y="25">Species claim blocked</text>
-            <text x="18" y="47">Safe claim: {safeRank} · {safeName}</text>
+          <g className="shared-claim-lock" transform="translate(58 500)">
+            <rect width="344" height="86" rx="12" />
+            <text x="18" y="19">Species claim blocked</text>
+            <text x="18" y="37">{shortenLabel(selectedItem.title, 35)}</text>
+            <text x="18" y="55">{leftDetailLines[0] || `Safe claim: ${safeRank} · ${safeName}`}</text>
+            {leftDetailLines[1] && <text x="18" y="70">{leftDetailLines[1]}</text>}
           </g>
         </g>
 
@@ -3626,7 +3668,15 @@ function SharedFragmentTreeSvg({ graph }) {
             ))}
           </g>
           {scatterPoints.map((point) => (
-            <g key={point.id} className="shared-cluster-point">
+            <g
+              key={point.id}
+              className={`shared-cluster-point shared-click-target ${selectedSpeciesId === point.species.id ? 'selected' : ''}`}
+              role="button"
+              tabIndex="0"
+              aria-label={`Select cluster species ${point.label}`}
+              onClick={() => activateItem(sharedSelectionDetail({ type: 'species', group: point.group, species: point.species, safeName, safeRank, totalSpecies }))}
+              onKeyDown={keyboardSelect(sharedSelectionDetail({ type: 'species', group: point.group, species: point.species, safeName, safeRank, totalSpecies }))}
+            >
               <title>{point.label} · {point.genus}</title>
               <circle cx={point.x} cy={point.y} r="7" fill={point.color} />
             </g>
@@ -3641,7 +3691,16 @@ function SharedFragmentTreeSvg({ graph }) {
             ];
             const position = labelPositions[index % labelPositions.length];
             return (
-              <g key={`${group.genus.id}-cluster-label`} className="shared-cluster-label" transform={`translate(${position.x} ${position.y})`}>
+              <g
+                key={`${group.genus.id}-cluster-label`}
+                className={`shared-cluster-label shared-click-target ${selectedGroupId === group.genus.id ? 'selected' : ''}`}
+                transform={`translate(${position.x} ${position.y})`}
+                role="button"
+                tabIndex="0"
+                aria-label={`Select cluster genus ${group.genus.label}`}
+                onClick={() => activateItem(sharedSelectionDetail({ type: 'genus', group, safeName, safeRank, totalSpecies }))}
+                onKeyDown={keyboardSelect(sharedSelectionDetail({ type: 'genus', group, safeName, safeRank, totalSpecies }))}
+              >
                 <circle cx="0" cy="-4" r="5" fill={group.color} />
                 <text x="13" y="0">{group.genus.label}</text>
               </g>
@@ -3661,7 +3720,7 @@ function SharedFragmentTreeSvg({ graph }) {
               y1={network.safe.y}
               x2={link.x}
               y2={link.y}
-              className="shared-network-link safe"
+              className={`shared-network-link safe ${selectedItem.type === 'safe' || selectedGroupId === link.genus.id ? 'selected' : ''}`}
             />
           ))}
           {network.speciesLinks.map((link) => (
@@ -3671,41 +3730,66 @@ function SharedFragmentTreeSvg({ graph }) {
               y1={link.from.y}
               x2={link.to.x}
               y2={link.to.y}
-              className="shared-network-link"
+              className={`shared-network-link ${selectedGroupId === link.genus.id || selectedSpeciesId === link.species.id ? 'selected' : ''}`}
             />
           ))}
-          <g className="shared-safe-node" transform={`translate(${network.safe.x} ${network.safe.y})`} filter="url(#sharedSafeGlow)">
+          <g
+            className={`shared-safe-node shared-click-target ${selectedItem.type === 'safe' ? 'selected' : ''}`}
+            transform={`translate(${network.safe.x} ${network.safe.y})`}
+            filter="url(#sharedSafeGlow)"
+            role="button"
+            tabIndex="0"
+            aria-label={`Select safe LCA ${safeName}`}
+            onClick={() => activateItem(sharedSelectionDetail({ type: 'safe', safeName, safeRank, totalSpecies, groups }))}
+            onKeyDown={keyboardSelect(sharedSelectionDetail({ type: 'safe', safeName, safeRank, totalSpecies, groups }))}
+          >
             <rect x="-74" y="-30" width="148" height="60" rx="14" />
             <text y="-4" textAnchor="middle">Safe LCA</text>
             <text y="18" textAnchor="middle">{shortenLabel(safeName, 18)}</text>
           </g>
           {network.genusLinks.map((item) => (
-            <g key={item.genus.id} className="shared-network-genus" transform={`translate(${item.x} ${item.y})`}>
+            <g
+              key={item.genus.id}
+              className={`shared-network-genus shared-click-target ${selectedGroupId === item.genus.id ? 'selected' : ''}`}
+              transform={`translate(${item.x} ${item.y})`}
+              role="button"
+              tabIndex="0"
+              aria-label={`Select network genus ${item.genus.label}`}
+              onClick={() => activateItem(sharedSelectionDetail({ type: 'genus', group: item, safeName, safeRank, totalSpecies }))}
+              onKeyDown={keyboardSelect(sharedSelectionDetail({ type: 'genus', group: item, safeName, safeRank, totalSpecies }))}
+            >
               <circle r="22" fill={item.color} />
               <text y="5" textAnchor="middle">{shortGenusNodeLabel(item.genus.label)}</text>
             </g>
           ))}
           {network.speciesLinks.map((item) => (
-            <g key={item.species.id} className="shared-network-species" transform={`translate(${item.to.x} ${item.to.y})`}>
+            <g
+              key={item.species.id}
+              className={`shared-network-species shared-click-target ${selectedSpeciesId === item.species.id ? 'selected' : ''}`}
+              transform={`translate(${item.to.x} ${item.to.y})`}
+              role="button"
+              tabIndex="0"
+              aria-label={`Select network species ${item.species.label}`}
+              onClick={() => activateItem(sharedSelectionDetail({ type: 'species', group: item, species: item.species, safeName, safeRank, totalSpecies }))}
+              onKeyDown={keyboardSelect(sharedSelectionDetail({ type: 'species', group: item, species: item.species, safeName, safeRank, totalSpecies }))}
+            >
               <title>{item.species.label}</title>
               <circle r="7" fill={item.color} />
               <text x={item.labelAnchor === 'end' ? -12 : 12} y="4" textAnchor={item.labelAnchor}>
-                {shortSpeciesLabel(item.species.label, item.genus.label)}
+                {shortSpeciesLabel(item.species.label, item.genus.label, item.labelAnchor === 'start' ? 9 : 12)}
               </text>
             </g>
           ))}
-          {warningNode && (
-            <g className="shared-warning-badge" transform="translate(824 554)">
-              <rect x="-128" y="-22" width="256" height="44" rx="12" />
-              <text textAnchor="middle" y="-2">Do not choose one species</text>
-              <text textAnchor="middle" y="16">use the shared {safeRank}</text>
-            </g>
-          )}
+        </g>
+
+        <g className="shared-action-strip" transform="translate(454 614)">
+          <rect width="592" height="24" rx="8" />
+          <text x="14" y="16">{actionLines.join(' ')}</text>
         </g>
 
         {datasetNode && (
-          <text x="540" y="632" className="shared-footer-note">
-            Dataset: {shortenLabel(datasetNode.label, 84)} · Graph is limited to this selected reference evidence.
+          <text x="226" y="632" className="shared-footer-note">
+            Dataset: {shortenLabel(datasetNode.label, 42)}
           </text>
         )}
       </svg>
@@ -3769,11 +3853,11 @@ function buildSharedFragmentDashboard(graph) {
 }
 
 function buildSharedNetworkLayout(groups, safeName) {
-  const safe = { x: 744, y: 482, label: safeName };
+  const safe = { x: 720, y: 482, label: safeName };
   const preferredPositions = {
-    Aedes: { x: 630, y: 424, side: 'left' },
-    Anopheles: { x: 634, y: 548, side: 'left' },
-    Culex: { x: 908, y: 486, side: 'right' },
+    Aedes: { x: 622, y: 424, side: 'left' },
+    Anopheles: { x: 622, y: 548, side: 'left' },
+    Culex: { x: 858, y: 486, side: 'right' },
   };
   const genusLinks = groups.map((group, index) => {
     const preferred = preferredPositions[group.genus.label];
@@ -3791,7 +3875,7 @@ function buildSharedNetworkLayout(groups, safeName) {
   });
   const speciesLinks = genusLinks.flatMap((group) => {
     const spread = Math.min(34, 92 / Math.max(1, group.species.length - 1 || 1));
-    const leafX = group.side === 'left' ? group.x - 95 : group.x + 78;
+    const leafX = group.side === 'left' ? group.x - 92 : group.x + 86;
     return group.species.map((species, speciesIndex) => {
       const offset = (speciesIndex - (group.species.length - 1) / 2) * spread;
       return {
@@ -3800,7 +3884,7 @@ function buildSharedNetworkLayout(groups, safeName) {
         color: group.color,
         from: { x: group.x, y: group.y },
         to: { x: leafX, y: group.y + offset },
-        labelAnchor: 'end',
+        labelAnchor: group.side === 'left' ? 'end' : 'start',
       };
     });
   });
@@ -3823,13 +3907,61 @@ function shortGenusNodeLabel(label) {
   return text.length > 6 ? `${text.slice(0, 5)}.` : text;
 }
 
-function shortSpeciesLabel(label, genus) {
+function sharedSelectionDetail({ type, group, species, safeName, safeRank, totalSpecies, groups }) {
+  if (type === 'species' && species) {
+    const genusName = group?.genus?.label || group?.label || 'the genus';
+    return {
+      type,
+      groupId: group?.genus?.id || group?.id,
+      speciesId: species.id,
+      title: species.label,
+      description: `This reference species contains the fragment, but the same short fragment is also found in other taxa. It contributes evidence to the shared ${safeRank}, not a standalone species claim.`,
+      action: `Use ${safeName} as the safe claim unless a longer or more diagnostic marker separates ${genusName} species.`,
+    };
+  }
+  if (type === 'genus' && group) {
+    return {
+      type,
+      groupId: group.genus?.id || group.id,
+      title: `${group.genus?.label || group.label}: ${group.species?.length || 0} matched species`,
+      description: `Several species in this genus share the fragment. That tells us the fragment is biologically useful as shared evidence, but not precise enough to choose one species.`,
+      action: `Compare this genus with the other ${Math.max(0, (groups?.length || 0) - 1)} genera; the safe claim stays at ${safeRank} ${safeName}.`,
+    };
+  }
+  return {
+    type: 'safe',
+    groupId: null,
+    speciesId: null,
+    title: `Safe LCA: ${safeName}`,
+    description: `All informative hits meet at this lowest common ancestor. Because ${totalSpecies} species share the fragment, the tool blocks a species-level claim and raises the safe taxon.`,
+    action: `Click any point, genus or species node to inspect why the fragment remains ${safeRank}-level evidence.`,
+  };
+}
+
+function wrapSvgText(text, maxLength) {
+  const words = String(text || '').split(/\s+/).filter(Boolean);
+  const lines = [];
+  let current = '';
+  words.forEach((word) => {
+    const next = current ? `${current} ${word}` : word;
+    if (next.length > maxLength && current) {
+      lines.push(current);
+      current = word;
+    } else {
+      current = next;
+    }
+  });
+  if (current) lines.push(current);
+  return lines;
+}
+
+function shortSpeciesLabel(label, genus, limit = 12) {
   const text = String(label || '');
   const genusText = String(genus || '');
   const withoutGenus = genusText && text.startsWith(`${genusText} `)
     ? text.slice(genusText.length + 1)
     : text;
-  return shortenLabel(withoutGenus, 14);
+  return shortenLabel(withoutGenus, limit);
 }
 
 function GraphNode({ node, x, y }) {

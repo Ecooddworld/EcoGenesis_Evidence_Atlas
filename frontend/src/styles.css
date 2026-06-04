@@ -2377,10 +2377,38 @@ summary {
   stroke-width: 2;
 }
 
+.shared-click-target {
+  cursor: pointer;
+  outline: none;
+}
+
+.shared-click-target:hover circle,
+.shared-click-target:focus circle,
+.shared-click-target.selected circle {
+  filter: drop-shadow(0 0 6px rgba(40, 120, 68, 0.32));
+  opacity: 1;
+  stroke: #17201a;
+  stroke-width: 2.4;
+}
+
+.shared-click-target:hover text,
+.shared-click-target:focus text,
+.shared-click-target.selected text {
+  fill: #17201a;
+}
+
+.shared-genus-row.selected .shared-bar-track {
+  fill: #d7e8dc;
+}
+
 .shared-cluster-label text {
   fill: #3c4f44;
   font-size: 12px;
   font-weight: 900;
+}
+
+.shared-cluster-label.selected text {
+  font-weight: 950;
 }
 
 .shared-network-link {
@@ -2394,6 +2422,12 @@ summary {
   stroke: #287844;
   stroke-opacity: 0.82;
   stroke-width: 2.5;
+}
+
+.shared-network-link.selected {
+  stroke: #17201a;
+  stroke-opacity: 0.88;
+  stroke-width: 3;
 }
 
 .shared-safe-node rect {
@@ -2426,6 +2460,11 @@ summary {
   font-weight: 950;
 }
 
+.shared-network-genus.selected circle {
+  stroke: #17201a;
+  stroke-width: 3.4;
+}
+
 .shared-network-species circle {
   opacity: 0.92;
   stroke: #fff;
@@ -2447,6 +2486,42 @@ summary {
   fill: #8b3f1f;
   font-size: 11px;
   font-weight: 900;
+}
+
+.shared-detail-card rect {
+  fill: #fff7e7;
+  stroke: #e5c372;
+  stroke-width: 1.2;
+}
+
+.shared-detail-label {
+  fill: #7a4d10;
+  font-size: 10px;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.shared-detail-title {
+  fill: #17201a;
+  font-size: 13px;
+  font-weight: 950;
+}
+
+.shared-detail-text {
+  fill: #4f5f56;
+  font-size: 10px;
+  font-weight: 780;
+}
+
+.shared-action-strip rect {
+  fill: #eef6fa;
+  stroke: #c9dce5;
+}
+
+.shared-action-strip text {
+  fill: #2d6285;
+  font-size: 11px;
+  font-weight: 850;
 }
 
 .graph-backdrop {
