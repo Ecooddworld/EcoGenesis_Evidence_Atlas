@@ -399,11 +399,17 @@ describe('Barcode compiler UI', () => {
     expect(screen.getByText('DNA letters')).toBeInTheDocument();
     expect(screen.getByText('Query')).toBeInTheDocument();
     expect(screen.getByText('Reference hit')).toBeInTheDocument();
+    expect(screen.getByText('Why this matters in science')).toBeInTheDocument();
+    expect(screen.getByText('The project is about converting molecular signals into reusable evidence.')).toBeInTheDocument();
+    expect(screen.getByText('Scientific change')).toBeInTheDocument();
+    expect(screen.getByText('Who uses it')).toBeInTheDocument();
     expect(screen.getByText('Top-hit trap')).toBeInTheDocument();
     expect(screen.getByText('LCA tree')).toBeInTheDocument();
     expect(screen.getAllByText('Barcode gap').length).toBeGreaterThan(0);
     expect(screen.getByText('Diagnostic k-mers')).toBeInTheDocument();
     expect(screen.getByText('What can I claim?')).toBeInTheDocument();
+    expect(screen.getByText('Where this leads')).toBeInTheDocument();
+    expect(screen.getByText('From one compiler to a Molecular Evidence Graph for GBIF.')).toBeInTheDocument();
   });
 
   it('opens the proof and formulas page', async () => {
