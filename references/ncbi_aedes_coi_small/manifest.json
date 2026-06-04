@@ -1,0 +1,232 @@
+{
+  "id": "ncbi_aedes_coi_small",
+  "title": "NCBI GenBank small COI reference pack for Aedes workflow validation",
+  "version": "2026-06-04",
+  "marker": "COI-5P",
+  "fasta": "ncbi_aedes_coi_small.fasta",
+  "source": "NCBI GenBank nuccore FASTA records fetched through E-utilities",
+  "doi_or_url": "https://www.ncbi.nlm.nih.gov/nuccore/?term=LC881945.1%20OR%20PP941652.1",
+  "license": "NCBI GenBank public sequence records used as a small workflow-validation pack; NCBI does not impose additional restrictions on use, but users should verify original submitter/source terms before publication.",
+  "usage_scope": "Small real open reference example for EcoGenesis workflow validation; not a curated production barcode reference database.",
+  "accessed_at": "2026-06-04",
+  "source_record_note": "Accessions: LC881945.1 and PP941652.1; GBIF backbone keys pre-attached with /species/match on 2026-06-04.",
+  "reference_total_windows": 1296,
+  "references": {
+    "LC881945_1_AALB_COI": {
+      "taxon": "Aedes albopictus",
+      "rank": "species",
+      "gbif_taxon_key": 1651430,
+      "lineage": [
+        {
+          "rank": "kingdom",
+          "name": "Animalia",
+          "taxon_key": 1
+        },
+        {
+          "rank": "phylum",
+          "name": "Arthropoda",
+          "taxon_key": 54
+        },
+        {
+          "rank": "class",
+          "name": "Insecta",
+          "taxon_key": 216
+        },
+        {
+          "rank": "order",
+          "name": "Diptera",
+          "taxon_key": 811
+        },
+        {
+          "rank": "family",
+          "name": "Culicidae",
+          "taxon_key": 3346
+        },
+        {
+          "rank": "genus",
+          "name": "Aedes",
+          "taxon_key": 7924646
+        },
+        {
+          "rank": "species",
+          "name": "Aedes albopictus",
+          "taxon_key": 1651430
+        }
+      ],
+      "accession": "LC881945.1",
+      "source_url": "https://www.ncbi.nlm.nih.gov/nuccore/LC881945.1",
+      "source_title": "Aedes albopictus albo_3102 mitochondrial COI gene for cytochrome oxidas, partial cds"
+    },
+    "PP941652_1_AAEG_COI": {
+      "taxon": "Aedes aegypti",
+      "rank": "species",
+      "gbif_taxon_key": 1651891,
+      "lineage": [
+        {
+          "rank": "kingdom",
+          "name": "Animalia",
+          "taxon_key": 1
+        },
+        {
+          "rank": "phylum",
+          "name": "Arthropoda",
+          "taxon_key": 54
+        },
+        {
+          "rank": "class",
+          "name": "Insecta",
+          "taxon_key": 216
+        },
+        {
+          "rank": "order",
+          "name": "Diptera",
+          "taxon_key": 811
+        },
+        {
+          "rank": "family",
+          "name": "Culicidae",
+          "taxon_key": 3346
+        },
+        {
+          "rank": "genus",
+          "name": "Aedes",
+          "taxon_key": 7924646
+        },
+        {
+          "rank": "species",
+          "name": "Aedes aegypti",
+          "taxon_key": 1651891
+        }
+      ],
+      "accession": "PP941652.1",
+      "source_url": "https://www.ncbi.nlm.nih.gov/nuccore/PP941652.1",
+      "source_title": "Aedes aegypti voucher BITMO011 cytochrome oxidase subunit 1 (COI) gene, partial cds; mitochondrial"
+    }
+  },
+  "barcode_gap_by_taxon": {
+    "Aedes albopictus": {
+      "intra_max_distance": 0.0,
+      "inter_min_distance": 0.132132
+    },
+    "Aedes aegypti": {
+      "intra_max_distance": 0.0,
+      "inter_min_distance": 0.132132
+    }
+  },
+  "diagnostic_kmers_by_taxon": {
+    "Aedes albopictus": [
+      "AAAACGGAGCTGGAA",
+      "AAACGGAGCTGGAAC",
+      "AAACTGACTAGTACC",
+      "AAATAATATAAGTTT",
+      "AAATACATCTTTTTT",
+      "AAATGATCAAATTTA",
+      "AAATTTAAATACATC",
+      "AACACTGCTGCTTTC",
+      "AACAGACCGAAATTT",
+      "AACAGGGTGAACGGT",
+      "AACATTATACTTTAT",
+      "AACGGAGCTGGAACA",
+      "AACGGTTTATCCTCC",
+      "AACTGACTAGTACCC",
+      "AACTTAGACATCCTG",
+      "AACTTCACTAAGAGT",
+      "AAGAGTTTTAGTTCG",
+      "AAGTTTTTGAATATT",
+      "AATAAATAATATAAG",
+      "AATACATCTTTTTTT",
+      "AATACCTATCATAAT",
+      "AATACTAGGAGCCCC",
+      "AATATACGATCAGCT",
+      "AATATTACCCCCCTC",
+      "AATCTCATCTATTTT",
+      "AATGATCAAATTTAT",
+      "AATGTAATTGTTACT",
+      "AATTACAGCTATTTT",
+      "AATTGGAGGGGGAGA",
+      "AATTGTTACTGCTCA",
+      "AATTTAAATACATCT",
+      "AATTTTTTCTTTACA",
+      "AATTTTTTTTATAGT",
+      "ACACTGCTGCTTTCT",
+      "ACAGACCGAAATTTA",
+      "ACAGCTATTTTATTA",
+      "ACAGCTCATGCTGGG",
+      "ACAGGGTGAACGGTT",
+      "ACATCCTGGTATATT",
+      "ACATCTTTTTTTGAT",
+      "ACATTATACTTTATT",
+      "ACATTTAGCGGGAAT",
+      "ACCCCCCTCTTTAAC",
+      "ACCCGTATTAGCCGG",
+      "ACCCTATTTTATATC",
+      "ACCCTTAATACTAGG",
+      "ACCGAAATTTAAATA",
+      "ACCTATCATAATTGG",
+      "ACCTTTATTTGTGTG",
+      "ACGATCAGCTGGTAT"
+    ],
+    "Aedes aegypti": [
+      "AAAATGGAGCAGGAA",
+      "AAACTTAAATACATC",
+      "AAATACATCTTTCTT",
+      "AAATGGAGCAGGAAC",
+      "AAATTGATTAGTTCC",
+      "AACACTTATTTTGAT",
+      "AACAGACCGAAACTT",
+      "AACAGCTCATGCATT",
+      "AACAGTTTATCCTCC",
+      "AACTGGATGAACAGT",
+      "AACTTAAATACATCT",
+      "AACTTAGCCACCCTG",
+      "AACTTCTCTAAGAAT",
+      "AACTTTATATTTCAT",
+      "AAGAATTTTAATTCG",
+      "AAGCTCAATAGTAGA",
+      "AAGTTTTTGAATACT",
+      "AATACATCTTTCTTT",
+      "AATACTACCTCCTTC",
+      "AATAGTAGAAAATGG",
+      "AATATACGATCGTCA",
+      "AATATTAGGAGCCCC",
+      "AATCGGAGGGGGAGA",
+      "AATGAATAATATAAG",
+      "AATGACCAAATTTAT",
+      "AATGCCAATTATAAT",
+      "AATGGAGCAGGAACT",
+      "AATGTAATTGTAACA",
+      "AATTATAATTGGAGG",
+      "AATTCGTGCTGAACT",
+      "AATTGATTAGTTCCT",
+      "AATTGTAACAGCTCA",
+      "AATTTCCTCAATTTT",
+      "AATTTTAATTCGTGC",
+      "AATTTTAGGGGCAGT",
+      "AATTTTCTTTATAGT",
+      "ACACTTATTTTGATT",
+      "ACAGACCGAAACTTA",
+      "ACAGCTATCTTATTA",
+      "ACAGCTCATGCATTT",
+      "ACAGCTCATGCTGGA",
+      "ACAGTTTATCCTCCT",
+      "ACATCTTTCTTTGAT",
+      "ACCAAATTTATAATG",
+      "ACCAACACTTATTTT",
+      "ACCCTATTTTATACC",
+      "ACCCTGGTATATTTA",
+      "ACCCTTATTTGTTTG",
+      "ACCGAAACTTAAATA",
+      "ACCTCCTTCATTGAC"
+    ]
+  },
+  "diagnostic_kmer_k": 15,
+  "gbif_backbone_enrichment": {
+    "status": "pre_enriched_manifest",
+    "base_url": "https://api.gbif.org/v1",
+    "enriched_records": 2,
+    "fallback_records": 0,
+    "warnings": []
+  },
+  "created_at": "2026-06-04T00:00:00+00:00",
+  "sha256": "e5b082824b336bfa9e9773cf0e885603f833fc6d12d9aa33e2339177decbceb5"
+}

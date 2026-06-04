@@ -147,7 +147,15 @@ query sequence
 -> safe/blocked claims and Evidence Pack
 ```
 
-The included reference example lives in `references/aedes_coi_mini/` and contains a small FASTA, manifest, GBIF-like lineage metadata, barcode-gap evidence and diagnostic k-mers. It is a reproducible workflow example, not a replacement for curated production reference databases.
+Included reference examples:
+
+- `references/aedes_coi_mini/`: synthetic smoke-test FASTA for deterministic regression.
+- `references/ncbi_aedes_coi_small/`: real NCBI GenBank COI records for `Aedes albopictus` and `Aedes aegypti`, with GBIF backbone keys and manifest metadata. This demonstrates the real-data species-safe path when the marker separates the taxa.
+- `references/ncbi_quercus_rbcl_small/`: real NCBI GenBank rbcL records for `Quercus robur` and `Quercus petraea`, cropped to a shared overlapping rbcL window. This intentionally demonstrates safe-rank downgrade: a conserved marker window can support `Quercus` genus evidence but must not become a species-level claim.
+
+These packs are reproducible workflow examples, not replacements for curated production reference databases.
+
+For uploaded FASTA reference datasets, EcoGenesis tries to enrich taxon names against the GBIF backbone via `/species/match`. If GBIF is unavailable or the match confidence is low, upload still succeeds with a deterministic header-derived lineage and a warning in `manifest.json`. Set `GBIF_BACKBONE_ENRICH_UPLOADS=false` to disable this live enrichment in offline test environments.
 
 ## Barcode Compiler API
 
