@@ -435,7 +435,7 @@ describe('Barcode compiler UI', () => {
     expect(graphRequestBody.sequence_id).toBe('LC881945_1_AALB_COI');
     expect(screen.getAllByText('Animalia').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Aedes').length).toBeGreaterThan(0);
-    expect(screen.getAllByText('Safe LCA: Aedes').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Safe LCA').length).toBeGreaterThan(0);
     expect(screen.getByText('Graph is limited to the selected reference dataset.')).toBeInTheDocument();
     expect(screen.getAllByText('Aedes albopictus').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Aedes aegypti').length).toBeGreaterThan(0);

@@ -2218,49 +2218,90 @@ summary {
 }
 
 .fragment-svg-scroll {
-  background: linear-gradient(180deg, #fbfdfb 0%, #f0f5f2 100%);
+  background: #f7faf8;
   border: 1px solid #dbe4dd;
   border-radius: 8px;
-  overflow-x: auto;
-  padding: 8px;
+  overflow: hidden;
+  padding: 10px;
 }
 
 .fragment-graph-svg {
   display: block;
-  min-width: 760px;
+  min-width: 0;
   width: 100%;
 }
 
-.rank-lane-line {
-  stroke: #d5e1d9;
-  stroke-dasharray: 4 7;
-  stroke-width: 1.2;
+.graph-backdrop {
+  fill: url(#graphWash);
+  stroke: #dbe4dd;
+  stroke-width: 1;
 }
 
-.rank-lane-label {
-  fill: #6b7c72;
+.graph-region-halo {
+  fill: none;
+  opacity: 0.72;
+  stroke-dasharray: 6 10;
+  stroke-linecap: round;
+  stroke-width: 1.4;
+}
+
+.graph-region-halo.taxonomy {
+  stroke: #9fb9a8;
+}
+
+.graph-region-halo.hits {
+  stroke: #b7cdd9;
+}
+
+.graph-title {
+  fill: #17201a;
+  font-size: 21px;
+  font-weight: 950;
+}
+
+.graph-subtitle,
+.graph-cluster-label {
+  fill: #5b6f64;
   font-size: 12px;
-  font-weight: 900;
+  font-weight: 850;
+}
+
+.graph-cluster-label {
+  letter-spacing: 0.02em;
   text-transform: uppercase;
 }
 
+.graph-cluster-label.safe {
+  fill: #287844;
+}
+
 .graph-edge {
+  fill: none;
   stroke: #8a9b92;
-  stroke-opacity: 0.68;
-  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-opacity: 0.6;
+  stroke-width: 1.8;
 }
 
 .graph-edge.matches_reference {
   stroke: #2d6285;
+  stroke-opacity: 0.72;
 }
 
 .graph-edge.safe_lca_of {
   stroke: #287844;
-  stroke-width: 2.4;
+  stroke-opacity: 0.88;
+  stroke-width: 2.8;
+}
+
+.graph-edge.parent_taxon {
+  stroke: #738b7a;
+  stroke-opacity: 0.58;
 }
 
 .graph-edge.limited_by {
   stroke: #a14227;
+  stroke-opacity: 0.7;
 }
 
 .graph-node rect {
@@ -2299,6 +2340,21 @@ summary {
   stroke: #bed2c4;
 }
 
+.graph-node.kingdom rect {
+  fill: #eef7ff;
+  stroke: #b5cfe0;
+}
+
+.graph-node.genus rect {
+  fill: #edf8f0;
+  stroke: #9fc8a9;
+}
+
+.graph-node.species rect {
+  fill: #fff;
+  stroke: #bed2c4;
+}
+
 .graph-node.safe_lca rect,
 .graph-node.safe-taxon-node rect {
   fill: #edf8f0;
@@ -2322,6 +2378,50 @@ summary {
   fill: #596b62;
   font-size: 10px;
   font-weight: 750;
+}
+
+.graph-dna-strip text {
+  fill: #d7fff0;
+  font-family: "SFMono-Regular", ui-monospace, Consolas, monospace;
+  font-size: 13px;
+  font-weight: 950;
+}
+
+.graph-legend rect {
+  fill: #fff;
+  stroke: #cbd8d0;
+}
+
+.graph-legend rect.fragment {
+  fill: #153f49;
+  stroke: #153f49;
+}
+
+.graph-legend rect.reference_hit {
+  fill: #fff7e7;
+  stroke: #e5c372;
+}
+
+.graph-legend rect.genus {
+  fill: #edf8f0;
+  stroke: #9fc8a9;
+}
+
+.graph-legend rect.safe_lca {
+  fill: #edf8f0;
+  stroke: #287844;
+  stroke-width: 2;
+}
+
+.graph-legend rect.warning {
+  fill: #fff0e8;
+  stroke: #d98961;
+}
+
+.graph-legend text {
+  fill: #53655c;
+  font-size: 12px;
+  font-weight: 850;
 }
 
 .fragment-graph-empty {
