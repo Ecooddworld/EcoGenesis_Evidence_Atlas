@@ -135,6 +135,11 @@ The Workbench also has a `Reference search` panel. It supports both bundled refe
 5. Click `Search reference & compile`.
 6. Inspect the returned hits, the backend used (`vsearch`, `blastn` or `python-local`) and the generated Nexus V3 decision dashboard.
 
+For a no-setup real-data check, open `Run compiler` and use the bundled quick actions:
+
+- `Run real Aedes COI species-safe check` uses real NCBI GenBank COI accessions and should produce `species-safe` for `Aedes albopictus`.
+- `Run conserved Quercus rbcL safe-rank check` uses real NCBI GenBank rbcL accessions and should produce `genus-safe`, because the shared rbcL window cannot safely distinguish `Quercus robur` from `Quercus petraea`.
+
 Uploaded reference datasets are stored under `./data/reference-datasets` in Docker/local runs. During upload, EcoGenesis computes lightweight barcode-gap and diagnostic k-mer evidence from the supplied FASTA so the same hard gates are used as in CSV scoring. This is still a pre-publication safety workflow: large production studies should use curated, versioned reference libraries and preserve licenses, source URLs and access dates.
 
 This validates the full sequence search path:
