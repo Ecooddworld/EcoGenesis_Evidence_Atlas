@@ -3379,18 +3379,18 @@ function FragmentGraphSvg({ graph, loading }) {
 
   const nodes = graph.nodes || [];
   const edges = graph.edges || [];
-  const rankX = {
-    kingdom: 360,
-    phylum: 455,
-    class: 550,
-    order: 645,
-    family: 740,
-    genus: 835,
-    species: 930,
+  const taxonomySpine = {
+    kingdom: { x: 610, y: 106 },
+    phylum: { x: 736, y: 158 },
+    class: { x: 842, y: 238 },
+    order: { x: 846, y: 340 },
+    family: { x: 766, y: 440 },
+    genus: { x: 632, y: 520 },
+    species: { x: 968, y: 250 },
   };
   const positions = {};
   const hitNodes = nodes.filter((node) => node.type === 'reference_hit').slice(0, 9);
-  const taxonNodes = nodes.filter((node) => rankX[node.type]);
+  const taxonNodes = nodes.filter((node) => taxonomySpine[node.type]);
   const taxonByRank = taxonNodes.reduce((acc, node) => {
     acc[node.type] = acc[node.type] || [];
     acc[node.type].push(node);
@@ -3398,20 +3398,29 @@ function FragmentGraphSvg({ graph, loading }) {
   }, {});
 
   nodes.forEach((node) => {
-    if (node.type === 'fragment') positions[node.id] = { x: 78, y: 270 };
-    if (node.type === 'reference_dataset') positions[node.id] = { x: 245, y: 470 };
-    if (node.type === 'warning') positions[node.id] = { x: 80, y: 470 };
+    if (node.type === 'fragment') positions[node.id] = { x: 135, y: 328 };
+    if (node.type === 'reference_dataset') positions[node.id] = { x: 168, y: 548 };
+    if (node.type === 'warning') positions[node.id] = { x: 172, y: 108 };
     if (node.type === 'safe_lca') {
       const safeRank = node.rank || graph.classification?.safe_taxon?.rank;
-      positions[node.id] = { x: rankX[safeRank] || 1000, y: 500 };
+      const safeBase = taxonomySpine[safeRank] || { x: 820, y: 548 };
+      positions[node.id] = { x: Math.min(safeBase.x + 138, 935), y: Math.min(safeBase.y + 92, 560) };
     }
   });
   hitNodes.forEach((node, index) => {
-    positions[node.id] = { x: 270, y: 95 + index * 47 };
+    const center = 330;
+    const spread = Math.min(82, 260 / Math.max(1, hitNodes.length));
+    positions[node.id] = { x: 354, y: center + (index - (hitNodes.length - 1) / 2) * spread };
   });
   Object.entries(taxonByRank).forEach(([rank, rankNodes]) => {
     rankNodes.slice(0, 9).forEach((node, index) => {
-      positions[node.id] = { x: rankX[rank], y: 75 + index * 47 };
+      const base = taxonomySpine[rank];
+      const offset = index - (Math.min(rankNodes.length, 9) - 1) / 2;
+      if (rank === 'species') {
+        positions[node.id] = { x: base.x, y: base.y + offset * 88 };
+      } else {
+        positions[node.id] = { x: base.x + Math.min(index, 2) * 16, y: base.y + offset * 38 };
+      }
     });
   });
   const visibleNodeIds = new Set(Object.keys(positions));
@@ -3419,30 +3428,37 @@ function FragmentGraphSvg({ graph, loading }) {
 
   return (
     <div className="fragment-svg-scroll" aria-label="Fragment taxon graph">
-      <svg className="fragment-graph-svg" viewBox="0 0 1000 560" role="img" aria-label="Fragment to taxa graph">
+      <svg className="fragment-graph-svg" viewBox="0 0 1080 650" role="img" aria-label="Fragment to taxa graph">
         <defs>
-          <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-            <path d="M0,0 L8,4 L0,8 Z" fill="#8a9b92" />
+          <marker id="graphArrowhead" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+            <path d="M0,0 L9,4.5 L0,9 Z" fill="#7f958b" />
           </marker>
+          <filter id="safeGlow" x="-40%" y="-40%" width="180%" height="180%">
+            <feDropShadow dx="0" dy="0" stdDeviation="5" floodColor="#2b8a4b" floodOpacity="0.42" />
+          </filter>
+          <linearGradient id="graphWash" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="#fbfdfb" />
+            <stop offset="100%" stopColor="#edf5f1" />
+          </linearGradient>
         </defs>
-        {Object.entries(rankX).map(([rank, x]) => (
-          <g key={rank}>
-            <line x1={x} x2={x} y1="42" y2="522" className="rank-lane-line" />
-            <text x={x} y="28" textAnchor="middle" className="rank-lane-label">{rank}</text>
-          </g>
-        ))}
+        <rect x="12" y="14" width="1056" height="618" rx="18" className="graph-backdrop" />
+        <path d="M520 96 C720 54 940 105 1005 250 C1080 420 900 558 652 542 C492 530 395 452 354 330" className="graph-region-halo taxonomy" />
+        <path d="M68 328 C138 210 250 186 354 248 C448 304 458 405 354 412 C250 426 146 426 68 328" className="graph-region-halo hits" />
+        <text x="42" y="52" className="graph-title">Fragment evidence graph</text>
+        <text x="42" y="78" className="graph-subtitle">Selected reference dataset only · safe rank through LCA</text>
+        <text x="310" y="188" className="graph-cluster-label">Reference hits</text>
+        <text x="690" y="72" className="graph-cluster-label">Taxonomic lineage</text>
+        <text x="880" y="584" className="graph-cluster-label safe">Safe claim boundary</text>
+        <GraphLegend />
         {visibleEdges.map((edge) => {
           const source = positions[edge.source];
           const target = positions[edge.target];
           return (
-            <line
+            <path
               key={`${edge.source}-${edge.type}-${edge.target}`}
-              x1={source.x}
-              y1={source.y}
-              x2={target.x}
-              y2={target.y}
+              d={curvedEdgePath(source, target, edge.type)}
               className={`graph-edge ${safeClassName(edge.type)}`}
-              markerEnd="url(#arrowhead)"
+              markerEnd="url(#graphArrowhead)"
             />
           );
         })}
@@ -3463,21 +3479,69 @@ function FragmentGraphSvg({ graph, loading }) {
 }
 
 function GraphNode({ node, x, y }) {
-  const width = node.type === 'safe_lca' ? 168 : node.type === 'reference_hit' ? 150 : 132;
-  const height = node.type === 'reference_hit' ? 44 : 38;
+  const width = node.type === 'fragment' ? 178 : node.type === 'safe_lca' ? 194 : node.type === 'reference_hit' ? 164 : node.type === 'warning' ? 168 : node.type === 'reference_dataset' ? 154 : 132;
+  const height = node.type === 'fragment' ? 72 : node.type === 'safe_lca' ? 58 : node.type === 'reference_hit' ? 56 : node.type === 'warning' ? 50 : 44;
   const safeClass = node.is_safe_taxon ? ' safe-taxon-node' : '';
-  const label = shortenLabel(node.label, node.type === 'reference_hit' ? 22 : 18);
+  const label = node.type === 'safe_lca' ? 'Safe LCA' : shortenLabel(node.label, node.type === 'reference_hit' ? 23 : 20);
   const detail = node.type === 'reference_hit'
-    ? `${node.identity}% · ${node.coverage}%`
-    : node.marker || node.rank || node.status || '';
+    ? `${formatPercent(node.identity)} id · ${formatPercent(node.coverage)} cov`
+    : node.type === 'safe_lca'
+      ? `${shortenLabel(node.name || node.label, 24)} · ${node.rank || 'rank'}`
+      : node.type === 'fragment'
+      ? `${node.sequence_length || '-'} bp marker fragment`
+      : node.marker || node.rank || node.status || '';
+  const title = `${node.label}${detail ? ` · ${detail}` : ''}`;
 
   return (
-    <g className={`graph-node ${safeClassName(node.type)}${safeClass}`} transform={`translate(${x - width / 2}, ${y - height / 2})`}>
+    <g className={`graph-node ${safeClassName(node.type)}${safeClass}`} transform={`translate(${x - width / 2}, ${y - height / 2})`} filter={node.type === 'safe_lca' || node.is_safe_taxon ? 'url(#safeGlow)' : undefined}>
+      <title>{title}</title>
       <rect width={width} height={height} rx="8" />
-      <text x={width / 2} y={height / 2 - (detail ? 2 : -4)} textAnchor="middle" className="graph-node-label">{label}</text>
-      {detail && <text x={width / 2} y={height - 8} textAnchor="middle" className="graph-node-detail">{detail}</text>}
+      {node.type === 'fragment' && (
+        <g className="graph-dna-strip" transform={`translate(${width / 2 - 54}, 12)`}>
+          {['A', 'C', 'G', 'T', 'T', 'G'].map((base, index) => (
+            <text key={`${base}-${index}`} x={index * 18} y="0">{base}</text>
+          ))}
+        </g>
+      )}
+      <text x={width / 2} y={node.type === 'fragment' ? 42 : height / 2 - (detail ? 2 : -4)} textAnchor="middle" className="graph-node-label">{label}</text>
+      {detail && <text x={width / 2} y={height - 10} textAnchor="middle" className="graph-node-detail">{detail}</text>}
     </g>
   );
+}
+
+function GraphLegend() {
+  const items = [
+    ['fragment', 'query'],
+    ['reference_hit', 'hit'],
+    ['genus', 'taxon'],
+    ['safe_lca', 'safe LCA'],
+    ['warning', 'warning'],
+  ];
+  return (
+    <g className="graph-legend" transform="translate(42 592)">
+      {items.map(([type, label], index) => (
+        <g key={type} transform={`translate(${index * 116} 0)`}>
+          <rect width="18" height="18" rx="5" className={safeClassName(type)} />
+          <text x="25" y="14">{label}</text>
+        </g>
+      ))}
+    </g>
+  );
+}
+
+function curvedEdgePath(source, target, type) {
+  const dx = target.x - source.x;
+  const dy = target.y - source.y;
+  const curve = type === 'parent_taxon' ? 0.34 : type === 'safe_lca_of' ? 0.52 : 0.44;
+  const c1 = { x: source.x + dx * curve, y: source.y + dy * 0.08 };
+  const c2 = { x: target.x - dx * curve, y: target.y - dy * 0.08 };
+  return `M ${source.x} ${source.y} C ${c1.x} ${c1.y}, ${c2.x} ${c2.y}, ${target.x} ${target.y}`;
+}
+
+function formatPercent(value) {
+  const number = Number(value);
+  if (!Number.isFinite(number)) return '-';
+  return `${number.toFixed(number >= 99.95 ? 0 : 1)}%`;
 }
 
 function fragmentStatusTitle(status) {
