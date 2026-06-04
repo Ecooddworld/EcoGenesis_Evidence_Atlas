@@ -142,6 +142,29 @@ const referenceDatasets = [
       },
     ],
   },
+  {
+    id: 'culicidae_short_shared_marker',
+    title: 'EcoGenesis shared short-fragment reference tree for Culicidae',
+    marker: 'COI-short',
+    records: 8,
+    source_type: 'bundled',
+    usage_scope: 'Short-fragment graph validation only.',
+    gbif_backbone_enrichment: {
+      status: 'pre_enriched_manifest',
+      enriched_records: 3,
+      fallback_records: 5,
+    },
+    example_queries: [
+      {
+        id: 'CULICIDAE_SHARED_SHORT_QUERY',
+        label: 'Run shared short-fragment tree',
+        sequence_id: 'CULICIDAE_SHARED_SHORT_QUERY',
+        sequence: 'ACGTTGACCTAGGCTTACGATCGTACCGATGC',
+        expected_decision: 'higher-rank-shared',
+        explanation: 'A short conserved marker fragment matches several mosquito species.',
+      },
+    ],
+  },
 ];
 
 const searchPayload = {
@@ -387,7 +410,7 @@ describe('Barcode compiler UI', () => {
     fireEvent.click(await screen.findByText('Run compiler'));
     expect(await screen.findByText('Run real Aedes COI species-safe check')).toBeInTheDocument();
     expect(await screen.findByText('GBIF backbone: pre_enriched_manifest · enriched 2 / fallback 0')).toBeInTheDocument();
-    fireEvent.click(screen.getByText('Run real data'));
+    fireEvent.click(screen.getAllByText('Run real data')[0]);
 
     await waitFor(() => expect(screen.getAllByText('species-safe').length).toBeGreaterThan(0));
     expect(searchRequestBody.reference_dataset).toBe('ncbi_aedes_coi_small');
@@ -426,6 +449,7 @@ describe('Barcode compiler UI', () => {
     expect(screen.getByLabelText('Fragment reference dataset')).toBeInTheDocument();
     expect(screen.getByLabelText('DNA marker fragment')).toBeInTheDocument();
     expect(screen.getByText('Build Taxon Graph')).toBeInTheDocument();
+    expect(screen.getByText('Run shared short-fragment tree')).toBeInTheDocument();
     expect(screen.getByText('This graph shows where the fragment appears inside the selected reference dataset.')).toBeInTheDocument();
 
     fireEvent.click(screen.getByText('Build Taxon Graph'));

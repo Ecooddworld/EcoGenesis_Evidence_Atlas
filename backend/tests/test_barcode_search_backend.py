@@ -301,6 +301,30 @@ def test_fragment_graph_real_ncbi_quercus_returns_genus_shared() -> None:
     assert any(node["label"] == "Safe LCA: Quercus" for node in graph["nodes"])
 
 
+def test_fragment_graph_short_shared_culicidae_fragment_returns_family_tree() -> None:
+    graph = build_fragment_graph(
+        sequence="ACGTTGACCTAGGCTTACGATCGTACCGATGC",
+        sequence_id="CULICIDAE_SHARED_SHORT_QUERY",
+        reference_dataset="culicidae_short_shared_marker",
+        backend="python-local",
+        max_hits=20,
+    )
+
+    assert graph["classification"]["status"] == "higher-rank-shared"
+    assert graph["classification"]["safe_taxon"] == {"rank": "family", "name": "Culicidae", "taxon_key": 3346}
+    assert graph["classification"]["kingdoms"] == ["Animalia"]
+    assert graph["classification"]["informative_hits"] == 8
+    assert graph["classification"]["taxa_count"] == 8
+    assert graph["classification"]["rank_distribution"]["genus"] == 3
+    assert graph["classification"]["rank_distribution"]["species"] == 8
+    assert {hit["taxon"] for hit in graph["hits"]} >= {
+        "Aedes albopictus",
+        "Culex pipiens",
+        "Anopheles gambiae",
+    }
+    assert any(node["label"] == "Safe LCA: Culicidae" for node in graph["nodes"])
+
+
 def test_fragment_graph_uploaded_cross_kingdom_reference(tmp_path, monkeypatch) -> None:
     monkeypatch.setenv("EVIDENCE_DATA_DIR", str(tmp_path))
     monkeypatch.setenv("USER_REFERENCE_DATA_DIR", str(tmp_path / "reference-datasets"))
