@@ -1,0 +1,290 @@
+{
+  "base_url": "http://127.0.0.1:18100",
+  "checks": [
+    {
+      "name": "backend health",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "name": "CSV workflow aedes_ambiguous.csv",
+      "ok": true,
+      "expected": "genus-safe",
+      "decision": "genus-safe"
+    },
+    {
+      "name": "CSV workflow aedes_good.csv",
+      "ok": true,
+      "expected": "species-safe",
+      "decision": "species-safe"
+    },
+    {
+      "name": "CSV workflow aedes_missing_metadata.csv",
+      "ok": true,
+      "expected": "not-publishable",
+      "decision": "not-publishable"
+    },
+    {
+      "name": "CSV workflow aedes_weak_coverage.csv",
+      "ok": true,
+      "expected": "weak",
+      "decision": "weak"
+    },
+    {
+      "name": "CSV invalid DNA is rejected at validation",
+      "ok": true,
+      "payload": {
+        "ok": false,
+        "errors": [
+          "Row 2: sequence contains unsupported DNA/IUPAC characters."
+        ],
+        "warnings": [
+          "1 row(s) have no reference hit metrics; they will compile as no-match/review.",
+          "1 row(s) are weak or no-hit and cannot become species-safe.",
+          "Some strongly recommended GBIF/DNA fields are missing; publication readiness may be blocked."
+        ],
+        "records_found": 1,
+        "missing_required_columns": [],
+        "missing_recommended_fields": {
+          "occurrenceID": 1,
+          "eventID": 1,
+          "materialSampleID": 1,
+          "basisOfRecord": 1,
+          "scientificName": 1,
+          "eventDate": 1,
+          "marker": 1,
+          "referenceDatabase": 1,
+          "methodOrSOP": 1
+        },
+        "invalid_sequence_count": 1,
+        "weak_or_no_hit_count": 1,
+        "no_hit_count": 1
+      }
+    },
+    {
+      "name": "CSV missing sequenceID is fatal",
+      "ok": true,
+      "payload": {
+        "ok": false,
+        "errors": [
+          "Missing required columns: sequenceID."
+        ],
+        "warnings": [],
+        "records_found": 1,
+        "missing_required_columns": [
+          "sequenceID"
+        ],
+        "missing_recommended_fields": {
+          "occurrenceID": 0,
+          "eventID": 0,
+          "materialSampleID": 0,
+          "basisOfRecord": 0,
+          "scientificName": 0,
+          "eventDate": 0,
+          "marker": 0,
+          "referenceDatabase": 0,
+          "methodOrSOP": 0
+        },
+        "invalid_sequence_count": 0,
+        "weak_or_no_hit_count": 0,
+        "no_hit_count": 0
+      }
+    },
+    {
+      "name": "Uploaded FASTA exact search becomes species-safe",
+      "ok": true,
+      "decision": "species-safe",
+      "top_hit": "Aedes albopictus"
+    },
+    {
+      "name": "Uploaded FASTA ambiguous identical species downgrade to genus-safe",
+      "ok": true,
+      "decision": "genus-safe",
+      "candidate": {
+        "rank": "genus",
+        "name": "Aedes",
+        "taxon_key": null
+      }
+    },
+    {
+      "name": "Live GBIF API status",
+      "ok": true,
+      "payload": {
+        "status": "ok",
+        "base_url": "https://api.gbif.org/v1",
+        "message": "GBIF API reachable. Live occurrence runs use GBIF-mediated records."
+      }
+    }
+  ],
+  "csv_runs": [
+    {
+      "file": "aedes_ambiguous.csv",
+      "expected": "genus-safe",
+      "import_status": 200,
+      "run_status": 200,
+      "run_id": "1f94e4dbc76f40afbd667082233255f5",
+      "decision": "genus-safe",
+      "published_taxon": {
+        "rank": "genus",
+        "name": "Aedes",
+        "taxon_key": null
+      },
+      "blockers": [
+        "species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus"
+      ],
+      "export_count": 36,
+      "ok": true
+    },
+    {
+      "file": "aedes_good.csv",
+      "expected": "species-safe",
+      "import_status": 200,
+      "run_status": 200,
+      "run_id": "d76d416f38734ab3bc4fbeea7ccd70ea",
+      "decision": "species-safe",
+      "published_taxon": {
+        "rank": "species",
+        "name": "Aedes albopictus",
+        "taxon_key": null
+      },
+      "blockers": [],
+      "export_count": 36,
+      "ok": true
+    },
+    {
+      "file": "aedes_missing_metadata.csv",
+      "expected": "not-publishable",
+      "import_status": 200,
+      "run_status": 200,
+      "run_id": "bf7ca102cec34deab9e88c08c430051f",
+      "decision": "not-publishable",
+      "published_taxon": {
+        "rank": "none",
+        "name": "None",
+        "taxon_key": null
+      },
+      "blockers": [
+        "publication blocked: missing required Occurrence core field occurrenceID",
+        "publication blocked: missing required Occurrence core field eventDate"
+      ],
+      "export_count": 36,
+      "ok": true
+    },
+    {
+      "file": "aedes_weak_coverage.csv",
+      "expected": "weak",
+      "import_status": 200,
+      "run_status": 200,
+      "run_id": "218778d93d784027ba86dcde5871a363",
+      "decision": "weak",
+      "published_taxon": {
+        "rank": "none",
+        "name": "None",
+        "taxon_key": null
+      },
+      "blockers": [
+        "species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%",
+        "species claim blocked: query coverage < 80%"
+      ],
+      "export_count": 36,
+      "ok": true
+    }
+  ],
+  "reference_runs": [
+    {
+      "dataset_id": "audit_exact_31ae919a",
+      "upload_status": 200,
+      "search_status": 200,
+      "top_hit": "Aedes albopictus",
+      "decision": "species-safe",
+      "published_taxon": {
+        "rank": "species",
+        "name": "Aedes albopictus",
+        "taxon_key": 1651430
+      },
+      "barcode_gap": {
+        "status": "pass",
+        "gap": 0.035088,
+        "intra_max_distance": 0.0,
+        "inter_min_distance": 0.035088
+      },
+      "diagnostic_kmers": {
+        "status": "pass",
+        "support_count": 50,
+        "support_rate": 0.5,
+        "k": 15,
+        "query_window_count": 100,
+        "diagnostic_kmer_count": 50,
+        "expected_random_hits": 5e-06,
+        "p_false_positive": 4.66e-06,
+        "alpha": 0.01
+      },
+      "ok": true
+    },
+    {
+      "dataset_id": "audit_ambiguous_31ae919a",
+      "upload_status": 200,
+      "search_status": 200,
+      "hits": [
+        [
+          "Aedes albopictus",
+          100.0,
+          100.0
+        ],
+        [
+          "Aedes aegypti",
+          100.0,
+          100.0
+        ]
+      ],
+      "decision": "genus-safe",
+      "candidate_taxon": {
+        "rank": "genus",
+        "name": "Aedes",
+        "taxon_key": null
+      },
+      "published_taxon": {
+        "rank": "genus",
+        "name": "Aedes",
+        "taxon_key": null
+      },
+      "blockers": [
+        "species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus",
+        "species claim blocked: barcode gap fail",
+        "species claim blocked: diagnostic k-mer support missing"
+      ],
+      "ok": true
+    }
+  ],
+  "weak_spots": [
+    {
+      "severity": "medium",
+      "area": "local_reference_search",
+      "finding": "Local runtime is using python-local mini-search, not VSEARCH/BLAST+.",
+      "impact": "Good for validation and small references, but not enough for large production sequence search outside Docker.",
+      "recommended_fix": "Use Docker stack or install vsearch/blastn locally; keep CSV scoring as the primary real-data path."
+    },
+    {
+      "severity": "medium",
+      "area": "docker_runtime",
+      "finding": "Docker runtime smoke cannot be confirmed in this session: TimeoutExpired.",
+      "impact": "Compose config is valid, but end-to-end Docker build/up still needs a Docker Desktop restart or healthy daemon.",
+      "recommended_fix": "Restart Docker Desktop and run scripts/docker_smoke.sh."
+    }
+  ],
+  "resolved_findings": [
+    {
+      "area": "uploaded_reference_lineage",
+      "finding": "Binomial uploaded references now infer genus lineage, so identical Aedes species downgrade to genus-safe instead of unranked ambiguous."
+    }
+  ],
+  "summary": {
+    "total_checks": 10,
+    "passed_checks": 10,
+    "failed_checks": 0,
+    "csv_runs": 4,
+    "reference_runs": 2,
+    "weak_spots": 2,
+    "resolved_findings": 1
+  }
+}
