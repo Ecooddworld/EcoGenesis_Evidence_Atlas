@@ -238,6 +238,79 @@ const fragmentGraphPayload = {
   ],
 };
 
+const sharedFragmentGraphPayload = {
+  query: {
+    sequence_id: 'CULICIDAE_SHARED_SHORT_QUERY',
+    sequence_length: 32,
+    sequence_md5: 'shared123',
+  },
+  reference_dataset: {
+    id: 'culicidae_short_shared_marker',
+    title: 'EcoGenesis shared short-fragment reference tree for Culicidae',
+    marker: 'COI-short',
+  },
+  backend_used: 'python-local',
+  classification: {
+    status: 'higher-rank-shared',
+    safe_taxon: { rank: 'family', name: 'Culicidae', taxon_key: 3346 },
+    kingdoms: ['Animalia'],
+    taxa_count: 8,
+    informative_hits: 8,
+    rank_distribution: {
+      kingdom: 1,
+      phylum: 1,
+      class: 1,
+      order: 1,
+      family: 1,
+      genus: 3,
+      species: 8,
+    },
+    caveat: 'Graph is limited to the selected reference dataset.',
+  },
+  nodes: [
+    { id: 'fragment:CULICIDAE_SHARED_SHORT_QUERY', type: 'fragment', label: 'Query fragment', sequence_length: 32 },
+    { id: 'reference_dataset:culicidae_short_shared_marker', type: 'reference_dataset', label: 'EcoGenesis shared short-fragment reference tree for Culicidae', marker: 'COI-short' },
+    { id: 'warning:higher-rank-shared', type: 'warning', label: 'Short fragment is shared across several mosquito genera.', status: 'higher-rank-shared' },
+    { id: 'safe_lca:family:Culicidae', type: 'safe_lca', label: 'Safe LCA: Culicidae', rank: 'family', name: 'Culicidae', taxon_key: 3346 },
+    { id: 'taxon:genus:Aedes', type: 'genus', label: 'Aedes', rank: 'genus' },
+    { id: 'taxon:genus:Anopheles', type: 'genus', label: 'Anopheles', rank: 'genus' },
+    { id: 'taxon:genus:Culex', type: 'genus', label: 'Culex', rank: 'genus' },
+    { id: 'taxon:species:Aedes_albopictus', type: 'species', label: 'Aedes albopictus', rank: 'species' },
+    { id: 'taxon:species:Aedes_aegypti', type: 'species', label: 'Aedes aegypti', rank: 'species' },
+    { id: 'taxon:species:Aedes_japonicus', type: 'species', label: 'Aedes japonicus', rank: 'species' },
+    { id: 'taxon:species:Anopheles_stephensi', type: 'species', label: 'Anopheles stephensi', rank: 'species' },
+    { id: 'taxon:species:Anopheles_gambiae', type: 'species', label: 'Anopheles gambiae', rank: 'species' },
+    { id: 'taxon:species:Culex_pipiens', type: 'species', label: 'Culex pipiens', rank: 'species' },
+    { id: 'taxon:species:Culex_quinquefasciatus', type: 'species', label: 'Culex quinquefasciatus', rank: 'species' },
+    { id: 'taxon:species:Culex_perexiguus', type: 'species', label: 'Culex perexiguus', rank: 'species' },
+  ],
+  edges: [
+    { source: 'fragment:CULICIDAE_SHARED_SHORT_QUERY', target: 'reference_dataset:culicidae_short_shared_marker', type: 'searched_against' },
+    { source: 'fragment:CULICIDAE_SHARED_SHORT_QUERY', target: 'warning:higher-rank-shared', type: 'limited_by' },
+    { source: 'safe_lca:family:Culicidae', target: 'taxon:genus:Aedes', type: 'safe_lca_of' },
+    { source: 'safe_lca:family:Culicidae', target: 'taxon:genus:Anopheles', type: 'safe_lca_of' },
+    { source: 'safe_lca:family:Culicidae', target: 'taxon:genus:Culex', type: 'safe_lca_of' },
+    { source: 'taxon:genus:Aedes', target: 'taxon:species:Aedes_albopictus', type: 'parent_taxon' },
+    { source: 'taxon:genus:Aedes', target: 'taxon:species:Aedes_aegypti', type: 'parent_taxon' },
+    { source: 'taxon:genus:Aedes', target: 'taxon:species:Aedes_japonicus', type: 'parent_taxon' },
+    { source: 'taxon:genus:Anopheles', target: 'taxon:species:Anopheles_stephensi', type: 'parent_taxon' },
+    { source: 'taxon:genus:Anopheles', target: 'taxon:species:Anopheles_gambiae', type: 'parent_taxon' },
+    { source: 'taxon:genus:Culex', target: 'taxon:species:Culex_pipiens', type: 'parent_taxon' },
+    { source: 'taxon:genus:Culex', target: 'taxon:species:Culex_quinquefasciatus', type: 'parent_taxon' },
+    { source: 'taxon:genus:Culex', target: 'taxon:species:Culex_perexiguus', type: 'parent_taxon' },
+  ],
+  hits: [
+    { reference_id: 'AALB_SHARED_SHORT', taxon: 'Aedes albopictus', identity: 100, query_coverage: 100 },
+    { reference_id: 'AAEG_SHARED_SHORT', taxon: 'Aedes aegypti', identity: 100, query_coverage: 100 },
+    { reference_id: 'AJAP_SHARED_SHORT', taxon: 'Aedes japonicus', identity: 100, query_coverage: 100 },
+    { reference_id: 'ASTEP_SHARED_SHORT', taxon: 'Anopheles stephensi', identity: 100, query_coverage: 100 },
+    { reference_id: 'AGAM_SHARED_SHORT', taxon: 'Anopheles gambiae', identity: 100, query_coverage: 100 },
+    { reference_id: 'CPIX_SHARED_SHORT', taxon: 'Culex pipiens', identity: 100, query_coverage: 100 },
+    { reference_id: 'CQUI_SHARED_SHORT', taxon: 'Culex quinquefasciatus', identity: 100, query_coverage: 100 },
+    { reference_id: 'CPER_SHARED_SHORT', taxon: 'Culex perexiguus', identity: 100, query_coverage: 100 },
+  ],
+};
+
 const uploadedReferencePayload = {
   status: 'created',
   dataset: {
@@ -437,7 +510,10 @@ describe('Barcode compiler UI', () => {
       }
       if (textUrl.endsWith('/api/barcode/fragment-graph') && options?.method === 'POST') {
         graphRequestBody = JSON.parse(options.body);
-        return Promise.resolve(new Response(JSON.stringify(fragmentGraphPayload), { status: 200 }));
+        const payload = graphRequestBody.reference_dataset === 'culicidae_short_shared_marker'
+          ? sharedFragmentGraphPayload
+          : fragmentGraphPayload;
+        return Promise.resolve(new Response(JSON.stringify(payload), { status: 200 }));
       }
       return Promise.resolve(new Response('{}', { status: 404 }));
     });
@@ -463,6 +539,44 @@ describe('Barcode compiler UI', () => {
     expect(screen.getByText('Graph is limited to the selected reference dataset.')).toBeInTheDocument();
     expect(screen.getAllByText('Aedes albopictus').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Aedes aegypti').length).toBeGreaterThan(0);
+  });
+
+  it('renders the short-fragment shared dashboard without collapsing taxa into a tangled tree', async () => {
+    let graphRequestBody = null;
+    vi.spyOn(globalThis, 'fetch').mockImplementation((url, options) => {
+      const textUrl = String(url);
+      if (textUrl.endsWith('/api/barcode/demo-scenarios')) {
+        return Promise.resolve(new Response(JSON.stringify(demoScenarios), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/reference-status')) {
+        return Promise.resolve(new Response(JSON.stringify({ status: 'ready', message: 'Compiler ready.' }), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/search-status')) {
+        return Promise.resolve(new Response(JSON.stringify(searchStatus), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/reference-datasets')) {
+        return Promise.resolve(new Response(JSON.stringify(referenceDatasets), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/fragment-graph') && options?.method === 'POST') {
+        graphRequestBody = JSON.parse(options.body);
+        return Promise.resolve(new Response(JSON.stringify(sharedFragmentGraphPayload), { status: 200 }));
+      }
+      return Promise.resolve(new Response('{}', { status: 404 }));
+    });
+
+    render(<App />);
+    fireEvent.click(await screen.findByText('Fragment graph'));
+    fireEvent.click(screen.getByText('Run shared short-fragment tree'));
+
+    await waitFor(() => expect(screen.getByText('Short-fragment evidence')).toBeInTheDocument());
+    expect(graphRequestBody.reference_dataset).toBe('culicidae_short_shared_marker');
+    expect(screen.getByText('Taxonomic cluster map')).toBeInTheDocument();
+    expect(screen.getByText('Safe LCA network')).toBeInTheDocument();
+    expect(screen.getByText('Species claim blocked')).toBeInTheDocument();
+    expect(screen.getAllByText('Culicidae').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Aedes').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Anopheles').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Culex').length).toBeGreaterThan(0);
   });
 
   it('uploads a custom reference FASTA and selects it for real-data search', async () => {

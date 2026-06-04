@@ -3486,6 +3486,234 @@ function FragmentGraphSvg({ graph, loading }) {
 }
 
 function SharedFragmentTreeSvg({ graph }) {
+  const {
+    fragmentNode,
+    datasetNode,
+    warningNode,
+    safeLcaNode,
+    groups,
+    totalSpecies,
+    totalHits,
+  } = buildSharedFragmentDashboard(graph);
+  const safeName = graph.classification?.safe_taxon?.name || safeLcaNode?.name || 'shared LCA';
+  const safeRank = graph.classification?.safe_taxon?.rank || safeLcaNode?.rank || 'higher rank';
+  const queryLength = graph.query?.sequence_length || fragmentNode?.sequence_length || '-';
+  const circumference = 2 * Math.PI * 49;
+  let donutOffset = 0;
+  const donutSegments = groups.map((group) => {
+    const length = totalSpecies ? (group.species.length / totalSpecies) * circumference : circumference;
+    const segment = {
+      color: group.color,
+      length,
+      offset: donutOffset,
+    };
+    donutOffset += length;
+    return segment;
+  });
+  const scatterPoints = groups.flatMap((group, groupIndex) => {
+    const centers = [
+      { x: 610, y: 152 },
+      { x: 788, y: 194 },
+      { x: 914, y: 126 },
+      { x: 902, y: 220 },
+      { x: 688, y: 104 },
+    ];
+    const offsets = [
+      [-35, -24],
+      [-14, 18],
+      [18, -12],
+      [35, 24],
+      [-28, 30],
+      [10, 34],
+      [30, -34],
+      [-4, -34],
+    ];
+    const center = centers[groupIndex % centers.length];
+    return group.species.map((species, speciesIndex) => {
+      const offset = offsets[speciesIndex % offsets.length];
+      return {
+        id: `${group.genus.id}-${species.id}-cluster`,
+        x: center.x + offset[0],
+        y: center.y + offset[1],
+        color: group.color,
+        label: species.label,
+        genus: group.genus.label,
+      };
+    });
+  });
+  const network = buildSharedNetworkLayout(groups, safeName);
+
+  return (
+    <div className="fragment-svg-scroll shared-dashboard" aria-label="Shared short fragment dashboard">
+      <svg className="fragment-graph-svg shared-dashboard-svg" viewBox="0 0 1080 650" role="img" aria-label="Shared short fragment dashboard">
+        <defs>
+          <filter id="sharedCardShadow" x="-8%" y="-8%" width="116%" height="116%">
+            <feDropShadow dx="0" dy="12" stdDeviation="14" floodColor="#254338" floodOpacity="0.12" />
+          </filter>
+          <filter id="sharedSafeGlow" x="-40%" y="-40%" width="180%" height="180%">
+            <feDropShadow dx="0" dy="0" stdDeviation="5" floodColor="#2b8a4b" floodOpacity="0.42" />
+          </filter>
+          <linearGradient id="sharedDashWash" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="#fbfdfb" />
+            <stop offset="100%" stopColor="#eef6f3" />
+          </linearGradient>
+        </defs>
+        <rect x="14" y="14" width="1052" height="618" rx="22" className="shared-dashboard-shell" />
+
+        <g className="shared-card summary-card" filter="url(#sharedCardShadow)">
+          <rect x="34" y="38" width="394" height="574" rx="16" />
+          <text x="58" y="72" className="shared-card-title">Short-fragment evidence</text>
+          <text x="58" y="96" className="shared-muted">The same marker segment appears in several reference taxa.</text>
+
+          <circle cx="126" cy="166" r="49" className="shared-donut-base" />
+          {donutSegments.map((segment, index) => (
+            <circle
+              key={`${segment.color}-${index}`}
+              cx="126"
+              cy="166"
+              r="49"
+              className="shared-donut-segment"
+              stroke={segment.color}
+              strokeDasharray={`${segment.length} ${circumference - segment.length}`}
+              strokeDashoffset={-segment.offset}
+              transform="rotate(-90 126 166)"
+            />
+          ))}
+          <text x="126" y="158" textAnchor="middle" className="shared-donut-number">{totalSpecies}</text>
+          <text x="126" y="181" textAnchor="middle" className="shared-donut-label">species</text>
+          <text x="208" y="144" className="shared-kpi-label">Matched reference hits</text>
+          <text x="208" y="176" className="shared-kpi-number">{totalHits}</text>
+          <text x="208" y="205" className="shared-kpi-small">{groups.length} genera · {queryLength} bp query</text>
+
+          <g className="shared-fragment-strip" transform="translate(58 240)">
+            <rect width="344" height="58" rx="12" />
+            <text x="16" y="23">Query DNA fragment</text>
+            <text x="16" y="43">ACGTTGACCTAGGCTTACGATCGTACCGATGC</text>
+          </g>
+
+          {groups.map((group, index) => {
+            const y = 334 + index * 55;
+            const barWidth = totalSpecies ? Math.max(32, (group.species.length / totalSpecies) * 168) : 32;
+            return (
+              <g key={group.genus.id} className="shared-genus-row" transform={`translate(58 ${y})`}>
+                <circle cx="9" cy="8" r="7" fill={group.color} />
+                <text x="26" y="13" className="shared-genus-name">{group.genus.label}</text>
+                <text x="260" y="13" className="shared-genus-count">{group.species.length} species</text>
+                <rect x="0" y="25" width="286" height="9" rx="5" className="shared-bar-track" />
+                <rect x="0" y="25" width={barWidth} height="9" rx="5" fill={group.color} />
+              </g>
+            );
+          })}
+
+          <g className="shared-claim-lock" transform="translate(58 520)">
+            <rect width="344" height="66" rx="12" />
+            <text x="18" y="25">Species claim blocked</text>
+            <text x="18" y="47">Safe claim: {safeRank} · {safeName}</text>
+          </g>
+        </g>
+
+        <g className="shared-card scatter-card" filter="url(#sharedCardShadow)">
+          <rect x="454" y="38" width="592" height="258" rx="16" />
+          <text x="482" y="72" className="shared-card-title">Taxonomic cluster map</text>
+          <text x="482" y="96" className="shared-muted">Each point is one species hit; color groups points by genus.</text>
+          <g transform="translate(506 116)">
+            <rect width="456" height="150" rx="10" className="shared-plot-area" />
+            {[0, 1, 2, 3, 4].map((tick) => (
+              <line key={`v-${tick}`} x1={tick * 114} x2={tick * 114} y1="0" y2="150" className="shared-plot-grid" />
+            ))}
+            {[0, 1, 2, 3].map((tick) => (
+              <line key={`h-${tick}`} x1="0" x2="456" y1={tick * 50} y2={tick * 50} className="shared-plot-grid" />
+            ))}
+          </g>
+          {scatterPoints.map((point) => (
+            <g key={point.id} className="shared-cluster-point">
+              <title>{point.label} · {point.genus}</title>
+              <circle cx={point.x} cy={point.y} r="7" fill={point.color} />
+            </g>
+          ))}
+          {groups.map((group, index) => {
+            const labelPositions = [
+              { x: 548, y: 250 },
+              { x: 750, y: 252 },
+              { x: 900, y: 74 },
+              { x: 890, y: 270 },
+              { x: 660, y: 74 },
+            ];
+            const position = labelPositions[index % labelPositions.length];
+            return (
+              <g key={`${group.genus.id}-cluster-label`} className="shared-cluster-label" transform={`translate(${position.x} ${position.y})`}>
+                <circle cx="0" cy="-4" r="5" fill={group.color} />
+                <text x="13" y="0">{group.genus.label}</text>
+              </g>
+            );
+          })}
+          <text x="482" y="276" className="shared-warning-line">Reference evidence only: this is not a map of natural distribution.</text>
+        </g>
+
+        <g className="shared-card network-card" filter="url(#sharedCardShadow)">
+          <rect x="454" y="322" width="592" height="290" rx="16" />
+          <text x="482" y="356" className="shared-card-title">Safe LCA network</text>
+          <text x="482" y="380" className="shared-muted">The fragment is shared, so the graph moves upward to the common clade.</text>
+          {network.genusLinks.map((link) => (
+            <line
+              key={`${link.genus.id}-safe-link`}
+              x1={network.safe.x}
+              y1={network.safe.y}
+              x2={link.x}
+              y2={link.y}
+              className="shared-network-link safe"
+            />
+          ))}
+          {network.speciesLinks.map((link) => (
+            <line
+              key={`${link.genus.id}-${link.species.id}-species-link`}
+              x1={link.from.x}
+              y1={link.from.y}
+              x2={link.to.x}
+              y2={link.to.y}
+              className="shared-network-link"
+            />
+          ))}
+          <g className="shared-safe-node" transform={`translate(${network.safe.x} ${network.safe.y})`} filter="url(#sharedSafeGlow)">
+            <rect x="-74" y="-30" width="148" height="60" rx="14" />
+            <text y="-4" textAnchor="middle">Safe LCA</text>
+            <text y="18" textAnchor="middle">{shortenLabel(safeName, 18)}</text>
+          </g>
+          {network.genusLinks.map((item) => (
+            <g key={item.genus.id} className="shared-network-genus" transform={`translate(${item.x} ${item.y})`}>
+              <circle r="22" fill={item.color} />
+              <text y="5" textAnchor="middle">{shortGenusNodeLabel(item.genus.label)}</text>
+            </g>
+          ))}
+          {network.speciesLinks.map((item) => (
+            <g key={item.species.id} className="shared-network-species" transform={`translate(${item.to.x} ${item.to.y})`}>
+              <title>{item.species.label}</title>
+              <circle r="7" fill={item.color} />
+              <text x={item.labelAnchor === 'end' ? -12 : 12} y="4" textAnchor={item.labelAnchor}>
+                {shortSpeciesLabel(item.species.label, item.genus.label)}
+              </text>
+            </g>
+          ))}
+          {warningNode && (
+            <g className="shared-warning-badge" transform="translate(824 554)">
+              <rect x="-128" y="-22" width="256" height="44" rx="12" />
+              <text textAnchor="middle" y="-2">Do not choose one species</text>
+              <text textAnchor="middle" y="16">use the shared {safeRank}</text>
+            </g>
+          )}
+        </g>
+
+        {datasetNode && (
+          <text x="540" y="632" className="shared-footer-note">
+            Dataset: {shortenLabel(datasetNode.label, 84)} · Graph is limited to this selected reference evidence.
+          </text>
+        )}
+      </svg>
+    </div>
+  );
+}
+
+function buildSharedFragmentDashboard(graph) {
   const nodes = graph.nodes || [];
   const edges = graph.edges || [];
   const nodeById = Object.fromEntries(nodes.map((node) => [node.id, node]));
@@ -3493,12 +3721,11 @@ function SharedFragmentTreeSvg({ graph }) {
   const datasetNode = nodes.find((node) => node.type === 'reference_dataset');
   const warningNode = nodes.find((node) => node.type === 'warning');
   const safeLcaNode = nodes.find((node) => node.type === 'safe_lca');
-  const hitNodes = nodes.filter((node) => node.type === 'reference_hit').slice(0, 12);
   const genusNodes = nodes.filter((node) => node.type === 'genus');
   const speciesNodes = nodes.filter((node) => node.type === 'species');
+  const hitNodes = nodes.filter((node) => node.type === 'reference_hit');
   const genusToSpeciesIds = {};
   const speciesToGenusId = {};
-  const hitToSpeciesId = {};
 
   edges.forEach((edge) => {
     const source = nodeById[edge.source];
@@ -3510,127 +3737,99 @@ function SharedFragmentTreeSvg({ graph }) {
       }
       speciesToGenusId[target.id] = source.id;
     }
-    if (edge.type === 'belongs_to_taxon' && source?.type === 'reference_hit' && target?.type === 'species') {
-      hitToSpeciesId[source.id] = target.id;
-    }
   });
 
-  const groupedGenera = genusNodes
-    .map((genus) => ({
+  const groups = genusNodes
+    .map((genus, index) => ({
       genus,
       species: (genusToSpeciesIds[genus.id] || []).map((id) => nodeById[id]).filter(Boolean),
+      color: sharedGenusColor(genus.label, index),
     }))
     .filter((group) => group.species.length > 0)
     .sort((first, second) => first.genus.label.localeCompare(second.genus.label));
 
   const ungroupedSpecies = speciesNodes.filter((species) => !speciesToGenusId[species.id]);
   if (ungroupedSpecies.length) {
-    groupedGenera.push({
+    groups.push({
       genus: { id: 'genus:unresolved', type: 'genus', label: 'Unresolved genus', rank: 'genus' },
       species: ungroupedSpecies,
+      color: '#7a6da8',
     });
   }
 
-  const positions = {};
-  if (fragmentNode) positions[fragmentNode.id] = { x: 125, y: 336 };
-  if (datasetNode) positions[datasetNode.id] = { x: 140, y: 570 };
-  if (warningNode) positions[warningNode.id] = { x: 150, y: 92 };
-  if (safeLcaNode) positions[safeLcaNode.id] = { x: 560, y: 336 };
-
-  const speciesOrder = groupedGenera.flatMap((group) => group.species);
-  const speciesTop = 86;
-  const speciesBottom = 570;
-  const speciesStep = speciesOrder.length > 1 ? (speciesBottom - speciesTop) / (speciesOrder.length - 1) : 0;
-  speciesOrder.forEach((species, index) => {
-    positions[species.id] = { x: 990, y: speciesOrder.length > 1 ? speciesTop + index * speciesStep : 336 };
-  });
-
-  groupedGenera.forEach((group) => {
-    const yValues = group.species.map((species) => positions[species.id]?.y).filter((value) => Number.isFinite(value));
-    const y = yValues.length ? yValues.reduce((sum, value) => sum + value, 0) / yValues.length : 336;
-    positions[group.genus.id] = { x: 780, y };
-  });
-
-  hitNodes.forEach((hit, index) => {
-    const linkedSpeciesY = positions[hitToSpeciesId[hit.id]]?.y;
-    const fallbackTop = 118;
-    const fallbackBottom = 540;
-    const fallbackStep = hitNodes.length > 1 ? (fallbackBottom - fallbackTop) / (hitNodes.length - 1) : 0;
-    positions[hit.id] = { x: 330, y: Number.isFinite(linkedSpeciesY) ? linkedSpeciesY : fallbackTop + index * fallbackStep };
-  });
-
-  const customEdges = [];
-  hitNodes.forEach((hit) => {
-    if (fragmentNode) customEdges.push({ source: fragmentNode.id, target: hit.id, type: 'matches_reference' });
-    const speciesId = hitToSpeciesId[hit.id];
-    if (speciesId) customEdges.push({ source: hit.id, target: speciesId, type: 'belongs_to_taxon' });
-  });
-  groupedGenera.forEach((group) => {
-    if (safeLcaNode) customEdges.push({ source: safeLcaNode.id, target: group.genus.id, type: 'safe_lca_of' });
-    group.species.forEach((species) => customEdges.push({ source: group.genus.id, target: species.id, type: 'parent_taxon' }));
-  });
-  if (fragmentNode && datasetNode) customEdges.push({ source: fragmentNode.id, target: datasetNode.id, type: 'searched_against' });
-  if (fragmentNode && warningNode) customEdges.push({ source: fragmentNode.id, target: warningNode.id, type: 'limited_by' });
-
-  const visibleNodes = [
-    warningNode,
+  return {
     fragmentNode,
     datasetNode,
-    ...hitNodes,
+    warningNode,
     safeLcaNode,
-    ...groupedGenera.map((group) => group.genus),
-    ...speciesOrder,
-  ].filter(Boolean);
-  const visibleNodeIds = new Set(visibleNodes.map((node) => node.id));
-  const visibleEdges = customEdges.filter((edge) => visibleNodeIds.has(edge.source) && visibleNodeIds.has(edge.target));
+    groups,
+    totalSpecies: groups.reduce((sum, group) => sum + group.species.length, 0),
+    totalHits: graph.classification?.informative_hits || hitNodes.length,
+  };
+}
 
-  return (
-    <div className="fragment-svg-scroll shared-tree" aria-label="Shared short fragment tree">
-      <svg className="fragment-graph-svg shared-tree-svg" viewBox="0 0 1080 650" role="img" aria-label="Shared short fragment taxonomic tree">
-        <defs>
-          <marker id="treeArrowhead" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
-            <path d="M0,0 L9,4.5 L0,9 Z" fill="#7f958b" />
-          </marker>
-          <filter id="safeGlow" x="-40%" y="-40%" width="180%" height="180%">
-            <feDropShadow dx="0" dy="0" stdDeviation="5" floodColor="#2b8a4b" floodOpacity="0.42" />
-          </filter>
-          <linearGradient id="graphWash" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#fbfdfb" />
-            <stop offset="100%" stopColor="#eef6f1" />
-          </linearGradient>
-        </defs>
-        <rect x="12" y="14" width="1056" height="618" rx="18" className="graph-backdrop tree" />
-        <path d="M94 336 C205 108 392 101 560 336 C397 570 205 574 94 336" className="graph-region-halo hits" />
-        <path d="M560 336 C675 72 922 54 1034 86 L1034 590 C928 608 690 590 560 336" className="graph-region-halo taxonomy" />
-        <text x="42" y="52" className="graph-title">Shared short-fragment taxon tree</text>
-        <text x="42" y="78" className="graph-subtitle">One short marker matches many species · safe claim moves upward to the shared LCA</text>
-        <text x="260" y="110" className="graph-cluster-label">Matched references</text>
-        <text x="536" y="118" className="graph-cluster-label safe">Safe LCA</text>
-        <text x="748" y="56" className="graph-cluster-label">Genera</text>
-        <text x="934" y="56" className="graph-cluster-label">Species matched by the short fragment</text>
-        <GraphLegend />
-        {visibleEdges.map((edge) => {
-          const source = positions[edge.source];
-          const target = positions[edge.target];
-          return (
-            <path
-              key={`${edge.source}-${edge.type}-${edge.target}`}
-              d={curvedEdgePath(source, target, edge.type)}
-              className={`graph-edge ${safeClassName(edge.type)}`}
-              markerEnd="url(#treeArrowhead)"
-            />
-          );
-        })}
-        {visibleNodes.map((node) => {
-          const position = positions[node.id];
-          return <GraphNode key={node.id} node={node} x={position.x} y={position.y} />;
-        })}
-        <text x="560" y="622" textAnchor="middle" className="graph-note">
-          Short-fragment result: many species matched, so the safe claim is the shared higher rank, not any single species.
-        </text>
-      </svg>
-    </div>
-  );
+function buildSharedNetworkLayout(groups, safeName) {
+  const safe = { x: 744, y: 482, label: safeName };
+  const preferredPositions = {
+    Aedes: { x: 630, y: 424, side: 'left' },
+    Anopheles: { x: 634, y: 548, side: 'left' },
+    Culex: { x: 908, y: 486, side: 'right' },
+  };
+  const genusLinks = groups.map((group, index) => {
+    const preferred = preferredPositions[group.genus.label];
+    if (preferred) {
+      return { ...group, ...preferred };
+    }
+    const angle = -140 + index * (280 / Math.max(1, groups.length - 1));
+    const radians = (angle * Math.PI) / 180;
+    return {
+      ...group,
+      x: safe.x + Math.cos(radians) * 170,
+      y: safe.y + Math.sin(radians) * 98,
+      side: Math.cos(radians) < 0 ? 'left' : 'right',
+    };
+  });
+  const speciesLinks = genusLinks.flatMap((group) => {
+    const spread = Math.min(34, 92 / Math.max(1, group.species.length - 1 || 1));
+    const leafX = group.side === 'left' ? group.x - 95 : group.x + 78;
+    return group.species.map((species, speciesIndex) => {
+      const offset = (speciesIndex - (group.species.length - 1) / 2) * spread;
+      return {
+        genus: group.genus,
+        species,
+        color: group.color,
+        from: { x: group.x, y: group.y },
+        to: { x: leafX, y: group.y + offset },
+        labelAnchor: 'end',
+      };
+    });
+  });
+  return { safe, genusLinks, speciesLinks };
+}
+
+function sharedGenusColor(label, index) {
+  const colors = {
+    Aedes: '#2f8a5f',
+    Anopheles: '#5b72b7',
+    Culex: '#d18a2d',
+    Quercus: '#527d3b',
+  };
+  const fallback = ['#2f8a5f', '#5b72b7', '#d18a2d', '#7a6da8', '#3e8aa5'];
+  return colors[label] || fallback[index % fallback.length];
+}
+
+function shortGenusNodeLabel(label) {
+  const text = String(label || '');
+  return text.length > 6 ? `${text.slice(0, 5)}.` : text;
+}
+
+function shortSpeciesLabel(label, genus) {
+  const text = String(label || '');
+  const genusText = String(genus || '');
+  const withoutGenus = genusText && text.startsWith(`${genusText} `)
+    ? text.slice(genusText.length + 1)
+    : text;
+  return shortenLabel(withoutGenus, 14);
 }
 
 function GraphNode({ node, x, y }) {
@@ -3754,6 +3953,22 @@ function safeClassName(value) {
 function shortenLabel(value, limit) {
   const text = String(value || '');
   return text.length > limit ? `${text.slice(0, Math.max(0, limit - 1))}…` : text;
+}
+
+function EvidenceProcessFlow({ activeIndex = 0, compact = false }) {
+  return (
+    <div className={`process-flow ${compact ? 'compact' : ''}`} aria-label="Evidence compiler workflow">
+      {userJourneySteps.map(([number, title, text], index) => (
+        <article key={number} className={`process-step ${index <= activeIndex ? 'active' : ''}`}>
+          <span>{number}</span>
+          <div>
+            <strong>{title}</strong>
+            {!compact && <p>{text}</p>}
+          </div>
+        </article>
+      ))}
+    </div>
+  );
 }
 
 function CompilerWorkbench({
@@ -4073,7 +4288,7 @@ function CompilerWorkbench({
                 EcoGenesis does not guess a species from the top hit. It checks whether the evidence is strong enough,
                 downgrades unsafe claims, separates publication blockers, then builds a downloadable evidence pack.
               </p>
-              <ProcessFlow activeIndex={loading ? 1 : 0} />
+              <EvidenceProcessFlow activeIndex={loading ? 1 : 0} />
               <div className="empty-state-actions">
                 <button className="primary" onClick={runCompiler} disabled={loading}>
                   {loading ? 'Compiling evidence...' : 'Run the mixed demo'}
@@ -4100,7 +4315,7 @@ function CompilerWorkbench({
               <p className="section-label">Decision memo</p>
               <h2>{pack.summary.verdict}</h2>
               <p className="decision-lead">{buildRunExplanation(pack.metrics, publishableRecords.length, reviewRecords.length)}</p>
-              <ProcessFlow activeIndex={4} compact />
+              <EvidenceProcessFlow activeIndex={4} compact />
               <div className="metrics-grid compact">
                 <Metric label="Processed" value={pack.metrics.processed_records} />
                 <Metric label="Species-safe" value={pack.metrics.species_safe_records} />
@@ -4234,22 +4449,6 @@ function CsvPreview({ rows }) {
           ))}
         </tbody>
       </table>
-    </div>
-  );
-}
-
-function ProcessFlow({ activeIndex = 0, compact = false }) {
-  return (
-    <div className={`process-flow ${compact ? 'compact' : ''}`} aria-label="Evidence compiler workflow">
-      {userJourneySteps.map(([number, title, text], index) => (
-        <article key={number} className={`process-step ${index <= activeIndex ? 'active' : ''}`}>
-          <span>{number}</span>
-          <div>
-            <strong>{title}</strong>
-            {!compact && <p>{text}</p>}
-          </div>
-        </article>
-      ))}
     </div>
   );
 }
