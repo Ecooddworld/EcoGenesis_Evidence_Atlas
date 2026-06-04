@@ -511,190 +511,90 @@ button:disabled {
   line-height: 1.42;
 }
 
-.nature-story-board {
-  align-items: stretch;
+.nature-cycle-image-frame {
+  background: #f8fbf8;
+  border: 1px solid #dbe4dd;
+  border-radius: 8px;
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  overflow: hidden;
+  padding: 10px;
+}
+
+.nature-cycle-image-frame img {
+  border-radius: 6px;
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
+.nature-cycle-image-frame figcaption {
+  color: #53655c;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  padding: 0 4px 4px;
+}
+
+.marker-source-board {
+  align-items: start;
+  background: #f8fbf8;
+  border: 1px solid #dbe4dd;
+  border-radius: 8px;
   display: grid;
   gap: 18px;
-  grid-template-columns: minmax(320px, 0.42fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 0.36fr) minmax(0, 0.64fr);
+  padding: 18px;
 }
 
-.ecosystem-scene {
-  background: linear-gradient(180deg, #dff1f5 0%, #edf7ed 54%, #d8b98e 100%);
-  border: 1px solid #cdded3;
+.marker-source-board h3 {
+  color: #17201a;
+  font-size: clamp(1.25rem, 2vw, 1.75rem);
+  line-height: 1.12;
+  margin: 0 0 10px;
+}
+
+.marker-source-board p {
+  color: #53655c;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.marker-source-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.marker-source-grid article {
+  background: #fff;
+  border: 1px solid #dbe4dd;
+  border-left: 5px solid #1e5b69;
   border-radius: 8px;
   display: grid;
-  min-height: 480px;
-  overflow: hidden;
-  padding: 18px;
-  position: relative;
+  gap: 8px;
+  padding: 13px;
 }
 
-.scene-sky,
-.tree-line,
-.water-shape,
-.soil-band,
-.dna-particles {
-  left: 0;
-  position: absolute;
-  right: 0;
+.marker-source-grid article:nth-child(1) {
+  border-left-color: #287844;
 }
 
-.scene-sky {
-  height: 145px;
-  top: 0;
+.marker-source-grid article:nth-child(2) {
+  border-left-color: #b36b2c;
 }
 
-.sun-shape {
-  background: #f7c66a;
-  border-radius: 999px;
-  box-shadow: 0 0 0 16px rgba(247, 198, 106, 0.2);
-  display: block;
-  height: 56px;
-  position: absolute;
-  right: 36px;
-  top: 26px;
-  width: 56px;
+.marker-source-grid article:nth-child(3) {
+  border-left-color: #2d6285;
 }
 
-.bird-shape {
-  border-top: 3px solid #355e68;
-  border-radius: 50%;
-  display: block;
-  height: 18px;
-  position: absolute;
-  transform: rotate(-10deg);
-  width: 38px;
-}
-
-.bird-shape::after {
-  border-top: 3px solid #355e68;
-  border-radius: 50%;
-  content: "";
-  height: 18px;
-  left: 18px;
-  position: absolute;
-  top: -3px;
-  transform: rotate(22deg);
-  width: 36px;
-}
-
-.bird-one {
-  left: 52px;
-  top: 38px;
-}
-
-.bird-two {
-  left: 134px;
-  top: 72px;
-  transform: scale(0.72) rotate(-8deg);
-}
-
-.tree-line {
-  align-items: end;
-  display: flex;
-  gap: 16px;
-  height: 190px;
-  justify-content: center;
-  top: 92px;
-}
-
-.tree-line span {
-  background: #2d6f3f;
-  border-radius: 80% 20% 70% 25%;
-  display: block;
-  height: 118px;
-  position: relative;
-  width: 74px;
-}
-
-.tree-line span:nth-child(2),
-.tree-line span:nth-child(4) {
-  background: #3f8750;
-  height: 150px;
-  width: 86px;
-}
-
-.tree-line span::after {
-  background: #6c4f30;
-  bottom: -62px;
-  content: "";
-  height: 80px;
-  left: 50%;
-  position: absolute;
-  transform: translateX(-50%);
-  width: 12px;
-}
-
-.water-shape {
-  background: linear-gradient(90deg, rgba(64, 137, 161, 0.85), rgba(123, 181, 196, 0.82));
-  border-radius: 50% 50% 0 0;
-  bottom: 105px;
-  height: 116px;
-  overflow: hidden;
-}
-
-.water-shape i {
-  border-top: 2px solid rgba(255, 255, 255, 0.68);
-  border-radius: 50%;
-  display: block;
-  height: 18px;
-  margin: 18px 0 0;
-  width: 115%;
-}
-
-.soil-band {
-  background: #c99f6f;
-  bottom: 0;
-  display: flex;
-  gap: 10px;
-  height: 118px;
-  padding: 22px;
-}
-
-.soil-band span {
-  background: rgba(91, 61, 34, 0.18);
-  border-radius: 999px;
-  height: 10px;
-  width: 28%;
-}
-
-.dna-particles {
-  bottom: 172px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-  justify-content: center;
-  padding: 0 28px;
-  z-index: 1;
-}
-
-.dna-particles .base-tile {
-  box-shadow: 0 8px 18px rgba(23, 32, 26, 0.16);
-  font-style: normal;
-}
-
-.ecosystem-scene > strong,
-.ecosystem-scene > p {
-  align-self: end;
-  background: rgba(255, 255, 255, 0.82);
-  border: 1px solid rgba(219, 228, 221, 0.85);
-  border-radius: 8px;
+.marker-source-grid strong {
   color: #17201a;
-  margin: 0;
-  padding: 11px 12px;
-  position: relative;
-  z-index: 2;
 }
 
-.ecosystem-scene > strong {
-  align-self: end;
-  font-size: 1.08rem;
-}
-
-.ecosystem-scene > p {
+.marker-source-grid span {
   color: #53655c;
-  line-height: 1.45;
-  margin-top: 56px;
+  line-height: 1.42;
 }
 
 .cycle-ring {
@@ -3285,7 +3185,7 @@ th {
   .hero-panel,
   .lecture-hero,
   .nature-cycle-intro,
-  .nature-story-board,
+  .marker-source-board,
   .proof-hero,
   .research-hero,
   .workspace,
@@ -3367,13 +3267,10 @@ th {
   .science-flow,
   .future-roadmap,
   .cycle-ring,
+  .marker-source-grid,
   .before-after-grid,
   .user-value-grid {
     grid-template-columns: 1fr;
-  }
-
-  .ecosystem-scene {
-    min-height: 420px;
   }
 
   .mode-switch {
