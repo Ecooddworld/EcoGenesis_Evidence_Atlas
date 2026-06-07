@@ -12,7 +12,10 @@ def build_barcode_artifacts(pack: dict[str, Any]) -> dict[str, str]:
         "evidence_pack.json": json.dumps(pack, indent=2, ensure_ascii=False),
         "run.json": json.dumps(pack["run"], indent=2, ensure_ascii=False),
         "reference_manifest.json": json.dumps(pack["reference_manifest"], indent=2, ensure_ascii=False),
+        "source_provenance_manifest.json": json.dumps(pack.get("source_provenance", {}), indent=2, ensure_ascii=False),
         "sequence_safety_table.csv": sequence_safety_csv(pack),
+        "claim_boundaries.csv": claim_boundaries_csv(pack),
+        "segment_overlap_report.csv": segment_overlap_report_csv(pack),
         "safe_taxonomic_assignments.csv": safe_assignments_csv(pack),
         "review_taxonomic_hints.csv": review_hints_csv(pack),
         "ambiguous_sequences.csv": filtered_sequences_csv(pack, {"ambiguous", "genus-safe", "higher-rank-safe"}),
@@ -31,12 +34,12 @@ def build_barcode_artifacts(pack: dict[str, Any]) -> dict[str, str]:
         "naive_top_hit_overclaims.csv": table_csv(pack.get("naive_top_hit_overclaims", [])),
         "dwc_occurrence_core_template.csv": occurrence_core_csv(pack, publishable_only=False),
         "dwc_occurrence_core_publishable.csv": occurrence_core_csv(pack, publishable_only=True),
-        "dwc_occurrence_core_gbif_ready.csv": occurrence_core_csv(pack, publishable_only=True),
+        "dwc_occurrence_core_gbif_ready.csv": occurrence_core_csv(pack, publishable_only=True, gbif_ready_only=True),
         "dwc_occurrence_core_review.csv": occurrence_core_csv(pack, publishable_only=False),
         "dwc_occurrence_core_review_or_repair.csv": occurrence_review_or_repair_csv(pack),
         "dna_derived_extension_template.csv": dna_extension_csv(pack, publishable_only=False),
         "dna_derived_extension_publishable.csv": dna_extension_csv(pack, publishable_only=True),
-        "dna_derived_extension_gbif_ready.csv": dna_extension_csv(pack, publishable_only=True),
+        "dna_derived_extension_gbif_ready.csv": dna_extension_csv(pack, publishable_only=True, gbif_ready_only=True),
         "molecular_evidence_report.html": molecular_report_html(pack),
         "methods_text.md": methods_text_md(pack),
         "citations.md": citations_md(pack),
@@ -58,6 +61,7 @@ def sequence_safety_csv(pack: dict[str, Any]) -> str:
                 "taxonomicStatus": record["taxonomic_status"],
                 "publicationStatus": record["publication_status"],
                 "publicationStage": record["publication_stage"],
+                "publicationBucket": record.get("publication_bucket"),
                 "markerProfile": record["metadata_readiness"]["marker_profile"]["profile_id"],
                 "assayType": record["metadata_readiness"]["assay_gate"]["assay_type"],
                 "candidateTaxon": record["candidate_taxon"]["name"],
@@ -74,6 +78,49 @@ def sequence_safety_csv(pack: dict[str, Any]) -> str:
                 "blockers": "; ".join(record["blockers"]),
             }
         )
+    return write_csv(rows)
+
+
+def claim_boundaries_csv(pack: dict[str, Any]) -> str:
+    rows = []
+    for record in pack["records"]:
+        boundary = record.get("claim_boundary", {})
+        rows.append(
+            {
+                "sequenceID": record["sequence_id"],
+                "decisionClass": record["decision_class"],
+                "publicationBucket": record.get("publication_bucket"),
+                "supported": boundary.get("supported"),
+                "referenceContext": boundary.get("reference_context"),
+                "publication": boundary.get("publication"),
+                "notSupported": "; ".join(boundary.get("not_supported", [])),
+                "boundaryText": boundary.get("boundary_text"),
+            }
+        )
+    return write_csv(rows)
+
+
+def segment_overlap_report_csv(pack: dict[str, Any]) -> str:
+    rows = []
+    for record in pack["records"]:
+        for hit in record["hits"]:
+            rows.append(
+                {
+                    "sequenceID": record["sequence_id"],
+                    "segmentStart": 1,
+                    "segmentEnd": record["sequence_length"],
+                    "segmentLength": record["sequence_length"],
+                    "referenceID": hit.get("reference_id"),
+                    "taxon": hit.get("taxon"),
+                    "rank": hit.get("rank"),
+                    "identityPercent": hit.get("identity"),
+                    "queryCoveragePercent": hit.get("query_coverage"),
+                    "alignedLength": hit.get("aligned_length"),
+                    "safeTaxon": record["safe_taxon"]["name"],
+                    "safeRank": record["safe_taxon"]["rank"],
+                    "claimBoundary": record.get("claim_boundary", {}).get("supported"),
+                }
+            )
     return write_csv(rows)
 
 
@@ -274,9 +321,11 @@ def table_csv(rows: list[dict[str, Any]]) -> str:
     return write_csv(rows)
 
 
-def occurrence_core_csv(pack: dict[str, Any], *, publishable_only: bool) -> str:
+def occurrence_core_csv(pack: dict[str, Any], *, publishable_only: bool, gbif_ready_only: bool = False) -> str:
     rows = []
     for record in pack["records"]:
+        if gbif_ready_only and record.get("publication_bucket") != "gbif_ready":
+            continue
         if publishable_only and record["published_taxon"]["rank"] == "none":
             continue
         metadata = record["metadata"]
@@ -301,6 +350,7 @@ def occurrence_core_csv(pack: dict[str, Any], *, publishable_only: bool) -> str:
                 "verbatimIdentification": record["candidate_taxon"]["name"],
                 "candidateTaxonRank": record["candidate_taxon"]["rank"],
                 "publicationStage": record["publication_stage"],
+                "publicationBucket": record.get("publication_bucket"),
                 "identificationRemarks": identification_remarks(record, pack),
             }
         )
@@ -330,9 +380,11 @@ def occurrence_review_or_repair_csv(pack: dict[str, Any]) -> str:
     return write_csv(rows)
 
 
-def dna_extension_csv(pack: dict[str, Any], *, publishable_only: bool) -> str:
+def dna_extension_csv(pack: dict[str, Any], *, publishable_only: bool, gbif_ready_only: bool = False) -> str:
     rows = []
     for record in pack["records"]:
+        if gbif_ready_only and record.get("publication_bucket") != "gbif_ready":
+            continue
         if publishable_only and record["published_taxon"]["rank"] == "none":
             continue
         metadata = record["metadata"]

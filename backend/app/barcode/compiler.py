@@ -67,6 +67,7 @@ def run_barcode_compiler(request: BarcodeCompilerRequest) -> dict[str, Any]:
             "verdict": build_run_verdict(metrics),
         },
         "reference_manifest": reference_manifest,
+        "source_provenance": build_source_provenance(request, reference_manifest, decisions),
         "decision_rules": decision_rules(),
         "metrics": metrics,
         "nexus_v3": nexus,
@@ -154,7 +155,7 @@ def decide_record(record: SequenceRecord, request: BarcodeCompilerRequest) -> di
             core_missing=core_missing,
             dna_missing=dna_missing,
             blockers=[*blockers, *metadata_blockers(core_missing, dna_missing, data_quality_blockers)],
-            actions=[*actions, *metadata_actions(core_missing, dna_missing)],
+            actions=[*actions, *metadata_actions(core_missing, dna_missing), *degraded_backend_actions(metadata)],
         )
 
     match_type = classify_match(top_hit, marker_profile)
@@ -209,6 +210,7 @@ def decide_record(record: SequenceRecord, request: BarcodeCompilerRequest) -> di
 
     blockers.extend(metadata_blockers(core_missing, dna_missing, data_quality_blockers))
     actions.extend(metadata_actions(core_missing, dna_missing))
+    actions.extend(degraded_backend_actions(metadata))
     blockers.extend(assay_gate["assay_blockers"])
     actions.extend(assay_gate["assay_actions"])
     actions.extend(dna_extension_actions(dna_extension))
@@ -485,6 +487,8 @@ def metadata_quality_blockers(metadata: dict[str, Any]) -> list[str]:
                 blockers.append("publication blocked: coordinateUncertaintyInMeters cannot be 0")
         except (TypeError, ValueError):
             blockers.append("publication blocked: coordinateUncertaintyInMeters must be numeric")
+    if is_degraded_reference_search(metadata):
+        blockers.append("publication blocked: production reference search backend was not used; python-local mini-search is review-only")
     return blockers
 
 
@@ -543,6 +547,24 @@ def metadata_actions(core_missing: list[str], dna_missing: list[str]) -> list[st
     return actions
 
 
+def degraded_backend_actions(metadata: dict[str, Any]) -> list[str]:
+    if not is_degraded_reference_search(metadata):
+        return []
+    return [
+        "Re-run reference search with VSEARCH, BLAST+ or an audited external reference workflow before GBIF-ready export."
+    ]
+
+
+def is_degraded_reference_search(metadata: dict[str, Any]) -> bool:
+    backend = str(
+        metadata.get("referenceSearchBackend")
+        or metadata.get("searchBackend")
+        or metadata.get("backend_used")
+        or ""
+    ).strip().lower()
+    return backend in {"python-local", "python", "local"}
+
+
 def dna_extension_actions(dna_extension: dict[str, Any]) -> list[str]:
     missing = dna_extension.get("dna_extension_high_priority_missing", [])
     if not missing:
@@ -585,6 +607,68 @@ def publication_status(decision_class: str, publication_stage: str) -> str:
     return "not-ready"
 
 
+def publication_bucket(decision_class: str, publication_stage: str, published_taxon: dict[str, Any], blockers: list[str]) -> str:
+    if published_taxon.get("rank") != "none" and publication_stage in {"dataset_ready", "gold_ready"}:
+        return "gbif_ready"
+    if published_taxon.get("rank") != "none" and decision_class in SAFE_TAXONOMIC_STATUSES:
+        return "publishable_candidate"
+    if blockers:
+        return "repair_required"
+    return "review_only"
+
+
+def claim_boundary(
+    *,
+    decision_class: str,
+    taxonomic_status: str,
+    candidate_taxon: dict[str, Any],
+    published_taxon: dict[str, Any],
+    publication_stage: str,
+    metadata: dict[str, Any],
+    top_hit: ReferenceHit | None,
+) -> dict[str, Any]:
+    if top_hit and top_hit.reference_database:
+        reference_context = top_hit.reference_database
+    else:
+        reference_context = metadata.get("referenceDatabase") or "not supplied"
+    safe_rank = candidate_taxon.get("rank") or "none"
+    safe_name = candidate_taxon.get("name") or "No safe taxon"
+    if decision_class == "species-safe":
+        supported = f"Species-level molecular assignment candidate for {safe_name} within the supplied reference context."
+    elif decision_class == "genus-safe":
+        supported = f"Genus-level molecular evidence for {safe_name}; species-level naming is blocked for this sequence."
+    elif decision_class == "higher-rank-safe":
+        supported = f"{safe_rank.title()}-level molecular evidence for {safe_name}; lower-rank claims are blocked."
+    elif taxonomic_status == "weak":
+        supported = "Review-only molecular hint; identity, coverage or marker profile is too weak for a safe taxonomic claim."
+    elif taxonomic_status == "no-match":
+        supported = "No taxonomic claim from the supplied reference evidence."
+    else:
+        supported = f"Review-only candidate at {safe_rank} rank: {safe_name}."
+
+    if published_taxon.get("rank") == "none":
+        publication = "Not GBIF-ready; repair blockers before publishing Darwin Core or DNA-derived rows."
+    elif publication_stage in {"dataset_ready", "gold_ready"}:
+        publication = "GBIF-ready export candidate under the current metadata and dataset-level checks."
+    else:
+        publication = "Publishable candidate for review; dataset-level GBIF metadata is still incomplete."
+
+    return {
+        "supported": supported,
+        "reference_context": reference_context,
+        "safe_rank": safe_rank,
+        "safe_taxon": safe_name,
+        "publication": publication,
+        "not_supported": [
+            "absolute species truth outside the stated reference context",
+            "natural presence, absence, abundance or distribution without occurrence evidence",
+            "phenotype, pathogenicity, ecological role or invasiveness",
+            "replacement for GBIF Sequence ID, curated reference databases or expert review",
+        ],
+        "boundary_text": f"{supported} {publication}",
+    }
+
+
 def build_decision(
     *,
     record: SequenceRecord,
@@ -620,10 +704,20 @@ def build_decision(
         "taxonomic_status": taxonomic_status,
         "publication_status": publication_status(decision_class, publication_stage),
         "publication_stage": publication_stage,
+        "publication_bucket": publication_bucket(decision_class, publication_stage, published_taxon, blockers),
         "match_type": match_type,
         "candidate_taxon": candidate_taxon,
         "published_taxon": published_taxon,
         "safe_taxon": candidate_taxon,
+        "claim_boundary": claim_boundary(
+            decision_class=decision_class,
+            taxonomic_status=taxonomic_status,
+            candidate_taxon=candidate_taxon,
+            published_taxon=published_taxon,
+            publication_stage=publication_stage,
+            metadata=metadata,
+            top_hit=top_hit,
+        ),
         "top_hit": hit_summary(top_hit),
         "indistinguishable_hits": [hit_summary(hit) for hit in indistinguishable_hits],
         "barcode_gap": barcode_gap_result,
@@ -682,6 +776,10 @@ def summarize_decisions(decisions: list[dict[str, Any]]) -> dict[str, Any]:
     top_species = sum(1 for item in decisions if item["top_hit"] and item["top_hit"]["rank"] == "species")
     safe_rank_records = species_safe + genus_safe + higher_rank_safe
     publishable_template_records = sum(1 for item in decisions if item["published_taxon"]["rank"] != "none")
+    gbif_ready_records = sum(1 for item in decisions if item.get("publication_bucket") == "gbif_ready")
+    publishable_candidate_records = sum(1 for item in decisions if item.get("publication_bucket") == "publishable_candidate")
+    repair_required_records = sum(1 for item in decisions if item.get("publication_bucket") == "repair_required")
+    review_only_records = sum(1 for item in decisions if item.get("publication_bucket") == "review_only")
     repairable_records = sum(1 for item in decisions if item["actions"] or item["blockers"])
     not_ready_with_blockers = sum(1 for item in decisions if item["publication_status"] == "not-ready" and item["blockers"])
     not_ready = sum(1 for item in decisions if item["publication_status"] == "not-ready")
@@ -702,6 +800,10 @@ def summarize_decisions(decisions: list[dict[str, Any]]) -> dict[str, Any]:
         "record_ready_records": record_ready,
         "dataset_ready_records": dataset_ready,
         "publishable_template_records": publishable_template_records,
+        "gbif_ready_records": gbif_ready_records,
+        "publishable_candidate_records": publishable_candidate_records,
+        "repair_required_records": repair_required_records,
+        "review_only_records": review_only_records,
         "safe_rank_records": safe_rank_records,
         "repairable_records": repairable_records,
         "top_species_hits": top_species,
@@ -756,6 +858,10 @@ def build_nexus_v3_summary(decisions: list[dict[str, Any]], metrics: dict[str, A
             "blocked_or_downgraded_top_species_hits": metrics["blocked_or_downgraded_top_species_hits"],
             "species_safe_records": metrics["species_safe_records"],
             "publishable_template_records": metrics["publishable_template_records"],
+            "gbif_ready_records": metrics["gbif_ready_records"],
+            "publishable_candidate_records": metrics["publishable_candidate_records"],
+            "repair_required_records": metrics["repair_required_records"],
+            "review_only_records": metrics["review_only_records"],
         },
         "next_platform_layers": [
             "reference completeness gate calibrated by taxon/marker coverage",
@@ -795,6 +901,7 @@ def hard_gate_audit(decisions: list[dict[str, Any]]) -> list[dict[str, Any]]:
                 "topHit": top.get("taxon"),
                 "topHitRank": top.get("rank"),
                 "decisionClass": record["decision_class"],
+                "publicationBucket": record.get("publication_bucket"),
                 "markerProfile": record["metadata_readiness"]["marker_profile"]["profile_id"],
                 "exactMatchGate": gate_status(exact_pass),
                 "ambiguityLcaGate": gate_status(ambiguity_pass),
@@ -964,6 +1071,12 @@ def decision_rules() -> dict[str, Any]:
             "dna_required": DNA_REQUIRED_FIELDS,
             "dataset_metadata": DATASET_METADATA_FIELDS,
         },
+        "publication_buckets": {
+            "gbif_ready": "safe taxonomic decision plus dataset-level metadata readiness",
+            "publishable_candidate": "safe taxonomic decision and record-level metadata, but dataset metadata still needs review",
+            "repair_required": "blocked by molecular, backend, assay, Occurrence core or DNA-derived metadata issues",
+            "review_only": "kept as evidence context, not exportable as a GBIF occurrence row",
+        },
     }
 
 
@@ -985,6 +1098,39 @@ def build_reference_manifest(request: BarcodeCompilerRequest) -> dict[str, Any]:
     return manifest
 
 
+def build_source_provenance(
+    request: BarcodeCompilerRequest,
+    reference_manifest: dict[str, Any],
+    decisions: list[dict[str, Any]],
+) -> dict[str, Any]:
+    backends = sorted(
+        {
+            str(record["metadata"].get("referenceSearchBackend"))
+            for record in decisions
+            if record["metadata"].get("referenceSearchBackend")
+        }
+    )
+    return {
+        "tool": "EcoGenesis Nexus",
+        "layer": "Barcode-to-GBIF Evidence Compiler",
+        "reference_database": request.reference_database,
+        "reference_manifest_sha256": reference_manifest.get("manifest_sha256"),
+        "reference_source": reference_manifest.get("source"),
+        "reference_doi_or_url": reference_manifest.get("doi_or_url"),
+        "reference_license": reference_manifest.get("license"),
+        "reference_search_backends": backends,
+        "degraded_backend_records": [
+            record["sequence_id"]
+            for record in decisions
+            if is_degraded_reference_search(record["metadata"])
+        ],
+        "input_contract": (
+            "Sequence ID, BLAST, VSEARCH or lab-pipeline hits are treated as source evidence. "
+            "EcoGenesis computes bounded claims and publication readiness; it does not convert a top hit directly into species truth."
+        ),
+    }
+
+
 def build_evidence_graph(pack: dict[str, Any]) -> dict[str, Any]:
     run_id = pack["run"]["run_id"]
     node_registry: dict[str, dict[str, Any]] = {}
@@ -998,14 +1144,25 @@ def build_evidence_graph(pack: dict[str, Any]) -> dict[str, Any]:
         assignment_node = f"assignment:{record['sequence_id']}"
         taxon = record["published_taxon"] if record["published_taxon"]["rank"] != "none" else record["candidate_taxon"]
         taxon_node = f"taxon:{taxon['rank']}:{taxon['name']}"
+        boundary_node = f"claim_boundary:{record['sequence_id']}"
         add_node(node_registry, {"id": sequence_node, "type": "sequence", "label": record["sequence_id"], "md5": record["sequence_md5"]})
         add_node(node_registry, {"id": assignment_node, "type": "assignment", "label": record["decision_class"]})
         add_node(node_registry, {"id": taxon_node, "type": "taxon", "label": taxon["name"], "rank": taxon["rank"]})
+        add_node(
+            node_registry,
+            {
+                "id": boundary_node,
+                "type": "claim_boundary",
+                "label": record["claim_boundary"]["supported"],
+                "publication_bucket": record.get("publication_bucket"),
+            },
+        )
         edges.extend(
             [
                 {"source": f"run:{run_id}", "target": sequence_node, "type": "contains_sequence"},
                 {"source": sequence_node, "target": assignment_node, "type": "receives_assignment"},
                 {"source": assignment_node, "target": taxon_node, "type": "published_or_candidate_taxon"},
+                {"source": assignment_node, "target": boundary_node, "type": "bounded_by"},
             ]
         )
         for blocker in record["blockers"]:

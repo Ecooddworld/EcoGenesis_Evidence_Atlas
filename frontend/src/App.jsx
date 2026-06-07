@@ -53,6 +53,34 @@ const modeLabels = {
   formulas: 'Math & proof',
 };
 
+const lectureAnchorIds = new Set([
+  'analysis-animation',
+  'analysis-picture-sequence',
+  'sequence-picture',
+  'safe-claim-picture',
+  'animation-storyboard',
+]);
+
+function modeFromLocationHash(hash) {
+  const anchorId = String(hash || '').replace(/^#/, '');
+  return lectureAnchorIds.has(anchorId) ? 'lecture' : 'overview';
+}
+
+function scrollToCurrentAnchor() {
+  if (typeof window === 'undefined' || typeof document === 'undefined') return;
+  const anchorId = window.location.hash.replace(/^#/, '');
+  if (!lectureAnchorIds.has(anchorId)) return;
+  const schedule = window.requestAnimationFrame || ((callback) => window.setTimeout(callback, 0));
+  const scrollToTarget = () => {
+    const target = document.getElementById(anchorId);
+    if (typeof target?.scrollIntoView === 'function') {
+      target.scrollIntoView({ block: 'start' });
+    }
+  };
+  schedule(scrollToTarget);
+  [80, 240, 600].forEach((delay) => window.setTimeout(scrollToTarget, delay));
+}
+
 const scientificSuiteMetrics = [
   ['Live GBIF records', '1000', 'Deduplicated occurrence records from 10 online scenarios.'],
   ['Hypothesis claims', '100', '48 supported, 12 weak, 20 blocked and 20 requiring verification.'],
@@ -148,6 +176,21 @@ const repairPriorities = [
   ['Move to fragment sharedness', 'next R&D layer', 'Shows all taxa carrying a fragment and derives safe LCA rank.', 'pass'],
 ];
 
+const barcodeSourceCards = [
+  ['Primary molecular input', 'Sequence ID / BLAST-style CSV', 'Use GBIF Sequence ID, NCBI BLAST, BOLD, UNITE or lab-pipeline tables with sequence, hit metrics, lineage and metadata.'],
+  ['Reference search path', 'VSEARCH / BLAST+ over FASTA', 'Search bundled NCBI validation packs or a user-uploaded curated FASTA; the app records which backend was used.'],
+  ['Taxonomy enrichment', 'GBIF Backbone match', 'Uploaded taxon names can be checked against GBIF backbone for lineage/provenance, without upgrading weak molecular evidence.'],
+  ['Research context only', 'GBIF occurrence audit', 'Occurrence records support citation and bias review. They never turn a barcode hit into a species-safe claim.'],
+];
+
+const officialSourceLinks = [
+  ['GBIF Sequence ID', 'https://www.gbif.org/tools/sequence-id'],
+  ['GBIF DNA-derived publishing guide', 'https://docs.gbif.org/publishing-dna-derived-data/en/'],
+  ['NCBI nucleotide BLAST', 'https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastSearch&PROGRAM=blastn'],
+  ['BOLD v5 ID Engine', 'https://id.boldsystems.org/'],
+  ['UNITE', 'https://unite.ut.ee/'],
+];
+
 const molecularGraphPreview = [
   ['DNA fragment', 'Input sequence, ASV or barcode window.'],
   ['Taxa carrying fragment', 'All matched taxa are visible, not only the top hit.'],
@@ -171,6 +214,42 @@ const lectureWorkflow = [
   ['4', 'Downgrade', 'If species are indistinguishable, LCA chooses the safe shared rank.'],
   ['5', 'Repair', 'Missing fields become actions, not hidden failures.'],
   ['6', 'Export', 'Only safe claims enter publishable templates; everything else goes to review.'],
+];
+
+const analysisSegments = [
+  ['1-42 bp', 'Shared marker window', '100% match across 8 taxa', 'Safe rank: Culicidae family', 'shared'],
+  ['43-96 bp', 'Species-informative window', '99.6% top hit, competitors checked', 'Candidate: Aedes albopictus', 'safe'],
+  ['metadata', 'Publication layer', 'Occurrence core and DNA fields checked', 'Missing fields become repair actions', 'repair'],
+];
+
+const analysisReferenceHits = [
+  ['Aedes albopictus', '99.6%', 'Top hit passes identity and coverage.', 'safe', '96%'],
+  ['Aedes aegypti', '98.2%', 'Competitor is close enough to test.', 'warn', '86%'],
+  ['Culicidae shared fragment', '100%', 'Short shared segment blocks lower-rank overclaim.', 'shared', '100%'],
+];
+
+const analysisGateTrail = [
+  ['Identity', '99.6%', 'pass'],
+  ['Coverage', '96%', 'pass'],
+  ['Competitors', 'tested', 'pass'],
+  ['LCA', 'safe rank', 'pass'],
+  ['Metadata', 'separate', 'repair'],
+  ['Claim', 'bounded', 'pass'],
+];
+
+const analysisProofCards = [
+  ['Why the output is correct', 'Every species claim must pass identity, coverage, competitor, barcode-gap, diagnostic and metadata gates.'],
+  ['Why overclaims are blocked', 'If a fragment is shared or incomplete, the decision moves upward to the lowest common ancestor instead of forcing a species.'],
+  ['Why publication is separate', 'A strong taxon match still needs real occurrence metadata before it can enter GBIF-ready exports.'],
+];
+
+const analysisPictureFrames = [
+  ['01', 'Input sequence', 'A barcode row enters with DNA letters, marker profile and occurrence metadata.', 'Sequence + metadata', 'input'],
+  ['02', 'Alignment scan', 'The query is aligned to references; identity and coverage are measured before any claim is made.', '99.6% identity / 96% coverage', 'alignment'],
+  ['03', 'Reference hits', 'The top hit is challenged by close competitors and shared marker windows.', 'Top hit is not enough', 'hits'],
+  ['04', 'Hard gates', 'Identity, coverage, LCA, barcode gap, diagnostic k-mers and metadata gates are checked in order.', 'Fail-closed gates', 'gates'],
+  ['05', 'Safe claim', 'Unsafe species certainty is blocked; the output becomes a safe rank plus explicit repair blockers.', 'No hidden overclaim', 'claim'],
+  ['06', 'Evidence pack', 'The result exports audit tables, publication blockers, repair plan and GBIF-ready templates.', 'Reproducible export', 'pack'],
 ];
 
 const sciencePurposeSteps = [
@@ -221,12 +300,12 @@ const natureBenefitCards = [
 ];
 
 const animationStoryboardFrames = [
-  ['01', 'Biological material becomes marker evidence', 'The input is not one sample type. It can come from specimens, tissues, traps, swabs, bulk samples or environmental traces. EcoGenesis only starts once a marker record exists.', 'Animate: organism icons → DNA marker cards → sequence row.'],
-  ['02', 'Reference search creates competing hits', 'A query marker is compared against curated references. The important question is not just the best hit, but whether nearby hits make the species claim unsafe.', 'Animate: DNA ribbon → hit bars → competitor warning.'],
-  ['03', 'Shared fragments become a taxonomic tree', 'Short fragments may fit several species. The graph should move upward to the lowest common ancestor instead of inventing species certainty.', 'Animate: species nodes converge → genus/family safe LCA glows.'],
-  ['04', 'Hard gates decide what can be claimed', 'Identity, coverage, ambiguity, barcode gap, diagnostic k-mers and metadata are checked as visible gates. Failure creates a blocker, not a hidden score.', 'Animate: gates light up one by one → blocked claim turns amber.'],
-  ['05', 'GBIF-ready package is produced', 'Safe records, repair actions, methods text, citations and Darwin Core templates become an export package that a publisher or reviewer can inspect.', 'Animate: evidence cards stack → ZIP/package → GBIF map.'],
-  ['06', 'Evidence returns to science and nature', 'The output helps researchers find sampling gaps, reference gaps and safer monitoring priorities without claiming absence or true distribution.', 'Animate: map cells pulse → priority route → field decision.'],
+  ['01', 'Biological material becomes marker evidence', 'The input can begin as a specimen, tissue, trap, swab, bulk sample or environmental trace. EcoGenesis starts when that material becomes a marker record with evidence attached.', 'The viewer sees real biodiversity material become a DNA marker row.'],
+  ['02', 'Reference search creates competing hits', 'A query marker is compared with reference records. The story does not stop at the best hit; it shows whether nearby hits make a species claim unsafe.', 'The viewer sees the top hit challenged by close competitors.'],
+  ['03', 'Shared fragments become a taxonomic tree', 'Short fragments can fit several species. EcoGenesis moves the claim upward to the shared ancestor instead of inventing certainty at species level.', 'The viewer sees several species merge into one safer rank.'],
+  ['04', 'Hard gates decide what can be claimed', 'Identity, coverage, ambiguity, barcode gap, diagnostic k-mers and metadata are checked as clear decision points. A failed gate becomes a visible blocker.', 'The viewer sees each gate either confirm, downgrade or send the row to repair.'],
+  ['05', 'GBIF-ready package is produced', 'Safe records, repair actions, methods text, citations and Darwin Core templates become one evidence package that a publisher or reviewer can inspect.', 'The viewer sees accepted rows and repair rows become a transparent Evidence Pack.'],
+  ['06', 'Evidence returns to science and nature', 'The output helps researchers see sampling gaps, reference gaps and safer monitoring priorities without turning weak evidence into false certainty.', 'The viewer sees safer evidence return to maps, priorities and field decisions.'],
 ];
 
 const markerSourceCards = [
@@ -1484,10 +1563,13 @@ const evidencePackRows = [
   ['barcode_gap_report.csv', 'Marker/reference separability evidence.'],
   ['diagnostic_kmer_report.csv', 'Diagnostic support, expected random hits and p_false_positive.'],
   ['publication_blockers.csv', 'Exact field/gate blockers that must be repaired.'],
+  ['claim_boundaries.csv', 'Supported and explicitly unsupported claims for each sequence.'],
+  ['segment_overlap_report.csv', 'Fragment coordinates, overlap evidence and safe LCA per segment.'],
   ['dwc_occurrence_core_publishable.csv', 'Darwin Core occurrence rows safe enough to publish.'],
   ['dna_derived_extension_publishable.csv', 'DNA-derived extension rows for publishable records.'],
   ['molecular_evidence_report.html', 'Human-readable report for judges, users and reviewers.'],
   ['evidence_graph.json', 'Machine-readable audit graph of sequence, hit, taxon, blocker and export.'],
+  ['source_provenance_manifest.json', 'Run-level source, backend and input-contract provenance.'],
 ];
 
 const nonClaims = [
@@ -1546,17 +1628,17 @@ const exportGroups = [
   {
     title: 'Review and repair',
     description: 'Blocked records, ambiguity evidence, missing fields and molecular gates.',
-    match: ['repair_plan.csv', 'repair_gain_estimates.csv', 'metadata_bottlenecks.csv', 'review_taxonomic_hints.csv', 'publication_blockers.csv', 'dwc_occurrence_core_review_or_repair.csv', 'ambiguous_sequences.csv', 'barcode_gap_report.csv', 'diagnostic_kmer_report.csv'],
+    match: ['repair_plan.csv', 'repair_gain_estimates.csv', 'metadata_bottlenecks.csv', 'review_taxonomic_hints.csv', 'publication_blockers.csv', 'claim_boundaries.csv', 'dwc_occurrence_core_review_or_repair.csv', 'ambiguous_sequences.csv', 'barcode_gap_report.csv', 'diagnostic_kmer_report.csv'],
   },
   {
     title: 'Nexus V3 audit',
     description: 'Hard-gate consistency, marker/assay profiles, prevented top-hit overclaims, reference gaps and adapter direction.',
-    match: ['nexus_v3_summary.json', 'hard_gate_audit.csv', 'marker_profile_audit.csv', 'assay_gate_audit.csv', 'dna_extension_readiness.csv', 'naive_top_hit_overclaims.csv', 'reference_gap_index.csv', 'external_tool_adapter_matrix.csv'],
+    match: ['nexus_v3_summary.json', 'hard_gate_audit.csv', 'marker_profile_audit.csv', 'assay_gate_audit.csv', 'dna_extension_readiness.csv', 'naive_top_hit_overclaims.csv', 'reference_gap_index.csv', 'segment_overlap_report.csv', 'external_tool_adapter_matrix.csv'],
   },
   {
     title: 'Audit trail',
     description: 'Machine-readable provenance for repeatability and contest review.',
-    match: ['reference_manifest.json', 'evidence_graph.json', 'evidence_pack.json', 'run.json', 'gbif_backbone_matches.csv', 'dwc_occurrence_core_review.csv', 'dwc_occurrence_core_template.csv', 'dna_derived_extension_template.csv', 'proof_by_failure_modes.md'],
+    match: ['source_provenance_manifest.json', 'reference_manifest.json', 'evidence_graph.json', 'evidence_pack.json', 'run.json', 'gbif_backbone_matches.csv', 'dwc_occurrence_core_review.csv', 'dwc_occurrence_core_template.csv', 'dna_derived_extension_template.csv', 'proof_by_failure_modes.md'],
   },
 ];
 
@@ -1673,7 +1755,9 @@ function Cases({ lhs, rows }) {
 }
 
 function App() {
-  const [mode, setMode] = useState('overview');
+  const [mode, setMode] = useState(() => (
+    typeof window === 'undefined' ? 'overview' : modeFromLocationHash(window.location.hash)
+  ));
   const [scenarios, setScenarios] = useState([defaultScenario]);
   const [selectedScenarioId, setSelectedScenarioId] = useState(defaultScenario.id);
   const [referenceStatus, setReferenceStatus] = useState(null);
@@ -1701,6 +1785,24 @@ function App() {
   const [selectedFragmentDataset, setSelectedFragmentDataset] = useState('ncbi_aedes_coi_small');
   const [fragmentGraph, setFragmentGraph] = useState(null);
   const [fragmentGraphLoading, setFragmentGraphLoading] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined;
+    function handleHashChange() {
+      const nextMode = modeFromLocationHash(window.location.hash);
+      if (nextMode === 'lecture') {
+        setMode('lecture');
+        scrollToCurrentAnchor();
+      }
+    }
+    handleHashChange();
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  useEffect(() => {
+    if (mode === 'lecture') scrollToCurrentAnchor();
+  }, [mode]);
 
   useEffect(() => {
     let mounted = true;
@@ -2001,10 +2103,12 @@ function SubmissionOverview({ referenceStatus, metrics, exports, pack, onOpenWor
         </div>
         <div className="verdict-card production-verdict">
           <span>Contest verdict</span>
-          <strong>{hasRun ? pack?.summary?.verdict : 'Ready for judge demo: live audit, deterministic gates and exportable evidence pack.'}</strong>
+          <strong>{hasRun ? pack?.summary?.verdict : 'Ready for judge demo: deterministic barcode gates, source boundaries and exportable evidence pack.'}</strong>
           <small>{referenceStatus?.message || 'Loading compiler reference status...'}</small>
         </div>
       </div>
+
+      <SourceBoundaryPanel />
 
       <JudgeDecisionDashboard metrics={metrics} hasRun={hasRun} />
 
@@ -2066,6 +2170,37 @@ function SubmissionOverview({ referenceStatus, metrics, exports, pack, onOpenWor
   );
 }
 
+function SourceBoundaryPanel() {
+  return (
+    <section className="panel source-boundary-panel">
+      <div className="source-boundary-heading">
+        <div>
+          <p className="section-label">Barcode-source boundary</p>
+          <h2>Connected sources are barcode inputs, not hidden biodiversity shortcuts.</h2>
+          <p>
+            The compiler evaluates supplied molecular hit evidence and selected reference FASTA. GBIF occurrence
+            data remain an audit/citation layer and cannot override the molecular gates.
+          </p>
+        </div>
+        <div className="source-link-stack" aria-label="Official source links">
+          {officialSourceLinks.map(([label, href]) => (
+            <a key={label} href={href} target="_blank" rel="noreferrer">{label}</a>
+          ))}
+        </div>
+      </div>
+      <div className="source-boundary-grid">
+        {barcodeSourceCards.map(([label, title, body]) => (
+          <article key={title}>
+            <span>{label}</span>
+            <strong>{title}</strong>
+            <p>{body}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function JudgeDecisionDashboard({ metrics, hasRun }) {
   const processed = hasRun ? metrics.processed_records ?? 0 : 1000;
   const speciesSafe = hasRun ? metrics.species_safe_records ?? 0 : 48;
@@ -2076,7 +2211,7 @@ function JudgeDecisionDashboard({ metrics, hasRun }) {
     <section className="judge-dashboard panel">
       <div className="decision-banner">
         <p className="section-label">Decision</p>
-        <h2>{hasRun ? 'Compiler run completed with safe-rank outputs.' : 'Live GBIF audit passed; molecular compiler is ready to run.'}</h2>
+        <h2>{hasRun ? 'Compiler run completed with safe-rank outputs.' : 'Barcode compiler is ready; GBIF occurrence audit stays separate.'}</h2>
         <p>
           The product view leads with decisions instead of raw tables: supported claims, weak claims, blocked
           overclaims, required verification and the next repair action.
@@ -2231,9 +2366,11 @@ function VisualLecture() {
             repair actions instead of hidden failures.
           </p>
           <div className="lecture-actions">
+            <a className="button-link" href="#analysis-animation">Watch analysis</a>
+            <a className="button-link" href="#analysis-picture-sequence">Generated pictures</a>
             <a className="button-link" href="#sequence-picture">See sequence picture</a>
             <a className="button-link" href="#safe-claim-picture">See safe claims</a>
-            <a className="button-link" href="#animation-storyboard">Animation storyboard</a>
+            <a className="button-link" href="#animation-storyboard">Story frames</a>
           </div>
         </div>
         <div className="sequence-card" aria-label="Decorative DNA sequence preview">
@@ -2255,6 +2392,10 @@ function VisualLecture() {
           </article>
         ))}
       </section>
+
+      <AnalysisAnimationVisual />
+
+      <GeneratedAnalysisPictureSequence />
 
       <NatureCycleVisual />
 
@@ -2346,6 +2487,235 @@ function VisualLecture() {
   );
 }
 
+function AnalysisAnimationVisual() {
+  return (
+    <section className="panel analysis-animation-panel" id="analysis-animation" aria-label="Live analysis animation">
+      <div className="analysis-animation-heading">
+        <div>
+          <p className="section-label">Live analysis animation</p>
+          <h2>How EcoGenesis reaches a bounded claim, step by step.</h2>
+          <p>
+            The animation shows the actual logic of the compiler: sequence evidence is segmented, reference hits are
+            compared, hard gates are applied, unsafe species claims are downgraded, and publication blockers are kept
+            separate from taxonomic evidence.
+          </p>
+        </div>
+        <div className="analysis-verdict-card">
+          <span>Final claim</span>
+          <strong>Safe taxon + explicit blockers</strong>
+          <small>Correct because failed gates create downgrade or repair actions, not hidden confidence.</small>
+        </div>
+      </div>
+
+      <div className="analysis-live-grid">
+        <div className="analysis-stage">
+          <div className="analysis-sequence-rail" aria-label="Animated DNA sequence scanner">
+            <div className="analysis-scanner" />
+            {dnaQuery.slice(0, 38).split('').map((base, index) => (
+              <span className={`base-tile ${base}`} key={`analysis-base-${index}`}>{base}</span>
+            ))}
+          </div>
+          <div className="analysis-segment-map">
+            {analysisSegments.map(([range, title, evidence, verdict, tone]) => (
+              <article className={tone} key={range}>
+                <span>{range}</span>
+                <strong>{title}</strong>
+                <p>{evidence}</p>
+                <em>{verdict}</em>
+              </article>
+            ))}
+          </div>
+        </div>
+
+        <div className="analysis-hit-panel">
+          <p className="section-label">Reference hits</p>
+          {analysisReferenceHits.map(([taxon, score, detail, tone, width]) => (
+            <article className={tone} key={taxon}>
+              <div>
+                <strong>{taxon}</strong>
+                <span>{detail}</span>
+              </div>
+              <b>{score}</b>
+              <i style={{ width }} />
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <div className="analysis-gate-trail" aria-label="Compiler gate trail">
+        {analysisGateTrail.map(([gate, value, tone]) => (
+          <article className={tone} key={gate}>
+            <span>{gate}</span>
+            <strong>{value}</strong>
+          </article>
+        ))}
+      </div>
+
+      <div className="analysis-proof-grid">
+        {analysisProofCards.map(([title, body]) => (
+          <article key={title}>
+            <strong>{title}</strong>
+            <p>{body}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function GeneratedAnalysisPictureSequence() {
+  return (
+    <section className="panel analysis-picture-panel" id="analysis-picture-sequence" aria-label="Generated analysis picture sequence">
+      <div className="analysis-picture-heading">
+        <div>
+          <p className="section-label">Generated analysis pictures</p>
+          <h2>The whole analysis is now visible as a picture sequence.</h2>
+          <p>
+            The generated poster gives judges the fast visual story. The six controlled frames below show the exact
+            logic used by EcoGenesis: evidence enters, references are challenged, gates fail closed and only bounded
+            claims reach the Evidence Pack.
+          </p>
+        </div>
+        <div className="analysis-picture-legend">
+          <span>Generated overview</span>
+          <span>Exact gate logic</span>
+          <span>Contest presentation ready</span>
+        </div>
+      </div>
+
+      <figure className="analysis-generated-poster">
+        <img
+          src="/assets/ecogenesis-analysis-sequence-clean.png"
+          alt="Generated six-panel EcoGenesis analysis sequence from input sequence to evidence pack"
+        />
+        <figcaption>
+          Generated overview image. The verified cards below keep the scientific text and decision logic exact.
+        </figcaption>
+      </figure>
+
+      <div className="analysis-picture-grid">
+        {analysisPictureFrames.map(([index, title, body, result, visual]) => (
+          <article className={`analysis-picture-card ${visual}`} key={index}>
+            <AnalysisPictureGraphic visual={visual} />
+            <div className="analysis-picture-copy">
+              <span>Picture {index}</span>
+              <strong>{title}</strong>
+              <p>{body}</p>
+              <em>{result}</em>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function AnalysisPictureGraphic({ visual }) {
+  if (visual === 'input') {
+    return (
+      <div className="analysis-picture-graphic input" aria-label="Input sequence visual">
+        <div className="sample-tube"><span /></div>
+        <div className="sample-leaf" />
+        <div className="picture-dna-strip">
+          {dnaQuery.slice(0, 18).split('').map((base, index) => (
+            <span className={`base-tile ${base}`} key={`picture-input-${index}`}>{base}</span>
+          ))}
+        </div>
+        <div className="picture-chip-stack">
+          <span>COI-5P</span>
+          <span>occurrenceID</span>
+          <span>methodOrSOP</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (visual === 'alignment') {
+    return (
+      <div className="analysis-picture-graphic alignment" aria-label="Alignment scan visual">
+        <div className="picture-scan-bar" />
+        {[
+          ['Query', dnaQuery],
+          ['Ref A', dnaReference],
+          ['Ref B', dnaCompetitor],
+        ].map(([label, sequence]) => (
+          <div className="picture-align-row" key={label}>
+            <strong>{label}</strong>
+            <div>
+              {sequence.slice(0, 18).split('').map((base, index) => (
+                <span className={`base-tile ${base} ${base === dnaQuery[index] ? 'match' : 'mismatch'}`} key={`${label}-${index}`}>
+                  {base}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
+        <div className="picture-metric-pair">
+          <span>identity 99.6%</span>
+          <span>coverage 96%</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (visual === 'hits') {
+    return (
+      <div className="analysis-picture-graphic hits" aria-label="Reference hits visual">
+        {analysisReferenceHits.map(([taxon, score, detail, tone, width], index) => (
+          <div className={`picture-hit-row ${tone}`} key={taxon}>
+            <span>{index + 1}</span>
+            <strong>{taxon}</strong>
+            <b>{score}</b>
+            <i style={{ width }} />
+            <small>{detail}</small>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  if (visual === 'gates') {
+    return (
+      <div className="analysis-picture-graphic gates" aria-label="Hard gate visual">
+        {analysisGateTrail.map(([gate, value, tone]) => (
+          <div className={tone} key={gate}>
+            <span>{tone === 'repair' ? 'FIX' : 'PASS'}</span>
+            <strong>{gate}</strong>
+            <em>{value}</em>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  if (visual === 'claim') {
+    return (
+      <div className="analysis-picture-graphic claim" aria-label="Safe claim boundary visual">
+        <div className="overclaim-card">
+          <strong>species overclaim?</strong>
+          <span>blocked</span>
+        </div>
+        <div className="claim-arrow" />
+        <div className="safe-rank-card">
+          <strong>safe rank</strong>
+          <span>bounded claim</span>
+        </div>
+        <div className="repair-note">metadata repair stays explicit</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="analysis-picture-graphic pack" aria-label="Evidence pack export visual">
+      {['CSV', 'audit', 'repair', 'DWC', 'DNA', 'ZIP'].map((label) => (
+        <span key={label}>{label}</span>
+      ))}
+      <strong>Evidence Pack</strong>
+      <em>methods + citations + exports</em>
+    </div>
+  );
+}
+
 function NatureCycleVisual() {
   return (
     <section className="panel nature-cycle-panel">
@@ -2424,22 +2794,21 @@ function NatureCycleVisual() {
 
 function AnimationStoryboardVisual() {
   return (
-    <section className="animation-storyboard" id="animation-storyboard" aria-label="Animation-ready visual storyboard">
+    <section className="animation-storyboard" id="animation-storyboard" aria-label="EcoGenesis analysis story frames">
       <div className="storyboard-heading">
         <div>
-          <p className="section-label">Animation-ready storyboard</p>
-          <h3>Six extra visual frames for turning the project into an explanatory animation.</h3>
+          <p className="section-label">Analysis story frames</p>
+          <h3>Six visual moments that make the EcoGenesis workflow easy to understand.</h3>
           <p>
-            The large cycle image stays above. These additional frames are generated PNG scenes with the explanatory
-            copy kept outside the image. That gives us clean visual plates now and clear targets for later animation:
-            markers can travel, graph nodes can merge, gates can light up and export cards can move into a GBIF-ready
-            package.
+            The image above shows the big cycle. These frames turn the workflow into a clear judging story: DNA marker
+            evidence is compared, uncertainty is made visible, unsafe claims are downgraded, repair needs stay explicit
+            and the final Evidence Pack shows what can be published safely.
           </p>
         </div>
         <div className="storyboard-motion-key">
-          <span>Generated PNG</span>
-          <span>No text overlay</span>
-          <span>Future motion cues</span>
+          <span>Visual story</span>
+          <span>Safe decisions</span>
+          <span>Ready to present</span>
         </div>
       </div>
       <div className="storyboard-grid">
@@ -2448,7 +2817,7 @@ function AnimationStoryboardVisual() {
             <figure className="storyboard-visual generated-storyboard-image">
               <img
                 src={`/assets/storyboard-frame-${index}.png`}
-                alt={`Generated storyboard frame ${index}: ${title}`}
+                alt={`EcoGenesis visual story frame ${index}: ${title}`}
               />
             </figure>
             <div className="storyboard-caption">
@@ -3362,13 +3731,15 @@ function FragmentGraphSummary({ graph, loading }) {
         <Metric label="Taxa" value={classification.taxa_count} />
         <Metric label="Query length" value={graph.query?.sequence_length} />
       </div>
+      <SourceMonitor sources={graph.source_monitor || []} />
+      <SegmentEvidenceList segments={graph.segments || []} />
       <div className="fragment-claim-box">
         <strong>Safe to claim</strong>
-        <span>{safeClaimForStatus(classification.status, classification.safe_taxon)}</span>
+        <span>{graph.claim_boundary?.supported || safeClaimForStatus(classification.status, classification.safe_taxon)}</span>
       </div>
       <div className="fragment-claim-box blocked">
         <strong>Do not claim</strong>
-        <span>Do not turn this graph into absence, true distribution, phenotype, abundance or global presence claims.</span>
+        <span>{(graph.claim_boundary?.not_supported || ['absence, true distribution, phenotype, abundance or global presence claims']).join('; ')}</span>
       </div>
       <div>
         <h4>Kingdoms found</h4>
@@ -3407,6 +3778,51 @@ function FragmentGraphSummary({ graph, loading }) {
         <strong>Caveat</strong>
         <span>{classification.caveat}</span>
       </div>
+    </div>
+  );
+}
+
+function SourceMonitor({ sources }) {
+  if (!sources.length) return null;
+  return (
+    <div className="source-monitor">
+      <h4>Source monitor</h4>
+      {sources.map((source) => (
+        <div key={`${source.source}-${source.detail}`} className={source.status}>
+          <strong>{source.source}</strong>
+          <span>{source.status}</span>
+          <small>{source.detail}</small>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function SegmentEvidenceList({ segments }) {
+  if (!segments.length) return null;
+  return (
+    <div className="segment-evidence-list">
+      <h4>Segment map</h4>
+      {segments.slice(0, 5).map((segment) => {
+        const summary = segment.match_summary || {};
+        const safe = summary.safe_lca || {};
+        return (
+          <article key={segment.segment_id}>
+            <div>
+              <strong>{segment.segment_start}-{segment.segment_end} bp</strong>
+              <span>{segment.segment_class?.replaceAll('_', ' ') || 'segment'}</span>
+            </div>
+            <div className="segment-evidence-metrics">
+              <span>{formatPercent(summary.best_identity)} identity</span>
+              <span>{formatPercent(summary.best_query_coverage)} coverage</span>
+              <span>{safe.name || 'No safe taxon'} · {safe.rank || 'none'}</span>
+            </div>
+            {segment.known_annotations?.length > 0 && (
+              <small>{segment.known_annotations.map((annotation) => annotation.label).slice(0, 2).join(' · ')}</small>
+            )}
+          </article>
+        );
+      })}
     </div>
   );
 }
@@ -4713,7 +5129,7 @@ function CompilerWorkbench({
           <p className="section-label">Data source</p>
           <strong>{referenceStatus?.status === 'ready' ? 'Compiler ready' : 'Compiler status'}</strong>
           <span>
-            Molecular scoring uses your supplied Sequence ID / BLAST-style CSV. Live GBIF occurrence audit is available in Research audit, but it is not used as hidden molecular evidence.
+            Molecular scoring uses supplied Sequence ID / BLAST / BOLD / UNITE-style CSV rows or the selected FASTA reference dataset. Live GBIF occurrence audit is available in Research audit, but it is not used as hidden molecular evidence.
           </span>
         </section>
 
@@ -4789,6 +5205,8 @@ function CompilerWorkbench({
             </section>
 
             <NexusAuditPanel pack={pack} />
+
+            <ClaimBoundaryPanel records={records} pack={pack} />
 
             <MarkerAssayPanel pack={pack} records={records} />
 
@@ -5085,6 +5503,68 @@ function NexusAuditPanel({ pack }) {
       </div>
     </section>
   );
+}
+
+function ClaimBoundaryPanel({ records, pack }) {
+  const buckets = records.reduce((acc, record) => {
+    const bucket = record.publication_bucket || 'review_only';
+    acc[bucket] = (acc[bucket] || 0) + 1;
+    return acc;
+  }, {});
+  const examples = records.slice(0, 4);
+  return (
+    <section className="panel claim-boundary-panel">
+      <div className="panel-heading-row">
+        <div>
+          <p className="section-label">Claim boundary</p>
+          <h3>What can be claimed, what is blocked, and what remains repair work.</h3>
+        </div>
+        <span className="audit-status pass">bounded evidence</span>
+      </div>
+      <div className="nexus-kpi-grid">
+        <Metric label="GBIF-ready" value={buckets.gbif_ready || 0} detail="dataset-level ready rows" />
+        <Metric label="Candidates" value={buckets.publishable_candidate || 0} detail="safe rows needing dataset review" />
+        <Metric label="Repair required" value={buckets.repair_required || 0} detail="blocked before publication" />
+        <Metric label="Review only" value={buckets.review_only || 0} detail="not exportable as occurrence rows" />
+      </div>
+      <div className="claim-boundary-grid">
+        {examples.map((record) => {
+          const boundary = record.claim_boundary || {};
+          return (
+            <article key={record.sequence_id} className={claimBoundaryTone(record)}>
+              <strong>{record.sequence_id} · {record.publication_bucket || 'review_only'}</strong>
+              <span>{boundary.supported || decisionCopy[record.decision_class]?.body || record.decision_class}</span>
+              <span>{boundary.publication || formatStage(record.publication_stage)}</span>
+              {boundary.not_supported?.length > 0 && (
+                <small>Not supported: {boundary.not_supported.slice(0, 2).join('; ')}</small>
+              )}
+            </article>
+          );
+        })}
+      </div>
+      {pack.source_provenance && (
+        <div className="source-provenance-card">
+          <strong>Source provenance</strong>
+          <span>{pack.source_provenance.input_contract}</span>
+          <small>
+            Reference: {pack.source_provenance.reference_database || 'not supplied'}
+            {' · '}
+            backends: {(pack.source_provenance.reference_search_backends || []).join(', ') || 'supplied hit table'}
+          </small>
+        </div>
+      )}
+    </section>
+  );
+}
+
+function claimBoundaryTone(record) {
+  if (record.publication_bucket === 'gbif_ready' || record.publication_bucket === 'publishable_candidate') {
+    return 'safe';
+  }
+  if (record.publication_bucket === 'repair_required') {
+    return 'repair';
+  }
+  return 'blocked';
 }
 
 function BenchmarkComparisonPanel({ pack, records }) {

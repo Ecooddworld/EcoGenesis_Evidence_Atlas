@@ -114,15 +114,15 @@ ALIASES: dict[str, list[str]] = {
     "estimatedNumberOfCopies": ["estimatedNumberOfCopies", "estimated_number_of_copies", "copies"],
     "readCount": ["readCount", "read_count", "reads"],
     "totalReads": ["totalReads", "total_reads"],
-    "topTaxon": ["topTaxon", "top_taxon", "matchedTaxon", "bestTaxon", "taxon", "scientificName"],
-    "topIdentity": ["topIdentity", "top_identity", "identity", "percentIdentity", "pident"],
-    "topCoverage": ["topCoverage", "top_coverage", "queryCoverage", "query_coverage", "coverage", "qcov"],
-    "topRank": ["topRank", "top_rank", "rank", "taxonRank"],
-    "topAlignedLength": ["topAlignedLength", "top_aligned_length", "alignedLength", "alignmentLength"],
-    "topBitScore": ["topBitScore", "bitScore", "bitscore"],
-    "topEvalue": ["topEvalue", "evalue", "eValue"],
-    "topReferenceId": ["topReferenceId", "referenceId", "subjectID", "subjectId"],
-    "topGbifTaxonKey": ["topGbifTaxonKey", "gbifTaxonKey", "usageKey", "taxonKey"],
+    "topTaxon": ["topTaxon", "top_taxon", "hitTaxon", "hit_taxon", "referenceTaxon", "subjectTaxon", "matchedTaxon", "bestTaxon", "taxon", "scientificName"],
+    "topIdentity": ["topIdentity", "top_identity", "hitIdentity", "hit_identity", "identity", "percentIdentity", "pident"],
+    "topCoverage": ["topCoverage", "top_coverage", "hitCoverage", "hit_coverage", "queryCoverage", "query_coverage", "coverage", "qcov"],
+    "topRank": ["topRank", "top_rank", "hitRank", "hit_rank", "rank", "taxonRank"],
+    "topAlignedLength": ["topAlignedLength", "top_aligned_length", "hitAlignedLength", "hit_aligned_length", "alignedLength", "alignmentLength"],
+    "topBitScore": ["topBitScore", "hitBitScore", "hit_bit_score", "bitScore", "bitscore"],
+    "topEvalue": ["topEvalue", "hitEvalue", "hit_evalue", "evalue", "eValue"],
+    "topReferenceId": ["topReferenceId", "hitReferenceId", "hit_reference_id", "referenceId", "subjectID", "subjectId"],
+    "topGbifTaxonKey": ["topGbifTaxonKey", "hitGbifTaxonKey", "hit_gbif_taxon_key", "gbifTaxonKey", "usageKey", "taxonKey"],
     "secondTaxon": ["secondTaxon", "second_taxon", "competitorTaxon", "nextTaxon"],
     "secondIdentity": ["secondIdentity", "second_identity", "competitorIdentity", "nextIdentity"],
     "secondCoverage": ["secondCoverage", "second_coverage", "competitorCoverage", "nextCoverage"],
@@ -169,7 +169,7 @@ def parse_barcode_csv(
     invalid_sequence_count = 0
     weak_or_no_hit_count = 0
     no_hit_count = 0
-    records: list[SequenceRecord] = []
+    records_by_sequence_id: dict[str, SequenceRecord] = {}
 
     if errors:
         return build_import_result(
@@ -218,18 +218,29 @@ def parse_barcode_csv(
 
         errors.extend(row_errors)
         if sequence_id and sequence and not row_errors:
-            records.append(
-                SequenceRecord(
-                    sequence_id=sequence_id,
-                    sequence=sequence,
-                    metadata=metadata,
-                    hits=hits,
-                    barcode_gap=barcode_gap_for_row(row, header_lookup),
-                    diagnostic=diagnostic_for_row(row, header_lookup),
-                )
+            new_record = SequenceRecord(
+                sequence_id=sequence_id,
+                sequence=sequence,
+                metadata=metadata,
+                hits=hits,
+                barcode_gap=barcode_gap_for_row(row, header_lookup),
+                diagnostic=diagnostic_for_row(row, header_lookup),
             )
+            existing = records_by_sequence_id.get(sequence_id)
+            if existing:
+                if existing.sequence != new_record.sequence:
+                    errors.append(f"Row {index}: duplicate sequenceID {sequence_id} has a different sequence value.")
+                    continue
+                merge_sequence_record(existing, new_record)
+            else:
+                records_by_sequence_id[sequence_id] = new_record
 
     missing_recommended_fields = {key: count for key, count in missing_recommended_fields.items() if count}
+    records = list(records_by_sequence_id.values())
+    if len(records) < len(raw_rows) and not errors:
+        warnings.append(
+            f"Detected long-format hit table: {len(raw_rows)} CSV row(s) were grouped into {len(records)} sequence record(s)."
+        )
     if no_hit_count:
         warnings.append(f"{no_hit_count} row(s) have no reference hit metrics; they will compile as no-match/review.")
     if weak_or_no_hit_count:
@@ -364,6 +375,35 @@ def metadata_for_row(row: dict[str, Any], header_lookup: dict[str, str]) -> dict
         if value:
             metadata[field] = value
     return metadata
+
+
+def merge_sequence_record(existing: SequenceRecord, new_record: SequenceRecord) -> None:
+    for key, value in new_record.metadata.items():
+        if value and not existing.metadata.get(key):
+            existing.metadata[key] = value
+    seen_hits = {hit_key(hit) for hit in existing.hits}
+    for hit in new_record.hits:
+        key = hit_key(hit)
+        if key not in seen_hits:
+            existing.hits.append(hit)
+            seen_hits.add(key)
+    if existing.barcode_gap is None and new_record.barcode_gap is not None:
+        existing.barcode_gap = new_record.barcode_gap
+    if existing.diagnostic is None and new_record.diagnostic is not None:
+        existing.diagnostic = new_record.diagnostic
+    elif existing.diagnostic is not None and new_record.diagnostic is not None:
+        merged = list(dict.fromkeys([*existing.diagnostic.diagnostic_kmers, *new_record.diagnostic.diagnostic_kmers]))
+        existing.diagnostic.diagnostic_kmers = merged
+
+
+def hit_key(hit: ReferenceHit) -> tuple[Any, ...]:
+    return (
+        hit.reference_id,
+        hit.taxon,
+        hit.rank,
+        round(hit.identity, 6),
+        round(hit.query_coverage, 6),
+    )
 
 
 def hits_for_row(row: dict[str, Any], header_lookup: dict[str, str]) -> list[ReferenceHit]:

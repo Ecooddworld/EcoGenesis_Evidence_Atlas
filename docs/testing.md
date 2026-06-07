@@ -5,14 +5,13 @@
 Run:
 
 ```bash
-cd backend
-.venv/bin/python -m pytest -q
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python3.12 -m pytest backend/tests -q
 ```
 
 Expected current result:
 
 ```text
-35 passed, 1 skipped
+52 passed, 1 skipped
 ```
 
 Required barcode compiler coverage:
@@ -27,6 +26,10 @@ Required barcode compiler coverage:
 - `/api/barcode/import-csv` returns normalized request, preview and validation summary
 - `/api/barcode/run-csv` creates a run and Evidence Pack exports
 - existing `/api/barcode/run` JSON endpoint remains compatible
+- reference-search runs generated from pasted FASTA do not synthesize `eventDate` or `occurrenceID`;
+- `python-local` search backend is review-only and blocks GBIF-ready publication;
+- long-format hit tables with repeated `sequenceID` rows are grouped into one sequence record with multiple hits;
+- `/api/barcode/fragment-graph` returns segment-level coordinates, source monitor data, known annotation hints and claim boundaries.
 
 Legacy `/api/evidence/*` tests remain active to guarantee the occurrence-audit layer still works for live GBIF context and regression.
 
@@ -36,14 +39,14 @@ Run:
 
 ```bash
 cd frontend
-npm test -- --run
+npm test
 npm run build
 ```
 
 Expected current result:
 
 ```text
-5 frontend tests passed
+10 frontend tests passed
 production build passed
 ```
 
@@ -108,6 +111,25 @@ Expected:
 8. Open `Math & proof`.
 9. Open `Research audit`.
 10. Confirm console errors are zero and there is no horizontal overflow.
+
+## Docker Smoke
+
+Run from the repository root:
+
+```bash
+scripts/docker_smoke.sh
+```
+
+Expected:
+
+- Docker builds the backend and frontend images.
+- Backend health passes on the published backend port.
+- Frontend Nginx serves the Vite shell and JavaScript asset.
+- `/health` and `/api/*` work through the frontend proxy.
+- `/api/barcode/search-status` reports `preferred_backend=vsearch` inside Docker.
+- The mini Aedes reference-search compile path returns a completed run.
+- The bundled shared-fragment graph path returns `higher-rank-shared`.
+- The shared-fragment graph path includes segment evidence rather than only top-hit summary data.
 
 ## Operability Report
 
