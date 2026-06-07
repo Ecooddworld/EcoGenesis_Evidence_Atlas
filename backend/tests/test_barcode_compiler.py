@@ -35,6 +35,8 @@ def test_species_safe_when_all_gates_pass(tmp_path, monkeypatch) -> None:
     assert record["published_taxon"]["rank"] == "species"
     assert record["publication_stage"] == "record_recommended_ready"
     assert record["publication_status"] == "record-ready"
+    assert record["publication_bucket"] == "publishable_candidate"
+    assert record["claim_boundary"]["supported"].startswith("Species-level molecular assignment candidate")
     assert record["barcode_gap"]["status"] == "pass"
     assert record["diagnostic_kmers"]["status"] == "pass"
     assert record["diagnostic_kmers"]["p_false_positive"] <= 0.01
@@ -158,7 +160,10 @@ def test_barcode_api_and_exports(tmp_path, monkeypatch) -> None:
     run_id = payload["run_id"]
     assert {item["name"] for item in payload["exports"]} >= {
         "reference_manifest.json",
+        "source_provenance_manifest.json",
         "sequence_safety_table.csv",
+        "claim_boundaries.csv",
+        "segment_overlap_report.csv",
         "safe_taxonomic_assignments.csv",
         "review_taxonomic_hints.csv",
         "ambiguous_sequences.csv",
@@ -254,6 +259,9 @@ def test_barcode_api_and_exports(tmp_path, monkeypatch) -> None:
         assert {
             "sequence_safety_table.csv",
             "reference_manifest.json",
+            "source_provenance_manifest.json",
+            "claim_boundaries.csv",
+            "segment_overlap_report.csv",
             "molecular_evidence_report.html",
             "dwc_occurrence_core_publishable.csv",
             "review_taxonomic_hints.csv",

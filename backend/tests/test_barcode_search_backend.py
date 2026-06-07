@@ -70,8 +70,13 @@ def test_reference_dataset_and_search_api_compile_run(tmp_path, monkeypatch) -> 
     payload = response.json()
     assert payload["search"]["hits"][0]["taxon"] == "Aedes albopictus"
     assert payload["run"]["status"] == "completed"
-    assert payload["pack"]["records"][0]["decision_class"] == "species-safe"
-    assert payload["pack"]["records"][0]["published_taxon"]["name"] == "Aedes albopictus"
+    record = payload["pack"]["records"][0]
+    assert record["taxonomic_status"] == "species-safe"
+    assert record["decision_class"] == "not-publishable"
+    assert record["publication_bucket"] == "repair_required"
+    assert record["published_taxon"]["rank"] == "none"
+    assert any("python-local mini-search is review-only" in blocker for blocker in record["blockers"])
+    assert "eventDate" in record["metadata_readiness"]["core_missing"]
     assert payload["pack"]["metrics"]["hard_gate_failures"] == 0
 
 
@@ -116,7 +121,10 @@ def test_user_reference_fasta_upload_then_search(tmp_path, monkeypatch) -> None:
     assert response.status_code == 200
     payload = response.json()
     assert payload["search"]["hits"][0]["taxon"] == "Aedes albopictus"
-    assert payload["pack"]["records"][0]["decision_class"] == "species-safe"
+    record = payload["pack"]["records"][0]
+    assert record["taxonomic_status"] == "species-safe"
+    assert record["decision_class"] == "not-publishable"
+    assert record["publication_bucket"] == "repair_required"
 
 
 def test_uploaded_reference_ambiguous_binomials_downgrade_to_genus(tmp_path, monkeypatch) -> None:
@@ -151,10 +159,11 @@ def test_uploaded_reference_ambiguous_binomials_downgrade_to_genus(tmp_path, mon
 
     assert response.status_code == 200
     record = response.json()["pack"]["records"][0]
-    assert record["decision_class"] == "genus-safe"
+    assert record["taxonomic_status"] == "genus-safe"
+    assert record["decision_class"] == "not-publishable"
     assert record["candidate_taxon"]["rank"] == "genus"
     assert record["candidate_taxon"]["name"] == "Aedes"
-    assert record["published_taxon"]["rank"] == "genus"
+    assert record["published_taxon"]["rank"] == "none"
 
 
 def test_uploaded_reference_uses_gbif_backbone_enrichment(tmp_path, monkeypatch) -> None:
@@ -233,8 +242,10 @@ def test_real_ncbi_aedes_pack_compiles_species_safe() -> None:
 
     assert result["hits"][0]["taxon"] == "Aedes albopictus"
     assert result["hits"][0]["gbif_taxon_key"] == 1651430
-    assert record["decision_class"] == "species-safe"
-    assert record["published_taxon"]["name"] == "Aedes albopictus"
+    assert record["taxonomic_status"] == "species-safe"
+    assert record["decision_class"] == "not-publishable"
+    assert record["published_taxon"]["rank"] == "none"
+    assert record["metadata"]["analysisCreatedAt"]
 
 
 def test_real_ncbi_quercus_pack_downgrades_conserved_rbcl_to_genus() -> None:
@@ -255,8 +266,9 @@ def test_real_ncbi_quercus_pack_downgrades_conserved_rbcl_to_genus() -> None:
     assert result["hits"][0]["taxon"] == "Quercus robur"
     assert result["hits"][1]["taxon"] == "Quercus petraea"
     assert result["hits"][1]["identity"] == 100
-    assert record["decision_class"] == "genus-safe"
-    assert record["published_taxon"] == {"rank": "genus", "name": "Quercus", "taxon_key": 2877951}
+    assert record["taxonomic_status"] == "genus-safe"
+    assert record["decision_class"] == "not-publishable"
+    assert record["published_taxon"]["rank"] == "none"
 
 
 def test_fragment_graph_real_ncbi_aedes_returns_animalia_and_safe_lca() -> None:
@@ -275,6 +287,11 @@ def test_fragment_graph_real_ncbi_aedes_returns_animalia_and_safe_lca() -> None:
     assert "Animalia" in graph["classification"]["kingdoms"]
     assert graph["classification"]["safe_taxon"]["rank"] in {"species", "genus"}
     assert graph["classification"]["informative_hits"] >= 1
+    assert graph["source_monitor"][0]["source"] == "local_reference_dataset"
+    assert graph["claim_boundary"]["supported"]
+    assert graph["segments"][0]["segment_start"] == 1
+    assert graph["segments"][0]["match_summary"]["safe_lca"]["rank"] in {"species", "genus"}
+    assert graph["segments"][0]["known_annotations"][0]["type"] == "marker_region"
     assert any(node["type"] == "fragment" for node in graph["nodes"])
     assert any(node["type"] == "reference_hit" for node in graph["nodes"])
     assert any(node["type"] == "safe_lca" for node in graph["nodes"])
@@ -317,6 +334,9 @@ def test_fragment_graph_short_shared_culicidae_fragment_returns_family_tree() ->
     assert graph["classification"]["taxa_count"] == 8
     assert graph["classification"]["rank_distribution"]["genus"] == 3
     assert graph["classification"]["rank_distribution"]["species"] == 8
+    assert graph["segments"][0]["segment_class"] == "mini_fragment"
+    assert graph["segments"][0]["match_summary"]["claim_boundary"].startswith("Family-level fragment evidence")
+    assert "review only: production aligner was not used" in graph["segments"][0]["blockers"]
     assert {hit["taxon"] for hit in graph["hits"]} >= {
         "Aedes albopictus",
         "Culex pipiens",

@@ -195,6 +195,10 @@ const fragmentGraphPayload = {
     marker: 'COI-5P',
   },
   backend_used: 'python-local',
+  source_monitor: [
+    { source: 'local_reference_dataset', status: 'done', detail: 'ncbi_aedes_coi_small', cached: true },
+    { source: 'python-local', status: 'review_only', detail: 'deterministic mini-search', cached: false },
+  ],
   classification: {
     status: 'genus-shared',
     safe_taxon: { rank: 'genus', name: 'Aedes', taxon_key: 7924646 },
@@ -212,6 +216,25 @@ const fragmentGraphPayload = {
     },
     caveat: 'Graph is limited to the selected reference dataset.',
   },
+  claim_boundary: {
+    supported: 'Genus-level fragment evidence for Aedes; species-level claims are blocked.',
+    not_supported: ['natural occurrence, absence, abundance or distribution', 'phenotype/function/ecological role'],
+  },
+  segments: [
+    {
+      segment_id: 'LC881945_1_AALB_COI:1-72',
+      segment_start: 1,
+      segment_end: 72,
+      segment_length: 72,
+      segment_class: 'mini_fragment',
+      match_summary: {
+        best_identity: 100,
+        best_query_coverage: 100,
+        safe_lca: { rank: 'genus', name: 'Aedes', taxon_key: 7924646 },
+      },
+      known_annotations: [{ type: 'marker_region', label: 'COI-5P matched region' }],
+    },
+  ],
   nodes: [
     { id: 'fragment:LC881945_1_AALB_COI', type: 'fragment', label: 'Query fragment', sequence_length: 72 },
     { id: 'reference_dataset:ncbi_aedes_coi_small', type: 'reference_dataset', label: 'NCBI GenBank small COI reference pack for Aedes workflow validation', marker: 'COI-5P' },
@@ -250,6 +273,10 @@ const sharedFragmentGraphPayload = {
     marker: 'COI-short',
   },
   backend_used: 'python-local',
+  source_monitor: [
+    { source: 'local_reference_dataset', status: 'done', detail: 'culicidae_short_shared_marker', cached: true },
+    { source: 'python-local', status: 'review_only', detail: 'deterministic mini-search', cached: false },
+  ],
   classification: {
     status: 'higher-rank-shared',
     safe_taxon: { rank: 'family', name: 'Culicidae', taxon_key: 3346 },
@@ -267,6 +294,25 @@ const sharedFragmentGraphPayload = {
     },
     caveat: 'Graph is limited to the selected reference dataset.',
   },
+  claim_boundary: {
+    supported: 'Family-level fragment evidence for Culicidae; lower-rank claims are blocked.',
+    not_supported: ['natural occurrence, absence, abundance or distribution', 'global species truth outside the selected reference dataset'],
+  },
+  segments: [
+    {
+      segment_id: 'CULICIDAE_SHARED_SHORT_QUERY:1-32',
+      segment_start: 1,
+      segment_end: 32,
+      segment_length: 32,
+      segment_class: 'mini_fragment',
+      match_summary: {
+        best_identity: 100,
+        best_query_coverage: 100,
+        safe_lca: { rank: 'family', name: 'Culicidae', taxon_key: 3346 },
+      },
+      known_annotations: [{ type: 'marker_region', label: 'COI-short matched region' }],
+    },
+  ],
   nodes: [
     { id: 'fragment:CULICIDAE_SHARED_SHORT_QUERY', type: 'fragment', label: 'Query fragment', sequence_length: 32 },
     { id: 'reference_dataset:culicidae_short_shared_marker', type: 'reference_dataset', label: 'EcoGenesis shared short-fragment reference tree for Culicidae', marker: 'COI-short' },
@@ -334,6 +380,7 @@ const uploadedReferencePayload = {
 
 afterEach(() => {
   cleanup();
+  window.history.pushState({}, '', '/');
   vi.restoreAllMocks();
 });
 
@@ -540,6 +587,10 @@ describe('Barcode compiler UI', () => {
     expect(screen.getByText('Lineage path')).toBeInTheDocument();
     expect(screen.getByText('Hit comparison')).toBeInTheDocument();
     expect(screen.getByText('Graph zoom')).toBeInTheDocument();
+    expect(screen.getByText('Source monitor')).toBeInTheDocument();
+    expect(screen.getByText('Segment map')).toBeInTheDocument();
+    expect(screen.getByText('1-72 bp')).toBeInTheDocument();
+    expect(screen.getByText('COI-5P matched region')).toBeInTheDocument();
     expect(screen.getByText('125%')).toBeInTheDocument();
     fireEvent.click(screen.getByLabelText('Zoom in graph'));
     expect(screen.getByText('150%')).toBeInTheDocument();
@@ -594,6 +645,9 @@ describe('Barcode compiler UI', () => {
     expect(screen.getByText('Taxonomic cluster map')).toBeInTheDocument();
     expect(screen.getByText('Safe LCA network')).toBeInTheDocument();
     expect(screen.getByText('Species claim blocked')).toBeInTheDocument();
+    expect(screen.getByText('Source monitor')).toBeInTheDocument();
+    expect(screen.getByText('Segment map')).toBeInTheDocument();
+    expect(screen.getByText('1-32 bp')).toBeInTheDocument();
     expect(screen.getAllByText('Culicidae').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Aedes').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Anopheles').length).toBeGreaterThan(0);
@@ -666,15 +720,27 @@ describe('Barcode compiler UI', () => {
     fireEvent.click(await screen.findByText('Visual lecture'));
 
     expect(screen.getByText('Sequence visual lab: from DNA letters to safe GBIF evidence.')).toBeInTheDocument();
+    expect(screen.getByText('Live analysis animation')).toBeInTheDocument();
+    expect(screen.getByText('How EcoGenesis reaches a bounded claim, step by step.')).toBeInTheDocument();
+    expect(screen.getByText('Generated analysis pictures')).toBeInTheDocument();
+    expect(screen.getByText('The whole analysis is now visible as a picture sequence.')).toBeInTheDocument();
+    expect(screen.getByAltText('Generated six-panel EcoGenesis analysis sequence from input sequence to evidence pack')).toBeInTheDocument();
+    expect(screen.getByText('Input sequence')).toBeInTheDocument();
+    expect(screen.getByText('Alignment scan')).toBeInTheDocument();
+    expect(screen.getAllByText('Evidence pack').length).toBeGreaterThan(0);
+    expect(screen.getByText('Why the output is correct')).toBeInTheDocument();
+    expect(screen.getByText('Why overclaims are blocked')).toBeInTheDocument();
+    expect(screen.getByText('Why publication is separate')).toBeInTheDocument();
     expect(screen.getByText('DNA letters')).toBeInTheDocument();
-    expect(screen.getByText('Query')).toBeInTheDocument();
+    expect(screen.getAllByText('Query').length).toBeGreaterThan(0);
     expect(screen.getByText('Reference hit')).toBeInTheDocument();
     expect(screen.getByText('Nature-to-evidence cycle')).toBeInTheDocument();
     expect(screen.getByAltText('Nature to DNA marker evidence cycle showing biodiversity material, sequencing, compiler, open data map and conservation feedback')).toBeInTheDocument();
     expect(screen.getByText('The full cycle: nature produces signals, science turns them into safe evidence, and the evidence returns to nature as better decisions.')).toBeInTheDocument();
     expect(screen.getByText('DNA marker evidence, not one special sample type.')).toBeInTheDocument();
-    expect(screen.getByText('Animation-ready storyboard')).toBeInTheDocument();
-    expect(screen.getByText('Six extra visual frames for turning the project into an explanatory animation.')).toBeInTheDocument();
+    expect(screen.getByText('Analysis story frames')).toBeInTheDocument();
+    expect(screen.getByText('Six visual moments that make the EcoGenesis workflow easy to understand.')).toBeInTheDocument();
+    expect(screen.getByText('Ready to present')).toBeInTheDocument();
     expect(screen.getByText('Biological material becomes marker evidence')).toBeInTheDocument();
     expect(screen.getByText('Reference search creates competing hits')).toBeInTheDocument();
     expect(screen.getByText('Shared fragments become a taxonomic tree')).toBeInTheDocument();
@@ -694,6 +760,85 @@ describe('Barcode compiler UI', () => {
     expect(screen.getByText('What can I claim?')).toBeInTheDocument();
     expect(screen.getByText('Where this leads')).toBeInTheDocument();
     expect(screen.getByText('From one compiler to a Molecular Evidence Graph for GBIF.')).toBeInTheDocument();
+  });
+
+  it('opens the safe-claim picture directly from the URL hash', async () => {
+    vi.spyOn(globalThis, 'fetch').mockImplementation((url) => {
+      const textUrl = String(url);
+      if (textUrl.endsWith('/api/barcode/demo-scenarios')) {
+        return Promise.resolve(new Response(JSON.stringify(demoScenarios), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/reference-status')) {
+        return Promise.resolve(new Response(JSON.stringify({ status: 'ready', message: 'Compiler ready.' }), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/search-status')) {
+        return Promise.resolve(new Response(JSON.stringify(searchStatus), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/reference-datasets')) {
+        return Promise.resolve(new Response(JSON.stringify(referenceDatasets), { status: 200 }));
+      }
+      return Promise.resolve(new Response('{}', { status: 404 }));
+    });
+
+    window.history.pushState({}, '', '/#safe-claim-picture');
+    render(<App />);
+
+    expect(await screen.findByText('Final mental model')).toBeInTheDocument();
+    expect(screen.getByText('EcoGenesis is a scientific checkpoint before GBIF publication.')).toBeInTheDocument();
+    expect(screen.getAllByText('Evidence pack').length).toBeGreaterThan(0);
+  });
+
+  it('opens the live analysis animation directly from the URL hash', async () => {
+    vi.spyOn(globalThis, 'fetch').mockImplementation((url) => {
+      const textUrl = String(url);
+      if (textUrl.endsWith('/api/barcode/demo-scenarios')) {
+        return Promise.resolve(new Response(JSON.stringify(demoScenarios), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/reference-status')) {
+        return Promise.resolve(new Response(JSON.stringify({ status: 'ready', message: 'Compiler ready.' }), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/search-status')) {
+        return Promise.resolve(new Response(JSON.stringify(searchStatus), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/reference-datasets')) {
+        return Promise.resolve(new Response(JSON.stringify(referenceDatasets), { status: 200 }));
+      }
+      return Promise.resolve(new Response('{}', { status: 404 }));
+    });
+
+    window.history.pushState({}, '', '/#analysis-animation');
+    render(<App />);
+
+    expect(await screen.findByText('Live analysis animation')).toBeInTheDocument();
+    expect(screen.getByText('Safe taxon + explicit blockers')).toBeInTheDocument();
+    expect(screen.getByText('Final claim')).toBeInTheDocument();
+  });
+
+  it('opens the generated analysis picture sequence directly from the URL hash', async () => {
+    vi.spyOn(globalThis, 'fetch').mockImplementation((url) => {
+      const textUrl = String(url);
+      if (textUrl.endsWith('/api/barcode/demo-scenarios')) {
+        return Promise.resolve(new Response(JSON.stringify(demoScenarios), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/reference-status')) {
+        return Promise.resolve(new Response(JSON.stringify({ status: 'ready', message: 'Compiler ready.' }), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/search-status')) {
+        return Promise.resolve(new Response(JSON.stringify(searchStatus), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/reference-datasets')) {
+        return Promise.resolve(new Response(JSON.stringify(referenceDatasets), { status: 200 }));
+      }
+      return Promise.resolve(new Response('{}', { status: 404 }));
+    });
+
+    window.history.pushState({}, '', '/#analysis-picture-sequence');
+    render(<App />);
+
+    expect(await screen.findByText('Generated analysis pictures')).toBeInTheDocument();
+    expect(screen.getByText('Contest presentation ready')).toBeInTheDocument();
+    expect(screen.getByText('No hidden overclaim')).toBeInTheDocument();
+    expect(screen.getByText('Reproducible export')).toBeInTheDocument();
   });
 
   it('opens the proof and formulas page', async () => {

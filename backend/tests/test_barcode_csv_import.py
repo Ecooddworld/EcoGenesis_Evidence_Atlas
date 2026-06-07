@@ -95,6 +95,25 @@ def test_csv_alias_columns_resolve_and_compile(tmp_path, monkeypatch) -> None:
     assert pack["records"][0]["decision_class"] == "species-safe"
 
 
+def test_long_format_hit_rows_group_by_sequence_id(tmp_path, monkeypatch) -> None:
+    monkeypatch.setenv("EVIDENCE_DATA_DIR", str(tmp_path))
+    sequence = "ACGTTGACCTAGGCTTACGATCGTACCGATGCTAGCTAGGATCCGATCGTACGATCGTAGCTAGCATCG"
+    parsed = parse_barcode_csv(
+        "sequenceID,sequence,occurrenceID,basisOfRecord,scientificName,eventDate,marker,referenceDatabase,methodOrSOP,hitTaxon,hitIdentity,hitCoverage,hitRank,hitAlignedLength,barcodeIntraMax,barcodeInterMin,diagnosticKmers\n"
+        f"long-1,{sequence},urn:long:1,MaterialSample,Aedes albopictus,2026-04-18,COI-5P,COI reference,BLAST long table,Aedes albopictus,99.6,96,species,658,0.009,0.018,ACGTTGACCTAGGCT\n"
+        f"long-1,{sequence},urn:long:1,MaterialSample,Aedes albopictus,2026-04-18,COI-5P,COI reference,BLAST long table,Aedes aegypti,99.5,96,species,658,0.009,0.018,ACGTTGACCTAGGCT\n"
+    )
+
+    assert parsed["validation"]["ok"] is True
+    assert "grouped into 1 sequence record" in "; ".join(parsed["validation"]["warnings"])
+    request = BarcodeCompilerRequest(**parsed["request"])
+    assert len(request.records) == 1
+    assert len(request.records[0].hits) == 2
+
+    pack = run_barcode_compiler(request)
+    assert pack["records"][0]["taxonomic_status"] == "genus-safe"
+
+
 def test_import_csv_api_returns_request_preview_and_validation(tmp_path, monkeypatch) -> None:
     monkeypatch.setenv("EVIDENCE_DATA_DIR", str(tmp_path))
     client = TestClient(app)

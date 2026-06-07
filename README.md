@@ -111,7 +111,7 @@ Automated Docker smoke test:
 scripts/docker_smoke.sh
 ```
 
-The smoke test builds the stack on ports `13200/18200`, checks frontend and backend health, verifies `/api/barcode/search-status`, and runs the mini Aedes reference-search path through the Nginx `/api` proxy.
+The smoke test builds the stack on ports `13200/18200`, checks backend health directly and through the frontend proxy, verifies that the Vite/Nginx frontend shell and JavaScript asset are served, requires the Docker backend to report `vsearch`, and runs both the mini Aedes reference-search compile path and the shared-fragment graph path through the Nginx `/api` proxy.
 
 ### Main User Flow
 
@@ -122,7 +122,26 @@ The smoke test builds the stack on ports `13200/18200`, checks frontend and back
 5. Inspect `species-safe`, `genus-safe`, `weak`, `not-publishable` and blocked claims.
 6. Download `evidence_pack.zip` or individual CSV/HTML exports.
 
-FASTA-only input is intentionally not enough for a species-safe decision. The compiler needs supplied match results or reference-hit metrics, because it is a downstream safety and publication-readiness compiler, not a replacement for GBIF Sequence ID.
+FASTA-only input can be searched against a selected reference dataset, but it is intentionally not enough for a GBIF-ready publication decision. The compiler needs occurrence metadata supplied by the user, and production publication requires VSEARCH, BLAST+ or an audited external reference workflow rather than the local deterministic mini-search fallback.
+
+### Contest-Safe Source Connections
+
+This project does not rely on the broader EcoGenesis source aggregator for molecular evidence. The barcode compiler accepts and audits these inputs:
+
+- **GBIF Sequence ID / BLAST-style CSV**: export or prepare rows with `sequenceID`, `sequence`, top hit taxon, identity, coverage, lineage and GBIF/DNA metadata.
+- **NCBI BLAST / local BLAST+ / VSEARCH**: use the built-in Docker backends or paste/export normalized hit tables into the compiler.
+- **BOLD / UNITE / lab pipelines**: use their identification or export tables as external evidence, then preserve source, license, access date and method in the CSV or evidence pack.
+- **User FASTA reference datasets**: upload a curated FASTA with headers like `>ref_id|Taxon name|rank|gbifTaxonKey`; the app computes local barcode-gap and diagnostic k-mer evidence.
+- **GBIF Backbone enrichment**: uploaded taxon names can be matched to GBIF backbone for lineage/provenance only.
+- **GBIF occurrence audit**: available under `/api/evidence/*` for research context, citation and bias checks; it never upgrades a weak molecular hit into a species-safe barcode claim.
+
+Manual connection links:
+
+- GBIF Sequence ID: https://www.gbif.org/tools/sequence-id
+- GBIF DNA-derived publishing guide: https://docs.gbif.org/publishing-dna-derived-data/en/
+- NCBI nucleotide BLAST: https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastSearch&PROGRAM=blastn
+- BOLD v5 ID Engine: https://id.boldsystems.org/
+- UNITE: https://unite.ut.ee/
 
 ### Reference Search Flow
 
@@ -133,12 +152,12 @@ The Workbench also has a `Reference search` panel. It supports both bundled refe
 3. Select the uploaded dataset or `EcoGenesis mini COI reference dataset for Aedes smoke tests`.
 4. Paste a barcode sequence.
 5. Click `Search reference & compile`.
-6. Inspect the returned hits, the backend used (`vsearch`, `blastn` or `python-local`) and the generated Nexus V3 decision dashboard.
+6. Inspect the returned hits, the backend used (`vsearch`, `blastn` or `python-local`), segment map, source monitor, claim boundary and generated Nexus V3 decision dashboard.
 
 For a no-setup real-data check, open `Run compiler` and use the bundled quick actions:
 
-- `Run real Aedes COI species-safe check` uses real NCBI GenBank COI accessions and should produce `species-safe` for `Aedes albopictus`.
-- `Run conserved Quercus rbcL safe-rank check` uses real NCBI GenBank rbcL accessions and should produce `genus-safe`, because the shared rbcL window cannot safely distinguish `Quercus robur` from `Quercus petraea`.
+- `Run real Aedes COI species-safe check` uses real NCBI GenBank COI accessions and should produce species-level molecular evidence for `Aedes albopictus` when the marker separates the taxa. If the runtime falls back to `python-local` or occurrence metadata is missing, the taxonomic status can be `species-safe` while the publication decision remains `not-publishable`.
+- `Run conserved Quercus rbcL safe-rank check` uses real NCBI GenBank rbcL accessions and should produce genus-level molecular evidence, because the shared rbcL window cannot safely distinguish `Quercus robur` from `Quercus petraea`.
 
 Uploaded reference datasets are stored under `./data/reference-datasets` in Docker/local runs. During upload, EcoGenesis computes lightweight barcode-gap and diagnostic k-mer evidence from the supplied FASTA so the same hard gates are used as in CSV scoring. This is still a pre-publication safety workflow: large production studies should use curated, versioned reference libraries and preserve licenses, source URLs and access dates.
 
@@ -148,6 +167,7 @@ This validates the full sequence search path:
 query sequence
 -> VSEARCH / BLAST+ / deterministic local mini-search
 -> normalized reference hits
+-> segment overlap map and source provenance
 -> Nexus V3 hard-gate compiler
 -> safe/blocked claims and Evidence Pack
 ```
@@ -155,7 +175,7 @@ query sequence
 Included reference examples:
 
 - `references/aedes_coi_mini/`: synthetic smoke-test FASTA for deterministic regression.
-- `references/ncbi_aedes_coi_small/`: real NCBI GenBank COI records for `Aedes albopictus` and `Aedes aegypti`, with GBIF backbone keys and manifest metadata. This demonstrates the real-data species-safe path when the marker separates the taxa.
+- `references/ncbi_aedes_coi_small/`: real NCBI GenBank COI records for `Aedes albopictus` and `Aedes aegypti`, with GBIF backbone keys and manifest metadata. This demonstrates the real-data species-level molecular-evidence path when the marker separates the taxa.
 - `references/ncbi_quercus_rbcl_small/`: real NCBI GenBank rbcL records for `Quercus robur` and `Quercus petraea`, cropped to a shared overlapping rbcL window. This intentionally demonstrates safe-rank downgrade: a conserved marker window can support `Quercus` genus evidence but must not become a species-level claim.
 
 These packs are reproducible workflow examples, not replacements for curated production reference databases.
@@ -169,7 +189,9 @@ For uploaded FASTA reference datasets, EcoGenesis tries to enrich taxon names ag
 - `GET /api/barcode/reference-status`
 - `GET /api/barcode/search-status`
 - `GET /api/barcode/reference-datasets`
+- `POST /api/barcode/reference-datasets/upload`
 - `POST /api/barcode/search`
+- `POST /api/barcode/fragment-graph`
 - `GET /api/barcode/csv-template`
 - `POST /api/barcode/import-csv`
 - `POST /api/barcode/run-csv`
@@ -226,17 +248,21 @@ Minimal request shape:
 
 CSV v1 expects `sequenceID` and `sequence`. Strongly recommended columns include `occurrenceID`, `eventID`, `materialSampleID`, `basisOfRecord`, `scientificName`, `eventDate`, `marker`, `assayType`, `referenceDatabase`, `methodOrSOP`, `topTaxon`, `topIdentity`, `topCoverage`, `topAlignedLength`, optional competitor hit fields, barcode gap fields and pipe-separated `diagnosticKmers`.
 
+Long-format hit tables are also accepted: repeated `sequenceID` rows with columns such as `hitTaxon`, `hitIdentity`, `hitCoverage`, `hitRank`, `hitAlignedLength`, `hitReferenceId`, `taxon`, `identity`, `queryCoverage` or BLAST-style aliases are grouped into one sequence record with multiple reference hits.
+
 For stronger DNA-derived publication review, the CSV can also include `target_gene`, `target_subfragment`, `pcr_primer_forward`, `pcr_primer_reverse`, `seq_meth`, `contaminationAssessment`, `occurrenceStatus`, `experimentalVariance`, `quantificationCycle`, `estimatedNumberOfCopies`, `readCount` and `totalReads`.
 
 The live GBIF occurrence-passport API remains available under `/api/evidence/*` for live API checks, regression and comparison.
 
-The compiler separates `candidate_taxon` from `published_taxon`. A weak or blocked sequence can still be useful as a review hint, but it is never placed into the publishable Darwin Core exports as a species.
+The compiler separates `taxonomic_status`, `decision_class`, `candidate_taxon`, `published_taxon` and `publication_bucket`. A weak or blocked sequence can still be useful as a review hint, but it is never placed into publishable Darwin Core exports as a species. `dwc_occurrence_core_publishable.csv` contains safe publishable candidates; `dwc_occurrence_core_gbif_ready.csv` is stricter and only contains rows whose `publication_bucket` is `gbif_ready`.
 
 ## Evidence Pack Artifacts
 
 Each barcode run exports:
 
 - `sequence_safety_table.csv`
+- `claim_boundaries.csv`
+- `segment_overlap_report.csv`
 - `safe_taxonomic_assignments.csv`
 - `review_taxonomic_hints.csv`
 - `ambiguous_sequences.csv`
@@ -254,6 +280,7 @@ Each barcode run exports:
 - `hard_gate_audit.csv`
 - `naive_top_hit_overclaims.csv`
 - `reference_manifest.json`
+- `source_provenance_manifest.json`
 - `dwc_occurrence_core_template.csv`
 - `dwc_occurrence_core_publishable.csv`
 - `dwc_occurrence_core_gbif_ready.csv`
@@ -345,10 +372,9 @@ The verification script runs the compiler and API, checks expected decisions, va
 ## Testing
 
 ```bash
-cd backend
-pytest
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python3.12 -m pytest backend/tests -q
 
-cd ../frontend
+cd frontend
 npm test
 npm run build
 ```

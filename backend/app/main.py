@@ -74,6 +74,9 @@ def barcode_reference_status() -> dict:
             "gbif_sequence_id": "https://www.gbif.org/tools/sequence-id",
             "dna_derived_guide": "https://docs.gbif.org/publishing-dna-derived-data/en/",
             "occurrence_quality_requirements": "https://www.gbif.org/data-quality-requirements-occurrences",
+            "ncbi_nucleotide_blast": "https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastSearch&PROGRAM=blastn",
+            "bold_v5_id_engine": "https://id.boldsystems.org/",
+            "unite": "https://unite.ut.ee/",
             "challenge_rules": "https://www.gbif.org/awards/ebbe-2026-rules",
         },
         "match_gates": {

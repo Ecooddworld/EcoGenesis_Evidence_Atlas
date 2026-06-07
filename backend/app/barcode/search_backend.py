@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 import hashlib
 import json
+import math
 import shutil
 import subprocess
 import tempfile
@@ -199,6 +200,7 @@ def search_reference(
         entry = entry_by_id.get(raw["reference_id"])
         if not entry:
             continue
+        alignment = best_ungapped_alignment(clean_sequence, entry.sequence)
         hits.append(
             {
                 "taxon": entry.taxon,
@@ -206,6 +208,12 @@ def search_reference(
                 "identity": round(float(raw["identity"]), 6),
                 "query_coverage": round(float(raw["query_coverage"]), 6),
                 "aligned_length": int(raw["aligned_length"]),
+                "query_start": raw.get("query_start") or alignment["query_start"],
+                "query_end": raw.get("query_end") or alignment["query_end"],
+                "reference_start": raw.get("reference_start") or alignment["reference_start"],
+                "reference_end": raw.get("reference_end") or alignment["reference_end"],
+                "mismatch_count": raw.get("mismatch_count") if raw.get("mismatch_count") is not None else alignment["mismatch_count"],
+                "gap_count": raw.get("gap_count") if raw.get("gap_count") is not None else alignment["gap_count"],
                 "bit_score": round(float(raw.get("bit_score") or raw["identity"] * raw["query_coverage"]), 6),
                 "evalue": raw.get("evalue"),
                 "reference_id": entry.reference_id,
@@ -278,6 +286,16 @@ def build_fragment_graph(
         (hit.get("rank") or "unknown", hit.get("taxon") or hit.get("reference_id"))
         for hit in informative_hits
     }
+    segments = build_segment_map(
+        sequence=normalize_sequence(sequence),
+        sequence_id=sequence_id,
+        hits=hits,
+        informative_hits=informative_hits,
+        safe_taxon=safe_taxon,
+        classification_status=classification_status,
+        reference_dataset=search_result["reference_dataset"],
+        backend_used=search_result["backend_used"],
+    )
 
     return {
         "query": search_result["query"],
@@ -285,6 +303,7 @@ def build_fragment_graph(
         "backend_requested": search_result["backend_requested"],
         "backend_used": search_result["backend_used"],
         "searched_at": search_result["searched_at"],
+        "source_monitor": source_monitor_for_graph(search_result),
         "classification": {
             "status": classification_status,
             "safe_taxon": safe_taxon,
@@ -294,11 +313,298 @@ def build_fragment_graph(
             "rank_distribution": rank_distribution(informative_lineages),
             "caveat": "Graph is limited to the selected reference dataset.",
         },
+        "claim_boundary": fragment_claim_boundary(classification_status, safe_taxon),
+        "segments": segments,
         "nodes": nodes,
         "edges": edges,
         "hits": hits,
         "warnings": search_result["warnings"],
     }
+
+
+def source_monitor_for_graph(search_result: dict[str, Any]) -> list[dict[str, Any]]:
+    backend = search_result["backend_used"]
+    return [
+        {
+            "source": "local_reference_dataset",
+            "status": "done",
+            "detail": search_result["reference_dataset"]["id"],
+            "cached": True,
+        },
+        {
+            "source": backend,
+            "status": "review_only" if backend == "python-local" else "done",
+            "detail": "deterministic mini-search" if backend == "python-local" else "external aligner available in runtime",
+            "cached": False,
+        },
+    ]
+
+
+def build_segment_map(
+    *,
+    sequence: str,
+    sequence_id: str,
+    hits: list[dict[str, Any]],
+    informative_hits: list[dict[str, Any]],
+    safe_taxon: dict[str, Any],
+    classification_status: str,
+    reference_dataset: dict[str, Any],
+    backend_used: str,
+) -> list[dict[str, Any]]:
+    query_length = len(sequence)
+    aligned_hits = [
+        hit for hit in hits
+        if hit.get("query_start") and hit.get("query_end") and int(hit["query_end"]) >= int(hit["query_start"])
+    ]
+    if not aligned_hits:
+        return [
+            segment_evidence(
+                sequence=sequence,
+                sequence_id=sequence_id,
+                start=1,
+                end=query_length,
+                hits=[],
+                safe_taxon={"rank": "none", "name": "No safe taxon", "taxon_key": None},
+                status="no-match" if not hits else "weak",
+                reference_dataset=reference_dataset,
+                backend_used=backend_used,
+            )
+        ]
+
+    breakpoints = {1, query_length + 1}
+    for hit in aligned_hits:
+        breakpoints.add(max(1, int(hit["query_start"])))
+        breakpoints.add(min(query_length + 1, int(hit["query_end"]) + 1))
+    ordered = sorted(breakpoints)
+    segments = []
+    for index, start in enumerate(ordered[:-1], start=1):
+        end = ordered[index] - 1
+        if end < start:
+            continue
+        overlapping = [
+            hit for hit in aligned_hits
+            if int(hit["query_start"]) <= end and int(hit["query_end"]) >= start
+        ]
+        overlapping_informative = [
+            hit for hit in overlapping
+            if hit in informative_hits or (
+                float(hit.get("identity") or 0) > 90 and float(hit.get("query_coverage") or 0) >= 80
+            )
+        ]
+        lineages = [lineage_for_hit(hit) for hit in overlapping_informative]
+        segment_safe_taxon = lowest_common_taxon(lineages) if lineages else {"rank": "none", "name": "No safe taxon", "taxon_key": None}
+        status = classify_fragment_graph(
+            hits=overlapping,
+            informative_hits=overlapping_informative,
+            kingdoms=unique_names_for_rank(lineages, "kingdom"),
+            safe_taxon=segment_safe_taxon,
+        )
+        if len(ordered) == 2:
+            status = classification_status
+            segment_safe_taxon = safe_taxon
+        segments.append(
+            segment_evidence(
+                sequence=sequence,
+                sequence_id=sequence_id,
+                start=start,
+                end=end,
+                hits=overlapping,
+                safe_taxon=segment_safe_taxon,
+                status=status,
+                reference_dataset=reference_dataset,
+                backend_used=backend_used,
+            )
+        )
+    return segments
+
+
+def segment_evidence(
+    *,
+    sequence: str,
+    sequence_id: str,
+    start: int,
+    end: int,
+    hits: list[dict[str, Any]],
+    safe_taxon: dict[str, Any],
+    status: str,
+    reference_dataset: dict[str, Any],
+    backend_used: str,
+) -> dict[str, Any]:
+    segment_sequence = sequence[start - 1 : end]
+    length = len(segment_sequence)
+    taxa = sorted({hit.get("taxon") or hit.get("reference_id") for hit in hits if hit.get("taxon") or hit.get("reference_id")})
+    segment_hits = [segment_hit_summary(hit, start, end, length) for hit in hits]
+    best_identity = max((float(hit.get("identity") or 0) for hit in hits), default=0.0)
+    best_coverage = max((float(item.get("query_coverage_percent") or 0) for item in segment_hits), default=0.0)
+    specificity = taxonomic_specificity([hit.get("taxon") or hit.get("reference_id") for hit in hits])
+    blockers = segment_blockers(status=status, length=length, backend_used=backend_used, low_complexity=low_complexity_score(segment_sequence))
+    return {
+        "segment_id": f"{sequence_id}:{start}-{end}",
+        "sequence_id": sequence_id,
+        "segment_start": start,
+        "segment_end": end,
+        "segment_length": length,
+        "sequence_sha256": hashlib.sha256(segment_sequence.encode("utf-8")).hexdigest(),
+        "segment_class": segment_length_class(length),
+        "ambiguity_base_count": sum(1 for base in segment_sequence if base not in {"A", "C", "G", "T"}),
+        "low_complexity_score": low_complexity_score(segment_sequence),
+        "match_summary": {
+            "best_identity": round(best_identity, 6),
+            "best_query_coverage": round(best_coverage, 6),
+            "indistinguishable_taxa_count": len(taxa),
+            "all_indistinguishable_taxa": taxa,
+            "safe_lca": safe_taxon,
+            "taxonomic_specificity": specificity,
+            "reference_completeness": {
+                "status": "selected_reference_only",
+                "reference_dataset_id": reference_dataset.get("id"),
+                "reference_dataset_title": reference_dataset.get("title"),
+                "taxa_with_segment": len(taxa),
+            },
+            "claim_boundary": fragment_claim_boundary(status, safe_taxon)["supported"],
+        },
+        "known_annotations": known_segment_annotations(length=length, reference_dataset=reference_dataset, backend_used=backend_used),
+        "blockers": blockers,
+        "hits": segment_hits,
+    }
+
+
+def segment_hit_summary(hit: dict[str, Any], start: int, end: int, segment_length: int) -> dict[str, Any]:
+    hit_start = int(hit.get("query_start") or start)
+    hit_end = int(hit.get("query_end") or end)
+    overlap_start = max(start, hit_start)
+    overlap_end = min(end, hit_end)
+    overlap = max(0, overlap_end - overlap_start + 1)
+    identity = float(hit.get("identity") or 0)
+    estimated_mismatches = round(overlap * max(0.0, 1 - identity / 100))
+    ref_start = hit.get("reference_start")
+    if ref_start:
+        reference_overlap_start = int(ref_start) + max(0, overlap_start - hit_start)
+    else:
+        reference_overlap_start = None
+    return {
+        "reference_id": hit.get("reference_id"),
+        "taxon": hit.get("taxon"),
+        "rank": hit.get("rank"),
+        "identity_percent": round(identity, 6),
+        "query_coverage_percent": round((overlap / max(segment_length, 1)) * 100, 6),
+        "reference_coverage_percent": round((overlap / max(int(hit.get("aligned_length") or overlap or 1), 1)) * 100, 6),
+        "mismatch_count": hit.get("mismatch_count") if hit.get("mismatch_count") is not None else estimated_mismatches,
+        "gap_count": hit.get("gap_count") if hit.get("gap_count") is not None else 0,
+        "query_start": overlap_start,
+        "query_end": overlap_end,
+        "reference_start": reference_overlap_start,
+        "reference_end": reference_overlap_start + overlap - 1 if reference_overlap_start else None,
+        "gbif_taxon_key": hit.get("gbif_taxon_key"),
+    }
+
+
+def segment_length_class(length: int) -> str:
+    if length < 30:
+        return "too_short_review_only"
+    if length < 80:
+        return "mini_fragment"
+    if length < 250:
+        return "mini_barcode"
+    return "barcode_or_longer"
+
+
+def known_segment_annotations(*, length: int, reference_dataset: dict[str, Any], backend_used: str) -> list[dict[str, Any]]:
+    marker = reference_dataset.get("marker") or "marker not declared"
+    annotations = [
+        {
+            "type": "marker_region",
+            "label": f"{marker} matched region",
+            "source": "reference manifest",
+            "provenance": reference_dataset.get("id"),
+            "evidence_level": "coordinate_overlap_hint",
+        },
+        {
+            "type": "evidence_mode",
+            "label": segment_length_class(length).replace("_", " "),
+            "source": "EcoGenesis length policy",
+            "provenance": "local deterministic classifier",
+            "evidence_level": "claim_boundary",
+        },
+    ]
+    if backend_used == "python-local":
+        annotations.append(
+            {
+                "type": "source_caveat",
+                "label": "python-local mini-search is review-only",
+                "source": "EcoGenesis runtime",
+                "provenance": "search-status",
+                "evidence_level": "publication_blocker",
+            }
+        )
+    return annotations
+
+
+def segment_blockers(*, status: str, length: int, backend_used: str, low_complexity: float) -> list[str]:
+    blockers = []
+    if length < 30:
+        blockers.append("segment too short for taxonomic claim")
+    if status in {"weak", "no-match", "cross-kingdom-conserved"}:
+        blockers.append(warning_for_fragment_status(status, status != "no-match", status != "weak"))
+    if backend_used == "python-local":
+        blockers.append("review only: production aligner was not used")
+    if low_complexity >= 0.85:
+        blockers.append("low-complexity segment; review primer/contamination possibility")
+    return dedupe_strings(blockers)
+
+
+def fragment_claim_boundary(status: str, safe_taxon: dict[str, Any]) -> dict[str, Any]:
+    safe_name = safe_taxon.get("name") or "No safe taxon"
+    safe_rank = safe_taxon.get("rank") or "none"
+    if status == "species-diagnostic":
+        supported = f"Species-level molecular assignment candidate for {safe_name} within this selected reference dataset."
+    elif status == "genus-shared":
+        supported = f"Genus-level fragment evidence for {safe_name}; species-level claims are blocked."
+    elif status == "higher-rank-shared":
+        supported = f"{safe_rank.title()}-level fragment evidence for {safe_name}; lower-rank claims are blocked."
+    elif status == "cross-kingdom-conserved":
+        supported = "Conserved or cross-kingdom review signal only; no taxonomic assignment should be exported."
+    elif status == "no-match":
+        supported = "No claim from this selected reference dataset."
+    else:
+        supported = "Review-only fragment evidence; improve length, quality or reference coverage."
+    return {
+        "supported": supported,
+        "not_supported": [
+            "natural occurrence, absence, abundance or distribution",
+            "phenotype/function/ecological role unless a curated coordinate-based annotation is attached",
+            "global species truth outside the selected reference dataset",
+        ],
+    }
+
+
+def taxonomic_specificity(taxa: list[str | None]) -> float:
+    clean_taxa = [taxon for taxon in taxa if taxon]
+    if not clean_taxa:
+        return 0.0
+    counts = {taxon: clean_taxa.count(taxon) for taxon in set(clean_taxa)}
+    if len(counts) == 1:
+        return 1.0
+    total = len(clean_taxa)
+    entropy = -sum((count / total) * math.log(count / total, 2) for count in counts.values())
+    max_entropy = math.log(len(counts), 2)
+    return round(1 - (entropy / max_entropy), 6) if max_entropy else 1.0
+
+
+def low_complexity_score(sequence: str) -> float:
+    if not sequence:
+        return 0.0
+    return round(max(sequence.count(base) for base in set(sequence)) / len(sequence), 6)
+
+
+def dedupe_strings(items: list[str]) -> list[str]:
+    seen = set()
+    result = []
+    for item in items:
+        if item not in seen:
+            result.append(item)
+            seen.add(item)
+    return result
 
 
 def lineage_for_hit(hit: dict[str, Any]) -> list[dict[str, Any]]:
@@ -553,13 +859,13 @@ def compiler_request_from_search(
     clean_sequence = normalize_sequence(sequence)
     top_taxon = search_result["hits"][0]["taxon"] if search_result["hits"] else ""
     record_metadata = {
-        "occurrenceID": f"urn:ecogenesis:reference-search:{sequence_id}",
-        "basisOfRecord": "MaterialSample",
-        "scientificName": top_taxon,
-        "eventDate": datetime.now(timezone.utc).date().isoformat(),
         "marker": reference_dataset.get("marker") or manifest.get("marker") or "COI-5P",
         "referenceDatabase": reference_dataset["title"],
         "methodOrSOP": f"EcoGenesis reference search using {search_result['backend_used']} over {reference_dataset['id']}",
+        "analysisCreatedAt": datetime.now(timezone.utc).isoformat(),
+        "candidateScientificName": top_taxon,
+        "referenceSearchBackend": search_result["backend_used"],
+        "referenceDatasetID": reference_dataset["id"],
     }
     record_metadata.update(metadata or {})
     hits = [
@@ -761,10 +1067,27 @@ def run_python_local_search(sequence: str, entries: list[ReferenceEntry], *, max
 
 
 def best_ungapped_identity(query: str, reference: str) -> tuple[float, float, int]:
+    alignment = best_ungapped_alignment(query, reference)
+    return alignment["identity"], alignment["query_coverage"], alignment["aligned_length"]
+
+
+def best_ungapped_alignment(query: str, reference: str) -> dict[str, Any]:
     if not query or not reference:
-        return 0.0, 0.0, 0
+        return {
+            "identity": 0.0,
+            "query_coverage": 0.0,
+            "aligned_length": 0,
+            "query_start": None,
+            "query_end": None,
+            "reference_start": None,
+            "reference_end": None,
+            "match_count": 0,
+            "mismatch_count": 0,
+            "gap_count": 0,
+        }
     best_matches = -1
     best_aligned = 0
+    best_offset = 0
     for offset in range(-len(reference) + 1, len(query)):
         q_start = max(0, offset)
         r_start = max(0, -offset)
@@ -775,9 +1098,24 @@ def best_ungapped_identity(query: str, reference: str) -> tuple[float, float, in
         if matches > best_matches or (matches == best_matches and aligned > best_aligned):
             best_matches = matches
             best_aligned = aligned
+            best_offset = offset
+    q_start = max(0, best_offset)
+    r_start = max(0, -best_offset)
     identity = (best_matches / best_aligned) * 100 if best_aligned else 0.0
     coverage = (best_aligned / len(query)) * 100 if query else 0.0
-    return round(identity, 6), round(coverage, 6), best_aligned
+    mismatches = max(best_aligned - best_matches, 0)
+    return {
+        "identity": round(identity, 6),
+        "query_coverage": round(coverage, 6),
+        "aligned_length": best_aligned,
+        "query_start": q_start + 1 if best_aligned else None,
+        "query_end": q_start + best_aligned if best_aligned else None,
+        "reference_start": r_start + 1 if best_aligned else None,
+        "reference_end": r_start + best_aligned if best_aligned else None,
+        "match_count": best_matches if best_matches > 0 else 0,
+        "mismatch_count": mismatches,
+        "gap_count": 0,
+    }
 
 
 def read_fasta(path: Path) -> dict[str, str]:
