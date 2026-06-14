@@ -1,0 +1,5 @@
+expected_bucket,actual_decisionClass,count
+genus_safe_ambiguous,genus-safe,25
+metadata_blocked,not-publishable,25
+species_safe,species-safe,25
+weak_coverage,weak,25

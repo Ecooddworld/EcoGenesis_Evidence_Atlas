@@ -1,0 +1,7 @@
+tool,role,normalizedFields,claimPolicy
+GBIF Sequence ID,Reference-hit source,sequenceID; topTaxon; identity; queryCoverage; matchType; GBIF backbone taxon,Never publish top hit directly; pass through Nexus hard gates.
+BLAST+,Alignment and candidate hits,pident; qcov; bitscore; evalue; alignedLength; subjectID,Use as supplied H(s); species claim still requires ambiguity/LCA and reference support.
+VSEARCH / DADA2 / QIIME 2,ASV and metabarcoding upstream pipeline,ASV id; sequence; taxonomy; confidence; read/count context,Add assay evidence gates before ecological or monitoring claims.
+BOLD / UNITE / PR2 / GTDB,Reference database context,database name; version; marker; reference taxon; lineage,Report reference gaps and reference completeness caveats.
+MAFFT + IQ-TREE / EPA-ng,Optional phylogenetic placement,placement; support; clade; tree version,Can support or caveat safe rank; does not override failed metadata gates.
+Cutadapt / fastp,Sequence QC and trimming,trimmed length; quality; primer status; ambiguous bases,Feeds QC blockers and repair actions.

@@ -1,0 +1,40 @@
+{
+  "source_document": "/Users/oddworld/Downloads/EcoGenesis_Molecular_Evidence_Graph_Full_Project_RU.docx",
+  "source_document_sha256": "af1464a5c233ecdc9780f626208d3d21abcf4bf1f5c20248d76ec76c7ed3a4a8",
+  "overall_status": "contest_mvp_passes_with_documented_roadmap_limits",
+  "local_verification": {
+    "backend_pytest": "53 passed, 1 skipped",
+    "frontend_vitest": "13 passed",
+    "frontend_build": "passed",
+    "docker_compose": "backend healthy, frontend healthy, ports 18100/13100",
+    "docker_smoke": "passed",
+    "browser_smoke": "passed; no console errors; no horizontal overflow on checked run page",
+    "live_gbif_suite": "all acceptance checks true",
+    "operability_report": "pass"
+  },
+  "competition_100": {
+    "report": "reports/competition-100-sequences/competition_100_sequence_report.md",
+    "run_id": "7a9aea4135a1479e89afe114c16ff9b3",
+    "records": 100,
+    "exports": 42,
+    "expected_match": true,
+    "hard_gate_failures": 0,
+    "publishable_candidate_records": 50,
+    "formal_gbif_ready_records": 0
+  },
+  "adversarial_100": {
+    "report": "reports/adversarial-100-sequences/adversarial_100_sequence_report.md",
+    "run_id": "3942895d39fc4ef0978cd2670b0ca284",
+    "records": 100,
+    "exports": 42,
+    "expected_match": true,
+    "hard_gate_failures": 0,
+    "false_species_safe_outside_positive_controls": 0
+  },
+  "roadmap_not_claimed_as_done": [
+    "Full empirical RCI 2.0 with close-relative coverage from external reference audits",
+    "Leave-one-species-out / leave-one-genus-out validation across 3-5 organism groups",
+    "Persistent GraphDB/RDF backend for Molecular Evidence Graph queries",
+    "Formal DOI/IPT publication workflow and judge-accessible repository/release metadata"
+  ]
+}

@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Barcode-to-GBIF Evidence Pack",
   "type": "object",
-  "required": ["run", "summary", "reference_manifest", "decision_rules", "metrics", "records", "exports"],
+  "required": ["run", "summary", "reference_manifest", "decision_rules", "metrics", "data_accounting_ledger", "records", "exports"],
   "properties": {
     "run": {
       "type": "object",
@@ -30,7 +30,7 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["sequence_id", "decision_class", "taxonomic_status", "candidate_taxon", "published_taxon", "publication_stage", "blockers"],
+        "required": ["sequence_id", "decision_class", "taxonomic_status", "candidate_taxon", "published_taxon", "publication_stage", "publication_bucket", "export_state", "blockers"],
         "properties": {
           "sequence_id": { "type": "string" },
           "decision_class": {
@@ -42,8 +42,30 @@
           "publication_stage": {
             "enum": ["record_not_ready", "record_min_ready", "record_recommended_ready", "dataset_ready", "gold_ready"]
           },
+          "publication_bucket": {
+            "enum": ["gbif_ready", "publishable_candidate", "repair_required", "review_only"]
+          },
+          "export_state": {
+            "enum": ["formal_gbif_ready", "dwc_template_ready", "evidence_publishable_repair_required", "review_only", "not_exportable"]
+          },
           "safe_taxon": { "type": "object" },
           "blockers": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "data_accounting_ledger": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["metric", "value", "denominator", "unit", "layer", "meaning"],
+        "properties": {
+          "metric": { "type": "string" },
+          "value": {},
+          "denominator": {},
+          "rate": { "type": ["number", "null"] },
+          "unit": { "type": "string" },
+          "layer": { "type": "string" },
+          "meaning": { "type": "string" }
         }
       }
     }

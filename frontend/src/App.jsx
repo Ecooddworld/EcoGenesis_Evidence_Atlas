@@ -240,7 +240,7 @@ const analysisGateTrail = [
 const analysisProofCards = [
   ['Why the output is correct', 'Every species claim must pass identity, coverage, competitor, barcode-gap, diagnostic and metadata gates.'],
   ['Why overclaims are blocked', 'If a fragment is shared or incomplete, the decision moves upward to the lowest common ancestor instead of forcing a species.'],
-  ['Why publication is separate', 'A strong taxon match still needs real occurrence metadata before it can enter GBIF-ready exports.'],
+  ['Why publication is separate', 'A strong taxon match still needs real occurrence and dataset metadata before formal GBIF-ready export.'],
 ];
 
 const analysisPictureFrames = [
@@ -249,13 +249,13 @@ const analysisPictureFrames = [
   ['03', 'Reference hits', 'The top hit is challenged by close competitors and shared marker windows.', 'Top hit is not enough', 'hits'],
   ['04', 'Hard gates', 'Identity, coverage, LCA, barcode gap, diagnostic k-mers and metadata gates are checked in order.', 'Fail-closed gates', 'gates'],
   ['05', 'Safe claim', 'Unsafe species certainty is blocked; the output becomes a safe rank plus explicit repair blockers.', 'No hidden overclaim', 'claim'],
-  ['06', 'Evidence pack', 'The result exports audit tables, publication blockers, repair plan and GBIF-ready templates.', 'Reproducible export', 'pack'],
+  ['06', 'Evidence pack', 'The result exports audit tables, publication blockers, repair plan, publishable templates and formal GBIF-ready status.', 'Reproducible export', 'pack'],
 ];
 
 const sciencePurposeSteps = [
   ['Raw marker evidence', 'Thousands of barcode, metabarcoding or Sequence ID rows arrive from specimens, tissue, swabs, traps, museums and lab pipelines.'],
   ['Evidence conversion', 'The engine separates safe species claims, safe genus/family evidence, weak rows, missing metadata and blocked overclaims.'],
-  ['GBIF-ready outputs', 'Publishable rows, review queues, methods text and citations become reusable biodiversity evidence.'],
+  ['Publication outputs', 'Publishable rows, review queues, methods text and citations become reusable biodiversity evidence.'],
   ['Scientific reuse', 'Researchers can audit data gaps, reference-library limits, sampling bias and repair priorities before making conclusions.'],
   ['Better decisions', 'Monitoring, conservation, invasion watch and data publishing become more reproducible and less vulnerable to false certainty.'],
 ];
@@ -267,7 +267,7 @@ const beforeAfterScience = [
 
 const scienceUsers = [
   ['eDNA researcher', 'Knows which detections can be species-level and which must stay genus/family-level.'],
-  ['GBIF publisher', 'Gets exact missing fields and GBIF-ready templates instead of a vague error list.'],
+  ['GBIF publisher', 'Gets exact missing fields, candidate templates and formal GBIF-ready status instead of a vague error list.'],
   ['Taxonomist', 'Sees where markers or reference libraries fail to separate close taxa.'],
   ['Conservation team', 'Uses cautious evidence context without turning empty cells into false absence.'],
   ['Reviewer', 'Can reproduce why a record was accepted, downgraded or blocked.'],
@@ -288,7 +288,7 @@ const natureCycleSteps = [
   ['03', 'Lab sequencing', 'DNA is extracted and sequenced, producing marker results from GBIF Sequence ID, BLAST, BOLD, UNITE or lab pipelines.'],
   ['04', 'Reference comparison', 'Marker hits are compared against reference libraries and GBIF backbone taxonomy.'],
   ['05', 'Evidence compiler', 'EcoGenesis tests identity, coverage, ambiguity, LCA, barcode gap, k-mers and metadata.'],
-  ['06', 'GBIF-ready package', 'Safe records, repair queues, methods, citations and Darwin Core templates are exported.'],
+  ['06', 'Publication evidence package', 'Safe records, repair queues, methods, citations and Darwin Core templates are exported.'],
   ['07', 'Scientific reuse', 'Researchers inspect gaps, weak evidence, reference limits, sampling bias and safe claims.'],
   ['08', 'Nature feedback', 'Better evidence supports monitoring, conservation, invasive watch and future sampling priorities.'],
 ];
@@ -304,7 +304,7 @@ const animationStoryboardFrames = [
   ['02', 'Reference search creates competing hits', 'A query marker is compared with reference records. The story does not stop at the best hit; it shows whether nearby hits make a species claim unsafe.', 'The viewer sees the top hit challenged by close competitors.'],
   ['03', 'Shared fragments become a taxonomic tree', 'Short fragments can fit several species. EcoGenesis moves the claim upward to the shared ancestor instead of inventing certainty at species level.', 'The viewer sees several species merge into one safer rank.'],
   ['04', 'Hard gates decide what can be claimed', 'Identity, coverage, ambiguity, barcode gap, diagnostic k-mers and metadata are checked as clear decision points. A failed gate becomes a visible blocker.', 'The viewer sees each gate either confirm, downgrade or send the row to repair.'],
-  ['05', 'GBIF-ready package is produced', 'Safe records, repair actions, methods text, citations and Darwin Core templates become one evidence package that a publisher or reviewer can inspect.', 'The viewer sees accepted rows and repair rows become a transparent Evidence Pack.'],
+  ['05', 'Publication evidence package is produced', 'Safe records, repair actions, methods text, citations and Darwin Core templates become one evidence package that a publisher or reviewer can inspect.', 'The viewer sees accepted rows and repair rows become a transparent Evidence Pack.'],
   ['06', 'Evidence returns to science and nature', 'The output helps researchers see sampling gaps, reference gaps and safer monitoring priorities without turning weak evidence into false certainty.', 'The viewer sees safer evidence return to maps, priorities and field decisions.'],
 ];
 
@@ -1557,13 +1557,16 @@ Result: genus-safe, not species-safe`,
 ];
 
 const evidencePackRows = [
+  ['data_accounting_ledger.csv', 'Input, candidate, safe, publishable, GBIF-ready and repair denominators.'],
   ['sequence_safety_table.csv', 'Main decision table for every sequence.'],
+  ['state_machine_audit.csv', 'Taxonomy, publication bucket and export-state separation.'],
   ['safe_taxonomic_assignments.csv', 'Only records with safe publishable taxonomic assignments.'],
   ['review_taxonomic_hints.csv', 'Blocked or weak records kept as repair/review hints.'],
   ['barcode_gap_report.csv', 'Marker/reference separability evidence.'],
   ['diagnostic_kmer_report.csv', 'Diagnostic support, expected random hits and p_false_positive.'],
   ['publication_blockers.csv', 'Exact field/gate blockers that must be repaired.'],
   ['claim_boundaries.csv', 'Supported and explicitly unsupported claims for each sequence.'],
+  ['reference_completeness_audit.csv', 'Explicit RCI 2.0 status and reference-context caveats.'],
   ['segment_overlap_report.csv', 'Fragment coordinates, overlap evidence and safe LCA per segment.'],
   ['dwc_occurrence_core_publishable.csv', 'Darwin Core occurrence rows safe enough to publish.'],
   ['dna_derived_extension_publishable.csv', 'DNA-derived extension rows for publishable records.'],
@@ -1586,11 +1589,11 @@ const nonClaims = [
 const decisionCopy = {
   'species-safe': {
     title: 'Publish as species',
-    body: 'All species-level gates passed. This record can enter the publishable Darwin Core export at species rank.',
+    body: 'All species-level gates passed. This record can enter the publishable candidate template at species rank.',
   },
   'genus-safe': {
     title: 'Publish as genus',
-    body: 'Species is unsafe, but the shared genus is supported. The export is downgraded instead of overclaiming.',
+    body: 'Species is unsafe, but the shared genus is supported. The candidate template is downgraded instead of overclaiming.',
   },
   'higher-rank-safe': {
     title: 'Publish at higher rank',
@@ -1618,7 +1621,7 @@ const exportGroups = [
   {
     title: 'Open first',
     description: 'Human-readable decision, methods and the complete zipped evidence pack.',
-    match: ['molecular_evidence_report.html', 'sequence_safety_table.csv', 'evidence_pack.zip', 'methods_text.md', 'citations.md'],
+    match: ['molecular_evidence_report.html', 'sequence_safety_table.csv', 'data_accounting_ledger.csv', 'evidence_pack.zip', 'methods_text.md', 'citations.md'],
   },
   {
     title: 'Publishable templates',
@@ -1628,12 +1631,12 @@ const exportGroups = [
   {
     title: 'Review and repair',
     description: 'Blocked records, ambiguity evidence, missing fields and molecular gates.',
-    match: ['repair_plan.csv', 'repair_gain_estimates.csv', 'metadata_bottlenecks.csv', 'review_taxonomic_hints.csv', 'publication_blockers.csv', 'claim_boundaries.csv', 'dwc_occurrence_core_review_or_repair.csv', 'ambiguous_sequences.csv', 'barcode_gap_report.csv', 'diagnostic_kmer_report.csv'],
+    match: ['repair_plan.csv', 'repair_gain_estimates.csv', 'metadata_bottlenecks.csv', 'review_taxonomic_hints.csv', 'publication_blockers.csv', 'claim_boundaries.csv', 'state_machine_audit.csv', 'dwc_occurrence_core_review_or_repair.csv', 'ambiguous_sequences.csv', 'barcode_gap_report.csv', 'diagnostic_kmer_report.csv'],
   },
   {
     title: 'Nexus V3 audit',
     description: 'Hard-gate consistency, marker/assay profiles, prevented top-hit overclaims, reference gaps and adapter direction.',
-    match: ['nexus_v3_summary.json', 'hard_gate_audit.csv', 'marker_profile_audit.csv', 'assay_gate_audit.csv', 'dna_extension_readiness.csv', 'naive_top_hit_overclaims.csv', 'reference_gap_index.csv', 'segment_overlap_report.csv', 'external_tool_adapter_matrix.csv'],
+    match: ['nexus_v3_summary.json', 'hard_gate_audit.csv', 'marker_profile_audit.csv', 'assay_gate_audit.csv', 'dna_extension_readiness.csv', 'naive_top_hit_overclaims.csv', 'reference_gap_index.csv', 'reference_completeness_audit.csv', 'segment_overlap_report.csv', 'external_tool_adapter_matrix.csv'],
   },
   {
     title: 'Audit trail',
@@ -5208,6 +5211,8 @@ function CompilerWorkbench({
 
             <ClaimBoundaryPanel records={records} pack={pack} />
 
+            <DataAccountingLedgerPanel pack={pack} />
+
             <MarkerAssayPanel pack={pack} records={records} />
 
             <BenchmarkComparisonPanel pack={pack} records={records} />
@@ -5228,9 +5233,9 @@ function CompilerWorkbench({
             <section className="panel two-column">
               <div>
                 <p className="section-label">Publishable output</p>
-                <h3>{publishableRecords.length} {pluralize('record', publishableRecords.length)} can be exported now</h3>
+                <h3>{publishableRecords.length} {pluralize('record', publishableRecords.length)} can enter publishable templates</h3>
                 <p className="hint">
-                  These records have a `published_taxon` and are included in the publishable Darwin Core and DNA-derived templates.
+                  These records have a `published_taxon` and are included in publishable Darwin Core and DNA-derived review templates. Formal GBIF-ready rows are tracked separately.
                 </p>
                 <ul className="record-list">
                   {publishableRecords.map((record) => (
@@ -5557,6 +5562,56 @@ function ClaimBoundaryPanel({ records, pack }) {
   );
 }
 
+function DataAccountingLedgerPanel({ pack }) {
+  const ledger = pack.data_accounting_ledger || [];
+  if (!ledger.length) return null;
+  const visibleRows = ledger.filter((row) => [
+    'input_n',
+    'candidate_n',
+    'safe_n',
+    'publishable_candidate_n',
+    'gbif_ready_n',
+    'repair_required_n',
+    'blocked_top_species_claims_n',
+    'hard_gate_failures_n',
+  ].includes(row.metric));
+  return (
+    <section className="panel data-ledger-panel">
+      <div className="panel-heading-row">
+        <div>
+          <p className="section-label">Data accounting ledger</p>
+          <h3>Every contest KPI keeps its denominator visible.</h3>
+        </div>
+        <span className="audit-status pass">denominators shown</span>
+      </div>
+      <div className="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th>Value</th>
+              <th>Denominator</th>
+              <th>Rate</th>
+              <th>Meaning</th>
+            </tr>
+          </thead>
+          <tbody>
+            {visibleRows.map((row) => (
+              <tr key={row.metric}>
+                <td>{row.metric}</td>
+                <td>{row.value}</td>
+                <td>{row.denominator}</td>
+                <td>{row.rate ?? '-'}</td>
+                <td>{row.meaning}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  );
+}
+
 function claimBoundaryTone(record) {
   if (record.publication_bucket === 'gbif_ready' || record.publication_bucket === 'publishable_candidate') {
     return 'safe';
@@ -5580,7 +5635,7 @@ function BenchmarkComparisonPanel({ pack, records }) {
     ['Unsafe claims blocked/downgraded', blocked, 'EcoGenesis prevents species overclaiming.', 'warn'],
     ['EcoGenesis species-safe', ecoSpecies, 'Species claims that passed all hard gates.', 'pass'],
     ['Safe-rank evidence', safeRank, 'Records still useful at species/genus/higher rank.', 'pass'],
-    ['Publishable templates', publishable, 'Records emitted into GBIF-ready export rows.', 'verify'],
+    ['Publishable templates', publishable, 'Records emitted into publishable review templates; formal GBIF-ready is separate.', 'verify'],
   ];
 
   return (
@@ -5665,7 +5720,7 @@ function buildRunExplanation(metrics, publishableCount, reviewCount) {
   const species = metrics.species_safe_records || 0;
   const genus = metrics.genus_safe_records || 0;
   const blocked = metrics.blocked_species_claims || 0;
-  return `This run produces ${publishableCount} publishable ${pluralize('record', publishableCount)}: ${species} at species rank and ${genus} downgraded to genus or safer rank. ${reviewCount} ${pluralize('record', reviewCount)} stay in the review queue. ${blocked} unsafe species-level ${pluralize('claim', blocked)} were blocked before export.`;
+  return `This run produces ${publishableCount} publishable candidate ${pluralize('record', publishableCount)}: ${species} at species rank and ${genus} downgraded to genus or safer rank. ${reviewCount} ${pluralize('record', reviewCount)} stay in the review queue. ${blocked} unsafe species-level ${pluralize('claim', blocked)} were blocked before export. Formal GBIF-ready rows remain a separate dataset-metadata state.`;
 }
 
 function formatStage(stage) {

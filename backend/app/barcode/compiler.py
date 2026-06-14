@@ -70,6 +70,7 @@ def run_barcode_compiler(request: BarcodeCompilerRequest) -> dict[str, Any]:
         "source_provenance": build_source_provenance(request, reference_manifest, decisions),
         "decision_rules": decision_rules(),
         "metrics": metrics,
+        "data_accounting_ledger": build_data_accounting_ledger(decisions, metrics),
         "nexus_v3": nexus,
         "hard_gate_audit": hard_gate_audit(decisions),
         "naive_top_hit_overclaims": naive_top_hit_overclaims(decisions),
@@ -114,7 +115,7 @@ def decide_record(record: SequenceRecord, request: BarcodeCompilerRequest) -> di
 
     core_missing = missing_fields(metadata, CORE_REQUIRED_FIELDS)
     dna_missing = missing_fields(metadata, DNA_REQUIRED_FIELDS)
-    data_quality_blockers = metadata_quality_blockers(metadata)
+    data_quality_blockers = metadata_quality_blockers(metadata, top_hit)
     core_pass = not core_missing and not data_quality_blockers
     dna_pass = not dna_missing
     publication_stage, publication_checks = publication_stage_for(
@@ -475,7 +476,7 @@ def missing_fields(metadata: dict[str, Any], fields: list[str]) -> list[str]:
     return missing
 
 
-def metadata_quality_blockers(metadata: dict[str, Any]) -> list[str]:
+def metadata_quality_blockers(metadata: dict[str, Any], top_hit: ReferenceHit | None = None) -> list[str]:
     blockers = []
     event_date = metadata.get("eventDate")
     if event_date and not re.match(r"^\d{4}(-\d{2})?(-\d{2})?$", str(event_date)):
@@ -489,6 +490,12 @@ def metadata_quality_blockers(metadata: dict[str, Any]) -> list[str]:
             blockers.append("publication blocked: coordinateUncertaintyInMeters must be numeric")
     if is_degraded_reference_search(metadata):
         blockers.append("publication blocked: production reference search backend was not used; python-local mini-search is review-only")
+    supplied_name = str(metadata.get("scientificName") or "").strip()
+    if top_hit and supplied_name and supplied_name.lower() != top_hit.taxon.lower():
+        blockers.append(
+            "publication blocked: supplied scientificName conflicts with top molecular hit "
+            f"({supplied_name} vs {top_hit.taxon})"
+        )
     return blockers
 
 
@@ -626,6 +633,13 @@ def claim_boundary(
     publication_stage: str,
     metadata: dict[str, Any],
     top_hit: ReferenceHit | None,
+    indistinguishable_hits: list[ReferenceHit],
+    barcode_gap_result: dict[str, Any],
+    diagnostic_result: dict[str, Any],
+    marker_profile: dict[str, Any],
+    assay_gate: dict[str, Any],
+    core_pass: bool,
+    dna_pass: bool,
 ) -> dict[str, Any]:
     if top_hit and top_hit.reference_database:
         reference_context = top_hit.reference_database
@@ -646,12 +660,36 @@ def claim_boundary(
     else:
         supported = f"Review-only candidate at {safe_rank} rank: {safe_name}."
 
-    if published_taxon.get("rank") == "none":
+    if published_taxon.get("rank") == "none" and taxonomic_status in SAFE_TAXONOMIC_STATUSES:
+        publication = "Taxonomy is bounded as safe, but publication repair is required before Darwin Core or DNA-derived export."
+    elif published_taxon.get("rank") == "none":
         publication = "Not GBIF-ready; repair blockers before publishing Darwin Core or DNA-derived rows."
     elif publication_stage in {"dataset_ready", "gold_ready"}:
         publication = "GBIF-ready export candidate under the current metadata and dataset-level checks."
     else:
         publication = "Publishable candidate for review; dataset-level GBIF metadata is still incomplete."
+
+    competitor_taxa = sorted({hit.taxon for hit in indistinguishable_hits})
+    evidence_fields = {
+        "top_hit": top_hit.taxon if top_hit else None,
+        "top_identity": top_hit.identity if top_hit else None,
+        "top_query_coverage": top_hit.query_coverage if top_hit else None,
+        "competitor_taxa": competitor_taxa,
+        "competitor_count": len(competitor_taxa),
+        "lca_safe_rank": safe_rank,
+        "lca_safe_taxon": safe_name,
+        "barcode_gap_status": barcode_gap_result.get("status"),
+        "barcode_gap": barcode_gap_result.get("gap"),
+        "diagnostic_kmer_status": diagnostic_result.get("status"),
+        "diagnostic_kmer_support": diagnostic_result.get("support_count"),
+        "diagnostic_p_false_positive": diagnostic_result.get("p_false_positive"),
+        "marker_profile": marker_profile.get("profile_id"),
+        "marker_species_gate": marker_profile.get("species_gate_pass"),
+        "assay_gate": assay_gate.get("assay_gate_pass"),
+        "occurrence_core_gate": core_pass,
+        "dna_metadata_gate": dna_pass,
+    }
+    evidence_rationale = claim_evidence_rationale(evidence_fields)
 
     return {
         "supported": supported,
@@ -659,13 +697,15 @@ def claim_boundary(
         "safe_rank": safe_rank,
         "safe_taxon": safe_name,
         "publication": publication,
+        "evidence_fields": evidence_fields,
+        "evidence_rationale": evidence_rationale,
         "not_supported": [
             "absolute species truth outside the stated reference context",
             "natural presence, absence, abundance or distribution without occurrence evidence",
             "phenotype, pathogenicity, ecological role or invasiveness",
             "replacement for GBIF Sequence ID, curated reference databases or expert review",
         ],
-        "boundary_text": f"{supported} {publication}",
+        "boundary_text": f"{supported} {publication} {evidence_rationale}",
     }
 
 
@@ -705,6 +745,7 @@ def build_decision(
         "publication_status": publication_status(decision_class, publication_stage),
         "publication_stage": publication_stage,
         "publication_bucket": publication_bucket(decision_class, publication_stage, published_taxon, blockers),
+        "export_state": export_state(decision_class, taxonomic_status, publication_stage, published_taxon),
         "match_type": match_type,
         "candidate_taxon": candidate_taxon,
         "published_taxon": published_taxon,
@@ -717,11 +758,19 @@ def build_decision(
             publication_stage=publication_stage,
             metadata=metadata,
             top_hit=top_hit,
+            indistinguishable_hits=indistinguishable_hits,
+            barcode_gap_result=barcode_gap_result,
+            diagnostic_result=diagnostic_result,
+            marker_profile=marker_profile,
+            assay_gate=assay_gate,
+            core_pass=core_pass,
+            dna_pass=dna_pass,
         ),
         "top_hit": hit_summary(top_hit),
         "indistinguishable_hits": [hit_summary(hit) for hit in indistinguishable_hits],
         "barcode_gap": barcode_gap_result,
         "diagnostic_kmers": diagnostic_result,
+        "reference_completeness": reference_completeness_summary(metadata, top_hit, hits),
         "metadata_readiness": {
             "core_pass": core_pass,
             "dna_pass": dna_pass,
@@ -759,6 +808,7 @@ def hit_summary(hit: ReferenceHit | None) -> dict[str, Any] | None:
 
 def summarize_decisions(decisions: list[dict[str, Any]]) -> dict[str, Any]:
     processed = len(decisions)
+    candidate_records = sum(1 for item in decisions if item["top_hit"])
     species_safe = sum(1 for item in decisions if item["decision_class"] == "species-safe")
     genus_safe = sum(1 for item in decisions if item["decision_class"] == "genus-safe")
     higher_rank_safe = sum(1 for item in decisions if item["decision_class"] == "higher-rank-safe")
@@ -789,6 +839,10 @@ def summarize_decisions(decisions: list[dict[str, Any]]) -> dict[str, Any]:
     marker_species_disabled = sum(1 for item in decisions if not item["metadata_readiness"]["marker_profile"]["species_claim_allowed"])
     return {
         "processed_records": processed,
+        "input_records": processed,
+        "eligible_records": processed,
+        "candidate_records": candidate_records,
+        "safe_records": safe_rank_records,
         "processing_coverage": 1 if processed else 0,
         "species_safe_records": species_safe,
         "genus_safe_records": genus_safe,
@@ -862,6 +916,8 @@ def build_nexus_v3_summary(decisions: list[dict[str, Any]], metrics: dict[str, A
             "publishable_candidate_records": metrics["publishable_candidate_records"],
             "repair_required_records": metrics["repair_required_records"],
             "review_only_records": metrics["review_only_records"],
+            "candidate_records": metrics["candidate_records"],
+            "safe_records": metrics["safe_records"],
         },
         "next_platform_layers": [
             "reference completeness gate calibrated by taxon/marker coverage",
@@ -1047,6 +1103,142 @@ def repair_cost(action: str) -> str:
     if "sequence" in lowered or "marker" in lowered:
         return "high"
     return "medium"
+
+
+def export_state(
+    decision_class: str,
+    taxonomic_status: str,
+    publication_stage: str,
+    published_taxon: dict[str, Any],
+) -> str:
+    if published_taxon.get("rank") != "none" and publication_stage in {"dataset_ready", "gold_ready"}:
+        return "formal_gbif_ready"
+    if published_taxon.get("rank") != "none" and decision_class in SAFE_TAXONOMIC_STATUSES:
+        return "dwc_template_ready"
+    if taxonomic_status in SAFE_TAXONOMIC_STATUSES:
+        return "evidence_publishable_repair_required"
+    if decision_class in {"weak", "ambiguous", "no-match"}:
+        return "review_only"
+    return "not_exportable"
+
+
+def reference_completeness_summary(
+    metadata: dict[str, Any],
+    top_hit: ReferenceHit | None,
+    hits: list[ReferenceHit],
+) -> dict[str, Any]:
+    reference_context = metadata.get("referenceDatabase") or (top_hit.reference_database if top_hit else None) or "not supplied"
+    close_competitors = len({hit.taxon for hit in hits if hit.rank == "species"})
+    return {
+        "status": "reference_context_supplied",
+        "rci2_status": "not_measured_without_external_reference_audit",
+        "reference_context": reference_context,
+        "close_relative_coverage": "not_measured",
+        "sequence_quality": "checked_by_identity_coverage_and_length_gates",
+        "geographic_coverage": "not_measured",
+        "per_species_depth": "not_measured",
+        "taxonomic_stability": "tracked_by_lineage_and_gbif_taxon_keys_when_supplied",
+        "candidate_species_in_hit_table": close_competitors,
+        "claim_scope": "bounded_to_supplied_reference_context_not_absolute_species_truth",
+    }
+
+
+def claim_evidence_rationale(fields: dict[str, Any]) -> str:
+    top = fields.get("top_hit") or "no top hit"
+    identity = fields.get("top_identity")
+    coverage = fields.get("top_query_coverage")
+    competitors = fields.get("competitor_count", 0)
+    return (
+        f"Evidence path: top hit {top} at identity={identity}, coverage={coverage}; "
+        f"{competitors} indistinguishable taxon candidate(s) collapse to {fields.get('lca_safe_rank')} "
+        f"{fields.get('lca_safe_taxon')}; barcode gap={fields.get('barcode_gap_status')} "
+        f"({fields.get('barcode_gap')}); diagnostic k-mer={fields.get('diagnostic_kmer_status')} "
+        f"support={fields.get('diagnostic_kmer_support')}, p_false_positive={fields.get('diagnostic_p_false_positive')}; "
+        f"marker profile={fields.get('marker_profile')}; gates core={fields.get('occurrence_core_gate')}, "
+        f"dna={fields.get('dna_metadata_gate')}, assay={fields.get('assay_gate')}."
+    )
+
+
+def build_data_accounting_ledger(decisions: list[dict[str, Any]], metrics: dict[str, Any]) -> list[dict[str, Any]]:
+    processed = max(metrics.get("processed_records", len(decisions)), 0)
+    top_species = metrics.get("top_species_hits", 0)
+
+    def row(metric: str, value: Any, denominator: Any, layer: str, meaning: str) -> dict[str, Any]:
+        numeric_value = value if isinstance(value, (int, float)) else None
+        numeric_denominator = denominator if isinstance(denominator, (int, float)) else None
+        rate = round(numeric_value / numeric_denominator, 6) if numeric_denominator else None
+        return {
+            "metric": metric,
+            "value": value,
+            "denominator": denominator,
+            "rate": rate,
+            "unit": "sequence_records",
+            "layer": layer,
+            "meaning": meaning,
+        }
+
+    return [
+        row("input_n", processed, processed, "input", "Records received by the Barcode-to-GBIF compiler."),
+        row(
+            "downloaded_n",
+            "not_applicable",
+            "occurrence_audit_only",
+            "input",
+            "No GBIF occurrence download happens inside this compiler run.",
+        ),
+        row(
+            "deduped_n",
+            "not_applicable",
+            "occurrence_audit_only",
+            "input",
+            "Deduplication belongs to the separate GBIF occurrence audit layer.",
+        ),
+        row("eligible_n", metrics.get("eligible_records", processed), processed, "compiler", "Records that reached deterministic gate evaluation."),
+        row("candidate_n", metrics.get("candidate_records", 0), processed, "taxonomy", "Records with at least one supplied reference hit."),
+        row("safe_n", metrics.get("safe_records", 0), processed, "taxonomy", "Records safe at species/genus/higher-rank level."),
+        row(
+            "publishable_candidate_n",
+            metrics.get("publishable_candidate_records", 0),
+            processed,
+            "publication",
+            "Safe records emitted into publishable review templates but not formal GBIF-ready.",
+        ),
+        row(
+            "gbif_ready_n",
+            metrics.get("gbif_ready_records", 0),
+            processed,
+            "publication",
+            "Records that passed dataset-level metadata checks for formal GBIF-ready export.",
+        ),
+        row(
+            "repair_required_n",
+            metrics.get("repair_required_records", 0),
+            processed,
+            "publication",
+            "Records blocked by molecular, occurrence, assay, backend or metadata gates.",
+        ),
+        row(
+            "review_only_n",
+            metrics.get("review_only_records", 0),
+            processed,
+            "publication",
+            "Evidence retained for review but not exportable as occurrence rows.",
+        ),
+        row(
+            "blocked_top_species_claims_n",
+            metrics.get("blocked_or_downgraded_top_species_hits", metrics.get("blocked_species_claims", 0)),
+            top_species,
+            "safety",
+            "Species-ranked top hits that were blocked or downgraded by fail-closed gates.",
+        ),
+        row(
+            "hard_gate_failures_n",
+            metrics.get("hard_gate_failures", 0),
+            max(metrics.get("species_safe_records", 0), 1),
+            "safety",
+            "Species-safe records with any failed hard gate; must remain zero.",
+        ),
+    ]
 
 
 def gate_status(value: bool) -> str:

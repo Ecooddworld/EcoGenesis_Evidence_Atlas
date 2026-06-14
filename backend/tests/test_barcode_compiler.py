@@ -88,6 +88,22 @@ def test_missing_occurrence_metadata_is_not_publishable(tmp_path, monkeypatch) -
     assert any("missing required Occurrence core field eventDate" in blocker for blocker in record["blockers"])
 
 
+def test_scientific_name_conflict_blocks_publication_not_taxonomic_evidence(tmp_path, monkeypatch) -> None:
+    monkeypatch.setenv("EVIDENCE_DATA_DIR", str(tmp_path))
+    record = GOOD_RECORD | {
+        "metadata": GOOD_RECORD["metadata"] | {"scientificName": "Culex pipiens"},
+    }
+
+    pack = compile_records(record)
+    decision = pack["records"][0]
+
+    assert decision["taxonomic_status"] == "species-safe"
+    assert decision["decision_class"] == "not-publishable"
+    assert decision["publication_bucket"] == "repair_required"
+    assert decision["export_state"] == "evidence_publishable_repair_required"
+    assert any("scientificName conflicts with top molecular hit" in blocker for blocker in decision["blockers"])
+
+
 def test_negative_barcode_gap_blocks_species_claim(tmp_path, monkeypatch) -> None:
     monkeypatch.setenv("EVIDENCE_DATA_DIR", str(tmp_path))
     record = GOOD_RECORD | {"barcode_gap": {"intra_max_distance": 0.02, "inter_min_distance": 0.015}}
@@ -161,7 +177,9 @@ def test_barcode_api_and_exports(tmp_path, monkeypatch) -> None:
     assert {item["name"] for item in payload["exports"]} >= {
         "reference_manifest.json",
         "source_provenance_manifest.json",
+        "data_accounting_ledger.csv",
         "sequence_safety_table.csv",
+        "state_machine_audit.csv",
         "claim_boundaries.csv",
         "segment_overlap_report.csv",
         "safe_taxonomic_assignments.csv",
@@ -174,6 +192,7 @@ def test_barcode_api_and_exports(tmp_path, monkeypatch) -> None:
         "repair_plan.csv",
         "metadata_bottlenecks.csv",
         "reference_gap_index.csv",
+        "reference_completeness_audit.csv",
         "marker_profile_audit.csv",
         "assay_gate_audit.csv",
         "dna_extension_readiness.csv",
@@ -215,6 +234,28 @@ def test_barcode_api_and_exports(tmp_path, monkeypatch) -> None:
     blockers = client.get(f"/api/barcode/runs/{run_id}/exports/publication_blockers.csv")
     assert blockers.status_code == 200
     assert "missing required Occurrence core field eventDate" in blockers.text
+    assert "blocker.kind" in blockers.text
+    assert "occurrence_core" in blockers.text
+
+    ledger = client.get(f"/api/barcode/runs/{run_id}/exports/data_accounting_ledger.csv")
+    assert ledger.status_code == 200
+    assert "input_n" in ledger.text
+    assert "gbif_ready_n" in ledger.text
+
+    state_machine = client.get(f"/api/barcode/runs/{run_id}/exports/state_machine_audit.csv")
+    assert state_machine.status_code == 200
+    assert "dwc_template_ready" in state_machine.text
+    assert "evidence_publishable_repair_required" in state_machine.text
+
+    safe_assignments = client.get(f"/api/barcode/runs/{run_id}/exports/safe_taxonomic_assignments.csv")
+    assert safe_assignments.status_code == 200
+    assert "profile_id" in safe_assignments.text
+    assert "coi_full_barcode" in safe_assignments.text
+
+    claim_boundaries = client.get(f"/api/barcode/runs/{run_id}/exports/claim_boundaries.csv")
+    assert claim_boundaries.status_code == 200
+    assert "rationale" in claim_boundaries.text
+    assert "Evidence path" in claim_boundaries.text
 
     publishable_core = client.get(f"/api/barcode/runs/{run_id}/exports/dwc_occurrence_core_publishable.csv")
     assert publishable_core.status_code == 200
@@ -260,7 +301,9 @@ def test_barcode_api_and_exports(tmp_path, monkeypatch) -> None:
             "sequence_safety_table.csv",
             "reference_manifest.json",
             "source_provenance_manifest.json",
+            "data_accounting_ledger.csv",
             "claim_boundaries.csv",
+            "state_machine_audit.csv",
             "segment_overlap_report.csv",
             "molecular_evidence_report.html",
             "dwc_occurrence_core_publishable.csv",
@@ -272,6 +315,7 @@ def test_barcode_api_and_exports(tmp_path, monkeypatch) -> None:
             "reference_gap_index.csv",
             "repair_plan.csv",
             "metadata_bottlenecks.csv",
+            "reference_completeness_audit.csv",
             "marker_profile_audit.csv",
             "assay_gate_audit.csv",
             "dna_extension_readiness.csv",

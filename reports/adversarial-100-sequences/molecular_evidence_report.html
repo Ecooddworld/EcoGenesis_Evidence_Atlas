@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="data:," />
+  <title>Barcode-to-GBIF Evidence Compiler</title>
+  <style>
+    body { font-family: Inter, system-ui, sans-serif; margin: 32px; color: #17201a; }
+    h1 { max-width: 880px; }
+    .summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 24px 0; }
+    .nexus { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin: 24px 0; }
+    .card { border: 1px solid #d7e2dc; border-radius: 8px; padding: 14px; background: #f8fbf8; }
+    .ok { background:#ecf8ef; border-color:#b7dac0; }
+    .warn { background:#fff8e8; border-color:#e6c776; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border-bottom: 1px solid #d7e2dc; padding: 10px; text-align: left; vertical-align: top; }
+    th { background: #eef5ef; }
+  </style>
+</head>
+<body>
+  <p><strong>EcoGenesis</strong> / GBIF Ebbe Nielsen Challenge 2026</p>
+  <h1>EcoGenesis adversarial 100-sequence fail-closed stress suite</h1>
+  <p>At least one sequence is species-safe under the frozen molecular evidence gates; publication readiness is reported separately.</p>
+  <section class="summary">
+    <div class="card"><strong>100</strong><br />processed</div>
+    <div class="card"><strong>10</strong><br />species-safe</div>
+    <div class="card"><strong>80</strong><br />blocked species claims</div>
+    <div class="card"><strong>1.0</strong><br />repair explainability</div>
+  </section>
+  <h2>Nexus V3 conversion audit</h2>
+  <section class="nexus">
+    <div class="card"><strong>0.3</strong><br />MECY conversion yield</div>
+    <div class="card"><strong>0.3</strong><br />safe-rank yield</div>
+    <div class="card"><strong>0.888889</strong><br />overclaim prevention</div>
+    <div class="card"><strong>1.0</strong><br />repairable yield</div>
+    <div class="card ok"><strong>0</strong><br />hard-gate failures</div>
+  </section>
+  <h2>Data accounting ledger</h2>
+  <table>
+    <thead><tr><th>Metric</th><th>Value</th><th>Denominator</th><th>Rate</th><th>Meaning</th></tr></thead>
+    <tbody><tr><td>input_n</td><td>100</td><td>100</td><td>1.0</td><td>Records received by the Barcode-to-GBIF compiler.</td></tr>
+<tr><td>candidate_n</td><td>90</td><td>100</td><td>0.9</td><td>Records with at least one supplied reference hit.</td></tr>
+<tr><td>safe_n</td><td>30</td><td>100</td><td>0.3</td><td>Records safe at species/genus/higher-rank level.</td></tr>
+<tr><td>publishable_candidate_n</td><td>30</td><td>100</td><td>0.3</td><td>Safe records emitted into publishable review templates but not formal GBIF-ready.</td></tr>
+<tr><td>gbif_ready_n</td><td>0</td><td>100</td><td>0.0</td><td>Records that passed dataset-level metadata checks for formal GBIF-ready export.</td></tr>
+<tr><td>repair_required_n</td><td>70</td><td>100</td><td>0.7</td><td>Records blocked by molecular, occurrence, assay, backend or metadata gates.</td></tr>
+<tr><td>blocked_top_species_claims_n</td><td>80</td><td>90</td><td>0.888889</td><td>Species-ranked top hits that were blocked or downgraded by fail-closed gates.</td></tr>
+<tr><td>hard_gate_failures_n</td><td>0</td><td>10</td><td>0.0</td><td>Species-safe records with any failed hard gate; must remain zero.</td></tr></tbody>
+  </table>
+  <h2>Top repair actions</h2>
+  <table>
+    <thead><tr><th>Repair action</th><th>Unlockable records</th><th>Cost</th><th>Examples</th></tr></thead>
+    <tbody><tr><td>Add assay evidence fields: controls, primers, replicate/QC or qPCR/ddPCR quantification metadata as applicable.</td><td>100</td><td>medium</td><td>ADV100-001-true_species_safe_positive; ADV100-002-true_species_safe_positive; ADV100-003-true_species_safe_positive; ADV100-004-true_species_safe_positive; ADV100-005-true_species_safe_positive; ADV100-006-true_species_safe_positive; ADV100-007-true_species_safe_positive; ADV100-008-true_species_safe_positive</td></tr>
+<tr><td>Review marker profile warning: input sequence is shorter than supplied aligned_length; length gates use the supplied alignment span</td><td>90</td><td>high</td><td>ADV100-001-true_species_safe_positive; ADV100-002-true_species_safe_positive; ADV100-003-true_species_safe_positive; ADV100-004-true_species_safe_positive; ADV100-005-true_species_safe_positive; ADV100-006-true_species_safe_positive; ADV100-007-true_species_safe_positive; ADV100-008-true_species_safe_positive</td></tr>
+<tr><td>Add high-priority DNA-derived extension fields: pcr_primer_forward, pcr_primer_reverse, seq_meth.</td><td>90</td><td>medium</td><td>ADV100-001-true_species_safe_positive; ADV100-002-true_species_safe_positive; ADV100-003-true_species_safe_positive; ADV100-004-true_species_safe_positive; ADV100-005-true_species_safe_positive; ADV100-006-true_species_safe_positive; ADV100-007-true_species_safe_positive; ADV100-008-true_species_safe_positive</td></tr>
+<tr><td>Publish the molecular assignment at genus rank unless additional evidence resolves the ambiguity.</td><td>10</td><td>medium</td><td>ADV100-011-close_sibling_ambiguity; ADV100-012-close_sibling_ambiguity; ADV100-013-close_sibling_ambiguity; ADV100-014-close_sibling_ambiguity; ADV100-015-close_sibling_ambiguity; ADV100-016-close_sibling_ambiguity; ADV100-017-close_sibling_ambiguity; ADV100-018-close_sibling_ambiguity</td></tr>
+<tr><td>Use a longer/cleaner marker sequence or treat the assignment below species rank.</td><td>10</td><td>high</td><td>ADV100-021-weak_coverage_short_fragment; ADV100-022-weak_coverage_short_fragment; ADV100-023-weak_coverage_short_fragment; ADV100-024-weak_coverage_short_fragment; ADV100-025-weak_coverage_short_fragment; ADV100-026-weak_coverage_short_fragment; ADV100-027-weak_coverage_short_fragment; ADV100-028-weak_coverage_short_fragment</td></tr>
+<tr><td>Run the sequence against a marker-appropriate reference database and attach hit metrics.</td><td>10</td><td>medium</td><td>ADV100-031-no_match_novel_lineage; ADV100-032-no_match_novel_lineage; ADV100-033-no_match_novel_lineage; ADV100-034-no_match_novel_lineage; ADV100-035-no_match_novel_lineage; ADV100-036-no_match_novel_lineage; ADV100-037-no_match_novel_lineage; ADV100-038-no_match_novel_lineage</td></tr>
+<tr><td>Add high-priority DNA-derived extension fields: pcr_primer_forward, pcr_primer_reverse, seq_meth, otu_seq_comp_appr.</td><td>10</td><td>medium</td><td>ADV100-031-no_match_novel_lineage; ADV100-032-no_match_novel_lineage; ADV100-033-no_match_novel_lineage; ADV100-034-no_match_novel_lineage; ADV100-035-no_match_novel_lineage; ADV100-036-no_match_novel_lineage; ADV100-037-no_match_novel_lineage; ADV100-038-no_match_novel_lineage</td></tr>
+<tr><td>Complete required Darwin Core Occurrence core fields before GBIF publication.</td><td>10</td><td>low</td><td>ADV100-041-metadata_blocked_taxonomy_safe; ADV100-042-metadata_blocked_taxonomy_safe; ADV100-043-metadata_blocked_taxonomy_safe; ADV100-044-metadata_blocked_taxonomy_safe; ADV100-045-metadata_blocked_taxonomy_safe; ADV100-046-metadata_blocked_taxonomy_safe; ADV100-047-metadata_blocked_taxonomy_safe; ADV100-048-metadata_blocked_taxonomy_safe</td></tr></tbody>
+  </table>
+  <h2>Marker, assay and DNA-derived readiness</h2>
+  <table>
+    <thead><tr><th>Sequence</th><th>Marker profile</th><th>Marker species gate</th><th>Assay</th><th>Assay gate</th><th>DNA extension gaps</th></tr></thead>
+    <tbody><tr><td>ADV100-001-true_species_safe_positive</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-002-true_species_safe_positive</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-003-true_species_safe_positive</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-004-true_species_safe_positive</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-005-true_species_safe_positive</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-006-true_species_safe_positive</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-007-true_species_safe_positive</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-008-true_species_safe_positive</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-009-true_species_safe_positive</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-010-true_species_safe_positive</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-011-close_sibling_ambiguity</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-012-close_sibling_ambiguity</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-013-close_sibling_ambiguity</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-014-close_sibling_ambiguity</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-015-close_sibling_ambiguity</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-016-close_sibling_ambiguity</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-017-close_sibling_ambiguity</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-018-close_sibling_ambiguity</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-019-close_sibling_ambiguity</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-020-close_sibling_ambiguity</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-021-weak_coverage_short_fragment</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-022-weak_coverage_short_fragment</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-023-weak_coverage_short_fragment</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-024-weak_coverage_short_fragment</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-025-weak_coverage_short_fragment</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-026-weak_coverage_short_fragment</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-027-weak_coverage_short_fragment</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-028-weak_coverage_short_fragment</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-029-weak_coverage_short_fragment</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-030-weak_coverage_short_fragment</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-031-no_match_novel_lineage</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth; otu_seq_comp_appr</td></tr>
+<tr><td>ADV100-032-no_match_novel_lineage</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth; otu_seq_comp_appr</td></tr>
+<tr><td>ADV100-033-no_match_novel_lineage</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth; otu_seq_comp_appr</td></tr>
+<tr><td>ADV100-034-no_match_novel_lineage</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth; otu_seq_comp_appr</td></tr>
+<tr><td>ADV100-035-no_match_novel_lineage</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth; otu_seq_comp_appr</td></tr>
+<tr><td>ADV100-036-no_match_novel_lineage</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth; otu_seq_comp_appr</td></tr>
+<tr><td>ADV100-037-no_match_novel_lineage</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth; otu_seq_comp_appr</td></tr>
+<tr><td>ADV100-038-no_match_novel_lineage</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth; otu_seq_comp_appr</td></tr>
+<tr><td>ADV100-039-no_match_novel_lineage</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth; otu_seq_comp_appr</td></tr>
+<tr><td>ADV100-040-no_match_novel_lineage</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth; otu_seq_comp_appr</td></tr>
+<tr><td>ADV100-041-metadata_blocked_taxonomy_safe</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-042-metadata_blocked_taxonomy_safe</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-043-metadata_blocked_taxonomy_safe</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-044-metadata_blocked_taxonomy_safe</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-045-metadata_blocked_taxonomy_safe</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-046-metadata_blocked_taxonomy_safe</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-047-metadata_blocked_taxonomy_safe</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-048-metadata_blocked_taxonomy_safe</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-049-metadata_blocked_taxonomy_safe</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-050-metadata_blocked_taxonomy_safe</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-051-assay_control_failure</td><td>coi_full_barcode</td><td>True</td><td>qpcr_ddpcr</td><td>False</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-052-assay_control_failure</td><td>coi_full_barcode</td><td>True</td><td>qpcr_ddpcr</td><td>False</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-053-assay_control_failure</td><td>coi_full_barcode</td><td>True</td><td>qpcr_ddpcr</td><td>False</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-054-assay_control_failure</td><td>coi_full_barcode</td><td>True</td><td>qpcr_ddpcr</td><td>False</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-055-assay_control_failure</td><td>coi_full_barcode</td><td>True</td><td>qpcr_ddpcr</td><td>False</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-056-assay_control_failure</td><td>coi_full_barcode</td><td>True</td><td>qpcr_ddpcr</td><td>False</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-057-assay_control_failure</td><td>coi_full_barcode</td><td>True</td><td>qpcr_ddpcr</td><td>False</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-058-assay_control_failure</td><td>coi_full_barcode</td><td>True</td><td>qpcr_ddpcr</td><td>False</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-059-assay_control_failure</td><td>coi_full_barcode</td><td>True</td><td>qpcr_ddpcr</td><td>False</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-060-assay_control_failure</td><td>coi_full_barcode</td><td>True</td><td>qpcr_ddpcr</td><td>False</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-061-wrong_taxonomy_name_conflict</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-062-wrong_taxonomy_name_conflict</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-063-wrong_taxonomy_name_conflict</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-064-wrong_taxonomy_name_conflict</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-065-wrong_taxonomy_name_conflict</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-066-wrong_taxonomy_name_conflict</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-067-wrong_taxonomy_name_conflict</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-068-wrong_taxonomy_name_conflict</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-069-wrong_taxonomy_name_conflict</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-070-wrong_taxonomy_name_conflict</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-071-genome_segment_non_barcode_marker</td><td>custom_research</td><td>False</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-072-genome_segment_non_barcode_marker</td><td>custom_research</td><td>False</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-073-genome_segment_non_barcode_marker</td><td>custom_research</td><td>False</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-074-genome_segment_non_barcode_marker</td><td>custom_research</td><td>False</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-075-genome_segment_non_barcode_marker</td><td>custom_research</td><td>False</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-076-genome_segment_non_barcode_marker</td><td>custom_research</td><td>False</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-077-genome_segment_non_barcode_marker</td><td>custom_research</td><td>False</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-078-genome_segment_non_barcode_marker</td><td>custom_research</td><td>False</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-079-genome_segment_non_barcode_marker</td><td>custom_research</td><td>False</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-080-genome_segment_non_barcode_marker</td><td>custom_research</td><td>False</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-081-negative_barcode_gap</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-082-negative_barcode_gap</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-083-negative_barcode_gap</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-084-negative_barcode_gap</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-085-negative_barcode_gap</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-086-negative_barcode_gap</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-087-negative_barcode_gap</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-088-negative_barcode_gap</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-089-negative_barcode_gap</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-090-negative_barcode_gap</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-091-missing_diagnostic_kmer</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-092-missing_diagnostic_kmer</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-093-missing_diagnostic_kmer</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-094-missing_diagnostic_kmer</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-095-missing_diagnostic_kmer</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-096-missing_diagnostic_kmer</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-097-missing_diagnostic_kmer</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-098-missing_diagnostic_kmer</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-099-missing_diagnostic_kmer</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr>
+<tr><td>ADV100-100-missing_diagnostic_kmer</td><td>coi_full_barcode</td><td>True</td><td>single_specimen_barcode</td><td>True</td><td>pcr_primer_forward; pcr_primer_reverse; seq_meth</td></tr></tbody>
+  </table>
+  <h2>Naive top-hit overclaims prevented</h2>
+  <table>
+    <thead><tr><th>Sequence</th><th>Naive species claim</th><th>Compiler decision</th><th>Safe taxon</th></tr></thead>
+    <tbody><tr><td>ADV100-011-close_sibling_ambiguity</td><td>Aedes albopictus</td><td>genus-safe</td><td>genus Aedes</td></tr>
+<tr><td>ADV100-012-close_sibling_ambiguity</td><td>Aedes albopictus</td><td>genus-safe</td><td>genus Aedes</td></tr>
+<tr><td>ADV100-013-close_sibling_ambiguity</td><td>Aedes albopictus</td><td>genus-safe</td><td>genus Aedes</td></tr>
+<tr><td>ADV100-014-close_sibling_ambiguity</td><td>Aedes albopictus</td><td>genus-safe</td><td>genus Aedes</td></tr>
+<tr><td>ADV100-015-close_sibling_ambiguity</td><td>Aedes albopictus</td><td>genus-safe</td><td>genus Aedes</td></tr>
+<tr><td>ADV100-016-close_sibling_ambiguity</td><td>Aedes albopictus</td><td>genus-safe</td><td>genus Aedes</td></tr>
+<tr><td>ADV100-017-close_sibling_ambiguity</td><td>Aedes albopictus</td><td>genus-safe</td><td>genus Aedes</td></tr>
+<tr><td>ADV100-018-close_sibling_ambiguity</td><td>Aedes albopictus</td><td>genus-safe</td><td>genus Aedes</td></tr></tbody>
+  </table>
+  <h2>Sequence decisions</h2>
+  <table>
+    <thead><tr><th>Sequence</th><th>Decision</th><th>Candidate taxon</th><th>Candidate rank</th><th>Published taxon</th><th>Published rank</th><th>Publication stage</th><th>Blockers</th></tr></thead>
+    <tbody><tr><td>ADV100-001-true_species_safe_positive</td><td>species-safe</td><td>Aedes albopictus</td><td>species</td><td>Aedes albopictus</td><td>species</td><td>record_recommended_ready</td><td>none</td></tr>
+<tr><td>ADV100-002-true_species_safe_positive</td><td>species-safe</td><td>Aedes albopictus</td><td>species</td><td>Aedes albopictus</td><td>species</td><td>record_recommended_ready</td><td>none</td></tr>
+<tr><td>ADV100-003-true_species_safe_positive</td><td>species-safe</td><td>Aedes albopictus</td><td>species</td><td>Aedes albopictus</td><td>species</td><td>record_recommended_ready</td><td>none</td></tr>
+<tr><td>ADV100-004-true_species_safe_positive</td><td>species-safe</td><td>Aedes albopictus</td><td>species</td><td>Aedes albopictus</td><td>species</td><td>record_recommended_ready</td><td>none</td></tr>
+<tr><td>ADV100-005-true_species_safe_positive</td><td>species-safe</td><td>Aedes albopictus</td><td>species</td><td>Aedes albopictus</td><td>species</td><td>record_recommended_ready</td><td>none</td></tr>
+<tr><td>ADV100-006-true_species_safe_positive</td><td>species-safe</td><td>Aedes albopictus</td><td>species</td><td>Aedes albopictus</td><td>species</td><td>record_recommended_ready</td><td>none</td></tr>
+<tr><td>ADV100-007-true_species_safe_positive</td><td>species-safe</td><td>Aedes albopictus</td><td>species</td><td>Aedes albopictus</td><td>species</td><td>record_recommended_ready</td><td>none</td></tr>
+<tr><td>ADV100-008-true_species_safe_positive</td><td>species-safe</td><td>Aedes albopictus</td><td>species</td><td>Aedes albopictus</td><td>species</td><td>record_recommended_ready</td><td>none</td></tr>
+<tr><td>ADV100-009-true_species_safe_positive</td><td>species-safe</td><td>Aedes albopictus</td><td>species</td><td>Aedes albopictus</td><td>species</td><td>record_recommended_ready</td><td>none</td></tr>
+<tr><td>ADV100-010-true_species_safe_positive</td><td>species-safe</td><td>Aedes albopictus</td><td>species</td><td>Aedes albopictus</td><td>species</td><td>record_recommended_ready</td><td>none</td></tr>
+<tr><td>ADV100-011-close_sibling_ambiguity</td><td>genus-safe</td><td>Aedes</td><td>genus</td><td>Aedes</td><td>genus</td><td>record_recommended_ready</td><td>species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus</td></tr>
+<tr><td>ADV100-012-close_sibling_ambiguity</td><td>genus-safe</td><td>Aedes</td><td>genus</td><td>Aedes</td><td>genus</td><td>record_recommended_ready</td><td>species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus</td></tr>
+<tr><td>ADV100-013-close_sibling_ambiguity</td><td>genus-safe</td><td>Aedes</td><td>genus</td><td>Aedes</td><td>genus</td><td>record_recommended_ready</td><td>species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus</td></tr>
+<tr><td>ADV100-014-close_sibling_ambiguity</td><td>genus-safe</td><td>Aedes</td><td>genus</td><td>Aedes</td><td>genus</td><td>record_recommended_ready</td><td>species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus</td></tr>
+<tr><td>ADV100-015-close_sibling_ambiguity</td><td>genus-safe</td><td>Aedes</td><td>genus</td><td>Aedes</td><td>genus</td><td>record_recommended_ready</td><td>species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus</td></tr>
+<tr><td>ADV100-016-close_sibling_ambiguity</td><td>genus-safe</td><td>Aedes</td><td>genus</td><td>Aedes</td><td>genus</td><td>record_recommended_ready</td><td>species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus</td></tr>
+<tr><td>ADV100-017-close_sibling_ambiguity</td><td>genus-safe</td><td>Aedes</td><td>genus</td><td>Aedes</td><td>genus</td><td>record_recommended_ready</td><td>species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus</td></tr>
+<tr><td>ADV100-018-close_sibling_ambiguity</td><td>genus-safe</td><td>Aedes</td><td>genus</td><td>Aedes</td><td>genus</td><td>record_recommended_ready</td><td>species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus</td></tr>
+<tr><td>ADV100-019-close_sibling_ambiguity</td><td>genus-safe</td><td>Aedes</td><td>genus</td><td>Aedes</td><td>genus</td><td>record_recommended_ready</td><td>species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus</td></tr>
+<tr><td>ADV100-020-close_sibling_ambiguity</td><td>genus-safe</td><td>Aedes</td><td>genus</td><td>Aedes</td><td>genus</td><td>record_recommended_ready</td><td>species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus</td></tr>
+<tr><td>ADV100-021-weak_coverage_short_fragment</td><td>weak</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>species claim blocked: top hit does not pass coi_full_barcode exact gate identity &gt;= 99% and query coverage &gt;= 80%; species claim blocked: query coverage &lt; 80%</td></tr>
+<tr><td>ADV100-022-weak_coverage_short_fragment</td><td>weak</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>species claim blocked: top hit does not pass coi_full_barcode exact gate identity &gt;= 99% and query coverage &gt;= 80%; species claim blocked: query coverage &lt; 80%</td></tr>
+<tr><td>ADV100-023-weak_coverage_short_fragment</td><td>weak</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>species claim blocked: top hit does not pass coi_full_barcode exact gate identity &gt;= 99% and query coverage &gt;= 80%; species claim blocked: query coverage &lt; 80%</td></tr>
+<tr><td>ADV100-024-weak_coverage_short_fragment</td><td>weak</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>species claim blocked: top hit does not pass coi_full_barcode exact gate identity &gt;= 99% and query coverage &gt;= 80%; species claim blocked: query coverage &lt; 80%</td></tr>
+<tr><td>ADV100-025-weak_coverage_short_fragment</td><td>weak</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>species claim blocked: top hit does not pass coi_full_barcode exact gate identity &gt;= 99% and query coverage &gt;= 80%; species claim blocked: query coverage &lt; 80%</td></tr>
+<tr><td>ADV100-026-weak_coverage_short_fragment</td><td>weak</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>species claim blocked: top hit does not pass coi_full_barcode exact gate identity &gt;= 99% and query coverage &gt;= 80%; species claim blocked: query coverage &lt; 80%</td></tr>
+<tr><td>ADV100-027-weak_coverage_short_fragment</td><td>weak</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>species claim blocked: top hit does not pass coi_full_barcode exact gate identity &gt;= 99% and query coverage &gt;= 80%; species claim blocked: query coverage &lt; 80%</td></tr>
+<tr><td>ADV100-028-weak_coverage_short_fragment</td><td>weak</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>species claim blocked: top hit does not pass coi_full_barcode exact gate identity &gt;= 99% and query coverage &gt;= 80%; species claim blocked: query coverage &lt; 80%</td></tr>
+<tr><td>ADV100-029-weak_coverage_short_fragment</td><td>weak</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>species claim blocked: top hit does not pass coi_full_barcode exact gate identity &gt;= 99% and query coverage &gt;= 80%; species claim blocked: query coverage &lt; 80%</td></tr>
+<tr><td>ADV100-030-weak_coverage_short_fragment</td><td>weak</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>species claim blocked: top hit does not pass coi_full_barcode exact gate identity &gt;= 99% and query coverage &gt;= 80%; species claim blocked: query coverage &lt; 80%</td></tr>
+<tr><td>ADV100-031-no_match_novel_lineage</td><td>no-match</td><td>No match</td><td>none</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>no reference hit returned</td></tr>
+<tr><td>ADV100-032-no_match_novel_lineage</td><td>no-match</td><td>No match</td><td>none</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>no reference hit returned</td></tr>
+<tr><td>ADV100-033-no_match_novel_lineage</td><td>no-match</td><td>No match</td><td>none</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>no reference hit returned</td></tr>
+<tr><td>ADV100-034-no_match_novel_lineage</td><td>no-match</td><td>No match</td><td>none</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>no reference hit returned</td></tr>
+<tr><td>ADV100-035-no_match_novel_lineage</td><td>no-match</td><td>No match</td><td>none</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>no reference hit returned</td></tr>
+<tr><td>ADV100-036-no_match_novel_lineage</td><td>no-match</td><td>No match</td><td>none</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>no reference hit returned</td></tr>
+<tr><td>ADV100-037-no_match_novel_lineage</td><td>no-match</td><td>No match</td><td>none</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>no reference hit returned</td></tr>
+<tr><td>ADV100-038-no_match_novel_lineage</td><td>no-match</td><td>No match</td><td>none</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>no reference hit returned</td></tr>
+<tr><td>ADV100-039-no_match_novel_lineage</td><td>no-match</td><td>No match</td><td>none</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>no reference hit returned</td></tr>
+<tr><td>ADV100-040-no_match_novel_lineage</td><td>no-match</td><td>No match</td><td>none</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>no reference hit returned</td></tr>
+<tr><td>ADV100-041-metadata_blocked_taxonomy_safe</td><td>not-publishable</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_not_ready</td><td>publication blocked: missing required Occurrence core field eventDate</td></tr>
+<tr><td>ADV100-042-metadata_blocked_taxonomy_safe</td><td>not-publishable</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_not_ready</td><td>publication blocked: missing required Occurrence core field eventDate</td></tr>
+<tr><td>ADV100-043-metadata_blocked_taxonomy_safe</td><td>not-publishable</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_not_ready</td><td>publication blocked: missing required Occurrence core field eventDate</td></tr>
+<tr><td>ADV100-044-metadata_blocked_taxonomy_safe</td><td>not-publishable</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_not_ready</td><td>publication blocked: missing required Occurrence core field eventDate</td></tr>
+<tr><td>ADV100-045-metadata_blocked_taxonomy_safe</td><td>not-publishable</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_not_ready</td><td>publication blocked: missing required Occurrence core field eventDate</td></tr>
+<tr><td>ADV100-046-metadata_blocked_taxonomy_safe</td><td>not-publishable</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_not_ready</td><td>publication blocked: missing required Occurrence core field eventDate</td></tr>
+<tr><td>ADV100-047-metadata_blocked_taxonomy_safe</td><td>not-publishable</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_not_ready</td><td>publication blocked: missing required Occurrence core field eventDate</td></tr>
+<tr><td>ADV100-048-metadata_blocked_taxonomy_safe</td><td>not-publishable</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_not_ready</td><td>publication blocked: missing required Occurrence core field eventDate</td></tr>
+<tr><td>ADV100-049-metadata_blocked_taxonomy_safe</td><td>not-publishable</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_not_ready</td><td>publication blocked: missing required Occurrence core field eventDate</td></tr>
+<tr><td>ADV100-050-metadata_blocked_taxonomy_safe</td><td>not-publishable</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_not_ready</td><td>publication blocked: missing required Occurrence core field eventDate</td></tr>
+<tr><td>ADV100-051-assay_control_failure</td><td>not-publishable</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_not_ready</td><td>assay gate blocked publication: missing occurrenceStatus, contaminationAssessment for qpcr_ddpcr</td></tr>
+<tr><td>ADV100-052-assay_control_failure</td><td>not-publishable</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_not_ready</td><td>assay gate blocked publication: missing occurrenceStatus, contaminationAssessment for qpcr_ddpcr</td></tr>
+<tr><td>ADV100-053-assay_control_failure</td><td>not-publishable</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_not_ready</td><td>assay gate blocked publication: missing occurrenceStatus, contaminationAssessment for qpcr_ddpcr</td></tr>
+<tr><td>ADV100-054-assay_control_failure</td><td>not-publishable</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_not_ready</td><td>assay gate blocked publication: missing occurrenceStatus, contaminationAssessment for qpcr_ddpcr</td></tr>
+<tr><td>ADV100-055-assay_control_failure</td><td>not-publishable</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_not_ready</td><td>assay gate blocked publication: missing occurrenceStatus, contaminationAssessment for qpcr_ddpcr</td></tr>
+<tr><td>ADV100-056-assay_control_failure</td><td>not-publishable</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_not_ready</td><td>assay gate blocked publication: missing occurrenceStatus, contaminationAssessment for qpcr_ddpcr</td></tr>
+<tr><td>ADV100-057-assay_control_failure</td><td>not-publishable</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_not_ready</td><td>assay gate blocked publication: missing occurrenceStatus, contaminationAssessment for qpcr_ddpcr</td></tr>
+<tr><td>ADV100-058-assay_control_failure</td><td>not-publishable</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_not_ready</td><td>assay gate blocked publication: missing occurrenceStatus, contaminationAssessment for qpcr_ddpcr</td></tr>
+<tr><td>ADV100-059-assay_control_failure</td><td>not-publishable</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_not_ready</td><td>assay gate blocked publication: missing occurrenceStatus, contaminationAssessment for qpcr_ddpcr</td></tr>
+<tr><td>ADV100-060-assay_control_failure</td><td>not-publishable</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_not_ready</td><td>assay gate blocked publication: missing occurrenceStatus, contaminationAssessment for qpcr_ddpcr</td></tr>
+<tr><td>ADV100-061-wrong_taxonomy_name_conflict</td><td>not-publishable</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_not_ready</td><td>publication blocked: supplied scientificName conflicts with top molecular hit (Culex pipiens vs Aedes albopictus)</td></tr>
+<tr><td>ADV100-062-wrong_taxonomy_name_conflict</td><td>not-publishable</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_not_ready</td><td>publication blocked: supplied scientificName conflicts with top molecular hit (Culex pipiens vs Aedes albopictus)</td></tr>
+<tr><td>ADV100-063-wrong_taxonomy_name_conflict</td><td>not-publishable</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_not_ready</td><td>publication blocked: supplied scientificName conflicts with top molecular hit (Culex pipiens vs Aedes albopictus)</td></tr>
+<tr><td>ADV100-064-wrong_taxonomy_name_conflict</td><td>not-publishable</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_not_ready</td><td>publication blocked: supplied scientificName conflicts with top molecular hit (Culex pipiens vs Aedes albopictus)</td></tr>
+<tr><td>ADV100-065-wrong_taxonomy_name_conflict</td><td>not-publishable</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_not_ready</td><td>publication blocked: supplied scientificName conflicts with top molecular hit (Culex pipiens vs Aedes albopictus)</td></tr>
+<tr><td>ADV100-066-wrong_taxonomy_name_conflict</td><td>not-publishable</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_not_ready</td><td>publication blocked: supplied scientificName conflicts with top molecular hit (Culex pipiens vs Aedes albopictus)</td></tr>
+<tr><td>ADV100-067-wrong_taxonomy_name_conflict</td><td>not-publishable</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_not_ready</td><td>publication blocked: supplied scientificName conflicts with top molecular hit (Culex pipiens vs Aedes albopictus)</td></tr>
+<tr><td>ADV100-068-wrong_taxonomy_name_conflict</td><td>not-publishable</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_not_ready</td><td>publication blocked: supplied scientificName conflicts with top molecular hit (Culex pipiens vs Aedes albopictus)</td></tr>
+<tr><td>ADV100-069-wrong_taxonomy_name_conflict</td><td>not-publishable</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_not_ready</td><td>publication blocked: supplied scientificName conflicts with top molecular hit (Culex pipiens vs Aedes albopictus)</td></tr>
+<tr><td>ADV100-070-wrong_taxonomy_name_conflict</td><td>not-publishable</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_not_ready</td><td>publication blocked: supplied scientificName conflicts with top molecular hit (Culex pipiens vs Aedes albopictus)</td></tr>
+<tr><td>ADV100-071-genome_segment_non_barcode_marker</td><td>genus-safe</td><td>Aedes</td><td>genus</td><td>Aedes</td><td>genus</td><td>record_recommended_ready</td><td>marker profile blocked species claim: custom_research is configured for safe-rank review, not automatic species export</td></tr>
+<tr><td>ADV100-072-genome_segment_non_barcode_marker</td><td>genus-safe</td><td>Aedes</td><td>genus</td><td>Aedes</td><td>genus</td><td>record_recommended_ready</td><td>marker profile blocked species claim: custom_research is configured for safe-rank review, not automatic species export</td></tr>
+<tr><td>ADV100-073-genome_segment_non_barcode_marker</td><td>genus-safe</td><td>Aedes</td><td>genus</td><td>Aedes</td><td>genus</td><td>record_recommended_ready</td><td>marker profile blocked species claim: custom_research is configured for safe-rank review, not automatic species export</td></tr>
+<tr><td>ADV100-074-genome_segment_non_barcode_marker</td><td>genus-safe</td><td>Aedes</td><td>genus</td><td>Aedes</td><td>genus</td><td>record_recommended_ready</td><td>marker profile blocked species claim: custom_research is configured for safe-rank review, not automatic species export</td></tr>
+<tr><td>ADV100-075-genome_segment_non_barcode_marker</td><td>genus-safe</td><td>Aedes</td><td>genus</td><td>Aedes</td><td>genus</td><td>record_recommended_ready</td><td>marker profile blocked species claim: custom_research is configured for safe-rank review, not automatic species export</td></tr>
+<tr><td>ADV100-076-genome_segment_non_barcode_marker</td><td>genus-safe</td><td>Aedes</td><td>genus</td><td>Aedes</td><td>genus</td><td>record_recommended_ready</td><td>marker profile blocked species claim: custom_research is configured for safe-rank review, not automatic species export</td></tr>
+<tr><td>ADV100-077-genome_segment_non_barcode_marker</td><td>genus-safe</td><td>Aedes</td><td>genus</td><td>Aedes</td><td>genus</td><td>record_recommended_ready</td><td>marker profile blocked species claim: custom_research is configured for safe-rank review, not automatic species export</td></tr>
+<tr><td>ADV100-078-genome_segment_non_barcode_marker</td><td>genus-safe</td><td>Aedes</td><td>genus</td><td>Aedes</td><td>genus</td><td>record_recommended_ready</td><td>marker profile blocked species claim: custom_research is configured for safe-rank review, not automatic species export</td></tr>
+<tr><td>ADV100-079-genome_segment_non_barcode_marker</td><td>genus-safe</td><td>Aedes</td><td>genus</td><td>Aedes</td><td>genus</td><td>record_recommended_ready</td><td>marker profile blocked species claim: custom_research is configured for safe-rank review, not automatic species export</td></tr>
+<tr><td>ADV100-080-genome_segment_non_barcode_marker</td><td>genus-safe</td><td>Aedes</td><td>genus</td><td>Aedes</td><td>genus</td><td>record_recommended_ready</td><td>marker profile blocked species claim: custom_research is configured for safe-rank review, not automatic species export</td></tr>
+<tr><td>ADV100-081-negative_barcode_gap</td><td>ambiguous</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>species claim blocked: barcode gap fail</td></tr>
+<tr><td>ADV100-082-negative_barcode_gap</td><td>ambiguous</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>species claim blocked: barcode gap fail</td></tr>
+<tr><td>ADV100-083-negative_barcode_gap</td><td>ambiguous</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>species claim blocked: barcode gap fail</td></tr>
+<tr><td>ADV100-084-negative_barcode_gap</td><td>ambiguous</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>species claim blocked: barcode gap fail</td></tr>
+<tr><td>ADV100-085-negative_barcode_gap</td><td>ambiguous</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>species claim blocked: barcode gap fail</td></tr>
+<tr><td>ADV100-086-negative_barcode_gap</td><td>ambiguous</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>species claim blocked: barcode gap fail</td></tr>
+<tr><td>ADV100-087-negative_barcode_gap</td><td>ambiguous</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>species claim blocked: barcode gap fail</td></tr>
+<tr><td>ADV100-088-negative_barcode_gap</td><td>ambiguous</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>species claim blocked: barcode gap fail</td></tr>
+<tr><td>ADV100-089-negative_barcode_gap</td><td>ambiguous</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>species claim blocked: barcode gap fail</td></tr>
+<tr><td>ADV100-090-negative_barcode_gap</td><td>ambiguous</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>species claim blocked: barcode gap fail</td></tr>
+<tr><td>ADV100-091-missing_diagnostic_kmer</td><td>ambiguous</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>species claim blocked: diagnostic k-mer support missing</td></tr>
+<tr><td>ADV100-092-missing_diagnostic_kmer</td><td>ambiguous</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>species claim blocked: diagnostic k-mer support missing</td></tr>
+<tr><td>ADV100-093-missing_diagnostic_kmer</td><td>ambiguous</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>species claim blocked: diagnostic k-mer support missing</td></tr>
+<tr><td>ADV100-094-missing_diagnostic_kmer</td><td>ambiguous</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>species claim blocked: diagnostic k-mer support missing</td></tr>
+<tr><td>ADV100-095-missing_diagnostic_kmer</td><td>ambiguous</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>species claim blocked: diagnostic k-mer support missing</td></tr>
+<tr><td>ADV100-096-missing_diagnostic_kmer</td><td>ambiguous</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>species claim blocked: diagnostic k-mer support missing</td></tr>
+<tr><td>ADV100-097-missing_diagnostic_kmer</td><td>ambiguous</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>species claim blocked: diagnostic k-mer support missing</td></tr>
+<tr><td>ADV100-098-missing_diagnostic_kmer</td><td>ambiguous</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>species claim blocked: diagnostic k-mer support missing</td></tr>
+<tr><td>ADV100-099-missing_diagnostic_kmer</td><td>ambiguous</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>species claim blocked: diagnostic k-mer support missing</td></tr>
+<tr><td>ADV100-100-missing_diagnostic_kmer</td><td>ambiguous</td><td>Aedes albopictus</td><td>species</td><td>None</td><td>none</td><td>record_recommended_ready</td><td>species claim blocked: diagnostic k-mer support missing</td></tr></tbody>
+  </table>
+</body>
+</html>

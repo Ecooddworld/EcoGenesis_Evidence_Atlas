@@ -4,18 +4,22 @@ Status: **PASS**
 
 ## Real Results
 
-| Sequence | Decision | Taxonomic status | Publication | Candidate | Published | Main blockers |
-|---|---:|---:|---:|---|---|---|
-| AALB-COI-good | species-safe | species-safe | record-ready / record_recommended_ready | Aedes albopictus (species) | Aedes albopictus (species) | none |
-| AALB-COI-ambiguous | genus-safe | genus-safe | record-ready / record_recommended_ready | Aedes (genus) | Aedes (genus) | species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus |
-| AALB-COI-short | weak | weak | not-ready / record_recommended_ready | Aedes albopictus (species) | None (none) | species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%; species claim blocked: query coverage < 80% |
-| AALB-COI-metadata-gap | not-publishable | species-safe | not-ready / record_not_ready | Aedes albopictus (species) | None (none) | publication blocked: missing required Occurrence core field occurrenceID; publication blocked: missing required Occurrence core field eventDate |
+| Sequence | Decision | Taxonomic status | Publication | Export state | Candidate | Published | Main blockers |
+|---|---:|---:|---:|---:|---|---|---|
+| AALB-COI-good | species-safe | species-safe | record-ready / record_recommended_ready / publishable_candidate | dwc_template_ready | Aedes albopictus (species) | Aedes albopictus (species) | none |
+| AALB-COI-ambiguous | genus-safe | genus-safe | record-ready / record_recommended_ready / publishable_candidate | dwc_template_ready | Aedes (genus) | Aedes (genus) | species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus |
+| AALB-COI-short | weak | weak | not-ready / record_recommended_ready / repair_required | review_only | Aedes albopictus (species) | None (none) | species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%; species claim blocked: query coverage < 80% |
+| AALB-COI-metadata-gap | not-publishable | species-safe | not-ready / record_not_ready / repair_required | evidence_publishable_repair_required | Aedes albopictus (species) | None (none) | publication blocked: missing required Occurrence core field occurrenceID; publication blocked: missing required Occurrence core field eventDate |
 
 ## Metrics
 
 ```json
 {
   "processed_records": 4,
+  "input_records": 4,
+  "eligible_records": 4,
+  "candidate_records": 4,
+  "safe_records": 2,
   "processing_coverage": 1,
   "species_safe_records": 1,
   "genus_safe_records": 1,
@@ -27,6 +31,10 @@ Status: **PASS**
   "record_ready_records": 2,
   "dataset_ready_records": 0,
   "publishable_template_records": 2,
+  "gbif_ready_records": 0,
+  "publishable_candidate_records": 2,
+  "repair_required_records": 2,
+  "review_only_records": 0,
   "safe_rank_records": 2,
   "repairable_records": 4,
   "top_species_hits": 4,
