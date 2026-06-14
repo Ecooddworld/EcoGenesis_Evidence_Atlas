@@ -1,10 +1,10 @@
 {
   "db_name": "COI Animals / BOLD public clustered reference",
-  "db_version": "competition-local-fixture-2026-06-14",
-  "source": "supplied_sequence_id_or_blast_style_hits",
+  "db_version": "not_supplied",
+  "source": "request.reference_database",
   "accessed_at": "2026-06-14",
-  "doi_or_url": "https://www.gbif.org/tools/sequence-id",
-  "license": "mixed reference-source audit required before publication",
+  "doi_or_url": null,
+  "license": null,
   "sha256": null,
-  "manifest_sha256": "8f200ca4c6fb2c3a33095059abf1c2187ccb7a2b35696e42b7e9454ad0d89883"
+  "manifest_sha256": "bb0fe4283cb56bec54fa879737387eebb3d4cc6cfd3fd9a07a0a77b352c8ae39"
 }

@@ -1,19 +1,23 @@
 # Adversarial 100-Sequence Fail-Closed Stress Report
 
-Generated: 2026-06-14 Europe/Madrid
-Backend: Docker `http://127.0.0.1:18100`
-Run ID: `3942895d39fc4ef0978cd2670b0ca284`
+Generated: 2026-06-14T22:06:17+02:00
+Backend: local compiler script `backend/scripts/generate_competition_reports.py`
+Run ID: `ea9e5b6147734b919ec53070bedffeaa`
 
 ## Result
 
 - Records submitted: 100
 - API status: completed
-- Exports returned: 42
+- Exports returned: 89
 - Expected decisions matched: True
 - Hard-gate failures: 0
+- Evidence Pack ZIP SHA-256: `0f7b7162f2b3e139e1bf60634359392d31f9b015d467e94241b04b0548f02357`
+- GSEG/GSIG exports present: True
+- ZIP contains GSEG/GSIG exports: True
+- VSEA Parquet magic: `PAR1`
+- Theorem checklist release gate: `pass`
+- Graph roundtrip audit: `pass`
 - False species-safe outside positive controls: 0
-- ZIP contains DOCX-required exports: True
-- Evidence Pack ZIP SHA-256: `2b06bb7338a1942006439b56f3bfe662b5551853e3c38b0e98505fa87fcee47a`
 
 ## Decision classes
 
@@ -25,6 +29,25 @@ Run ID: `3942895d39fc4ef0978cd2670b0ca284`
   "no-match": 10,
   "not-publishable": 30,
   "ambiguous": 20
+}
+```
+
+## Publication buckets
+
+```json
+{
+  "publishable_candidate": 30,
+  "repair_required": 70
+}
+```
+
+## Export states
+
+```json
+{
+  "dwc_template_ready": 30,
+  "review_only": 40,
+  "evidence_publishable_repair_required": 30
 }
 ```
 
@@ -67,4 +90,4 @@ Run ID: `3942895d39fc4ef0978cd2670b0ca284`
 
 ## Interpretation
 
-This stress suite intentionally includes no-match records, weak/short fragments, close-sibling ambiguity, metadata blockers, qPCR/control blockers, scientificName conflicts, custom non-barcode marker records, negative barcode gaps and missing diagnostic k-mers. Only the positive-control group is allowed to remain species-safe. All other species-looking inputs are blocked, downgraded or kept in repair/review states.
+The run is fail-closed. Species-level output is allowed only when match gates, ambiguity/LCA, barcode gap, diagnostic k-mers, marker profile and publication gates agree. The GSEG/GSIG layer adds VSEA, graph provenance, theorem checklist, AI guardrails and roundtrip checks without claiming phenotype, function or production GraphDB/RDF behavior.

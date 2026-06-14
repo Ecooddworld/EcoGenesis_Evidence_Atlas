@@ -1,0 +1,2 @@
+runID,functionClaimsExported,correlationPromotedToFunction,domainOnlyPromotedToFunction,status,guardrail
+ea9e5b6147734b919ec53070bedffeaa,0,False,False,pass,The current compiler exports taxonomic/publication evidence only; function claims are blocked.

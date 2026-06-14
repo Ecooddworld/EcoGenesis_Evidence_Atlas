@@ -2,4 +2,4 @@ markerRankTaxon,marker,safeRank,safeTaxon,records,referenceBlockedRecords,RGI_re
 COI-5P|genus|Aedes,COI-5P,genus,Aedes,10,10,1.0,LCA downgrade from indistinguishable competitors
 COI-5P|none|No match,COI-5P,none,No match,10,10,1.0,barcode gap not_evaluated; diagnostic k-mer not_evaluated; no reference hits
 COI-5P|species|Aedes albopictus,COI-5P,species,Aedes albopictus,70,20,0.285714,barcode gap fail; diagnostic k-mer missing
-custom-locus-X|genus|Aedes,custom-locus-X,genus,Aedes,10,0,0.0,
+custom-locus-x|genus|Aedes,custom-locus-x,genus,Aedes,10,0,0.0,

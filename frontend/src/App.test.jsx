@@ -18,6 +18,33 @@ const demoScenarios = [
   },
 ];
 
+const exportItem = (runId, name) => ({ name, url: `/api/barcode/runs/${runId}/exports/${name}` });
+
+const coreExportNames = [
+  'evidence_pack.zip',
+  'sequence_safety_table.csv',
+  'data_accounting_ledger.csv',
+  'molecular_evidence_report.html',
+  'methods_text.md',
+  'citations.md',
+  'hard_gate_audit.csv',
+  'naive_top_hit_overclaims.csv',
+];
+
+const gsegGsigExportNames = [
+  'theorem_checklist.json',
+  'verified_segment_evidence_array.csv',
+  'verified_segment_evidence_array.parquet',
+  'gseg_graph_schema.json',
+  'gsig_graph_schema.yaml',
+  'graph_provenance_audit.csv',
+  'graph_roundtrip_audit.json',
+  'sharedness_overclaim_audit.csv',
+  'function_claim_boundary_audit.csv',
+  'ai_output_guardrail_audit.csv',
+  'judge_reproducibility_report.md',
+];
+
 const createdRun = {
   run_id: 'barcode123',
   status: 'completed',
@@ -31,7 +58,7 @@ const createdRun = {
     record_ready_records: 1,
     verdict: 'At least one sequence is species-safe under the frozen molecular evidence gates; publication readiness is reported separately.',
   },
-  exports: [{ name: 'evidence_pack.zip', url: '/api/barcode/runs/barcode123/exports/evidence_pack.zip' }],
+  exports: [...coreExportNames, ...gsegGsigExportNames].map((name) => exportItem('barcode123', name)),
 };
 
 const runDetail = {
@@ -100,14 +127,11 @@ const createdCsvRun = {
   ...createdRun,
   run_id: 'barcodecsv123',
   exports: [
-    { name: 'evidence_pack.zip', url: '/api/barcode/runs/barcodecsv123/exports/evidence_pack.zip' },
-    { name: 'sequence_safety_table.csv', url: '/api/barcode/runs/barcodecsv123/exports/sequence_safety_table.csv' },
-    { name: 'publication_blockers.csv', url: '/api/barcode/runs/barcodecsv123/exports/publication_blockers.csv' },
-    { name: 'dwc_occurrence_core_publishable.csv', url: '/api/barcode/runs/barcodecsv123/exports/dwc_occurrence_core_publishable.csv' },
-    { name: 'molecular_evidence_report.html', url: '/api/barcode/runs/barcodecsv123/exports/molecular_evidence_report.html' },
-    { name: 'methods_text.md', url: '/api/barcode/runs/barcodecsv123/exports/methods_text.md' },
-    { name: 'citations.md', url: '/api/barcode/runs/barcodecsv123/exports/citations.md' },
-  ],
+    ...coreExportNames,
+    'publication_blockers.csv',
+    'dwc_occurrence_core_publishable.csv',
+    ...gsegGsigExportNames,
+  ].map((name) => exportItem('barcodecsv123', name)),
 };
 
 const csvRunDetail = {
@@ -437,6 +461,9 @@ describe('Barcode compiler UI', () => {
     await waitFor(() => expect(screen.getAllByText('AALB-COI-good').length).toBeGreaterThan(0));
     expect(screen.getByText('species-safe')).toBeInTheDocument();
     expect(screen.getAllByText('evidence_pack.zip').length).toBeGreaterThan(0);
+    expect(screen.getByText('GSEG / GSIG proof layer')).toBeInTheDocument();
+    expect(screen.getAllByText('theorem_checklist.json').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('verified_segment_evidence_array.parquet').length).toBeGreaterThan(0);
     expect(screen.getByText('Data accounting ledger')).toBeInTheDocument();
     expect(screen.getByText('publishable_candidate_n')).toBeInTheDocument();
   });
@@ -515,6 +542,7 @@ describe('Barcode compiler UI', () => {
     expect(screen.getAllByText('molecular_evidence_report.html').length).toBeGreaterThan(0);
     expect(screen.getAllByText('methods_text.md').length).toBeGreaterThan(0);
     expect(screen.getAllByText('citations.md').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('graph_provenance_audit.csv').length).toBeGreaterThan(0);
     expect(screen.getByText('Publishable (1)')).toBeInTheDocument();
   });
 

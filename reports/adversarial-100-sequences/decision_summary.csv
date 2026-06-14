@@ -1,14 +1,13 @@
 metric,value
-run_id,3942895d39fc4ef0978cd2670b0ca284
-records,100
-exports,42
-decisionClass,"{""species-safe"": 10, ""genus-safe"": 20, ""weak"": 10, ""no-match"": 10, ""not-publishable"": 30, ""ambiguous"": 20}"
-taxonomicStatus,"{""species-safe"": 40, ""genus-safe"": 20, ""weak"": 10, ""no-match"": 10, ""ambiguous"": 20}"
-publicationBucket,"{""publishable_candidate"": 30, ""repair_required"": 70}"
-exportState,"{""dwc_template_ready"": 30, ""review_only"": 40, ""evidence_publishable_repair_required"": 30}"
-byAdversarialClass,"{""assay_control_failure"": {""not-publishable"": 10}, ""close_sibling_ambiguity"": {""genus-safe"": 10}, ""genome_segment_non_barcode_marker"": {""genus-safe"": 10}, ""metadata_blocked_taxonomy_safe"": {""not-publishable"": 10}, ""missing_diagnostic_kmer"": {""ambiguous"": 10}, ""negative_barcode_gap"": {""ambiguous"": 10}, ""no_match_novel_lineage"": {""no-match"": 10}, ""true_species_safe_positive"": {""species-safe"": 10}, ""weak_coverage_short_fragment"": {""weak"": 10}, ""wrong_taxonomy_name_conflict"": {""not-publishable"": 10}}"
-expected_match,true
+processed_records,100
+species_safe_records,10
+genus_safe_records,20
+ambiguous_records,20
+weak_records,10
+no_match_records,10
+not_publishable_records,30
+publishable_template_records,30
+dataset_ready_records,0
+blocked_species_claims,80
 hard_gate_failures,0
-false_species_safe_outside_positive_controls,0
-evidence_pack_zip_sha256,2b06bb7338a1942006439b56f3bfe662b5551853e3c38b0e98505fa87fcee47a
-zip_contains_required_exports,true
+assay_gate_failures,10

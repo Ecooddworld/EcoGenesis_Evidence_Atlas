@@ -1,254 +1,91 @@
 [
-  {
-    "name": "ambiguous_sequences.csv",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/ambiguous_sequences.csv",
-    "size_bytes": 7610,
-    "sha256": "2424ad1fa17e2b66da362f21b60fdbd7394f484757305791567eb0b19568312a"
-  },
-  {
-    "name": "assay_gate_audit.csv",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/assay_gate_audit.csv",
-    "size_bytes": 26867,
-    "sha256": "144929c81c6b2e7c770446b963daede4fdb015edbbb0c23d18cb31297cf43455"
-  },
-  {
-    "name": "barcode_gap_report.csv",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/barcode_gap_report.csv",
-    "size_bytes": 6043,
-    "sha256": "0cda2746f24c2810317b3a6963b0ab83851cfbd75bdb2a0dfa8858966283e6d5"
-  },
-  {
-    "name": "citations.md",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/citations.md",
-    "size_bytes": 1520,
-    "sha256": "121ae951dbe6e99cd529f5e394ddd26a5592ccbfa78ec471926e874ca4a0f4b0"
-  },
-  {
-    "name": "claim_boundaries.csv",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/claim_boundaries.csv",
-    "size_bytes": 142230,
-    "sha256": "e87ec4e9d767ba32eeea614aa39691c7ddc55bfcb260fe7e318afaa9451cb99e"
-  },
-  {
-    "name": "data_accounting_ledger.csv",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/data_accounting_ledger.csv",
-    "size_bytes": 1510,
-    "sha256": "f2001c308229978991e996beccd3de49106f26ec74f2711b5ab3872a9e81f55a"
-  },
-  {
-    "name": "diagnostic_kmer_report.csv",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/diagnostic_kmer_report.csv",
-    "size_bytes": 7802,
-    "sha256": "fd54541b02a565dc7e14911cbb2f76586b85479b5fc796d56dd3914a8ce296f4"
-  },
-  {
-    "name": "dna_derived_extension_gbif_ready.csv",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/dna_derived_extension_gbif_ready.csv",
-    "size_bytes": 0,
-    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-  },
-  {
-    "name": "dna_derived_extension_publishable.csv",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/dna_derived_extension_publishable.csv",
-    "size_bytes": 39992,
-    "sha256": "868c13f8ac3418f2b8ce861ccdd4db5586aec34533c9431d1d55497425665f7b"
-  },
-  {
-    "name": "dna_derived_extension_template.csv",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/dna_derived_extension_template.csv",
-    "size_bytes": 132322,
-    "sha256": "d80d3966091bc3fe1727da106db3fdbf864f690ba3f95df93f340fcee17ad1bb"
-  },
-  {
-    "name": "dna_extension_readiness.csv",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/dna_extension_readiness.csv",
-    "size_bytes": 47529,
-    "sha256": "ecf3cf6f53c3683d2161c9f01ceea616678afc66da62cacc53822a9459e67614"
-  },
-  {
-    "name": "dwc_occurrence_core_gbif_ready.csv",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/dwc_occurrence_core_gbif_ready.csv",
-    "size_bytes": 0,
-    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-  },
-  {
-    "name": "dwc_occurrence_core_publishable.csv",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/dwc_occurrence_core_publishable.csv",
-    "size_bytes": 15950,
-    "sha256": "83340d9fa566db0b2c9cbe4ae31147fd863f29e6e0bd74dea9e2a50bb492f611"
-  },
-  {
-    "name": "dwc_occurrence_core_review.csv",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/dwc_occurrence_core_review.csv",
-    "size_bytes": 50210,
-    "sha256": "6a02aad42792cf632f6335305b60e2e4c6c5f03c5a8bc0ed26d649af500691bb"
-  },
-  {
-    "name": "dwc_occurrence_core_review_or_repair.csv",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/dwc_occurrence_core_review_or_repair.csv",
-    "size_bytes": 48658,
-    "sha256": "81600026f3398ff39f4ca69bb02915dc1bbcd73d4289d5d530aa479e5b1c6bcc"
-  },
-  {
-    "name": "dwc_occurrence_core_template.csv",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/dwc_occurrence_core_template.csv",
-    "size_bytes": 50210,
-    "sha256": "6a02aad42792cf632f6335305b60e2e4c6c5f03c5a8bc0ed26d649af500691bb"
-  },
-  {
-    "name": "evidence_graph.json",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/evidence_graph.json",
-    "size_bytes": 208392,
-    "sha256": "ae747fc42b5f4ae952ce532e96745ba75b751182a2d3dc832f8b2e3b8db28f0a"
-  },
-  {
-    "name": "evidence_pack.json",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/evidence_pack.json",
-    "size_bytes": 2187894,
-    "sha256": "26f3898caa280fcf5945048f58f2b414c685a58978f176e353ed30bbcd6bb3bb"
-  },
-  {
-    "name": "evidence_pack.zip",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/evidence_pack.zip",
-    "size_bytes": 104085,
-    "sha256": "00dccc477e4bea7b5d4fd3a34089d1f1cb51af8332176c21a06f09a21888f241"
-  },
-  {
-    "name": "external_tool_adapter_matrix.csv",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/external_tool_adapter_matrix.csv",
-    "size_bytes": 1064,
-    "sha256": "63aaee18447111d0fd648589c0a04ea77ad0580b9b195aaeea72ca17534cf7c6"
-  },
-  {
-    "name": "gbif_backbone_matches.csv",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/gbif_backbone_matches.csv",
-    "size_bytes": 23408,
-    "sha256": "caee39e046d7b391709d78f86119f1f7cff32b5aa912f0eefc7ec3826321220e"
-  },
-  {
-    "name": "hard_gate_audit.csv",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/hard_gate_audit.csv",
-    "size_bytes": 19098,
-    "sha256": "456941ba07dc219e07ea74118306ce03d068b583a0418e1d1a502adfbdcdd4ef"
-  },
-  {
-    "name": "marker_profile_audit.csv",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/marker_profile_audit.csv",
-    "size_bytes": 36968,
-    "sha256": "1204fb5a53615ae586a9d7881f2636112eb9c37a5b048fd111f7a84cdb8d7d87"
-  },
-  {
-    "name": "metadata_bottlenecks.csv",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/metadata_bottlenecks.csv",
-    "size_bytes": 1065,
-    "sha256": "4a4e104fd9c3269bea6d0bf0d6dafb8d985d294689e211628bd83f04ada49d01"
-  },
-  {
-    "name": "methods_text.md",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/methods_text.md",
-    "size_bytes": 3731,
-    "sha256": "24f90792ae7c047016026ea756a615cf00cd382d896e5b2ab51e8801904b3e6e"
-  },
-  {
-    "name": "molecular_evidence_report.html",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/molecular_evidence_report.html",
-    "size_bytes": 54266,
-    "sha256": "043e1656ed04c8df068a26a1ab3e10c0088e6e8eaf13b8898206c152125e261d"
-  },
-  {
-    "name": "naive_top_hit_overclaims.csv",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/naive_top_hit_overclaims.csv",
-    "size_bytes": 16244,
-    "sha256": "75c852323caef613832b6caa939a9904f4316ac4eadaaa0a218f2960f251ab1c"
-  },
-  {
-    "name": "nexus_v3_summary.json",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/nexus_v3_summary.json",
-    "size_bytes": 1762,
-    "sha256": "41bbbe8bb52a090ef08fbbcabb969ccf916e148e01fe3a1f4d0bc5e51c2cb61b"
-  },
-  {
-    "name": "proof_by_failure_modes.md",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/proof_by_failure_modes.md",
-    "size_bytes": 1214,
-    "sha256": "98ace1ebe0a91300924eff11f1c40eb83c87c383492fe7d7192f6a6e6fc3b57f"
-  },
-  {
-    "name": "publication_blockers.csv",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/publication_blockers.csv",
-    "size_bytes": 34941,
-    "sha256": "a1b0ed0f9cf7dfe48621cdc1e3e817b495f491abec97ab7f4ae27f9fbf075675"
-  },
-  {
-    "name": "reference_completeness_audit.csv",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/reference_completeness_audit.csv",
-    "size_bytes": 36316,
-    "sha256": "d093a3ab61c17119ea0ca9101ea4bed0eefaccc9c783ddae973beb6952bf35b3"
-  },
-  {
-    "name": "reference_gap_index.csv",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/reference_gap_index.csv",
-    "size_bytes": 526,
-    "sha256": "94dbbc9e66ad4ca262a5eb31dcfd98ad1b0c37d50367fffc3fa919ef90e89207"
-  },
-  {
-    "name": "reference_manifest.json",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/reference_manifest.json",
-    "size_bytes": 445,
-    "sha256": "b653e3456a83cbcae2a81eed3f4fb39d302288070d7a3f49e3448fdb2fc69f91"
-  },
-  {
-    "name": "repair_gain_estimates.csv",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/repair_gain_estimates.csv",
-    "size_bytes": 4682,
-    "sha256": "30bd3ea7fe2d6a5544cccfe7b1bb50432e64a870136c17a505839a469dc23c4d"
-  },
-  {
-    "name": "repair_plan.csv",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/repair_plan.csv",
-    "size_bytes": 4682,
-    "sha256": "30bd3ea7fe2d6a5544cccfe7b1bb50432e64a870136c17a505839a469dc23c4d"
-  },
-  {
-    "name": "review_taxonomic_hints.csv",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/review_taxonomic_hints.csv",
-    "size_bytes": 12264,
-    "sha256": "665dc651ebbe480362c8b9113043b2006b0dd7952bd27b7a9ce6bcbeb6c2ee27"
-  },
-  {
-    "name": "run.json",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/run.json",
-    "size_bytes": 443,
-    "sha256": "18e478d5e93ce9c0fb8a92856057cca103f23d2543c70632ae76449dd8afb2a4"
-  },
-  {
-    "name": "safe_taxonomic_assignments.csv",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/safe_taxonomic_assignments.csv",
-    "size_bytes": 6297,
-    "sha256": "4665084469773f30f88a96273539adfab9140477bcfd27fe790f452eb665df6d"
-  },
-  {
-    "name": "segment_overlap_report.csv",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/segment_overlap_report.csv",
-    "size_bytes": 32576,
-    "sha256": "b1703961a0696f57321b0df44e96d95031841ad96f1ae3eec4e3ebeadbc4c114"
-  },
-  {
-    "name": "sequence_safety_table.csv",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/sequence_safety_table.csv",
-    "size_bytes": 37843,
-    "sha256": "adf0b4fd127f290d511f40598a7821a7de2d74ea114a3b7a67991b46540d1bbb"
-  },
-  {
-    "name": "source_provenance_manifest.json",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/source_provenance_manifest.json",
-    "size_bytes": 763,
-    "sha256": "b2e1e2b1c2fd265e21d9e4f78c812772c4a681ee5771968ebdae9cb19cbbf633"
-  },
-  {
-    "name": "state_machine_audit.csv",
-    "url": "/api/barcode/runs/3942895d39fc4ef0978cd2670b0ca284/exports/state_machine_audit.csv",
-    "size_bytes": 27931,
-    "sha256": "66c48e1b1917b3687e464f2ca34f066e264a8605ff5119c4da312b5a6d1ab736"
-  }
+  "adversarial_report.md",
+  "ai_dataset_export_audit.csv",
+  "ai_output_guardrail_audit.csv",
+  "ambiguous_sequences.csv",
+  "artifact_checksums.json",
+  "assay_gate_audit.csv",
+  "barcode_gap_report.csv",
+  "ci_math_oracle_report.json",
+  "citations.md",
+  "claim_boundaries.csv",
+  "contamination_context_audit.csv",
+  "contradiction_audit.csv",
+  "cross_marker_consensus.csv",
+  "data_accounting_ledger.csv",
+  "diagnostic_kmer_report.csv",
+  "dna_derived_extension_gbif_ready.csv",
+  "dna_derived_extension_publishable.csv",
+  "dna_derived_extension_template.csv",
+  "dna_extension_readiness.csv",
+  "domain_annotation_audit.csv",
+  "domain_to_function_boundary_audit.csv",
+  "dwc_occurrence_core_gbif_ready.csv",
+  "dwc_occurrence_core_publishable.csv",
+  "dwc_occurrence_core_readiness.csv",
+  "dwc_occurrence_core_review.csv",
+  "dwc_occurrence_core_review_or_repair.csv",
+  "dwc_occurrence_core_template.csv",
+  "evidence_graph.json",
+  "evidence_graph.jsonld",
+  "evidence_pack.json",
+  "evidence_pack.zip",
+  "evolutionary_risk_caveat_audit.csv",
+  "external_tool_adapter_matrix.csv",
+  "fdr_audit.csv",
+  "function_claim_boundary_audit.csv",
+  "gbif_backbone_matches.csv",
+  "graph_provenance_audit.csv",
+  "graph_roundtrip_audit.json",
+  "gseg_graph_schema.json",
+  "gsig_graph_schema.yaml",
+  "hard_gate_audit.csv",
+  "judge_reproducibility_report.md",
+  "literature_claim_state_audit.csv",
+  "literature_extraction_confidence.csv",
+  "manual_review_audit.csv",
+  "marker_profile_audit.csv",
+  "match_gate_audit.csv",
+  "metadata_bottlenecks.csv",
+  "methods_text.md",
+  "molecular_evidence_report.html",
+  "naive_top_hit_overclaims.csv",
+  "nexus_v3_summary.json",
+  "ontology_version_audit.csv",
+  "orf_translation_audit.csv",
+  "proof_by_failure_modes.md",
+  "publication_blockers.csv",
+  "publication_integrity_audit.csv",
+  "query_smoke_report.md",
+  "reference_completeness_audit.csv",
+  "reference_gap_index.csv",
+  "reference_manifest.json",
+  "repair_gain_estimates.csv",
+  "repair_plan.csv",
+  "repairability_audit.csv",
+  "report_consistency_audit.csv",
+  "review_taxonomic_hints.csv",
+  "ruleset_diff_report.json",
+  "run.json",
+  "safe_taxonomic_assignments.csv",
+  "segment_canonicalization_audit.csv",
+  "segment_cluster_audit.csv",
+  "segment_overlap_report.csv",
+  "segment_safe_taxa.csv",
+  "segment_taxon_matrix_audit.csv",
+  "segment_trait_matrix_audit.csv",
+  "segments.csv",
+  "sequence_safety_table.csv",
+  "sharedness_overclaim_audit.csv",
+  "source_license_audit.csv",
+  "source_provenance_manifest.json",
+  "state_machine_audit.csv",
+  "theorem_checklist.json",
+  "trait_association_confounding_audit.csv",
+  "trait_function_evidence_audit.csv",
+  "validation_fold_metrics.csv",
+  "verified_segment_evidence_array.csv",
+  "verified_segment_evidence_array.jsonl",
+  "verified_segment_evidence_array.parquet",
+  "vsea_graph_reconciliation.csv"
 ]

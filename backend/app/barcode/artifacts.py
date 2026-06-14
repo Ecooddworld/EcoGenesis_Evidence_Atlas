@@ -7,9 +7,11 @@ import json
 import re
 from typing import Any
 
+from app.gseg.artifacts import ArtifactContent, build_gseg_gsig_artifacts
 
-def build_barcode_artifacts(pack: dict[str, Any]) -> dict[str, str]:
-    return {
+
+def build_barcode_artifacts(pack: dict[str, Any]) -> dict[str, ArtifactContent]:
+    artifacts: dict[str, ArtifactContent] = {
         "evidence_pack.json": json.dumps(pack, indent=2, ensure_ascii=False),
         "run.json": json.dumps(pack["run"], indent=2, ensure_ascii=False),
         "reference_manifest.json": json.dumps(pack["reference_manifest"], indent=2, ensure_ascii=False),
@@ -52,6 +54,8 @@ def build_barcode_artifacts(pack: dict[str, Any]) -> dict[str, str]:
         "external_tool_adapter_matrix.csv": external_tool_adapter_matrix_csv(),
         "proof_by_failure_modes.md": proof_by_failure_modes_md(pack),
     }
+    artifacts.update(build_gseg_gsig_artifacts(pack))
+    return artifacts
 
 
 def sequence_safety_csv(pack: dict[str, Any]) -> str:

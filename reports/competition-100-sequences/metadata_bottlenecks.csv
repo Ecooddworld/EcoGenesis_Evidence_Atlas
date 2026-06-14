@@ -1,5 +1,12 @@
 bottleneck,records,MBI_metadata_bottleneck_index
+missing dataset metadata: title,100,1.0
+missing dataset metadata: description,100,1.0
+missing dataset metadata: publishingOrganization,100,1.0
+missing dataset metadata: type,100,1.0
+missing dataset metadata: license,100,1.0
 missing dataset metadata: contact,100,1.0
+missing dataset metadata: creator,100,1.0
+missing dataset metadata: metadataProvider,100,1.0
 missing DNA-derived extension field: pcr_primer_forward,100,1.0
 missing DNA-derived extension field: pcr_primer_reverse,100,1.0
 missing DNA-derived extension field: seq_meth,100,1.0
@@ -13,4 +20,6 @@ missing recommended field: decimalLongitude,25,0.25
 missing recommended field: geodeticDatum,25,0.25
 missing recommended field: coordinateUncertaintyInMeters,25,0.25
 missing DNA-derived extension field: eventID,25,0.25
+missing DNA-derived extension field: materialSampleID,25,0.25
 missing assay-recommended field: eventID,25,0.25
+missing assay-recommended field: materialSampleID,25,0.25

@@ -1,0 +1,754 @@
+{
+  "schema": "ecogenesis.gseg_gsig.theorem_checklist.v1",
+  "run_id": "5ac3e88339af4d2a86339531632e7112",
+  "ruleset_version": "barcode-gbif-compiler-v2",
+  "summary": {
+    "total": 82,
+    "pass": 71,
+    "blocked_roadmap_no_claim": 6,
+    "not_applicable_no_claim": 5,
+    "fail": 0,
+    "release_gate": "pass",
+    "claim_policy": "A roadmap-blocked item is acceptable only when the corresponding scientific or production claim is not exported."
+  },
+  "obligations": [
+    {
+      "layer": "GSEG",
+      "id": "PO-01",
+      "name": "input_rows_fully_accounted",
+      "artifact": "data_accounting_ledger.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSEG",
+      "id": "PO-02",
+      "name": "species_safe_implies_all_hard_gates",
+      "artifact": "hard_gate_audit.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSEG",
+      "id": "PO-03",
+      "name": "safe_taxon_equals_lca_uncertainty_set",
+      "artifact": "segment_safe_taxa.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSEG",
+      "id": "PO-04",
+      "name": "no_blind_top_hit_overclaim",
+      "artifact": "naive_top_hit_overclaims.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSEG",
+      "id": "PO-05",
+      "name": "exact_identity_coverage_length_gates_recorded",
+      "artifact": "match_gate_audit.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSEG",
+      "id": "PO-06",
+      "name": "ambiguity_boundary_visible",
+      "artifact": "claim_boundaries.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSEG",
+      "id": "PO-07",
+      "name": "barcode_gap_status_visible",
+      "artifact": "barcode_gap_report.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSEG",
+      "id": "PO-08",
+      "name": "diagnostic_kmer_risk_visible",
+      "artifact": "diagnostic_kmer_report.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSEG",
+      "id": "PO-09",
+      "name": "marker_profile_versioned",
+      "artifact": "marker_profile_audit.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSEG",
+      "id": "PO-10",
+      "name": "assay_controls_checked",
+      "artifact": "assay_gate_audit.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSEG",
+      "id": "PO-11",
+      "name": "rci2_missing_produces_caveat",
+      "artifact": "reference_completeness_audit.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSEG",
+      "id": "PO-12",
+      "name": "segment_coordinates_valid",
+      "artifact": "segments.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSEG",
+      "id": "PO-13",
+      "name": "segment_overlap_auditable",
+      "artifact": "segment_overlap_report.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSEG",
+      "id": "PO-14",
+      "name": "cross_marker_consensus_is_lca",
+      "artifact": "cross_marker_consensus.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSEG",
+      "id": "PO-15",
+      "name": "metadata_never_strengthens_taxon",
+      "artifact": "state_machine_audit.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSEG",
+      "id": "PO-16",
+      "name": "publication_blockers_actionable",
+      "artifact": "publication_blockers.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSEG",
+      "id": "PO-17",
+      "name": "repair_actions_have_unlock_estimates",
+      "artifact": "repair_gain_estimates.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSEG",
+      "id": "PO-18",
+      "name": "reference_manifest_hash_present",
+      "artifact": "reference_manifest.json",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSEG",
+      "id": "PO-19",
+      "name": "source_provenance_manifest_present",
+      "artifact": "source_provenance_manifest.json",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSEG",
+      "id": "PO-20",
+      "name": "graph_schema_valid",
+      "artifact": "gseg_graph_schema.json + evidence_graph.json",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSEG",
+      "id": "PO-21",
+      "name": "dna_derived_extension_fields_checked",
+      "artifact": "dna_extension_readiness.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSEG",
+      "id": "PO-22",
+      "name": "occurrence_core_fields_checked",
+      "artifact": "dwc_occurrence_core_readiness.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSEG",
+      "id": "PO-23",
+      "name": "no_absence_inference_without_protocol",
+      "artifact": "claim_boundaries.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSEG",
+      "id": "PO-24",
+      "name": "no_phenotype_or_trait_inference",
+      "artifact": "molecular_evidence_report.html",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSEG",
+      "id": "PO-25",
+      "name": "validation_false_species_safe_rate_bounded",
+      "artifact": "validation_fold_metrics.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSEG",
+      "id": "PO-26",
+      "name": "adversarial_frozen_suite_passes",
+      "artifact": "adversarial_report.md",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSEG",
+      "id": "PO-27",
+      "name": "theorem_checklist_generated",
+      "artifact": "theorem_checklist.json",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSEG",
+      "id": "PO-28",
+      "name": "evidence_pack_inventory_complete",
+      "artifact": "evidence_pack.json",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSEG",
+      "id": "PO-29",
+      "name": "checksums_for_exports_present",
+      "artifact": "artifact_checksums.json",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSEG",
+      "id": "PO-30",
+      "name": "human_readable_non_claims_present",
+      "artifact": "molecular_evidence_report.html",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSEG",
+      "id": "PO-31",
+      "name": "query_examples_return_deterministic_results",
+      "artifact": "query_smoke_report.md",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSEG",
+      "id": "PO-32",
+      "name": "ci_reproduces_reference_formulas",
+      "artifact": "ci_math_oracle_report.json",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-01",
+      "name": "input_accounting_complete",
+      "artifact": "data_accounting_ledger.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-02",
+      "name": "species_safe_implies_all_hard_gates",
+      "artifact": "hard_gate_audit.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-03",
+      "name": "safe_taxon_equals_lca_uncertainty_set",
+      "artifact": "segment_safe_taxa.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-04",
+      "name": "no_blind_top_hit_species_export",
+      "artifact": "naive_top_hit_overclaims.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-05",
+      "name": "barcode_gap_visible",
+      "artifact": "barcode_gap_report.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-06",
+      "name": "diagnostic_kmer_risk_visible",
+      "artifact": "diagnostic_kmer_report.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-07",
+      "name": "marker_profile_versioned",
+      "artifact": "marker_profile_audit.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-08",
+      "name": "assay_gate_for_detection_claims",
+      "artifact": "assay_gate_audit.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-09",
+      "name": "publication_readiness_separate_from_taxon",
+      "artifact": "state_machine_audit.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-10",
+      "name": "rci_missing_has_bounded_reference_caveat",
+      "artifact": "reference_completeness_audit.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-11",
+      "name": "segment_overlap_auditable",
+      "artifact": "segment_overlap_report.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-12",
+      "name": "cross_marker_consensus_is_lca",
+      "artifact": "cross_marker_consensus.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-13",
+      "name": "no_absence_inference",
+      "artifact": "claim_boundaries.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-14",
+      "name": "reference_manifest_hash_present",
+      "artifact": "reference_manifest.json",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-15",
+      "name": "validation_false_species_safe_rate_bounded",
+      "artifact": "validation_fold_metrics.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-16",
+      "name": "adversarial_suite_false_species_safe_zero",
+      "artifact": "adversarial_report.md",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-17",
+      "name": "repair_actions_actionable",
+      "artifact": "publication_blockers.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-18",
+      "name": "graph_schema_valid",
+      "artifact": "evidence_graph.json + gsig_graph_schema.yaml",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-19",
+      "name": "gbif_dna_extension_fields_checked",
+      "artifact": "dna_extension_readiness.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-20",
+      "name": "human_claim_boundaries_present",
+      "artifact": "molecular_evidence_report.html",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-21",
+      "name": "segment_canonicalization_is_deterministic",
+      "artifact": "segment_canonicalization_audit.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-22",
+      "name": "segment_clustering_is_reproducible",
+      "artifact": "segment_cluster_audit.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-23",
+      "name": "shared_segment_cannot_be_species_specific",
+      "artifact": "sharedness_overclaim_audit.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-24",
+      "name": "every_trait_function_claim_has_source_evidence",
+      "artifact": "trait_function_evidence_audit.csv",
+      "status": "not_applicable_no_claim",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-25",
+      "name": "literature_claims_are_not_truth_without_evidence_state",
+      "artifact": "literature_claim_state_audit.csv",
+      "status": "not_applicable_no_claim",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-26",
+      "name": "contradictions_are_preserved",
+      "artifact": "contradiction_audit.csv",
+      "status": "not_applicable_no_claim",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-27",
+      "name": "correlation_does_not_imply_function",
+      "artifact": "function_claim_boundary_audit.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-28",
+      "name": "ai_outputs_cannot_overwrite_verified_graph_facts",
+      "artifact": "ai_output_guardrail_audit.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-29",
+      "name": "every_graph_node_and_edge_has_provenance",
+      "artifact": "graph_provenance_audit.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-30",
+      "name": "ai_dataset_exports_preserve_claim_states",
+      "artifact": "ai_dataset_export_audit.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-31",
+      "name": "orf_and_translation_policy_versioned",
+      "artifact": "orf_translation_audit.csv",
+      "status": "blocked_roadmap_no_claim",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-32",
+      "name": "domain_annotations_have_source_version_and_thresholds",
+      "artifact": "domain_annotation_audit.csv",
+      "status": "blocked_roadmap_no_claim",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-33",
+      "name": "ontology_terms_are_versioned",
+      "artifact": "ontology_version_audit.csv",
+      "status": "blocked_roadmap_no_claim",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-34",
+      "name": "retraction_correction_status_checked_where_supported",
+      "artifact": "publication_integrity_audit.csv",
+      "status": "blocked_roadmap_no_claim",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-35",
+      "name": "phylogenetic_clade_confounding_caveat_applied",
+      "artifact": "trait_association_confounding_audit.csv",
+      "status": "blocked_roadmap_no_claim",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-36",
+      "name": "multiple_testing_correction_applied",
+      "artifact": "fdr_audit.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-37",
+      "name": "domain_annotation_alone_cannot_become_function_claim",
+      "artifact": "domain_to_function_boundary_audit.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-38",
+      "name": "contaminant_taxa_flags_preserved",
+      "artifact": "contamination_context_audit.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-39",
+      "name": "hgt_introgression_paralogy_risk_caveat_represented",
+      "artifact": "evolutionary_risk_caveat_audit.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-40",
+      "name": "graph_roundtrip_preserves_claim_states",
+      "artifact": "graph_roundtrip_audit.json",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-41",
+      "name": "license_constraints_tracked_per_source",
+      "artifact": "source_license_audit.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-42",
+      "name": "vsea_row_count_reconciles_with_graph_relations",
+      "artifact": "vsea_graph_reconciliation.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-43",
+      "name": "every_blocker_has_repair_or_nonrepairable_reason",
+      "artifact": "repairability_audit.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-44",
+      "name": "no_hidden_threshold_changes_across_runs",
+      "artifact": "ruleset_diff_report.json",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-45",
+      "name": "human_report_matches_machine_artifacts",
+      "artifact": "report_consistency_audit.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-46",
+      "name": "segment_taxon_matrix_preserves_safe_ranks",
+      "artifact": "segment_taxon_matrix_audit.csv",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-47",
+      "name": "segment_trait_matrix_preserves_evidence_states",
+      "artifact": "segment_trait_matrix_audit.csv",
+      "status": "not_applicable_no_claim",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-48",
+      "name": "literature_extraction_confidence_visible",
+      "artifact": "literature_extraction_confidence.csv",
+      "status": "blocked_roadmap_no_claim",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-49",
+      "name": "user_edited_claims_labeled_as_manual_review",
+      "artifact": "manual_review_audit.csv",
+      "status": "not_applicable_no_claim",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    },
+    {
+      "layer": "GSIG",
+      "id": "PO-50",
+      "name": "competition_demo_reproducible_from_repository_instructions",
+      "artifact": "judge_reproducibility_report.md",
+      "status": "pass",
+      "releaseBlockingFailure": false,
+      "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim."
+    }
+  ]
+}

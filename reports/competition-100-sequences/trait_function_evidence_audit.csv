@@ -1,0 +1,2 @@
+runID,claimType,claimCount,status,guardrail
+5ac3e88339af4d2a86339531632e7112,trait_or_function,0,not_applicable_no_claim,"No trait, phenotype or function claims are exported by the barcode compiler layer."

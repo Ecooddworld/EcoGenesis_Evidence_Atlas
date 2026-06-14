@@ -1,19 +1,22 @@
 # Competition 100-Sequence Atlas Run Report
 
-Generated: 2026-06-14 Europe/Madrid
-Backend: Docker `http://127.0.0.1:18100`
-Run ID: `7a9aea4135a1479e89afe114c16ff9b3`
+Generated: 2026-06-14T22:06:14+02:00
+Backend: local compiler script `backend/scripts/generate_competition_reports.py`
+Run ID: `5ac3e88339af4d2a86339531632e7112`
 
 ## Result
 
 - Records submitted: 100
 - API status: completed
-- Exports returned: 42
+- Exports returned: 89
 - Expected decisions matched: True
 - Hard-gate failures: 0
-- Evidence Pack ZIP SHA-256: `6a4ff3b8995724c494f6c5345160a5cfc66f3497ddbddb2f4a6334272693a25b`
-- New DOCX-required exports present: True
-- ZIP contains new DOCX-required exports: True
+- Evidence Pack ZIP SHA-256: `5b6caa163586a52e6992ea7ac186622075939af1d3983f157d3db604e344c5ae`
+- GSEG/GSIG exports present: True
+- ZIP contains GSEG/GSIG exports: True
+- VSEA Parquet magic: `PAR1`
+- Theorem checklist release gate: `pass`
+- Graph roundtrip audit: `pass`
 
 ## Decision classes
 
@@ -47,6 +50,4 @@ Run ID: `7a9aea4135a1479e89afe114c16ff9b3`
 
 ## Interpretation
 
-The 100-sequence run remains fail-closed: 25 species-safe records, 25 genus-safe records, 25 weak records and 25 metadata-blocked not-publishable records. Publishable candidate rows are separated from formal GBIF-ready rows; this run has 50 publishable candidates and 0 formal GBIF-ready rows because dataset-level publication metadata remains intentionally gated.
-
-The updated Evidence Pack now includes `data_accounting_ledger.csv`, `state_machine_audit.csv`, `reference_completeness_audit.csv`, structured `publication_blockers.csv`, graph-backed `claim_boundaries.csv`, and `profile_id` in `safe_taxonomic_assignments.csv`.
+The run is fail-closed. Species-level output is allowed only when match gates, ambiguity/LCA, barcode gap, diagnostic k-mers, marker profile and publication gates agree. The GSEG/GSIG layer adds VSEA, graph provenance, theorem checklist, AI guardrails and roundtrip checks without claiming phenotype, function or production GraphDB/RDF behavior.

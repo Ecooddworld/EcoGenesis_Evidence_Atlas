@@ -1,0 +1,19 @@
+{
+  "schema": "ecogenesis.ci_math_oracle_report.v1",
+  "gseg_reference_checks": {
+    "safe_lca_downgrade": "implemented",
+    "hard_gate_conjunction": "implemented",
+    "barcode_gap": "implemented",
+    "rci2_bounds": "implemented"
+  },
+  "gsig_reference_checks": {
+    "canonicalization": "implemented",
+    "segment_hash": "implemented",
+    "sharedness_guard": "implemented",
+    "ai_output_guardrail": "implemented",
+    "graph_provenance": "implemented",
+    "claim_state_preservation": "implemented",
+    "bh_fdr": "implemented"
+  },
+  "status": "pass"
+}

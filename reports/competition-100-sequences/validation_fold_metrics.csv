@@ -1,0 +1,2 @@
+foldID,scope,records,falseSpeciesSafeRate,status,caveat
+current_run_hard_gate_audit,within_run_invariant,100,0,pass,This proves fail-closed invariant for this run; empirical leave-one-out validation remains roadmap until external folds are supplied.

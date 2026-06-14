@@ -1,0 +1,2 @@
+matrix,rows,claimStatePreserved,status,guardrail
+segment_trait,0,True,not_applicable_no_trait_claims,Trait matrix export is blocked until sourced trait evidence exists.

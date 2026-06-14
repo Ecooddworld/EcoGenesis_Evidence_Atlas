@@ -88,14 +88,7 @@ def run_barcode_compiler(request: BarcodeCompilerRequest) -> dict[str, Any]:
     pack["run"]["artifact_checksums"] = {item["name"]: item.get("sha256") for item in pack["exports"]}
     pack["evidence_graph"] = build_evidence_graph(pack)
     final_artifacts = build_barcode_artifacts(pack)
-    save_barcode_artifacts(
-        run_id,
-        {
-            "evidence_pack.json": final_artifacts["evidence_pack.json"],
-            "run.json": final_artifacts["run.json"],
-            "evidence_graph.json": final_artifacts["evidence_graph.json"],
-        },
-    )
+    save_barcode_artifacts(run_id, final_artifacts)
     save_barcode_zip_artifact(run_id, final_artifacts)
     return pack
 
@@ -1353,7 +1346,13 @@ def build_evidence_graph(pack: dict[str, Any]) -> dict[str, Any]:
             [
                 {"source": f"run:{run_id}", "target": sequence_node, "type": "contains_sequence"},
                 {"source": sequence_node, "target": assignment_node, "type": "receives_assignment"},
-                {"source": assignment_node, "target": taxon_node, "type": "published_or_candidate_taxon"},
+                {
+                    "source": assignment_node,
+                    "target": taxon_node,
+                    "type": "supports_taxon",
+                    "claim_state": graph_claim_state(record),
+                    "safe_rank": record["safe_taxon"]["rank"],
+                },
                 {"source": assignment_node, "target": boundary_node, "type": "bounded_by"},
             ]
         )
@@ -1369,7 +1368,7 @@ def build_evidence_graph(pack: dict[str, Any]) -> dict[str, Any]:
         artifact_node = f"artifact:{artifact['name']}"
         add_node(node_registry, {"id": artifact_node, "type": "artifact", "label": artifact["name"], "sha256": artifact.get("sha256")})
         edges.append({"source": f"run:{run_id}", "target": artifact_node, "type": "produces_artifact"})
-    return {
+    graph = {
         "meta": {
             "run_id": run_id,
             "ruleset_version": pack["run"]["ruleset_version"],
@@ -1384,10 +1383,33 @@ def build_evidence_graph(pack: dict[str, Any]) -> dict[str, Any]:
         "nodes": list(node_registry.values()),
         "edges": edges,
     }
+    return finalize_evidence_graph(graph)
 
 
 def add_node(registry: dict[str, dict[str, Any]], node: dict[str, Any]) -> None:
     registry.setdefault(node["id"], node)
+
+
+def graph_claim_state(record: dict[str, Any]) -> str:
+    if record["taxonomic_status"] in SAFE_TAXONOMIC_STATUSES:
+        return "taxon_supported"
+    if record["taxonomic_status"] == "ambiguous":
+        return "taxon_ambiguous"
+    if record["taxonomic_status"] == "weak":
+        return "weak_hypothesis"
+    return "blocked"
+
+
+def finalize_evidence_graph(graph: dict[str, Any]) -> dict[str, Any]:
+    ruleset = graph["meta"]["ruleset_version"]
+    for node in graph["nodes"]:
+        node.setdefault("ruleset_version", ruleset)
+        node.setdefault("provenance_hash", fingerprint_request({key: value for key, value in node.items() if key != "provenance_hash"}))
+    for index, edge in enumerate(graph["edges"]):
+        edge.setdefault("id", "edge:" + hashlib.sha1(f"{edge.get('source')}|{edge.get('type')}|{edge.get('target')}|{index}".encode("utf-8")).hexdigest()[:16])
+        edge.setdefault("ruleset_version", ruleset)
+        edge.setdefault("provenance_hash", fingerprint_request({key: value for key, value in edge.items() if key != "provenance_hash"}))
+    return graph
 
 
 def fingerprint_request(payload: dict[str, Any]) -> str:

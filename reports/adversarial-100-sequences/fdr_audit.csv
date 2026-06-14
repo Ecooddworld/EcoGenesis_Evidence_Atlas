@@ -1,0 +1,2 @@
+testFamily,pvalues,discoveries,alpha,status,caveat
+reference_oracle_bh_fdr,0.001; 0.02; 0.2,True; True; False,0.05,pass,No trait association export is active; this oracle proves the correction guardrail is executable.

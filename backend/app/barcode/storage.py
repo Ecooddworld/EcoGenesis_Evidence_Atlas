@@ -21,12 +21,18 @@ def barcode_run_dir(run_id: str) -> Path:
     return path
 
 
-def save_barcode_artifacts(run_id: str, artifacts: dict[str, str]) -> list[dict[str, Any]]:
+ArtifactContent = str | bytes
+
+
+def save_barcode_artifacts(run_id: str, artifacts: dict[str, ArtifactContent]) -> list[dict[str, Any]]:
     directory = barcode_run_dir(run_id)
     exports = []
     for name, content in artifacts.items():
         path = directory / name
-        path.write_text(content, encoding="utf-8")
+        if isinstance(content, bytes):
+            path.write_bytes(content)
+        else:
+            path.write_text(content, encoding="utf-8")
         digest = hashlib.sha256(path.read_bytes()).hexdigest()
         exports.append(
             {
@@ -39,7 +45,7 @@ def save_barcode_artifacts(run_id: str, artifacts: dict[str, str]) -> list[dict[
     return sorted(exports, key=lambda item: item["name"])
 
 
-def save_barcode_zip_artifact(run_id: str, artifacts: dict[str, str], *, name: str = "evidence_pack.zip") -> dict[str, Any]:
+def save_barcode_zip_artifact(run_id: str, artifacts: dict[str, ArtifactContent], *, name: str = "evidence_pack.zip") -> dict[str, Any]:
     directory = barcode_run_dir(run_id)
     path = directory / name
     buffer = io.BytesIO()
