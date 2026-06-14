@@ -1,0 +1,5 @@
+vsea_id,snapshot_hash_present,provenance_hash_present,source_id,claim_state,status
+obs-vsea:AALB-COI-good:1,True,True,project_user_uploads,taxon_supported,pass
+obs-vsea:AALB-COI-ambiguous:2,True,True,project_user_uploads,taxon_supported,pass
+obs-vsea:AALB-COI-short:3,True,True,project_user_uploads,weak_hypothesis,pass
+obs-vsea:AALB-COI-metadata-gap:4,True,True,project_user_uploads,taxon_supported,pass

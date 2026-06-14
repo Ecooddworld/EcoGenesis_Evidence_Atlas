@@ -1,0 +1,199 @@
+registry_version: GSIG-OBS-SOURCES-1.0
+principle: Every automated source is a licensed, snapshot-based, provenance-captured
+  input. Live retrieval never becomes evidence until it is hashed, normalized, audited
+  and assigned a claim state.
+sources:
+- source_id: gbif_occurrence_api
+  name: GBIF Occurrence API and Download API
+  status: mvp_integration
+  class: biodiversity_occurrence
+  acquisition_mode:
+  - paged_search_for_small_demo
+  - asynchronous_download_for_large_batches
+  license_policy: record GBIF dataset license and citation; preserve download DOI
+    when available; do not scrape gbif.org pages
+  rate_limit_policy: set User-Agent; use download API for large jobs; cache snapshots;
+    exponential backoff on 429
+  identifier_policy:
+  - gbifID
+  - datasetKey
+  - occurrenceID
+  - taxonKey
+  - downloadKey
+  evidence_role: occurrence/sample/geography/context; not molecular proof by itself
+  allowed_claims:
+  - occurrence_context
+  - dataset_context
+  - publisher_context
+  blocked_claims:
+  - species_truth_from_occurrence_without_molecular_gate
+  - absence_from_no_record
+  provenance_required: true
+  outputs:
+  - gbif_occurrence_snapshot.parquet
+  - source_provenance_manifest.json
+- source_id: gbif_dna_derived_extension
+  name: GBIF DNA-derived data extension tables
+  status: mvp_integration
+  class: dna_derived_metadata
+  acquisition_mode:
+  - DwC-A_parse
+  - IPT_package_parse
+  license_policy: inherit dataset license; preserve EML, meta.xml and extension row
+    links
+  rate_limit_policy: download archives once per snapshot; no repeated live polling
+  identifier_policy:
+  - occurrenceID
+  - eventID
+  - DNA_sequence
+  - target_gene
+  - target_subfragment
+  - sop
+  evidence_role: sequence/method/marker context; required for DNA-based reproducibility
+  allowed_claims:
+  - sequence_handle_present
+  - method_context_present
+  - marker_context_present
+  blocked_claims:
+  - function_claim
+  - species_claim_without_safe_lca
+  provenance_required: true
+  outputs:
+  - dna_extension_snapshot.parquet
+  - dna_extension_readiness.csv
+- source_id: ncbi_eutils
+  name: NCBI Entrez E-utilities / nucleotide and protein metadata
+  status: planned_integration
+  class: sequence_reference_metadata
+  acquisition_mode:
+  - accession_lookup
+  - efetch_snapshot
+  - esummary_metadata
+  license_policy: record database terms and accession provenance; do not redistribute
+    restricted payloads without checking terms
+  rate_limit_policy: respect NCBI usage guidelines; API key optional; cache accessions
+    and version numbers
+  identifier_policy:
+  - accession.version
+  - gi_if_present
+  - BioSample
+  - BioProject
+  - TaxID
+  evidence_role: reference sequence and provenance; supports reference completeness
+    and accession crosswalks
+  allowed_claims:
+  - reference_sequence_metadata
+  - taxon_crosswalk_candidate
+  blocked_claims:
+  - taxon_truth_without_backbone_match
+  - function_truth_from_accession_annotation_only
+  provenance_required: true
+  outputs:
+  - reference_accession_manifest.json
+  - reference_sequence_snapshot.parquet
+- source_id: interproscan
+  name: InterProScan / InterPro domain-family-site annotations
+  status: planned_integration
+  class: functional_annotation
+  acquisition_mode:
+  - local_interproscan
+  - optional_rest_for_small_jobs
+  license_policy: record InterProScan and member database versions; note tools with
+    special licenses
+  rate_limit_policy: prefer local batch; REST only for small jobs; cache results
+  identifier_policy:
+  - InterPro_ID
+  - member_database_signature
+  - GO_cross_reference
+  evidence_role: protein/domain/function annotation overlay; not taxonomic proof
+  allowed_claims:
+  - domain_present
+  - family_membership_candidate
+  - GO_annotation_candidate
+  blocked_claims:
+  - phenotype_prediction
+  - causal_function_without_evidence
+  provenance_required: true
+  outputs:
+  - domain_annotation_snapshot.parquet
+  - function_claim_boundary_audit.csv
+- source_id: gene_ontology
+  name: Gene Ontology terms and evidence codes
+  status: planned_integration
+  class: controlled_function_vocabulary
+  acquisition_mode:
+  - ontology_release_download
+  - annotation_release_download
+  license_policy: record GO release, license and version; preserve GO IDs and evidence
+    codes
+  rate_limit_policy: release-based download, not live scraping
+  identifier_policy:
+  - GO_ID
+  - aspect
+  - evidence_code
+  - taxon_constraint
+  evidence_role: controlled vocabulary for function/process/component; evidence coding
+  allowed_claims:
+  - controlled_annotation_label
+  - evidence_code_class
+  blocked_claims:
+  - new_biological_function_without_source
+  - obsolete_GO_term_as_current
+  provenance_required: true
+  outputs:
+  - go_release_manifest.json
+  - go_annotation_overlay.parquet
+- source_id: literature_metadata
+  name: PubMed/Crossref/OpenAlex-style literature metadata
+  status: planned_integration
+  class: publication_evidence
+  acquisition_mode:
+  - doi_lookup
+  - pmid_lookup
+  - curated_claim_extraction_file
+  license_policy: store metadata and claim summaries; do not redistribute full text
+    unless licensed
+  rate_limit_policy: cache DOI/PMID records; respect API policies
+  identifier_policy:
+  - DOI
+  - PMID
+  - PMCID_if_open
+  - source_url
+  evidence_role: publication support and contradiction tracking; articles are evidence
+    objects, not truth
+  allowed_claims:
+  - literature_supported_claim
+  - contradiction_flag
+  - method_context
+  blocked_claims:
+  - article_statement_as_verified_fact_without_evidence_state
+  provenance_required: true
+  outputs:
+  - literature_claim_state_audit.csv
+  - publication_evidence_graph.json
+- source_id: project_user_uploads
+  name: User-provided FASTA/CSV/reference packs
+  status: existing_foundation
+  class: project_input
+  acquisition_mode:
+  - manual_upload
+  - demo_pack
+  - local_fixture
+  license_policy: user must mark shareability; private uploads never enter public
+    atlas without explicit release
+  rate_limit_policy: not applicable
+  identifier_policy:
+  - run_id
+  - input_file_hash
+  - record_id
+  evidence_role: overlay input checked against the atlas and reference context
+  allowed_claims:
+  - bounded_user_run_result
+  - repair_plan
+  blocked_claims:
+  - public_graph_insertion_without_license
+  - formal_export_without_metadata
+  provenance_required: true
+  outputs:
+  - user_run_manifest.json
+  - user_evidence_pack.zip

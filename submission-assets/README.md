@@ -10,6 +10,7 @@ This folder contains the materials prepared for the 2026 GBIF Ebbe Nielsen Chall
 - `barcode-video-script.md`: final video script for the current CSV Upload -> Score workflow.
 - `barcode-entry-form-draft.md`: shorter project-specific entry text.
 - `../docs/nexus-v3/`: Nexus V3 project documentation, validation report, demo report and GBIF pitch material.
+- `../docs/gsig-observatory.md` and `../reports/observatory-demo/`: Observatory contract/API documentation and generated OPO evidence pack.
 - `../references/aedes_coi_mini/` and `../reports/synthetic-ambiguity-benchmark/`: V3 reference-search example, mini FASTA manifest, and naive top-hit vs EcoGenesis benchmark evidence.
 
 ## Final Local Video
@@ -39,4 +40,4 @@ This folder contains the materials prepared for the 2026 GBIF Ebbe Nielsen Chall
 3. Upload `barcode-video/video/ecogenesis-barcode-to-gbif-english-voice-ru-subs.mp4` to a public no-login URL.
 4. Replace the TODO video URL.
 5. Create a GitHub release, for example `v1.0-gbif-2026`.
-6. Re-run backend tests, frontend tests, build, operability verification and browser smoke.
+6. Re-run backend tests, frontend tests, build, Observatory report generation, operability verification and browser smoke.

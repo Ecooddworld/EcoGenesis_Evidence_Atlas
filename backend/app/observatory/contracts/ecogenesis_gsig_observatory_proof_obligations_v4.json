@@ -1,0 +1,189 @@
+{
+  "proof_obligation_set": "GSIG-Observatory-OPO-v1",
+  "extends": [
+    "GSEG PO-01..PO-32",
+    "GSIG PO-21..PO-50"
+  ],
+  "obligations": [
+    {
+      "id": "OPO-01",
+      "name": "Every automated source has license and rate-limit policy",
+      "artifact": "source_registry_audit.json",
+      "test": "test_source_registry_contract",
+      "acceptance_criteria": "0 sources without license_policy or rate_limit_policy",
+      "severity": "hard_gate",
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    },
+    {
+      "id": "OPO-02",
+      "name": "Live data are snapshots before evidence use",
+      "artifact": "snapshot_manifest.json",
+      "test": "test_snapshot_hash_required",
+      "acceptance_criteria": "100% live payloads have snapshot_hash",
+      "severity": "hard_gate",
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    },
+    {
+      "id": "OPO-03",
+      "name": "No website scraping of GBIF public pages",
+      "artifact": "api_policy_audit.csv",
+      "test": "test_gbif_no_scraping_policy",
+      "acceptance_criteria": "all GBIF collection uses API/download/DwC-A",
+      "severity": "hard_gate",
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    },
+    {
+      "id": "OPO-04",
+      "name": "GBIF large queries use download strategy",
+      "artifact": "gbif_query_strategy_audit.csv",
+      "test": "test_large_query_download_strategy",
+      "acceptance_criteria": "large queries not executed as aggressive paged search",
+      "severity": "review_gate",
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    },
+    {
+      "id": "OPO-05",
+      "name": "Every source record joins to provenance",
+      "artifact": "source_provenance_manifest.json",
+      "test": "test_record_provenance_completeness",
+      "acceptance_criteria": "provenance completeness = 100%",
+      "severity": "hard_gate",
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    },
+    {
+      "id": "OPO-06",
+      "name": "VSEA rows preserve source snapshot identity",
+      "artifact": "vsea_provenance_audit.csv",
+      "test": "test_vsea_snapshot_identity",
+      "acceptance_criteria": "all rows have source_id, snapshot_id, ruleset_hash",
+      "severity": "review_gate",
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    },
+    {
+      "id": "OPO-07",
+      "name": "Visualization cannot upgrade claim states",
+      "artifact": "visualization_guardrail_audit.csv",
+      "test": "test_visual_read_only_claim_state",
+      "acceptance_criteria": "0 visual claim promotions",
+      "severity": "hard_gate",
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    },
+    {
+      "id": "OPO-08",
+      "name": "Blocked claims remain visible in UI filters",
+      "artifact": "blocked_claim_visibility_audit.csv",
+      "test": "test_blocked_claim_visibility",
+      "acceptance_criteria": "0 hidden blocked claims in default judge mode",
+      "severity": "review_gate",
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    },
+    {
+      "id": "OPO-09",
+      "name": "Shared segments cannot be shown as species-specific",
+      "artifact": "sharedness_visual_overclaim_audit.csv",
+      "test": "test_shared_segment_species_specific_block",
+      "acceptance_criteria": "0 sharedness overclaims",
+      "severity": "hard_gate",
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    },
+    {
+      "id": "OPO-10",
+      "name": "AI-ready exports separate verified labels and hypotheses",
+      "artifact": "ai_dataset_export_audit.csv",
+      "test": "test_ai_label_state_separation",
+      "acceptance_criteria": "0 hypothesis labels exported as verified positives",
+      "severity": "hard_gate",
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    },
+    {
+      "id": "OPO-11",
+      "name": "Literature links are evidence objects, not truth objects",
+      "artifact": "literature_claim_state_audit.csv",
+      "test": "test_publication_claim_state_required",
+      "acceptance_criteria": "all publication claims have evidence_state",
+      "severity": "review_gate",
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    },
+    {
+      "id": "OPO-12",
+      "name": "Trait/function panels preserve contradiction status",
+      "artifact": "contradiction_visual_audit.csv",
+      "test": "test_contradiction_not_averaged_away",
+      "acceptance_criteria": "contradictions visible and queryable",
+      "severity": "review_gate",
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    },
+    {
+      "id": "OPO-13",
+      "name": "GBIF export only uses bounded safe taxon",
+      "artifact": "gbif_export_claim_boundary_audit.csv",
+      "test": "test_gbif_safe_taxon_export",
+      "acceptance_criteria": "0 exports with stronger taxon than safe_lca",
+      "severity": "hard_gate",
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    },
+    {
+      "id": "OPO-14",
+      "name": "Repair optimizer cannot upgrade biological claims by metadata alone",
+      "artifact": "repair_optimizer_guardrail_audit.csv",
+      "test": "test_metadata_repair_no_biology_upgrade",
+      "acceptance_criteria": "0 biological upgrades from metadata-only repair",
+      "severity": "hard_gate",
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    },
+    {
+      "id": "OPO-15",
+      "name": "Offline demo is reproducible without external APIs",
+      "artifact": "offline_demo_reproducibility.json",
+      "test": "test_offline_demo_reproducible",
+      "acceptance_criteria": "same checksums across clean runs",
+      "severity": "hard_gate",
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    },
+    {
+      "id": "OPO-16",
+      "name": "Every UI count matches data accounting ledger",
+      "artifact": "ui_ledger_consistency_audit.csv",
+      "test": "test_ui_counts_match_ledger",
+      "acceptance_criteria": "0 mismatched counters",
+      "severity": "review_gate",
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    },
+    {
+      "id": "OPO-17",
+      "name": "Graph import/export roundtrip preserves claim states",
+      "artifact": "graph_roundtrip_audit.csv",
+      "test": "test_graph_roundtrip_claim_states",
+      "acceptance_criteria": "100% claim_state equality after roundtrip",
+      "severity": "hard_gate",
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    },
+    {
+      "id": "OPO-18",
+      "name": "Source freshness is shown as context, not evidence strength",
+      "artifact": "source_freshness_claim_audit.csv",
+      "test": "test_freshness_not_evidence_strength",
+      "acceptance_criteria": "0 freshness-based claim upgrades",
+      "severity": "review_gate",
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    },
+    {
+      "id": "OPO-19",
+      "name": "Unknown license blocks public atlas insertion",
+      "artifact": "license_blocker_audit.csv",
+      "test": "test_unknown_license_blocks_public_insert",
+      "acceptance_criteria": "all unknown-license records are private/pending",
+      "severity": "hard_gate",
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    },
+    {
+      "id": "OPO-20",
+      "name": "Judge mode displays non-claims and roadmap boundaries",
+      "artifact": "judge_mode_non_claims_audit.csv",
+      "test": "test_judge_mode_non_claims_present",
+      "acceptance_criteria": "non-claims panel present and rendered",
+      "severity": "hard_gate",
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "schema": "ecogenesis.gsig.observatory.snapshot_manifest.v1",
+  "snapshot_id": "gbif-aedes-spain-30dc62b4a7bd",
+  "snapshot_hash": "30dc62b4a7bdfacae821ea329c1240b9c4b659d152019db7252db46ca92b31bb",
+  "source_id": "gbif_occurrence_api",
+  "source_mode": "fixture",
+  "fallback_used": false,
+  "fallback_error": null,
+  "query": {
+    "endpoint": "/occurrence/search",
+    "source_id": "gbif_occurrence_api",
+    "taxon": "Aedes albopictus",
+    "taxon_key": 1651430,
+    "bbox": [
+      -9.5,
+      35.5,
+      4.5,
+      44.5
+    ],
+    "limit": 50,
+    "hasCoordinate": true
+  },
+  "query_sha256": "e97efa4320a4fad6b12a9c7291dbd82b6b922d7e82c38c3d98866f8450c8f66d",
+  "raw_payload_sha256": "e10968fba4a7366821709e8c8e3e7fa1898c727b0cfa31dd52e830c10814dba4",
+  "retrieved_at": "2026-06-14T21:29:31.004632+00:00",
+  "records_returned": 12,
+  "normalized_records": 12,
+  "claim_boundary": "Occurrence records are context and provenance only; they do not strengthen molecular taxon support.",
+  "license_policy": "Preserve GBIF dataset license and citation per source registry."
+}

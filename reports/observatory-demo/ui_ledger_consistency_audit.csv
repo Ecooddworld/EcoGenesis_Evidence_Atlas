@@ -1,0 +1,2 @@
+ui_contract_version,vsea_rows,ledger_rows,occurrence_context_rows,counts_match,status
+GSIG-OBS-UI-1.0,4,4,12,True,pass

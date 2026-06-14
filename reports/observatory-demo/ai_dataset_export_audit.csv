@@ -1,0 +1,5 @@
+segment_id,claim_state,label,safe_for_ai_export,status
+segment:AALB-COI-good:1-622,taxon_supported,positive_verified,True,pass
+segment:AALB-COI-ambiguous:1-622,taxon_supported,positive_verified,True,pass
+segment:AALB-COI-short:1-622,weak_hypothesis,candidate_hypothesis,True,pass
+segment:AALB-COI-metadata-gap:1-622,taxon_supported,positive_verified,True,pass

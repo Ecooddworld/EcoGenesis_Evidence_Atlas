@@ -1,0 +1,126 @@
+{
+  "dag_version": "GSIG-OBS-DAG-1.0",
+  "execution_mode": "offline_demo",
+  "steps": [
+    {
+      "id": "source_select",
+      "module": "src/observatory/source_registry.py",
+      "outputs": [
+        "selected_sources.json"
+      ],
+      "validations": [
+        "source_license_present",
+        "source_rate_policy_present"
+      ],
+      "status": "pass"
+    },
+    {
+      "id": "snapshot_fetch",
+      "module": "src/observatory/fetch_snapshots.py",
+      "outputs": [
+        "raw_snapshots/*.jsonl",
+        "snapshot_manifest.json"
+      ],
+      "validations": [
+        "snapshot_hash_present",
+        "api_policy_logged"
+      ],
+      "status": "pass"
+    },
+    {
+      "id": "dwca_parse",
+      "module": "src/observatory/parse_dwca.py",
+      "outputs": [
+        "occurrence_core.parquet",
+        "dna_extension.parquet",
+        "eml_manifest.json"
+      ],
+      "validations": [
+        "occurrence_id_joinable",
+        "dna_extension_schema_valid"
+      ],
+      "status": "pass"
+    },
+    {
+      "id": "normalize",
+      "module": "src/normalize/normalize_observatory_records.py",
+      "outputs": [
+        "normalized_records.parquet"
+      ],
+      "validations": [
+        "taxon_backbone_candidate_logged",
+        "coordinate_uncertainty_logged"
+      ],
+      "status": "pass"
+    },
+    {
+      "id": "segmentize",
+      "module": "src/segments/build_segment_catalog.py",
+      "outputs": [
+        "segment_catalog.parquet",
+        "segment_hash_audit.csv"
+      ],
+      "validations": [
+        "canonical_hash_deterministic",
+        "reverse_complement_policy_logged"
+      ],
+      "status": "pass"
+    },
+    {
+      "id": "compute_evidence",
+      "module": "src/evidence/run_gseg_gates.py",
+      "outputs": [
+        "vsea.parquet",
+        "hard_gate_audit.csv",
+        "claim_boundaries.csv"
+      ],
+      "validations": [
+        "hard_gate_failures_zero",
+        "species_overclaim_zero"
+      ],
+      "status": "pass"
+    },
+    {
+      "id": "graph_build",
+      "module": "src/graph/build_observatory_graph.py",
+      "outputs": [
+        "evidence_graph.json",
+        "evidence_graph.jsonld",
+        "graph_provenance_audit.csv"
+      ],
+      "validations": [
+        "all_nodes_have_provenance",
+        "claim_states_preserved"
+      ],
+      "status": "pass"
+    },
+    {
+      "id": "visual_index",
+      "module": "src/ui/build_visual_index.py",
+      "outputs": [
+        "visual_index.duckdb",
+        "tile_index.json"
+      ],
+      "validations": [
+        "visualization_read_only",
+        "blocked_claims_visible"
+      ],
+      "status": "pass"
+    },
+    {
+      "id": "export_pack",
+      "module": "src/exports/export_observatory_pack.py",
+      "outputs": [
+        "observatory_evidence_pack.zip",
+        "gbif_occurrence_export.csv",
+        "dna_extension_export.csv",
+        "ai_ready_dataset.parquet"
+      ],
+      "validations": [
+        "export_claim_states_preserved",
+        "ai_labels_separated_from_hypotheses"
+      ],
+      "status": "pass"
+    }
+  ]
+}

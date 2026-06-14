@@ -1,0 +1,2 @@
+source_id,collection_method,scrapes_gbif_pages,user_agent_policy,status
+gbif_occurrence_api,GBIF API via /occurrence/search or fixture replay,False,configured_in_GBIFClient,pass

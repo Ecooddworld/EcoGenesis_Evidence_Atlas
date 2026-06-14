@@ -1,0 +1,5 @@
+taxon_id,taxon_label,safe_rank,segment_id,claim_state,provenance_hash
+taxon:species:Aedes albopictus,Aedes albopictus,species,segment:AALB-COI-good:1-622,taxon_supported,ede874181913ca28bbca8a326191ef416d1441520f7e6937d4ed8469ae2eddd2
+taxon:genus:Aedes,Aedes,genus,segment:AALB-COI-ambiguous:1-622,taxon_supported,55faf4abe655ffeb75a7e611c2534e1b7722894a74126e08066f8443ec3d3fec
+taxon:species:Aedes albopictus,Aedes albopictus,species,segment:AALB-COI-short:1-622,weak_hypothesis,5f60d1516479c9f52f2a08c1c6178074918329619aacdea8a17f7dd0fc6a82fd
+taxon:species:Aedes albopictus,Aedes albopictus,species,segment:AALB-COI-metadata-gap:1-622,taxon_supported,e4f1a3c6bbf957fceda0452b5e10ed7673010a84e54740c5eb2ede99939168b2

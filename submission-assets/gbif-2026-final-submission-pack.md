@@ -14,7 +14,7 @@ One-liner:
 
 > A deterministic workflow that turns DNA barcode, metabarcoding and Sequence ID-style outputs into safe, rank-aware and GBIF-ready molecular occurrence evidence.
 
-Current architecture: **EcoGenesis Nexus V3 + GSEG/GSIG proof layer**. The working compiler now exports hard-gate audit, prevented naive top-hit overclaims, data accounting ledger, state-machine audit, reference completeness audit, reference gap index, metadata bottlenecks, repair plan, split publishable-candidate / formal GBIF-ready / review templates, VSEA, theorem checklist, graph provenance and AI guardrail audits.
+Current architecture: **EcoGenesis Nexus V3 + GSEG/GSIG proof layer + GSIG Observatory**. The working compiler now exports hard-gate audit, prevented naive top-hit overclaims, data accounting ledger, state-machine audit, reference completeness audit, reference gap index, metadata bottlenecks, repair plan, split publishable-candidate / formal GBIF-ready / review templates, VSEA, theorem checklist, graph provenance and AI guardrail audits. The Observatory adds source registry checks, hashed GBIF snapshots, VSEA-to-graph visualization, OPO proof artifacts, GBIF export preview and AI-ready export guardrails.
 
 ## What To Submit
 
@@ -53,6 +53,15 @@ Run compiler
 -> Download Evidence Pack
 ```
 
+Observatory flow:
+
+```text
+Observatory
+-> Run live Aedes Spain
+-> Inspect source snapshot, VSEA, graph and Judge tabs
+-> Download Observatory Evidence Pack
+```
+
 Example outcomes:
 
 ```text
@@ -67,14 +76,15 @@ examples/aedes_weak_coverage.csv     -> weak
 Latest local verification on 2026-06-14:
 
 ```text
-backend pytest: 65 passed, 1 skipped
-frontend tests: 13 passed
+backend pytest: 74 passed, 1 skipped
+frontend tests: 14 passed
 frontend build: passed
 Docker compose build/up: passed
 Docker backend health: ok
 Docker frontend HTTP: 200
 Competition 100-sequence API run: expected decisions matched, hard_gate_failures=0, exports=89, theorem=pass, graph_roundtrip=pass
 Adversarial 100-sequence stress run: expected decisions matched, false species-safe outside positive controls=0, exports=89, theorem=pass, graph_roundtrip=pass
+Observatory demo report: hard_gate_status=pass, OPO artifacts present, VSEA Parquet=PAR1
 Operability report: pass
 ```
 

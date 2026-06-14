@@ -81,4 +81,15 @@ curl -fsS \
 grep -q '"status":"higher-rank-shared"' "${tmpdir}/fragment-graph.json"
 grep -q '"segments":' "${tmpdir}/fragment-graph.json"
 
+curl -fsS "http://127.0.0.1:${FRONTEND_PORT}/api/observatory/status" -o "${tmpdir}/observatory-status.json"
+grep -q '"service":"ecogenesis-gsig-observatory"' "${tmpdir}/observatory-status.json"
+
+curl -fsS \
+  -H "Content-Type: application/json" \
+  -d '{"mode":"offline_demo","force_fixture":true,"limit":20}' \
+  "http://127.0.0.1:${FRONTEND_PORT}/api/observatory/run-demo" \
+  -o "${tmpdir}/observatory-run.json"
+grep -q '"status":"completed"' "${tmpdir}/observatory-run.json"
+grep -q '"hard_gate_status":"pass"' "${tmpdir}/observatory-run.json"
+
 echo "Docker smoke passed: http://127.0.0.1:${FRONTEND_PORT}"

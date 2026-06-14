@@ -1,0 +1,139 @@
+ui_contract_version: GSIG-OBS-UI-1.0
+design_principle: The UI is an explanation system over a verified evidence graph,
+  not a decorative dashboard.
+global_controls:
+- claim_state_filter
+- source_snapshot_selector
+- ruleset_version_selector
+- caveat_overlay
+- provenance_panel
+- download_evidence_pack
+screens:
+- id: observatory_home
+  title: Evidence Observatory Home
+  purpose: Show processed-data inventory, run health, source freshness and current
+    graph version.
+  required_widgets:
+  - run_status_cards
+  - source_freshness_heatmap
+  - graph_size_metrics
+  - blocked_claim_counter
+  - open_judge_mode
+  guardrails:
+  - counts_must_match_ledger
+  - display_roadmap_limits
+- id: source_intake_radar
+  title: Source Intake Radar
+  purpose: Visualize automated data collection and show why a source is accepted,
+    delayed, cached or blocked.
+  required_widgets:
+  - source_cards
+  - license_badges
+  - api_policy_status
+  - snapshot_hash_table
+  - failure_queue
+  guardrails:
+  - no_unknown_license_ingest
+  - live_data_marked_pending
+- id: vsea_grid
+  title: Verified Segment Evidence Array Grid
+  purpose: Browse segment x taxon x reference x evidence records with claim states.
+  required_widgets:
+  - segment_table
+  - taxon_filter
+  - claim_state_filter
+  - caveat_column
+  - provenance_link
+  - export_subset
+  guardrails:
+  - blocked_claims_not_hidden
+  - raw_and_verified_separated
+- id: graph_explorer
+  title: Evidence Graph Explorer
+  purpose: 'Explore nodes and edges: segments, taxa, references, publications, annotations,
+    blockers and exports.'
+  required_widgets:
+  - node_search
+  - edge_filter
+  - safe_lca_trace
+  - blocker_overlay
+  - provenance_inspector
+  guardrails:
+  - visual_edges_cannot_change_claim_state
+- id: tree_of_life_segment_map
+  title: Tree-of-Life Segment Map
+  purpose: Show where a segment/cluster occurs across species, genera, families and
+    clades.
+  required_widgets:
+  - taxonomic_tree
+  - sharedness_heatmap
+  - specificity_badge
+  - rci2_caveat_badge
+  - geography_context
+  guardrails:
+  - shared_segments_cannot_be_species_specific
+- id: trait_function_panel
+  title: Trait and Function Evidence Panel
+  purpose: Attach annotations and literature to segments while preserving evidence
+    type and contradiction state.
+  required_widgets:
+  - domain_tracks
+  - go_terms
+  - trait_links
+  - publication_claims
+  - contradiction_badges
+  - evidence_grade
+  guardrails:
+  - correlation_not_function
+  - article_not_truth
+- id: repair_optimizer
+  title: Repair Optimizer
+  purpose: Rank missing metadata, reference gaps, source conflicts and publication
+    blockers by unlock value.
+  required_widgets:
+  - repair_queue
+  - unlock_estimates
+  - blocker_kind_filter
+  - publisher_dataset_view
+  - suggested_action
+  guardrails:
+  - metadata_repair_cannot_upgrade_biology
+- id: gbif_workbench
+  title: GBIF Export Workbench
+  purpose: Prepare Occurrence core and DNA-derived extension files from verified,
+    bounded evidence only.
+  required_widgets:
+  - occurrence_core_preview
+  - dna_extension_preview
+  - eml_checklist
+  - validator_results
+  - ipt_package_status
+  guardrails:
+  - formal_export_requires_metadata
+  - safe_taxon_must_match_claim_boundary
+- id: ai_dataset_builder
+  title: AI-Ready Dataset Builder
+  purpose: Export matrices and graph features while separating verified labels, weak
+    hypotheses and blocked claims.
+  required_widgets:
+  - feature_selector
+  - label_state_selector
+  - hypothesis_exclusion_toggle
+  - dataset_manifest
+  - training_warning_panel
+  guardrails:
+  - ai_cannot_train_on_blocked_as_positive
+  - hypothesis_labels_separate
+- id: judge_mode
+  title: Judge Mode
+  purpose: 'One-click competition path: run demo, inspect graph, view proof checklist
+    and export evidence pack.'
+  required_widgets:
+  - run_demo_button
+  - proof_obligation_status
+  - artifact_manifest
+  - video_storyboard
+  - non_claims_panel
+  guardrails:
+  - demo_reproducible_offline
+  - roadmap_not_claimed_as_done

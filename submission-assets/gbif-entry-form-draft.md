@@ -24,7 +24,7 @@ The compiler addresses this gap with explicit evidence gates. It checks identity
 
 The output is not a black-box score. Each run produces decision classes such as `species-safe`, `genus-safe`, `higher-rank-safe`, `ambiguous`, `weak`, `no-match` and `not-publishable`. The generated Evidence Pack includes `sequence_safety_table.csv`, `safe_taxonomic_assignments.csv`, `publication_blockers.csv`, `barcode_gap_report.csv`, `diagnostic_kmer_report.csv`, Darwin Core Occurrence templates, DNA-derived extension templates, a molecular evidence HTML report, methods text, citations, an evidence graph, JSON and ZIP exports.
 
-The current Nexus V3 + GSEG/GSIG implementation also adds a hard-gate audit, naive top-hit overclaim report, reference gap index, metadata bottleneck table, repair plan, external tool adapter matrix, split GBIF-ready versus review/repair exports, Verified Segment Evidence Array, theorem checklist, graph provenance audit, graph roundtrip audit and AI output guardrails. These files make the system useful not only as a classifier, but as a publication repair and evidence-conversion engine. Unsupported function, phenotype and production GraphDB/RDF claims remain explicitly blocked rather than implied.
+The current Nexus V3 + GSEG/GSIG implementation also adds a hard-gate audit, naive top-hit overclaim report, reference gap index, metadata bottleneck table, repair plan, external tool adapter matrix, split GBIF-ready versus review/repair exports, Verified Segment Evidence Array, theorem checklist, graph provenance audit, graph roundtrip audit and AI output guardrails. The GSIG Observatory adds source-registry audits, hashed GBIF Aedes Spain snapshots, VSEA-to-graph visualization, Observatory proof obligations, GBIF export preview and AI-ready export guardrails. These files make the system useful not only as a classifier, but as a publication repair and evidence-conversion engine. Unsupported function, phenotype and production GraphDB/RDF claims remain explicitly blocked rather than implied.
 
 For data users, the tool answers: “Can I safely use this molecular detection as a species-level occurrence, or should I downgrade or review it?” For data publishers, it gives concrete repair actions such as adding required metadata, improving sequence coverage or attaching reference-set evidence. For GBIF nodes and reviewers, it provides a reproducible audit trail that separates supported claims from blocked claims and keeps publication templates aligned with GBIF-ready data practices.
 
@@ -57,6 +57,7 @@ The Docker stack is the recommended judge-facing run path. It builds the fronten
 5. Click `Generate from CSV`.
 6. Inspect the decision dashboard, sequence table, safe/blocked claims and repair actions.
 7. Download `evidence_pack.zip` or individual CSV/HTML exports.
+8. Open `Observatory`, run `Run live Aedes Spain`, inspect source snapshot, VSEA, graph, exports and Judge tabs, then download `observatory_evidence_pack.zip`.
 
 For sequence-search validation rather than CSV scoring, use the `Reference search` panel. Judges can upload a small curated FASTA reference dataset with headers like `>ref_id|Taxon name|rank|gbifTaxonKey`, select it in the dropdown, paste a query sequence, and run VSEARCH/BLAST+/fallback search through the same hard-gate compiler.
 

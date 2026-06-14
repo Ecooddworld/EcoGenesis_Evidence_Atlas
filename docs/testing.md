@@ -12,7 +12,7 @@ cd backend
 Expected current result:
 
 ```text
-65 passed, 1 skipped
+74 passed, 1 skipped
 ```
 
 Required barcode compiler coverage:
@@ -35,6 +35,9 @@ Required barcode compiler coverage:
 - Evidence Pack exports include `data_accounting_ledger.csv`, `state_machine_audit.csv`, `reference_completeness_audit.csv`, structured `publication_blockers.csv`, graph-backed `claim_boundaries.csv` and `profile_id` in `safe_taxonomic_assignments.csv`.
 - GSEG/GSIG exports include `theorem_checklist.json`, real `verified_segment_evidence_array.parquet`, `graph_provenance_audit.csv`, `graph_roundtrip_audit.json`, `ai_output_guardrail_audit.csv` and `judge_reproducibility_report.md`.
 - `tests/test_gseg_gsig_reference_checks.py` verifies the reference math and guardrail oracle for safe taxa, canonical segment hashing, sharedness, claim-state transitions, AI export preservation, provenance and BH-FDR.
+- GSIG Observatory exports include `observatory_evidence_pack.zip`, `snapshot_manifest.json`, `source_registry_audit.json`, `observatory_vsea.parquet`, `observatory_graph.jsonld`, `gbif_export_preview.csv`, `ai_ready_dataset.jsonl` and all 20 OPO audit artifacts.
+- `tests/test_gsig_observatory_reference_checks.py` verifies the Observatory source registry, pipeline DAG, UI contract, proof obligations, visual claim-state projection and AI label separation.
+- `tests/test_observatory_api.py` verifies `/api/observatory/*`, generated parquet, GBIF fixture fallback recording, VSEA/segment/claim endpoints and export links.
 
 Legacy `/api/evidence/*` tests remain active to guarantee the occurrence-audit layer still works for live GBIF context and regression.
 
@@ -51,7 +54,7 @@ npm run build
 Expected current result:
 
 ```text
-13 frontend tests passed
+14 frontend tests passed
 production build passed
 ```
 
@@ -66,6 +69,7 @@ Required UI coverage:
 - Advanced JSON remains available for developer workflows.
 - `Math & proof` opens.
 - `Research audit` opens.
+- `Observatory` opens, runs Aedes Spain, renders VSEA and Judge proof screens.
 - `Data accounting ledger` renders after a run and shows denominators for candidate, safe, publishable and formal GBIF-ready states.
 
 ## API Smoke
@@ -90,6 +94,10 @@ curl http://127.0.0.1:18100/api/evidence/gbif-status
 curl http://127.0.0.1:18100/api/barcode/csv-template
 curl -F file=@examples/aedes_good.csv http://127.0.0.1:18100/api/barcode/import-csv
 curl -F file=@examples/aedes_good.csv http://127.0.0.1:18100/api/barcode/run-csv
+curl http://127.0.0.1:18100/api/observatory/status
+curl -X POST http://127.0.0.1:18100/api/observatory/run-demo \
+  -H 'Content-Type: application/json' \
+  -d '{"mode":"offline_demo","force_fixture":true,"limit":50}'
 ```
 
 Expected:
@@ -99,6 +107,7 @@ Expected:
 - CSV template returns header row;
 - import returns `validation.ok=true`;
 - run returns `species_safe_records=1`.
+- Observatory run returns `hard_gate_status=pass`, `vsea_rows=4` and downloadable `observatory_evidence_pack.zip`.
 
 ## Browser Smoke
 
@@ -118,8 +127,12 @@ Expected:
    - `verified_segment_evidence_array.parquet`
    - `graph_provenance_audit.csv`
 8. Open `Math & proof`.
-9. Open `Research audit`.
-10. Confirm console errors are zero and there is no horizontal overflow.
+9. Open `Observatory`.
+10. Click `Run live Aedes Spain`.
+11. Confirm `GBIF snapshot`, `VSEA`, `Graph`, `Exports` and `Judge` screens render.
+12. Confirm `observatory_evidence_pack.zip`, `observatory_vsea.parquet`, `snapshot_manifest.json` and `proof_summary.json` are linked.
+13. Open `Research audit`.
+14. Confirm console errors are zero and there is no horizontal overflow.
 
 ## Docker Smoke
 
@@ -139,6 +152,7 @@ Expected:
 - The mini Aedes reference-search compile path returns a completed run.
 - The bundled shared-fragment graph path returns `higher-rank-shared`.
 - The shared-fragment graph path includes segment evidence rather than only top-hit summary data.
+- `/api/observatory/status` and `/api/observatory/run-demo` work through the frontend proxy.
 
 ## Operability Report
 
@@ -181,6 +195,24 @@ Regenerate both reports:
 ```bash
 cd backend
 .venv/bin/python scripts/generate_competition_reports.py
+```
+
+## GSIG Observatory Report
+
+Current generated Observatory report:
+
+- `reports/observatory-demo/README.md`
+  - hard-gate status: `pass`;
+  - 12 occurrence context rows;
+  - 4 VSEA rows;
+  - all 20 OPO artifacts present;
+  - VSEA Parquet magic `PAR1`.
+
+Regenerate:
+
+```bash
+cd backend
+.venv/bin/python scripts/generate_observatory_demo_report.py
 ```
 
 Generated outputs:

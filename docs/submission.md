@@ -24,6 +24,7 @@ The 2026 GBIF Ebbe Nielsen Challenge accepts tools, workflows and analyses that 
 - exposing repair actions for publishers and data managers;
 - producing repeatable CSV, HTML, JSON and ZIP Evidence Packs.
 - adding a GSEG/GSIG proof layer with VSEA, graph provenance, theorem checklist and AI guardrail audits while unsupported function/phenotype claims remain blocked.
+- adding a GSIG Observatory layer that hashes GBIF source snapshots, visualizes VSEA-to-graph evidence, preserves claim boundaries in GBIF/AI exports and ships all 20 OPO proof-obligation artifacts.
 
 ## What The Tool Produces
 
@@ -87,6 +88,20 @@ Each run produces:
 - `evidence_pack.json`
 - `evidence_pack.zip`
 
+The Observatory run additionally produces:
+
+- `observatory_evidence_pack.zip`
+- `observatory_report.md`
+- `source_registry_audit.json`
+- `snapshot_manifest.json`
+- `source_provenance_manifest.json`
+- `observatory_vsea.csv`
+- `observatory_vsea.parquet`
+- `observatory_graph.jsonld`
+- `gbif_export_preview.csv`
+- `ai_ready_dataset.jsonl`
+- all 20 `OPO-*` audit artifacts from `ecogenesis_gsig_observatory_proof_obligations_v4.json`
+
 ## Demo Flow For Judges
 
 1. Open the app at http://localhost:13100.
@@ -99,7 +114,8 @@ Each run produces:
 8. Upload or explain `examples/aedes_missing_metadata.csv` to show taxonomic evidence preserved while publication is blocked.
 9. Open `Math & proof` to show the deterministic gates.
 10. Show the `GSEG / GSIG proof layer` export group: `theorem_checklist.json`, VSEA Parquet and graph provenance.
-11. Open `Research audit` to show the live GBIF occurrence-audit layer and 100 evidence claims.
+11. Open `Observatory`, run `Run live Aedes Spain`, and show source snapshot, VSEA, graph, exports and Judge tabs.
+12. Open `Research audit` to show the live GBIF occurrence-audit layer and 100 evidence claims.
 
 ## Operating Instructions
 
@@ -120,6 +136,7 @@ Run tests:
 cd backend
 .venv/bin/python -m pytest -q
 .venv/bin/python scripts/generate_competition_reports.py
+.venv/bin/python scripts/generate_observatory_demo_report.py
 
 cd ../frontend
 npm test -- --run

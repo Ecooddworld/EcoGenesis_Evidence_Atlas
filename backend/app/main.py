@@ -32,6 +32,26 @@ from .evidence.gbif import GBIFClient
 from .evidence.pipeline import EvidenceRunError, run_evidence_passport
 from .evidence.schemas import EvidenceRunCreated, EvidenceRunRequest
 from .evidence.storage import artifact_path, list_run_summaries, load_pack
+from .observatory.pipeline import (
+    claim_provenance as observatory_claim_provenance,
+    filter_vsea,
+    observatory_sources,
+    observatory_status,
+    run_observatory_demo as execute_observatory_demo,
+    segment_annotations,
+    segment_detail,
+    segment_publications,
+    segment_sharedness,
+    segment_taxa,
+    taxa_segments,
+)
+from .observatory.schemas import ObservatoryRunCreated, ObservatoryRunRequest
+from .observatory.storage import (
+    latest_observatory_run_id,
+    list_observatory_summaries,
+    load_observatory_pack,
+    observatory_artifact_path,
+)
 
 
 app = FastAPI(
@@ -319,6 +339,213 @@ def head_barcode_export(run_id: str, artifact_name: str) -> Response:
             "Content-Disposition": f'attachment; filename="{path.name}"',
         },
     )
+
+
+@app.get("/api/observatory/status")
+def get_observatory_status() -> dict:
+    status = observatory_status()
+    latest_id = latest_observatory_run_id()
+    if latest_id:
+        try:
+            latest = load_observatory_pack(latest_id)
+            status["latest_run"] = {
+                "run_id": latest_id,
+                "summary": latest.get("summary", {}),
+                "exports": latest.get("exports", []),
+            }
+        except FileNotFoundError:
+            status["latest_run"] = None
+    else:
+        status["latest_run"] = None
+    return status
+
+
+@app.get("/api/observatory/sources")
+def get_observatory_sources() -> dict:
+    return observatory_sources()
+
+
+@app.post("/api/observatory/run-demo", response_model=ObservatoryRunCreated)
+def run_observatory_demo(request: ObservatoryRunRequest) -> dict:
+    pack = execute_observatory_demo(request)
+    return {
+        "run_id": pack["run"]["run_id"],
+        "status": "completed",
+        "summary": pack["summary"],
+        "exports": pack["exports"],
+    }
+
+
+@app.get("/api/observatory/runs")
+def list_observatory_runs() -> list[dict]:
+    return list_observatory_summaries()
+
+
+@app.get("/api/observatory/runs/{run_id}")
+def get_observatory_run(run_id: str) -> dict:
+    try:
+        return load_observatory_pack(run_id)
+    except FileNotFoundError as exc:
+        raise HTTPException(status_code=404, detail="observatory run not found") from exc
+
+
+@app.get("/api/observatory/runs/{run_id}/exports")
+def get_observatory_exports(run_id: str) -> list[dict]:
+    return get_observatory_run(run_id)["exports"]
+
+
+@app.get("/api/observatory/runs/{run_id}/exports/{artifact_name}")
+def download_observatory_export(run_id: str, artifact_name: str) -> FileResponse:
+    path = observatory_artifact_path(run_id, artifact_name)
+    if not path.exists():
+        raise HTTPException(status_code=404, detail="artifact not found")
+    return FileResponse(path, filename=path.name)
+
+
+@app.head("/api/observatory/runs/{run_id}/exports/{artifact_name}")
+def head_observatory_export(run_id: str, artifact_name: str) -> Response:
+    path = observatory_artifact_path(run_id, artifact_name)
+    if not path.exists():
+        raise HTTPException(status_code=404, detail="artifact not found")
+    media_type, _ = mimetypes.guess_type(path.name)
+    return Response(
+        status_code=200,
+        media_type=media_type or "application/octet-stream",
+        headers={
+            "Content-Length": str(path.stat().st_size),
+            "Content-Disposition": f'attachment; filename="{path.name}"',
+        },
+    )
+
+
+@app.get("/api/observatory/snapshots/{snapshot_id}")
+def get_observatory_snapshot(snapshot_id: str, run_id: str | None = None) -> dict:
+    pack = load_observatory_pack_or_latest(run_id)
+    if pack.get("snapshot_manifest", {}).get("snapshot_id") != snapshot_id:
+        raise HTTPException(status_code=404, detail="snapshot not found in selected Observatory run")
+    return {
+        "snapshot_manifest": pack["snapshot_manifest"],
+        "normalized_occurrence_context": pack["normalized_occurrence_context"],
+    }
+
+
+@app.get("/api/observatory/vsea")
+def get_observatory_vsea(
+    run_id: str | None = None,
+    claim_state: str | None = Query(default=None),
+    taxon: str | None = Query(default=None),
+    marker: str | None = Query(default=None),
+    source: str | None = Query(default=None),
+) -> dict:
+    pack = load_observatory_pack_or_latest(run_id)
+    rows = filter_vsea(pack, claim_state=claim_state, taxon=taxon, marker=marker, source=source)
+    return {"run_id": pack["run"]["run_id"], "count": len(rows), "rows": rows}
+
+
+@app.get("/api/observatory/segments/{segment_id}")
+def get_observatory_segment(segment_id: str, run_id: str | None = None) -> dict:
+    pack = load_observatory_pack_or_latest(run_id)
+    try:
+        return segment_detail(pack, segment_id)
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail="segment not found") from exc
+
+
+@app.get("/api/observatory/segments/{segment_id}/taxa")
+def get_observatory_segment_taxa(segment_id: str, run_id: str | None = None) -> list[dict]:
+    pack = load_observatory_pack_or_latest(run_id)
+    rows = segment_taxa(pack, segment_id)
+    if not rows:
+        raise HTTPException(status_code=404, detail="segment not found")
+    return rows
+
+
+@app.get("/api/observatory/segments/{segment_id}/sharedness")
+def get_observatory_segment_sharedness(segment_id: str, run_id: str | None = None) -> dict:
+    pack = load_observatory_pack_or_latest(run_id)
+    try:
+        return segment_sharedness(pack, segment_id)
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail="segment not found") from exc
+
+
+@app.get("/api/observatory/segments/{segment_id}/annotations")
+def get_observatory_segment_annotations(segment_id: str, run_id: str | None = None) -> dict:
+    pack = load_observatory_pack_or_latest(run_id)
+    try:
+        return segment_annotations(pack, segment_id)
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail="segment not found") from exc
+
+
+@app.get("/api/observatory/segments/{segment_id}/publications")
+def get_observatory_segment_publications(segment_id: str, run_id: str | None = None) -> dict:
+    pack = load_observatory_pack_or_latest(run_id)
+    try:
+        return segment_publications(pack, segment_id)
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail="segment not found") from exc
+
+
+@app.get("/api/observatory/segments/{segment_id}/claim-boundary")
+def get_observatory_segment_claim_boundary(segment_id: str, run_id: str | None = None) -> dict:
+    pack = load_observatory_pack_or_latest(run_id)
+    try:
+        detail = segment_detail(pack, segment_id)
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail="segment not found") from exc
+    return {"segment_id": segment_id, "claim_boundaries": detail["claim_boundaries"]}
+
+
+@app.get("/api/observatory/taxa/{taxon_id}/segments")
+def get_observatory_taxa_segments(taxon_id: str, run_id: str | None = None) -> list[dict]:
+    pack = load_observatory_pack_or_latest(run_id)
+    rows = taxa_segments(pack, taxon_id)
+    if not rows:
+        raise HTTPException(status_code=404, detail="taxon not found")
+    return rows
+
+
+@app.get("/api/observatory/claims/{claim_id}/provenance")
+def get_observatory_claim_provenance(claim_id: str, run_id: str | None = None) -> dict:
+    pack = load_observatory_pack_or_latest(run_id)
+    try:
+        return observatory_claim_provenance(pack, claim_id)
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail="claim not found") from exc
+
+
+@app.post("/api/observatory/export/gbif")
+def create_observatory_gbif_export(run_id: str | None = None) -> dict:
+    pack = load_observatory_pack_or_latest(run_id)
+    return observatory_export_response(pack, "gbif_export_preview.csv")
+
+
+@app.post("/api/observatory/export/ai-ready")
+def create_observatory_ai_ready_export(run_id: str | None = None) -> dict:
+    pack = load_observatory_pack_or_latest(run_id)
+    return observatory_export_response(pack, "ai_ready_dataset.jsonl")
+
+
+def load_observatory_pack_or_latest(run_id: str | None) -> dict:
+    selected = run_id or latest_observatory_run_id()
+    if not selected:
+        raise HTTPException(status_code=404, detail="no Observatory run found; call /api/observatory/run-demo first")
+    try:
+        return load_observatory_pack(selected)
+    except FileNotFoundError as exc:
+        raise HTTPException(status_code=404, detail="observatory run not found") from exc
+
+
+def observatory_export_response(pack: dict, artifact_name: str) -> dict:
+    export = next((item for item in pack.get("exports", []) if item.get("name") == artifact_name), None)
+    if not export:
+        raise HTTPException(status_code=404, detail="export artifact not found")
+    return {
+        "run_id": pack["run"]["run_id"],
+        "artifact": export,
+        "claim_boundary": "Export preserves claim_state and caveats; it cannot upgrade evidence.",
+    }
 
 
 @app.post("/api/evidence/run", response_model=EvidenceRunCreated)

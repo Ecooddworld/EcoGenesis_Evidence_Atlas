@@ -1,0 +1,5 @@
+vsea_id,graph_claim_state,ui_claim_state,visual_promotes_claim,status
+obs-vsea:AALB-COI-good:1,taxon_supported,taxon_supported,False,pass
+obs-vsea:AALB-COI-ambiguous:2,taxon_supported,taxon_supported,False,pass
+obs-vsea:AALB-COI-short:3,weak_hypothesis,weak_hypothesis,False,pass
+obs-vsea:AALB-COI-metadata-gap:4,taxon_supported,taxon_supported,False,pass
