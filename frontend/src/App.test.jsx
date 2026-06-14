@@ -38,10 +38,23 @@ const runDetail = {
   run: { run_id: 'barcode123', ruleset_version: 'barcode-gbif-compiler-v2' },
   summary: createdRun.summary,
   metrics: createdRun.summary,
+  data_accounting_ledger: [
+    { metric: 'input_n', value: 1, denominator: 1, rate: 1, unit: 'sequence_records', layer: 'input', meaning: 'Records received by the Barcode-to-GBIF compiler.' },
+    { metric: 'candidate_n', value: 1, denominator: 1, rate: 1, unit: 'sequence_records', layer: 'taxonomy', meaning: 'Records with at least one supplied reference hit.' },
+    { metric: 'safe_n', value: 1, denominator: 1, rate: 1, unit: 'sequence_records', layer: 'taxonomy', meaning: 'Records safe at species/genus/higher-rank level.' },
+    { metric: 'publishable_candidate_n', value: 1, denominator: 1, rate: 1, unit: 'sequence_records', layer: 'publication', meaning: 'Safe records emitted into publishable review templates but not formal GBIF-ready.' },
+    { metric: 'gbif_ready_n', value: 0, denominator: 1, rate: 0, unit: 'sequence_records', layer: 'publication', meaning: 'Records that passed dataset-level metadata checks for formal GBIF-ready export.' },
+    { metric: 'repair_required_n', value: 0, denominator: 1, rate: 0, unit: 'sequence_records', layer: 'publication', meaning: 'Records blocked by molecular, occurrence, assay, backend or metadata gates.' },
+    { metric: 'blocked_top_species_claims_n', value: 0, denominator: 1, rate: 0, unit: 'sequence_records', layer: 'safety', meaning: 'Species-ranked top hits that were blocked or downgraded by fail-closed gates.' },
+    { metric: 'hard_gate_failures_n', value: 0, denominator: 1, rate: 0, unit: 'sequence_records', layer: 'safety', meaning: 'Species-safe records with any failed hard gate; must remain zero.' },
+  ],
   records: [
     {
       sequence_id: 'AALB-COI-good',
       decision_class: 'species-safe',
+      taxonomic_status: 'species-safe',
+      publication_bucket: 'publishable_candidate',
+      export_state: 'dwc_template_ready',
       candidate_taxon: { name: 'Aedes albopictus', rank: 'species' },
       published_taxon: { name: 'Aedes albopictus', rank: 'species' },
       publication_stage: 'record_recommended_ready',
@@ -424,6 +437,8 @@ describe('Barcode compiler UI', () => {
     await waitFor(() => expect(screen.getAllByText('AALB-COI-good').length).toBeGreaterThan(0));
     expect(screen.getByText('species-safe')).toBeInTheDocument();
     expect(screen.getAllByText('evidence_pack.zip').length).toBeGreaterThan(0);
+    expect(screen.getByText('Data accounting ledger')).toBeInTheDocument();
+    expect(screen.getByText('publishable_candidate_n')).toBeInTheDocument();
   });
 
   it('opens the workbench and exposes the request editor', async () => {
@@ -744,7 +759,7 @@ describe('Barcode compiler UI', () => {
     expect(screen.getByText('Biological material becomes marker evidence')).toBeInTheDocument();
     expect(screen.getByText('Reference search creates competing hits')).toBeInTheDocument();
     expect(screen.getByText('Shared fragments become a taxonomic tree')).toBeInTheDocument();
-    expect(screen.getByText('GBIF-ready package is produced')).toBeInTheDocument();
+    expect(screen.getByText('Publication evidence package is produced')).toBeInTheDocument();
     expect(screen.getByText('Biodiversity source')).toBeInTheDocument();
     expect(screen.getByText('Marker selection')).toBeInTheDocument();
     expect(screen.getByText('Nature feedback')).toBeInTheDocument();

@@ -261,6 +261,8 @@ The compiler separates `taxonomic_status`, `decision_class`, `candidate_taxon`, 
 Each barcode run exports:
 
 - `sequence_safety_table.csv`
+- `data_accounting_ledger.csv`
+- `state_machine_audit.csv`
 - `claim_boundaries.csv`
 - `segment_overlap_report.csv`
 - `safe_taxonomic_assignments.csv`
@@ -273,6 +275,7 @@ Each barcode run exports:
 - `repair_plan.csv`
 - `metadata_bottlenecks.csv`
 - `reference_gap_index.csv`
+- `reference_completeness_audit.csv`
 - `marker_profile_audit.csv`
 - `assay_gate_audit.csv`
 - `dna_extension_readiness.csv`

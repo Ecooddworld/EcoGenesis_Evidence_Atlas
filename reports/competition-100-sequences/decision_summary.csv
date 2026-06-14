@@ -1,0 +1,15 @@
+metric,value
+run_id,7a9aea4135a1479e89afe114c16ff9b3
+records,100
+exports,42
+decisionClass,"{""species-safe"": 25, ""genus-safe"": 25, ""weak"": 25, ""not-publishable"": 25}"
+publicationBucket,"{""publishable_candidate"": 50, ""repair_required"": 50}"
+exportState,"{""dwc_template_ready"": 50, ""review_only"": 25, ""evidence_publishable_repair_required"": 25}"
+hard_gate_failures,0
+gbif_ready_records,0
+publishable_candidate_records,50
+repair_required_records,50
+expected_match,true
+evidence_pack_zip_sha256,6a4ff3b8995724c494f6c5345160a5cfc66f3497ddbddb2f4a6334272693a25b
+new_required_exports_present,true
+zip_contains_new_required_exports,true

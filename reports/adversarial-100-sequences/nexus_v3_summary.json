@@ -1,0 +1,42 @@
+{
+  "positioning": "Molecular Evidence Conversion & Repair Engine for GBIF",
+  "working_layer": "Barcode-to-GBIF Evidence Compiler",
+  "ruleset_family": "EcoGenesis Nexus V3 conservative hard-gate workflow",
+  "scientific_claim": "The compiler computes the safest publishable taxonomic rank and repair actions under supplied molecular hits, reference evidence and GBIF/DNA-derived metadata. It does not treat a top hit as species truth.",
+  "conversion_metrics": {
+    "MECY_molecular_evidence_conversion_yield": 0.3,
+    "SRY_safe_rank_yield": 0.3,
+    "SSY_species_safe_yield": 0.1,
+    "RY_repairable_yield": 1.0,
+    "OPR_overclaim_prevention_rate": 0.888889
+  },
+  "audit": {
+    "hard_gate_failures": 0,
+    "assay_gate_failures": 10,
+    "dna_extension_ready_records": 0,
+    "marker_species_disabled_records": 10,
+    "top_species_hits": 90,
+    "blocked_or_downgraded_top_species_hits": 80,
+    "species_safe_records": 10,
+    "publishable_template_records": 30,
+    "gbif_ready_records": 0,
+    "publishable_candidate_records": 30,
+    "repair_required_records": 70,
+    "review_only_records": 0,
+    "candidate_records": 90,
+    "safe_records": 30
+  },
+  "next_platform_layers": [
+    "reference completeness gate calibrated by taxon/marker coverage",
+    "protein sanity gate for coding markers",
+    "assay evidence gate for eDNA/metabarcoding/qPCR controls",
+    "fragment sharedness atlas",
+    "Molecular Evidence Graph"
+  ],
+  "safe_language": [
+    "sequence-derived occurrence evidence, not proof of living presence",
+    "empty cells are no-evidence cells, not absence",
+    "observed GBIF records are evidence context, not true distribution",
+    "protein/phenotype links remain hypotheses unless external curated evidence is attached"
+  ]
+}

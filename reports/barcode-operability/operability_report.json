@@ -13,9 +13,13 @@
   },
   "direct_compiler": {
     "pass": true,
-    "run_id": "c659a20b5a874b3692ac3fe7db662c13",
+    "run_id": "55be691f7cec4ee2b6e40f179f163e19",
     "metrics": {
       "processed_records": 4,
+      "input_records": 4,
+      "eligible_records": 4,
+      "candidate_records": 4,
+      "safe_records": 2,
       "processing_coverage": 1,
       "species_safe_records": 1,
       "genus_safe_records": 1,
@@ -27,6 +31,10 @@
       "record_ready_records": 2,
       "dataset_ready_records": 0,
       "publishable_template_records": 2,
+      "gbif_ready_records": 0,
+      "publishable_candidate_records": 2,
+      "repair_required_records": 2,
+      "review_only_records": 0,
       "safe_rank_records": 2,
       "repairable_records": 4,
       "top_species_hits": 4,
@@ -54,7 +62,7 @@
     "missing_exports": [],
     "zip_ok": true,
     "zip_contains_required_exports": true,
-    "evidence_pack_json_sha256": "a633a621e34245b57982f000c46a6d0f2fe37bd91f1c79e9761b3cc3b5262708"
+    "evidence_pack_json_sha256": "ec9e5696b65b54ae38c3005029b7e23f9f4a1fa28a2744acd758f40bee701cd7"
   },
   "api": {
     "run_endpoint_status": 200,
@@ -70,7 +78,7 @@
       "AALB-COI-metadata-gap": "not-publishable"
     },
     "api_expected_classes_pass": true,
-    "api_export_count": 36
+    "api_export_count": 42
   },
   "actual_results": [
     {
@@ -79,6 +87,8 @@
       "taxonomic_status": "species-safe",
       "publication_status": "record-ready",
       "publication_stage": "record_recommended_ready",
+      "publication_bucket": "publishable_candidate",
+      "export_state": "dwc_template_ready",
       "candidate_taxon": {
         "rank": "species",
         "name": "Aedes albopictus",
@@ -102,6 +112,8 @@
       "taxonomic_status": "genus-safe",
       "publication_status": "record-ready",
       "publication_stage": "record_recommended_ready",
+      "publication_bucket": "publishable_candidate",
+      "export_state": "dwc_template_ready",
       "candidate_taxon": {
         "rank": "genus",
         "name": "Aedes",
@@ -127,6 +139,8 @@
       "taxonomic_status": "weak",
       "publication_status": "not-ready",
       "publication_stage": "record_recommended_ready",
+      "publication_bucket": "repair_required",
+      "export_state": "review_only",
       "candidate_taxon": {
         "rank": "species",
         "name": "Aedes albopictus",
@@ -153,6 +167,8 @@
       "taxonomic_status": "species-safe",
       "publication_status": "not-ready",
       "publication_stage": "record_not_ready",
+      "publication_bucket": "repair_required",
+      "export_state": "evidence_publishable_repair_required",
       "candidate_taxon": {
         "rank": "species",
         "name": "Aedes albopictus",

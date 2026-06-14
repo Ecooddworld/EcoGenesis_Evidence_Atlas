@@ -29,6 +29,10 @@ The 2026 GBIF Ebbe Nielsen Challenge accepts tools, workflows and analyses that 
 Each run produces:
 
 - `sequence_safety_table.csv`
+- `data_accounting_ledger.csv`
+- `state_machine_audit.csv`
+- `claim_boundaries.csv`
+- `segment_overlap_report.csv`
 - `safe_taxonomic_assignments.csv`
 - `review_taxonomic_hints.csv`
 - `ambiguous_sequences.csv`
@@ -36,15 +40,30 @@ Each run produces:
 - `diagnostic_kmer_report.csv`
 - `gbif_backbone_matches.csv`
 - `publication_blockers.csv`
+- `repair_plan.csv`
+- `metadata_bottlenecks.csv`
+- `reference_gap_index.csv`
+- `reference_completeness_audit.csv`
+- `marker_profile_audit.csv`
+- `assay_gate_audit.csv`
+- `dna_extension_readiness.csv`
+- `hard_gate_audit.csv`
+- `naive_top_hit_overclaims.csv`
+- `source_provenance_manifest.json`
+- `reference_manifest.json`
 - `dwc_occurrence_core_template.csv`
 - `dwc_occurrence_core_publishable.csv`
+- `dwc_occurrence_core_gbif_ready.csv`
 - `dwc_occurrence_core_review.csv`
+- `dwc_occurrence_core_review_or_repair.csv`
 - `dna_derived_extension_template.csv`
 - `dna_derived_extension_publishable.csv`
+- `dna_derived_extension_gbif_ready.csv`
 - `molecular_evidence_report.html`
 - `methods_text.md`
 - `citations.md`
 - `evidence_graph.json`
+- `nexus_v3_summary.json`
 - `evidence_pack.json`
 - `evidence_pack.zip`
 

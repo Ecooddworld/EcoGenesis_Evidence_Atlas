@@ -1,0 +1,19 @@
+bottleneck,records,MBI_metadata_bottleneck_index
+missing dataset metadata: contact,100,1.0
+missing DNA-derived extension field: pcr_primer_forward,100,1.0
+missing DNA-derived extension field: pcr_primer_reverse,100,1.0
+missing DNA-derived extension field: seq_meth,100,1.0
+missing assay-recommended field: pcr_primer_forward,100,1.0
+missing assay-recommended field: pcr_primer_reverse,100,1.0
+missing assay-recommended field: seq_meth,90,0.9
+missing DNA-derived extension field: otu_seq_comp_appr,10,0.1
+missing Occurrence core field: eventDate,10,0.1
+missing recommended field: decimalLatitude,10,0.1
+missing recommended field: decimalLongitude,10,0.1
+missing recommended field: geodeticDatum,10,0.1
+missing recommended field: coordinateUncertaintyInMeters,10,0.1
+missing assay-required field: occurrenceStatus,10,0.1
+missing assay-required field: contaminationAssessment,10,0.1
+missing assay-recommended field: experimentalVariance,10,0.1
+missing assay-recommended field: quantificationCycle,10,0.1
+missing assay-recommended field: estimatedNumberOfCopies,10,0.1

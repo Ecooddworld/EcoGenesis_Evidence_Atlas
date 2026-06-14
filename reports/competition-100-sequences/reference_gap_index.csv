@@ -1,0 +1,3 @@
+markerRankTaxon,marker,safeRank,safeTaxon,records,referenceBlockedRecords,RGI_reference_gap_index,blockerExamples
+COI-5P|genus|Aedes,COI-5P,genus,Aedes,25,25,1.0,LCA downgrade from indistinguishable competitors
+COI-5P|species|Aedes albopictus,COI-5P,species,Aedes albopictus,75,0,0.0,

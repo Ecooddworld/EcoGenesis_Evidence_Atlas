@@ -21,7 +21,7 @@ Use these in the final GBIF Challenge video and judge walkthrough.
 6. Click **Generate from CSV**.
 7. Review the decision memo, outcome cards, sequence table and filters.
 8. Confirm `species-safe` appears for the good case.
-9. Download `evidence_pack.zip` or open individual outputs such as `sequence_safety_table.csv`, `publication_blockers.csv`, `dwc_occurrence_core_publishable.csv` and `molecular_evidence_report.html`.
+9. Download `evidence_pack.zip` or open individual outputs such as `sequence_safety_table.csv`, `data_accounting_ledger.csv`, `state_machine_audit.csv`, `publication_blockers.csv`, `dwc_occurrence_core_publishable.csv` and `molecular_evidence_report.html`.
 10. Repeat or describe the other three CSV examples to show downgrade, publication blocker and weak-match behavior.
 11. Open **Math & proof** to show the deterministic gates and proof-by-failure-mode logic.
 12. Open **Research audit** to show the live GBIF occurrence-audit layer and 1000-record / 100-claim validation.
@@ -43,6 +43,7 @@ Expected:
 - CSV template returns the expected header;
 - import returns normalized request, preview rows and validation summary;
 - run returns `species_safe_records=1` and Evidence Pack export URLs.
+- run exports the explicit ledger/state artifacts required for contest review: `data_accounting_ledger.csv`, `state_machine_audit.csv` and `reference_completeness_audit.csv`.
 
 ## Live GBIF Occurrence-Audit Scenarios
 

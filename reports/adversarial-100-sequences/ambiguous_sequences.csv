@@ -1,0 +1,41 @@
+sequenceID,taxonomicStatus,decisionClass,candidateTaxon,candidateRank,publishedTaxon,publishedRank,indistinguishableHits,blockers
+ADV100-011-close_sibling_ambiguity,genus-safe,genus-safe,Aedes,genus,Aedes,genus,Aedes albopictus; Aedes aegypti,species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus
+ADV100-012-close_sibling_ambiguity,genus-safe,genus-safe,Aedes,genus,Aedes,genus,Aedes albopictus; Aedes aegypti,species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus
+ADV100-013-close_sibling_ambiguity,genus-safe,genus-safe,Aedes,genus,Aedes,genus,Aedes albopictus; Aedes aegypti,species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus
+ADV100-014-close_sibling_ambiguity,genus-safe,genus-safe,Aedes,genus,Aedes,genus,Aedes albopictus; Aedes aegypti,species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus
+ADV100-015-close_sibling_ambiguity,genus-safe,genus-safe,Aedes,genus,Aedes,genus,Aedes albopictus; Aedes aegypti,species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus
+ADV100-016-close_sibling_ambiguity,genus-safe,genus-safe,Aedes,genus,Aedes,genus,Aedes albopictus; Aedes aegypti,species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus
+ADV100-017-close_sibling_ambiguity,genus-safe,genus-safe,Aedes,genus,Aedes,genus,Aedes albopictus; Aedes aegypti,species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus
+ADV100-018-close_sibling_ambiguity,genus-safe,genus-safe,Aedes,genus,Aedes,genus,Aedes albopictus; Aedes aegypti,species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus
+ADV100-019-close_sibling_ambiguity,genus-safe,genus-safe,Aedes,genus,Aedes,genus,Aedes albopictus; Aedes aegypti,species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus
+ADV100-020-close_sibling_ambiguity,genus-safe,genus-safe,Aedes,genus,Aedes,genus,Aedes albopictus; Aedes aegypti,species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus
+ADV100-071-genome_segment_non_barcode_marker,genus-safe,genus-safe,Aedes,genus,Aedes,genus,Aedes albopictus,"marker profile blocked species claim: custom_research is configured for safe-rank review, not automatic species export"
+ADV100-072-genome_segment_non_barcode_marker,genus-safe,genus-safe,Aedes,genus,Aedes,genus,Aedes albopictus,"marker profile blocked species claim: custom_research is configured for safe-rank review, not automatic species export"
+ADV100-073-genome_segment_non_barcode_marker,genus-safe,genus-safe,Aedes,genus,Aedes,genus,Aedes albopictus,"marker profile blocked species claim: custom_research is configured for safe-rank review, not automatic species export"
+ADV100-074-genome_segment_non_barcode_marker,genus-safe,genus-safe,Aedes,genus,Aedes,genus,Aedes albopictus,"marker profile blocked species claim: custom_research is configured for safe-rank review, not automatic species export"
+ADV100-075-genome_segment_non_barcode_marker,genus-safe,genus-safe,Aedes,genus,Aedes,genus,Aedes albopictus,"marker profile blocked species claim: custom_research is configured for safe-rank review, not automatic species export"
+ADV100-076-genome_segment_non_barcode_marker,genus-safe,genus-safe,Aedes,genus,Aedes,genus,Aedes albopictus,"marker profile blocked species claim: custom_research is configured for safe-rank review, not automatic species export"
+ADV100-077-genome_segment_non_barcode_marker,genus-safe,genus-safe,Aedes,genus,Aedes,genus,Aedes albopictus,"marker profile blocked species claim: custom_research is configured for safe-rank review, not automatic species export"
+ADV100-078-genome_segment_non_barcode_marker,genus-safe,genus-safe,Aedes,genus,Aedes,genus,Aedes albopictus,"marker profile blocked species claim: custom_research is configured for safe-rank review, not automatic species export"
+ADV100-079-genome_segment_non_barcode_marker,genus-safe,genus-safe,Aedes,genus,Aedes,genus,Aedes albopictus,"marker profile blocked species claim: custom_research is configured for safe-rank review, not automatic species export"
+ADV100-080-genome_segment_non_barcode_marker,genus-safe,genus-safe,Aedes,genus,Aedes,genus,Aedes albopictus,"marker profile blocked species claim: custom_research is configured for safe-rank review, not automatic species export"
+ADV100-081-negative_barcode_gap,ambiguous,ambiguous,Aedes albopictus,species,None,none,Aedes albopictus,species claim blocked: barcode gap fail
+ADV100-082-negative_barcode_gap,ambiguous,ambiguous,Aedes albopictus,species,None,none,Aedes albopictus,species claim blocked: barcode gap fail
+ADV100-083-negative_barcode_gap,ambiguous,ambiguous,Aedes albopictus,species,None,none,Aedes albopictus,species claim blocked: barcode gap fail
+ADV100-084-negative_barcode_gap,ambiguous,ambiguous,Aedes albopictus,species,None,none,Aedes albopictus,species claim blocked: barcode gap fail
+ADV100-085-negative_barcode_gap,ambiguous,ambiguous,Aedes albopictus,species,None,none,Aedes albopictus,species claim blocked: barcode gap fail
+ADV100-086-negative_barcode_gap,ambiguous,ambiguous,Aedes albopictus,species,None,none,Aedes albopictus,species claim blocked: barcode gap fail
+ADV100-087-negative_barcode_gap,ambiguous,ambiguous,Aedes albopictus,species,None,none,Aedes albopictus,species claim blocked: barcode gap fail
+ADV100-088-negative_barcode_gap,ambiguous,ambiguous,Aedes albopictus,species,None,none,Aedes albopictus,species claim blocked: barcode gap fail
+ADV100-089-negative_barcode_gap,ambiguous,ambiguous,Aedes albopictus,species,None,none,Aedes albopictus,species claim blocked: barcode gap fail
+ADV100-090-negative_barcode_gap,ambiguous,ambiguous,Aedes albopictus,species,None,none,Aedes albopictus,species claim blocked: barcode gap fail
+ADV100-091-missing_diagnostic_kmer,ambiguous,ambiguous,Aedes albopictus,species,None,none,Aedes albopictus,species claim blocked: diagnostic k-mer support missing
+ADV100-092-missing_diagnostic_kmer,ambiguous,ambiguous,Aedes albopictus,species,None,none,Aedes albopictus,species claim blocked: diagnostic k-mer support missing
+ADV100-093-missing_diagnostic_kmer,ambiguous,ambiguous,Aedes albopictus,species,None,none,Aedes albopictus,species claim blocked: diagnostic k-mer support missing
+ADV100-094-missing_diagnostic_kmer,ambiguous,ambiguous,Aedes albopictus,species,None,none,Aedes albopictus,species claim blocked: diagnostic k-mer support missing
+ADV100-095-missing_diagnostic_kmer,ambiguous,ambiguous,Aedes albopictus,species,None,none,Aedes albopictus,species claim blocked: diagnostic k-mer support missing
+ADV100-096-missing_diagnostic_kmer,ambiguous,ambiguous,Aedes albopictus,species,None,none,Aedes albopictus,species claim blocked: diagnostic k-mer support missing
+ADV100-097-missing_diagnostic_kmer,ambiguous,ambiguous,Aedes albopictus,species,None,none,Aedes albopictus,species claim blocked: diagnostic k-mer support missing
+ADV100-098-missing_diagnostic_kmer,ambiguous,ambiguous,Aedes albopictus,species,None,none,Aedes albopictus,species claim blocked: diagnostic k-mer support missing
+ADV100-099-missing_diagnostic_kmer,ambiguous,ambiguous,Aedes albopictus,species,None,none,Aedes albopictus,species claim blocked: diagnostic k-mer support missing
+ADV100-100-missing_diagnostic_kmer,ambiguous,ambiguous,Aedes albopictus,species,None,none,Aedes albopictus,species claim blocked: diagnostic k-mer support missing

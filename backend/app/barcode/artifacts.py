@@ -4,6 +4,7 @@ import csv
 import html
 import io
 import json
+import re
 from typing import Any
 
 
@@ -13,7 +14,9 @@ def build_barcode_artifacts(pack: dict[str, Any]) -> dict[str, str]:
         "run.json": json.dumps(pack["run"], indent=2, ensure_ascii=False),
         "reference_manifest.json": json.dumps(pack["reference_manifest"], indent=2, ensure_ascii=False),
         "source_provenance_manifest.json": json.dumps(pack.get("source_provenance", {}), indent=2, ensure_ascii=False),
+        "data_accounting_ledger.csv": table_csv(pack.get("data_accounting_ledger", [])),
         "sequence_safety_table.csv": sequence_safety_csv(pack),
+        "state_machine_audit.csv": state_machine_audit_csv(pack),
         "claim_boundaries.csv": claim_boundaries_csv(pack),
         "segment_overlap_report.csv": segment_overlap_report_csv(pack),
         "safe_taxonomic_assignments.csv": safe_assignments_csv(pack),
@@ -26,6 +29,7 @@ def build_barcode_artifacts(pack: dict[str, Any]) -> dict[str, str]:
         "repair_plan.csv": table_csv(pack.get("repair_plan", [])),
         "metadata_bottlenecks.csv": table_csv(pack.get("metadata_bottlenecks", [])),
         "reference_gap_index.csv": table_csv(pack.get("reference_gap_index", [])),
+        "reference_completeness_audit.csv": reference_completeness_audit_csv(pack),
         "marker_profile_audit.csv": marker_profile_audit_csv(pack),
         "assay_gate_audit.csv": assay_gate_audit_csv(pack),
         "dna_extension_readiness.csv": dna_extension_readiness_csv(pack),
@@ -62,6 +66,8 @@ def sequence_safety_csv(pack: dict[str, Any]) -> str:
                 "publicationStatus": record["publication_status"],
                 "publicationStage": record["publication_stage"],
                 "publicationBucket": record.get("publication_bucket"),
+                "exportState": record.get("export_state"),
+                "referenceCompletenessStatus": record.get("reference_completeness", {}).get("rci2_status"),
                 "markerProfile": record["metadata_readiness"]["marker_profile"]["profile_id"],
                 "assayType": record["metadata_readiness"]["assay_gate"]["assay_type"],
                 "candidateTaxon": record["candidate_taxon"]["name"],
@@ -81,18 +87,51 @@ def sequence_safety_csv(pack: dict[str, Any]) -> str:
     return write_csv(rows)
 
 
+def state_machine_audit_csv(pack: dict[str, Any]) -> str:
+    rows = []
+    for record in pack["records"]:
+        rows.append(
+            {
+                "sequenceID": record["sequence_id"],
+                "taxonomicStatus": record["taxonomic_status"],
+                "decisionClass": record["decision_class"],
+                "publicationStatus": record["publication_status"],
+                "publicationStage": record["publication_stage"],
+                "publicationBucket": record.get("publication_bucket"),
+                "exportState": record.get("export_state"),
+                "candidateTaxon": record["candidate_taxon"]["name"],
+                "candidateRank": record["candidate_taxon"]["rank"],
+                "publishedTaxon": record["published_taxon"]["name"],
+                "publishedRank": record["published_taxon"]["rank"],
+                "stateExplanation": export_state_explanation(record),
+            }
+        )
+    return write_csv(rows)
+
+
 def claim_boundaries_csv(pack: dict[str, Any]) -> str:
     rows = []
     for record in pack["records"]:
         boundary = record.get("claim_boundary", {})
+        evidence = boundary.get("evidence_fields", {})
         rows.append(
             {
                 "sequenceID": record["sequence_id"],
                 "decisionClass": record["decision_class"],
                 "publicationBucket": record.get("publication_bucket"),
+                "exportState": record.get("export_state"),
                 "supported": boundary.get("supported"),
                 "referenceContext": boundary.get("reference_context"),
                 "publication": boundary.get("publication"),
+                "topHit": evidence.get("top_hit"),
+                "competitorCount": evidence.get("competitor_count"),
+                "lcaSafeRank": evidence.get("lca_safe_rank"),
+                "barcodeGapStatus": evidence.get("barcode_gap_status"),
+                "barcodeGap": evidence.get("barcode_gap"),
+                "diagnosticKmerStatus": evidence.get("diagnostic_kmer_status"),
+                "diagnosticKmerSupport": evidence.get("diagnostic_kmer_support"),
+                "markerProfile": evidence.get("marker_profile"),
+                "rationale": boundary.get("evidence_rationale"),
                 "notSupported": "; ".join(boundary.get("not_supported", [])),
                 "boundaryText": boundary.get("boundary_text"),
             }
@@ -137,6 +176,8 @@ def safe_assignments_csv(pack: dict[str, Any]) -> str:
                 "acceptedScientificName": record["published_taxon"]["name"],
                 "taxonRank": record["published_taxon"]["rank"],
                 "decisionClass": record["decision_class"],
+                "profile_id": record["metadata_readiness"]["marker_profile"]["profile_id"],
+                "exportState": record.get("export_state"),
                 "basis": "deterministic identity/coverage, ambiguity LCA, barcode gap, diagnostic k-mer and GBIF metadata gates",
             }
         )
@@ -238,7 +279,117 @@ def blockers_csv(pack: dict[str, Any]) -> str:
     rows = []
     for record in pack["records"]:
         for blocker in record["blockers"]:
-            rows.append({"sequenceID": record["sequence_id"], "blocker": blocker})
+            rows.append({"sequenceID": record["sequence_id"], **structured_blocker(blocker, record)})
+    return write_csv(rows)
+
+
+def structured_blocker(blocker: str, record: dict[str, Any]) -> dict[str, Any]:
+    lowered = blocker.lower()
+    field = blocker_field(blocker)
+    if "occurrence core" in lowered:
+        kind = "occurrence_core"
+    elif "dna-derived" in lowered or "dna derived" in lowered:
+        kind = "dna_extension"
+    elif "dataset metadata" in lowered or "doi" in lowered or "publisher" in lowered:
+        kind = "dataset_metadata"
+    elif "assay gate" in lowered or "contamination" in lowered or "control" in lowered:
+        kind = "assay"
+    elif "reference" in lowered or "barcode gap" in lowered or "diagnostic k-mer" in lowered:
+        kind = "reference_or_molecular_qc"
+    elif "marker profile" in lowered or "identity" in lowered or "query coverage" in lowered or "scientificname conflicts" in lowered:
+        kind = "taxonomic"
+    else:
+        kind = "publication"
+    severity = "hard" if "blocked" in lowered or "species claim" in lowered else "review"
+    taxonomy_safe = record["taxonomic_status"] in {"species-safe", "genus-safe", "higher-rank-safe"}
+    if taxonomy_safe and kind in {"occurrence_core", "dna_extension", "dataset_metadata", "assay", "publication"}:
+        unlockable = "yes_after_repair"
+    elif kind in {"taxonomic", "reference_or_molecular_qc"}:
+        unlockable = "requires_new_molecular_or_reference_evidence"
+    else:
+        unlockable = "review"
+    return {
+        "blocker.kind": kind,
+        "severity": severity,
+        "field": field,
+        "blocker": blocker,
+        "action": best_action_for_blocker(blocker, record.get("actions", [])),
+        "unlockable": unlockable,
+        "taxonomicStatus": record["taxonomic_status"],
+        "publicationBucket": record.get("publication_bucket"),
+        "exportState": record.get("export_state"),
+    }
+
+
+def blocker_field(blocker: str) -> str:
+    patterns = [
+        r"field ([A-Za-z0-9_]+)",
+        r"query coverage",
+        r"identity",
+        r"barcode gap",
+        r"diagnostic k-mer",
+        r"marker profile",
+        r"reference search backend",
+    ]
+    for pattern in patterns:
+        match = re.search(pattern, blocker, flags=re.IGNORECASE)
+        if not match:
+            continue
+        if match.groups():
+            return match.group(1)
+        return pattern.replace(r"\-", "-").replace(" ", "_")
+    return ""
+
+
+def best_action_for_blocker(blocker: str, actions: list[str]) -> str:
+    lowered = blocker.lower()
+    for action in actions:
+        action_lower = action.lower()
+        if "occurrence core" in lowered and "darwin core" in action_lower:
+            return action
+        if "dna-derived" in lowered and "dna-derived" in action_lower:
+            return action
+        if "reference" in lowered and "reference" in action_lower:
+            return action
+        if "marker" in lowered and "marker" in action_lower:
+            return action
+        if "assay" in lowered and "assay" in action_lower:
+            return action
+    return actions[0] if actions else "Review the blocker and attach missing evidence before export."
+
+
+def export_state_explanation(record: dict[str, Any]) -> str:
+    state = record.get("export_state")
+    if state == "formal_gbif_ready":
+        return "Safe taxonomic decision plus dataset-level metadata gates; formal GBIF-ready export row is allowed."
+    if state == "dwc_template_ready":
+        return "Safe taxonomic decision with a non-empty published taxon; publishable template row is allowed, dataset metadata still needs review."
+    if state == "evidence_publishable_repair_required":
+        return "Taxonomic evidence is bounded as safe, but occurrence/DNA/assay metadata must be repaired before export."
+    if state == "review_only":
+        return "Record is retained as evidence context or expert review material, not an occurrence export row."
+    return "Record is blocked from publication export in this run."
+
+
+def reference_completeness_audit_csv(pack: dict[str, Any]) -> str:
+    rows = []
+    for record in pack["records"]:
+        completeness = record.get("reference_completeness", {})
+        rows.append(
+            {
+                "sequenceID": record["sequence_id"],
+                "status": completeness.get("status"),
+                "rci2Status": completeness.get("rci2_status"),
+                "referenceContext": completeness.get("reference_context"),
+                "closeRelativeCoverage": completeness.get("close_relative_coverage"),
+                "sequenceQuality": completeness.get("sequence_quality"),
+                "geographicCoverage": completeness.get("geographic_coverage"),
+                "perSpeciesDepth": completeness.get("per_species_depth"),
+                "taxonomicStability": completeness.get("taxonomic_stability"),
+                "candidateSpeciesInHitTable": completeness.get("candidate_species_in_hit_table"),
+                "claimScope": completeness.get("claim_scope"),
+            }
+        )
     return write_csv(rows)
 
 
@@ -423,13 +574,31 @@ def identification_remarks(record: dict[str, Any], pack: dict[str, Any]) -> str:
         f"identity={top.get('identity')} coverage={top.get('query_coverage')}; "
         f"candidate rank={record['candidate_taxon']['rank']}; "
         f"published rank={record['published_taxon']['rank']}; "
-        f"publication stage={record['publication_stage']}."
+        f"publication stage={record['publication_stage']}; "
+        f"export state={record.get('export_state')}."
     )
 
 
 def molecular_report_html(pack: dict[str, Any]) -> str:
     nexus = pack.get("nexus_v3", {})
     conversion = nexus.get("conversion_metrics", {})
+    ledger_rows = "\n".join(
+        f"<tr><td>{html.escape(str(row['metric']))}</td><td>{html.escape(str(row['value']))}</td>"
+        f"<td>{html.escape(str(row['denominator']))}</td><td>{html.escape(str(row.get('rate') if row.get('rate') is not None else '-'))}</td>"
+        f"<td>{html.escape(str(row['meaning']))}</td></tr>"
+        for row in pack.get("data_accounting_ledger", [])
+        if row.get("metric")
+        in {
+            "input_n",
+            "candidate_n",
+            "safe_n",
+            "publishable_candidate_n",
+            "gbif_ready_n",
+            "repair_required_n",
+            "blocked_top_species_claims_n",
+            "hard_gate_failures_n",
+        }
+    )
     repair_rows = "\n".join(
         f"<tr><td>{html.escape(row['repairAction'])}</td><td>{row['unlockableRecords']}</td><td>{html.escape(row['estimatedCost'])}</td><td>{html.escape(row['exampleRecords'])}</td></tr>"
         for row in pack.get("repair_plan", [])[:8]
@@ -492,6 +661,11 @@ def molecular_report_html(pack: dict[str, Any]) -> str:
     <div class="card"><strong>{conversion.get('RY_repairable_yield', 0)}</strong><br />repairable yield</div>
     <div class="card {'ok' if hard_gate_failures == 0 else 'warn'}"><strong>{hard_gate_failures}</strong><br />hard-gate failures</div>
   </section>
+  <h2>Data accounting ledger</h2>
+  <table>
+    <thead><tr><th>Metric</th><th>Value</th><th>Denominator</th><th>Rate</th><th>Meaning</th></tr></thead>
+    <tbody>{ledger_rows or '<tr><td colspan="5">No data accounting ledger was generated.</td></tr>'}</tbody>
+  </table>
   <h2>Top repair actions</h2>
   <table>
     <thead><tr><th>Repair action</th><th>Unlockable records</th><th>Cost</th><th>Examples</th></tr></thead>
@@ -557,9 +731,12 @@ The `repair_plan.csv` export ranks repair actions by unlockable record count. Me
 
 Nexus V3 audit files in this Evidence Pack add:
 
+- `data_accounting_ledger.csv` for explicit numerators and denominators;
+- `state_machine_audit.csv` for taxonomic status, publication bucket and export-state separation;
 - `hard_gate_audit.csv` for species-safe consistency checks;
 - `naive_top_hit_overclaims.csv` for overclaim prevention evidence;
 - `reference_gap_index.csv` for marker/reference bottlenecks;
+- `reference_completeness_audit.csv` for explicit RCI 2.0 status and reference-context caveats;
 - `marker_profile_audit.csv` for marker-specific gates and caveats;
 - `assay_gate_audit.csv` for qPCR/eDNA/control metadata status;
 - `dna_extension_readiness.csv` for GBIF DNA-derived high-priority fields;
@@ -609,7 +786,7 @@ def proof_by_failure_modes_md(pack: dict[str, Any]) -> str:
 
 The compiler blocks species-level claims when any required gate fails:
 
-- identity below 99% or coverage below 80%;
+- identity or coverage below the selected marker profile threshold;
 - statistically indistinguishable competitor collapses the safe taxon to genus or higher;
 - barcode gap is missing or non-positive;
 - diagnostic k-mer support is missing, zero or above the configured false-positive probability threshold;

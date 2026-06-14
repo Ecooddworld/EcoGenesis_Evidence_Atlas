@@ -5,13 +5,14 @@
 Run:
 
 ```bash
-PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python3.12 -m pytest backend/tests -q
+cd backend
+.venv/bin/pytest -q
 ```
 
 Expected current result:
 
 ```text
-52 passed, 1 skipped
+53 passed, 1 skipped
 ```
 
 Required barcode compiler coverage:
@@ -30,6 +31,8 @@ Required barcode compiler coverage:
 - `python-local` search backend is review-only and blocks GBIF-ready publication;
 - long-format hit tables with repeated `sequenceID` rows are grouped into one sequence record with multiple hits;
 - `/api/barcode/fragment-graph` returns segment-level coordinates, source monitor data, known annotation hints and claim boundaries.
+- `scientificName` conflicts with the molecular top hit block publication while preserving the molecular evidence state;
+- Evidence Pack exports include `data_accounting_ledger.csv`, `state_machine_audit.csv`, `reference_completeness_audit.csv`, structured `publication_blockers.csv`, graph-backed `claim_boundaries.csv` and `profile_id` in `safe_taxonomic_assignments.csv`.
 
 Legacy `/api/evidence/*` tests remain active to guarantee the occurrence-audit layer still works for live GBIF context and regression.
 
@@ -46,7 +49,7 @@ npm run build
 Expected current result:
 
 ```text
-10 frontend tests passed
+13 frontend tests passed
 production build passed
 ```
 
@@ -61,6 +64,7 @@ Required UI coverage:
 - Advanced JSON remains available for developer workflows.
 - `Math & proof` opens.
 - `Research audit` opens.
+- `Data accounting ledger` renders after a run and shows denominators for candidate, safe, publishable and formal GBIF-ready states.
 
 ## API Smoke
 
@@ -148,6 +152,22 @@ Expected:
 - Evidence Pack ZIP is valid;
 - required exports are present;
 - HTML report endpoint returns `200`.
+
+## Competition Batch Reports
+
+Current Docker-backed batch reports:
+
+- `reports/competition-100-sequences/competition_100_sequence_report.md`
+  - 100 records;
+  - 42 exports;
+  - expected decisions matched;
+  - hard-gate failures: `0`;
+  - 50 publishable candidates, 0 formal GBIF-ready rows.
+- `reports/adversarial-100-sequences/adversarial_100_sequence_report.md`
+  - 100 adversarial records across no-match, weak, ambiguity, metadata, assay, name-conflict, custom-marker and missing-evidence cases;
+  - expected decisions matched;
+  - hard-gate failures: `0`;
+  - false species-safe outside positive controls: `0`.
 
 Generated outputs:
 

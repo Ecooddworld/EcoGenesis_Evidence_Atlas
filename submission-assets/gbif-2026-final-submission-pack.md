@@ -14,7 +14,7 @@ One-liner:
 
 > A deterministic workflow that turns DNA barcode, metabarcoding and Sequence ID-style outputs into safe, rank-aware and GBIF-ready molecular occurrence evidence.
 
-Current architecture: **EcoGenesis Nexus V3**. The working compiler now exports hard-gate audit, prevented naive top-hit overclaims, reference gap index, metadata bottlenecks, repair plan and split GBIF-ready/review templates.
+Current architecture: **EcoGenesis Nexus V3**. The working compiler now exports hard-gate audit, prevented naive top-hit overclaims, data accounting ledger, state-machine audit, reference completeness audit, reference gap index, metadata bottlenecks, repair plan and split publishable-candidate / formal GBIF-ready / review templates.
 
 ## What To Submit
 
@@ -64,23 +64,25 @@ examples/aedes_weak_coverage.csv     -> weak
 
 ## Final Verification Status
 
-Latest local verification on 2026-06-02:
+Latest local verification on 2026-06-14:
 
 ```text
-backend pytest: 35 passed, 1 skipped
-frontend tests: 5 passed
+backend pytest: 53 passed, 1 skipped
+frontend tests: 13 passed
 frontend build: passed
-GBIF API status: ok
-CSV run good case: species_safe_records=1
-Nexus V3 audit: hard_gate_failures=0
-Browser smoke: Nexus V3 audit visible, console errors=0
+Docker compose build/up: passed
+Docker backend health: ok
+Docker frontend HTTP: 200
+Competition 100-sequence API run: expected decisions matched, hard_gate_failures=0, exports=42
+Adversarial 100-sequence stress run: expected decisions matched, false species-safe outside positive controls=0
+Operability report: pass
 ```
 
 Before final submission, re-run the commands in `submission-assets/final-submission-checklist.md` on the release commit.
 
 ## Remaining Manual Items
 
-- Make repository public.
+- Keep repository private unless the final contest submission requires public source; otherwise add judge access or provide the approved private source/docs links.
 - Fill team/member details.
 - Upload the final CSV Upload -> Score demo video from `submission-assets/barcode-video/video/ecogenesis-barcode-to-gbif-english-voice-ru-subs.mp4`.
 - Replace TODO video URL in `submission-assets/gbif-entry-form-draft.md`.

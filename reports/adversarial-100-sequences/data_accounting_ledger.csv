@@ -1,0 +1,13 @@
+metric,value,denominator,rate,unit,layer,meaning
+input_n,100,100,1.0,sequence_records,input,Records received by the Barcode-to-GBIF compiler.
+downloaded_n,not_applicable,occurrence_audit_only,,sequence_records,input,No GBIF occurrence download happens inside this compiler run.
+deduped_n,not_applicable,occurrence_audit_only,,sequence_records,input,Deduplication belongs to the separate GBIF occurrence audit layer.
+eligible_n,100,100,1.0,sequence_records,compiler,Records that reached deterministic gate evaluation.
+candidate_n,90,100,0.9,sequence_records,taxonomy,Records with at least one supplied reference hit.
+safe_n,30,100,0.3,sequence_records,taxonomy,Records safe at species/genus/higher-rank level.
+publishable_candidate_n,30,100,0.3,sequence_records,publication,Safe records emitted into publishable review templates but not formal GBIF-ready.
+gbif_ready_n,0,100,0.0,sequence_records,publication,Records that passed dataset-level metadata checks for formal GBIF-ready export.
+repair_required_n,70,100,0.7,sequence_records,publication,"Records blocked by molecular, occurrence, assay, backend or metadata gates."
+review_only_n,0,100,0.0,sequence_records,publication,Evidence retained for review but not exportable as occurrence rows.
+blocked_top_species_claims_n,80,90,0.888889,sequence_records,safety,Species-ranked top hits that were blocked or downgraded by fail-closed gates.
+hard_gate_failures_n,0,10,0.0,sequence_records,safety,Species-safe records with any failed hard gate; must remain zero.
