@@ -1,0 +1,113 @@
+dag_version: GSIG-OBS-DAG-1.0
+execution_modes:
+- offline_demo
+- cached_snapshot
+- live_update_review_queue
+global_guardrails:
+- No live response is treated as verified evidence until snapshot_hash and provenance_hash
+  are computed.
+- No visualization can upgrade a claim state.
+- No AI output can overwrite a verified graph fact.
+- Large GBIF queries use download jobs rather than aggressive paged API loops.
+- Every export preserves claim_state, caveats and ruleset_hash.
+steps:
+- id: source_select
+  module: src/observatory/source_registry.py
+  inputs:
+  - source_registry.yaml
+  outputs:
+  - selected_sources.json
+  validations:
+  - source_license_present
+  - source_rate_policy_present
+- id: snapshot_fetch
+  module: src/observatory/fetch_snapshots.py
+  inputs:
+  - selected_sources.json
+  outputs:
+  - raw_snapshots/*.jsonl
+  - snapshot_manifest.json
+  validations:
+  - snapshot_hash_present
+  - api_policy_logged
+- id: dwca_parse
+  module: src/observatory/parse_dwca.py
+  inputs:
+  - raw_snapshots/*.zip
+  outputs:
+  - occurrence_core.parquet
+  - dna_extension.parquet
+  - eml_manifest.json
+  validations:
+  - occurrence_id_joinable
+  - dna_extension_schema_valid
+- id: normalize
+  module: src/normalize/normalize_observatory_records.py
+  inputs:
+  - occurrence_core.parquet
+  - dna_extension.parquet
+  outputs:
+  - normalized_records.parquet
+  validations:
+  - taxon_backbone_candidate_logged
+  - coordinate_uncertainty_logged
+- id: segmentize
+  module: src/segments/build_segment_catalog.py
+  inputs:
+  - normalized_records.parquet
+  outputs:
+  - segment_catalog.parquet
+  - segment_hash_audit.csv
+  validations:
+  - canonical_hash_deterministic
+  - reverse_complement_policy_logged
+- id: compute_evidence
+  module: src/evidence/run_gseg_gates.py
+  inputs:
+  - segment_catalog.parquet
+  - reference_manifest.json
+  outputs:
+  - vsea.parquet
+  - hard_gate_audit.csv
+  - claim_boundaries.csv
+  validations:
+  - hard_gate_failures_zero
+  - species_overclaim_zero
+- id: graph_build
+  module: src/graph/build_observatory_graph.py
+  inputs:
+  - vsea.parquet
+  - annotation_overlay.parquet
+  - literature_claims.parquet
+  outputs:
+  - evidence_graph.json
+  - evidence_graph.jsonld
+  - graph_provenance_audit.csv
+  validations:
+  - all_nodes_have_provenance
+  - claim_states_preserved
+- id: visual_index
+  module: src/ui/build_visual_index.py
+  inputs:
+  - evidence_graph.json
+  - vsea.parquet
+  outputs:
+  - visual_index.duckdb
+  - tile_index.json
+  validations:
+  - visualization_read_only
+  - blocked_claims_visible
+- id: export_pack
+  module: src/exports/export_observatory_pack.py
+  inputs:
+  - vsea.parquet
+  - evidence_graph.json
+  - graph_provenance_audit.csv
+  outputs:
+  - observatory_evidence_pack.zip
+  - gbif_occurrence_export.csv
+  - dna_extension_export.csv
+  - ai_ready_dataset.parquet
+  validations:
+  - export_claim_states_preserved
+  - ai_labels_separated_from_hypotheses

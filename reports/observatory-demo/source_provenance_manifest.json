@@ -1,0 +1,20 @@
+{
+  "schema": "ecogenesis.gsig.observatory.source_provenance.v1",
+  "sources": [
+    {
+      "source_id": "gbif_occurrence_api",
+      "status": "snapshot_captured",
+      "snapshot_id": "gbif-aedes-spain-30dc62b4a7bd",
+      "snapshot_hash": "30dc62b4a7bdfacae821ea329c1240b9c4b659d152019db7252db46ca92b31bb",
+      "claim_boundary": "Occurrence context only."
+    },
+    {
+      "source_id": "project_user_uploads",
+      "status": "barcode_pack_compiled",
+      "barcode_run_id": "bd7d4d30d3374bc793e6b589078adad6",
+      "request_fingerprint": "463387c1727e1d4c8152dcb1647c7e63f74d17eeabe89995a7e3470b92e31e06",
+      "claim_boundary": "Molecular barcode/GSEG gates define taxon support."
+    }
+  ],
+  "registry_version": "GSIG-OBS-SOURCES-1.0"
+}

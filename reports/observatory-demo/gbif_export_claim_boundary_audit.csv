@@ -1,0 +1,5 @@
+occurrenceID,claim_state,export_allowed,gbif_context_promotes_claim,status
+urn:ecogenesis:observatory:AALB-COI-good,taxon_supported,True,False,pass
+urn:ecogenesis:observatory:AALB-COI-ambiguous,taxon_supported,True,False,pass
+urn:ecogenesis:observatory:AALB-COI-short,weak_hypothesis,False,False,pass
+urn:ecogenesis:observatory:AALB-COI-metadata-gap,taxon_supported,False,False,pass

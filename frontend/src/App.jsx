@@ -8,9 +8,13 @@ import {
   getBarcodeReferenceDatasets,
   getBarcodeSearchStatus,
   getBarcodeRun,
+  getObservatoryRun,
+  getObservatorySources,
+  getObservatoryStatus,
   importBarcodeCsv,
   runBarcodeCompiler,
   runBarcodeCsv,
+  runObservatoryDemo,
   runBarcodeReferenceSearch,
   uploadBarcodeReferenceDataset,
 } from './api.js';
@@ -47,6 +51,7 @@ const defaultReferenceSearchSequence = 'ACGTTGACCTAGGCTTACGATCGTACCGATGCTAGCTAGG
 const modeLabels = {
   overview: 'Judge overview',
   workbench: 'Run compiler',
+  observatory: 'Observatory',
   fragmentGraph: 'Fragment graph',
   lecture: 'Visual lecture',
   research: 'Research audit',
@@ -63,6 +68,7 @@ const lectureAnchorIds = new Set([
 
 function modeFromLocationHash(hash) {
   const anchorId = String(hash || '').replace(/^#/, '');
+  if (anchorId === 'observatory' || anchorId === 'gsig-observatory') return 'observatory';
   return lectureAnchorIds.has(anchorId) ? 'lecture' : 'overview';
 }
 
@@ -1800,6 +1806,12 @@ function App() {
   const [selectedFragmentDataset, setSelectedFragmentDataset] = useState('ncbi_aedes_coi_small');
   const [fragmentGraph, setFragmentGraph] = useState(null);
   const [fragmentGraphLoading, setFragmentGraphLoading] = useState(false);
+  const [observatoryStatus, setObservatoryStatus] = useState(null);
+  const [observatorySources, setObservatorySources] = useState(null);
+  const [observatoryRun, setObservatoryRun] = useState(null);
+  const [observatoryLoading, setObservatoryLoading] = useState(false);
+  const [observatoryError, setObservatoryError] = useState('');
+  const [observatoryScreen, setObservatoryScreen] = useState('home');
 
   useEffect(() => {
     if (typeof window === 'undefined') return undefined;
@@ -1843,6 +1855,31 @@ function App() {
       })
       .catch((err) => {
         if (mounted) setError(err.message || 'Could not load compiler defaults');
+      });
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    let mounted = true;
+    Promise.all([getObservatoryStatus(), getObservatorySources()])
+      .then(([status, sources]) => {
+        if (!mounted) return;
+        setObservatoryStatus(status);
+        setObservatorySources(sources);
+        if (status.latest_run?.run_id) {
+          getObservatoryRun(status.latest_run.run_id)
+            .then((detail) => {
+              if (mounted) setObservatoryRun(detail);
+            })
+            .catch(() => {
+              if (mounted) setObservatoryRun(null);
+            });
+        }
+      })
+      .catch((err) => {
+        if (mounted) setObservatoryError(err.message || 'Observatory status unavailable');
       });
     return () => {
       mounted = false;
@@ -1999,6 +2036,36 @@ function App() {
     }
   }
 
+  async function runObservatory(modeOverride = 'live_gbif_small') {
+    setObservatoryLoading(true);
+    setObservatoryError('');
+    try {
+      const created = await runObservatoryDemo({
+        mode: modeOverride,
+        taxon: 'Aedes albopictus',
+        taxon_key: 1651430,
+        bbox: [-9.5, 35.5, 4.5, 44.5],
+        limit: 50,
+      });
+      const detail = await getObservatoryRun(created.run_id);
+      setObservatoryRun(detail);
+      setObservatoryStatus((current) => ({
+        ...(current || {}),
+        latest_run: {
+          run_id: detail.run.run_id,
+          summary: detail.summary,
+          exports: detail.exports,
+        },
+      }));
+      setMode('observatory');
+      setObservatoryScreen('home');
+    } catch (err) {
+      setObservatoryError(err.message || 'Observatory run failed');
+    } finally {
+      setObservatoryLoading(false);
+    }
+  }
+
   return (
     <main className="app-shell">
       <header className="topbar">
@@ -2032,6 +2099,18 @@ function App() {
         />
       ) : mode === 'lecture' ? (
         <VisualLecture />
+      ) : mode === 'observatory' ? (
+        <ObservatoryPanel
+          status={observatoryStatus}
+          sources={observatorySources}
+          run={observatoryRun}
+          loading={observatoryLoading}
+          error={observatoryError}
+          screen={observatoryScreen}
+          setScreen={setObservatoryScreen}
+          onRunLive={() => runObservatory('live_gbif_small')}
+          onRunOffline={() => runObservatory('offline_demo')}
+        />
       ) : mode === 'fragmentGraph' ? (
         <FragmentGraphExplorer
           searchStatus={searchStatus}
@@ -2090,6 +2169,242 @@ function App() {
         />
       )}
     </main>
+  );
+}
+
+function ObservatoryPanel({ status, sources, run, loading, error, screen, setScreen, onRunLive, onRunOffline }) {
+  const summary = run?.summary || status?.latest_run?.summary || {};
+  const exports = run?.exports || status?.latest_run?.exports || [];
+  const vseaRows = run?.vsea || [];
+  const proofRows = run?.proof_summary?.rows || [];
+  const sourceRows = sources?.sources || [];
+  const auditRows = run?.audit_artifacts || {};
+  const judgeNonClaimAudit = auditRows.judge_mode_non_claims_audit || auditRows['judge_mode_non_claims_audit.csv'];
+  const evidencePack = exports.find((item) => item.name === 'observatory_evidence_pack.zip');
+  const screenTabs = [
+    ['home', 'Overview'],
+    ['sources', 'Sources'],
+    ['vsea', 'VSEA'],
+    ['graph', 'Graph'],
+    ['exports', 'Exports'],
+    ['judge', 'Judge'],
+  ];
+  const claimStates = summary.claim_states || {};
+  const proofPass = summary.hard_gate_status === 'pass';
+
+  return (
+    <section className="page-grid observatory-page" id="observatory">
+      <div className="hero-panel observatory-hero">
+        <div>
+          <p className="eyebrow">GSIG Observatory</p>
+          <h2>Source snapshots, molecular segments and claim boundaries in one evidence graph.</h2>
+          <p>
+            The Observatory layer shows why the current Aedes Spain analysis works: GBIF supplies hashed occurrence context,
+            the barcode compiler supplies molecular gates, and every export preserves the graph claim state.
+          </p>
+          <div className="hero-actions">
+            <button className="primary" onClick={onRunLive} disabled={loading}>
+              {loading ? 'Running...' : 'Run live Aedes Spain'}
+            </button>
+            <button onClick={onRunOffline} disabled={loading}>Run reproducible demo</button>
+            {evidencePack && <a className="button-link" href={exportUrl(evidencePack.url)}>Download Observatory Pack</a>}
+          </div>
+        </div>
+        <div className={`verdict-card ${proofPass ? 'observatory-pass' : 'observatory-waiting'}`}>
+          <span>Release gate</span>
+          <strong>{run ? `Hard gates ${summary.hard_gate_status}` : status?.status || 'Waiting for run'}</strong>
+          <small>{run ? run.snapshot_manifest?.snapshot_id : status?.default_demo?.claim_boundary}</small>
+        </div>
+      </div>
+
+      {error && <div className="alert">{error}</div>}
+
+      <section className="panel observatory-flow-panel">
+        <div className="panel-heading-row">
+          <div>
+            <p className="section-label">Why the analysis is valid</p>
+            <h2>Nothing is trusted until it is hashed, gated and exported with caveats.</h2>
+          </div>
+          <span className={`status-pill ${proofPass ? 'supported' : 'requires-verification'}`}>
+            {run ? summary.hard_gate_status : 'ready'}
+          </span>
+        </div>
+        <div className="observatory-flow">
+          {[
+            ['1', 'GBIF snapshot', run?.snapshot_manifest?.snapshot_hash?.slice(0, 12) || 'pending'],
+            ['2', 'Normalize context', `${summary.normalized_occurrence_records ?? 0} rows`],
+            ['3', 'Build VSEA', `${summary.vsea_rows ?? 0} segment claims`],
+            ['4', 'Graph proof', `${summary.graph_nodes ?? 0} nodes`],
+            ['5', 'Guard exports', `${proofRows.length || 20} OPO checks`],
+          ].map(([step, label, value]) => (
+            <article key={label} className="observatory-flow-step">
+              <span>{step}</span>
+              <strong>{label}</strong>
+              <small>{value}</small>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="panel">
+        <div className="observatory-tabs" role="tablist" aria-label="Observatory screens">
+          {screenTabs.map(([id, label]) => (
+            <button key={id} className={screen === id ? 'active' : ''} onClick={() => setScreen(id)} type="button">
+              {label}
+            </button>
+          ))}
+        </div>
+
+        {screen === 'home' && (
+          <div className="observatory-screen">
+            <div className="metric-grid">
+              {[
+                ['Occurrence rows', summary.normalized_occurrence_records ?? 0],
+                ['Segments', summary.segments ?? 0],
+                ['VSEA rows', summary.vsea_rows ?? 0],
+                ['Graph edges', summary.graph_edges ?? 0],
+              ].map(([label, value]) => (
+                <div className="metric-card" key={label}>
+                  <span>{label}</span>
+                  <strong>{value}</strong>
+                </div>
+              ))}
+            </div>
+            <div className="claim-state-grid">
+              {Object.entries(claimStates).map(([state, count]) => (
+                <article key={state} className="claim-state-card">
+                  <span className={`pill ${state}`}>{state}</span>
+                  <strong>{count}</strong>
+                  <p>{state === 'taxon_supported' ? 'Molecular gates support the safe rank.' : 'Visible in judge mode and excluded from verified-positive labels.'}</p>
+                </article>
+              ))}
+              {!Object.keys(claimStates).length && (
+                <article className="claim-state-card">
+                  <span className="pill weak">no run</span>
+                  <strong>0</strong>
+                  <p>Run the live or reproducible demo to fill the Observatory ledger.</p>
+                </article>
+              )}
+            </div>
+          </div>
+        )}
+
+        {screen === 'sources' && (
+          <div className="observatory-source-grid">
+            {sourceRows.map((source) => (
+              <article key={source.source_id} className="observatory-source-card">
+                <span className={`source-status ${source.status}`}>{source.status}</span>
+                <h3>{source.name}</h3>
+                <p>{source.evidence_role}</p>
+                <dl>
+                  <div><dt>Allowed</dt><dd>{source.allowed_claims?.join(', ')}</dd></div>
+                  <div><dt>Blocked</dt><dd>{source.blocked_claims?.join(', ')}</dd></div>
+                </dl>
+              </article>
+            ))}
+          </div>
+        )}
+
+        {screen === 'vsea' && (
+          <div className="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Segment</th>
+                  <th>Target</th>
+                  <th>Claim state</th>
+                  <th>GBIF export</th>
+                  <th>Boundary</th>
+                </tr>
+              </thead>
+              <tbody>
+                {vseaRows.slice(0, 12).map((row) => (
+                  <tr key={row.vsea_id}>
+                    <td>{row.sequence_id}</td>
+                    <td>{row.target_label} · {row.safe_rank}</td>
+                    <td><span className={`pill ${row.claim_state}`}>{row.claim_state}</span></td>
+                    <td>{row.gbif_export_state}</td>
+                    <td>{row.context_claim_boundary}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        {screen === 'graph' && (
+          <div className="observatory-graph-grid">
+            <div className="observatory-graph-canvas" aria-label="Observatory evidence graph">
+              {['Source', 'Snapshot', 'VSEA', 'Claim', 'Export'].map((node, index) => (
+                <div key={node} className={`graph-node graph-node-${index + 1}`}>
+                  <strong>{node}</strong>
+                  <span>{index === 1 ? run?.snapshot_manifest?.source_mode || 'fixture/live' : 'provenance hash'}</span>
+                </div>
+              ))}
+            </div>
+            <div className="observatory-proof-list">
+              <h3>Graph guarantees</h3>
+              {[
+                'GBIF context cannot promote claim_state',
+                'Blocked and weak rows remain visible',
+                'AI labels preserve positive versus hypothesis boundaries',
+                'Exports carry ruleset and provenance hashes',
+              ].map((item) => <p key={item}>{item}</p>)}
+            </div>
+          </div>
+        )}
+
+        {screen === 'exports' && (
+          <div className="export-grid observatory-export-grid">
+            {exports
+              .filter((item) => [
+                'observatory_evidence_pack.zip',
+                'observatory_report.md',
+                'snapshot_manifest.json',
+                'observatory_vsea.parquet',
+                'observatory_graph.jsonld',
+                'gbif_export_preview.csv',
+                'ai_ready_dataset.jsonl',
+                'proof_summary.json',
+              ].includes(item.name))
+              .map((item) => (
+                <a key={item.name} href={exportUrl(item.url)}>{item.name}</a>
+              ))}
+          </div>
+        )}
+
+        {screen === 'judge' && (
+          <div className="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>OPO</th>
+                  <th>Severity</th>
+                  <th>Status</th>
+                  <th>Artifact</th>
+                </tr>
+              </thead>
+              <tbody>
+                {proofRows.map((row) => (
+                  <tr key={row.id}>
+                    <td>{row.id}</td>
+                    <td>{row.severity}</td>
+                    <td><span className={`pill ${row.status}`}>{row.status}</span></td>
+                    <td>{row.artifact}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {judgeNonClaimAudit?.[0] && (
+              <p className="observatory-judge-note">
+                Planned sources visible: {judgeNonClaimAudit[0].planned_sources_visible}.
+                Roadmap items are labeled no-claim and do not enter verified exports.
+              </p>
+            )}
+          </div>
+        )}
+      </section>
+    </section>
   );
 }
 

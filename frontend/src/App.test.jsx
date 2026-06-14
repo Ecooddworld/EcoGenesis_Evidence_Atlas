@@ -415,6 +415,110 @@ const uploadedReferencePayload = {
   ],
 };
 
+const observatoryStatus = {
+  status: 'ready',
+  default_demo: {
+    claim_boundary: 'GBIF occurrence records provide context only; molecular claims come from barcode/GSEG gates.',
+  },
+  latest_run: null,
+};
+
+const observatorySources = {
+  registry_version: 'GSIG-OBS-SOURCES-1.0',
+  audit: { status: 'pass' },
+  sources: [
+    {
+      source_id: 'gbif_occurrence_api',
+      name: 'GBIF Occurrence API and Download API',
+      status: 'mvp_integration',
+      evidence_role: 'occurrence/sample/geography/context; not molecular proof by itself',
+      allowed_claims: ['occurrence_context', 'dataset_context'],
+      blocked_claims: ['species_truth_from_occurrence_without_molecular_gate'],
+    },
+    {
+      source_id: 'project_user_uploads',
+      name: 'User supplied barcode result tables',
+      status: 'existing_foundation',
+      evidence_role: 'molecular evidence after deterministic gates',
+      allowed_claims: ['taxon_supported'],
+      blocked_claims: ['phenotype_truth'],
+    },
+  ],
+};
+
+const observatoryCreated = {
+  run_id: 'obs123',
+  status: 'completed',
+  summary: {
+    taxon: 'Aedes albopictus',
+    mode: 'live_gbif_small',
+    source_mode: 'fixture_fallback',
+    fallback_used: true,
+    normalized_occurrence_records: 12,
+    segments: 4,
+    vsea_rows: 4,
+    claim_states: { taxon_supported: 3, weak_hypothesis: 1 },
+    gbif_export_states: { candidate_gbif_row: 2, excluded_or_repair_required: 2 },
+    graph_nodes: 14,
+    graph_edges: 17,
+    hard_gate_status: 'pass',
+    hard_gate_failures: 0,
+  },
+  exports: [
+    'observatory_evidence_pack.zip',
+    'observatory_report.md',
+    'snapshot_manifest.json',
+    'observatory_vsea.parquet',
+    'observatory_graph.jsonld',
+    'gbif_export_preview.csv',
+    'ai_ready_dataset.jsonl',
+    'proof_summary.json',
+  ].map((name) => ({ name, url: `/api/observatory/runs/obs123/exports/${name}` })),
+};
+
+const observatoryRunDetail = {
+  run: { run_id: 'obs123', mode: 'live_gbif_small', ruleset_version: 'GSIG-OBS-1.0+barcode-gbif-compiler-v2' },
+  summary: observatoryCreated.summary,
+  snapshot_manifest: {
+    snapshot_id: 'gbif-aedes-spain-abc123',
+    snapshot_hash: 'abc123def4567890',
+    source_mode: 'fixture_fallback',
+  },
+  vsea: [
+    {
+      vsea_id: 'obs-vsea:AALB-COI-good:1',
+      sequence_id: 'AALB-COI-good',
+      segment_id: 'segment:AALB-COI-good:1-650',
+      target_label: 'Aedes albopictus',
+      safe_rank: 'species',
+      claim_state: 'taxon_supported',
+      gbif_export_state: 'candidate_gbif_row',
+      context_claim_boundary: 'GBIF context is linked after hashing; it does not promote claim_state.',
+    },
+    {
+      vsea_id: 'obs-vsea:AALB-COI-short:2',
+      sequence_id: 'AALB-COI-short',
+      segment_id: 'segment:AALB-COI-short:1-650',
+      target_label: 'Aedes albopictus',
+      safe_rank: 'none',
+      claim_state: 'weak_hypothesis',
+      gbif_export_state: 'excluded_or_repair_required',
+      context_claim_boundary: 'GBIF context is linked after hashing; it does not promote claim_state.',
+    },
+  ],
+  proof_summary: {
+    rows: [
+      { id: 'OPO-01', severity: 'hard_gate', status: 'pass', artifact: 'source_registry_audit.json' },
+      { id: 'OPO-07', severity: 'hard_gate', status: 'pass', artifact: 'visualization_guardrail_audit.csv' },
+      { id: 'OPO-20', severity: 'hard_gate', status: 'pass', artifact: 'judge_mode_non_claims_audit.csv' },
+    ],
+  },
+  audit_artifacts: {
+    judge_mode_non_claims_audit: [{ planned_sources_visible: 5 }],
+  },
+  exports: observatoryCreated.exports,
+};
+
 afterEach(() => {
   cleanup();
   window.history.pushState({}, '', '/');
@@ -950,5 +1054,57 @@ describe('Barcode compiler UI', () => {
     expect(screen.getByText('Risk heatmap')).toBeInTheDocument();
     expect(screen.getByText('theory_claims_100.csv')).toBeInTheDocument();
     expect(screen.getByText('The next winning step is fragment-level evidence, not another abstract score.')).toBeInTheDocument();
+  });
+
+  it('runs the GSIG Observatory layer and exposes the contest proof screens', async () => {
+    vi.spyOn(globalThis, 'fetch').mockImplementation((url, options) => {
+      const textUrl = String(url);
+      if (textUrl.endsWith('/api/barcode/demo-scenarios')) {
+        return Promise.resolve(new Response(JSON.stringify(demoScenarios), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/reference-status')) {
+        return Promise.resolve(new Response(JSON.stringify({ status: 'ready', message: 'Compiler ready.' }), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/search-status')) {
+        return Promise.resolve(new Response(JSON.stringify(searchStatus), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/reference-datasets')) {
+        return Promise.resolve(new Response(JSON.stringify(referenceDatasets), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/observatory/status')) {
+        return Promise.resolve(new Response(JSON.stringify(observatoryStatus), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/observatory/sources')) {
+        return Promise.resolve(new Response(JSON.stringify(observatorySources), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/observatory/run-demo') && options?.method === 'POST') {
+        return Promise.resolve(new Response(JSON.stringify(observatoryCreated), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/observatory/runs/obs123')) {
+        return Promise.resolve(new Response(JSON.stringify(observatoryRunDetail), { status: 200 }));
+      }
+      return Promise.resolve(new Response('{}', { status: 404 }));
+    });
+
+    render(<App />);
+    fireEvent.click(await screen.findByText('Observatory'));
+
+    expect(screen.getByText('GSIG Observatory')).toBeInTheDocument();
+    expect(screen.getByText('Source snapshots, molecular segments and claim boundaries in one evidence graph.')).toBeInTheDocument();
+    fireEvent.click(screen.getByText('Run live Aedes Spain'));
+
+    await waitFor(() => expect(screen.getByText('Hard gates pass')).toBeInTheDocument());
+    expect(screen.getByText('Download Observatory Pack')).toBeInTheDocument();
+    expect(screen.getByText('GBIF snapshot')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByText('VSEA'));
+    expect(screen.getByText('AALB-COI-good')).toBeInTheDocument();
+    expect(screen.getByText('taxon_supported')).toBeInTheDocument();
+    expect(screen.getByText('weak_hypothesis')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByText('Judge'));
+    expect(screen.getByText('OPO-01')).toBeInTheDocument();
+    expect(screen.getByText('visualization_guardrail_audit.csv')).toBeInTheDocument();
+    expect(screen.getByText(/Planned sources visible: 5/)).toBeInTheDocument();
   });
 });

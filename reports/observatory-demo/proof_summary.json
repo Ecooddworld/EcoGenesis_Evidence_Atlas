@@ -1,0 +1,188 @@
+{
+  "proof_obligation_set": "GSIG-Observatory-OPO-v1",
+  "total": 20,
+  "hard_gate_failures": 0,
+  "hard_gate_status": "pass",
+  "rows": [
+    {
+      "id": "OPO-01",
+      "name": "Every automated source has license and rate-limit policy",
+      "artifact": "source_registry_audit.json",
+      "severity": "hard_gate",
+      "status": "pass",
+      "release_blocking": false,
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    },
+    {
+      "id": "OPO-02",
+      "name": "Live data are snapshots before evidence use",
+      "artifact": "snapshot_manifest.json",
+      "severity": "hard_gate",
+      "status": "pass",
+      "release_blocking": false,
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    },
+    {
+      "id": "OPO-03",
+      "name": "No website scraping of GBIF public pages",
+      "artifact": "api_policy_audit.csv",
+      "severity": "hard_gate",
+      "status": "pass",
+      "release_blocking": false,
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    },
+    {
+      "id": "OPO-04",
+      "name": "GBIF large queries use download strategy",
+      "artifact": "gbif_query_strategy_audit.csv",
+      "severity": "review_gate",
+      "status": "pass",
+      "release_blocking": false,
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    },
+    {
+      "id": "OPO-05",
+      "name": "Every source record joins to provenance",
+      "artifact": "source_provenance_manifest.json",
+      "severity": "hard_gate",
+      "status": "pass",
+      "release_blocking": false,
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    },
+    {
+      "id": "OPO-06",
+      "name": "VSEA rows preserve source snapshot identity",
+      "artifact": "vsea_provenance_audit.csv",
+      "severity": "review_gate",
+      "status": "pass",
+      "release_blocking": false,
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    },
+    {
+      "id": "OPO-07",
+      "name": "Visualization cannot upgrade claim states",
+      "artifact": "visualization_guardrail_audit.csv",
+      "severity": "hard_gate",
+      "status": "pass",
+      "release_blocking": false,
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    },
+    {
+      "id": "OPO-08",
+      "name": "Blocked claims remain visible in UI filters",
+      "artifact": "blocked_claim_visibility_audit.csv",
+      "severity": "review_gate",
+      "status": "pass",
+      "release_blocking": false,
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    },
+    {
+      "id": "OPO-09",
+      "name": "Shared segments cannot be shown as species-specific",
+      "artifact": "sharedness_visual_overclaim_audit.csv",
+      "severity": "hard_gate",
+      "status": "pass",
+      "release_blocking": false,
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    },
+    {
+      "id": "OPO-10",
+      "name": "AI-ready exports separate verified labels and hypotheses",
+      "artifact": "ai_dataset_export_audit.csv",
+      "severity": "hard_gate",
+      "status": "pass",
+      "release_blocking": false,
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    },
+    {
+      "id": "OPO-11",
+      "name": "Literature links are evidence objects, not truth objects",
+      "artifact": "literature_claim_state_audit.csv",
+      "severity": "review_gate",
+      "status": "pass",
+      "release_blocking": false,
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    },
+    {
+      "id": "OPO-12",
+      "name": "Trait/function panels preserve contradiction status",
+      "artifact": "contradiction_visual_audit.csv",
+      "severity": "review_gate",
+      "status": "pass",
+      "release_blocking": false,
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    },
+    {
+      "id": "OPO-13",
+      "name": "GBIF export only uses bounded safe taxon",
+      "artifact": "gbif_export_claim_boundary_audit.csv",
+      "severity": "hard_gate",
+      "status": "pass",
+      "release_blocking": false,
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    },
+    {
+      "id": "OPO-14",
+      "name": "Repair optimizer cannot upgrade biological claims by metadata alone",
+      "artifact": "repair_optimizer_guardrail_audit.csv",
+      "severity": "hard_gate",
+      "status": "pass",
+      "release_blocking": false,
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    },
+    {
+      "id": "OPO-15",
+      "name": "Offline demo is reproducible without external APIs",
+      "artifact": "offline_demo_reproducibility.json",
+      "severity": "hard_gate",
+      "status": "pass",
+      "release_blocking": false,
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    },
+    {
+      "id": "OPO-16",
+      "name": "Every UI count matches data accounting ledger",
+      "artifact": "ui_ledger_consistency_audit.csv",
+      "severity": "review_gate",
+      "status": "pass",
+      "release_blocking": false,
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    },
+    {
+      "id": "OPO-17",
+      "name": "Graph import/export roundtrip preserves claim states",
+      "artifact": "graph_roundtrip_audit.csv",
+      "severity": "hard_gate",
+      "status": "pass",
+      "release_blocking": false,
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    },
+    {
+      "id": "OPO-18",
+      "name": "Source freshness is shown as context, not evidence strength",
+      "artifact": "source_freshness_claim_audit.csv",
+      "severity": "review_gate",
+      "status": "pass",
+      "release_blocking": false,
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    },
+    {
+      "id": "OPO-19",
+      "name": "Unknown license blocks public atlas insertion",
+      "artifact": "license_blocker_audit.csv",
+      "severity": "hard_gate",
+      "status": "pass",
+      "release_blocking": false,
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    },
+    {
+      "id": "OPO-20",
+      "name": "Judge mode displays non-claims and roadmap boundaries",
+      "artifact": "judge_mode_non_claims_audit.csv",
+      "severity": "hard_gate",
+      "status": "pass",
+      "release_blocking": false,
+      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+    }
+  ]
+}

@@ -69,6 +69,7 @@ The larger engine adds:
 - assay evidence gate for eDNA/metabarcoding controls and replicates
 - Molecular Evidence Graph linking fragments, taxa, GBIF geography, protein context, claims and blockers
 - GSEG/GSIG proof layer: Verified Segment Evidence Array, theorem checklist, graph provenance, roundtrip and AI guardrail audits
+- GSIG Observatory layer: source registry, GBIF snapshot hashing, VSEA-to-graph visualization, OPO proof audits, GBIF/AI export guardrails and Judge Mode
 
 The frozen gates are documented in:
 
@@ -76,6 +77,7 @@ The frozen gates are documented in:
 - `docs/proof-by-failure-modes.md`
 - `docs/gbif-dna-derived-readiness.md`
 - `docs/gseg-gsig-production.md`
+- `docs/gsig-observatory.md`
 - `docs/nexus-v3/EcoGenesis_Nexus_V3_FULL_PROJECT_RU.md`
 - `docs/nexus-v3/EcoGenesis_Nexus_V3_scientific_validation_report.md`
 
@@ -123,6 +125,26 @@ The smoke test builds the stack on ports `13200/18200`, checks backend health di
 4. Click `Generate from CSV`.
 5. Inspect `species-safe`, `genus-safe`, `weak`, `not-publishable` and blocked claims.
 6. Download `evidence_pack.zip` or individual CSV/HTML exports.
+
+### GSIG Observatory Flow
+
+The `Observatory` tab is the above-MVP contest layer. It runs a small Aedes Spain GBIF snapshot, links that hashed occurrence context to the molecular VSEA rows, builds a provenance graph and exports all 20 Observatory proof-obligation artifacts.
+
+The important boundary is strict: GBIF occurrence data can explain where context came from, but it cannot upgrade a weak or blocked barcode claim. The Observatory UI, AI-ready dataset and GBIF export preview all preserve `claim_state`, caveats and provenance hashes.
+
+1. Open `Observatory`.
+2. Click `Run live Aedes Spain` for the live-small GBIF path with fixture fallback recorded in `snapshot_manifest.json`.
+3. Click `Run reproducible demo` for the deterministic offline judge path.
+4. Download `observatory_evidence_pack.zip`.
+
+Regenerate the checked-in Observatory report pack:
+
+```bash
+cd backend
+.venv/bin/python scripts/generate_observatory_demo_report.py
+```
+
+Generated outputs are written to `reports/observatory-demo/`.
 
 FASTA-only input can be searched against a selected reference dataset, but it is intentionally not enough for a GBIF-ready publication decision. The compiler needs occurrence metadata supplied by the user, and production publication requires VSEARCH, BLAST+ or an audited external reference workflow rather than the local deterministic mini-search fallback.
 
@@ -203,6 +225,28 @@ For uploaded FASTA reference datasets, EcoGenesis tries to enrich taxon names ag
 - `GET /api/barcode/runs/{run_id}/report`
 - `GET /api/barcode/runs/{run_id}/exports`
 - `GET /api/barcode/runs/{run_id}/exports/{artifact_name}`
+
+## GSIG Observatory API
+
+- `GET /api/observatory/status`
+- `GET /api/observatory/sources`
+- `POST /api/observatory/run-demo`
+- `GET /api/observatory/runs`
+- `GET /api/observatory/runs/{run_id}`
+- `GET /api/observatory/runs/{run_id}/exports`
+- `GET /api/observatory/runs/{run_id}/exports/{artifact_name}`
+- `GET /api/observatory/snapshots/{snapshot_id}`
+- `GET /api/observatory/vsea`
+- `GET /api/observatory/segments/{segment_id}`
+- `GET /api/observatory/segments/{segment_id}/taxa`
+- `GET /api/observatory/segments/{segment_id}/sharedness`
+- `GET /api/observatory/segments/{segment_id}/annotations`
+- `GET /api/observatory/segments/{segment_id}/publications`
+- `GET /api/observatory/segments/{segment_id}/claim-boundary`
+- `GET /api/observatory/taxa/{taxon_id}/segments`
+- `GET /api/observatory/claims/{claim_id}/provenance`
+- `POST /api/observatory/export/gbif`
+- `POST /api/observatory/export/ai-ready`
 
 Minimal request shape:
 

@@ -1,0 +1,15 @@
+{
+  "status": "pass",
+  "checks": {
+    "source_registry": [],
+    "pipeline_dag": [],
+    "ui_contract": [],
+    "proof_obligations": []
+  },
+  "contract_versions": {
+    "source_registry": "GSIG-OBS-SOURCES-1.0",
+    "pipeline_dag": "GSIG-OBS-DAG-1.0",
+    "ui_contract": "GSIG-OBS-UI-1.0",
+    "proof_obligation_set": "GSIG-Observatory-OPO-v1"
+  }
+}

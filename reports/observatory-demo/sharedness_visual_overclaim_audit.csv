@@ -1,0 +1,5 @@
+segment_id,safe_rank,claim_state,species_specific_badge_allowed,status
+segment:AALB-COI-good:1-622,species,taxon_supported,True,pass
+segment:AALB-COI-ambiguous:1-622,genus,taxon_supported,False,pass
+segment:AALB-COI-short:1-622,species,weak_hypothesis,False,pass
+segment:AALB-COI-metadata-gap:1-622,species,taxon_supported,True,pass

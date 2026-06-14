@@ -86,7 +86,7 @@ a {
   border-radius: 8px;
   display: grid;
   gap: 4px;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   padding: 5px;
   width: 100%;
 }
@@ -4911,6 +4911,254 @@ summary {
   border-left-color: #a14227;
 }
 
+.observatory-page {
+  scroll-margin-top: 18px;
+}
+
+.observatory-pass {
+  background: #e8f6ee;
+  border-color: #b9d9c5;
+}
+
+.observatory-waiting {
+  background: #f6f0df;
+  border-color: #dacb93;
+}
+
+.observatory-flow-panel {
+  display: grid;
+  gap: 18px;
+}
+
+.observatory-flow {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.observatory-flow-step {
+  background: #f8fbf8;
+  border: 1px solid #dce6df;
+  border-radius: 8px;
+  display: grid;
+  gap: 8px;
+  min-height: 126px;
+  padding: 14px;
+}
+
+.observatory-flow-step span {
+  align-items: center;
+  background: #1e5b69;
+  border-radius: 999px;
+  color: #fff;
+  display: inline-flex;
+  font-weight: 900;
+  height: 28px;
+  justify-content: center;
+  width: 28px;
+}
+
+.observatory-flow-step strong {
+  color: #17201a;
+  line-height: 1.15;
+}
+
+.observatory-flow-step small {
+  color: #5a6d62;
+  line-height: 1.35;
+}
+
+.observatory-tabs {
+  display: grid;
+  gap: 6px;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  margin-bottom: 18px;
+}
+
+.observatory-tabs button {
+  min-height: 38px;
+}
+
+.observatory-tabs button.active {
+  background: #1e5b69;
+  color: #fff;
+}
+
+.observatory-screen,
+.observatory-graph-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.metric-grid,
+.claim-state-grid,
+.observatory-source-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.claim-state-card,
+.observatory-source-card {
+  background: #f8fbf8;
+  border: 1px solid #dbe4dd;
+  border-radius: 8px;
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+}
+
+.claim-state-card strong {
+  font-size: 2rem;
+}
+
+.claim-state-card p,
+.observatory-source-card p,
+.observatory-source-card dd,
+.observatory-judge-note {
+  color: #53655c;
+  line-height: 1.42;
+  margin: 0;
+}
+
+.observatory-source-card h3 {
+  font-size: 1rem;
+}
+
+.observatory-source-card dl {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+
+.observatory-source-card dt {
+  color: #27362d;
+  font-size: 0.8rem;
+  font-weight: 900;
+}
+
+.observatory-source-card dd {
+  font-size: 0.86rem;
+  margin: 2px 0 0;
+}
+
+.source-status {
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 900;
+  justify-self: start;
+  padding: 5px 8px;
+}
+
+.source-status.mvp_integration {
+  background: #d9f1df;
+  color: #155125;
+}
+
+.source-status.existing_foundation {
+  background: #e5eef8;
+  color: #244d74;
+}
+
+.source-status.planned {
+  background: #f4e5d6;
+  color: #7a4217;
+}
+
+.observatory-graph-grid {
+  grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.7fr);
+}
+
+.observatory-graph-canvas {
+  align-items: center;
+  background:
+    linear-gradient(90deg, transparent 0 6%, rgba(30, 91, 105, 0.18) 6% 94%, transparent 94%),
+    #f7faf7;
+  border: 1px solid #dce6df;
+  border-radius: 8px;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  min-height: 230px;
+  padding: 18px;
+}
+
+.graph-node {
+  background: #fff;
+  border: 1px solid #cbd8d0;
+  border-radius: 8px;
+  box-shadow: 0 10px 18px rgba(26, 36, 29, 0.08);
+  display: grid;
+  gap: 6px;
+  min-height: 92px;
+  padding: 12px;
+}
+
+.graph-node strong {
+  color: #17201a;
+}
+
+.graph-node span {
+  color: #53655c;
+  font-size: 0.8rem;
+  overflow-wrap: anywhere;
+}
+
+.observatory-proof-list {
+  background: #f8fbf8;
+  border: 1px solid #dbe4dd;
+  border-radius: 8px;
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+}
+
+.observatory-proof-list p {
+  border-bottom: 1px solid #dfe8e2;
+  color: #2d3c33;
+  margin: 0;
+  padding-bottom: 9px;
+}
+
+.observatory-proof-list p:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.observatory-export-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.observatory-page table {
+  min-width: 0;
+  table-layout: fixed;
+}
+
+.observatory-page th,
+.observatory-page td {
+  overflow-wrap: anywhere;
+}
+
+.pill.taxon_supported,
+.pill.pass {
+  background: #d9f1df;
+  color: #155125;
+}
+
+.pill.weak_hypothesis,
+.pill.taxon_ambiguous,
+.pill.review_required,
+.pill.missing {
+  background: #f4e5d6;
+  color: #7a4217;
+}
+
+.pill.blocked,
+.pill.fail {
+  background: #f7e2d9;
+  color: #7a321e;
+}
+
 @keyframes pulseStep {
   0%,
   100% {
@@ -4924,8 +5172,19 @@ summary {
 
 @media (max-width: 980px) {
   .process-flow,
-  .status-guide-grid {
+  .status-guide-grid,
+  .observatory-flow,
+  .metric-grid,
+  .claim-state-grid,
+  .observatory-source-grid,
+  .observatory-export-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .observatory-tabs,
+  .observatory-graph-grid,
+  .observatory-graph-canvas {
+    grid-template-columns: 1fr;
   }
 
   .process-flow::before {
@@ -5984,7 +6243,12 @@ th {
   .before-after-grid,
   .fragment-mini-metrics,
   .user-value-grid,
-  .source-boundary-grid {
+  .source-boundary-grid,
+  .observatory-flow,
+  .metric-grid,
+  .claim-state-grid,
+  .observatory-source-grid,
+  .observatory-export-grid {
     grid-template-columns: 1fr;
   }
 

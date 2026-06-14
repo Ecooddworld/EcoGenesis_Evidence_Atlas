@@ -148,6 +148,42 @@ export async function getBarcodeRun(runId) {
   return response.json();
 }
 
+export async function getObservatoryStatus() {
+  const response = await fetch(`${API_BASE_URL}/api/observatory/status`);
+  if (!response.ok) {
+    throw new Error(`Observatory status could not be loaded: ${response.status}`);
+  }
+  return response.json();
+}
+
+export async function getObservatorySources() {
+  const response = await fetch(`${API_BASE_URL}/api/observatory/sources`);
+  if (!response.ok) {
+    throw new Error(`Observatory sources could not be loaded: ${response.status}`);
+  }
+  return response.json();
+}
+
+export async function runObservatoryDemo(payload) {
+  const response = await fetch(`${API_BASE_URL}/api/observatory/run-demo`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+  if (!response.ok) {
+    throw new Error(`Observatory run failed: ${response.status}`);
+  }
+  return response.json();
+}
+
+export async function getObservatoryRun(runId) {
+  const response = await fetch(`${API_BASE_URL}/api/observatory/runs/${runId}`);
+  if (!response.ok) {
+    throw new Error(`Observatory run not found: ${response.status}`);
+  }
+  return response.json();
+}
+
 export async function getEvidenceRun(runId) {
   const response = await fetch(`${API_BASE_URL}/api/evidence/runs/${runId}`);
   if (!response.ok) {

@@ -1,0 +1,8 @@
+source_id,license_policy_present,unknown_license_blocks_export,status
+gbif_occurrence_api,True,True,pass
+gbif_dna_derived_extension,True,True,pass
+ncbi_eutils,True,True,pass
+interproscan,True,True,pass
+gene_ontology,True,True,pass
+literature_metadata,True,True,pass
+project_user_uploads,True,True,pass

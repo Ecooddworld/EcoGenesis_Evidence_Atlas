@@ -1,0 +1,83 @@
+{
+  "registry_version": "GSIG-OBS-SOURCES-1.0",
+  "source_count": 7,
+  "mvp_sources": [
+    "gbif_occurrence_api",
+    "gbif_dna_derived_extension"
+  ],
+  "planned_sources": [],
+  "missing_required_fields": [],
+  "rows": [
+    {
+      "source_id": "gbif_occurrence_api",
+      "status": "mvp_integration",
+      "license_policy_present": true,
+      "rate_limit_policy_present": true,
+      "provenance_required": true,
+      "allowed_claims_count": 3,
+      "blocked_claims_count": 2,
+      "outputs_count": 2
+    },
+    {
+      "source_id": "gbif_dna_derived_extension",
+      "status": "mvp_integration",
+      "license_policy_present": true,
+      "rate_limit_policy_present": true,
+      "provenance_required": true,
+      "allowed_claims_count": 3,
+      "blocked_claims_count": 2,
+      "outputs_count": 2
+    },
+    {
+      "source_id": "ncbi_eutils",
+      "status": "planned_integration",
+      "license_policy_present": true,
+      "rate_limit_policy_present": true,
+      "provenance_required": true,
+      "allowed_claims_count": 2,
+      "blocked_claims_count": 2,
+      "outputs_count": 2
+    },
+    {
+      "source_id": "interproscan",
+      "status": "planned_integration",
+      "license_policy_present": true,
+      "rate_limit_policy_present": true,
+      "provenance_required": true,
+      "allowed_claims_count": 3,
+      "blocked_claims_count": 2,
+      "outputs_count": 2
+    },
+    {
+      "source_id": "gene_ontology",
+      "status": "planned_integration",
+      "license_policy_present": true,
+      "rate_limit_policy_present": true,
+      "provenance_required": true,
+      "allowed_claims_count": 2,
+      "blocked_claims_count": 2,
+      "outputs_count": 2
+    },
+    {
+      "source_id": "literature_metadata",
+      "status": "planned_integration",
+      "license_policy_present": true,
+      "rate_limit_policy_present": true,
+      "provenance_required": true,
+      "allowed_claims_count": 3,
+      "blocked_claims_count": 1,
+      "outputs_count": 2
+    },
+    {
+      "source_id": "project_user_uploads",
+      "status": "existing_foundation",
+      "license_policy_present": true,
+      "rate_limit_policy_present": true,
+      "provenance_required": true,
+      "allowed_claims_count": 2,
+      "blocked_claims_count": 2,
+      "outputs_count": 2
+    }
+  ],
+  "status": "pass"
+}

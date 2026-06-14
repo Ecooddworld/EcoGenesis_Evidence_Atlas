@@ -18,6 +18,7 @@ Entry form: https://www.survey-xact.dk/LinkCollector?key=YCAEZQR4SPC1
   - `aedes_missing_metadata.csv` -> `not-publishable`
   - `aedes_weak_coverage.csv` -> `weak`
 - [x] Evidence Pack exports Darwin Core, DNA-derived templates, CSV reports, HTML report, methods, citations, evidence graph, GSEG/GSIG proof artifacts and ZIP.
+- [x] GSIG Observatory tab, API, report pack and OPO proof artifacts exist.
 - [x] Live GBIF occurrence audit layer exists for API status and 1000-record / 100-claim validation.
 - [x] Mathematical methodology and proof-by-failure-mode docs exist.
 - [x] License, citation and data license files exist.
@@ -45,6 +46,7 @@ cd backend
 .venv/bin/python -m pytest -q
 .venv/bin/python scripts/verify_barcode_operability.py
 .venv/bin/python scripts/generate_competition_reports.py
+.venv/bin/python scripts/generate_observatory_demo_report.py
 .venv/bin/python scripts/run_scientific_hypothesis_suite.py --fresh --output-dir /tmp/ecogenesis-scientific-theory-suite
 ```
 
@@ -64,8 +66,9 @@ npm run build
 6. Confirm `species-safe` appears.
 7. Confirm `evidence_pack.zip`, `sequence_safety_table.csv`, `publication_blockers.csv`, `dwc_occurrence_core_publishable.csv`, `molecular_evidence_report.html`, `theorem_checklist.json`, `verified_segment_evidence_array.parquet` and `graph_provenance_audit.csv` are visible or downloadable.
 8. Open `Math & proof` and confirm formulas render.
-9. Open `Research audit` and confirm the 1000-record / 100-claim audit summary is visible.
-10. Confirm browser console errors are zero.
+9. Open `Observatory`, run `Run live Aedes Spain`, and confirm `observatory_evidence_pack.zip`, `snapshot_manifest.json`, `observatory_vsea.parquet` and Judge OPO rows are visible.
+10. Open `Research audit` and confirm the 1000-record / 100-claim audit summary is visible.
+11. Confirm browser console errors are zero.
 
 ## Entry Form Fields
 
