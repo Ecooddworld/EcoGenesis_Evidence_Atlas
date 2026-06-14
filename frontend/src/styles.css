@@ -5139,6 +5139,276 @@ summary {
   overflow-wrap: anywhere;
 }
 
+.observatory-visual-suite {
+  display: grid;
+  gap: 18px;
+}
+
+.observatory-visual-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.observatory-visual-card {
+  background: #f8fbf8;
+  border: 1px solid #dbe4dd;
+  border-radius: 8px;
+  display: grid;
+  gap: 12px;
+  min-height: 300px;
+  padding: 14px;
+}
+
+.visual-card-heading {
+  align-items: start;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: auto minmax(0, 1fr);
+}
+
+.visual-card-heading > span {
+  align-items: center;
+  background: #1e5b69;
+  border-radius: 999px;
+  color: #fff;
+  display: inline-flex;
+  font-size: 0.76rem;
+  font-weight: 900;
+  height: 30px;
+  justify-content: center;
+  width: 30px;
+}
+
+.visual-card-heading h3 {
+  font-size: 1rem;
+}
+
+.visual-card-heading p {
+  color: #53655c;
+  font-size: 0.84rem;
+  line-height: 1.35;
+  margin: 4px 0 0;
+  overflow-wrap: anywhere;
+}
+
+.snapshot-map,
+.evidence-graph-svg {
+  height: 100%;
+  min-height: 210px;
+  width: 100%;
+}
+
+.map-frame {
+  fill: #eef6f1;
+  stroke: #bfd4c8;
+  stroke-width: 1.2;
+}
+
+.map-land {
+  fill: #dfece3;
+  stroke: #9bb7a8;
+  stroke-width: 2;
+}
+
+.map-river {
+  fill: none;
+  stroke: #7da8b8;
+  stroke-linecap: round;
+  stroke-width: 3;
+}
+
+.map-grid-line {
+  stroke: #d2ded6;
+  stroke-dasharray: 3 5;
+  stroke-width: 1;
+}
+
+.map-point {
+  fill: #1e5b69;
+  opacity: 0.82;
+  stroke: #fff;
+  stroke-width: 1.5;
+}
+
+.map-point-review {
+  fill: #b36b2c;
+}
+
+.map-label {
+  fill: #53655c;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.vsea-matrix {
+  display: grid;
+  gap: 6px;
+  overflow: hidden;
+}
+
+.vsea-matrix-head,
+.vsea-matrix-row {
+  align-items: center;
+  display: grid;
+  gap: 6px;
+  grid-template-columns: minmax(110px, 1.2fr) repeat(5, minmax(28px, 0.5fr));
+}
+
+.vsea-matrix-head span {
+  color: #53655c;
+  font-size: 0.72rem;
+  font-weight: 900;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.vsea-matrix-row > span {
+  color: #1d2a22;
+  font-size: 0.78rem;
+  font-weight: 850;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.matrix-cell {
+  border: 1px solid #cedbd3;
+  border-radius: 6px;
+  display: block;
+  height: 24px;
+}
+
+.matrix-cell.safe {
+  background: #66b17c;
+  border-color: #4e9c65;
+}
+
+.matrix-cell.review {
+  background: #d8a15f;
+  border-color: #bf8544;
+}
+
+.matrix-cell.provenance {
+  background: #5f98ad;
+  border-color: #4e8295;
+}
+
+.matrix-cell.pending {
+  background: #edf2ef;
+  border-color: #d7e2db;
+}
+
+.graph-visual-card.compact .evidence-graph-svg,
+.vsea-matrix-card.compact .vsea-matrix {
+  min-height: 210px;
+}
+
+.graph-edge-line {
+  stroke: #8aa399;
+  stroke-width: 2.2;
+}
+
+.graph-arrow {
+  fill: #8aa399;
+}
+
+.graph-svg-node {
+  fill: #fff;
+  stroke: #b9cbc1;
+  stroke-width: 1.4;
+}
+
+.graph-svg-node.source {
+  fill: #e6f2ee;
+}
+
+.graph-svg-node.snapshot {
+  fill: #e8eef7;
+}
+
+.graph-svg-node.vsea {
+  fill: #eef6df;
+}
+
+.graph-svg-node.claim {
+  fill: #f6eedf;
+}
+
+.graph-svg-node.export {
+  fill: #f0e8f6;
+}
+
+.graph-svg-label {
+  fill: #17201a;
+  font-size: 11px;
+  font-weight: 900;
+  text-anchor: middle;
+}
+
+.graph-svg-detail {
+  fill: #53655c;
+  font-size: 8px;
+  font-weight: 750;
+  text-anchor: middle;
+}
+
+.proof-wheel {
+  align-self: center;
+  background:
+    radial-gradient(circle at center, #fff 0 44px, transparent 45px),
+    conic-gradient(from 0deg, #d9f1df 0 360deg);
+  border: 1px solid #dbe4dd;
+  border-radius: 50%;
+  display: grid;
+  height: 190px;
+  justify-self: center;
+  place-items: center;
+  position: relative;
+  width: 190px;
+}
+
+.proof-wheel strong {
+  color: #17201a;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.proof-wheel small {
+  color: #53655c;
+  font-size: 0.78rem;
+  font-weight: 850;
+  margin-top: 52px;
+  position: absolute;
+}
+
+.proof-dot {
+  background: #dbe4dd;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  height: 16px;
+  left: calc(50% - 8px);
+  position: absolute;
+  top: calc(50% - 8px);
+  transform: rotate(var(--angle)) translateY(-78px);
+  transform-origin: center;
+  width: 16px;
+}
+
+.proof-dot.pass {
+  background: #2f8a4d;
+}
+
+.proof-dot.fail {
+  background: #a14227;
+}
+
+.proof-dot.pending {
+  background: #aebdb4;
+}
+
 .pill.taxon_supported,
 .pill.pass {
   background: #d9f1df;
@@ -5177,6 +5447,7 @@ summary {
   .metric-grid,
   .claim-state-grid,
   .observatory-source-grid,
+  .observatory-visual-grid,
   .observatory-export-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -6248,8 +6519,14 @@ th {
   .metric-grid,
   .claim-state-grid,
   .observatory-source-grid,
+  .observatory-visual-grid,
   .observatory-export-grid {
     grid-template-columns: 1fr;
+  }
+
+  .vsea-matrix-head,
+  .vsea-matrix-row {
+    grid-template-columns: minmax(82px, 1.1fr) repeat(5, minmax(20px, 0.45fr));
   }
 
   .mode-switch {
