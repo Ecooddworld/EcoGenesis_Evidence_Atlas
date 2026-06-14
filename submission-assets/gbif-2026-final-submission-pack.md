@@ -14,7 +14,7 @@ One-liner:
 
 > A deterministic workflow that turns DNA barcode, metabarcoding and Sequence ID-style outputs into safe, rank-aware and GBIF-ready molecular occurrence evidence.
 
-Current architecture: **EcoGenesis Nexus V3**. The working compiler now exports hard-gate audit, prevented naive top-hit overclaims, data accounting ledger, state-machine audit, reference completeness audit, reference gap index, metadata bottlenecks, repair plan and split publishable-candidate / formal GBIF-ready / review templates.
+Current architecture: **EcoGenesis Nexus V3 + GSEG/GSIG proof layer**. The working compiler now exports hard-gate audit, prevented naive top-hit overclaims, data accounting ledger, state-machine audit, reference completeness audit, reference gap index, metadata bottlenecks, repair plan, split publishable-candidate / formal GBIF-ready / review templates, VSEA, theorem checklist, graph provenance and AI guardrail audits.
 
 ## What To Submit
 
@@ -67,14 +67,14 @@ examples/aedes_weak_coverage.csv     -> weak
 Latest local verification on 2026-06-14:
 
 ```text
-backend pytest: 53 passed, 1 skipped
+backend pytest: 65 passed, 1 skipped
 frontend tests: 13 passed
 frontend build: passed
 Docker compose build/up: passed
 Docker backend health: ok
 Docker frontend HTTP: 200
-Competition 100-sequence API run: expected decisions matched, hard_gate_failures=0, exports=42
-Adversarial 100-sequence stress run: expected decisions matched, false species-safe outside positive controls=0
+Competition 100-sequence API run: expected decisions matched, hard_gate_failures=0, exports=89, theorem=pass, graph_roundtrip=pass
+Adversarial 100-sequence stress run: expected decisions matched, false species-safe outside positive controls=0, exports=89, theorem=pass, graph_roundtrip=pass
 Operability report: pass
 ```
 
@@ -82,7 +82,7 @@ Before final submission, re-run the commands in `submission-assets/final-submiss
 
 ## Remaining Manual Items
 
-- Keep repository private unless the final contest submission requires public source; otherwise add judge access or provide the approved private source/docs links.
+- Keep the repository private unless final contest submission rules require public source; otherwise add judge access or provide the approved private source/docs links.
 - Fill team/member details.
 - Upload the final CSV Upload -> Score demo video from `submission-assets/barcode-video/video/ecogenesis-barcode-to-gbif-english-voice-ru-subs.mp4`.
 - Replace TODO video URL in `submission-assets/gbif-entry-form-draft.md`.

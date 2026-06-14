@@ -1,0 +1,4 @@
+metric,machineValue,reportValue,status
+processed_records,100,100,pass
+hard_gate_failures,0,0,pass
+gbif_ready_records,0,0,pass

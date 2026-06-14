@@ -2,16 +2,16 @@
 
 ## Project And Tool Citation
 
-EcoGenesis Nexus V3 / Barcode-to-GBIF Evidence Compiler. Ruleset `barcode-gbif-compiler-v2`. Run ID `7a9aea4135a1479e89afe114c16ff9b3`. Request fingerprint `d164514bbf10bfac3f21e079953f9373c18c9bafd20d5a2a28f460f01547a8b6`.
+EcoGenesis Nexus V3 / Barcode-to-GBIF Evidence Compiler. Ruleset `barcode-gbif-compiler-v2`. Run ID `5ac3e88339af4d2a86339531632e7112`. Request fingerprint `4b8319d6cbdfcc866cd6316f1f63ea39b2d261896f21a5002565330fb703082f`.
 
 ## Reference Dataset Used In This Run
 
 - Database: COI Animals / BOLD public clustered reference
-- Version: competition-local-fixture-2026-06-14
-- Source: supplied_sequence_id_or_blast_style_hits
-- DOI or URL: https://www.gbif.org/tools/sequence-id
-- License: mixed reference-source audit required before publication
-- SHA-256: 8f200ca4c6fb2c3a33095059abf1c2187ccb7a2b35696e42b7e9454ad0d89883
+- Version: not_supplied
+- Source: request.reference_database
+- DOI or URL: not supplied
+- License: not supplied
+- SHA-256: bb0fe4283cb56bec54fa879737387eebb3d4cc6cfd3fd9a07a0a77b352c8ae39
 
 ## GBIF And Methods Links
 

@@ -1,0 +1,101 @@
+sequenceID,markerProfile,riskCaveat,hgtIntrogressionParalogyClaimBlocked,status
+ADV100-001-true_species_safe_positive,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-002-true_species_safe_positive,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-003-true_species_safe_positive,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-004-true_species_safe_positive,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-005-true_species_safe_positive,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-006-true_species_safe_positive,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-007-true_species_safe_positive,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-008-true_species_safe_positive,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-009-true_species_safe_positive,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-010-true_species_safe_positive,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-011-close_sibling_ambiguity,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-012-close_sibling_ambiguity,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-013-close_sibling_ambiguity,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-014-close_sibling_ambiguity,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-015-close_sibling_ambiguity,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-016-close_sibling_ambiguity,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-017-close_sibling_ambiguity,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-018-close_sibling_ambiguity,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-019-close_sibling_ambiguity,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-020-close_sibling_ambiguity,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-021-weak_coverage_short_fragment,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-022-weak_coverage_short_fragment,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-023-weak_coverage_short_fragment,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-024-weak_coverage_short_fragment,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-025-weak_coverage_short_fragment,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-026-weak_coverage_short_fragment,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-027-weak_coverage_short_fragment,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-028-weak_coverage_short_fragment,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-029-weak_coverage_short_fragment,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-030-weak_coverage_short_fragment,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-031-no_match_novel_lineage,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-032-no_match_novel_lineage,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-033-no_match_novel_lineage,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-034-no_match_novel_lineage,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-035-no_match_novel_lineage,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-036-no_match_novel_lineage,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-037-no_match_novel_lineage,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-038-no_match_novel_lineage,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-039-no_match_novel_lineage,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-040-no_match_novel_lineage,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-041-metadata_blocked_taxonomy_safe,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-042-metadata_blocked_taxonomy_safe,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-043-metadata_blocked_taxonomy_safe,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-044-metadata_blocked_taxonomy_safe,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-045-metadata_blocked_taxonomy_safe,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-046-metadata_blocked_taxonomy_safe,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-047-metadata_blocked_taxonomy_safe,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-048-metadata_blocked_taxonomy_safe,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-049-metadata_blocked_taxonomy_safe,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-050-metadata_blocked_taxonomy_safe,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-051-assay_control_failure,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-052-assay_control_failure,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-053-assay_control_failure,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-054-assay_control_failure,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-055-assay_control_failure,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-056-assay_control_failure,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-057-assay_control_failure,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-058-assay_control_failure,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-059-assay_control_failure,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-060-assay_control_failure,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-061-wrong_taxonomy_name_conflict,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-062-wrong_taxonomy_name_conflict,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-063-wrong_taxonomy_name_conflict,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-064-wrong_taxonomy_name_conflict,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-065-wrong_taxonomy_name_conflict,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-066-wrong_taxonomy_name_conflict,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-067-wrong_taxonomy_name_conflict,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-068-wrong_taxonomy_name_conflict,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-069-wrong_taxonomy_name_conflict,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-070-wrong_taxonomy_name_conflict,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-071-genome_segment_non_barcode_marker,custom_research,Custom markers require an explicit profile before species-level export is allowed.,True,pass
+ADV100-072-genome_segment_non_barcode_marker,custom_research,Custom markers require an explicit profile before species-level export is allowed.,True,pass
+ADV100-073-genome_segment_non_barcode_marker,custom_research,Custom markers require an explicit profile before species-level export is allowed.,True,pass
+ADV100-074-genome_segment_non_barcode_marker,custom_research,Custom markers require an explicit profile before species-level export is allowed.,True,pass
+ADV100-075-genome_segment_non_barcode_marker,custom_research,Custom markers require an explicit profile before species-level export is allowed.,True,pass
+ADV100-076-genome_segment_non_barcode_marker,custom_research,Custom markers require an explicit profile before species-level export is allowed.,True,pass
+ADV100-077-genome_segment_non_barcode_marker,custom_research,Custom markers require an explicit profile before species-level export is allowed.,True,pass
+ADV100-078-genome_segment_non_barcode_marker,custom_research,Custom markers require an explicit profile before species-level export is allowed.,True,pass
+ADV100-079-genome_segment_non_barcode_marker,custom_research,Custom markers require an explicit profile before species-level export is allowed.,True,pass
+ADV100-080-genome_segment_non_barcode_marker,custom_research,Custom markers require an explicit profile before species-level export is allowed.,True,pass
+ADV100-081-negative_barcode_gap,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-082-negative_barcode_gap,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-083-negative_barcode_gap,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-084-negative_barcode_gap,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-085-negative_barcode_gap,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-086-negative_barcode_gap,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-087-negative_barcode_gap,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-088-negative_barcode_gap,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-089-negative_barcode_gap,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-090-negative_barcode_gap,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-091-missing_diagnostic_kmer,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-092-missing_diagnostic_kmer,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-093-missing_diagnostic_kmer,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-094-missing_diagnostic_kmer,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-095-missing_diagnostic_kmer,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-096-missing_diagnostic_kmer,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-097-missing_diagnostic_kmer,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-098-missing_diagnostic_kmer,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-099-missing_diagnostic_kmer,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+ADV100-100-missing_diagnostic_kmer,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass

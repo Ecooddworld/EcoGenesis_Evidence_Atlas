@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import csv
+import io
 from itertools import product
 import zipfile
 
@@ -213,6 +215,36 @@ def test_barcode_api_and_exports(tmp_path, monkeypatch) -> None:
         "evidence_graph.json",
         "nexus_v3_summary.json",
         "external_tool_adapter_matrix.csv",
+        "proof_by_failure_modes.md",
+        "segments.csv",
+        "segment_safe_taxa.csv",
+        "match_gate_audit.csv",
+        "cross_marker_consensus.csv",
+        "dwc_occurrence_core_readiness.csv",
+        "validation_fold_metrics.csv",
+        "theorem_checklist.json",
+        "artifact_checksums.json",
+        "query_smoke_report.md",
+        "ci_math_oracle_report.json",
+        "gseg_graph_schema.json",
+        "gsig_graph_schema.yaml",
+        "evidence_graph.jsonld",
+        "verified_segment_evidence_array.csv",
+        "verified_segment_evidence_array.jsonl",
+        "verified_segment_evidence_array.parquet",
+        "segment_canonicalization_audit.csv",
+        "segment_cluster_audit.csv",
+        "sharedness_overclaim_audit.csv",
+        "function_claim_boundary_audit.csv",
+        "ai_output_guardrail_audit.csv",
+        "graph_provenance_audit.csv",
+        "ai_dataset_export_audit.csv",
+        "graph_roundtrip_audit.json",
+        "vsea_graph_reconciliation.csv",
+        "ruleset_diff_report.json",
+        "report_consistency_audit.csv",
+        "segment_taxon_matrix_audit.csv",
+        "judge_reproducibility_report.md",
         "evidence_pack.json",
         "evidence_pack.zip",
     }
@@ -292,6 +324,30 @@ def test_barcode_api_and_exports(tmp_path, monkeypatch) -> None:
     assert "AALB-COI-ambiguous" in overclaims.text
     assert "genus-safe" in overclaims.text
 
+    theorem = client.get(f"/api/barcode/runs/{run_id}/exports/theorem_checklist.json")
+    assert theorem.status_code == 200
+    theorem_payload = theorem.json()
+    assert theorem_payload["summary"]["fail"] == 0
+    assert theorem_payload["summary"]["release_gate"] == "pass"
+    assert theorem_payload["summary"]["blocked_roadmap_no_claim"] >= 1
+
+    vsea = client.get(f"/api/barcode/runs/{run_id}/exports/verified_segment_evidence_array.csv")
+    assert vsea.status_code == 200
+    assert "segmentHash" in vsea.text
+    assert "claimState" in vsea.text
+    assert "taxon_supported" in vsea.text
+
+    graph_provenance = client.get(f"/api/barcode/runs/{run_id}/exports/graph_provenance_audit.csv")
+    assert graph_provenance.status_code == 200
+    assert "status" in graph_provenance.text
+    provenance_rows = list(csv.DictReader(io.StringIO(graph_provenance.text)))
+    assert provenance_rows
+    assert {row["status"] for row in provenance_rows} == {"pass"}
+
+    graph_roundtrip = client.get(f"/api/barcode/runs/{run_id}/exports/graph_roundtrip_audit.json")
+    assert graph_roundtrip.status_code == 200
+    assert graph_roundtrip.json()["status"] == "pass"
+
     zip_head = client.head(f"/api/barcode/runs/{run_id}/exports/evidence_pack.zip")
     assert zip_head.status_code == 200
     assert int(zip_head.headers["content-length"]) > 0
@@ -322,6 +378,14 @@ def test_barcode_api_and_exports(tmp_path, monkeypatch) -> None:
             "nexus_v3_summary.json",
             "external_tool_adapter_matrix.csv",
             "proof_by_failure_modes.md",
+            "theorem_checklist.json",
+            "verified_segment_evidence_array.csv",
+            "verified_segment_evidence_array.parquet",
+            "segment_safe_taxa.csv",
+            "graph_provenance_audit.csv",
+            "sharedness_overclaim_audit.csv",
+            "ai_output_guardrail_audit.csv",
+            "judge_reproducibility_report.md",
         } <= set(archive.namelist())
 
 

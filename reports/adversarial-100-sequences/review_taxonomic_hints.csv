@@ -19,16 +19,16 @@ ADV100-037-no_match_novel_lineage,no-match,No match,none,record_recommended_read
 ADV100-038-no_match_novel_lineage,no-match,No match,none,record_recommended_ready,no reference hit returned
 ADV100-039-no_match_novel_lineage,no-match,No match,none,record_recommended_ready,no reference hit returned
 ADV100-040-no_match_novel_lineage,no-match,No match,none,record_recommended_ready,no reference hit returned
-ADV100-041-metadata_blocked_taxonomy_safe,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: missing required Occurrence core field eventDate
-ADV100-042-metadata_blocked_taxonomy_safe,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: missing required Occurrence core field eventDate
-ADV100-043-metadata_blocked_taxonomy_safe,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: missing required Occurrence core field eventDate
-ADV100-044-metadata_blocked_taxonomy_safe,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: missing required Occurrence core field eventDate
-ADV100-045-metadata_blocked_taxonomy_safe,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: missing required Occurrence core field eventDate
-ADV100-046-metadata_blocked_taxonomy_safe,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: missing required Occurrence core field eventDate
-ADV100-047-metadata_blocked_taxonomy_safe,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: missing required Occurrence core field eventDate
-ADV100-048-metadata_blocked_taxonomy_safe,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: missing required Occurrence core field eventDate
-ADV100-049-metadata_blocked_taxonomy_safe,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: missing required Occurrence core field eventDate
-ADV100-050-metadata_blocked_taxonomy_safe,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: missing required Occurrence core field eventDate
+ADV100-041-metadata_blocked_taxonomy_safe,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: missing required Occurrence core field occurrenceID; publication blocked: missing required Occurrence core field eventDate
+ADV100-042-metadata_blocked_taxonomy_safe,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: missing required Occurrence core field occurrenceID; publication blocked: missing required Occurrence core field eventDate
+ADV100-043-metadata_blocked_taxonomy_safe,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: missing required Occurrence core field occurrenceID; publication blocked: missing required Occurrence core field eventDate
+ADV100-044-metadata_blocked_taxonomy_safe,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: missing required Occurrence core field occurrenceID; publication blocked: missing required Occurrence core field eventDate
+ADV100-045-metadata_blocked_taxonomy_safe,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: missing required Occurrence core field occurrenceID; publication blocked: missing required Occurrence core field eventDate
+ADV100-046-metadata_blocked_taxonomy_safe,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: missing required Occurrence core field occurrenceID; publication blocked: missing required Occurrence core field eventDate
+ADV100-047-metadata_blocked_taxonomy_safe,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: missing required Occurrence core field occurrenceID; publication blocked: missing required Occurrence core field eventDate
+ADV100-048-metadata_blocked_taxonomy_safe,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: missing required Occurrence core field occurrenceID; publication blocked: missing required Occurrence core field eventDate
+ADV100-049-metadata_blocked_taxonomy_safe,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: missing required Occurrence core field occurrenceID; publication blocked: missing required Occurrence core field eventDate
+ADV100-050-metadata_blocked_taxonomy_safe,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: missing required Occurrence core field occurrenceID; publication blocked: missing required Occurrence core field eventDate
 ADV100-051-assay_control_failure,not-publishable,Aedes albopictus,species,record_not_ready,"assay gate blocked publication: missing occurrenceStatus, contaminationAssessment for qpcr_ddpcr"
 ADV100-052-assay_control_failure,not-publishable,Aedes albopictus,species,record_not_ready,"assay gate blocked publication: missing occurrenceStatus, contaminationAssessment for qpcr_ddpcr"
 ADV100-053-assay_control_failure,not-publishable,Aedes albopictus,species,record_not_ready,"assay gate blocked publication: missing occurrenceStatus, contaminationAssessment for qpcr_ddpcr"
@@ -39,16 +39,16 @@ ADV100-057-assay_control_failure,not-publishable,Aedes albopictus,species,record
 ADV100-058-assay_control_failure,not-publishable,Aedes albopictus,species,record_not_ready,"assay gate blocked publication: missing occurrenceStatus, contaminationAssessment for qpcr_ddpcr"
 ADV100-059-assay_control_failure,not-publishable,Aedes albopictus,species,record_not_ready,"assay gate blocked publication: missing occurrenceStatus, contaminationAssessment for qpcr_ddpcr"
 ADV100-060-assay_control_failure,not-publishable,Aedes albopictus,species,record_not_ready,"assay gate blocked publication: missing occurrenceStatus, contaminationAssessment for qpcr_ddpcr"
-ADV100-061-wrong_taxonomy_name_conflict,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: supplied scientificName conflicts with top molecular hit (Culex pipiens vs Aedes albopictus)
-ADV100-062-wrong_taxonomy_name_conflict,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: supplied scientificName conflicts with top molecular hit (Culex pipiens vs Aedes albopictus)
-ADV100-063-wrong_taxonomy_name_conflict,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: supplied scientificName conflicts with top molecular hit (Culex pipiens vs Aedes albopictus)
-ADV100-064-wrong_taxonomy_name_conflict,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: supplied scientificName conflicts with top molecular hit (Culex pipiens vs Aedes albopictus)
-ADV100-065-wrong_taxonomy_name_conflict,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: supplied scientificName conflicts with top molecular hit (Culex pipiens vs Aedes albopictus)
-ADV100-066-wrong_taxonomy_name_conflict,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: supplied scientificName conflicts with top molecular hit (Culex pipiens vs Aedes albopictus)
-ADV100-067-wrong_taxonomy_name_conflict,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: supplied scientificName conflicts with top molecular hit (Culex pipiens vs Aedes albopictus)
-ADV100-068-wrong_taxonomy_name_conflict,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: supplied scientificName conflicts with top molecular hit (Culex pipiens vs Aedes albopictus)
-ADV100-069-wrong_taxonomy_name_conflict,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: supplied scientificName conflicts with top molecular hit (Culex pipiens vs Aedes albopictus)
-ADV100-070-wrong_taxonomy_name_conflict,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: supplied scientificName conflicts with top molecular hit (Culex pipiens vs Aedes albopictus)
+ADV100-061-wrong_taxonomy_name_conflict,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: supplied scientificName conflicts with top molecular hit (Aedes aegypti vs Aedes albopictus)
+ADV100-062-wrong_taxonomy_name_conflict,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: supplied scientificName conflicts with top molecular hit (Aedes aegypti vs Aedes albopictus)
+ADV100-063-wrong_taxonomy_name_conflict,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: supplied scientificName conflicts with top molecular hit (Aedes aegypti vs Aedes albopictus)
+ADV100-064-wrong_taxonomy_name_conflict,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: supplied scientificName conflicts with top molecular hit (Aedes aegypti vs Aedes albopictus)
+ADV100-065-wrong_taxonomy_name_conflict,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: supplied scientificName conflicts with top molecular hit (Aedes aegypti vs Aedes albopictus)
+ADV100-066-wrong_taxonomy_name_conflict,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: supplied scientificName conflicts with top molecular hit (Aedes aegypti vs Aedes albopictus)
+ADV100-067-wrong_taxonomy_name_conflict,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: supplied scientificName conflicts with top molecular hit (Aedes aegypti vs Aedes albopictus)
+ADV100-068-wrong_taxonomy_name_conflict,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: supplied scientificName conflicts with top molecular hit (Aedes aegypti vs Aedes albopictus)
+ADV100-069-wrong_taxonomy_name_conflict,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: supplied scientificName conflicts with top molecular hit (Aedes aegypti vs Aedes albopictus)
+ADV100-070-wrong_taxonomy_name_conflict,not-publishable,Aedes albopictus,species,record_not_ready,publication blocked: supplied scientificName conflicts with top molecular hit (Aedes aegypti vs Aedes albopictus)
 ADV100-081-negative_barcode_gap,ambiguous,Aedes albopictus,species,record_recommended_ready,species claim blocked: barcode gap fail
 ADV100-082-negative_barcode_gap,ambiguous,Aedes albopictus,species,record_recommended_ready,species claim blocked: barcode gap fail
 ADV100-083-negative_barcode_gap,ambiguous,Aedes albopictus,species,record_recommended_ready,species claim blocked: barcode gap fail

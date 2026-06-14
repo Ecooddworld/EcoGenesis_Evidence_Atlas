@@ -1,0 +1,65 @@
+schema: ecogenesis.gsig.graph_schema.v1
+node_types:
+- Run
+- Sequence
+- Segment
+- SegmentCluster
+- AlignmentHit
+- ReferenceSequence
+- ReferenceLibrary
+- Taxon
+- MarkerProfile
+- AssayProfile
+- Sample
+- Event
+- Trait
+- FunctionAnnotation
+- LiteratureSource
+- EvidenceClaim
+- ClaimBoundary
+- Blocker
+- Caveat
+- ValidationFold
+- ProvenanceManifest
+- ExportArtifact
+- AIReadyDataset
+edge_types:
+- HAS_SEGMENT
+- ALIGNS_TO
+- REFERENCE_TAXON
+- SHARED_BY_TAXA
+- SPECIFIC_TO_CLADE
+- COLLAPSES_TO_LCA
+- SUPPORTS_TAXON
+- BLOCKED_BY
+- HAS_CAVEAT
+- USES_MARKER_PROFILE
+- USES_ASSAY_PROFILE
+- FROM_REFERENCE_LIBRARY
+- ASSOCIATED_WITH_TRAIT
+- ASSOCIATED_WITH_FUNCTION
+- SUPPORTED_BY_PUBLICATION
+- CONTRADICTED_BY_PUBLICATION
+- VALIDATED_BY
+- PROVENANCE_HASH
+- EXPORTS_AS
+- USED_FOR_AI_DATASET
+required_node_fields:
+- id
+- type
+- provenance_hash
+- ruleset_version
+required_edge_fields:
+- id
+- type
+- source
+- target
+- provenance_hash
+- ruleset_version
+claim_state_required_for_edges:
+- SUPPORTS_TAXON
+- ASSOCIATED_WITH_TRAIT
+- ASSOCIATED_WITH_FUNCTION
+- SUPPORTED_BY_PUBLICATION
+- CONTRADICTED_BY_PUBLICATION
+- USED_FOR_AI_DATASET

@@ -1,0 +1,4 @@
+case,allowed,status,guardrail
+ai_writes_verified_fact,False,pass,AI can propose hypotheses but cannot overwrite verified graph facts.
+ai_experimental_support,False,pass,AI can propose hypotheses but cannot overwrite verified graph facts.
+ai_hypothesis,True,pass,AI can propose hypotheses but cannot overwrite verified graph facts.

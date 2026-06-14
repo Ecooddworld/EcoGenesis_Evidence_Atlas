@@ -12,7 +12,7 @@ cd backend
 Expected current result:
 
 ```text
-53 passed, 1 skipped
+65 passed, 1 skipped
 ```
 
 Required barcode compiler coverage:
@@ -33,6 +33,8 @@ Required barcode compiler coverage:
 - `/api/barcode/fragment-graph` returns segment-level coordinates, source monitor data, known annotation hints and claim boundaries.
 - `scientificName` conflicts with the molecular top hit block publication while preserving the molecular evidence state;
 - Evidence Pack exports include `data_accounting_ledger.csv`, `state_machine_audit.csv`, `reference_completeness_audit.csv`, structured `publication_blockers.csv`, graph-backed `claim_boundaries.csv` and `profile_id` in `safe_taxonomic_assignments.csv`.
+- GSEG/GSIG exports include `theorem_checklist.json`, real `verified_segment_evidence_array.parquet`, `graph_provenance_audit.csv`, `graph_roundtrip_audit.json`, `ai_output_guardrail_audit.csv` and `judge_reproducibility_report.md`.
+- `tests/test_gseg_gsig_reference_checks.py` verifies the reference math and guardrail oracle for safe taxa, canonical segment hashing, sharedness, claim-state transitions, AI export preservation, provenance and BH-FDR.
 
 Legacy `/api/evidence/*` tests remain active to guarantee the occurrence-audit layer still works for live GBIF context and regression.
 
@@ -112,6 +114,9 @@ Expected:
    - `publication_blockers.csv`
    - `dwc_occurrence_core_publishable.csv`
    - `molecular_evidence_report.html`
+   - `theorem_checklist.json`
+   - `verified_segment_evidence_array.parquet`
+   - `graph_provenance_audit.csv`
 8. Open `Math & proof`.
 9. Open `Research audit`.
 10. Confirm console errors are zero and there is no horizontal overflow.
@@ -159,15 +164,24 @@ Current Docker-backed batch reports:
 
 - `reports/competition-100-sequences/competition_100_sequence_report.md`
   - 100 records;
-  - 42 exports;
+  - 89 exports;
   - expected decisions matched;
   - hard-gate failures: `0`;
-  - 50 publishable candidates, 0 formal GBIF-ready rows.
+  - 50 publishable candidates, 0 formal GBIF-ready rows;
+  - GSEG/GSIG exports present, VSEA Parquet magic `PAR1`, theorem release gate `pass`, graph roundtrip `pass`.
 - `reports/adversarial-100-sequences/adversarial_100_sequence_report.md`
   - 100 adversarial records across no-match, weak, ambiguity, metadata, assay, name-conflict, custom-marker and missing-evidence cases;
   - expected decisions matched;
   - hard-gate failures: `0`;
-  - false species-safe outside positive controls: `0`.
+  - false species-safe outside positive controls: `0`;
+  - GSEG/GSIG exports present, VSEA Parquet magic `PAR1`, theorem release gate `pass`, graph roundtrip `pass`.
+
+Regenerate both reports:
+
+```bash
+cd backend
+.venv/bin/python scripts/generate_competition_reports.py
+```
 
 Generated outputs:
 

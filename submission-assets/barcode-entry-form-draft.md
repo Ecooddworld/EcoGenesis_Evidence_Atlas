@@ -18,9 +18,9 @@ Barcode-to-GBIF Evidence Compiler receives CSV or JSON results from GBIF Sequenc
 
 It applies explicit gates for identity, query coverage, ambiguity, lowest common ancestor, barcode gap, diagnostic k-mer support, false-positive risk and GBIF/DNA-derived publication readiness. It separates taxonomic safety from publication readiness, preventing unsafe species-level overclaims while preserving repairable molecular evidence.
 
-Each run exports an Evidence Pack with sequence safety tables, safe taxonomic assignments, publication blockers, barcode gap and diagnostic k-mer reports, Darwin Core Occurrence templates, DNA-derived extension templates, a molecular evidence report, methods text, citations, an evidence graph and machine-readable JSON/ZIP files.
+Each run exports an Evidence Pack with sequence safety tables, safe taxonomic assignments, publication blockers, barcode gap and diagnostic k-mer reports, Darwin Core Occurrence templates, DNA-derived extension templates, a molecular evidence report, methods text, citations, an evidence graph, VSEA, theorem checklist, provenance audits and machine-readable JSON/ZIP/Parquet files.
 
-The Nexus V3 layer adds hard-gate consistency audit, naive top-hit overclaim prevention, reference gap index, metadata bottleneck analysis, repair plan and split GBIF-ready/review exports. This turns the prototype from a simple status checker into a reproducible publication-repair workflow.
+The Nexus V3 + GSEG/GSIG layer adds hard-gate consistency audit, naive top-hit overclaim prevention, reference gap index, metadata bottleneck analysis, repair plan, split GBIF-ready/review exports, graph roundtrip checks and AI output guardrails. This turns the prototype from a simple status checker into a reproducible publication-repair workflow while keeping unsupported function and phenotype claims blocked.
 
 The tool benefits GBIF data users, publishers, nodes and reviewers by making molecular occurrence evidence more transparent, repeatable and publication-ready.
 

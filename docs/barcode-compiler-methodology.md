@@ -148,6 +148,7 @@ The main output is an Evidence Pack with:
 - molecular evidence HTML report
 - methods and citations
 - machine-readable evidence graph
+- GSEG/GSIG proof artifacts: VSEA CSV/JSONL/Parquet, theorem checklist, graph provenance audit, roundtrip audit and AI guardrail audit
 
 ## Conversion Metrics
 

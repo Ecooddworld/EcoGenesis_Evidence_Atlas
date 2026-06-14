@@ -23,6 +23,7 @@ The 2026 GBIF Ebbe Nielsen Challenge accepts tools, workflows and analyses that 
 - separating taxonomic safety from GBIF publication readiness;
 - exposing repair actions for publishers and data managers;
 - producing repeatable CSV, HTML, JSON and ZIP Evidence Packs.
+- adding a GSEG/GSIG proof layer with VSEA, graph provenance, theorem checklist and AI guardrail audits while unsupported function/phenotype claims remain blocked.
 
 ## What The Tool Produces
 
@@ -63,7 +64,26 @@ Each run produces:
 - `methods_text.md`
 - `citations.md`
 - `evidence_graph.json`
+- `evidence_graph.jsonld`
 - `nexus_v3_summary.json`
+- `proof_by_failure_modes.md`
+- `theorem_checklist.json`
+- `artifact_checksums.json`
+- `query_smoke_report.md`
+- `ci_math_oracle_report.json`
+- `gseg_graph_schema.json`
+- `gsig_graph_schema.yaml`
+- `verified_segment_evidence_array.csv`
+- `verified_segment_evidence_array.jsonl`
+- `verified_segment_evidence_array.parquet`
+- `graph_provenance_audit.csv`
+- `graph_roundtrip_audit.json`
+- `vsea_graph_reconciliation.csv`
+- `sharedness_overclaim_audit.csv`
+- `function_claim_boundary_audit.csv`
+- `ai_output_guardrail_audit.csv`
+- `ai_dataset_export_audit.csv`
+- `judge_reproducibility_report.md`
 - `evidence_pack.json`
 - `evidence_pack.zip`
 
@@ -78,7 +98,8 @@ Each run produces:
 7. Upload or explain `examples/aedes_ambiguous.csv` to show downgrade to `genus-safe`.
 8. Upload or explain `examples/aedes_missing_metadata.csv` to show taxonomic evidence preserved while publication is blocked.
 9. Open `Math & proof` to show the deterministic gates.
-10. Open `Research audit` to show the live GBIF occurrence-audit layer and 100 evidence claims.
+10. Show the `GSEG / GSIG proof layer` export group: `theorem_checklist.json`, VSEA Parquet and graph provenance.
+11. Open `Research audit` to show the live GBIF occurrence-audit layer and 100 evidence claims.
 
 ## Operating Instructions
 
@@ -98,6 +119,7 @@ Run tests:
 ```bash
 cd backend
 .venv/bin/python -m pytest -q
+.venv/bin/python scripts/generate_competition_reports.py
 
 cd ../frontend
 npm test -- --run

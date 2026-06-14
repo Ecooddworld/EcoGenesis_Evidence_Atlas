@@ -1,0 +1,9 @@
+{
+  "schema": "ecogenesis.ruleset_diff_report.v1",
+  "run_id": "ea9e5b6147734b919ec53070bedffeaa",
+  "ruleset_version": "barcode-gbif-compiler-v2",
+  "marker_profiles_hash": "3ebbc77fca2d92d9f25e9742cb22187ed0dda81d8fd852c7e6779df6698eee4f",
+  "assay_profiles_hash": "c110aaaebd52ca9a7c8a0bcfbf72eef7719be4c4789f62dca0fde915aeb5fa90",
+  "hidden_threshold_changes_detected": false,
+  "status": "pass"
+}

@@ -241,6 +241,7 @@ const analysisProofCards = [
   ['Why the output is correct', 'Every species claim must pass identity, coverage, competitor, barcode-gap, diagnostic and metadata gates.'],
   ['Why overclaims are blocked', 'If a fragment is shared or incomplete, the decision moves upward to the lowest common ancestor instead of forcing a species.'],
   ['Why publication is separate', 'A strong taxon match still needs real occurrence and dataset metadata before formal GBIF-ready export.'],
+  ['Why the graph layer is safe', 'GSEG/GSIG exports preserve claim states, provenance hashes and guardrail audits instead of upgrading evidence into unsupported function or phenotype claims.'],
 ];
 
 const analysisPictureFrames = [
@@ -249,7 +250,7 @@ const analysisPictureFrames = [
   ['03', 'Reference hits', 'The top hit is challenged by close competitors and shared marker windows.', 'Top hit is not enough', 'hits'],
   ['04', 'Hard gates', 'Identity, coverage, LCA, barcode gap, diagnostic k-mers and metadata gates are checked in order.', 'Fail-closed gates', 'gates'],
   ['05', 'Safe claim', 'Unsafe species certainty is blocked; the output becomes a safe rank plus explicit repair blockers.', 'No hidden overclaim', 'claim'],
-  ['06', 'Evidence pack', 'The result exports audit tables, publication blockers, repair plan, publishable templates and formal GBIF-ready status.', 'Reproducible export', 'pack'],
+  ['06', 'Evidence pack', 'The result exports audit tables, publication blockers, VSEA rows, graph provenance and formal GBIF-ready status.', 'Reproducible export', 'pack'],
 ];
 
 const sciencePurposeSteps = [
@@ -1474,15 +1475,16 @@ const solvedRows = [
   ['Weak short fragments', 'Solved in the current compiler', 'A high-identity but low-coverage record becomes `weak` and stays out of publishable species exports.'],
   ['Metadata vs taxonomy separation', 'Solved in the current compiler', 'A species-safe record with missing occurrenceID/eventDate becomes `not-publishable`, not a false published species.'],
   ['Evidence pack generation', 'Solved in the current compiler', 'CSV, JSON, HTML, Darwin Core, DNA-derived templates, methods, citations and ZIP exports are generated.'],
+  ['GSEG/GSIG proof layer', 'Solved as a contest-safe extension', 'The compiler now emits VSEA CSV/JSONL/Parquet, theorem checklist, graph provenance, roundtrip and AI guardrail audits.'],
   ['Live GBIF API path', 'Solved for occurrence evidence', 'Aedes albopictus in Spain used live GBIF API, not fixture fallback.'],
-  ['Protein sanity, assay gate, repair optimizer', 'Designed and documented, not fully implemented yet', 'The formulas and UX now expose the next layers; backend implementation is the next milestone.'],
+  ['Protein sanity and repair optimizer', 'Bounded in the current release', 'The release reports what can be checked from barcode evidence and marks deeper biological interpretation as roadmap only.'],
   ['Phenotype prediction', 'Deliberately not claimed', 'The project treats phenotype/function as future hypotheses requiring curated external evidence.'],
 ];
 
 const testAnalysisRows = [
-  ['Frontend unit tests', '3 passed', 'Overview renders, workbench opens, proof/formulas page exposes key formulas and p_false_positive.'],
+  ['Frontend unit tests', '13 passed', 'Overview, workbench, upload flow, reference search, proof pages and visual lecture render with the final export contract.'],
   ['Frontend production build', 'Passed', 'Vite build completed and the page can be shipped as a static frontend.'],
-  ['Backend pytest', '23 passed, 1 skipped', 'API, compiler logic, exports and existing regression behavior remain operational.'],
+  ['Backend pytest', '65 passed, 1 skipped', 'API, compiler logic, exports, GSEG/GSIG checks and regression behavior remain operational.'],
   ['Barcode operability script', 'PASS', 'Expected decisions, API endpoint, ZIP bundle and required exports all passed.'],
   ['Browser smoke', '0 console errors', 'Proof page and workbench rendered locally; no horizontal overflow was detected in the tested viewport.'],
   ['Live GBIF smoke', 'OK', 'GBIF API reachable; taxonKey 1651430 preserved; 50 live records returned from 19,713 GBIF results; fallback_used=false.'],
@@ -1572,6 +1574,10 @@ const evidencePackRows = [
   ['dna_derived_extension_publishable.csv', 'DNA-derived extension rows for publishable records.'],
   ['molecular_evidence_report.html', 'Human-readable report for judges, users and reviewers.'],
   ['evidence_graph.json', 'Machine-readable audit graph of sequence, hit, taxon, blocker and export.'],
+  ['verified_segment_evidence_array.parquet', 'Typed VSEA export for downstream graph and analytical checks.'],
+  ['theorem_checklist.json', 'GSEG/GSIG proof-obligation checklist with blocked roadmap claims kept explicit.'],
+  ['graph_provenance_audit.csv', 'Node and edge provenance audit with claim-state and ruleset hashes.'],
+  ['ai_output_guardrail_audit.csv', 'Guardrail table proving AI-facing exports cannot strengthen unsupported claims.'],
   ['source_provenance_manifest.json', 'Run-level source, backend and input-contract provenance.'],
 ];
 
@@ -1584,6 +1590,7 @@ const nonClaims = [
   ['Presence or absence in nature', 'The output is molecular occurrence evidence with caveats, not a distribution truth model.'],
   ['Geography of a fragment as direct sampling proof', 'GBIF geography is occurrence context for taxa carrying the fragment unless the molecular sample itself has coordinates.'],
   ['Automatic phenotype proof', 'Future trait/function links are hypotheses unless supported by curated external evidence.'],
+  ['Functional interpretation from barcode alone', 'GSIG exports block function claims unless curated trait/function evidence is present.'],
 ];
 
 const decisionCopy = {
@@ -1637,6 +1644,11 @@ const exportGroups = [
     title: 'Nexus V3 audit',
     description: 'Hard-gate consistency, marker/assay profiles, prevented top-hit overclaims, reference gaps and adapter direction.',
     match: ['nexus_v3_summary.json', 'hard_gate_audit.csv', 'marker_profile_audit.csv', 'assay_gate_audit.csv', 'dna_extension_readiness.csv', 'naive_top_hit_overclaims.csv', 'reference_gap_index.csv', 'reference_completeness_audit.csv', 'segment_overlap_report.csv', 'external_tool_adapter_matrix.csv'],
+  },
+  {
+    title: 'GSEG / GSIG proof layer',
+    description: 'Segment evidence array, graph schema, provenance, theorem checklist and guardrails from the production specification.',
+    match: ['theorem_checklist.json', 'verified_segment_evidence_array.csv', 'verified_segment_evidence_array.jsonl', 'verified_segment_evidence_array.parquet', 'gseg_graph_schema.json', 'gsig_graph_schema.yaml', 'evidence_graph.jsonld', 'graph_provenance_audit.csv', 'graph_roundtrip_audit.json', 'vsea_graph_reconciliation.csv', 'sharedness_overclaim_audit.csv', 'function_claim_boundary_audit.csv', 'ai_output_guardrail_audit.csv', 'ai_dataset_export_audit.csv', 'ruleset_diff_report.json', 'report_consistency_audit.csv', 'judge_reproducibility_report.md'],
   },
   {
     title: 'Audit trail',
@@ -3284,8 +3296,8 @@ function ProofAndFormulas() {
         <p className="proof-copy">
           The current Barcode Compiler is the first working version of a larger engine. Its job is to stop unsafe
           top-hit species claims, preserve useful safe-rank evidence, expose publication blockers and generate a
-          reproducible evidence pack. The full engine extends this with repair optimization, reference-gap analytics,
-          protein sanity for coding markers, assay evidence checks and a Molecular Evidence Graph.
+          reproducible evidence pack. The current contest build also exports the GSEG/GSIG proof layer: VSEA,
+          theorem checklist, graph provenance, roundtrip checks and AI guardrails.
         </p>
         <div className="engine-equation">
           <span>maximize</span>
@@ -3301,8 +3313,8 @@ function ProofAndFormulas() {
         <p className="proof-copy">
           This is the full evidence logic, not just a summary. Each block shows the formula, the variables it uses,
           and what the formula protects against in the workflow. The current backend implements the core compiler
-          gates; the reference completeness, protein sanity, assay evidence, repair optimizer and graph layers are
-          now explicitly specified as the next implementation targets.
+          gates plus the GSEG/GSIG graph-proof exports. Deeper protein, assay, repair and trait/function layers are
+          kept as explicit roadmap or no-claim boundaries unless their evidence is present.
         </p>
       </section>
 
@@ -4898,7 +4910,7 @@ function CompilerWorkbench({
   const filteredRecords = filterDecisionRecords(records, decisionFilter);
   const csvValidation = csvImport?.validation;
   const csvHasFatalErrors = csvValidation && !csvValidation.ok;
-  const keyExports = ['evidence_pack.zip', 'molecular_evidence_report.html', 'sequence_safety_table.csv', 'methods_text.md', 'citations.md', 'hard_gate_audit.csv', 'marker_profile_audit.csv', 'assay_gate_audit.csv', 'repair_plan.csv', 'naive_top_hit_overclaims.csv']
+  const keyExports = ['evidence_pack.zip', 'molecular_evidence_report.html', 'sequence_safety_table.csv', 'methods_text.md', 'citations.md', 'hard_gate_audit.csv', 'marker_profile_audit.csv', 'assay_gate_audit.csv', 'repair_plan.csv', 'naive_top_hit_overclaims.csv', 'theorem_checklist.json', 'verified_segment_evidence_array.parquet', 'graph_provenance_audit.csv']
     .map((name) => exports.find((item) => item.name === name))
     .filter(Boolean);
   const selectedReferenceDatasetMeta = referenceDatasets.find((dataset) => dataset.id === selectedReferenceDataset);
