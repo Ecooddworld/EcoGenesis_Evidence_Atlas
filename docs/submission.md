@@ -100,6 +100,8 @@ The Observatory run additionally produces:
 - `observatory_graph.jsonld`
 - `gbif_export_preview.csv`
 - `ai_ready_dataset.jsonl`
+- `observatory_output_verification.json`
+- `observatory_output_verification.md`
 - all 20 `OPO-*` audit artifacts from `ecogenesis_gsig_observatory_proof_obligations_v4.json`
 
 ## Demo Flow For Judges
@@ -114,7 +116,7 @@ The Observatory run additionally produces:
 8. Upload or explain `examples/aedes_missing_metadata.csv` to show taxonomic evidence preserved while publication is blocked.
 9. Open `Math & proof` to show the deterministic gates.
 10. Show the `GSEG / GSIG proof layer` export group: `theorem_checklist.json`, VSEA Parquet and graph provenance.
-11. Open `Observatory`, run `Run live Aedes Spain`, and show source snapshot, VSEA, graph, exports and Judge tabs.
+11. Open `Observatory`, run `Run live Aedes Spain`, and show the snapshot map, VSEA matrix, evidence graph and proof wheel before opening the source snapshot, VSEA, graph, exports and Judge tabs.
 12. Open `Research audit` to show the live GBIF occurrence-audit layer and 100 evidence claims.
 
 ## Operating Instructions
@@ -137,6 +139,7 @@ cd backend
 .venv/bin/python -m pytest -q
 .venv/bin/python scripts/generate_competition_reports.py
 .venv/bin/python scripts/generate_observatory_demo_report.py
+.venv/bin/python scripts/verify_observatory_outputs.py
 
 cd ../frontend
 npm test -- --run

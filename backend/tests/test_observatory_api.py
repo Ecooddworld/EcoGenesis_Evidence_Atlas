@@ -6,7 +6,7 @@ import requests
 from app.main import app
 from app.observatory.pipeline import run_observatory_demo
 from app.observatory.schemas import ObservatoryRunRequest
-from app.observatory.storage import observatory_artifact_path
+from app.observatory.storage import load_observatory_pack, observatory_artifact_path, observatory_export_manifest
 
 
 OPO_ARTIFACTS = {
@@ -55,6 +55,14 @@ def test_observatory_pipeline_builds_release_pack(tmp_path, monkeypatch) -> None
         "ai_ready_dataset.jsonl",
         "observatory_evidence_pack.zip",
     } <= export_names
+    actual_exports = observatory_export_manifest(pack["run"]["run_id"])
+    assert pack["exports"] == actual_exports
+    persisted_pack = load_observatory_pack(pack["run"]["run_id"])
+    persisted_exports = {item["name"]: item for item in persisted_pack["exports"]}
+    for name in {"observatory_evidence_pack.json", "observatory_evidence_pack.zip"}:
+        assert persisted_exports[name]["sha256"] is None
+        assert persisted_exports[name]["checksum_status"] == "external_manifest_only"
+        assert name not in persisted_pack["run"]["artifact_checksums"]
     assert observatory_artifact_path(pack["run"]["run_id"], "observatory_vsea.parquet").read_bytes()[:4] == b"PAR1"
     assert all(row["context_claim_boundary"].startswith("GBIF context") for row in pack["vsea"])
 

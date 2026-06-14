@@ -128,7 +128,7 @@ The smoke test builds the stack on ports `13200/18200`, checks backend health di
 
 ### GSIG Observatory Flow
 
-The `Observatory` tab is the above-MVP contest layer. It runs a small Aedes Spain GBIF snapshot, links that hashed occurrence context to the molecular VSEA rows, builds a provenance graph and exports all 20 Observatory proof-obligation artifacts.
+The `Observatory` tab is the above-MVP contest layer. It runs a small Aedes Spain GBIF snapshot, links that hashed occurrence context to the molecular VSEA rows, visualizes the snapshot map, VSEA matrix, evidence graph and proof wheel, then exports all 20 Observatory proof-obligation artifacts.
 
 The important boundary is strict: GBIF occurrence data can explain where context came from, but it cannot upgrade a weak or blocked barcode claim. The Observatory UI, AI-ready dataset and GBIF export preview all preserve `claim_state`, caveats and provenance hashes.
 
@@ -144,7 +144,14 @@ cd backend
 .venv/bin/python scripts/generate_observatory_demo_report.py
 ```
 
-Generated outputs are written to `reports/observatory-demo/`.
+Generated outputs are written to `reports/observatory-demo/`. The generator also runs the output verifier and writes `observatory_output_verification.json` and `observatory_output_verification.md`.
+
+Recheck an existing report directory without regenerating data:
+
+```bash
+cd backend
+.venv/bin/python scripts/verify_observatory_outputs.py
+```
 
 FASTA-only input can be searched against a selected reference dataset, but it is intentionally not enough for a GBIF-ready publication decision. The compiler needs occurrence metadata supplied by the user, and production publication requires VSEARCH, BLAST+ or an audited external reference workflow rather than the local deterministic mini-search fallback.
 
@@ -442,6 +449,16 @@ The verification script runs the compiler and API, checks expected decisions, va
 - `reports/barcode-operability/operability_report.md`
 - `reports/barcode-operability/operability_report.json`
 - `reports/barcode-operability/browser-v3-reference-search-dashboard.png`
+
+## Observatory Output Verification
+
+```bash
+cd backend
+.venv/bin/python scripts/generate_observatory_demo_report.py
+.venv/bin/python scripts/verify_observatory_outputs.py
+```
+
+The verifier recomputes SHA256 checksums from the copied report files, checks both Parquet exports for `PAR1`, reconciles CSV row counts with the JSON evidence pack, verifies graph provenance hashes, enforces the visualization/AI/GBIF guardrails and confirms that the ZIP contains the report artifacts listed in `observatory_demo_manifest.csv`. Checksums for `observatory_evidence_pack.json` and `observatory_evidence_pack.zip` are intentionally verified through the external manifest/API, because embedding their final hashes inside the JSON would change the JSON and ZIP themselves.
 
 ## Testing
 

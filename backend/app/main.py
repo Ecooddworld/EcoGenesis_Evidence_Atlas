@@ -50,6 +50,7 @@ from .observatory.storage import (
     latest_observatory_run_id,
     list_observatory_summaries,
     load_observatory_pack,
+    observatory_export_manifest,
     observatory_artifact_path,
 )
 
@@ -384,9 +385,12 @@ def list_observatory_runs() -> list[dict]:
 @app.get("/api/observatory/runs/{run_id}")
 def get_observatory_run(run_id: str) -> dict:
     try:
-        return load_observatory_pack(run_id)
+        pack = load_observatory_pack(run_id)
     except FileNotFoundError as exc:
         raise HTTPException(status_code=404, detail="observatory run not found") from exc
+    pack["exports"] = observatory_export_manifest(run_id)
+    pack.setdefault("run", {})["artifact_checksums"] = {item["name"]: item.get("sha256") for item in pack["exports"]}
+    return pack
 
 
 @app.get("/api/observatory/runs/{run_id}/exports")

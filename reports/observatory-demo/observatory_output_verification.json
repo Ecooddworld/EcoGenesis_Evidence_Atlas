@@ -1,0 +1,367 @@
+{
+  "schema": "ecogenesis.gsig.observatory.output_verification.v1",
+  "summary": {
+    "status": "pass",
+    "checks": 66,
+    "failed": 0,
+    "report_dir": "/Users/oddworld/Documents/BIO./EcoGenesis_Evidence_Atlas/reports/observatory-demo",
+    "vsea_rows": 4,
+    "occurrence_rows": 12,
+    "zip_entries": 43
+  },
+  "checks": [
+    {
+      "name": "report_dir_exists",
+      "status": "pass",
+      "observed": "/Users/oddworld/Documents/BIO./EcoGenesis_Evidence_Atlas/reports/observatory-demo"
+    },
+    {
+      "name": "manifest_has_rows",
+      "status": "pass",
+      "observed": "44 rows"
+    },
+    {
+      "name": "sha256:ai_dataset_export_audit.csv",
+      "status": "pass",
+      "observed": "7465562f6acb11f4141835162de4f3256a783dbea5b404e34caa79ebe8049a23"
+    },
+    {
+      "name": "sha256:ai_ready_dataset.jsonl",
+      "status": "pass",
+      "observed": "9f09945f9b1e7802e22f0571c3b911fdb895145d7c60f86e5996156b193b4626"
+    },
+    {
+      "name": "sha256:api_policy_audit.csv",
+      "status": "pass",
+      "observed": "bbbde51aa4a7f42ebc7c0d7f019fff784a214593466f9766b44e8c83548ef428"
+    },
+    {
+      "name": "sha256:blocked_claim_visibility_audit.csv",
+      "status": "pass",
+      "observed": "55e2e9e0aa3fb1817dbcd0d47a04f387375c318c4d85d439ee237ac8b4da19f8"
+    },
+    {
+      "name": "sha256:claim_boundaries.csv",
+      "status": "pass",
+      "observed": "8b54aab2757ef0f053d478ba29cc2dc19be437e665217e35275bc87390594984"
+    },
+    {
+      "name": "sha256:contract_validation.json",
+      "status": "pass",
+      "observed": "08f9c2d485630646062afcf88315a2d3dcf961ad369eb616017321bcca9cbb06"
+    },
+    {
+      "name": "sha256:contradiction_visual_audit.csv",
+      "status": "pass",
+      "observed": "faacda61c5ad34791ce81c88d462ff292805d1f3b0a366abbadbb2252129e696"
+    },
+    {
+      "name": "sha256:ecogenesis_gsig_observatory_proof_obligations_v4.json",
+      "status": "pass",
+      "observed": "62f01b148f3ea09bd36e6a8f3f37773097ef9713f6a88516557524b04b598c26"
+    },
+    {
+      "name": "sha256:gbif_export_claim_boundary_audit.csv",
+      "status": "pass",
+      "observed": "d4d8dfd0fcfe6c9c3895e60289e6bce21b80030200a86f7211eb4864b7946912"
+    },
+    {
+      "name": "sha256:gbif_export_preview.csv",
+      "status": "pass",
+      "observed": "f9f0e28d0aeabfc37aba51a95b7227b5029043fe35112e82211e88de68e0b287"
+    },
+    {
+      "name": "sha256:gbif_occurrence_context.parquet",
+      "status": "pass",
+      "observed": "c9fa0658647ebfcf7eea3f6ad1c88b1923d50eae0b88612e32a95e7c31241543"
+    },
+    {
+      "name": "sha256:gbif_occurrence_snapshot.json",
+      "status": "pass",
+      "observed": "775ca90695a913128d6ed0579f3ee3268ecd15febb5fd8f6de5f49c1d3186ffb"
+    },
+    {
+      "name": "sha256:gbif_query_strategy_audit.csv",
+      "status": "pass",
+      "observed": "a657343b55724c9abd1499f83090769d8aef8c6916f26533d75ee0d8b3d6ad15"
+    },
+    {
+      "name": "sha256:graph_roundtrip_audit.csv",
+      "status": "pass",
+      "observed": "0d6dc51465aaf4cab97bba5c9679dd49c47a229dc13c071642d2b0c58ee51824"
+    },
+    {
+      "name": "sha256:gsig_observatory_pipeline_dag.yaml",
+      "status": "pass",
+      "observed": "914b0da3f8e70422aff621d6832a04129a583b17d3b190d90024fdda20e82f1c"
+    },
+    {
+      "name": "sha256:gsig_observatory_source_registry.yaml",
+      "status": "pass",
+      "observed": "4980e5fb234d503de1ab7d6eda03522b9b519f19175f73440e78e97f041a5d5c"
+    },
+    {
+      "name": "sha256:gsig_observatory_ui_contract.yaml",
+      "status": "pass",
+      "observed": "34d5945e8ee061f4c0c59109b0f0cab5f067a2073b7eb3ef6704868e51f193e6"
+    },
+    {
+      "name": "sha256:judge_mode_non_claims_audit.csv",
+      "status": "pass",
+      "observed": "ce9dec5cacabbf148ea0d1d52727c01b878a9be0a4d46608d9606a048a7e85ae"
+    },
+    {
+      "name": "sha256:license_blocker_audit.csv",
+      "status": "pass",
+      "observed": "b8c13e3191c15172dbd6dd055106953334d09696d34c670897d2c1b8051f770c"
+    },
+    {
+      "name": "sha256:literature_claim_state_audit.csv",
+      "status": "pass",
+      "observed": "62f77a1c59d066a32da6bd61c6e2562110d39464d03ae5833b413023f56290d4"
+    },
+    {
+      "name": "sha256:normalized_occurrence_context.csv",
+      "status": "pass",
+      "observed": "a2adf3116c7b77906059d7b9543ca64faaeb3ba1bdba9089bacb7dbf6551e98c"
+    },
+    {
+      "name": "sha256:normalized_occurrence_context.json",
+      "status": "pass",
+      "observed": "16f80c7ee8ee742e507b7ce03e3398aafc7d4316a600af2b26971c6fc88cf29a"
+    },
+    {
+      "name": "sha256:observatory_evidence_pack.json",
+      "status": "pass",
+      "observed": "debe70da1b3bb8de262644828f433e71bb53bd20cd603904e93781119cdefa80"
+    },
+    {
+      "name": "sha256:observatory_evidence_pack.zip",
+      "status": "pass",
+      "observed": "8e6dd3dfc6eac800120f47d67598583da8207369d711d864b3dc4499b6728847"
+    },
+    {
+      "name": "sha256:observatory_graph.jsonld",
+      "status": "pass",
+      "observed": "babdd1f0d74637cd54d1df2b80c13c5fad91491d961dcded041187d4f75141e0"
+    },
+    {
+      "name": "sha256:observatory_report.md",
+      "status": "pass",
+      "observed": "f8fafec209338fa2deae7195a577229ebb83895a4ecac61860f7b2e839ec8f02"
+    },
+    {
+      "name": "sha256:observatory_status.json",
+      "status": "pass",
+      "observed": "78767d0ec8149c5c212354836626c3d5ee857a8a2501ebdbf94ed96ed6592003"
+    },
+    {
+      "name": "sha256:observatory_vsea.csv",
+      "status": "pass",
+      "observed": "aa9572c82dd4083b9f01f3ba9ee57120c5a219f4be7be5fa5791cc8c9b354aa4"
+    },
+    {
+      "name": "sha256:observatory_vsea.jsonl",
+      "status": "pass",
+      "observed": "271fa98c98d6935b75c805eb2dc8babacde3c75cdcf1caf2c63c57413371a28c"
+    },
+    {
+      "name": "sha256:observatory_vsea.parquet",
+      "status": "pass",
+      "observed": "f5c11a7d93722a2b1e8576dfd4e1f195e5fb7b8b5fefec8959b2075128f94e10"
+    },
+    {
+      "name": "sha256:offline_demo_reproducibility.json",
+      "status": "pass",
+      "observed": "a517aaff83911dd68ab0c8275501b47c3fcab842eca79d0d7b1ebb17177a34cf"
+    },
+    {
+      "name": "sha256:pipeline_execution_trace.json",
+      "status": "pass",
+      "observed": "fa8584623812d843ddc2b3432f6e39f3362a780b226bdf004ebde73a021d26bc"
+    },
+    {
+      "name": "sha256:proof_summary.json",
+      "status": "pass",
+      "observed": "12b649a74516793db8129b59154e8a72f5a4add8432cf569aaef028b26d89226"
+    },
+    {
+      "name": "sha256:repair_optimizer_guardrail_audit.csv",
+      "status": "pass",
+      "observed": "6fa4399a27a3560666d5768b1443a25281fa1d4d00b207b441c9dbfbd72e7e08"
+    },
+    {
+      "name": "sha256:segment_catalog.csv",
+      "status": "pass",
+      "observed": "e5533a3c7e7d9c2f5704cff9abda59f40268d0e02f3a60bdbb6698d8da02e3f0"
+    },
+    {
+      "name": "sha256:sharedness_visual_overclaim_audit.csv",
+      "status": "pass",
+      "observed": "df08191c75954854c5a3e3ad9c7e13b98cf24148e23661f061152f0a4448c90d"
+    },
+    {
+      "name": "sha256:snapshot_manifest.json",
+      "status": "pass",
+      "observed": "d47333c7093ed13d08baf45c7f28e021799ac4692a0e7be31e7a95ff63f072bd"
+    },
+    {
+      "name": "sha256:source_freshness_claim_audit.csv",
+      "status": "pass",
+      "observed": "e9c705e5a84f5599f02bc75184815e619b6eb3d229fce3b4b0a2f07d2676bd1a"
+    },
+    {
+      "name": "sha256:source_provenance_manifest.json",
+      "status": "pass",
+      "observed": "289456c0795ad52b259d39a9cd3af4c38bb0ce5ae825b1fd4864033c4d7846c0"
+    },
+    {
+      "name": "sha256:source_registry_audit.json",
+      "status": "pass",
+      "observed": "4e591b8ce64f54e3ed3b3c19058d61e977a5116af95f6b5d59fa3b2b48578f2a"
+    },
+    {
+      "name": "sha256:taxa_segments.csv",
+      "status": "pass",
+      "observed": "1147f178acfbf52578912c7a2760bc3e989655500c468c3962c8392cc8b6108a"
+    },
+    {
+      "name": "sha256:ui_ledger_consistency_audit.csv",
+      "status": "pass",
+      "observed": "be19f87b5313adc3b3465e4ef6ae17df162342edaa5e6fd4fe6a04a808854a60"
+    },
+    {
+      "name": "sha256:visualization_guardrail_audit.csv",
+      "status": "pass",
+      "observed": "f5962202c5fe296f8ee29b552994be7d6ab5001bf426e93720058ff8278b2179"
+    },
+    {
+      "name": "sha256:vsea_provenance_audit.csv",
+      "status": "pass",
+      "observed": "3b47a57224f4e1f78f545a197b6e5cdc6341b8de068caffd3631e40eb35cb4f7"
+    },
+    {
+      "name": "proof_total_20",
+      "status": "pass",
+      "observed": 20
+    },
+    {
+      "name": "proof_hard_gate_pass",
+      "status": "pass",
+      "observed": 0
+    },
+    {
+      "name": "all_opo_artifacts_present",
+      "status": "pass",
+      "observed": []
+    },
+    {
+      "name": "embedded_export_checksums_match_manifest",
+      "status": "pass",
+      "observed": "non-self exports checked"
+    },
+    {
+      "name": "self_referential_exports_deferred",
+      "status": "pass",
+      "observed": {
+        "observatory_evidence_pack.json": {
+          "name": "observatory_evidence_pack.json",
+          "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/observatory_evidence_pack.json",
+          "size_bytes": 132713,
+          "sha256": null,
+          "checksum_status": "external_manifest_only",
+          "checksum_note": "Checksum is verified from the file manifest/API because embedding it here would change this evidence pack or ZIP."
+        },
+        "observatory_evidence_pack.zip": {
+          "name": "observatory_evidence_pack.zip",
+          "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/observatory_evidence_pack.zip",
+          "size_bytes": 64537,
+          "sha256": null,
+          "checksum_status": "external_manifest_only",
+          "checksum_note": "Checksum is verified from the file manifest/API because embedding it here would change this evidence pack or ZIP."
+        }
+      }
+    },
+    {
+      "name": "artifact_checksums_exclude_self_references",
+      "status": "pass",
+      "observed": []
+    },
+    {
+      "name": "artifact_checksums_match_manifest",
+      "status": "pass",
+      "observed": "42 embedded checksums"
+    },
+    {
+      "name": "vsea_parquet_magic",
+      "status": "pass",
+      "observed": "PAR1"
+    },
+    {
+      "name": "occurrence_parquet_magic",
+      "status": "pass",
+      "observed": "PAR1"
+    },
+    {
+      "name": "vsea_count_matches_pack",
+      "status": "pass",
+      "observed": 4
+    },
+    {
+      "name": "occurrence_count_matches_pack",
+      "status": "pass",
+      "observed": 12
+    },
+    {
+      "name": "graph_items_have_provenance",
+      "status": "pass",
+      "observed": 31
+    },
+    {
+      "name": "graph_count_matches_summary",
+      "status": "pass",
+      "observed": 31
+    },
+    {
+      "name": "visualization_no_promotion",
+      "status": "pass",
+      "observed": {
+        "pass": 4
+      }
+    },
+    {
+      "name": "ai_export_no_false_verified",
+      "status": "pass",
+      "observed": {
+        "pass": 4
+      }
+    },
+    {
+      "name": "gbif_export_boundary_pass",
+      "status": "pass",
+      "observed": {
+        "pass": 4
+      }
+    },
+    {
+      "name": "weak_rows_not_positive_verified",
+      "status": "pass",
+      "observed": "weak rows checked"
+    },
+    {
+      "name": "snapshot_hash_present",
+      "status": "pass",
+      "observed": "gbif-aedes-spain-30dc62b4a7bd"
+    },
+    {
+      "name": "source_registry_audit_pass",
+      "status": "pass",
+      "observed": "source registry"
+    },
+    {
+      "name": "zip_contains_report_artifacts",
+      "status": "pass",
+      "observed": []
+    }
+  ]
+}

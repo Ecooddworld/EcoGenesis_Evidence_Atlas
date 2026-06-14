@@ -7,7 +7,7 @@ cd backend
 .venv/bin/python scripts/generate_observatory_demo_report.py
 ```
 
-Run ID: `856f7bfa66814ce785b2bd809a252715`
+Run ID: `38d525a51d8546e598b9f5cbe9864c42`
 
 ## Result
 
@@ -34,3 +34,5 @@ Key files:
 - `gbif_export_preview.csv`
 - `ai_ready_dataset.jsonl`
 - `proof_summary.json`
+- `observatory_output_verification.json`
+- `observatory_output_verification.md`

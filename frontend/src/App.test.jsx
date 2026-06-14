@@ -1096,11 +1096,15 @@ describe('Barcode compiler UI', () => {
     await waitFor(() => expect(screen.getByText('Hard gates pass')).toBeInTheDocument());
     expect(screen.getByText('Download Observatory Pack')).toBeInTheDocument();
     expect(screen.getByText('GBIF snapshot')).toBeInTheDocument();
+    expect(screen.getByText('Snapshot map')).toBeInTheDocument();
+    expect(screen.getAllByText('VSEA matrix').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Evidence graph').length).toBeGreaterThan(0);
+    expect(screen.getByText('Proof wheel')).toBeInTheDocument();
 
-    fireEvent.click(screen.getByText('VSEA'));
-    expect(screen.getByText('AALB-COI-good')).toBeInTheDocument();
-    expect(screen.getByText('taxon_supported')).toBeInTheDocument();
-    expect(screen.getByText('weak_hypothesis')).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'VSEA' }));
+    expect(screen.getAllByText('AALB-COI-good').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('taxon_supported').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('weak_hypothesis').length).toBeGreaterThan(0);
 
     fireEvent.click(screen.getByText('Judge'));
     expect(screen.getByText('OPO-01')).toBeInTheDocument();

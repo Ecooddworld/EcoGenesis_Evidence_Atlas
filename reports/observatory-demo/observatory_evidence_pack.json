@@ -1,13 +1,13 @@
 {
   "schema": "ecogenesis.gsig.observatory.evidence_pack.v1",
   "run": {
-    "run_id": "856f7bfa66814ce785b2bd809a252715",
+    "run_id": "38d525a51d8546e598b9f5cbe9864c42",
     "mode": "offline_demo",
-    "started_at": "2026-06-14T21:29:30.958548+00:00",
-    "finished_at": "2026-06-14T21:29:31.205101+00:00",
+    "started_at": "2026-06-14T22:03:14.450380+00:00",
+    "finished_at": "2026-06-14T22:03:14.578252+00:00",
     "tool": "EcoGenesis GSIG Observatory",
     "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-    "barcode_run_id": "bd7d4d30d3374bc793e6b589078adad6",
+    "barcode_run_id": "0bf2e37ba9354de2859702a12d2efe9e",
     "contract_validation": {
       "status": "pass",
       "checks": {
@@ -25,18 +25,18 @@
     },
     "artifact_checksums": {
       "ai_dataset_export_audit.csv": "7465562f6acb11f4141835162de4f3256a783dbea5b404e34caa79ebe8049a23",
-      "ai_ready_dataset.jsonl": "2165c0234a24fb25b8e4a05893a4151ff1894d6f885bed5f34a36f117132973d",
+      "ai_ready_dataset.jsonl": "9f09945f9b1e7802e22f0571c3b911fdb895145d7c60f86e5996156b193b4626",
       "api_policy_audit.csv": "bbbde51aa4a7f42ebc7c0d7f019fff784a214593466f9766b44e8c83548ef428",
       "blocked_claim_visibility_audit.csv": "55e2e9e0aa3fb1817dbcd0d47a04f387375c318c4d85d439ee237ac8b4da19f8",
-      "claim_boundaries.csv": "59fe0ca3688a4d9a36b231289dc9f24721349c7ee4540e6273a9219c3fe01884",
+      "claim_boundaries.csv": "8b54aab2757ef0f053d478ba29cc2dc19be437e665217e35275bc87390594984",
       "contract_validation.json": "08f9c2d485630646062afcf88315a2d3dcf961ad369eb616017321bcca9cbb06",
       "contradiction_visual_audit.csv": "faacda61c5ad34791ce81c88d462ff292805d1f3b0a366abbadbb2252129e696",
       "ecogenesis_gsig_observatory_proof_obligations_v4.json": "62f01b148f3ea09bd36e6a8f3f37773097ef9713f6a88516557524b04b598c26",
       "gbif_export_claim_boundary_audit.csv": "d4d8dfd0fcfe6c9c3895e60289e6bce21b80030200a86f7211eb4864b7946912",
-      "gbif_export_preview.csv": "5bd3872e99f1c3b080ccc63a8ebc8f55628a39efd39806695e094e75229239eb",
+      "gbif_export_preview.csv": "f9f0e28d0aeabfc37aba51a95b7227b5029043fe35112e82211e88de68e0b287",
       "gbif_occurrence_context.parquet": "c9fa0658647ebfcf7eea3f6ad1c88b1923d50eae0b88612e32a95e7c31241543",
       "gbif_occurrence_snapshot.json": "775ca90695a913128d6ed0579f3ee3268ecd15febb5fd8f6de5f49c1d3186ffb",
-      "gbif_query_strategy_audit.csv": "b709e1e13ca3a51a2c2548d6777fe50a20694094fbcacd96a25012c9a555adcd",
+      "gbif_query_strategy_audit.csv": "a657343b55724c9abd1499f83090769d8aef8c6916f26533d75ee0d8b3d6ad15",
       "graph_roundtrip_audit.csv": "0d6dc51465aaf4cab97bba5c9679dd49c47a229dc13c071642d2b0c58ee51824",
       "gsig_observatory_pipeline_dag.yaml": "914b0da3f8e70422aff621d6832a04129a583b17d3b190d90024fdda20e82f1c",
       "gsig_observatory_source_registry.yaml": "4980e5fb234d503de1ab7d6eda03522b9b519f19175f73440e78e97f041a5d5c",
@@ -46,29 +46,32 @@
       "literature_claim_state_audit.csv": "62f77a1c59d066a32da6bd61c6e2562110d39464d03ae5833b413023f56290d4",
       "normalized_occurrence_context.csv": "a2adf3116c7b77906059d7b9543ca64faaeb3ba1bdba9089bacb7dbf6551e98c",
       "normalized_occurrence_context.json": "16f80c7ee8ee742e507b7ce03e3398aafc7d4316a600af2b26971c6fc88cf29a",
-      "observatory_evidence_pack.json": "4913534e973de1d3cbbe3b16d59de483b69fdeabe0a52b4a751b3334877dcd3a",
-      "observatory_evidence_pack.zip": "b618e06b06cb1e4a80b69109e767a60d08db0690d61c0452b26aefcf09ebae31",
-      "observatory_graph.jsonld": "cb1dc9ec84661c0f158d665c293702f3f24999a95a5465404bf50658158426ba",
-      "observatory_report.md": "ce9bda7ba7c909b3b70175373f6d7373a5619ed275fee35f065339bea48fdb81",
+      "observatory_graph.jsonld": "babdd1f0d74637cd54d1df2b80c13c5fad91491d961dcded041187d4f75141e0",
+      "observatory_report.md": "f8fafec209338fa2deae7195a577229ebb83895a4ecac61860f7b2e839ec8f02",
       "observatory_status.json": "78767d0ec8149c5c212354836626c3d5ee857a8a2501ebdbf94ed96ed6592003",
-      "observatory_vsea.csv": "8d833ed969932b3f22b8b1671f4293aa13dc122c84f2fc843f54dfca4b53629a",
-      "observatory_vsea.jsonl": "ede06936d7d6db62b8f94f7440ad962d4d529751947e0e9730af97b3ee427522",
-      "observatory_vsea.parquet": "33e6d18c7bbb7f04c904e6cd5e2a5720172a089442fd9ef4b0b6cf4cb4371556",
-      "offline_demo_reproducibility.json": "03e759f9311c56d62d0d317da91134f16c5955ad65b6726cc2b57e8e528f1ff0",
+      "observatory_vsea.csv": "aa9572c82dd4083b9f01f3ba9ee57120c5a219f4be7be5fa5791cc8c9b354aa4",
+      "observatory_vsea.jsonl": "271fa98c98d6935b75c805eb2dc8babacde3c75cdcf1caf2c63c57413371a28c",
+      "observatory_vsea.parquet": "f5c11a7d93722a2b1e8576dfd4e1f195e5fb7b8b5fefec8959b2075128f94e10",
+      "offline_demo_reproducibility.json": "a517aaff83911dd68ab0c8275501b47c3fcab842eca79d0d7b1ebb17177a34cf",
       "pipeline_execution_trace.json": "fa8584623812d843ddc2b3432f6e39f3362a780b226bdf004ebde73a021d26bc",
       "proof_summary.json": "12b649a74516793db8129b59154e8a72f5a4add8432cf569aaef028b26d89226",
       "repair_optimizer_guardrail_audit.csv": "6fa4399a27a3560666d5768b1443a25281fa1d4d00b207b441c9dbfbd72e7e08",
       "segment_catalog.csv": "e5533a3c7e7d9c2f5704cff9abda59f40268d0e02f3a60bdbb6698d8da02e3f0",
       "sharedness_visual_overclaim_audit.csv": "df08191c75954854c5a3e3ad9c7e13b98cf24148e23661f061152f0a4448c90d",
-      "snapshot_manifest.json": "ea46fa74bdb9a5db599a087b1db7b09b68923d49e47fe84c6532eef7aaad52fc",
-      "source_freshness_claim_audit.csv": "e03b05037db1083041c17bc2d5c3536268c03b85e66e4cd9fab3c043ca72b393",
-      "source_provenance_manifest.json": "ed3f9c03745bd86a7d4e06b4ded596dfde5ab718f120cbb112576481eb0c67f4",
+      "snapshot_manifest.json": "d47333c7093ed13d08baf45c7f28e021799ac4692a0e7be31e7a95ff63f072bd",
+      "source_freshness_claim_audit.csv": "e9c705e5a84f5599f02bc75184815e619b6eb3d229fce3b4b0a2f07d2676bd1a",
+      "source_provenance_manifest.json": "289456c0795ad52b259d39a9cd3af4c38bb0ce5ae825b1fd4864033c4d7846c0",
       "source_registry_audit.json": "4e591b8ce64f54e3ed3b3c19058d61e977a5116af95f6b5d59fa3b2b48578f2a",
       "taxa_segments.csv": "1147f178acfbf52578912c7a2760bc3e989655500c468c3962c8392cc8b6108a",
       "ui_ledger_consistency_audit.csv": "be19f87b5313adc3b3465e4ef6ae17df162342edaa5e6fd4fe6a04a808854a60",
       "visualization_guardrail_audit.csv": "f5962202c5fe296f8ee29b552994be7d6ab5001bf426e93720058ff8278b2179",
       "vsea_provenance_audit.csv": "3b47a57224f4e1f78f545a197b6e5cdc6341b8de068caffd3631e40eb35cb4f7"
-    }
+    },
+    "self_referential_exports": [
+      "observatory_evidence_pack.json",
+      "observatory_evidence_pack.zip"
+    ],
+    "external_checksum_manifest": "Use observatory_demo_manifest.csv or GET /api/observatory/runs/{run_id} for final self/ZIP checksums."
   },
   "request": {
     "mode": "offline_demo",
@@ -896,7 +899,7 @@
     },
     "query_sha256": "e97efa4320a4fad6b12a9c7291dbd82b6b922d7e82c38c3d98866f8450c8f66d",
     "raw_payload_sha256": "e10968fba4a7366821709e8c8e3e7fa1898c727b0cfa31dd52e830c10814dba4",
-    "retrieved_at": "2026-06-14T21:29:31.004632+00:00",
+    "retrieved_at": "2026-06-14T22:03:14.485769+00:00",
     "records_returned": 12,
     "normalized_records": 12,
     "claim_boundary": "Occurrence records are context and provenance only; they do not strengthen molecular taxon support.",
@@ -1161,7 +1164,7 @@
       {
         "source_id": "project_user_uploads",
         "status": "barcode_pack_compiled",
-        "barcode_run_id": "bd7d4d30d3374bc793e6b589078adad6",
+        "barcode_run_id": "0bf2e37ba9354de2859702a12d2efe9e",
         "request_fingerprint": "463387c1727e1d4c8152dcb1647c7e63f74d17eeabe89995a7e3470b92e31e06",
         "claim_boundary": "Molecular barcode/GSEG gates define taxon support."
       }
@@ -1449,7 +1452,7 @@
   "vsea": [
     {
       "vsea_id": "obs-vsea:AALB-COI-good:1",
-      "barcode_run_id": "bd7d4d30d3374bc793e6b589078adad6",
+      "barcode_run_id": "0bf2e37ba9354de2859702a12d2efe9e",
       "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
       "source_id": "project_user_uploads",
       "context_source_id": "gbif_occurrence_api",
@@ -1478,13 +1481,13 @@
       "ui_claim_state": "taxon_supported",
       "ai_label": "positive_verified",
       "gbif_export_state": "candidate_gbif_row",
-      "provenance_hash": "9c7682fc82e34de377023f00c13f0c840f131ddb924c1816604a2393d91bf44f",
-      "observatory_provenance_hash": "2d4e4304320de20a425147236a762465a75039a1a98ff80197b105985eacd413",
+      "provenance_hash": "f9ee263afd6c8fbd0ec127d833486e1e1eef80532a57e7e9b20853359313ba92",
+      "observatory_provenance_hash": "1760e75d811665f3b2acf6ab662c6a1720c2fd542d47fed4c71eb878d95f91f4",
       "record_provenance_hash": "de76aa8e69696459c496af28d8cc42d72671b2516aa39e256dce94297676820f"
     },
     {
       "vsea_id": "obs-vsea:AALB-COI-ambiguous:2",
-      "barcode_run_id": "bd7d4d30d3374bc793e6b589078adad6",
+      "barcode_run_id": "0bf2e37ba9354de2859702a12d2efe9e",
       "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
       "source_id": "project_user_uploads",
       "context_source_id": "gbif_occurrence_api",
@@ -1513,13 +1516,13 @@
       "ui_claim_state": "taxon_supported",
       "ai_label": "positive_verified",
       "gbif_export_state": "candidate_gbif_row",
-      "provenance_hash": "c43ece25a27c5c677c10b760dc541886bfed862b03b2994bece54445f0fef655",
-      "observatory_provenance_hash": "902a5380c21306a8499ad256eae1bb68619960486339ccc1957bc7f4f1fc6a40",
+      "provenance_hash": "2a96da22b1f7a21e54c36d15eddf6a01e04b1f57dbd31e5ab5c1a4cbee1a6648",
+      "observatory_provenance_hash": "f0cb7fc5e81854981fb97eac8792fea406231e3c3abc4e64426efb14b00242a3",
       "record_provenance_hash": "bf091de0f0498057d18b5e9cf231d09ac8ca829b8322a60e9de9cfc4c72a2d39"
     },
     {
       "vsea_id": "obs-vsea:AALB-COI-short:3",
-      "barcode_run_id": "bd7d4d30d3374bc793e6b589078adad6",
+      "barcode_run_id": "0bf2e37ba9354de2859702a12d2efe9e",
       "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
       "source_id": "project_user_uploads",
       "context_source_id": "gbif_occurrence_api",
@@ -1548,13 +1551,13 @@
       "ui_claim_state": "weak_hypothesis",
       "ai_label": "candidate_hypothesis",
       "gbif_export_state": "excluded_or_repair_required",
-      "provenance_hash": "e41d9ae73db8dbdddc47ffab542d8261f4d4b58ccd9a158cbe28a4267575e1d8",
-      "observatory_provenance_hash": "d750f3da6bce5c9d691dd2fe1613a0d9f67013907a6724d14e207a3f0008a78e",
+      "provenance_hash": "fd0b1242b8e47507776020b6f4e6ccf54b93258f5ea0cb37969e7aa8cbdcdab9",
+      "observatory_provenance_hash": "1a2fc0978d03d9673282261d89e4859c47b9485fa8f7d72dfeb4fb22d3bc3cb7",
       "record_provenance_hash": "758c2b907c2ee7c9e100e23b5f0ef9118e62639d5826c62c8a84cba06e211659"
     },
     {
       "vsea_id": "obs-vsea:AALB-COI-metadata-gap:4",
-      "barcode_run_id": "bd7d4d30d3374bc793e6b589078adad6",
+      "barcode_run_id": "0bf2e37ba9354de2859702a12d2efe9e",
       "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
       "source_id": "project_user_uploads",
       "context_source_id": "gbif_occurrence_api",
@@ -1583,8 +1586,8 @@
       "ui_claim_state": "taxon_supported",
       "ai_label": "positive_verified",
       "gbif_export_state": "excluded_or_repair_required",
-      "provenance_hash": "b93f2405a0c132ffa3897de040ac4c809f125202f6c06398fb9c5f8cbe9ad5ac",
-      "observatory_provenance_hash": "17d67a197894909f7f542105e1a7365abc15386b8f4ff05a7e01b196ec823cbd",
+      "provenance_hash": "04f4b89770f76abba4a85245bc77ccbd1b9d08d87bd8892a4be3f32dc3a285f9",
+      "observatory_provenance_hash": "2330da7c4b390f7595289232a334ff3114b4ff1592639db2165fc8c04f29ef1d",
       "record_provenance_hash": "6a782175846025b9a7eb6ac6b1a8ef84393784ed23ca9f4f0b81f47009888711"
     }
   ],
@@ -1672,7 +1675,7 @@
       "blockers": "",
       "gbif_context_promotes_claim": false,
       "ui_promotes_claim": false,
-      "provenance_hash": "cc4f9253b4ccf370c9baf5858c1d3742c1f2d05f1c9886ebefb805bb6488955d"
+      "provenance_hash": "a465f92632db30932827c30b7f03d4c09fddfdf6ef8dad5a0272aa43bbc14338"
     },
     {
       "claim_id": "claim:segment:AALB-COI-ambiguous:1-622:taxon:genus:Aedes",
@@ -1685,7 +1688,7 @@
       "blockers": "species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus",
       "gbif_context_promotes_claim": false,
       "ui_promotes_claim": false,
-      "provenance_hash": "25258a99fa4e0617342cc1711bef40a14e819fc5da18e0c2c463e30840ace660"
+      "provenance_hash": "ecb337b75b008e19e35c6aa6cddd0bca92cbd7704f66652a9be6dcfe96b77362"
     },
     {
       "claim_id": "claim:segment:AALB-COI-short:1-622:taxon:species:Aedes albopictus",
@@ -1698,7 +1701,7 @@
       "blockers": "species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%; species claim blocked: query coverage < 80%",
       "gbif_context_promotes_claim": false,
       "ui_promotes_claim": false,
-      "provenance_hash": "a8fa9c0c195b605da31a734deda8168aff4fa76637240e9825e78cf9f6879dba"
+      "provenance_hash": "e94564aca6e200041b1cdb8c59632000ddb68ab4474e9ed761d0d40f4568f9e9"
     },
     {
       "claim_id": "claim:segment:AALB-COI-metadata-gap:1-622:taxon:species:Aedes albopictus",
@@ -1711,7 +1714,7 @@
       "blockers": "publication blocked: missing required Occurrence core field occurrenceID; publication blocked: missing required Occurrence core field eventDate",
       "gbif_context_promotes_claim": false,
       "ui_promotes_claim": false,
-      "provenance_hash": "02cb7598920b606f6304198886fe7226ed40849a02744fc3213b9c98649bc1d8"
+      "provenance_hash": "91a8c21db9e4eeeaaec3a7b3ab249e4050f26f41c1cfee069f56c26eaab3cad0"
     }
   ],
   "graph": {
@@ -1733,11 +1736,11 @@
     },
     "@graph": [
       {
-        "id": "run:856f7bfa66814ce785b2bd809a252715",
+        "id": "run:38d525a51d8546e598b9f5cbe9864c42",
         "type": "Run",
         "mode": "offline_demo",
         "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-        "provenance_hash": "4e443dd5d15ab53b580a7067c8a06acdc390f138026a98da490a96148e1c8f68"
+        "provenance_hash": "0b17175d2646bf3e92da160738faf556b46df27600c1a8556faae765f8733449"
       },
       {
         "id": "source:gbif_occurrence_api",
@@ -1850,49 +1853,49 @@
         "provenance_hash": "d41e9514605b6d07e1b039d02a38fefbb72434b9b643a753dc5918b20f5b29f3"
       },
       {
-        "id": "edge:856f7bfa66814ce785b2bd809a252715:uses-snapshot",
+        "id": "edge:38d525a51d8546e598b9f5cbe9864c42:uses-snapshot",
         "type": "USES_SNAPSHOT",
-        "source": "run:856f7bfa66814ce785b2bd809a252715",
+        "source": "run:38d525a51d8546e598b9f5cbe9864c42",
         "target": "snapshot:gbif-aedes-spain-30dc62b4a7bd",
         "claim_state": "occurrence_context",
         "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-        "provenance_hash": "7696079a59995044acd0683e64ca267c735b26c800c1269500ebcd1bb213c992"
+        "provenance_hash": "2d5b9500a80cdad05a97a3d97683e8e9df923bc4b53c30dcf18af98bf66aa8f6"
       },
       {
-        "id": "edge:856f7bfa66814ce785b2bd809a252715:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9:source",
+        "id": "edge:38d525a51d8546e598b9f5cbe9864c42:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9:source",
         "type": "FROM_SOURCE",
         "source": "segment:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
         "target": "source:project_user_uploads",
         "claim_state": "taxon_supported",
         "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-        "provenance_hash": "98105c6ec7f19df43087fea1c008781cacb27ba57c6e4b8cbd46c35d8e5d222e"
+        "provenance_hash": "87442c4152a34c8ccd7b566b042f35acc40d416164cc228df56830e1078af2e4"
       },
       {
-        "id": "edge:856f7bfa66814ce785b2bd809a252715:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9:source",
+        "id": "edge:38d525a51d8546e598b9f5cbe9864c42:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9:source",
         "type": "FROM_SOURCE",
         "source": "segment:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
         "target": "source:project_user_uploads",
         "claim_state": "taxon_supported",
         "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-        "provenance_hash": "98105c6ec7f19df43087fea1c008781cacb27ba57c6e4b8cbd46c35d8e5d222e"
+        "provenance_hash": "87442c4152a34c8ccd7b566b042f35acc40d416164cc228df56830e1078af2e4"
       },
       {
-        "id": "edge:856f7bfa66814ce785b2bd809a252715:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9:source",
+        "id": "edge:38d525a51d8546e598b9f5cbe9864c42:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9:source",
         "type": "FROM_SOURCE",
         "source": "segment:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
         "target": "source:project_user_uploads",
         "claim_state": "weak_hypothesis",
         "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-        "provenance_hash": "9912eb671bccfff83194b702d7c5d0e5c5d666e0337b0b0c28dcecada2d203a8"
+        "provenance_hash": "766bc081c18e91fe9e7f40bdddd50fd2c0a0cfeea8b21740ca701686e090cb48"
       },
       {
-        "id": "edge:856f7bfa66814ce785b2bd809a252715:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9:source",
+        "id": "edge:38d525a51d8546e598b9f5cbe9864c42:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9:source",
         "type": "FROM_SOURCE",
         "source": "segment:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
         "target": "source:project_user_uploads",
         "claim_state": "taxon_supported",
         "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-        "provenance_hash": "98105c6ec7f19df43087fea1c008781cacb27ba57c6e4b8cbd46c35d8e5d222e"
+        "provenance_hash": "87442c4152a34c8ccd7b566b042f35acc40d416164cc228df56830e1078af2e4"
       },
       {
         "id": "edge:claim:segment:AALB-COI-good:1-622:taxon:species:Aedes albopictus:segment",
@@ -2004,7 +2007,7 @@
       }
     ],
     "summary": {
-      "run_id": "856f7bfa66814ce785b2bd809a252715",
+      "run_id": "38d525a51d8546e598b9f5cbe9864c42",
       "nodes": 14,
       "edges": 17,
       "claim_states": {
@@ -2025,7 +2028,7 @@
       "export_state": "ready_for_gbif_review",
       "blockers": "",
       "basis": "molecular gates only; GBIF occurrence context does not promote claim",
-      "provenance_hash": "2d4e4304320de20a425147236a762465a75039a1a98ff80197b105985eacd413"
+      "provenance_hash": "1760e75d811665f3b2acf6ab662c6a1720c2fd542d47fed4c71eb878d95f91f4"
     },
     {
       "occurrenceID": "urn:ecogenesis:observatory:AALB-COI-ambiguous",
@@ -2038,7 +2041,7 @@
       "export_state": "ready_for_gbif_review",
       "blockers": "species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus",
       "basis": "molecular gates only; GBIF occurrence context does not promote claim",
-      "provenance_hash": "902a5380c21306a8499ad256eae1bb68619960486339ccc1957bc7f4f1fc6a40"
+      "provenance_hash": "f0cb7fc5e81854981fb97eac8792fea406231e3c3abc4e64426efb14b00242a3"
     },
     {
       "occurrenceID": "urn:ecogenesis:observatory:AALB-COI-short",
@@ -2051,7 +2054,7 @@
       "export_state": "blocked_or_repair_required",
       "blockers": "species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%; species claim blocked: query coverage < 80%",
       "basis": "molecular gates only; GBIF occurrence context does not promote claim",
-      "provenance_hash": "d750f3da6bce5c9d691dd2fe1613a0d9f67013907a6724d14e207a3f0008a78e"
+      "provenance_hash": "1a2fc0978d03d9673282261d89e4859c47b9485fa8f7d72dfeb4fb22d3bc3cb7"
     },
     {
       "occurrenceID": "urn:ecogenesis:observatory:AALB-COI-metadata-gap",
@@ -2064,7 +2067,7 @@
       "export_state": "blocked_or_repair_required",
       "blockers": "publication blocked: missing required Occurrence core field occurrenceID; publication blocked: missing required Occurrence core field eventDate",
       "basis": "molecular gates only; GBIF occurrence context does not promote claim",
-      "provenance_hash": "17d67a197894909f7f542105e1a7365abc15386b8f4ff05a7e01b196ec823cbd"
+      "provenance_hash": "2330da7c4b390f7595289232a334ff3114b4ff1592639db2165fc8c04f29ef1d"
     }
   ],
   "ai_ready_dataset": [
@@ -2078,7 +2081,7 @@
       "features_only": false,
       "caveats": "absolute species truth outside the stated reference context; natural presence, absence, abundance or distribution without occurrence evidence; phenotype, pathogenicity, ecological role or invasiveness; replacement for GBIF Sequence ID, curated reference databases or expert review",
       "blockers": "",
-      "provenance_hash": "2d4e4304320de20a425147236a762465a75039a1a98ff80197b105985eacd413"
+      "provenance_hash": "1760e75d811665f3b2acf6ab662c6a1720c2fd542d47fed4c71eb878d95f91f4"
     },
     {
       "segment_id": "segment:AALB-COI-ambiguous:1-622",
@@ -2090,7 +2093,7 @@
       "features_only": false,
       "caveats": "absolute species truth outside the stated reference context; natural presence, absence, abundance or distribution without occurrence evidence; phenotype, pathogenicity, ecological role or invasiveness; replacement for GBIF Sequence ID, curated reference databases or expert review",
       "blockers": "species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus",
-      "provenance_hash": "902a5380c21306a8499ad256eae1bb68619960486339ccc1957bc7f4f1fc6a40"
+      "provenance_hash": "f0cb7fc5e81854981fb97eac8792fea406231e3c3abc4e64426efb14b00242a3"
     },
     {
       "segment_id": "segment:AALB-COI-short:1-622",
@@ -2102,7 +2105,7 @@
       "features_only": true,
       "caveats": "absolute species truth outside the stated reference context; natural presence, absence, abundance or distribution without occurrence evidence; phenotype, pathogenicity, ecological role or invasiveness; replacement for GBIF Sequence ID, curated reference databases or expert review",
       "blockers": "species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%; species claim blocked: query coverage < 80%",
-      "provenance_hash": "d750f3da6bce5c9d691dd2fe1613a0d9f67013907a6724d14e207a3f0008a78e"
+      "provenance_hash": "1a2fc0978d03d9673282261d89e4859c47b9485fa8f7d72dfeb4fb22d3bc3cb7"
     },
     {
       "segment_id": "segment:AALB-COI-metadata-gap:1-622",
@@ -2114,7 +2117,7 @@
       "features_only": false,
       "caveats": "absolute species truth outside the stated reference context; natural presence, absence, abundance or distribution without occurrence evidence; phenotype, pathogenicity, ecological role or invasiveness; replacement for GBIF Sequence ID, curated reference databases or expert review",
       "blockers": "publication blocked: missing required Occurrence core field occurrenceID; publication blocked: missing required Occurrence core field eventDate",
-      "provenance_hash": "17d67a197894909f7f542105e1a7365abc15386b8f4ff05a7e01b196ec823cbd"
+      "provenance_hash": "2330da7c4b390f7595289232a334ff3114b4ff1592639db2165fc8c04f29ef1d"
     }
   ],
   "audit_artifacts": {
@@ -2225,7 +2228,7 @@
       },
       "query_sha256": "e97efa4320a4fad6b12a9c7291dbd82b6b922d7e82c38c3d98866f8450c8f66d",
       "raw_payload_sha256": "e10968fba4a7366821709e8c8e3e7fa1898c727b0cfa31dd52e830c10814dba4",
-      "retrieved_at": "2026-06-14T21:29:31.004632+00:00",
+      "retrieved_at": "2026-06-14T22:03:14.485769+00:00",
       "records_returned": 12,
       "normalized_records": 12,
       "claim_boundary": "Occurrence records are context and provenance only; they do not strengthen molecular taxon support.",
@@ -2242,7 +2245,7 @@
     ],
     "gbif_query_strategy_audit.csv": [
       {
-        "run_id": "856f7bfa66814ce785b2bd809a252715",
+        "run_id": "38d525a51d8546e598b9f5cbe9864c42",
         "mode": "offline_demo",
         "requested_limit": 50,
         "strategy": "paged_search_for_small_demo",
@@ -2251,7 +2254,7 @@
       }
     ],
     "source_provenance_manifest.json": {
-      "run_id": "856f7bfa66814ce785b2bd809a252715",
+      "run_id": "38d525a51d8546e598b9f5cbe9864c42",
       "snapshot_id": "gbif-aedes-spain-30dc62b4a7bd",
       "snapshot_hash": "30dc62b4a7bdfacae821ea329c1240b9c4b659d152019db7252db46ca92b31bb",
       "source_ids": [
@@ -2453,7 +2456,7 @@
       }
     ],
     "offline_demo_reproducibility.json": {
-      "run_id": "856f7bfa66814ce785b2bd809a252715",
+      "run_id": "38d525a51d8546e598b9f5cbe9864c42",
       "fixture_hash": "c2302d6cb192408a22491c78608b805dfcc0610e58425f1d745d22af1e465f1b",
       "repeat_hash": "c2302d6cb192408a22491c78608b805dfcc0610e58425f1d745d22af1e465f1b",
       "deterministic": true,
@@ -2481,7 +2484,7 @@
     "source_freshness_claim_audit.csv": [
       {
         "source_id": "gbif_occurrence_api",
-        "retrieved_at": "2026-06-14T21:29:31.004632+00:00",
+        "retrieved_at": "2026-06-14T22:03:14.485769+00:00",
         "freshness_displayed": true,
         "freshness_changes_claim_state": false,
         "status": "pass"
@@ -2887,267 +2890,313 @@
   "exports": [
     {
       "name": "ai_dataset_export_audit.csv",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/ai_dataset_export_audit.csv",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/ai_dataset_export_audit.csv",
       "size_bytes": 360,
-      "sha256": "7465562f6acb11f4141835162de4f3256a783dbea5b404e34caa79ebe8049a23"
+      "sha256": "7465562f6acb11f4141835162de4f3256a783dbea5b404e34caa79ebe8049a23",
+      "checksum_status": "embedded"
     },
     {
       "name": "ai_ready_dataset.jsonl",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/ai_ready_dataset.jsonl",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/ai_ready_dataset.jsonl",
       "size_bytes": 3107,
-      "sha256": "2165c0234a24fb25b8e4a05893a4151ff1894d6f885bed5f34a36f117132973d"
+      "sha256": "9f09945f9b1e7802e22f0571c3b911fdb895145d7c60f86e5996156b193b4626",
+      "checksum_status": "embedded"
     },
     {
       "name": "api_policy_audit.csv",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/api_policy_audit.csv",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/api_policy_audit.csv",
       "size_bytes": 178,
-      "sha256": "bbbde51aa4a7f42ebc7c0d7f019fff784a214593466f9766b44e8c83548ef428"
+      "sha256": "bbbde51aa4a7f42ebc7c0d7f019fff784a214593466f9766b44e8c83548ef428",
+      "checksum_status": "embedded"
     },
     {
       "name": "blocked_claim_visibility_audit.csv",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/blocked_claim_visibility_audit.csv",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/blocked_claim_visibility_audit.csv",
       "size_bytes": 105,
-      "sha256": "55e2e9e0aa3fb1817dbcd0d47a04f387375c318c4d85d439ee237ac8b4da19f8"
+      "sha256": "55e2e9e0aa3fb1817dbcd0d47a04f387375c318c4d85d439ee237ac8b4da19f8",
+      "checksum_status": "embedded"
     },
     {
       "name": "claim_boundaries.csv",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/claim_boundaries.csv",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/claim_boundaries.csv",
       "size_bytes": 2927,
-      "sha256": "59fe0ca3688a4d9a36b231289dc9f24721349c7ee4540e6273a9219c3fe01884"
+      "sha256": "8b54aab2757ef0f053d478ba29cc2dc19be437e665217e35275bc87390594984",
+      "checksum_status": "embedded"
     },
     {
       "name": "contract_validation.json",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/contract_validation.json",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/contract_validation.json",
       "size_bytes": 352,
-      "sha256": "08f9c2d485630646062afcf88315a2d3dcf961ad369eb616017321bcca9cbb06"
+      "sha256": "08f9c2d485630646062afcf88315a2d3dcf961ad369eb616017321bcca9cbb06",
+      "checksum_status": "embedded"
     },
     {
       "name": "contradiction_visual_audit.csv",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/contradiction_visual_audit.csv",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/contradiction_visual_audit.csv",
       "size_bytes": 82,
-      "sha256": "faacda61c5ad34791ce81c88d462ff292805d1f3b0a366abbadbb2252129e696"
+      "sha256": "faacda61c5ad34791ce81c88d462ff292805d1f3b0a366abbadbb2252129e696",
+      "checksum_status": "embedded"
     },
     {
       "name": "ecogenesis_gsig_observatory_proof_obligations_v4.json",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/ecogenesis_gsig_observatory_proof_obligations_v4.json",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/ecogenesis_gsig_observatory_proof_obligations_v4.json",
       "size_bytes": 9387,
-      "sha256": "62f01b148f3ea09bd36e6a8f3f37773097ef9713f6a88516557524b04b598c26"
+      "sha256": "62f01b148f3ea09bd36e6a8f3f37773097ef9713f6a88516557524b04b598c26",
+      "checksum_status": "embedded"
     },
     {
       "name": "gbif_export_claim_boundary_audit.csv",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/gbif_export_claim_boundary_audit.csv",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/gbif_export_claim_boundary_audit.csv",
       "size_bytes": 383,
-      "sha256": "d4d8dfd0fcfe6c9c3895e60289e6bce21b80030200a86f7211eb4864b7946912"
+      "sha256": "d4d8dfd0fcfe6c9c3895e60289e6bce21b80030200a86f7211eb4864b7946912",
+      "checksum_status": "embedded"
     },
     {
       "name": "gbif_export_preview.csv",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/gbif_export_preview.csv",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/gbif_export_preview.csv",
       "size_bytes": 1669,
-      "sha256": "5bd3872e99f1c3b080ccc63a8ebc8f55628a39efd39806695e094e75229239eb"
+      "sha256": "f9f0e28d0aeabfc37aba51a95b7227b5029043fe35112e82211e88de68e0b287",
+      "checksum_status": "embedded"
     },
     {
       "name": "gbif_occurrence_context.parquet",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/gbif_occurrence_context.parquet",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/gbif_occurrence_context.parquet",
       "size_bytes": 8061,
-      "sha256": "c9fa0658647ebfcf7eea3f6ad1c88b1923d50eae0b88612e32a95e7c31241543"
+      "sha256": "c9fa0658647ebfcf7eea3f6ad1c88b1923d50eae0b88612e32a95e7c31241543",
+      "checksum_status": "embedded"
     },
     {
       "name": "gbif_occurrence_snapshot.json",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/gbif_occurrence_snapshot.json",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/gbif_occurrence_snapshot.json",
       "size_bytes": 7494,
-      "sha256": "775ca90695a913128d6ed0579f3ee3268ecd15febb5fd8f6de5f49c1d3186ffb"
+      "sha256": "775ca90695a913128d6ed0579f3ee3268ecd15febb5fd8f6de5f49c1d3186ffb",
+      "checksum_status": "embedded"
     },
     {
       "name": "gbif_query_strategy_audit.csv",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/gbif_query_strategy_audit.csv",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/gbif_query_strategy_audit.csv",
       "size_bytes": 156,
-      "sha256": "b709e1e13ca3a51a2c2548d6777fe50a20694094fbcacd96a25012c9a555adcd"
+      "sha256": "a657343b55724c9abd1499f83090769d8aef8c6916f26533d75ee0d8b3d6ad15",
+      "checksum_status": "embedded"
     },
     {
       "name": "graph_roundtrip_audit.csv",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/graph_roundtrip_audit.csv",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/graph_roundtrip_audit.csv",
       "size_bytes": 76,
-      "sha256": "0d6dc51465aaf4cab97bba5c9679dd49c47a229dc13c071642d2b0c58ee51824"
+      "sha256": "0d6dc51465aaf4cab97bba5c9679dd49c47a229dc13c071642d2b0c58ee51824",
+      "checksum_status": "embedded"
     },
     {
       "name": "gsig_observatory_pipeline_dag.yaml",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/gsig_observatory_pipeline_dag.yaml",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/gsig_observatory_pipeline_dag.yaml",
       "size_bytes": 2892,
-      "sha256": "914b0da3f8e70422aff621d6832a04129a583b17d3b190d90024fdda20e82f1c"
+      "sha256": "914b0da3f8e70422aff621d6832a04129a583b17d3b190d90024fdda20e82f1c",
+      "checksum_status": "embedded"
     },
     {
       "name": "gsig_observatory_source_registry.yaml",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/gsig_observatory_source_registry.yaml",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/gsig_observatory_source_registry.yaml",
       "size_bytes": 6390,
-      "sha256": "4980e5fb234d503de1ab7d6eda03522b9b519f19175f73440e78e97f041a5d5c"
+      "sha256": "4980e5fb234d503de1ab7d6eda03522b9b519f19175f73440e78e97f041a5d5c",
+      "checksum_status": "embedded"
     },
     {
       "name": "gsig_observatory_ui_contract.yaml",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/gsig_observatory_ui_contract.yaml",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/gsig_observatory_ui_contract.yaml",
       "size_bytes": 3992,
-      "sha256": "34d5945e8ee061f4c0c59109b0f0cab5f067a2073b7eb3ef6704868e51f193e6"
+      "sha256": "34d5945e8ee061f4c0c59109b0f0cab5f067a2073b7eb3ef6704868e51f193e6",
+      "checksum_status": "embedded"
     },
     {
       "name": "judge_mode_non_claims_audit.csv",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/judge_mode_non_claims_audit.csv",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/judge_mode_non_claims_audit.csv",
       "size_bytes": 104,
-      "sha256": "ce9dec5cacabbf148ea0d1d52727c01b878a9be0a4d46608d9606a048a7e85ae"
+      "sha256": "ce9dec5cacabbf148ea0d1d52727c01b878a9be0a4d46608d9606a048a7e85ae",
+      "checksum_status": "embedded"
     },
     {
       "name": "license_blocker_audit.csv",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/license_blocker_audit.csv",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/license_blocker_audit.csv",
       "size_bytes": 302,
-      "sha256": "b8c13e3191c15172dbd6dd055106953334d09696d34c670897d2c1b8051f770c"
+      "sha256": "b8c13e3191c15172dbd6dd055106953334d09696d34c670897d2c1b8051f770c",
+      "checksum_status": "embedded"
     },
     {
       "name": "literature_claim_state_audit.csv",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/literature_claim_state_audit.csv",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/literature_claim_state_audit.csv",
       "size_bytes": 112,
-      "sha256": "62f77a1c59d066a32da6bd61c6e2562110d39464d03ae5833b413023f56290d4"
+      "sha256": "62f77a1c59d066a32da6bd61c6e2562110d39464d03ae5833b413023f56290d4",
+      "checksum_status": "embedded"
     },
     {
       "name": "normalized_occurrence_context.csv",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/normalized_occurrence_context.csv",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/normalized_occurrence_context.csv",
       "size_bytes": 3699,
-      "sha256": "a2adf3116c7b77906059d7b9543ca64faaeb3ba1bdba9089bacb7dbf6551e98c"
+      "sha256": "a2adf3116c7b77906059d7b9543ca64faaeb3ba1bdba9089bacb7dbf6551e98c",
+      "checksum_status": "embedded"
     },
     {
       "name": "normalized_occurrence_context.json",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/normalized_occurrence_context.json",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/normalized_occurrence_context.json",
       "size_bytes": 9037,
-      "sha256": "16f80c7ee8ee742e507b7ce03e3398aafc7d4316a600af2b26971c6fc88cf29a"
+      "sha256": "16f80c7ee8ee742e507b7ce03e3398aafc7d4316a600af2b26971c6fc88cf29a",
+      "checksum_status": "embedded"
     },
     {
       "name": "observatory_evidence_pack.json",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/observatory_evidence_pack.json",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/observatory_evidence_pack.json",
       "size_bytes": 132713,
-      "sha256": "4913534e973de1d3cbbe3b16d59de483b69fdeabe0a52b4a751b3334877dcd3a"
+      "sha256": null,
+      "checksum_status": "external_manifest_only",
+      "checksum_note": "Checksum is verified from the file manifest/API because embedding it here would change this evidence pack or ZIP."
     },
     {
       "name": "observatory_evidence_pack.zip",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/observatory_evidence_pack.zip",
-      "size_bytes": 64558,
-      "sha256": "b618e06b06cb1e4a80b69109e767a60d08db0690d61c0452b26aefcf09ebae31"
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/observatory_evidence_pack.zip",
+      "size_bytes": 64537,
+      "sha256": null,
+      "checksum_status": "external_manifest_only",
+      "checksum_note": "Checksum is verified from the file manifest/API because embedding it here would change this evidence pack or ZIP."
     },
     {
       "name": "observatory_graph.jsonld",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/observatory_graph.jsonld",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/observatory_graph.jsonld",
       "size_bytes": 15427,
-      "sha256": "cb1dc9ec84661c0f158d665c293702f3f24999a95a5465404bf50658158426ba"
+      "sha256": "babdd1f0d74637cd54d1df2b80c13c5fad91491d961dcded041187d4f75141e0",
+      "checksum_status": "embedded"
     },
     {
       "name": "observatory_report.md",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/observatory_report.md",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/observatory_report.md",
       "size_bytes": 2294,
-      "sha256": "ce9bda7ba7c909b3b70175373f6d7373a5619ed275fee35f065339bea48fdb81"
+      "sha256": "f8fafec209338fa2deae7195a577229ebb83895a4ecac61860f7b2e839ec8f02",
+      "checksum_status": "embedded"
     },
     {
       "name": "observatory_status.json",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/observatory_status.json",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/observatory_status.json",
       "size_bytes": 630,
-      "sha256": "78767d0ec8149c5c212354836626c3d5ee857a8a2501ebdbf94ed96ed6592003"
+      "sha256": "78767d0ec8149c5c212354836626c3d5ee857a8a2501ebdbf94ed96ed6592003",
+      "checksum_status": "embedded"
     },
     {
       "name": "observatory_vsea.csv",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/observatory_vsea.csv",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/observatory_vsea.csv",
       "size_bytes": 5884,
-      "sha256": "8d833ed969932b3f22b8b1671f4293aa13dc122c84f2fc843f54dfca4b53629a"
+      "sha256": "aa9572c82dd4083b9f01f3ba9ee57120c5a219f4be7be5fa5791cc8c9b354aa4",
+      "checksum_status": "embedded"
     },
     {
       "name": "observatory_vsea.jsonl",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/observatory_vsea.jsonl",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/observatory_vsea.jsonl",
       "size_bytes": 8125,
-      "sha256": "ede06936d7d6db62b8f94f7440ad962d4d529751947e0e9730af97b3ee427522"
+      "sha256": "271fa98c98d6935b75c805eb2dc8babacde3c75cdcf1caf2c63c57413371a28c",
+      "checksum_status": "embedded"
     },
     {
       "name": "observatory_vsea.parquet",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/observatory_vsea.parquet",
-      "size_bytes": 15515,
-      "sha256": "33e6d18c7bbb7f04c904e6cd5e2a5720172a089442fd9ef4b0b6cf4cb4371556"
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/observatory_vsea.parquet",
+      "size_bytes": 15516,
+      "sha256": "f5c11a7d93722a2b1e8576dfd4e1f195e5fb7b8b5fefec8959b2075128f94e10",
+      "checksum_status": "embedded"
     },
     {
       "name": "offline_demo_reproducibility.json",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/offline_demo_reproducibility.json",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/offline_demo_reproducibility.json",
       "size_bytes": 306,
-      "sha256": "03e759f9311c56d62d0d317da91134f16c5955ad65b6726cc2b57e8e528f1ff0"
+      "sha256": "a517aaff83911dd68ab0c8275501b47c3fcab842eca79d0d7b1ebb17177a34cf",
+      "checksum_status": "embedded"
     },
     {
       "name": "pipeline_execution_trace.json",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/pipeline_execution_trace.json",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/pipeline_execution_trace.json",
       "size_bytes": 3053,
-      "sha256": "fa8584623812d843ddc2b3432f6e39f3362a780b226bdf004ebde73a021d26bc"
+      "sha256": "fa8584623812d843ddc2b3432f6e39f3362a780b226bdf004ebde73a021d26bc",
+      "checksum_status": "embedded"
     },
     {
       "name": "proof_summary.json",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/proof_summary.json",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/proof_summary.json",
       "size_bytes": 8062,
-      "sha256": "12b649a74516793db8129b59154e8a72f5a4add8432cf569aaef028b26d89226"
+      "sha256": "12b649a74516793db8129b59154e8a72f5a4add8432cf569aaef028b26d89226",
+      "checksum_status": "embedded"
     },
     {
       "name": "repair_optimizer_guardrail_audit.csv",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/repair_optimizer_guardrail_audit.csv",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/repair_optimizer_guardrail_audit.csv",
       "size_bytes": 90,
-      "sha256": "6fa4399a27a3560666d5768b1443a25281fa1d4d00b207b441c9dbfbd72e7e08"
+      "sha256": "6fa4399a27a3560666d5768b1443a25281fa1d4d00b207b441c9dbfbd72e7e08",
+      "checksum_status": "embedded"
     },
     {
       "name": "segment_catalog.csv",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/segment_catalog.csv",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/segment_catalog.csv",
       "size_bytes": 954,
-      "sha256": "e5533a3c7e7d9c2f5704cff9abda59f40268d0e02f3a60bdbb6698d8da02e3f0"
+      "sha256": "e5533a3c7e7d9c2f5704cff9abda59f40268d0e02f3a60bdbb6698d8da02e3f0",
+      "checksum_status": "embedded"
     },
     {
       "name": "sharedness_visual_overclaim_audit.csv",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/sharedness_visual_overclaim_audit.csv",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/sharedness_visual_overclaim_audit.csv",
       "size_bytes": 333,
-      "sha256": "df08191c75954854c5a3e3ad9c7e13b98cf24148e23661f061152f0a4448c90d"
+      "sha256": "df08191c75954854c5a3e3ad9c7e13b98cf24148e23661f061152f0a4448c90d",
+      "checksum_status": "embedded"
     },
     {
       "name": "snapshot_manifest.json",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/snapshot_manifest.json",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/snapshot_manifest.json",
       "size_bytes": 1082,
-      "sha256": "ea46fa74bdb9a5db599a087b1db7b09b68923d49e47fe84c6532eef7aaad52fc"
+      "sha256": "d47333c7093ed13d08baf45c7f28e021799ac4692a0e7be31e7a95ff63f072bd",
+      "checksum_status": "embedded"
     },
     {
       "name": "source_freshness_claim_audit.csv",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/source_freshness_claim_audit.csv",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/source_freshness_claim_audit.csv",
       "size_bytes": 149,
-      "sha256": "e03b05037db1083041c17bc2d5c3536268c03b85e66e4cd9fab3c043ca72b393"
+      "sha256": "e9c705e5a84f5599f02bc75184815e619b6eb3d229fce3b4b0a2f07d2676bd1a",
+      "checksum_status": "embedded"
     },
     {
       "name": "source_provenance_manifest.json",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/source_provenance_manifest.json",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/source_provenance_manifest.json",
       "size_bytes": 750,
-      "sha256": "ed3f9c03745bd86a7d4e06b4ded596dfde5ab718f120cbb112576481eb0c67f4"
+      "sha256": "289456c0795ad52b259d39a9cd3af4c38bb0ce5ae825b1fd4864033c4d7846c0",
+      "checksum_status": "embedded"
     },
     {
       "name": "source_registry_audit.json",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/source_registry_audit.json",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/source_registry_audit.json",
       "size_bytes": 2319,
-      "sha256": "4e591b8ce64f54e3ed3b3c19058d61e977a5116af95f6b5d59fa3b2b48578f2a"
+      "sha256": "4e591b8ce64f54e3ed3b3c19058d61e977a5116af95f6b5d59fa3b2b48578f2a",
+      "checksum_status": "embedded"
     },
     {
       "name": "taxa_segments.csv",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/taxa_segments.csv",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/taxa_segments.csv",
       "size_bytes": 718,
-      "sha256": "1147f178acfbf52578912c7a2760bc3e989655500c468c3962c8392cc8b6108a"
+      "sha256": "1147f178acfbf52578912c7a2760bc3e989655500c468c3962c8392cc8b6108a",
+      "checksum_status": "embedded"
     },
     {
       "name": "ui_ledger_consistency_audit.csv",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/ui_ledger_consistency_audit.csv",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/ui_ledger_consistency_audit.csv",
       "size_bytes": 119,
-      "sha256": "be19f87b5313adc3b3465e4ef6ae17df162342edaa5e6fd4fe6a04a808854a60"
+      "sha256": "be19f87b5313adc3b3465e4ef6ae17df162342edaa5e6fd4fe6a04a808854a60",
+      "checksum_status": "embedded"
     },
     {
       "name": "visualization_guardrail_audit.csv",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/visualization_guardrail_audit.csv",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/visualization_guardrail_audit.csv",
       "size_bytes": 356,
-      "sha256": "f5962202c5fe296f8ee29b552994be7d6ab5001bf426e93720058ff8278b2179"
+      "sha256": "f5962202c5fe296f8ee29b552994be7d6ab5001bf426e93720058ff8278b2179",
+      "checksum_status": "embedded"
     },
     {
       "name": "vsea_provenance_audit.csv",
-      "url": "/api/observatory/runs/856f7bfa66814ce785b2bd809a252715/exports/vsea_provenance_audit.csv",
+      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/vsea_provenance_audit.csv",
       "size_bytes": 405,
-      "sha256": "3b47a57224f4e1f78f545a197b6e5cdc6341b8de068caffd3631e40eb35cb4f7"
+      "sha256": "3b47a57224f4e1f78f545a197b6e5cdc6341b8de068caffd3631e40eb35cb4f7",
+      "checksum_status": "embedded"
     }
   ]
 }

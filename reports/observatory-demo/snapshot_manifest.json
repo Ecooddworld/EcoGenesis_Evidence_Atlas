@@ -22,7 +22,7 @@
   },
   "query_sha256": "e97efa4320a4fad6b12a9c7291dbd82b6b922d7e82c38c3d98866f8450c8f66d",
   "raw_payload_sha256": "e10968fba4a7366821709e8c8e3e7fa1898c727b0cfa31dd52e830c10814dba4",
-  "retrieved_at": "2026-06-14T21:29:31.004632+00:00",
+  "retrieved_at": "2026-06-14T22:03:14.485769+00:00",
   "records_returned": 12,
   "normalized_records": 12,
   "claim_boundary": "Occurrence records are context and provenance only; they do not strengthen molecular taxon support.",

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections import Counter
+from copy import deepcopy
 from datetime import datetime, timezone
 import json
 from pathlib import Path
@@ -24,13 +25,14 @@ from .reference_checks import (
     visual_claim_projection,
 )
 from .schemas import ObservatoryRunRequest
-from .storage import save_observatory_artifacts, save_observatory_zip_artifact
+from .storage import observatory_export_manifest, save_observatory_artifacts, save_observatory_zip_artifact
 
 
 OBSERVATORY_TOOL = "EcoGenesis GSIG Observatory"
 LIVE_SOURCE_ID = "gbif_occurrence_api"
 MOLECULAR_SOURCE_ID = "project_user_uploads"
 OBSERVATORY_SCHEMA = "ecogenesis.gsig.observatory.evidence_pack.v1"
+SELF_REFERENTIAL_EXPORTS = {"observatory_evidence_pack.json", "observatory_evidence_pack.zip"}
 
 
 def observatory_status() -> dict[str, Any]:
@@ -161,9 +163,35 @@ def run_observatory_demo(request: ObservatoryRunRequest) -> dict[str, Any]:
     final_zip = save_observatory_zip_artifact(run_id, final_artifacts)
     pack["exports"] = sorted([*final_exports, final_zip], key=lambda item: item["name"])
     pack["run"]["artifact_checksums"] = {item["name"]: item.get("sha256") for item in pack["exports"]}
-    save_observatory_artifacts(run_id, build_observatory_artifacts(pack))
-    save_observatory_zip_artifact(run_id, build_observatory_artifacts(pack))
+    persisted_pack = pack_for_persistent_artifacts(pack)
+    save_observatory_artifacts(run_id, build_observatory_artifacts(persisted_pack))
+    save_observatory_zip_artifact(run_id, build_observatory_artifacts(persisted_pack))
+    pack["exports"] = observatory_export_manifest(run_id)
+    pack["run"]["artifact_checksums"] = {item["name"]: item.get("sha256") for item in pack["exports"]}
     return pack
+
+
+def pack_for_persistent_artifacts(pack: dict[str, Any]) -> dict[str, Any]:
+    persisted = deepcopy(pack)
+    persisted_exports = []
+    for item in persisted.get("exports", []):
+        export = dict(item)
+        if export.get("name") in SELF_REFERENTIAL_EXPORTS:
+            export["sha256"] = None
+            export["checksum_status"] = "external_manifest_only"
+            export["checksum_note"] = "Checksum is verified from the file manifest/API because embedding it here would change this evidence pack or ZIP."
+        else:
+            export["checksum_status"] = "embedded"
+        persisted_exports.append(export)
+    persisted["exports"] = persisted_exports
+    persisted.setdefault("run", {})["artifact_checksums"] = {
+        item["name"]: item.get("sha256")
+        for item in persisted_exports
+        if item.get("name") not in SELF_REFERENTIAL_EXPORTS
+    }
+    persisted["run"]["self_referential_exports"] = sorted(SELF_REFERENTIAL_EXPORTS)
+    persisted["run"]["external_checksum_manifest"] = "Use observatory_demo_manifest.csv or GET /api/observatory/runs/{run_id} for final self/ZIP checksums."
+    return persisted
 
 
 def build_gbif_snapshot(request: ObservatoryRunRequest) -> dict[str, Any]:

@@ -206,7 +206,8 @@ Current generated Observatory report:
   - 12 occurrence context rows;
   - 4 VSEA rows;
   - all 20 OPO artifacts present;
-  - VSEA Parquet magic `PAR1`.
+  - VSEA and occurrence Parquet magic `PAR1`;
+  - output verification status `pass`.
 
 Regenerate:
 
@@ -215,10 +216,19 @@ cd backend
 .venv/bin/python scripts/generate_observatory_demo_report.py
 ```
 
-Generated outputs:
+Recheck existing generated outputs:
 
-- `reports/barcode-operability/operability_report.md`
-- `reports/barcode-operability/operability_report.json`
+```bash
+cd backend
+.venv/bin/python scripts/verify_observatory_outputs.py
+```
+
+Generated verification outputs:
+
+- `reports/observatory-demo/observatory_output_verification.md`
+- `reports/observatory-demo/observatory_output_verification.json`
+
+The verifier recomputes report-file SHA256 checksums, confirms ZIP contents, reconciles CSV counts with `observatory_evidence_pack.json`, checks graph provenance, enforces the visualization, AI export and GBIF claim-boundary guardrails, and verifies that self-referential JSON/ZIP checksums are delegated to the external manifest instead of being embedded as stale values.
 
 ## Live GBIF Scientific Hypothesis Suite
 

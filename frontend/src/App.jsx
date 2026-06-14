@@ -2176,11 +2176,13 @@ function ObservatoryPanel({ status, sources, run, loading, error, screen, setScr
   const summary = run?.summary || status?.latest_run?.summary || {};
   const exports = run?.exports || status?.latest_run?.exports || [];
   const vseaRows = run?.vsea || [];
+  const occurrenceRows = run?.normalized_occurrence_context || [];
   const proofRows = run?.proof_summary?.rows || [];
   const sourceRows = sources?.sources || [];
   const auditRows = run?.audit_artifacts || {};
   const judgeNonClaimAudit = auditRows.judge_mode_non_claims_audit || auditRows['judge_mode_non_claims_audit.csv'];
   const evidencePack = exports.find((item) => item.name === 'observatory_evidence_pack.zip');
+  const requestBbox = run?.request?.bbox || status?.default_demo?.bbox || [-9.5, 35.5, 4.5, 44.5];
   const screenTabs = [
     ['home', 'Overview'],
     ['sources', 'Sources'],
@@ -2246,6 +2248,15 @@ function ObservatoryPanel({ status, sources, run, loading, error, screen, setScr
         </div>
       </section>
 
+      <ObservatoryVisualSuite
+        run={run}
+        summary={summary}
+        occurrenceRows={occurrenceRows}
+        vseaRows={vseaRows}
+        proofRows={proofRows}
+        requestBbox={requestBbox}
+      />
+
       <section className="panel">
         <div className="observatory-tabs" role="tablist" aria-label="Observatory screens">
           {screenTabs.map(([id, label]) => (
@@ -2306,42 +2317,38 @@ function ObservatoryPanel({ status, sources, run, loading, error, screen, setScr
         )}
 
         {screen === 'vsea' && (
-          <div className="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Segment</th>
-                  <th>Target</th>
-                  <th>Claim state</th>
-                  <th>GBIF export</th>
-                  <th>Boundary</th>
-                </tr>
-              </thead>
-              <tbody>
-                {vseaRows.slice(0, 12).map((row) => (
-                  <tr key={row.vsea_id}>
-                    <td>{row.sequence_id}</td>
-                    <td>{row.target_label} · {row.safe_rank}</td>
-                    <td><span className={`pill ${row.claim_state}`}>{row.claim_state}</span></td>
-                    <td>{row.gbif_export_state}</td>
-                    <td>{row.context_claim_boundary}</td>
+          <div className="observatory-screen">
+            <VseaMatrixVisual rows={vseaRows} />
+            <div className="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Segment</th>
+                    <th>Target</th>
+                    <th>Claim state</th>
+                    <th>GBIF export</th>
+                    <th>Boundary</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {vseaRows.slice(0, 12).map((row) => (
+                    <tr key={row.vsea_id}>
+                      <td>{row.sequence_id}</td>
+                      <td>{row.target_label} · {row.safe_rank}</td>
+                      <td><span className={`pill ${row.claim_state}`}>{row.claim_state}</span></td>
+                      <td>{row.gbif_export_state}</td>
+                      <td>{row.context_claim_boundary}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
 
         {screen === 'graph' && (
           <div className="observatory-graph-grid">
-            <div className="observatory-graph-canvas" aria-label="Observatory evidence graph">
-              {['Source', 'Snapshot', 'VSEA', 'Claim', 'Export'].map((node, index) => (
-                <div key={node} className={`graph-node graph-node-${index + 1}`}>
-                  <strong>{node}</strong>
-                  <span>{index === 1 ? run?.snapshot_manifest?.source_mode || 'fixture/live' : 'provenance hash'}</span>
-                </div>
-              ))}
-            </div>
+            <EvidenceGraphVisual run={run} vseaRows={vseaRows} summary={summary} />
             <div className="observatory-proof-list">
               <h3>Graph guarantees</h3>
               {[
@@ -2406,6 +2413,216 @@ function ObservatoryPanel({ status, sources, run, loading, error, screen, setScr
       </section>
     </section>
   );
+}
+
+function ObservatoryVisualSuite({ run, summary, occurrenceRows, vseaRows, proofRows, requestBbox }) {
+  return (
+    <section className="panel observatory-visual-suite">
+      <div className="panel-heading-row">
+        <div>
+          <p className="section-label">Visual evidence sequence</p>
+          <h2>From GBIF snapshot to guarded export, shown as data shapes.</h2>
+        </div>
+        <span className={`status-pill ${summary?.hard_gate_status === 'pass' ? 'supported' : 'requires-verification'}`}>
+          {run ? 'visualized run' : 'waiting for data'}
+        </span>
+      </div>
+      <div className="observatory-visual-grid">
+        <SnapshotMapVisual rows={occurrenceRows} bbox={requestBbox} snapshot={run?.snapshot_manifest} />
+        <VseaMatrixVisual rows={vseaRows} compact />
+        <EvidenceGraphVisual run={run} vseaRows={vseaRows} summary={summary} compact />
+        <ProofWheelVisual rows={proofRows} />
+      </div>
+    </section>
+  );
+}
+
+function SnapshotMapVisual({ rows, bbox, snapshot }) {
+  const [west, south, east, north] = bbox;
+  const points = rows
+    .filter((row) => row.decimalLatitude != null && row.decimalLongitude != null)
+    .slice(0, 32)
+    .map((row, index) => {
+      const x = clampPercent(((Number(row.decimalLongitude) - west) / (east - west)) * 100);
+      const y = clampPercent(100 - ((Number(row.decimalLatitude) - south) / (north - south)) * 100);
+      return { ...row, x, y, index };
+    });
+  return (
+    <article className="observatory-visual-card">
+      <div className="visual-card-heading">
+        <span>01</span>
+        <div>
+          <h3>Snapshot map</h3>
+          <p>{snapshot?.snapshot_hash ? `hash ${snapshot.snapshot_hash.slice(0, 12)}` : 'run to draw context points'}</p>
+        </div>
+      </div>
+      <svg className="snapshot-map" viewBox="0 0 320 220" role="img" aria-label="GBIF occurrence snapshot map">
+        <rect x="28" y="24" width="264" height="164" rx="10" className="map-frame" />
+        <path className="map-land" d="M91 142 L76 111 L92 76 L128 57 L168 51 L214 68 L242 102 L235 145 L195 164 L139 166 Z" />
+        <path className="map-river" d="M111 88 C140 110 158 118 202 128" />
+        <g>
+          {[0, 1, 2, 3].map((item) => (
+            <line key={`x-${item}`} x1={68 + item * 50} y1="38" x2={68 + item * 50} y2="178" className="map-grid-line" />
+          ))}
+          {[0, 1, 2].map((item) => (
+            <line key={`y-${item}`} x1="42" y1={68 + item * 42} x2="276" y2={68 + item * 42} className="map-grid-line" />
+          ))}
+        </g>
+        {points.map((point) => (
+          <circle
+            key={`${point.gbifID || point.row_index}-${point.index}`}
+            cx={42 + point.x * 2.35}
+            cy={38 + point.y * 1.4}
+            r="4.8"
+            className={point.license ? 'map-point' : 'map-point map-point-review'}
+          />
+        ))}
+        <text x="42" y="205" className="map-label">Aedes Spain bbox · {points.length} plotted context rows</text>
+      </svg>
+    </article>
+  );
+}
+
+function VseaMatrixVisual({ rows, compact = false }) {
+  const visibleRows = rows.slice(0, compact ? 4 : 8);
+  const columns = [
+    ['segment_hash', 'segment'],
+    ['snapshot_hash', 'snapshot'],
+    ['claim_state', 'claim'],
+    ['gbif_export_state', 'GBIF'],
+    ['ai_label', 'AI'],
+  ];
+  return (
+    <article className={`observatory-visual-card vsea-matrix-card ${compact ? 'compact' : ''}`}>
+      <div className="visual-card-heading">
+        <span>02</span>
+        <div>
+          <h3>VSEA matrix</h3>
+          <p>{rows.length ? `${rows.length} segment evidence rows` : 'claim states appear after run'}</p>
+        </div>
+      </div>
+      <div className="vsea-matrix" aria-label="Verified Segment Evidence Array matrix">
+        <div className="vsea-matrix-head">
+          <span>sequence</span>
+          {columns.map(([, label]) => <span key={label}>{label}</span>)}
+        </div>
+        {(visibleRows.length ? visibleRows : placeholderVseaRows()).map((row) => (
+          <div className="vsea-matrix-row" key={row.vsea_id || row.sequence_id}>
+            <span>{row.sequence_id}</span>
+            {columns.map(([key, label]) => (
+              <i
+                key={`${row.sequence_id}-${key}`}
+                className={`matrix-cell ${matrixCellClass(row, key)}`}
+                title={`${label}: ${row[key] || 'pending'}`}
+              />
+            ))}
+          </div>
+        ))}
+      </div>
+    </article>
+  );
+}
+
+function EvidenceGraphVisual({ run, vseaRows, summary, compact = false }) {
+  const supported = vseaRows.filter((row) => row.claim_state === 'taxon_supported').length;
+  const review = Math.max(0, vseaRows.length - supported);
+  const graphNodes = [
+    { id: 'source', label: 'Source', detail: run ? 'GBIF + user barcode' : 'pending', x: 42, y: 78 },
+    { id: 'snapshot', label: 'Snapshot', detail: run?.snapshot_manifest?.snapshot_hash?.slice(0, 10) || 'hash', x: 142, y: 44 },
+    { id: 'vsea', label: 'VSEA', detail: `${summary?.vsea_rows ?? 0} rows`, x: 142, y: 120 },
+    { id: 'claim', label: 'Claims', detail: `${supported} safe / ${review} review`, x: 242, y: 78 },
+    { id: 'export', label: 'Exports', detail: summary?.hard_gate_status || 'guarded', x: 338, y: 78 },
+  ];
+  const edges = [
+    ['source', 'snapshot'],
+    ['source', 'vsea'],
+    ['snapshot', 'claim'],
+    ['vsea', 'claim'],
+    ['claim', 'export'],
+  ];
+  return (
+    <article className={`observatory-visual-card graph-visual-card ${compact ? 'compact' : ''}`}>
+      <div className="visual-card-heading">
+        <span>03</span>
+        <div>
+          <h3>Evidence graph</h3>
+          <p>{summary?.graph_nodes ? `${summary.graph_nodes} nodes · ${summary.graph_edges} edges` : 'graph forms after run'}</p>
+        </div>
+      </div>
+      <svg className="evidence-graph-svg" viewBox="0 0 390 180" role="img" aria-label="Evidence graph visualization">
+        <defs>
+          <marker id="observatory-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+            <path d="M0,0 L8,4 L0,8 Z" className="graph-arrow" />
+          </marker>
+        </defs>
+        {edges.map(([from, to]) => {
+          const a = graphNodes.find((node) => node.id === from);
+          const b = graphNodes.find((node) => node.id === to);
+          return <line key={`${from}-${to}`} x1={a.x} y1={a.y} x2={b.x} y2={b.y} className="graph-edge-line" markerEnd="url(#observatory-arrow)" />;
+        })}
+        {graphNodes.map((node) => (
+          <g key={node.id} transform={`translate(${node.x - 34} ${node.y - 28})`}>
+            <rect width="68" height="56" rx="9" className={`graph-svg-node ${node.id}`} />
+            <text x="34" y="23" className="graph-svg-label">{node.label}</text>
+            <text x="34" y="40" className="graph-svg-detail">{node.detail}</text>
+          </g>
+        ))}
+      </svg>
+    </article>
+  );
+}
+
+function ProofWheelVisual({ rows }) {
+  const visibleRows = rows.length ? rows : Array.from({ length: 20 }, (_, index) => ({
+    id: `OPO-${String(index + 1).padStart(2, '0')}`,
+    status: 'pending',
+    severity: 'hard_gate',
+  }));
+  const passCount = visibleRows.filter((row) => row.status === 'pass').length;
+  return (
+    <article className="observatory-visual-card proof-wheel-card">
+      <div className="visual-card-heading">
+        <span>04</span>
+        <div>
+          <h3>Proof wheel</h3>
+          <p>{passCount}/{visibleRows.length} checks passing</p>
+        </div>
+      </div>
+      <div className="proof-wheel" aria-label="Observatory proof obligation wheel">
+        {visibleRows.map((row, index) => (
+          <span
+            key={row.id}
+            className={`proof-dot ${row.status}`}
+            style={{ '--angle': `${index * (360 / visibleRows.length)}deg` }}
+            title={`${row.id}: ${row.status}`}
+          />
+        ))}
+        <strong>{passCount}</strong>
+        <small>passed</small>
+      </div>
+    </article>
+  );
+}
+
+function clampPercent(value) {
+  if (Number.isNaN(value)) return 50;
+  return Math.max(0, Math.min(100, value));
+}
+
+function matrixCellClass(row, key) {
+  if (!row[key]) return 'pending';
+  if (key === 'claim_state') return row.claim_state === 'taxon_supported' ? 'safe' : 'review';
+  if (key === 'gbif_export_state') return row.gbif_export_state === 'candidate_gbif_row' ? 'safe' : 'review';
+  if (key === 'ai_label') return row.ai_label === 'positive_verified' ? 'safe' : 'review';
+  return 'provenance';
+}
+
+function placeholderVseaRows() {
+  return [
+    { vsea_id: 'placeholder-1', sequence_id: 'pending-1' },
+    { vsea_id: 'placeholder-2', sequence_id: 'pending-2' },
+    { vsea_id: 'placeholder-3', sequence_id: 'pending-3' },
+  ];
 }
 
 function SubmissionOverview({ referenceStatus, metrics, exports, pack, onOpenWorkbench, onRunCompiler, loading }) {
