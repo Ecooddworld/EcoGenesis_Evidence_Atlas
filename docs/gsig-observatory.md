@@ -17,7 +17,7 @@ The Observatory does:
 - compute `snapshot_hash`, `query_sha256` and source provenance;
 - compile the existing molecular barcode/GSEG demo into VSEA rows;
 - link occurrence context and molecular evidence in a graph;
-- render the snapshot map, VSEA matrix, evidence graph and proof wheel in the UI;
+- render the GBIF occurrence context map, VSEA matrix, evidence graph and proof wheel in the UI;
 - export GBIF and AI-ready preview datasets with claim-state guardrails;
 - produce all 20 Observatory proof-obligation artifacts.
 
@@ -99,7 +99,7 @@ The JSON evidence pack does not embed final SHA256 values for `observatory_evide
 
 The Observatory screen must show four non-table visuals before the tabbed data views:
 
-- `Snapshot map`: plots the normalized GBIF occurrence context inside the requested bounding box and labels the snapshot hash.
+- `GBIF occurrence context map`: plots the normalized GBIF occurrence context inside the requested bounding box and labels the snapshot hash.
 - `VSEA matrix`: shows each segment as a row across segment hash, snapshot hash, claim state, GBIF export state and AI label.
 - `Evidence graph`: shows the source -> snapshot/VSEA -> claims -> guarded exports chain.
 - `Proof wheel`: shows all 20 Observatory proof obligations as pass/fail/pending nodes.

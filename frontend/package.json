@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@vitejs/plugin-react": "latest",
+    "@xyflow/react": "^12.11.0",
+    "elkjs": "^0.11.1",
     "leaflet": "^1.9.4",
     "react": "latest",
     "react-dom": "latest",

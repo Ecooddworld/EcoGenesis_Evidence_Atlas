@@ -920,7 +920,7 @@ def source_registry_audit(registry: dict[str, Any]) -> dict[str, Any]:
     return {
         "registry_version": registry.get("registry_version"),
         "source_count": len(rows),
-        "mvp_sources": [row["source_id"] for row in rows if row["status"] == "mvp_integration"],
+        "contest_sources": [row["source_id"] for row in rows if row["status"] == "contest_integration"],
         "planned_sources": [row["source_id"] for row in rows if row["status"] == "planned"],
         "missing_required_fields": missing,
         "rows": rows,

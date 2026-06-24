@@ -90,7 +90,7 @@ Each record gets a vertical pipeline:
 5. Reference support            barcode gap / diagnostic k-mer / curated ref
 6. Process support              controls / replicates / assay
 7. GBIF metadata                required/recommended
-8. Final claim                  species/genus/higher/review
+8. Bounded result               species/genus/higher/review
 ```
 
 Each step must show:

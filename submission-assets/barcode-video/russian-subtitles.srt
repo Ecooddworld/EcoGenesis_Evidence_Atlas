@@ -47,7 +47,7 @@ claim понижается до безопасного общего уровня
 
 10
 00:03:00,000 --> 00:03:22,000
-Отдельный live GBIF audit показывает работу с реальными occurrence records:
+Отдельный GBIF occurrence audit показывает работу с occurrence records:
 evidence context, sampling gaps, empty cells и citation readiness.
 
 11

@@ -197,7 +197,7 @@ def test_selected_taxon_key_is_preserved_in_request_and_match(tmp_path, monkeypa
         json={
             "taxon": "Quercus robur",
             "taxon_key": 2878688,
-            "region_name": "Western Europe live bbox",
+            "region_name": "Western Europe GBIF bbox",
             "bbox": [-10.0, 42.0, 12.0, 56.0],
             "purpose": "sampling_gaps",
             "source_mode": "fixture",

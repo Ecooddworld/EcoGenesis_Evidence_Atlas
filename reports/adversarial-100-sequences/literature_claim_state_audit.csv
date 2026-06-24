@@ -1,2 +1,2 @@
 runID,literatureClaims,truthPromotionAllowed,status,guardrail
-ea9e5b6147734b919ec53070bedffeaa,0,False,not_applicable_no_claim,Literature ingestion is not active in this layer; no source is promoted to truth without evidence state.
+f02adbce819e40cc8fd7884db97fdb8a,0,False,not_applicable_no_claim,Literature ingestion is not active in this layer; no source is promoted to truth without evidence state.

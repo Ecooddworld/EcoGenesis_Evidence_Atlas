@@ -19,6 +19,8 @@ COPY backend/app ./app
 COPY backend/fixtures ./fixtures
 COPY backend/data ./data
 COPY references ./references
+COPY reports/competition-100-sequences ./reports/competition-100-sequences
+COPY reports/adversarial-100-sequences ./reports/adversarial-100-sequences
 
 EXPOSE 8000
 

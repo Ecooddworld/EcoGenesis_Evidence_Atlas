@@ -140,7 +140,7 @@ def test_empty_fallback_does_not_reuse_fixture_records(tmp_path, monkeypatch) ->
         EvidenceRunRequest(
             taxon="Lynx pardinus",
             taxon_key=2435261,
-            region_name="Iberian Peninsula live bbox",
+            region_name="Iberian Peninsula GBIF bbox",
             bbox=[-10.0, 35.0, 4.5, 44.5],
             purpose="dataset_quality_review",
             source_mode="online_with_empty_fallback",

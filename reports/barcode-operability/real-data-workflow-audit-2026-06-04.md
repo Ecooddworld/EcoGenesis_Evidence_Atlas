@@ -33,7 +33,7 @@
 - PASS: CSV missing sequenceID is fatal
 - PASS: Uploaded FASTA exact search becomes species-safe
 - PASS: Uploaded FASTA ambiguous identical species downgrade to genus-safe
-- PASS: Live GBIF API status
+- PASS: GBIF API status
 
 ## Resolved During Audit
 

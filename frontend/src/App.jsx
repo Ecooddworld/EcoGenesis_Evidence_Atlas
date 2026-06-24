@@ -1,14 +1,28 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import {
+  Background,
+  Controls,
+  Handle,
+  MarkerType,
+  MiniMap,
+  Position,
+  ReactFlow,
+} from '@xyflow/react';
+import '@xyflow/react/dist/style.css';
+import 'leaflet/dist/leaflet.css';
 import {
   barcodeCsvTemplateUrl,
   buildBarcodeFragmentGraph,
   exportUrl,
   getBarcodeDemoScenarios,
+  getCompetitionReports,
+  getContestReadiness,
   getBarcodeReferenceStatus,
   getBarcodeReferenceDatasets,
   getBarcodeSearchStatus,
   getBarcodeRun,
   getObservatoryRun,
+  getObservatoryRunVerification,
   getObservatorySources,
   getObservatoryStatus,
   importBarcodeCsv,
@@ -88,14 +102,14 @@ function scrollToCurrentAnchor() {
 }
 
 const scientificSuiteMetrics = [
-  ['Live GBIF records', '1000', 'Deduplicated occurrence records from 10 online scenarios.'],
+  ['GBIF occurrence records', '1000', 'Deduplicated occurrence-audit records from 10 GBIF-backed scenarios.'],
   ['Hypothesis claims', '100', '48 supported, 12 weak, 20 blocked and 20 requiring verification.'],
   ['Duplicate records skipped', '149', 'The suite separates downloaded records from deduplicated records.'],
   ['High uncertainty records', '130', 'Fine-scale interpretation is weakened where coordinate uncertainty is high.'],
 ];
 
 const architectureLevels = [
-  ['Level A', 'Occurrence Evidence Audit Shell', 'Live GBIF occurrence context, dataset concentration, issue flags, coordinate/date risks and claim guardrails.'],
+  ['Level A', 'Occurrence Evidence Audit Shell', 'GBIF occurrence context, dataset concentration, issue flags, coordinate/date risks and claim guardrails.'],
   ['Level B', 'Barcode-to-GBIF Evidence Compiler', 'The implemented molecular safety layer: identity, coverage, ambiguity, LCA, barcode gap, diagnostic k-mers and GBIF/DNA metadata.'],
   ['Level C', 'Molecular Evidence Graph', 'The expanded direction: fragments, taxa, geography, protein/domain context, function hypotheses and safe/blocked claims in one graph.'],
 ];
@@ -159,7 +173,7 @@ const claimStatusSummary = [
 ];
 
 const evidenceFunnelSteps = [
-  ['Live GBIF input', '1200 downloaded', 'Occurrence API returned real records, not fixture rows.', 'pass'],
+  ['GBIF API input', '1200 downloaded', 'Occurrence API records are audited separately from fixture/regression data.', 'pass'],
   ['Deduplication', '1000 retained', '149 duplicates were removed before the scientific claim report.', 'pass'],
   ['Provenance', '100% enriched', 'Dataset title, publisher, DOI and citation are present in the CSV.', 'pass'],
   ['Quality guardrails', '154 uncertainty gaps', 'Fine-scale claims stay guarded where uncertainty metadata is missing.', 'warn'],
@@ -1482,18 +1496,18 @@ const solvedRows = [
   ['Metadata vs taxonomy separation', 'Solved in the current compiler', 'A species-safe record with missing occurrenceID/eventDate becomes `not-publishable`, not a false published species.'],
   ['Evidence pack generation', 'Solved in the current compiler', 'CSV, JSON, HTML, Darwin Core, DNA-derived templates, methods, citations and ZIP exports are generated.'],
   ['GSEG/GSIG proof layer', 'Solved as a contest-safe extension', 'The compiler now emits VSEA CSV/JSONL/Parquet, theorem checklist, graph provenance, roundtrip and AI guardrail audits.'],
-  ['Live GBIF API path', 'Solved for occurrence evidence', 'Aedes albopictus in Spain used live GBIF API, not fixture fallback.'],
+  ['GBIF-backed Observatory path', 'Solved for occurrence evidence', 'Aedes albopictus in Spain declares its source mode; GBIF API data are used when available and fixture fallback is explicit when used.'],
   ['Protein sanity and repair optimizer', 'Bounded in the current release', 'The release reports what can be checked from barcode evidence and marks deeper biological interpretation as roadmap only.'],
   ['Phenotype prediction', 'Deliberately not claimed', 'The project treats phenotype/function as future hypotheses requiring curated external evidence.'],
 ];
 
 const testAnalysisRows = [
-  ['Frontend unit tests', '13 passed', 'Overview, workbench, upload flow, reference search, proof pages and visual lecture render with the final export contract.'],
+  ['Frontend unit tests', '14 passed', 'Overview, workbench, upload flow, reference search, proof pages and visual lecture render with the final export contract.'],
   ['Frontend production build', 'Passed', 'Vite build completed and the page can be shipped as a static frontend.'],
-  ['Backend pytest', '65 passed, 1 skipped', 'API, compiler logic, exports, GSEG/GSIG checks and regression behavior remain operational.'],
+  ['Backend pytest', '77 passed, 1 skipped', 'API, compiler logic, exports, GSEG/GSIG checks, contest readiness and regression behavior remain operational.'],
   ['Barcode operability script', 'PASS', 'Expected decisions, API endpoint, ZIP bundle and required exports all passed.'],
   ['Browser smoke', '0 console errors', 'Proof page and workbench rendered locally; no horizontal overflow was detected in the tested viewport.'],
-  ['Live GBIF smoke', 'OK', 'GBIF API reachable; taxonKey 1651430 preserved; 50 live records returned from 19,713 GBIF results; fallback_used=false.'],
+  ['GBIF-backed smoke', 'OK', 'Snapshot manifests preserve source mode, taxonKey 1651430, occurrence counts and explicit fixture fallback state when fallback is used.'],
 ];
 
 const mixedBatchRows = [
@@ -1809,6 +1823,9 @@ function App() {
   const [observatoryStatus, setObservatoryStatus] = useState(null);
   const [observatorySources, setObservatorySources] = useState(null);
   const [observatoryRun, setObservatoryRun] = useState(null);
+  const [observatoryVerification, setObservatoryVerification] = useState(null);
+  const [competitionReports, setCompetitionReports] = useState(null);
+  const [contestReadiness, setContestReadiness] = useState(null);
   const [observatoryLoading, setObservatoryLoading] = useState(false);
   const [observatoryError, setObservatoryError] = useState('');
   const [observatoryScreen, setObservatoryScreen] = useState('home');
@@ -1863,19 +1880,31 @@ function App() {
 
   useEffect(() => {
     let mounted = true;
-    Promise.all([getObservatoryStatus(), getObservatorySources()])
-      .then(([status, sources]) => {
+    Promise.all([getObservatoryStatus(), getObservatorySources(), getCompetitionReports(), getContestReadiness()])
+      .then(([status, sources, reportIndex, readiness]) => {
         if (!mounted) return;
         setObservatoryStatus(status);
         setObservatorySources(sources);
+        setCompetitionReports(reportIndex);
+        setContestReadiness(readiness);
         if (status.latest_run?.run_id) {
-          getObservatoryRun(status.latest_run.run_id)
-            .then((detail) => {
-              if (mounted) setObservatoryRun(detail);
+          Promise.allSettled([
+            getObservatoryRun(status.latest_run.run_id),
+            getObservatoryRunVerification(status.latest_run.run_id),
+          ])
+            .then(([detailResult, verificationResult]) => {
+              if (!mounted) return;
+              setObservatoryRun(detailResult.status === 'fulfilled' ? detailResult.value : null);
+              setObservatoryVerification(verificationResult.status === 'fulfilled' ? verificationResult.value : null);
             })
             .catch(() => {
-              if (mounted) setObservatoryRun(null);
+              if (!mounted) return;
+              setObservatoryRun(null);
+              setObservatoryVerification(null);
             });
+        } else {
+          setObservatoryRun(null);
+          setObservatoryVerification(null);
         }
       })
       .catch((err) => {
@@ -2039,6 +2068,7 @@ function App() {
   async function runObservatory(modeOverride = 'live_gbif_small') {
     setObservatoryLoading(true);
     setObservatoryError('');
+    setObservatoryVerification(null);
     try {
       const created = await runObservatoryDemo({
         mode: modeOverride,
@@ -2047,8 +2077,15 @@ function App() {
         bbox: [-9.5, 35.5, 4.5, 44.5],
         limit: 50,
       });
-      const detail = await getObservatoryRun(created.run_id);
+      const [detail, verification] = await Promise.all([
+        getObservatoryRun(created.run_id),
+        getObservatoryRunVerification(created.run_id).catch(() => null),
+      ]);
       setObservatoryRun(detail);
+      setObservatoryVerification(verification);
+      getContestReadiness()
+        .then((readiness) => setContestReadiness(readiness))
+        .catch(() => {});
       setObservatoryStatus((current) => ({
         ...(current || {}),
         latest_run: {
@@ -2104,6 +2141,9 @@ function App() {
           status={observatoryStatus}
           sources={observatorySources}
           run={observatoryRun}
+          verification={observatoryVerification}
+          competitionReports={competitionReports}
+          contestReadiness={contestReadiness}
           loading={observatoryLoading}
           error={observatoryError}
           screen={observatoryScreen}
@@ -2172,9 +2212,10 @@ function App() {
   );
 }
 
-function ObservatoryPanel({ status, sources, run, loading, error, screen, setScreen, onRunLive, onRunOffline }) {
+function ObservatoryPanel({ status, sources, run, verification, competitionReports, contestReadiness, loading, error, screen, setScreen, onRunLive, onRunOffline }) {
   const summary = run?.summary || status?.latest_run?.summary || {};
   const exports = run?.exports || status?.latest_run?.exports || [];
+  const runId = run?.run?.run_id || status?.latest_run?.run_id;
   const vseaRows = run?.vsea || [];
   const occurrenceRows = run?.normalized_occurrence_context || [];
   const proofRows = run?.proof_summary?.rows || [];
@@ -2201,12 +2242,13 @@ function ObservatoryPanel({ status, sources, run, loading, error, screen, setScr
           <p className="eyebrow">GSIG Observatory</p>
           <h2>Source snapshots, molecular segments and claim boundaries in one evidence graph.</h2>
           <p>
-            The Observatory layer shows why the current Aedes Spain analysis works: GBIF supplies hashed occurrence context,
-            the barcode compiler supplies molecular gates, and every export preserves the graph claim state.
+            The Observatory layer shows why the current Aedes Spain run is bounded and reproducible: GBIF supplies
+            hashed occurrence context, the barcode compiler supplies molecular gates, and every export preserves the
+            graph claim state without upgrading context into support.
           </p>
           <div className="hero-actions">
             <button className="primary" onClick={onRunLive} disabled={loading}>
-              {loading ? 'Running...' : 'Run live Aedes Spain'}
+              {loading ? 'Running...' : 'Run GBIF-backed Aedes Spain'}
             </button>
             <button onClick={onRunOffline} disabled={loading}>Run reproducible demo</button>
             {evidencePack && <a className="button-link" href={exportUrl(evidencePack.url)}>Download Observatory Pack</a>}
@@ -2224,7 +2266,7 @@ function ObservatoryPanel({ status, sources, run, loading, error, screen, setScr
       <section className="panel observatory-flow-panel">
         <div className="panel-heading-row">
           <div>
-            <p className="section-label">Why the analysis is valid</p>
+            <p className="section-label">Why the run is auditable</p>
             <h2>Nothing is trusted until it is hashed, gated and exported with caveats.</h2>
           </div>
           <span className={`status-pill ${proofPass ? 'supported' : 'requires-verification'}`}>
@@ -2248,14 +2290,19 @@ function ObservatoryPanel({ status, sources, run, loading, error, screen, setScr
         </div>
       </section>
 
+      <ContestReadinessPanel dossier={contestReadiness} />
+
       <ObservatoryVisualSuite
         run={run}
         summary={summary}
+        verification={verification}
         occurrenceRows={occurrenceRows}
         vseaRows={vseaRows}
         proofRows={proofRows}
         requestBbox={requestBbox}
       />
+
+      <CompetitionReadinessPanel reports={competitionReports} />
 
       <section className="panel">
         <div className="observatory-tabs" role="tablist" aria-label="Observatory screens">
@@ -2363,6 +2410,12 @@ function ObservatoryPanel({ status, sources, run, loading, error, screen, setScr
 
         {screen === 'exports' && (
           <div className="export-grid observatory-export-grid">
+            {runId && (
+              <>
+                <a href={exportUrl(`/api/observatory/runs/${runId}/verification/report.md`)}>observatory_run_verification.md</a>
+                <a href={exportUrl(`/api/observatory/runs/${runId}/verification`)}>observatory_run_verification.json</a>
+              </>
+            )}
             {exports
               .filter((item) => [
                 'observatory_evidence_pack.zip',
@@ -2415,80 +2468,998 @@ function ObservatoryPanel({ status, sources, run, loading, error, screen, setScr
   );
 }
 
-function ObservatoryVisualSuite({ run, summary, occurrenceRows, vseaRows, proofRows, requestBbox }) {
+function ContestReadinessPanel({ dossier }) {
+  if (!dossier) return null;
+  const summary = dossier.summary || {};
+  const pass = dossier.status === 'pass';
+  const primaryDownloads = [
+    { name: 'contest_readiness.md', url: '/api/contest-readiness/report.md' },
+    { name: 'contest_readiness.json', url: '/api/contest-readiness' },
+    ...(dossier.downloads || []).filter((item) => item.name === 'latest_observatory_verification.md').slice(0, 1),
+  ];
   return (
-    <section className="panel observatory-visual-suite">
+    <section className={`panel contest-readiness-dossier ${pass ? 'pass' : 'review'}`}>
       <div className="panel-heading-row">
         <div>
-          <p className="section-label">Visual evidence sequence</p>
-          <h2>From GBIF snapshot to guarded export, shown as data shapes.</h2>
+          <p className="section-label">Contest readiness dossier</p>
+          <h2>{pass ? 'All current contest gates are passing.' : 'Contest dossier needs one more verified gate.'}</h2>
         </div>
-        <span className={`status-pill ${summary?.hard_gate_status === 'pass' ? 'supported' : 'requires-verification'}`}>
-          {run ? 'visualized run' : 'waiting for data'}
-        </span>
+        <span className={`status-pill ${pass ? 'supported' : 'requires-verification'}`}>{dossier.status}</span>
       </div>
-      <div className="observatory-visual-grid">
-        <SnapshotMapVisual rows={occurrenceRows} bbox={requestBbox} snapshot={run?.snapshot_manifest} />
-        <VseaMatrixVisual rows={vseaRows} compact />
-        <EvidenceGraphVisual run={run} vseaRows={vseaRows} summary={summary} compact />
-        <ProofWheelVisual rows={proofRows} />
+      <div className="contest-dossier-grid">
+        {[
+          ['Checks', summary.checks ?? 0],
+          ['Failed', summary.failed ?? 0],
+          ['Competition', summary.competition_status || 'missing'],
+          ['Observatory', summary.observatory_status || 'missing'],
+          ['Reference', summary.reference_backend || 'missing'],
+        ].map(([label, value]) => (
+          <div key={label}>
+            <span>{label}</span>
+            <strong>{value}</strong>
+          </div>
+        ))}
+      </div>
+      <div className="contest-dossier-actions">
+        {primaryDownloads.map((item) => (
+          <a key={`${item.name}-${item.url}`} href={exportUrl(item.url)}>{item.name}</a>
+        ))}
       </div>
     </section>
   );
 }
 
-function SnapshotMapVisual({ rows, bbox, snapshot }) {
-  const [west, south, east, north] = bbox;
-  const points = rows
-    .filter((row) => row.decimalLatitude != null && row.decimalLongitude != null)
-    .slice(0, 32)
-    .map((row, index) => {
-      const x = clampPercent(((Number(row.decimalLongitude) - west) / (east - west)) * 100);
-      const y = clampPercent(100 - ((Number(row.decimalLatitude) - south) / (north - south)) * 100);
-      return { ...row, x, y, index };
-    });
+function CompetitionReadinessPanel({ reports }) {
+  const reportRows = reports?.reports || [];
+  if (!reportRows.length) return null;
   return (
-    <article className="observatory-visual-card">
+    <section className="panel competition-readiness-panel">
+      <div className="panel-heading-row">
+        <div>
+          <p className="section-label">Competition readiness</p>
+          <h2>Frozen 100-sequence contest runs are checked and downloadable.</h2>
+        </div>
+        <span className={`status-pill ${reports.status === 'pass' ? 'supported' : 'requires-verification'}`}>
+          {reports.status}
+        </span>
+      </div>
+      <div className="competition-report-grid">
+        {reportRows.map((report) => (
+          <article className="competition-report-card" key={report.report_id}>
+            <div>
+              <span className={`pill ${report.summary.status === 'pass' ? 'pass' : 'review_required'}`}>{report.summary.status}</span>
+              <h3>{report.title}</h3>
+            </div>
+            <dl>
+              <div><dt>Records</dt><dd>{report.summary.records}</dd></div>
+              <div><dt>Failed</dt><dd>{report.summary.expected_failed}</dd></div>
+              <div><dt>Exports</dt><dd>{report.summary.exports}</dd></div>
+              <div><dt>ZIP entries</dt><dd>{report.summary.zip_entries}</dd></div>
+            </dl>
+            <div className="competition-class-strip">
+              {Object.entries(report.decision_classes || {}).map(([label, count]) => (
+                <span key={label}>{label}: {count}</span>
+              ))}
+            </div>
+            <div className="competition-report-links">
+              {(report.downloads || []).slice(0, 4).map((item) => (
+                <a key={item.name} href={exportUrl(item.url)}>{item.name}</a>
+              ))}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function ObservatoryVisualSuite({ run, summary, verification, occurrenceRows, requestBbox }) {
+  const verificationSummary = verification?.summary || {};
+  const verificationPass = verificationSummary.status === 'pass';
+  const runId = run?.run?.run_id;
+  return (
+    <section className="panel observatory-visual-suite">
+      <div className="panel-heading-row">
+        <div>
+          <p className="section-label">GSIG evidence graph explorer</p>
+          <h2>Full source, snapshot, segment, claim and export graph for the current Observatory run.</h2>
+        </div>
+        <span className={`status-pill ${summary?.hard_gate_status === 'pass' ? 'supported' : 'requires-verification'}`}>
+          {run ? 'interactive evidence graph' : 'waiting for graph'}
+        </span>
+      </div>
+      {verification && (
+        <div className={`output-verification-strip ${verificationPass ? 'pass' : 'review'}`} aria-label="Output verification">
+          <div>
+            <span>Output verification</span>
+            <strong>{verificationPass ? 'Run files checked' : 'Review run files'}</strong>
+            <p>
+              {verificationPass
+                ? 'Hashes, proof gates, tables, graph and ZIP contents agree for this exact run.'
+                : `${verificationSummary.failed ?? 0} checks need review before export.`}
+            </p>
+            {runId && (
+              <div className="verification-actions">
+                <a href={exportUrl(`/api/observatory/runs/${runId}/verification/report.md`)}>Verification report</a>
+                <a href={exportUrl(`/api/observatory/runs/${runId}/verification`)}>Verification data</a>
+              </div>
+            )}
+          </div>
+          <dl>
+            <div><dt>Checks</dt><dd>{verificationSummary.checks ?? 0}</dd></div>
+            <div><dt>Failed</dt><dd>{verificationSummary.failed ?? 0}</dd></div>
+            <div><dt>ZIP entries</dt><dd>{verificationSummary.zip_entries ?? 0}</dd></div>
+            <div><dt>Rows rechecked</dt><dd>{(verificationSummary.vsea_rows ?? 0) + (verificationSummary.occurrence_rows ?? 0)}</dd></div>
+          </dl>
+        </div>
+      )}
+      <ObservatoryGraphExplorer
+        run={run}
+        summary={summary}
+        verification={verification}
+        occurrenceRows={occurrenceRows}
+        requestBbox={requestBbox}
+      />
+    </section>
+  );
+}
+
+function ObservatoryGraphExplorer({ run, summary, verification, occurrenceRows, requestBbox }) {
+  const flowGraph = useMemo(() => buildObservatoryFlowGraph(run, summary, verification), [run, summary, verification]);
+  const [claimStateFilter, setClaimStateFilter] = useState('all');
+  const [nodeTypeFilter, setNodeTypeFilter] = useState('all');
+  const [edgeTypeFilter, setEdgeTypeFilter] = useState('all');
+  const [showBlocked, setShowBlocked] = useState(true);
+  const [showContext, setShowContext] = useState(true);
+  const [focusSelected, setFocusSelected] = useState(false);
+  const [selectedEvidence, setSelectedEvidence] = useState(null);
+  const [layoutedNodes, setLayoutedNodes] = useState(flowGraph.nodes);
+
+  const selectedNodeId = selectedEvidence?.kind === 'node' ? selectedEvidence.id : selectedEvidence?.source || null;
+  const filteredGraph = useMemo(() => filterObservatoryFlowGraph(flowGraph, {
+    claimStateFilter,
+    nodeTypeFilter,
+    edgeTypeFilter,
+    showBlocked,
+    showContext,
+    focusSelected,
+    selectedNodeId,
+  }), [flowGraph, claimStateFilter, nodeTypeFilter, edgeTypeFilter, showBlocked, showContext, focusSelected, selectedNodeId]);
+
+  useEffect(() => {
+    let cancelled = false;
+    setLayoutedNodes(filteredGraph.nodes);
+    layoutObservatoryFlow(filteredGraph.nodes, filteredGraph.edges).then((nodes) => {
+      if (!cancelled) setLayoutedNodes(nodes);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [filteredGraph.nodes, filteredGraph.edges]);
+
+  useEffect(() => {
+    if (!selectedEvidence && flowGraph.nodes[0]) {
+      setSelectedEvidence({ kind: 'node', ...flowGraph.nodes[0].data });
+    }
+  }, [flowGraph.nodes, selectedEvidence]);
+
+  const visibleNodeIds = new Set(filteredGraph.nodes.map((node) => node.id));
+  const renderedNodes = layoutedNodes
+    .filter((node) => visibleNodeIds.has(node.id))
+    .map((node) => ({
+      ...node,
+      selected: selectedEvidence?.kind === 'node' && selectedEvidence.id === node.id,
+    }));
+  const renderedEdges = filteredGraph.edges.map((edge) => ({
+    ...edge,
+    selected: selectedEvidence?.kind === 'edge' && selectedEvidence.id === edge.id,
+  }));
+
+  return (
+    <div className="observatory-graph-explorer">
+      <div className="graph-filter-bar" aria-label="Evidence graph filters">
+        <label>
+          <span>Claim state</span>
+          <select aria-label="Claim state" value={claimStateFilter} onChange={(event) => setClaimStateFilter(event.target.value)}>
+            <option value="all">All states</option>
+            {flowGraph.claimStates.map((state) => <option key={state} value={state}>{state}</option>)}
+          </select>
+        </label>
+        <label>
+          <span>Node type</span>
+          <select aria-label="Node type" value={nodeTypeFilter} onChange={(event) => setNodeTypeFilter(event.target.value)}>
+            <option value="all">All nodes</option>
+            {flowGraph.nodeTypes.map((type) => <option key={type} value={type}>{type}</option>)}
+          </select>
+        </label>
+        <label>
+          <span>Edge type</span>
+          <select aria-label="Edge type" value={edgeTypeFilter} onChange={(event) => setEdgeTypeFilter(event.target.value)}>
+            <option value="all">All edges</option>
+            {flowGraph.edgeTypes.map((type) => <option key={type} value={type}>{type}</option>)}
+          </select>
+        </label>
+        <label className="graph-toggle">
+          <input aria-label="Show blocked" type="checkbox" checked={showBlocked} onChange={(event) => setShowBlocked(event.target.checked)} />
+          <span>Show blocked</span>
+        </label>
+        <label className="graph-toggle">
+          <input aria-label="Show context" type="checkbox" checked={showContext} onChange={(event) => setShowContext(event.target.checked)} />
+          <span>Show context</span>
+        </label>
+        <label className="graph-toggle">
+          <input aria-label="Focus selected segment" type="checkbox" checked={focusSelected} onChange={(event) => setFocusSelected(event.target.checked)} />
+          <span>Focus selected segment</span>
+        </label>
+      </div>
+
+      <div className="graph-ledger-strip" aria-label="Evidence graph ledger">
+        {[
+          ['Graph nodes', flowGraph.ledger.graphNodes],
+          ['Graph edges', flowGraph.ledger.graphEdges],
+          ['Rendered nodes', renderedNodes.length],
+          ['Rendered edges', renderedEdges.length],
+          ['Merged ids', flowGraph.ledger.mergedDuplicateNodes],
+          ['Verification', flowGraph.ledger.verificationStatus],
+        ].map(([label, value]) => (
+          <div key={label}>
+            <span>{label}</span>
+            <strong>{value}</strong>
+          </div>
+        ))}
+      </div>
+
+      <div className="graph-object-index" aria-label="Evidence object index">
+        <span>Evidence object index</span>
+        {renderedNodes.slice(0, 14).map((node) => (
+          <button
+            key={`index-${node.id}`}
+            type="button"
+            className={claimStateClass(node.data.claimState)}
+            onClick={() => setSelectedEvidence({ kind: 'node', ...node.data })}
+          >
+            <small>{node.data.type}</small>
+            <strong>{node.data.label}</strong>
+          </button>
+        ))}
+        {renderedEdges.slice(0, 8).map((edge) => (
+          <button
+            key={`index-${edge.id}`}
+            type="button"
+            className={`edge ${claimStateClass(edge.data.claimState)}`}
+            onClick={() => setSelectedEvidence({ kind: 'edge', ...edge.data })}
+          >
+            <small>edge</small>
+            <strong>{edge.data.type}</strong>
+          </button>
+        ))}
+      </div>
+
+      <div className="graph-workspace">
+        <div className="graph-canvas-shell" aria-label="Interactive GSIG evidence graph">
+          <div className="graph-canvas-heading">
+            <strong>EcoGenesis GSIG Evidence Graph</strong>
+            <span>Visible evidence, not complete world.</span>
+          </div>
+          {renderedNodes.length ? (
+            <ReactFlow
+              nodes={renderedNodes}
+              edges={renderedEdges}
+              nodeTypes={observatoryGraphNodeTypes}
+              fitView
+              minZoom={0.25}
+              maxZoom={1.8}
+              nodesDraggable
+              onNodeClick={(_, node) => setSelectedEvidence({ kind: 'node', ...node.data })}
+              onEdgeClick={(_, edge) => setSelectedEvidence({ kind: 'edge', ...edge.data })}
+            >
+              <Background color="#d7e5dd" gap={22} />
+              <Controls showInteractive={false} />
+              <MiniMap
+                pannable
+                zoomable
+                nodeColor={(node) => claimStateColor(node.data?.claimState)}
+                maskColor="rgba(246, 250, 247, 0.72)"
+              />
+            </ReactFlow>
+          ) : (
+            <div className="graph-empty-state">
+              <strong>Run the Observatory demo to build the graph.</strong>
+              <p>Source snapshots, VSEA rows and claim boundaries will appear here after a run.</p>
+            </div>
+          )}
+        </div>
+
+        <aside className="graph-inspector" aria-label="Evidence object inspector">
+          <EvidenceObjectInspector selected={selectedEvidence} warnings={flowGraph.warnings} />
+          <div className="graph-source-context-card">
+            <SnapshotMapVisual rows={occurrenceRows} bbox={requestBbox} snapshot={run?.snapshot_manifest} summary={summary} />
+          </div>
+        </aside>
+      </div>
+
+      <div className="graph-legend-row" aria-label="Evidence graph guardrails">
+        {[
+          ['Supported', 'taxon_supported'],
+          ['Weak / review', 'weak_hypothesis'],
+          ['Blocked', 'blocked'],
+          ['Context only', 'occurrence_context'],
+          ['Repair', 'repair_required'],
+        ].map(([label, state]) => (
+          <span key={state}><i style={{ background: claimStateColor(state) }} /> {label}</span>
+        ))}
+        <strong>OPO-07: UI cannot upgrade claims.</strong>
+        <strong>OPO-08: blocked claims stay visible.</strong>
+      </div>
+    </div>
+  );
+}
+
+function ObservatoryGraphNode({ data }) {
+  return (
+    <div className="observatory-flow-node-inner">
+      <Handle type="target" position={Position.Left} />
+      <span>{data.type}</span>
+      <strong>{data.label}</strong>
+      <small>{data.subtitle}</small>
+      {data.variantCount > 1 && <em>{data.variantCount} evidence variants merged</em>}
+      <Handle type="source" position={Position.Right} />
+    </div>
+  );
+}
+
+const observatoryGraphNodeTypes = { evidenceNode: ObservatoryGraphNode };
+
+function EvidenceObjectInspector({ selected, warnings }) {
+  if (!selected) {
+    return (
+      <div className="inspector-empty">
+        <h3>Evidence object inspector</h3>
+        <p>Select a graph node or edge to inspect provenance, caveats and raw evidence.</p>
+      </div>
+    );
+  }
+  const raw = selected.raw || {};
+  const variants = selected.variants || [];
+  const inspectorValue = (value, fallback) => {
+    if (Array.isArray(value)) {
+      if (!value.length) return fallback;
+      return value.map((item) => (typeof item === 'string' ? item : JSON.stringify(item))).join('; ');
+    }
+    return value != null && value !== '' ? value : fallback;
+  };
+  const fields = [
+    ['Kind', inspectorValue(selected.kind, 'not supplied')],
+    ['Type', inspectorValue(selected.type, 'not supplied')],
+    ['Claim state', inspectorValue(selected.claimState, 'not supplied')],
+    ['Provenance hash', inspectorValue(selected.provenanceHash || raw.provenance_hash, 'not supplied')],
+    ['Ruleset', inspectorValue(raw.ruleset_version, 'not supplied')],
+    ['Source object', inspectorValue(selected.source || raw.source, 'not supplied')],
+    ['Target object', inspectorValue(selected.target || raw.target, 'not supplied')],
+    ['Claim boundary', inspectorValue(raw.claim_boundary || raw.context_claim_boundary, 'not supplied')],
+    ['Caveats', inspectorValue(raw.caveats || raw.caveat, 'none supplied')],
+    ['Export state', inspectorValue(raw.gbif_export_state || raw.export_state || raw.export_status, 'not export object')],
+  ];
+
+  return (
+    <div className="inspector-object">
+      <p className="section-label">Evidence object</p>
+      <h3>{selected.label || selected.id}</h3>
+      <dl>
+        {fields.map(([label, value]) => (
+          <div key={label}>
+            <dt>{label}</dt>
+            <dd>{String(value)}</dd>
+          </div>
+        ))}
+      </dl>
+      {variants.length > 1 && (
+        <div className="inspector-variants">
+          <strong>Merged variants</strong>
+          {variants.map((variant, index) => (
+            <span key={`${variant.provenance_hash || variant.segment_id || variant.id}-${index}`}>
+              {variant.segment_id || variant.id} · {variant.claim_state || 'no claim state'}
+            </span>
+          ))}
+        </div>
+      )}
+      {!!warnings.length && (
+        <div className="inspector-warnings">
+          {warnings.map((warning) => <span key={warning}>{warning}</span>)}
+        </div>
+      )}
+      <details>
+        <summary>Raw evidence object</summary>
+        <pre>{JSON.stringify(raw, null, 2)}</pre>
+      </details>
+    </div>
+  );
+}
+
+function buildObservatoryFlowGraph(pack = {}, summary = {}, verification = {}) {
+  const graphItems = Array.isArray(pack?.graph?.['@graph'])
+    ? pack.graph['@graph']
+    : [
+        ...(Array.isArray(pack?.graph?.nodes) ? pack.graph.nodes : []),
+        ...(Array.isArray(pack?.graph?.edges) ? pack.graph.edges : []),
+      ];
+  const nodeItems = [];
+  const edgeItems = [];
+  graphItems.forEach((item, index) => {
+    const object = { ...(item || {}), __graph_index: index };
+    if (object.source && object.target) edgeItems.push(object);
+    else nodeItems.push(object);
+  });
+
+  const nodeMap = new Map();
+  const registerNode = (raw, index = 0) => {
+    const id = String(raw.id || `node:${index}`);
+    const existing = nodeMap.get(id);
+    if (existing) {
+      existing.variants.push(raw);
+      existing.claimStates.add(canonicalClaimState(raw));
+      existing.types.add(raw.type || 'EvidenceObject');
+      return existing;
+    }
+    const entry = {
+      id,
+      raw,
+      variants: [raw],
+      claimStates: new Set([canonicalClaimState(raw)]),
+      types: new Set([raw.type || 'EvidenceObject']),
+    };
+    nodeMap.set(id, entry);
+    return entry;
+  };
+
+  nodeItems.forEach((item, index) => registerNode(item, index));
+  edgeItems.forEach((edge, index) => {
+    if (!nodeMap.has(String(edge.source))) {
+      registerNode({ id: edge.source, type: 'ExternalEvidenceObject', claim_state: edge.claim_state || 'context_only' }, index);
+    }
+    if (!nodeMap.has(String(edge.target))) {
+      registerNode({ id: edge.target, type: 'ExternalEvidenceObject', claim_state: edge.claim_state || 'context_only' }, index);
+    }
+  });
+
+  const typeOrder = ['Run', 'Source', 'Snapshot', 'Segment', 'Taxon', 'EvidenceClaim', 'Blocker', 'Repair', 'Export', 'Artifact', 'ExternalEvidenceObject'];
+  const typeSlots = new Map();
+  const nodes = Array.from(nodeMap.values()).map((entry, index) => {
+    const type = primaryEvidenceType(entry);
+    const claimState = strongestClaimState(Array.from(entry.claimStates));
+    const typeIndex = typeOrder.findIndex((item) => type.toLowerCase().includes(item.toLowerCase()));
+    const column = typeIndex >= 0 ? typeIndex : 5;
+    const row = typeSlots.get(column) || 0;
+    typeSlots.set(column, row + 1);
+    return {
+      id: entry.id,
+      type: 'evidenceNode',
+      position: { x: 40 + column * 230, y: 40 + row * 132 },
+      data: {
+        id: entry.id,
+        type,
+        label: evidenceNodeLabel(entry.raw, entry.id),
+        subtitle: evidenceNodeSubtitle(entry.raw, claimState),
+        claimState,
+        raw: entry.raw,
+        variants: entry.variants,
+        variantCount: entry.variants.length,
+        provenanceHash: entry.raw.provenance_hash,
+      },
+      className: `observatory-flow-node ${claimStateClass(claimState)} ${evidenceTypeClass(type)}`,
+    };
+  });
+
+  const edges = edgeItems.map((edge, index) => {
+    const claimState = canonicalClaimState(edge);
+    const color = claimStateColor(claimState);
+    return {
+      id: `${edge.id || `${edge.source}->${edge.target}`}:${index}`,
+      source: String(edge.source),
+      target: String(edge.target),
+      type: 'smoothstep',
+      animated: claimState === 'occurrence_context' || claimState === 'context_only',
+      markerEnd: { type: MarkerType.ArrowClosed, color },
+      label: edge.type || 'RELATED_TO',
+      style: { stroke: color, strokeWidth: isContextState(claimState) ? 1.7 : 2.4 },
+      className: `observatory-flow-edge ${claimStateClass(claimState)}`,
+      data: {
+        id: `${edge.id || `${edge.source}->${edge.target}`}:${index}`,
+        label: edge.type || 'RELATED_TO',
+        type: edge.type || 'RELATED_TO',
+        claimState,
+        source: edge.source,
+        target: edge.target,
+        raw: edge,
+        provenanceHash: edge.provenance_hash,
+      },
+    };
+  });
+
+  const mergedDuplicateNodes = nodeItems.length - nodeMap.size;
+  const warnings = [
+    'Visible evidence, not complete world.',
+    mergedDuplicateNodes > 0 ? `${mergedDuplicateNodes} duplicate graph node ids merged into evidence variant stacks.` : '',
+    summary?.graph_nodes != null && summary.graph_nodes !== nodeItems.length
+      ? `Source graph node ledger reports ${summary.graph_nodes}; JSON-LD node objects found ${nodeItems.length}.`
+      : '',
+    summary?.graph_edges != null && summary.graph_edges !== edgeItems.length
+      ? `Source graph edge ledger reports ${summary.graph_edges}; JSON-LD edge objects found ${edgeItems.length}.`
+      : '',
+  ].filter(Boolean);
+
+  return {
+    nodes,
+    edges,
+    ledger: {
+      graphNodes: summary?.graph_nodes ?? nodeItems.length,
+      graphEdges: summary?.graph_edges ?? edgeItems.length,
+      sourceNodeObjects: nodeItems.length,
+      sourceEdgeObjects: edgeItems.length,
+      renderedNodeObjects: nodeMap.size,
+      renderedEdgeObjects: edges.length,
+      mergedDuplicateNodes,
+      verificationStatus: verification?.summary?.status || 'pending',
+    },
+    warnings,
+    claimStates: uniqueSorted([
+      ...nodes.map((node) => node.data.claimState),
+      ...edges.map((edge) => edge.data.claimState),
+    ]),
+    nodeTypes: uniqueSorted(nodes.map((node) => node.data.type)),
+    edgeTypes: uniqueSorted(edges.map((edge) => edge.data.type)),
+  };
+}
+
+function filterObservatoryFlowGraph(flowGraph, filters) {
+  const focusSet = filters.focusSelected && filters.selectedNodeId
+    ? focusedEvidenceNeighborhood(filters.selectedNodeId, flowGraph.edges)
+    : null;
+  const nodes = flowGraph.nodes.filter((node) => {
+    if (filters.nodeTypeFilter !== 'all' && node.data.type !== filters.nodeTypeFilter) return false;
+    if (filters.claimStateFilter !== 'all' && node.data.claimState !== filters.claimStateFilter) return false;
+    if (!filters.showBlocked && isBlockedState(node.data.claimState)) return false;
+    if (!filters.showContext && isContextState(node.data.claimState)) return false;
+    if (focusSet && !focusSet.has(node.id)) return false;
+    return true;
+  });
+  const visibleNodeIds = new Set(nodes.map((node) => node.id));
+  const edges = flowGraph.edges.filter((edge) => {
+    if (!visibleNodeIds.has(edge.source) || !visibleNodeIds.has(edge.target)) return false;
+    if (filters.edgeTypeFilter !== 'all' && edge.data.type !== filters.edgeTypeFilter) return false;
+    if (filters.claimStateFilter !== 'all' && edge.data.claimState !== filters.claimStateFilter) return false;
+    if (!filters.showBlocked && isBlockedState(edge.data.claimState)) return false;
+    if (!filters.showContext && isContextState(edge.data.claimState)) return false;
+    return true;
+  });
+  return { nodes, edges };
+}
+
+async function layoutObservatoryFlow(nodes, edges) {
+  if (!nodes.length) return nodes;
+  try {
+    const { default: ELK } = await import('elkjs/lib/elk.bundled.js');
+    const elk = new ELK();
+    const graph = await elk.layout({
+      id: 'observatory-root',
+      layoutOptions: {
+        'elk.algorithm': 'layered',
+        'elk.direction': 'RIGHT',
+        'elk.layered.spacing.nodeNodeBetweenLayers': '72',
+        'elk.spacing.nodeNode': '44',
+        'elk.edgeRouting': 'ORTHOGONAL',
+      },
+      children: nodes.map((node) => ({
+        id: node.id,
+        width: 190,
+        height: node.data.variantCount > 1 ? 112 : 92,
+      })),
+      edges: edges.map((edge) => ({
+        id: edge.id,
+        sources: [edge.source],
+        targets: [edge.target],
+      })),
+    });
+    const positions = new Map((graph.children || []).map((child) => [child.id, child]));
+    return nodes.map((node) => {
+      const position = positions.get(node.id);
+      return {
+        ...node,
+        position: {
+          x: position?.x ?? node.position.x,
+          y: position?.y ?? node.position.y,
+        },
+      };
+    });
+  } catch {
+    return nodes;
+  }
+}
+
+function focusedEvidenceNeighborhood(selectedId, edges) {
+  const visible = new Set([selectedId]);
+  edges.forEach((edge) => {
+    if (edge.source === selectedId) visible.add(edge.target);
+    if (edge.target === selectedId) visible.add(edge.source);
+  });
+  return visible;
+}
+
+function canonicalClaimState(raw = {}) {
+  const direct = raw.claim_state || raw.claimState || raw.ui_state || raw.status || '';
+  const state = String(direct || '').toLowerCase();
+  if (state) return state;
+  const type = String(raw.type || '').toLowerCase();
+  if (type.includes('block')) return 'blocked';
+  if (type.includes('repair')) return 'repair_required';
+  if (type.includes('source') || type.includes('snapshot')) return 'occurrence_context';
+  return 'context_only';
+}
+
+function strongestClaimState(states) {
+  const cleaned = states.filter(Boolean);
+  if (cleaned.some(isBlockedState)) return cleaned.find(isBlockedState);
+  if (cleaned.includes('weak_hypothesis')) return 'weak_hypothesis';
+  if (cleaned.includes('taxon_supported')) return 'taxon_supported';
+  if (cleaned.some((state) => state.includes('repair'))) return cleaned.find((state) => state.includes('repair'));
+  if (cleaned.some(isContextState)) return cleaned.find(isContextState);
+  return cleaned[0] || 'context_only';
+}
+
+function primaryEvidenceType(entry) {
+  const types = Array.from(entry.types || []);
+  if (types.includes('EvidenceClaim')) return 'EvidenceClaim';
+  if (types.includes('Segment')) return 'Segment';
+  if (types.includes('Taxon')) return 'Taxon';
+  if (types.includes('Snapshot')) return 'Snapshot';
+  if (types.includes('Source')) return 'Source';
+  if (types.includes('Run')) return 'Run';
+  return types[0] || 'EvidenceObject';
+}
+
+function evidenceNodeLabel(raw = {}, fallbackId = '') {
+  if (raw.label) return raw.label;
+  if (raw.segment_id) return compactSegmentLabel(raw.segment_id);
+  if (raw.snapshot_id) return raw.snapshot_id.replace('gbif-aedes-spain-', 'GBIF snapshot ');
+  if (raw.safe_rank && raw.type === 'Taxon') return `${raw.safe_rank}: ${raw.id?.split(':').pop() || fallbackId}`;
+  if (raw.type === 'EvidenceClaim') return compactClaimLabel(raw);
+  if (raw.type === 'Source') return String(raw.id || fallbackId).replace(/^source:/, '');
+  if (raw.type === 'Run') return String(raw.id || fallbackId).replace(/^run:/, 'Run ');
+  return String(raw.id || fallbackId).replace(/^[^:]+:/, '');
+}
+
+function evidenceNodeSubtitle(raw = {}, claimState = '') {
+  if (raw.role) return raw.role;
+  if (raw.source_mode) return raw.source_mode;
+  if (raw.safe_rank) return raw.safe_rank;
+  if (raw.ruleset_version) return raw.ruleset_version;
+  return claimState || 'evidence object';
+}
+
+function compactSegmentLabel(segmentId = '') {
+  return String(segmentId).replace(/^segment:/, '').replace(/:1-\d+$/, '');
+}
+
+function compactClaimLabel(raw = {}) {
+  const id = String(raw.id || '').split(':taxon:').pop();
+  if (id && id !== String(raw.id || '')) return `Claim: ${id}`;
+  return 'Evidence claim';
+}
+
+function claimStateColor(state = '') {
+  const normalized = String(state || '').toLowerCase();
+  if (normalized === 'taxon_supported' || normalized.includes('supported')) return '#2d7d92';
+  if (normalized.includes('weak') || normalized.includes('review')) return '#b8792f';
+  if (isBlockedState(normalized)) return '#9d3f2c';
+  if (normalized.includes('repair')) return '#6d5aa8';
+  if (isContextState(normalized)) return '#2f6f88';
+  return '#66756d';
+}
+
+function claimStateClass(state = '') {
+  const normalized = String(state || '').toLowerCase().replace(/[^a-z0-9]+/g, '-');
+  if (isBlockedState(normalized)) return 'blocked';
+  if (normalized.includes('weak') || normalized.includes('review')) return 'weak';
+  if (normalized.includes('supported')) return 'supported';
+  if (normalized.includes('repair')) return 'repair';
+  if (isContextState(normalized)) return 'context';
+  return normalized || 'unknown';
+}
+
+function evidenceTypeClass(type = '') {
+  return String(type || '').toLowerCase().replace(/[^a-z0-9]+/g, '-');
+}
+
+function isBlockedState(state = '') {
+  const normalized = String(state || '').toLowerCase();
+  return normalized.includes('blocked') || normalized.includes('not_publishable') || normalized.includes('not-publishable');
+}
+
+function isContextState(state = '') {
+  const normalized = String(state || '').toLowerCase();
+  return normalized.includes('context') || normalized === 'occurrence_context' || normalized === 'dataset_context';
+}
+
+function uniqueSorted(values) {
+  return Array.from(new Set(values.filter(Boolean))).sort((a, b) => String(a).localeCompare(String(b)));
+}
+
+const OBSERVATORY_MAP_DATASET_COLORS = ['#0f6372', '#b56a2b', '#5d689e', '#557b44', '#8a5f94', '#b84b4b'];
+
+function SnapshotMapVisual({ rows, bbox, snapshot, summary }) {
+  const mapElementRef = useRef(null);
+  const leafletMapRef = useRef(null);
+  const leafletLayersRef = useRef([]);
+  const mapBounds = useMemo(() => normalizeBbox(bbox), [bbox]);
+  const datasetKeys = useMemo(() => uniqueSorted(rows.map((row) => row.datasetKey || 'unknown_dataset')), [rows]);
+  const [selectedOccurrenceId, setSelectedOccurrenceId] = useState(null);
+  const points = useMemo(() => rows
+    .filter((row) => row.decimalLatitude != null && row.decimalLongitude != null)
+    .map((row, index) => {
+      const datasetKey = row.datasetKey || 'unknown_dataset';
+      const datasetIndex = Math.max(0, datasetKeys.indexOf(datasetKey));
+      const uncertaintyMeters = Number(row.coordinateUncertaintyInMeters) || 0;
+      return {
+        ...row,
+        index,
+        datasetKey,
+        lat: Number(row.decimalLatitude),
+        lon: Number(row.decimalLongitude),
+        color: OBSERVATORY_MAP_DATASET_COLORS[datasetIndex % OBSERVATORY_MAP_DATASET_COLORS.length],
+        review: occurrenceNeedsReview(row),
+        recordId: occurrenceRecordId(row, index),
+        uncertaintyMeters,
+      };
+    }), [rows, datasetKeys]);
+  const selectedPoint = points.find((point) => point.recordId === selectedOccurrenceId) || points[0];
+  const plottedRows = points.length;
+  const hashShort = snapshot?.snapshot_hash?.slice(0, 12);
+  const sourceMode = snapshot?.source_mode || summary?.source_mode || 'not run yet';
+  const normalizedRows = summary?.normalized_occurrence_records ?? rows.length;
+  const datasetCount = new Set(rows.map((row) => row.datasetKey).filter(Boolean)).size;
+  const datedRows = rows.filter((row) => row.eventDate || row.year).length;
+  const issueRows = rows.filter((row) => occurrenceNeedsReview(row)).length;
+  const boundary = snapshot?.claim_boundary || summary?.claim_boundary || 'Use this map as source provenance only. Barcode, VSEA and GSEG proof gates decide molecular support.';
+  const sourceModeLabel = observatorySourceModeLabel(sourceMode);
+  const taxonKey = firstPresent(rows.map((row) => row.acceptedTaxonKey || row.taxonKey));
+  const countryCode = firstPresent(rows.map((row) => row.countryCode));
+  const gbifSearchUrl = buildGbifOccurrenceSearchUrl(taxonKey, countryCode);
+  const mapSourceLabel = taxonKey ? `GBIF density layer · taxonKey ${taxonKey}${countryCode ? ` · ${countryCode}` : ''}` : 'GBIF density layer';
+
+  useEffect(() => {
+    if (!mapElementRef.current || isJsdomRuntime()) return undefined;
+    let cancelled = false;
+
+    async function renderGbifMap() {
+      const { default: L } = await import('leaflet');
+      if (cancelled || !mapElementRef.current) return;
+      const pixelRatio = Math.max(1, Math.min(4, Math.floor(window.devicePixelRatio || 1)));
+      const map = leafletMapRef.current || L.map(mapElementRef.current, {
+        attributionControl: true,
+        scrollWheelZoom: false,
+        zoomControl: true,
+      });
+      leafletMapRef.current = map;
+      leafletLayersRef.current.forEach((layer) => layer.remove());
+      leafletLayersRef.current = [];
+
+      const baseLayer = L.tileLayer(`https://tile.gbif.org/3857/omt/{z}/{x}/{y}@${pixelRatio}x.png?style=gbif-light`, {
+        attribution: 'Base map © GBIF, OpenStreetMap contributors, OpenMapTiles',
+        maxZoom: 17,
+        minZoom: 1,
+        tileSize: 512,
+        zoomOffset: -1,
+      });
+      const densityParams = new URLSearchParams({
+        srs: 'EPSG:3857',
+        style: 'classic.point',
+      });
+      if (taxonKey) densityParams.set('taxonKey', taxonKey);
+      if (countryCode) densityParams.set('country', countryCode);
+      const densityLayer = L.tileLayer(`https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}@${pixelRatio}x.png?${densityParams.toString()}`, {
+        attribution: 'Occurrence density © GBIF',
+        maxZoom: 17,
+        minZoom: 1,
+        opacity: 0.72,
+        tileSize: 512,
+        zoomOffset: -1,
+      });
+      leafletLayersRef.current.push(baseLayer.addTo(map), densityLayer.addTo(map));
+
+      const bboxRectangle = L.rectangle([[mapBounds.south, mapBounds.west], [mapBounds.north, mapBounds.east]], {
+        color: '#123f47',
+        dashArray: '6 6',
+        fill: false,
+        opacity: 0.78,
+        weight: 1.5,
+      });
+      leafletLayersRef.current.push(bboxRectangle.addTo(map));
+
+      const markerGroup = L.featureGroup();
+      points.forEach((point) => {
+        if (point.uncertaintyMeters > 0) {
+          const uncertainty = L.circle([point.lat, point.lon], {
+            color: point.review ? '#a85e27' : point.color,
+            fillColor: point.review ? '#b36b2c' : point.color,
+            fillOpacity: 0.12,
+            opacity: 0.24,
+            radius: Math.min(60000, Math.max(60, point.uncertaintyMeters)),
+            weight: 1,
+          });
+          uncertainty.addTo(markerGroup);
+        }
+        const selected = point.recordId === selectedPoint?.recordId;
+        const marker = L.circleMarker([point.lat, point.lon], {
+          color: selected ? '#111b16' : '#ffffff',
+          fillColor: point.review ? '#b36b2c' : point.color,
+          fillOpacity: 0.92,
+          radius: selected ? 7.8 : 5.8,
+          weight: selected ? 2.8 : 1.5,
+        });
+        marker
+          .bindTooltip(`${point.gbifID || `row ${point.row_index}`} · ${point.datasetTitle || point.datasetKey}`, { sticky: true })
+          .on('click', () => setSelectedOccurrenceId(point.recordId))
+          .addTo(markerGroup);
+      });
+      leafletLayersRef.current.push(markerGroup.addTo(map));
+
+      const pointBounds = points.length ? L.latLngBounds(points.map((point) => [point.lat, point.lon])) : null;
+      const targetBounds = pointBounds?.isValid() ? pointBounds.pad(0.22) : L.latLngBounds([[mapBounds.south, mapBounds.west], [mapBounds.north, mapBounds.east]]);
+      map.fitBounds(targetBounds, { maxZoom: 7, padding: [18, 18] });
+      setTimeout(() => map.invalidateSize(), 60);
+    }
+
+    renderGbifMap();
+    return () => {
+      cancelled = true;
+    };
+  }, [points, selectedPoint?.recordId, mapBounds, taxonKey, countryCode]);
+
+  useEffect(() => () => {
+    if (leafletMapRef.current) {
+      leafletMapRef.current.remove();
+      leafletMapRef.current = null;
+    }
+  }, []);
+
+  return (
+    <article className="observatory-visual-card snapshot-visual-card">
       <div className="visual-card-heading">
         <span>01</span>
         <div>
-          <h3>Snapshot map</h3>
-          <p>{snapshot?.snapshot_hash ? `hash ${snapshot.snapshot_hash.slice(0, 12)}` : 'run to draw context points'}</p>
+          <h3>GBIF occurrence context map</h3>
+          <p>{hashShort ? `Proof ID ${hashShort}; ${sourceModeLabel}; map records are provenance context, not claim support.` : 'Run the demo to lock the source evidence before drawing records.'}</p>
         </div>
       </div>
-      <svg className="snapshot-map" viewBox="0 0 320 220" role="img" aria-label="GBIF occurrence snapshot map">
-        <rect x="28" y="24" width="264" height="164" rx="10" className="map-frame" />
-        <path className="map-land" d="M91 142 L76 111 L92 76 L128 57 L168 51 L214 68 L242 102 L235 145 L195 164 L139 166 Z" />
-        <path className="map-river" d="M111 88 C140 110 158 118 202 128" />
-        <g>
-          {[0, 1, 2, 3].map((item) => (
-            <line key={`x-${item}`} x1={68 + item * 50} y1="38" x2={68 + item * 50} y2="178" className="map-grid-line" />
-          ))}
-          {[0, 1, 2].map((item) => (
-            <line key={`y-${item}`} x1="42" y1={68 + item * 42} x2="276" y2={68 + item * 42} className="map-grid-line" />
-          ))}
-        </g>
-        {points.map((point) => (
-          <circle
-            key={`${point.gbifID || point.row_index}-${point.index}`}
-            cx={42 + point.x * 2.35}
-            cy={38 + point.y * 1.4}
-            r="4.8"
-            className={point.license ? 'map-point' : 'map-point map-point-review'}
-          />
+      <div className="gbif-map-shell">
+        <div className="gbif-map-toolbar">
+          <strong>{mapSourceLabel}</strong>
+          <a href={gbifSearchUrl} target="_blank" rel="noreferrer">Open in GBIF</a>
+        </div>
+        <div ref={mapElementRef} className="gbif-leaflet-map" aria-label="GBIF base map with occurrence density and snapshot records">
+          <div className="gbif-map-loading">
+            <strong>GBIF map layer</strong>
+            <span>Base map + occurrence density; snapshot markers load in browser.</span>
+          </div>
+        </div>
+        <div className="gbif-map-footer">
+          <span>Snapshot bbox: {mapBounds.west.toFixed(1)}, {mapBounds.south.toFixed(1)}, {mapBounds.east.toFixed(1)}, {mapBounds.north.toFixed(1)}</span>
+          <span>{plottedRows}/{rows.length || 0} source rows plotted as local proof markers</span>
+        </div>
+      </div>
+      <div className="snapshot-dataset-legend" aria-label="Occurrence datasets plotted on map">
+        {datasetKeys.map((datasetKey, index) => (
+          <span key={datasetKey}>
+            <i style={{ background: OBSERVATORY_MAP_DATASET_COLORS[index % OBSERVATORY_MAP_DATASET_COLORS.length] }} />
+            {datasetKey}
+          </span>
         ))}
-        <text x="42" y="205" className="map-label">Aedes Spain bbox · {points.length} plotted context rows</text>
-      </svg>
+      </div>
+      {selectedPoint && (
+        <div className="snapshot-selected-record" aria-label="Selected occurrence record">
+          <div>
+            <span>Selected occurrence</span>
+            <strong>{selectedPoint.gbifID || `row ${selectedPoint.row_index}`}</strong>
+          </div>
+          <div>
+            <span>Coordinates</span>
+            <strong>{Number(selectedPoint.decimalLatitude).toFixed(4)}, {Number(selectedPoint.decimalLongitude).toFixed(4)}</strong>
+          </div>
+          <div>
+            <span>Dataset</span>
+            <strong>{selectedPoint.datasetTitle || selectedPoint.datasetKey}</strong>
+          </div>
+          <div>
+            <span>Issue state</span>
+            <strong>{selectedPoint.issues || 'clean'}</strong>
+          </div>
+        </div>
+      )}
+      <div className="snapshot-proof-grid" aria-label="Snapshot verification summary">
+        <div>
+          <span>Records shown</span>
+          <strong>{normalizedRows}</strong>
+        </div>
+        <div>
+          <span>Datasets</span>
+          <strong>{datasetCount || 'pending'}</strong>
+        </div>
+        <div>
+          <span>Dates checked</span>
+          <strong>{datedRows}/{rows.length || 0}</strong>
+        </div>
+        <div>
+          <span>Claim impact</span>
+          <strong>none</strong>
+        </div>
+        <div>
+          <span>Review flags</span>
+          <strong>{issueRows}</strong>
+        </div>
+      </div>
+      <div className="snapshot-legend">
+        <span><i className="legend-dot context" /> Clean occurrence context</span>
+        <span><i className="legend-dot review" /> Metadata or coordinate review</span>
+        <span><i className="legend-ring" /> Coordinate uncertainty radius</span>
+        <span><i className="legend-line" /> Claim decided by barcode + GSEG gates</span>
+      </div>
+      <p className="snapshot-boundary">{boundary}</p>
     </article>
   );
+}
+
+function normalizeBbox(bbox) {
+  const fallback = [-9.5, 35.5, 4.5, 44.5];
+  const safeBbox = Array.isArray(bbox) && bbox.length === 4 ? bbox.map(Number) : fallback;
+  const [rawWest, rawSouth, rawEast, rawNorth] = safeBbox.every(Number.isFinite) ? safeBbox : fallback;
+  return {
+    west: Math.min(rawWest, rawEast),
+    south: Math.min(rawSouth, rawNorth),
+    east: Math.max(rawWest, rawEast),
+    north: Math.max(rawSouth, rawNorth),
+  };
+}
+
+function firstPresent(values) {
+  const value = values.find((item) => item !== undefined && item !== null && String(item).trim() !== '');
+  return value === undefined || value === null ? '' : String(value);
+}
+
+function buildGbifOccurrenceSearchUrl(taxonKey, countryCode) {
+  const url = new URL('https://www.gbif.org/occurrence/map');
+  if (taxonKey) url.searchParams.set('taxon_key', taxonKey);
+  if (countryCode) url.searchParams.set('country', countryCode);
+  return url.toString();
+}
+
+function isJsdomRuntime() {
+  return typeof navigator !== 'undefined' && /jsdom/i.test(navigator.userAgent || '');
+}
+
+function occurrenceRecordId(row, index) {
+  return String(row.gbifID || row.occurrenceID || row.row_index || `occurrence-${index}`);
+}
+
+function occurrenceNeedsReview(row) {
+  return Boolean(row.issues) || !row.license || !(row.eventDate || row.year);
+}
+
+function observatorySourceModeLabel(mode = '') {
+  const normalized = String(mode || '').toLowerCase();
+  if (normalized === 'fixture') return 'reproducible snapshot';
+  if (normalized === 'fixture_fallback') return 'fixture fallback';
+  if (normalized === 'gbif_api') return 'GBIF API source';
+  if (normalized === 'live_gbif_small') return 'small GBIF-backed run';
+  if (normalized === 'offline_demo') return 'offline demo';
+  return normalized.replaceAll('_', ' ') || 'not run yet';
 }
 
 function VseaMatrixVisual({ rows, compact = false }) {
   const visibleRows = rows.slice(0, compact ? 4 : 8);
   const columns = [
-    ['segment_hash', 'segment'],
-    ['snapshot_hash', 'snapshot'],
-    ['claim_state', 'claim'],
+    ['segment_hash', 'seg'],
+    ['snapshot_hash', 'lock'],
+    ['claim_state', 'gate'],
     ['gbif_export_state', 'GBIF'],
     ['ai_label', 'AI'],
   ];
@@ -2497,8 +3468,8 @@ function VseaMatrixVisual({ rows, compact = false }) {
       <div className="visual-card-heading">
         <span>02</span>
         <div>
-          <h3>VSEA matrix</h3>
-          <p>{rows.length ? `${rows.length} segment evidence rows` : 'claim states appear after run'}</p>
+          <h3>Segment decision matrix</h3>
+          <p>{rows.length ? `VSEA keeps ${rows.length} segment rows with snapshot, claim, GBIF export and AI-ready guardrail state.` : 'Claim states appear after run.'}</p>
         </div>
       </div>
       <div className="vsea-matrix" aria-label="Verified Segment Evidence Array matrix">
@@ -2506,32 +3477,43 @@ function VseaMatrixVisual({ rows, compact = false }) {
           <span>sequence</span>
           {columns.map(([, label]) => <span key={label}>{label}</span>)}
         </div>
-        {(visibleRows.length ? visibleRows : placeholderVseaRows()).map((row) => (
+        {visibleRows.length ? visibleRows.map((row, index) => (
           <div className="vsea-matrix-row" key={row.vsea_id || row.sequence_id}>
-            <span>{row.sequence_id}</span>
+            <span title={row.sequence_id}>{visualSequenceLabel(row.sequence_id, index)}</span>
             {columns.map(([key, label]) => (
               <i
                 key={`${row.sequence_id}-${key}`}
                 className={`matrix-cell ${matrixCellClass(row, key)}`}
-                title={`${label}: ${row[key] || 'pending'}`}
+                title={`${label}: ${row[key] || 'not emitted for this row'}`}
               />
             ))}
           </div>
-        ))}
+        )) : (
+          <div className="vsea-matrix-empty">Run Observatory to emit VSEA rows.</div>
+        )}
       </div>
     </article>
   );
+}
+
+function visualSequenceLabel(sequenceId = '', index = 0) {
+  const normalized = String(sequenceId || '').toLowerCase();
+  if (normalized.includes('metadata')) return 'metadata';
+  if (normalized.includes('ambiguous')) return 'ambig.';
+  if (normalized.includes('short')) return 'short';
+  if (normalized.includes('good')) return 'strong';
+  return `seq ${index + 1}`;
 }
 
 function EvidenceGraphVisual({ run, vseaRows, summary, compact = false }) {
   const supported = vseaRows.filter((row) => row.claim_state === 'taxon_supported').length;
   const review = Math.max(0, vseaRows.length - supported);
   const graphNodes = [
-    { id: 'source', label: 'Source', detail: run ? 'GBIF + user barcode' : 'pending', x: 42, y: 78 },
-    { id: 'snapshot', label: 'Snapshot', detail: run?.snapshot_manifest?.snapshot_hash?.slice(0, 10) || 'hash', x: 142, y: 44 },
+    { id: 'source', label: 'Data', detail: run ? 'GBIF/DNA' : 'pending', x: 42, y: 78 },
+    { id: 'snapshot', label: 'Proof', detail: run?.snapshot_manifest?.snapshot_hash?.slice(0, 6) || 'hash', x: 142, y: 44 },
     { id: 'vsea', label: 'VSEA', detail: `${summary?.vsea_rows ?? 0} rows`, x: 142, y: 120 },
-    { id: 'claim', label: 'Claims', detail: `${supported} safe / ${review} review`, x: 242, y: 78 },
-    { id: 'export', label: 'Exports', detail: summary?.hard_gate_status || 'guarded', x: 338, y: 78 },
+    { id: 'claim', label: 'Gates', detail: `${supported}/${vseaRows.length || supported + review}`, x: 242, y: 78 },
+    { id: 'export', label: 'Pack', detail: summary?.hard_gate_status || 'guarded', x: 338, y: 78 },
   ];
   const edges = [
     ['source', 'snapshot'],
@@ -2545,8 +3527,8 @@ function EvidenceGraphVisual({ run, vseaRows, summary, compact = false }) {
       <div className="visual-card-heading">
         <span>03</span>
         <div>
-          <h3>Evidence graph</h3>
-          <p>{summary?.graph_nodes ? `${summary.graph_nodes} nodes · ${summary.graph_edges} edges` : 'graph forms after run'}</p>
+          <h3>Claim graph</h3>
+          <p>{summary?.graph_nodes ? `Evidence graph: ${summary.graph_nodes} nodes · ${summary.graph_edges} edges.` : 'Graph forms after run.'}</p>
         </div>
       </div>
       <svg className="evidence-graph-svg" viewBox="0 0 390 180" role="img" aria-label="Evidence graph visualization">
@@ -2561,10 +3543,10 @@ function EvidenceGraphVisual({ run, vseaRows, summary, compact = false }) {
           return <line key={`${from}-${to}`} x1={a.x} y1={a.y} x2={b.x} y2={b.y} className="graph-edge-line" markerEnd="url(#observatory-arrow)" />;
         })}
         {graphNodes.map((node) => (
-          <g key={node.id} transform={`translate(${node.x - 34} ${node.y - 28})`}>
-            <rect width="68" height="56" rx="9" className={`graph-svg-node ${node.id}`} />
-            <text x="34" y="23" className="graph-svg-label">{node.label}</text>
-            <text x="34" y="40" className="graph-svg-detail">{node.detail}</text>
+          <g key={node.id} transform={`translate(${node.x - 39} ${node.y - 28})`}>
+            <rect width="78" height="56" rx="9" className={`graph-svg-node ${node.id}`} />
+            <text x="39" y="23" className="graph-svg-label">{node.label}</text>
+            <text x="39" y="40" className="graph-svg-detail">{node.detail}</text>
           </g>
         ))}
       </svg>
@@ -2584,8 +3566,8 @@ function ProofWheelVisual({ rows }) {
       <div className="visual-card-heading">
         <span>04</span>
         <div>
-          <h3>Proof wheel</h3>
-          <p>{passCount}/{visibleRows.length} checks passing</p>
+          <h3>Proof obligations</h3>
+          <p>{passCount}/{visibleRows.length} Observatory checks passing.</p>
         </div>
       </div>
       <div className="proof-wheel" aria-label="Observatory proof obligation wheel">
@@ -2615,14 +3597,6 @@ function matrixCellClass(row, key) {
   if (key === 'gbif_export_state') return row.gbif_export_state === 'candidate_gbif_row' ? 'safe' : 'review';
   if (key === 'ai_label') return row.ai_label === 'positive_verified' ? 'safe' : 'review';
   return 'provenance';
-}
-
-function placeholderVseaRows() {
-  return [
-    { vsea_id: 'placeholder-1', sequence_id: 'pending-1' },
-    { vsea_id: 'placeholder-2', sequence_id: 'pending-2' },
-    { vsea_id: 'placeholder-3', sequence_id: 'pending-3' },
-  ];
 }
 
 function SubmissionOverview({ referenceStatus, metrics, exports, pack, onOpenWorkbench, onRunCompiler, loading }) {
@@ -2765,7 +3739,7 @@ function JudgeDecisionDashboard({ metrics, hasRun }) {
         </p>
       </div>
       <div className="decision-kpis">
-        <Metric label={hasRun ? 'Processed in run' : 'Live records audited'} value={processed} />
+        <Metric label={hasRun ? 'Processed in run' : 'Occurrence records audited'} value={processed} />
         <Metric label={hasRun ? 'Species-safe records' : 'Supported claims'} value={speciesSafe} />
         <Metric label={hasRun ? 'Blocked species claims' : 'Blocked overclaims'} value={blocked} />
         <Metric label={hasRun ? 'Record-ready' : 'Publication state'} value={ready} />
@@ -3036,10 +4010,10 @@ function VisualLecture() {
 
 function AnalysisAnimationVisual() {
   return (
-    <section className="panel analysis-animation-panel" id="analysis-animation" aria-label="Live analysis animation">
+    <section className="panel analysis-animation-panel" id="analysis-animation" aria-label="Compiler logic animation">
       <div className="analysis-animation-heading">
         <div>
-          <p className="section-label">Live analysis animation</p>
+          <p className="section-label">Compiler logic animation</p>
           <h2>How EcoGenesis reaches a bounded claim, step by step.</h2>
           <p>
             The animation shows the actual logic of the compiler: sequence evidence is segmented, reference hits are
@@ -3048,9 +4022,9 @@ function AnalysisAnimationVisual() {
           </p>
         </div>
         <div className="analysis-verdict-card">
-          <span>Final claim</span>
-          <strong>Safe taxon + explicit blockers</strong>
-          <small>Correct because failed gates create downgrade or repair actions, not hidden confidence.</small>
+          <span>Bounded result</span>
+          <strong>Safe rank + explicit blockers</strong>
+          <small>Auditable because failed gates create downgrade or repair actions, not hidden confidence.</small>
         </div>
       </div>
 
@@ -3116,7 +4090,7 @@ function GeneratedAnalysisPictureSequence() {
       <div className="analysis-picture-heading">
         <div>
           <p className="section-label">Generated analysis pictures</p>
-          <h2>The whole analysis is now visible as a picture sequence.</h2>
+          <h2>The analysis is visible as a picture sequence.</h2>
           <p>
             The generated poster gives judges the fast visual story. The six controlled frames below show the exact
             logic used by EcoGenesis: evidence enters, references are challenged, gates fail closed and only bounded
@@ -3126,7 +4100,7 @@ function GeneratedAnalysisPictureSequence() {
         <div className="analysis-picture-legend">
           <span>Generated overview</span>
           <span>Exact gate logic</span>
-          <span>Contest presentation ready</span>
+          <span>Contest presentation layer</span>
         </div>
       </div>
 
@@ -3654,7 +4628,7 @@ function ResearchAudit() {
       <section className="research-hero panel">
         <div>
           <p className="section-label">Research audit layer</p>
-          <h2>What the 1000-record live GBIF suite really proves, and what it does not prove.</h2>
+          <h2>What the 1000-record GBIF occurrence-audit suite really proves, and what it does not prove.</h2>
           <p>
             This layer keeps the project honest: the 1000-record suite validates occurrence evidence auditing,
             source concentration, metadata risks and safe scientific claim generation. It does not pretend to be
@@ -3693,7 +4667,7 @@ function ResearchAudit() {
       </section>
 
       <section className="panel">
-        <p className="section-label">Live suite result</p>
+        <p className="section-label">Occurrence suite result</p>
         <h2>Downloaded records are now separated from deduplicated records.</h2>
         <p className="proof-copy">
           The previous summary could look inconsistent because scenario metrics used retained/downloaded counts while
@@ -3959,7 +4933,8 @@ function ProofAndFormulas() {
         <p className="proof-copy">
           The tests do not prove biological truth. They prove that the implemented workflow behaves fail-closed:
           unsafe species claims are blocked, ambiguous records are downgraded, missing metadata prevents publication,
-          evidence exports are generated, and the live GBIF path can run without fixture reuse.
+          evidence exports are generated, and GBIF-backed runs declare their source mode, including fixture fallback
+          when network data are unavailable.
         </p>
         <div className="analysis-table">
           <div><strong>Problem</strong><strong>Status</strong><strong>Evidence from tests</strong></div>
@@ -5676,7 +6651,7 @@ function CompilerWorkbench({
           <p className="section-label">Data source</p>
           <strong>{referenceStatus?.status === 'ready' ? 'Compiler ready' : 'Compiler status'}</strong>
           <span>
-            Molecular scoring uses supplied Sequence ID / BLAST / BOLD / UNITE-style CSV rows or the selected FASTA reference dataset. Live GBIF occurrence audit is available in Research audit, but it is not used as hidden molecular evidence.
+            Molecular scoring uses supplied Sequence ID / BLAST / BOLD / UNITE-style CSV rows or the selected FASTA reference dataset. GBIF occurrence audit is available in Research audit, but it is not used as hidden molecular evidence.
           </span>
         </section>
 

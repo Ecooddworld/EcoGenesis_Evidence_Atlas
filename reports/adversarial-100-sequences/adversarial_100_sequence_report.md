@@ -1,8 +1,8 @@
 # Adversarial 100-Sequence Fail-Closed Stress Report
 
-Generated: 2026-06-14T22:06:17+02:00
+Generated: 2026-06-15T02:27:54+02:00
 Backend: local compiler script `backend/scripts/generate_competition_reports.py`
-Run ID: `ea9e5b6147734b919ec53070bedffeaa`
+Run ID: `f02adbce819e40cc8fd7884db97fdb8a`
 
 ## Result
 
@@ -11,7 +11,7 @@ Run ID: `ea9e5b6147734b919ec53070bedffeaa`
 - Exports returned: 89
 - Expected decisions matched: True
 - Hard-gate failures: 0
-- Evidence Pack ZIP SHA-256: `0f7b7162f2b3e139e1bf60634359392d31f9b015d467e94241b04b0548f02357`
+- Evidence Pack ZIP SHA-256: `888dc1c61d83eb0b8142ad0c4baa6b5de5fc3a3eb9da1398d954738baab1b37b`
 - GSEG/GSIG exports present: True
 - ZIP contains GSEG/GSIG exports: True
 - VSEA Parquet magic: `PAR1`

@@ -38,7 +38,7 @@ Current solved behavior:
 - taxonomic safety is separated from publication readiness
 - metadata gaps keep otherwise useful records out of publishable exports
 - evidence packs are generated with CSV, JSON, HTML, Darwin Core, DNA-derived templates, methods and citations
-- live GBIF occurrence API integration works without fixture fallback
+- GBIF occurrence API integration works with explicit fixture-fallback state
 
 ## Mixed Batch Result
 
@@ -56,7 +56,7 @@ Current solved behavior:
 - Backend pytest: `23 passed, 1 skipped`
 - Barcode operability script: `PASS`
 - Browser smoke: `0` console errors, `20` math notebook sections, no horizontal overflow
-- Live GBIF smoke: `ok`, `taxonKey=1651430`, `fallback_used=false`, `50` records returned from `19713` GBIF results
+- GBIF-backed Observatory smoke: `ok`, `taxonKey=1651430`, source mode recorded in `snapshot_manifest.json`; fixture fallback is explicit when used
 
 ## What Is Specified But Not Fully Implemented Yet
 

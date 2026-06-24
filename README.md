@@ -128,12 +128,12 @@ The smoke test builds the stack on ports `13200/18200`, checks backend health di
 
 ### GSIG Observatory Flow
 
-The `Observatory` tab is the above-MVP contest layer. It runs a small Aedes Spain GBIF snapshot, links that hashed occurrence context to the molecular VSEA rows, visualizes the snapshot map, VSEA matrix, evidence graph and proof wheel, then exports all 20 Observatory proof-obligation artifacts.
+The `Observatory` tab is the contest proof layer. It runs a small Aedes Spain GBIF-backed snapshot, links that hashed occurrence context to the molecular VSEA rows, visualizes the GBIF occurrence map, VSEA matrix, evidence graph and proof wheel, then exports all 20 Observatory proof-obligation artifacts.
 
 The important boundary is strict: GBIF occurrence data can explain where context came from, but it cannot upgrade a weak or blocked barcode claim. The Observatory UI, AI-ready dataset and GBIF export preview all preserve `claim_state`, caveats and provenance hashes.
 
 1. Open `Observatory`.
-2. Click `Run live Aedes Spain` for the live-small GBIF path with fixture fallback recorded in `snapshot_manifest.json`.
+2. Click `Run GBIF-backed Aedes Spain` for the small GBIF path with source mode and any fixture fallback recorded in `snapshot_manifest.json`.
 3. Click `Run reproducible demo` for the deterministic offline judge path.
 4. Download `observatory_evidence_pack.zip`.
 
@@ -254,6 +254,19 @@ For uploaded FASTA reference datasets, EcoGenesis tries to enrich taxon names ag
 - `GET /api/observatory/claims/{claim_id}/provenance`
 - `POST /api/observatory/export/gbif`
 - `POST /api/observatory/export/ai-ready`
+- `GET /api/observatory/runs/{run_id}/verification`
+- `GET /api/observatory/runs/{run_id}/verification/report.md`
+
+## Competition Report API
+
+- `GET /api/contest-readiness`
+- `GET /api/contest-readiness/report.md`
+- `GET /api/competition-reports`
+- `GET /api/competition-reports/{report_id}`
+- `GET /api/competition-reports/{report_id}/files/{file_name}`
+
+The Docker backend image includes the frozen `competition-100-sequences` and `adversarial-100-sequences` report directories so the contest UI and API can serve those 100-sequence verification packs without relying on host-only files.
+The contest readiness endpoint aggregates backend capability, the frozen 100-sequence reports and the latest Observatory output verification into one pass/review dossier.
 
 Minimal request shape:
 
@@ -305,7 +318,7 @@ Long-format hit tables are also accepted: repeated `sequenceID` rows with column
 
 For stronger DNA-derived publication review, the CSV can also include `target_gene`, `target_subfragment`, `pcr_primer_forward`, `pcr_primer_reverse`, `seq_meth`, `contaminationAssessment`, `occurrenceStatus`, `experimentalVariance`, `quantificationCycle`, `estimatedNumberOfCopies`, `readCount` and `totalReads`.
 
-The live GBIF occurrence-passport API remains available under `/api/evidence/*` for live API checks, regression and comparison.
+The GBIF occurrence-passport API remains available under `/api/evidence/*` for API checks, regression and comparison; live network use is recorded separately from fixture/regression data.
 
 The compiler separates `taxonomic_status`, `decision_class`, `candidate_taxon`, `published_taxon` and `publication_bucket`. A weak or blocked sequence can still be useful as a review hint, but it is never placed into publishable Darwin Core exports as a species. `dwc_occurrence_core_publishable.csv` contains safe publishable candidates; `dwc_occurrence_core_gbif_ready.csv` is stricter and only contains rows whose `publication_bucket` is `gbif_ready`.
 

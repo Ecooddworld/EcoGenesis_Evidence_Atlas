@@ -609,7 +609,7 @@ def summarize_main_risks(
     elif source_summary["fallback_used"]:
         risks.append("GBIF online access failed and fixture fallback was used for this run.")
     if not risks:
-        risks.append("No major quality risks were detected by the MVP rules.")
+        risks.append("No major quality risks were detected by the current rules.")
     return risks
 
 
@@ -667,7 +667,7 @@ def build_decision_memo(
         verdict = "Review and enrich the evidence before using it for decisions"
         verdict_tone = "needs_review"
 
-    source_phrase = "live GBIF API records" if source_summary.get("used_source_mode") == "online" else source_summary.get("used_source_mode")
+    source_phrase = "GBIF API records" if source_summary.get("used_source_mode") == "online" else source_summary.get("used_source_mode")
     top_action = actions[0] if actions else "Review the evidence pack before reuse."
     return {
         "verdict": verdict,
@@ -791,21 +791,21 @@ def build_validation_summary(
             {
                 "id": "invasive_watch",
                 "taxon": "Aedes albopictus",
-                "region_name": "Spain live GBIF bbox",
+                "region_name": "Spain GBIF bbox",
                 "purpose": "invasive_watch",
                 "shows": "Recent invasive-species screening with coordinate uncertainty caveats.",
             },
             {
                 "id": "sampling_gaps",
                 "taxon": "Quercus robur",
-                "region_name": "Western Europe live bbox",
+                "region_name": "Western Europe GBIF bbox",
                 "purpose": "sampling_gaps",
                 "shows": "No-evidence cells and survey priorities without absence overclaiming.",
             },
             {
                 "id": "dataset_quality_review",
                 "taxon": "Lynx pardinus",
-                "region_name": "Iberian Peninsula live bbox",
+                "region_name": "Iberian Peninsula GBIF bbox",
                 "purpose": "dataset_quality_review",
                 "shows": "Publisher-side issue prioritization and provenance review.",
             },
@@ -836,10 +836,10 @@ def build_submission_readiness(
         },
         {
             "id": "live_or_safe_fallback",
-            "label": "Live GBIF mode or safe empty fallback",
+            "label": "GBIF API mode or safe empty fallback",
             "ready": source_summary.get("gbif_api_status") in {"ok", "failed", "not_called"},
             "evidence": f"Used source mode: {source_summary.get('used_source_mode')}.",
-            "next_step": "Keep empty fallback behavior so old fixture records are never confused with a failed live query.",
+            "next_step": "Keep empty fallback behavior so old fixture records are never confused with a failed GBIF API query.",
         },
         {
             "id": "claim_guardrails",
@@ -895,7 +895,7 @@ def build_submission_readiness(
     blocking = [item for item in checklist if not item["ready"] and item["id"] in {"doi_backed_case"}]
     return {
         "title": "GBIF Ebbe Nielsen Challenge Submission Readiness",
-        "stage": "Demo-ready MVP; publication-grade DOI case still pending" if blocking else "Submission-ready demo package",
+        "stage": "Demo-ready release; publication-grade DOI case still requires external citation evidence" if blocking else "Submission-ready demo package",
         "ready_count": ready_count,
         "total_count": len(checklist),
         "ready_ratio": round(ready_count / len(checklist), 3),

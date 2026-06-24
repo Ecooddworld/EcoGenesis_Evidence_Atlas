@@ -11,7 +11,7 @@ ObservatoryMode = Literal["live_gbif_small", "offline_demo", "cached_snapshot"]
 class ObservatoryRunRequest(BaseModel):
     mode: ObservatoryMode = Field(
         default="live_gbif_small",
-        description="Small live GBIF demo with fixture fallback, deterministic offline demo, or cached snapshot replay.",
+        description="Small GBIF-backed demo with explicit fixture fallback state, deterministic offline demo, or cached snapshot replay.",
     )
     taxon: str = Field(default="Aedes albopictus", min_length=2)
     taxon_key: int = Field(default=1651430, ge=1)
