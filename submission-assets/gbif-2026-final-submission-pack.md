@@ -22,7 +22,7 @@ Current architecture: **EcoGenesis Nexus V3 + GSEG/GSIG proof layer + GSIG Obser
 - Team members and affiliations: fill final names and contact.
 - Abstract and rationale: copy from `submission-assets/gbif-entry-form-draft.md`.
 - Operating instructions: copy from `submission-assets/gbif-entry-form-draft.md`.
-- Video URL: TODO after uploading final video.
+- Video URL: paste the public no-login video URL into the official form after upload.
 - Local final video for upload: `submission-assets/barcode-video/video/ecogenesis-barcode-to-gbif-english-voice-ru-subs.mp4`.
 - Source/docs links:
   - https://github.com/oddworld666/EcoGenesis_Evidence_Atlas
@@ -57,7 +57,7 @@ Observatory flow:
 
 ```text
 Observatory
--> Run live Aedes Spain
+-> Run GBIF-backed Aedes Spain
 -> Inspect source snapshot, VSEA, graph and Judge tabs
 -> Download Observatory Evidence Pack
 ```
@@ -73,15 +73,17 @@ examples/aedes_weak_coverage.csv     -> weak
 
 ## Final Verification Status
 
-Latest local verification on 2026-06-14:
+Latest local verification on 2026-06-24:
 
 ```text
-backend pytest: 74 passed, 1 skipped
+backend pytest: 77 passed, 1 skipped
 frontend tests: 14 passed
 frontend build: passed
-Docker compose build/up: passed
-Docker backend health: ok
-Docker frontend HTTP: 200
+Docker compose CLI: available
+Docker smoke: passed on the production stack; frontend, backend, proxy, VSEARCH backend, compiler, graph, Observatory and contest-readiness API checked
+Local backend health: ok
+Local frontend HTTP: 200
+Contest readiness API: pass, 17 checks, 0 failed
 Competition 100-sequence API run: expected decisions matched, hard_gate_failures=0, exports=89, theorem=pass, graph_roundtrip=pass
 Adversarial 100-sequence stress run: expected decisions matched, false species-safe outside positive controls=0, exports=89, theorem=pass, graph_roundtrip=pass
 Observatory demo report: hard_gate_status=pass, OPO artifacts present, VSEA Parquet=PAR1
@@ -93,8 +95,8 @@ Before final submission, re-run the commands in `submission-assets/final-submiss
 ## Remaining Manual Items
 
 - Keep the repository private unless final contest submission rules require public source; otherwise add judge access or provide the approved private source/docs links.
-- Fill team/member details.
+- Enter team/member details in the official form or approved private submission document.
 - Upload the final CSV Upload -> Score demo video from `submission-assets/barcode-video/video/ecogenesis-barcode-to-gbif-english-voice-ru-subs.mp4`.
-- Replace TODO video URL in `submission-assets/gbif-entry-form-draft.md`.
+- Paste the public video URL into the official GBIF form after upload.
 - Create GitHub release `v1.0-gbif-2026`.
 - Confirm every submitted URL opens without login.

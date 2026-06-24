@@ -28,7 +28,7 @@ assay/process context and GBIF metadata can support without overclaiming?
 
 ## What changed in V3
 
-Compared with the previous Nexus draft, V3 adds:
+Compared with the previous Nexus version, V3 adds:
 
 ```text
 1. source metadata preserved in EvidencePassport
@@ -41,7 +41,7 @@ Compared with the previous Nexus draft, V3 adds:
 8. operational confidence indicator that does not unlock species by itself
 9. external tool adapter matrix
 10. stronger scientific documentation and benchmark protocol
-11. improved visual dashboard mockup
+11. improved visual dashboard design
 ```
 
 ## Run the demo
@@ -148,7 +148,7 @@ Unsafe statement:
 
 ## Production adapter direction
 
-The pure-Python matcher is only a small transparent prototype. For large production data, keep the EvidencePassport and hard gates, but plug in:
+The pure-Python matcher is a small transparent reference implementation. For large production data, keep the EvidencePassport and hard gates, but plug in:
 
 ```text
 GBIF Sequence ID
@@ -1060,7 +1060,7 @@ standardized Darwin Core / DNA-derived exports
 V3 already has:
 
 ```text
-working pure-Python prototype
+working pure-Python reference implementation
 CLI
 FASTA + metadata import
 k-mer retrieval
@@ -1071,7 +1071,7 @@ GBIF readiness
 exports
 validation audit
 adapter matrix
-visual dashboard mockup
+visual dashboard design
 ```
 
 ## Что показать в видео

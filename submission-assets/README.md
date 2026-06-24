@@ -36,8 +36,8 @@ This folder contains the materials prepared for the 2026 GBIF Ebbe Nielsen Chall
 ## Before Submission
 
 1. Make the repository public.
-2. Fill team/member details in `gbif-entry-form-draft.md`.
+2. Enter team/member details in the official GBIF form or approved private submission document.
 3. Upload `barcode-video/video/ecogenesis-barcode-to-gbif-english-voice-ru-subs.mp4` to a public no-login URL.
-4. Replace the TODO video URL.
+4. Paste the public video URL into the official GBIF form.
 5. Create a GitHub release, for example `v1.0-gbif-2026`.
 6. Re-run backend tests, frontend tests, build, Observatory report generation, operability verification and browser smoke.

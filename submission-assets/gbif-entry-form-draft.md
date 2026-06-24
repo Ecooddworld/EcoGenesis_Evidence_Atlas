@@ -1,4 +1,4 @@
-# GBIF Ebbe Nielsen Challenge 2026 Entry Form Draft
+# GBIF Ebbe Nielsen Challenge 2026 Entry Form Copy
 
 Submission deadline: **26 June 2026, 23:59 CEST (UTC+2)**
 Official rules: https://www.gbif.org/awards/ebbe-2026-rules
@@ -12,7 +12,7 @@ Short title: Barcode-to-GBIF Evidence Compiler
 
 ## Team Members and Affiliations
 
-TODO: Add final submitter name, team members, affiliations, country and contact email.
+Enter final submitter name, team members, affiliations, country and contact email in the official GBIF form. Personal contact details are not stored in this repository copy.
 
 ## Abstract and Rationale
 
@@ -28,7 +28,7 @@ The current Nexus V3 + GSEG/GSIG implementation also adds a hard-gate audit, nai
 
 For data users, the tool answers: “Can I safely use this molecular detection as a species-level occurrence, or should I downgrade or review it?” For data publishers, it gives concrete repair actions such as adding required metadata, improving sequence coverage or attaching reference-set evidence. For GBIF nodes and reviewers, it provides a reproducible audit trail that separates supported claims from blocked claims and keeps publication templates aligned with GBIF-ready data practices.
 
-The project uses GBIF in two complementary ways. The molecular compiler is designed as a downstream safety layer for GBIF Sequence ID-style or BLAST-style results and for DNA-derived publication workflows. The repository also includes a live GBIF occurrence audit layer that tests GBIF API access, uses GBIF-mediated occurrence data for evidence-context checks, and demonstrates safe claim language around no-evidence cells, sampling gaps and citation readiness. The system does not claim species absence, true distribution, trend or phenotype truth from occurrence points or molecular matches alone.
+The project uses GBIF in two complementary ways. The molecular compiler is designed as a downstream safety layer for GBIF Sequence ID-style or BLAST-style results and for DNA-derived publication workflows. The repository also includes a GBIF occurrence-audit layer that tests API access when live network mode is enabled, uses GBIF-mediated occurrence data for evidence-context checks, and demonstrates safe claim language around no-evidence cells, sampling gaps and citation readiness. The system does not claim species absence, true distribution, trend or phenotype truth from occurrence points or molecular matches alone.
 
 This submission matters to the GBIF community because it improves the utility and quality of biodiversity data before publication and reuse. It helps prevent unsafe species-level claims, keeps ambiguous molecular evidence usable at safe rank, makes blockers repairable, and creates transparent, repeatable evidence packages that judges, reviewers, publishers and future users can inspect at no cost.
 
@@ -57,7 +57,7 @@ The Docker stack is the recommended judge-facing run path. It builds the fronten
 5. Click `Generate from CSV`.
 6. Inspect the decision dashboard, sequence table, safe/blocked claims and repair actions.
 7. Download `evidence_pack.zip` or individual CSV/HTML exports.
-8. Open `Observatory`, run `Run live Aedes Spain`, inspect source snapshot, VSEA, graph, exports and Judge tabs, then download `observatory_evidence_pack.zip`.
+8. Open `Observatory`, run `Run GBIF-backed Aedes Spain`, inspect source snapshot, VSEA, graph, exports and Judge tabs, then download `observatory_evidence_pack.zip`.
 
 For sequence-search validation rather than CSV scoring, use the `Reference search` panel. Judges can upload a small curated FASTA reference dataset with headers like `>ref_id|Taxon name|rank|gbifTaxonKey`, select it in the dropdown, paste a query sequence, and run VSEARCH/BLAST+/fallback search through the same hard-gate compiler.
 
@@ -97,15 +97,17 @@ cd backend
 
 Expected current regression status:
 
-- Backend: `35 passed, 1 skipped`
-- Frontend: `5 passed`
+- Backend: `77 passed, 1 skipped`
+- Frontend: `14 passed`
 - Frontend build: passes
-- GBIF API status: `ok` when the GBIF API is reachable
-- Live scientific suite: at least 1,000 deduplicated GBIF occurrence records and 100 evidence claims when network access is available
+- Contest readiness API: `pass`, 17 checks, 0 failed
+- Competition packs: two frozen 100-sequence reports pass with theorem and graph roundtrip checks
+- Observatory verifier: passes with zero failed checks
+- GBIF API status: checked when live network mode is enabled
 
 ## Video URL
 
-TODO: Upload the final CSV Upload -> Score demo video to YouTube, Vimeo, Google Drive, Figshare, OSF or another public no-cost location and paste the public URL here.
+Upload the final CSV Upload -> Score demo video to YouTube, Vimeo, Google Drive, Figshare, OSF or another public no-cost location, then paste that URL into the official GBIF form.
 
 Local final video file prepared for upload:
 
@@ -127,9 +129,9 @@ Russian subtitles and English transcript are included in the same folder. Import
 
 ## Notes Before Final Form Submission
 
-- Confirm the GitHub repository is public.
+- Confirm the GitHub repository visibility follows the final contest review path.
 - Confirm all public URLs work without login.
-- Replace the TODO team details.
-- Replace the TODO video URL.
+- Enter team details only in the official form or an approved private submission document.
+- Paste the public video URL into the official form after upload.
 - Create a GitHub release, for example `v1.0-gbif-2026`.
 - Do not submit local file paths as the only evidence.

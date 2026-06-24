@@ -107,7 +107,7 @@
       }
     },
     {
-      "name": "Live GBIF API status",
+      "name": "GBIF API status",
       "ok": true,
       "payload": {
         "status": "ok",

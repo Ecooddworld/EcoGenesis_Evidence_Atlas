@@ -430,7 +430,7 @@ const observatorySources = {
     {
       source_id: 'gbif_occurrence_api',
       name: 'GBIF Occurrence API and Download API',
-      status: 'mvp_integration',
+      status: 'contest_integration',
       evidence_role: 'occurrence/sample/geography/context; not molecular proof by itself',
       allowed_claims: ['occurrence_context', 'dataset_context'],
       blocked_claims: ['species_truth_from_occurrence_without_molecular_gate'],
@@ -483,7 +483,28 @@ const observatoryRunDetail = {
     snapshot_id: 'gbif-aedes-spain-abc123',
     snapshot_hash: 'abc123def4567890',
     source_mode: 'fixture_fallback',
+    claim_boundary: 'Occurrence records are context and provenance only; they do not strengthen molecular taxon support.',
   },
+  normalized_occurrence_context: [
+    {
+      row_index: 1,
+      gbifID: 'gbif-1',
+      datasetKey: 'dataset-a',
+      license: 'CC_BY_4_0',
+      decimalLatitude: 40.4,
+      decimalLongitude: -3.7,
+      eventDate: '2026-04-18',
+    },
+    {
+      row_index: 2,
+      gbifID: 'gbif-2',
+      datasetKey: 'dataset-b',
+      license: 'CC_BY_4_0',
+      decimalLatitude: 41.4,
+      decimalLongitude: 2.1,
+      year: 2025,
+    },
+  ],
   vsea: [
     {
       vsea_id: 'obs-vsea:AALB-COI-good:1',
@@ -513,10 +534,139 @@ const observatoryRunDetail = {
       { id: 'OPO-20', severity: 'hard_gate', status: 'pass', artifact: 'judge_mode_non_claims_audit.csv' },
     ],
   },
+  graph: {
+    '@context': { ecogenesis: 'https://example.org/ecogenesis#' },
+    '@graph': [
+      { id: 'run:obs123', type: 'Run', mode: 'live_gbif_small', ruleset_version: 'GSIG-OBS-1.0+barcode-gbif-compiler-v2', provenance_hash: 'runhash' },
+      { id: 'source:gbif_occurrence_api', type: 'Source', role: 'occurrence_context', claim_state: 'occurrence_context', provenance_hash: 'sourcehash1' },
+      { id: 'source:project_user_uploads', type: 'Source', role: 'molecular_evidence', claim_state: 'taxon_supported', provenance_hash: 'sourcehash2' },
+      { id: 'snapshot:gbif-aedes-spain-abc123', type: 'Snapshot', snapshot_id: 'gbif-aedes-spain-abc123', snapshot_hash: 'abc123def4567890', source_mode: 'fixture_fallback', claim_state: 'occurrence_context', provenance_hash: 'snaphash' },
+      { id: 'segment:good', type: 'Segment', segment_id: 'segment:AALB-COI-good:1-650', claim_state: 'taxon_supported', ruleset_version: 'GSIG-OBS-1.0+barcode-gbif-compiler-v2', provenance_hash: 'seghash1' },
+      { id: 'segment:good', type: 'Segment', segment_id: 'segment:AALB-COI-good-copy:1-650', claim_state: 'taxon_supported', ruleset_version: 'GSIG-OBS-1.0+barcode-gbif-compiler-v2', provenance_hash: 'seghash1b' },
+      { id: 'segment:short', type: 'Segment', segment_id: 'segment:AALB-COI-short:1-650', claim_state: 'weak_hypothesis', ruleset_version: 'GSIG-OBS-1.0+barcode-gbif-compiler-v2', provenance_hash: 'seghash2' },
+      { id: 'taxon:species:Aedes albopictus', type: 'Taxon', label: 'Aedes albopictus', safe_rank: 'species', claim_state: 'taxon_supported', provenance_hash: 'taxhash1' },
+      { id: 'taxon:genus:Aedes', type: 'Taxon', label: 'Aedes', safe_rank: 'genus', claim_state: 'taxon_supported', provenance_hash: 'taxhash2' },
+      { id: 'claim:good', type: 'EvidenceClaim', claim_state: 'taxon_supported', claim_boundary: 'Species-level molecular assignment candidate for Aedes albopictus within the supplied reference context.', caveats: 'not a distribution claim', provenance_hash: 'claimhash1' },
+      { id: 'claim:short', type: 'EvidenceClaim', claim_state: 'weak_hypothesis', claim_boundary: 'Review-only molecular hint; sequence is too short for a safe taxonomic claim.', caveats: 'not publishable as a verified positive', provenance_hash: 'claimhash2' },
+      { id: 'blocker:short-read', type: 'Blocker', label: 'Short fragment blocker', claim_state: 'blocked', claim_boundary: 'Blocked claims remain visible and queryable.', provenance_hash: 'blockhash' },
+      { id: 'export:gbif-preview', type: 'Export', label: 'GBIF export preview', claim_state: 'taxon_supported', provenance_hash: 'exporthash' },
+      { id: 'edge:run:snapshot', type: 'USES_SNAPSHOT', source: 'run:obs123', target: 'snapshot:gbif-aedes-spain-abc123', claim_state: 'occurrence_context', provenance_hash: 'edgehash1' },
+      { id: 'edge:snapshot:source', type: 'FROM_SOURCE', source: 'snapshot:gbif-aedes-spain-abc123', target: 'source:gbif_occurrence_api', claim_state: 'occurrence_context', provenance_hash: 'edgehash2' },
+      { id: 'edge:good:source', type: 'FROM_SOURCE', source: 'segment:good', target: 'source:project_user_uploads', claim_state: 'taxon_supported', provenance_hash: 'edgehash3' },
+      { id: 'edge:short:source', type: 'FROM_SOURCE', source: 'segment:short', target: 'source:project_user_uploads', claim_state: 'weak_hypothesis', provenance_hash: 'edgehash4' },
+      { id: 'edge:good:species', type: 'COLLAPSES_TO_LCA', source: 'segment:good', target: 'taxon:species:Aedes albopictus', claim_state: 'taxon_supported', provenance_hash: 'edgehash5' },
+      { id: 'edge:short:genus', type: 'COLLAPSES_TO_LCA', source: 'segment:short', target: 'taxon:genus:Aedes', claim_state: 'weak_hypothesis', provenance_hash: 'edgehash6' },
+      { id: 'edge:good:claim', type: 'SUPPORTS_CLAIM', source: 'segment:good', target: 'claim:good', claim_state: 'taxon_supported', provenance_hash: 'edgehash7' },
+      { id: 'edge:short:claim', type: 'SUPPORTS_CLAIM', source: 'segment:short', target: 'claim:short', claim_state: 'weak_hypothesis', provenance_hash: 'edgehash8' },
+      { id: 'edge:short:blocker', type: 'BLOCKED_BY', source: 'claim:short', target: 'blocker:short-read', claim_state: 'blocked', provenance_hash: 'edgehash9' },
+      { id: 'edge:claim:export', type: 'EXPORTS_TO', source: 'claim:good', target: 'export:gbif-preview', claim_state: 'taxon_supported', provenance_hash: 'edgehash10' },
+    ],
+  },
   audit_artifacts: {
     judge_mode_non_claims_audit: [{ planned_sources_visible: 5 }],
   },
   exports: observatoryCreated.exports,
+};
+
+const observatoryVerification = {
+  schema: 'ecogenesis.gsig.observatory.run_output_verification.v1',
+  run_id: 'obs123',
+  summary: {
+    status: 'pass',
+    checks: 67,
+    failed: 0,
+    exports: 43,
+    vsea_rows: 4,
+    occurrence_rows: 12,
+    zip_entries: 42,
+  },
+  checks: [
+    { name: 'visualization_no_promotion', status: 'pass', observed: { pass: 4 } },
+    { name: 'zip_entry_checksums_match_manifest', status: 'pass', observed: '42 entries checked' },
+  ],
+};
+
+const competitionReports = {
+  schema: 'ecogenesis.competition_reports.index.v1',
+  status: 'pass',
+  reports: [
+    {
+      schema: 'ecogenesis.competition_reports.summary.v1',
+      report_id: 'competition-100-sequences',
+      title: 'Competition 100-sequence verification batch',
+      summary: {
+        status: 'pass',
+        records: 100,
+        expected_matched: 100,
+        expected_failed: 0,
+        exports: 89,
+        zip_entries: 88,
+      },
+      decision_classes: {
+        'species-safe': 25,
+        'genus-safe': 25,
+        weak: 25,
+        'not-publishable': 25,
+      },
+      downloads: [
+        {
+          name: 'competition_100_sequence_report.md',
+          url: '/api/competition-reports/competition-100-sequences/files/competition_100_sequence_report.md',
+        },
+        {
+          name: 'competition_100_sequence_results.csv',
+          url: '/api/competition-reports/competition-100-sequences/files/competition_100_sequence_results.csv',
+        },
+      ],
+    },
+    {
+      schema: 'ecogenesis.competition_reports.summary.v1',
+      report_id: 'adversarial-100-sequences',
+      title: 'Adversarial 100-sequence fail-closed stress batch',
+      summary: {
+        status: 'pass',
+        records: 100,
+        expected_matched: 100,
+        expected_failed: 0,
+        exports: 89,
+        zip_entries: 88,
+      },
+      decision_classes: {
+        'species-safe': 10,
+        'genus-safe': 20,
+        ambiguous: 20,
+        'no-match': 10,
+        weak: 10,
+        'not-publishable': 30,
+      },
+      downloads: [
+        {
+          name: 'adversarial_100_sequence_report.md',
+          url: '/api/competition-reports/adversarial-100-sequences/files/adversarial_100_sequence_report.md',
+        },
+      ],
+    },
+  ],
+};
+
+const contestReadiness = {
+  schema: 'ecogenesis.contest_readiness.dossier.v1',
+  status: 'pass',
+  summary: {
+    checks: 17,
+    failed: 0,
+    competition_reports: 2,
+    competition_status: 'pass',
+    observatory_run_id: 'obs123',
+    observatory_status: 'pass',
+    reference_backend: 'vsearch',
+  },
+  checks: [{ name: 'observatory_run_verification_pass', status: 'pass', observed: 'pass' }],
+  downloads: [
+    { name: 'contest_readiness.json', url: '/api/contest-readiness' },
+    { name: 'contest_readiness.md', url: '/api/contest-readiness/report.md' },
+    { name: 'latest_observatory_verification.md', url: '/api/observatory/runs/obs123/verification/report.md' },
+  ],
 };
 
 afterEach(() => {
@@ -867,10 +1017,10 @@ describe('Barcode compiler UI', () => {
     fireEvent.click(await screen.findByText('Visual lecture'));
 
     expect(screen.getByText('Sequence visual lab: from DNA letters to safe GBIF evidence.')).toBeInTheDocument();
-    expect(screen.getByText('Live analysis animation')).toBeInTheDocument();
+    expect(screen.getByText('Compiler logic animation')).toBeInTheDocument();
     expect(screen.getByText('How EcoGenesis reaches a bounded claim, step by step.')).toBeInTheDocument();
     expect(screen.getByText('Generated analysis pictures')).toBeInTheDocument();
-    expect(screen.getByText('The whole analysis is now visible as a picture sequence.')).toBeInTheDocument();
+    expect(screen.getByText('The analysis is visible as a picture sequence.')).toBeInTheDocument();
     expect(screen.getByAltText('Generated six-panel EcoGenesis analysis sequence from input sequence to evidence pack')).toBeInTheDocument();
     expect(screen.getByText('Input sequence')).toBeInTheDocument();
     expect(screen.getByText('Alignment scan')).toBeInTheDocument();
@@ -956,9 +1106,9 @@ describe('Barcode compiler UI', () => {
     window.history.pushState({}, '', '/#analysis-animation');
     render(<App />);
 
-    expect(await screen.findByText('Live analysis animation')).toBeInTheDocument();
-    expect(screen.getByText('Safe taxon + explicit blockers')).toBeInTheDocument();
-    expect(screen.getByText('Final claim')).toBeInTheDocument();
+    expect(await screen.findByText('Compiler logic animation')).toBeInTheDocument();
+    expect(screen.getByText('Safe rank + explicit blockers')).toBeInTheDocument();
+    expect(screen.getByText('Bounded result')).toBeInTheDocument();
   });
 
   it('opens the generated analysis picture sequence directly from the URL hash', async () => {
@@ -983,7 +1133,7 @@ describe('Barcode compiler UI', () => {
     render(<App />);
 
     expect(await screen.findByText('Generated analysis pictures')).toBeInTheDocument();
-    expect(screen.getByText('Contest presentation ready')).toBeInTheDocument();
+    expect(screen.getByText('Contest presentation layer')).toBeInTheDocument();
     expect(screen.getByText('No hidden overclaim')).toBeInTheDocument();
     expect(screen.getByText('Reproducible export')).toBeInTheDocument();
   });
@@ -1021,7 +1171,7 @@ describe('Barcode compiler UI', () => {
     expect(screen.getByText('Assay Evidence Gate for eDNA and metabarcoding')).toBeInTheDocument();
     expect(screen.getByText('Conversion and overclaim metrics')).toBeInTheDocument();
     expect(screen.getByText('Test analysis')).toBeInTheDocument();
-    expect(screen.getByText('Live GBIF smoke')).toBeInTheDocument();
+    expect(screen.getByText('GBIF-backed smoke')).toBeInTheDocument();
     expect(screen.getByText('Decision function')).toBeInTheDocument();
     expect(screen.getByText('Proof by contradiction')).toBeInTheDocument();
     expect(screen.getAllByText(/p_false_positive/).length).toBeGreaterThan(0);
@@ -1077,8 +1227,17 @@ describe('Barcode compiler UI', () => {
       if (textUrl.endsWith('/api/observatory/sources')) {
         return Promise.resolve(new Response(JSON.stringify(observatorySources), { status: 200 }));
       }
+      if (textUrl.endsWith('/api/competition-reports')) {
+        return Promise.resolve(new Response(JSON.stringify(competitionReports), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/contest-readiness')) {
+        return Promise.resolve(new Response(JSON.stringify(contestReadiness), { status: 200 }));
+      }
       if (textUrl.endsWith('/api/observatory/run-demo') && options?.method === 'POST') {
         return Promise.resolve(new Response(JSON.stringify(observatoryCreated), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/observatory/runs/obs123/verification')) {
+        return Promise.resolve(new Response(JSON.stringify(observatoryVerification), { status: 200 }));
       }
       if (textUrl.endsWith('/api/observatory/runs/obs123')) {
         return Promise.resolve(new Response(JSON.stringify(observatoryRunDetail), { status: 200 }));
@@ -1091,20 +1250,59 @@ describe('Barcode compiler UI', () => {
 
     expect(screen.getByText('GSIG Observatory')).toBeInTheDocument();
     expect(screen.getByText('Source snapshots, molecular segments and claim boundaries in one evidence graph.')).toBeInTheDocument();
-    fireEvent.click(screen.getByText('Run live Aedes Spain'));
+    fireEvent.click(screen.getByText('Run GBIF-backed Aedes Spain'));
 
     await waitFor(() => expect(screen.getByText('Hard gates pass')).toBeInTheDocument());
     expect(screen.getByText('Download Observatory Pack')).toBeInTheDocument();
     expect(screen.getByText('GBIF snapshot')).toBeInTheDocument();
-    expect(screen.getByText('Snapshot map')).toBeInTheDocument();
-    expect(screen.getAllByText('VSEA matrix').length).toBeGreaterThan(0);
-    expect(screen.getAllByText('Evidence graph').length).toBeGreaterThan(0);
-    expect(screen.getByText('Proof wheel')).toBeInTheDocument();
+    expect(screen.getByText('Output verification')).toBeInTheDocument();
+    expect(screen.getByText('Run files checked')).toBeInTheDocument();
+    expect(screen.getByText('Hashes, proof gates, tables, graph and ZIP contents agree for this exact run.')).toBeInTheDocument();
+    expect(screen.getByText('Verification report')).toBeInTheDocument();
+    expect(screen.getByText('Verification data')).toBeInTheDocument();
+    expect(screen.getByText('67')).toBeInTheDocument();
+    expect(screen.getAllByText('0').length).toBeGreaterThan(0);
+    expect(screen.getByText('GSIG evidence graph explorer')).toBeInTheDocument();
+    expect(screen.getByText('Full source, snapshot, segment, claim and export graph for the current Observatory run.')).toBeInTheDocument();
+    expect(screen.getAllByText('EcoGenesis GSIG Evidence Graph').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Visible evidence, not complete world.').length).toBeGreaterThan(0);
+    expect(screen.getByText('GBIF occurrence context map')).toBeInTheDocument();
+    expect(screen.getByText('Open in GBIF')).toBeInTheDocument();
+    expect(screen.getByText('Review flags')).toBeInTheDocument();
+    expect(screen.queryByText('Source evidence map')).not.toBeInTheDocument();
+    expect(screen.getByText('Graph nodes')).toBeInTheDocument();
+    expect(screen.getAllByText('Graph edges').length).toBeGreaterThan(0);
+    expect(screen.getByText('Merged ids')).toBeInTheDocument();
+    await waitFor(() => expect(screen.getAllByText('AALB-COI-good').length).toBeGreaterThan(0));
+    expect(screen.getAllByText('AALB-COI-short').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Short fragment blocker').length).toBeGreaterThan(0);
+    expect(screen.getByText('OPO-07: UI cannot upgrade claims.')).toBeInTheDocument();
+    expect(screen.getByText('OPO-08: blocked claims stay visible.')).toBeInTheDocument();
+    fireEvent.click(screen.getAllByRole('button', { name: /AALB-COI-good/i })[0]);
+    expect(screen.getByText('Merged variants')).toBeInTheDocument();
+    fireEvent.change(screen.getByLabelText('Claim state'), { target: { value: 'weak_hypothesis' } });
+    expect(screen.getAllByText('AALB-COI-short').length).toBeGreaterThan(0);
+    expect(screen.getByText('none')).toBeInTheDocument();
+    expect(screen.getByText(/map records are provenance context, not claim support/i)).toBeInTheDocument();
+    expect(screen.getByText('Occurrence records are context and provenance only; they do not strengthen molecular taxon support.')).toBeInTheDocument();
+    expect(screen.getByText('Contest readiness dossier')).toBeInTheDocument();
+    expect(screen.getByText('All current contest gates are passing.')).toBeInTheDocument();
+    expect(screen.getByText('contest_readiness.md')).toBeInTheDocument();
+    expect(screen.getByText('latest_observatory_verification.md')).toBeInTheDocument();
+    expect(screen.getByText('Competition readiness')).toBeInTheDocument();
+    expect(screen.getByText('Competition 100-sequence verification batch')).toBeInTheDocument();
+    expect(screen.getByText('Adversarial 100-sequence fail-closed stress batch')).toBeInTheDocument();
+    expect(screen.getAllByText('100').length).toBeGreaterThan(0);
+    expect(screen.getByText('competition_100_sequence_report.md')).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: 'VSEA' }));
     expect(screen.getAllByText('AALB-COI-good').length).toBeGreaterThan(0);
     expect(screen.getAllByText('taxon_supported').length).toBeGreaterThan(0);
     expect(screen.getAllByText('weak_hypothesis').length).toBeGreaterThan(0);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Exports' }));
+    expect(screen.getByText('observatory_run_verification.md')).toBeInTheDocument();
+    expect(screen.getByText('observatory_run_verification.json')).toBeInTheDocument();
 
     fireEvent.click(screen.getByText('Judge'));
     expect(screen.getByText('OPO-01')).toBeInTheDocument();

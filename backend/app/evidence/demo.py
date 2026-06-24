@@ -8,11 +8,11 @@ DEMO_SCENARIOS: list[dict[str, Any]] = [
         "id": "invasive",
         "label": "Invasive risk",
         "tag": "Aedes albopictus · Spain",
-        "description": "Attempts live GBIF records for an invasive species case. If GBIF is unavailable, old fixture records are not reused.",
+        "description": "Fetches GBIF API records for an invasive species case when network mode is enabled. If GBIF is unavailable, old fixture records are not reused.",
         "form": {
             "taxon": "Aedes albopictus",
             "taxon_key": 1651430,
-            "region_name": "Spain live GBIF bbox",
+            "region_name": "Spain GBIF bbox",
             "bbox": [-10.0, 35.0, 4.5, 44.5],
             "purpose": "invasive_watch",
             "source_mode": "online_with_empty_fallback",
@@ -24,11 +24,11 @@ DEMO_SCENARIOS: list[dict[str, Any]] = [
         "id": "gaps",
         "label": "Forest gaps",
         "tag": "Quercus robur · W Europe",
-        "description": "Runs a live GBIF query for a common tree taxon and ranks survey-priority grid cells.",
+        "description": "Runs a GBIF API query for a common tree taxon and ranks survey-priority grid cells.",
         "form": {
             "taxon": "Quercus robur",
             "taxon_key": 2878688,
-            "region_name": "Western Europe live bbox",
+            "region_name": "Western Europe GBIF bbox",
             "bbox": [-10.0, 42.0, 12.0, 56.0],
             "purpose": "sampling_gaps",
             "source_mode": "online_with_empty_fallback",
@@ -40,11 +40,11 @@ DEMO_SCENARIOS: list[dict[str, Any]] = [
         "id": "quality",
         "label": "Data review",
         "tag": "Lynx pardinus · Iberia",
-        "description": "Uses live GBIF records to group quality issues by datasetKey for a Publisher Feedback Pack.",
+        "description": "Uses GBIF API records to group quality issues by datasetKey for a Publisher Feedback Pack.",
         "form": {
             "taxon": "Lynx pardinus",
             "taxon_key": 2435261,
-            "region_name": "Iberian Peninsula live bbox",
+            "region_name": "Iberian Peninsula GBIF bbox",
             "bbox": [-10.0, 35.0, 4.5, 44.5],
             "purpose": "dataset_quality_review",
             "source_mode": "online_with_empty_fallback",
@@ -75,9 +75,9 @@ REGION_PRESETS: list[dict[str, Any]] = [
     {
         "id": "spain",
         "label": "Spain",
-        "region_name": "Spain live GBIF bbox",
+        "region_name": "Spain GBIF bbox",
         "bbox": [-10.0, 35.0, 4.5, 44.5],
-        "description": "Compact judge demo extent with strong live GBIF coverage.",
+        "description": "Compact judge demo extent with strong GBIF occurrence coverage.",
         "type": "country",
         "group": "Saved countries",
         "country_code": "ES",
@@ -86,7 +86,7 @@ REGION_PRESETS: list[dict[str, Any]] = [
     {
         "id": "iberian",
         "label": "Iberian Peninsula",
-        "region_name": "Iberian Peninsula live bbox",
+        "region_name": "Iberian Peninsula GBIF bbox",
         "bbox": [-10.0, 35.0, 4.5, 44.5],
         "description": "Useful for Iberian conservation and dataset quality tests.",
         "type": "research_region",
@@ -96,7 +96,7 @@ REGION_PRESETS: list[dict[str, Any]] = [
     {
         "id": "western-europe",
         "label": "Western Europe",
-        "region_name": "Western Europe live bbox",
+        "region_name": "Western Europe GBIF bbox",
         "bbox": [-10.0, 42.0, 12.0, 56.0],
         "description": "Broader tree, plant and bird sampling-gap experiments.",
         "type": "research_region",
@@ -126,7 +126,7 @@ REGION_PRESETS: list[dict[str, Any]] = [
     {
         "id": "portugal",
         "label": "Portugal",
-        "region_name": "Portugal live GBIF bbox",
+        "region_name": "Portugal GBIF bbox",
         "bbox": [-9.6, 36.8, -6.0, 42.2],
         "description": "Country bbox for Iberian biodiversity checks.",
         "type": "country",
@@ -137,7 +137,7 @@ REGION_PRESETS: list[dict[str, Any]] = [
     {
         "id": "france",
         "label": "France",
-        "region_name": "France live GBIF bbox",
+        "region_name": "France GBIF bbox",
         "bbox": [-5.2, 41.3, 9.7, 51.2],
         "description": "Country bbox for Western Europe workflows.",
         "type": "country",
@@ -148,7 +148,7 @@ REGION_PRESETS: list[dict[str, Any]] = [
     {
         "id": "italy",
         "label": "Italy",
-        "region_name": "Italy live GBIF bbox",
+        "region_name": "Italy GBIF bbox",
         "bbox": [6.6, 36.4, 18.8, 47.1],
         "description": "Country bbox for Mediterranean species checks.",
         "type": "country",
@@ -159,7 +159,7 @@ REGION_PRESETS: list[dict[str, Any]] = [
     {
         "id": "germany",
         "label": "Germany",
-        "region_name": "Germany live GBIF bbox",
+        "region_name": "Germany GBIF bbox",
         "bbox": [5.8, 47.2, 15.1, 55.1],
         "description": "Country bbox for Central Europe records.",
         "type": "country",
@@ -170,7 +170,7 @@ REGION_PRESETS: list[dict[str, Any]] = [
     {
         "id": "united-kingdom",
         "label": "United Kingdom",
-        "region_name": "United Kingdom live GBIF bbox",
+        "region_name": "United Kingdom GBIF bbox",
         "bbox": [-8.7, 49.8, 1.9, 60.9],
         "description": "Country bbox for UK occurrence checks.",
         "type": "country",
@@ -181,7 +181,7 @@ REGION_PRESETS: list[dict[str, Any]] = [
     {
         "id": "norway",
         "label": "Norway",
-        "region_name": "Norway live GBIF bbox",
+        "region_name": "Norway GBIF bbox",
         "bbox": [4.5, 57.8, 31.2, 71.4],
         "description": "Northern Europe bbox for climate and range-shift checks.",
         "type": "country",
@@ -192,7 +192,7 @@ REGION_PRESETS: list[dict[str, Any]] = [
     {
         "id": "sweden",
         "label": "Sweden",
-        "region_name": "Sweden live GBIF bbox",
+        "region_name": "Sweden GBIF bbox",
         "bbox": [10.6, 55.0, 24.2, 69.2],
         "description": "Scandinavian country bbox for forest and species workflows.",
         "type": "country",
@@ -203,7 +203,7 @@ REGION_PRESETS: list[dict[str, Any]] = [
     {
         "id": "poland",
         "label": "Poland",
-        "region_name": "Poland live GBIF bbox",
+        "region_name": "Poland GBIF bbox",
         "bbox": [14.1, 49.0, 24.2, 54.9],
         "description": "Central/Eastern Europe country bbox.",
         "type": "country",
@@ -214,7 +214,7 @@ REGION_PRESETS: list[dict[str, Any]] = [
     {
         "id": "turkiye",
         "label": "Turkiye",
-        "region_name": "Turkiye live GBIF bbox",
+        "region_name": "Turkiye GBIF bbox",
         "bbox": [25.6, 35.8, 44.8, 42.2],
         "description": "Anatolia and Eastern Mediterranean country bbox.",
         "type": "country",
@@ -225,7 +225,7 @@ REGION_PRESETS: list[dict[str, Any]] = [
     {
         "id": "united-states",
         "label": "United States",
-        "region_name": "United States live GBIF bbox",
+        "region_name": "United States GBIF bbox",
         "bbox": [-125.0, 24.0, -66.5, 49.5],
         "description": "Contiguous US bbox; keep max records moderate.",
         "type": "country",
@@ -236,7 +236,7 @@ REGION_PRESETS: list[dict[str, Any]] = [
     {
         "id": "canada",
         "label": "Canada",
-        "region_name": "Canada live GBIF bbox",
+        "region_name": "Canada GBIF bbox",
         "bbox": [-141.0, 41.7, -52.6, 83.1],
         "description": "Large country bbox for northern species tests.",
         "type": "country",
@@ -247,7 +247,7 @@ REGION_PRESETS: list[dict[str, Any]] = [
     {
         "id": "brazil",
         "label": "Brazil",
-        "region_name": "Brazil live GBIF bbox",
+        "region_name": "Brazil GBIF bbox",
         "bbox": [-74.0, -34.0, -34.8, 5.3],
         "description": "Large tropical country bbox; use focused taxa.",
         "type": "country",
@@ -258,7 +258,7 @@ REGION_PRESETS: list[dict[str, Any]] = [
     {
         "id": "south-africa",
         "label": "South Africa",
-        "region_name": "South Africa live GBIF bbox",
+        "region_name": "South Africa GBIF bbox",
         "bbox": [16.4, -35.0, 32.9, -22.0],
         "description": "Country bbox for southern Africa biodiversity checks.",
         "type": "country",
@@ -269,7 +269,7 @@ REGION_PRESETS: list[dict[str, Any]] = [
     {
         "id": "australia",
         "label": "Australia",
-        "region_name": "Australia live GBIF bbox",
+        "region_name": "Australia GBIF bbox",
         "bbox": [112.0, -44.0, 154.0, -10.0],
         "description": "Continental country bbox; use moderate max records.",
         "type": "country",
@@ -280,7 +280,7 @@ REGION_PRESETS: list[dict[str, Any]] = [
     {
         "id": "japan",
         "label": "Japan",
-        "region_name": "Japan live GBIF bbox",
+        "region_name": "Japan GBIF bbox",
         "bbox": [129.0, 30.0, 146.0, 46.0],
         "description": "Island-country bbox for East Asia workflows.",
         "type": "country",

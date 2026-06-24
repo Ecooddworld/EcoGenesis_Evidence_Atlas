@@ -11,6 +11,10 @@ frontend/.vite/
 
 .pytest_cache/
 data/
-reports/
+reports/*
+!reports/competition-100-sequences/
+!reports/competition-100-sequences/**
+!reports/adversarial-100-sequences/
+!reports/adversarial-100-sequences/**
 submission-assets/*.zip
 submission-assets/barcode-video/video/

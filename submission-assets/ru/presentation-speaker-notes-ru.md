@@ -54,4 +54,4 @@ GBIF - это библиотека данных. Она дает доступ к
 
 ## 14. Roadmap
 
-Закрываем дорожной картой: MVP уже есть, дальше - public repo/release/video URL, hosted demo, DOI-backed GBIF example и расширение в платформенный модуль.
+Закрываем дорожной картой: рабочий конкурсный релиз уже есть, дальше - public repo/release/video URL, hosted demo, DOI-backed GBIF example и расширение в платформенный модуль.

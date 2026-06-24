@@ -184,6 +184,30 @@ export async function getObservatoryRun(runId) {
   return response.json();
 }
 
+export async function getObservatoryRunVerification(runId) {
+  const response = await fetch(`${API_BASE_URL}/api/observatory/runs/${runId}/verification`);
+  if (!response.ok) {
+    throw new Error(`Observatory run verification failed: ${response.status}`);
+  }
+  return response.json();
+}
+
+export async function getCompetitionReports() {
+  const response = await fetch(`${API_BASE_URL}/api/competition-reports`);
+  if (!response.ok) {
+    throw new Error(`Competition reports could not be loaded: ${response.status}`);
+  }
+  return response.json();
+}
+
+export async function getContestReadiness() {
+  const response = await fetch(`${API_BASE_URL}/api/contest-readiness`);
+  if (!response.ok) {
+    throw new Error(`Contest readiness could not be loaded: ${response.status}`);
+  }
+  return response.json();
+}
+
 export async function getEvidenceRun(runId) {
   const response = await fetch(`${API_BASE_URL}/api/evidence/runs/${runId}`);
   if (!response.ok) {

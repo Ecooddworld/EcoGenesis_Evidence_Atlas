@@ -1,11 +1,11 @@
 registry_version: GSIG-OBS-SOURCES-1.0
 principle: Every automated source is a licensed, snapshot-based, provenance-captured
-  input. Live retrieval never becomes evidence until it is hashed, normalized, audited
+  input. Network retrieval never becomes evidence until it is hashed, normalized, audited
   and assigned a claim state.
 sources:
 - source_id: gbif_occurrence_api
   name: GBIF Occurrence API and Download API
-  status: mvp_integration
+  status: contest_integration
   class: biodiversity_occurrence
   acquisition_mode:
   - paged_search_for_small_demo
@@ -34,7 +34,7 @@ sources:
   - source_provenance_manifest.json
 - source_id: gbif_dna_derived_extension
   name: GBIF DNA-derived data extension tables
-  status: mvp_integration
+  status: contest_integration
   class: dna_derived_metadata
   acquisition_mode:
   - DwC-A_parse

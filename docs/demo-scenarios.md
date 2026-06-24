@@ -24,7 +24,7 @@ Use these in the final GBIF Challenge video and judge walkthrough.
 9. Download `evidence_pack.zip` or open individual outputs such as `sequence_safety_table.csv`, `data_accounting_ledger.csv`, `state_machine_audit.csv`, `publication_blockers.csv`, `dwc_occurrence_core_publishable.csv` and `molecular_evidence_report.html`.
 10. Repeat or describe the other three CSV examples to show downgrade, publication blocker and weak-match behavior.
 11. Open **Math & proof** to show the deterministic gates and proof-by-failure-mode logic.
-12. Open **Research audit** to show the live GBIF occurrence-audit layer and 1000-record / 100-claim validation.
+12. Open **Research audit** to show the GBIF occurrence-audit layer and 1000-record / 100-claim validation.
 
 ## API Review Path
 
@@ -45,9 +45,9 @@ Expected:
 - run returns `species_safe_records=1` and Evidence Pack export URLs.
 - run exports the explicit ledger/state artifacts required for contest review: `data_accounting_ledger.csv`, `state_machine_audit.csv` and `reference_completeness_audit.csv`.
 
-## Live GBIF Occurrence-Audit Scenarios
+## GBIF Occurrence-Audit Scenarios
 
-The occurrence-audit layer is not the molecular compiler. It validates live GBIF API use and safe claim language for occurrence evidence.
+The occurrence-audit layer is not the molecular compiler. It validates GBIF API use in live network mode and safe claim language for occurrence evidence.
 
 Run:
 
@@ -66,4 +66,4 @@ Acceptance:
 
 ## Fixture Scope
 
-Fixture/offline data are kept for tests and deterministic regression only. The primary user-facing and submission-facing path is CSV Upload -> Score for molecular evidence and live GBIF status/audit for occurrence context.
+Fixture/offline data are kept for tests and deterministic regression only. The primary user-facing and submission-facing path is CSV Upload -> Score for molecular evidence plus GBIF status/audit for occurrence context.

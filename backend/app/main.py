@@ -27,6 +27,12 @@ from .barcode.search_backend import (
     search_status,
 )
 from .barcode.storage import barcode_artifact_path, list_barcode_summaries, load_barcode_pack
+from .competition_reports import (
+    competition_report_path,
+    competition_report_summary,
+    list_competition_report_summaries,
+)
+from .contest_readiness import contest_readiness_dossier, contest_readiness_markdown
 from .evidence.demo import DEMO_SCENARIOS, REGION_PRESETS
 from .evidence.gbif import GBIFClient
 from .evidence.pipeline import EvidenceRunError, run_evidence_passport
@@ -53,6 +59,7 @@ from .observatory.storage import (
     observatory_export_manifest,
     observatory_artifact_path,
 )
+from .observatory.verification import verification_report_markdown, verify_observatory_run_outputs
 
 
 app = FastAPI(
@@ -342,6 +349,73 @@ def head_barcode_export(run_id: str, artifact_name: str) -> Response:
     )
 
 
+@app.get("/api/competition-reports")
+def get_competition_reports() -> dict:
+    return list_competition_report_summaries()
+
+
+@app.get("/api/contest-readiness")
+def get_contest_readiness() -> dict:
+    return contest_readiness_dossier()
+
+
+@app.get("/api/contest-readiness/report.md")
+def get_contest_readiness_report() -> Response:
+    report = contest_readiness_markdown(contest_readiness_dossier())
+    return Response(
+        content=report,
+        media_type="text/markdown; charset=utf-8",
+        headers={"Content-Disposition": 'attachment; filename="ecogenesis_contest_readiness.md"'},
+    )
+
+
+@app.head("/api/contest-readiness/report.md")
+def head_contest_readiness_report() -> Response:
+    content = contest_readiness_markdown(contest_readiness_dossier()).encode("utf-8")
+    return Response(
+        status_code=200,
+        media_type="text/markdown; charset=utf-8",
+        headers={
+            "Content-Length": str(len(content)),
+            "Content-Disposition": 'attachment; filename="ecogenesis_contest_readiness.md"',
+        },
+    )
+
+
+@app.get("/api/competition-reports/{report_id}")
+def get_competition_report(report_id: str) -> dict:
+    try:
+        return competition_report_summary(report_id)
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail="competition report not found") from exc
+
+
+@app.get("/api/competition-reports/{report_id}/files/{file_name}")
+def download_competition_report_file(report_id: str, file_name: str) -> FileResponse:
+    try:
+        path = competition_report_path(report_id, file_name)
+    except (FileNotFoundError, KeyError) as exc:
+        raise HTTPException(status_code=404, detail="competition report file not found") from exc
+    return FileResponse(path, filename=path.name)
+
+
+@app.head("/api/competition-reports/{report_id}/files/{file_name}")
+def head_competition_report_file(report_id: str, file_name: str) -> Response:
+    try:
+        path = competition_report_path(report_id, file_name)
+    except (FileNotFoundError, KeyError) as exc:
+        raise HTTPException(status_code=404, detail="competition report file not found") from exc
+    media_type, _ = mimetypes.guess_type(path.name)
+    return Response(
+        status_code=200,
+        media_type=media_type or "application/octet-stream",
+        headers={
+            "Content-Length": str(path.stat().st_size),
+            "Content-Disposition": f'attachment; filename="{path.name}"',
+        },
+    )
+
+
 @app.get("/api/observatory/status")
 def get_observatory_status() -> dict:
     status = observatory_status()
@@ -396,6 +470,46 @@ def get_observatory_run(run_id: str) -> dict:
 @app.get("/api/observatory/runs/{run_id}/exports")
 def get_observatory_exports(run_id: str) -> list[dict]:
     return get_observatory_run(run_id)["exports"]
+
+
+@app.get("/api/observatory/runs/{run_id}/verification")
+def get_observatory_run_verification(run_id: str) -> dict:
+    try:
+        return verify_observatory_run_outputs(run_id)
+    except FileNotFoundError as exc:
+        raise HTTPException(status_code=404, detail="observatory run not found") from exc
+
+
+@app.get("/api/observatory/runs/{run_id}/verification/report.md")
+def get_observatory_run_verification_report(run_id: str) -> Response:
+    try:
+        report = verify_observatory_run_outputs(run_id)
+    except FileNotFoundError as exc:
+        raise HTTPException(status_code=404, detail="observatory run not found") from exc
+    return Response(
+        content=verification_report_markdown(report),
+        media_type="text/markdown; charset=utf-8",
+        headers={
+            "Content-Disposition": f'attachment; filename="observatory_run_{run_id}_verification.md"',
+        },
+    )
+
+
+@app.head("/api/observatory/runs/{run_id}/verification/report.md")
+def head_observatory_run_verification_report(run_id: str) -> Response:
+    try:
+        report = verify_observatory_run_outputs(run_id)
+    except FileNotFoundError as exc:
+        raise HTTPException(status_code=404, detail="observatory run not found") from exc
+    content = verification_report_markdown(report).encode("utf-8")
+    return Response(
+        status_code=200,
+        media_type="text/markdown; charset=utf-8",
+        headers={
+            "Content-Length": str(len(content)),
+            "Content-Disposition": f'attachment; filename="observatory_run_{run_id}_verification.md"',
+        },
+    )
 
 
 @app.get("/api/observatory/runs/{run_id}/exports/{artifact_name}")

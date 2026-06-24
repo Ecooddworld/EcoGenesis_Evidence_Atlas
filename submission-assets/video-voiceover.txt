@@ -1,17 +1,17 @@
-EcoGenesis Evidence Atlas is a GBIF-first tool for turning occurrence records into a defensible decision memo.
+EcoGenesis Evidence Atlas is now the Molecular Evidence Conversion and Repair Engine for GBIF.
 
-The problem is simple: a map of records does not tell a user what they can safely decide. Empty areas are often over-interpreted as absence, citations are easy to lose, and data publishers rarely receive actionable feedback from reuse.
+The core problem is not drawing another biodiversity map. The problem is deciding which DNA-derived records can safely become GBIF-ready evidence, which records must be downgraded to a safer rank, and which records need repair before publication.
 
-The first screen is the presentation mode for judges. It shows the live GBIF status, the current verdict, the evidence map, supported claims and blocked claims. The tool is intentionally minimal: two modes, live GBIF by default, and a clear empty fallback if GBIF is unavailable.
+The first working layer is the Barcode-to-GBIF Evidence Compiler. A user can upload Sequence ID, BLAST, BOLD, UNITE or laboratory CSV results, validate the input, generate a run, and inspect every safe, weak, blocked and not-publishable decision.
 
-In the workbench, the user searches a taxon through GBIF, selects the taxonKey, chooses a region or edits a bounding box, selects the decision purpose, and generates a live Evidence Passport.
+The compiler does not copy the nearest top-hit species into an export. It checks identity, query coverage, ambiguity, lowest common ancestor, barcode gap evidence, diagnostic k-mers and GBIF/DNA-derived metadata. Species-level output is allowed only when the gates pass.
 
-Here the example uses Aedes albopictus in Spain for invasive watch. The result is not just a map. It is a decision packet: readiness score, records used, datasets, no-evidence cells, survey priorities and high-uncertainty records.
+The output is an Evidence Pack, not a black-box score. It includes decision tables, publication blockers, Darwin Core and DNA-derived templates, methods, citations, graph provenance, VSEA rows, theorem checks and AI guardrail audits.
 
-The decision memo answers what the data can support now, what is weak, and what must happen before publication or policy use. No-evidence cells are treated as survey targets, not absence observations.
+The Observatory layer adds a bounded GSIG evidence graph. It links GBIF occurrence context, hashed snapshots, molecular segments, claim states, blockers, repairs and exports. The GBIF map is shown as occurrence context only; it never upgrades a weak barcode claim into support.
 
-The map and claim guardrails make overclaiming visible. The tool blocks unsupported absence, true-distribution and population-trend claims unless the evidence and methods are strong enough.
+The graph explorer makes the claim boundary visible. Each node and edge can be inspected as an evidence object, and the Judge view keeps proof obligations, caveats and export status separate.
 
-Finally, the Evidence Pack exports everything a reviewer or data manager needs: citations, source summary, records GeoJSON, quality tables, publisher issue templates, graph memory, validation summary and a machine-readable JSON pack.
+The competition packs include two frozen 100-sequence runs: a balanced contest batch and an adversarial fail-closed batch. Both preserve expected decision classes, theorem status, graph roundtrip checks and downloadable evidence packs.
 
-EcoGenesis changes the GBIF workflow from "where are the records?" to "what can this evidence safely support, what should be cited, and what should be fixed next?"
+EcoGenesis changes the workflow from “top hit equals species” to “what is the safest claim supported by this evidence, and what repair would make more records GBIF-ready?”

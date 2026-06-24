@@ -1,10 +1,10 @@
-# Live GBIF Smoke Test - 2026-05-26
+# GBIF API Smoke Test - 2026-05-26
 
 ## Target
 
 - Taxon: `Aedes albopictus`
 - Selected `taxonKey`: `1651430`
-- Region: Spain live GBIF bbox
+- Region: Spain GBIF bbox
 - BBox: `[-10, 35, 4.5, 44.5]`
 - Purpose: `invasive_watch`
 - Source mode: `online_with_empty_fallback`
@@ -35,6 +35,6 @@
 
 ## Conclusion
 
-The live path worked against GBIF API data without reusing fixture occurrence records. The occurrence-passport layer reached a concrete, auditable result: GBIF was reachable, the selected `taxonKey` was preserved, records were returned, provenance exports were generated, and the tool correctly reported caveats rather than turning empty or sparse cells into absence claims.
+The GBIF API path worked without reusing fixture occurrence records. The occurrence-passport layer reached a concrete, auditable result: GBIF was reachable, the selected `taxonKey` was preserved, records were returned, provenance exports were generated, and the tool correctly reported caveats rather than turning empty or sparse cells into absence claims.
 
-The Barcode-to-GBIF Evidence Compiler remains the molecular decision layer for supplied Sequence ID / BLAST-style outputs. The live GBIF smoke confirms the surrounding GBIF API and evidence-pack infrastructure are operational on real GBIF-mediated occurrence data.
+The Barcode-to-GBIF Evidence Compiler remains the molecular decision layer for supplied Sequence ID / BLAST-style outputs. This GBIF API smoke confirms the surrounding GBIF API and evidence-pack infrastructure are operational on GBIF-mediated occurrence data.

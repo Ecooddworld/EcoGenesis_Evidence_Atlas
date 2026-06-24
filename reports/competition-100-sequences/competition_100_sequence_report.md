@@ -1,8 +1,8 @@
 # Competition 100-Sequence Atlas Run Report
 
-Generated: 2026-06-14T22:06:14+02:00
+Generated: 2026-06-15T02:27:51+02:00
 Backend: local compiler script `backend/scripts/generate_competition_reports.py`
-Run ID: `5ac3e88339af4d2a86339531632e7112`
+Run ID: `cc3a9564cc8e433b8a22ba1d1fb63d77`
 
 ## Result
 
@@ -11,7 +11,7 @@ Run ID: `5ac3e88339af4d2a86339531632e7112`
 - Exports returned: 89
 - Expected decisions matched: True
 - Hard-gate failures: 0
-- Evidence Pack ZIP SHA-256: `5b6caa163586a52e6992ea7ac186622075939af1d3983f157d3db604e344c5ae`
+- Evidence Pack ZIP SHA-256: `9b48725120d55cbd24bb9f769e72d8895b7317a4849394e6e2c0030cc1dc2fd2`
 - GSEG/GSIG exports present: True
 - ZIP contains GSEG/GSIG exports: True
 - VSEA Parquet magic: `PAR1`

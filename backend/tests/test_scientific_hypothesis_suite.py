@@ -41,7 +41,7 @@ def fake_scenario() -> dict:
         "id": "aedes-spain",
         "taxon": "Aedes albopictus",
         "taxon_key": 1651430,
-        "region_name": "Spain live GBIF bbox",
+        "region_name": "Spain GBIF bbox",
         "purpose": "invasive_watch",
     }
 

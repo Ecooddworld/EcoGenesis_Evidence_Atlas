@@ -39,7 +39,7 @@ Required barcode compiler coverage:
 - `tests/test_gsig_observatory_reference_checks.py` verifies the Observatory source registry, pipeline DAG, UI contract, proof obligations, visual claim-state projection and AI label separation.
 - `tests/test_observatory_api.py` verifies `/api/observatory/*`, generated parquet, GBIF fixture fallback recording, VSEA/segment/claim endpoints and export links.
 
-Legacy `/api/evidence/*` tests remain active to guarantee the occurrence-audit layer still works for live GBIF context and regression.
+Legacy `/api/evidence/*` tests remain active to guarantee the occurrence-audit layer still works for GBIF context and regression.
 
 ## Frontend Regression
 
@@ -128,7 +128,7 @@ Expected:
    - `graph_provenance_audit.csv`
 8. Open `Math & proof`.
 9. Open `Observatory`.
-10. Click `Run live Aedes Spain`.
+10. Click `Run GBIF-backed Aedes Spain`.
 11. Confirm `GBIF snapshot`, `VSEA`, `Graph`, `Exports` and `Judge` screens render.
 12. Confirm `observatory_evidence_pack.zip`, `observatory_vsea.parquet`, `snapshot_manifest.json` and `proof_summary.json` are linked.
 13. Open `Research audit`.
@@ -230,7 +230,7 @@ Generated verification outputs:
 
 The verifier recomputes report-file SHA256 checksums, confirms ZIP contents, reconciles CSV counts with `observatory_evidence_pack.json`, checks graph provenance, enforces the visualization, AI export and GBIF claim-boundary guardrails, and verifies that self-referential JSON/ZIP checksums are delegated to the external manifest instead of being embedded as stale values.
 
-## Live GBIF Scientific Hypothesis Suite
+## GBIF Occurrence-Audit Scientific Hypothesis Suite
 
 Run only when network access is available:
 
@@ -241,10 +241,10 @@ cd backend
 
 Acceptance:
 
-- at least 1,000 deduplicated live GBIF occurrence records;
+- at least 1,000 deduplicated GBIF occurrence records;
 - at least 10 successful online scenarios;
 - no fixture records counted;
 - at least 100 hypothesis/claim rows;
 - every claim has status, evidence pointer and caveat.
 
-This suite validates the live GBIF occurrence-audit layer. It is not used as proof that the molecular compiler performs Sequence ID matching, because the molecular compiler works from supplied Sequence ID / BLAST-style match results.
+This suite validates the GBIF occurrence-audit layer in live network mode. It is not used as proof that the molecular compiler performs Sequence ID matching, because the molecular compiler works from supplied Sequence ID / BLAST-style match results.

@@ -7,6 +7,7 @@ from app.main import app
 from app.observatory.pipeline import run_observatory_demo
 from app.observatory.schemas import ObservatoryRunRequest
 from app.observatory.storage import load_observatory_pack, observatory_artifact_path, observatory_export_manifest
+from app.observatory.verification import verify_observatory_run_outputs
 
 
 OPO_ARTIFACTS = {
@@ -65,6 +66,14 @@ def test_observatory_pipeline_builds_release_pack(tmp_path, monkeypatch) -> None
         assert name not in persisted_pack["run"]["artifact_checksums"]
     assert observatory_artifact_path(pack["run"]["run_id"], "observatory_vsea.parquet").read_bytes()[:4] == b"PAR1"
     assert all(row["context_claim_boundary"].startswith("GBIF context") for row in pack["vsea"])
+    verification = verify_observatory_run_outputs(pack["run"]["run_id"])
+    assert verification["summary"]["status"] == "pass"
+    assert verification["summary"]["failed"] == 0
+    assert verification["summary"]["vsea_rows"] == pack["summary"]["vsea_rows"]
+    assert {check["name"] for check in verification["checks"]} >= {
+        "visualization_no_promotion",
+        "zip_entry_checksums_match_manifest",
+    }
 
 
 def test_observatory_api_endpoints(tmp_path, monkeypatch) -> None:
@@ -110,6 +119,25 @@ def test_observatory_api_endpoints(tmp_path, monkeypatch) -> None:
     gbif_export = client.post("/api/observatory/export/gbif", params={"run_id": run_id})
     assert gbif_export.status_code == 200
     assert gbif_export.json()["artifact"]["name"] == "gbif_export_preview.csv"
+
+    verification = client.get(f"/api/observatory/runs/{run_id}/verification")
+    assert verification.status_code == 200
+    verification_body = verification.json()
+    assert verification_body["summary"]["status"] == "pass"
+    assert verification_body["summary"]["failed"] == 0
+    assert verification_body["summary"]["vsea_rows"] == len(rows)
+    assert any(check["name"] == "visualization_no_promotion" for check in verification_body["checks"])
+
+    verification_report = client.get(f"/api/observatory/runs/{run_id}/verification/report.md")
+    assert verification_report.status_code == 200
+    assert "text/markdown" in verification_report.headers["content-type"]
+    assert f'observatory_run_{run_id}_verification.md' in verification_report.headers["content-disposition"]
+    assert "# Observatory Run Output Verification" in verification_report.text
+    assert "Failed | `0`" in verification_report.text
+
+    verification_report_head = client.head(f"/api/observatory/runs/{run_id}/verification/report.md")
+    assert verification_report_head.status_code == 200
+    assert int(verification_report_head.headers["content-length"]) > 0
 
     zip_head = client.head(f"/api/observatory/runs/{run_id}/exports/observatory_evidence_pack.zip")
     assert zip_head.status_code == 200

@@ -34,4 +34,4 @@ This validation is an operational reality check, not a claim of universal biolog
 
 ## Remaining scientific limits
 
-The prototype still needs external production matchers, frozen reference snapshots, GBIF backbone resolution, real laboratory controls, cross-marker calibration and large benchmark datasets before it can be presented as a production-grade taxonomic assignment service. Its strongest current claim is narrower and defensible: it is a conservative evidence-triage and publication-readiness layer.
+The current implementation still needs external production matchers, frozen reference snapshots, GBIF backbone resolution, real laboratory controls, cross-marker calibration and large benchmark datasets before it can be presented as a production-grade taxonomic assignment service. Its strongest current claim is narrower and defensible: it is a conservative evidence-triage and publication-readiness layer.

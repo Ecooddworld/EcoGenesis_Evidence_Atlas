@@ -1,4 +1,4 @@
-# GBIF 2026 Submission Draft
+# GBIF 2026 Submission Copy
 
 ## Submission Name
 

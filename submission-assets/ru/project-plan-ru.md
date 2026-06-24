@@ -119,7 +119,7 @@ EcoGenesis отвечает:
 Показывает:
 
 - что решает инструмент;
-- live GBIF status;
+- GBIF API/source status;
 - текущий verdict;
 - карту;
 - safe claims;
@@ -140,7 +140,7 @@ EcoGenesis отвечает:
 5. нажимает Generate Evidence Passport;
 6. получает результат.
 
-Важно: по умолчанию используется Live GBIF. Fixture-данные скрыты от обычного пользователя и нужны только для тестов.
+Важно: source mode фиксируется явно. GBIF API используется в сетевом режиме, а fixture/offline данные нужны только для тестов и воспроизводимой регрессии.
 
 ## 8. Что такое Evidence Passport
 
@@ -245,7 +245,7 @@ GBIF Evidence Passport API + UI + export pack
 EcoGenesis Evidence Atlas попадает в эту логику:
 
 - узкий и понятный scope;
-- live GBIF API;
+- GBIF API / source-mode audit;
 - reproducible export;
 - open-source;
 - понятная польза для GBIF community;
@@ -256,9 +256,9 @@ EcoGenesis Evidence Atlas попадает в эту логику:
 
 ## 15. Что уже сделано
 
-- Английский двухрежимный UI.
-- Live GBIF default path.
-- Empty fallback без подмешивания fixture-записей.
+- Английский UI для компилятора, Observatory и Research audit.
+- GBIF-backed source path with explicit source-mode recording.
+- Empty/fallback behavior без скрытого подмешивания fixture-записей.
 - GBIF API status.
 - Taxon search и сохранение taxonKey.
 - Region presets и bbox.
@@ -273,7 +273,7 @@ EcoGenesis Evidence Atlas попадает в эту логику:
 - JSON schema.
 - Demo video на английском.
 - Demo cases.
-- Submission draft.
+- Submission copy.
 
 ## 16. Что нужно сделать перед подачей
 
@@ -296,7 +296,7 @@ EcoGenesis Evidence Atlas попадает в эту логику:
 
 ## 17. Roadmap после конкурса
 
-### Этап 1: конкурсный MVP
+### Этап 1: конкурсный релиз
 
 Цель: доказать, что Evidence Passport нужен и работает.
 

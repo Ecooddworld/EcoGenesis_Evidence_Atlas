@@ -36,10 +36,10 @@ identity, coverage, ambiguity, lowest common ancestor, barcode gap, diagnostic k
 If a sequence can belong to multiple species, the compiler downgrades the claim to the safest shared taxonomic level.
 If the data cannot support absence, trend, true distribution, or phenotype claims, those claims are blocked.
 
-The platform also includes a live GBIF occurrence-audit layer.
-That layer checks GBIF API access, pulls real GBIF-mediated occurrence records, and demonstrates safe language for evidence context, sampling gaps, empty cells, and citation readiness.
+The platform also includes a GBIF occurrence-audit layer.
+That layer checks GBIF API access in live network mode, uses GBIF-mediated occurrence records, and demonstrates safe language for evidence context, sampling gaps, empty cells, and citation readiness.
 It is not used as hidden molecular evidence.
-It is a separate audit showing how the same claim-safety philosophy works on live GBIF data.
+It is a separate audit showing how the same claim-safety philosophy works on GBIF occurrence data.
 
 For users, EcoGenesis reduces mistakes and gives a clear next action.
 For data publishers, it turns messy molecular outputs into Darwin Core templates, DNA-derived extension templates, publication blockers, methods text, citations, and an evidence graph.

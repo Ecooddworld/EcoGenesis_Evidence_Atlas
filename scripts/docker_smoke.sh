@@ -84,6 +84,14 @@ grep -q '"segments":' "${tmpdir}/fragment-graph.json"
 curl -fsS "http://127.0.0.1:${FRONTEND_PORT}/api/observatory/status" -o "${tmpdir}/observatory-status.json"
 grep -q '"service":"ecogenesis-gsig-observatory"' "${tmpdir}/observatory-status.json"
 
+curl -fsS "http://127.0.0.1:${FRONTEND_PORT}/api/competition-reports" -o "${tmpdir}/competition-reports.json"
+grep -q '"status":"pass"' "${tmpdir}/competition-reports.json"
+grep -q '"report_id":"competition-100-sequences"' "${tmpdir}/competition-reports.json"
+grep -q '"report_id":"adversarial-100-sequences"' "${tmpdir}/competition-reports.json"
+grep -q '"records":100' "${tmpdir}/competition-reports.json"
+curl -fsSI "http://127.0.0.1:${FRONTEND_PORT}/api/competition-reports/competition-100-sequences/files/evidence_pack.zip" \
+  | grep -q "200 OK"
+
 curl -fsS \
   -H "Content-Type: application/json" \
   -d '{"mode":"offline_demo","force_fixture":true,"limit":20}' \
@@ -91,5 +99,12 @@ curl -fsS \
   -o "${tmpdir}/observatory-run.json"
 grep -q '"status":"completed"' "${tmpdir}/observatory-run.json"
 grep -q '"hard_gate_status":"pass"' "${tmpdir}/observatory-run.json"
+
+curl -fsS "http://127.0.0.1:${FRONTEND_PORT}/api/contest-readiness" -o "${tmpdir}/contest-readiness.json"
+grep -q '"status":"pass"' "${tmpdir}/contest-readiness.json"
+grep -q '"competition_status":"pass"' "${tmpdir}/contest-readiness.json"
+grep -q '"observatory_status":"pass"' "${tmpdir}/contest-readiness.json"
+curl -fsSI "http://127.0.0.1:${FRONTEND_PORT}/api/contest-readiness/report.md" \
+  | grep -q "200 OK"
 
 echo "Docker smoke passed: http://127.0.0.1:${FRONTEND_PORT}"

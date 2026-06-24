@@ -97,7 +97,7 @@ Visual:
 
 Voiceover:
 
-> The repository also includes a live GBIF occurrence-audit layer. It checks GBIF API availability, uses GBIF-mediated records for evidence-context tests, and demonstrates safe claim language around no-evidence cells, sampling gaps and citation readiness.
+> The repository also includes a GBIF occurrence-audit layer. It checks GBIF API availability when live network mode is enabled, uses GBIF-mediated records for evidence-context tests, and demonstrates safe claim language around no-evidence cells, sampling gaps and citation readiness.
 
 Visual:
 

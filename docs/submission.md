@@ -116,8 +116,8 @@ The Observatory run additionally produces:
 8. Upload or explain `examples/aedes_missing_metadata.csv` to show taxonomic evidence preserved while publication is blocked.
 9. Open `Math & proof` to show the deterministic gates.
 10. Show the `GSEG / GSIG proof layer` export group: `theorem_checklist.json`, VSEA Parquet and graph provenance.
-11. Open `Observatory`, run `Run live Aedes Spain`, and show the snapshot map, VSEA matrix, evidence graph and proof wheel before opening the source snapshot, VSEA, graph, exports and Judge tabs.
-12. Open `Research audit` to show the live GBIF occurrence-audit layer and 100 evidence claims.
+11. Open `Observatory`, run `Run GBIF-backed Aedes Spain`, and show the GBIF occurrence context map, VSEA matrix, Evidence Graph Explorer and proof wheel before opening the source snapshot, VSEA, graph, exports and Judge tabs.
+12. Open `Research audit` to show the GBIF occurrence-audit layer and 100 evidence claims.
 
 ## Operating Instructions
 
@@ -153,7 +153,7 @@ cd backend
 .venv/bin/python scripts/verify_barcode_operability.py
 ```
 
-Run optional live GBIF occurrence-audit suite:
+Run the optional GBIF occurrence-audit suite in live network mode:
 
 ```bash
 cd backend
@@ -173,7 +173,7 @@ The project does not claim:
 
 ## Submission Assets
 
-- Entry form draft: `submission-assets/gbif-entry-form-draft.md`
+- Entry form copy: `submission-assets/gbif-entry-form-draft.md`
 - Final checklist: `submission-assets/final-submission-checklist.md`
 - Video script: `submission-assets/barcode-video-script.md`
 - Final pack: `submission-assets/gbif-2026-final-submission-pack.md`
