@@ -40,6 +40,7 @@ Each run produces:
 - `ambiguous_sequences.csv`
 - `barcode_gap_report.csv`
 - `diagnostic_kmer_report.csv`
+- `math_viability_audit.json`
 - `gbif_backbone_matches.csv`
 - `publication_blockers.csv`
 - `repair_plan.csv`

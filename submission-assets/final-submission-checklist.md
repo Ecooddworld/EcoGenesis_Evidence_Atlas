@@ -64,7 +64,7 @@ npm run build
 4. Confirm CSV preview and validation are visible.
 5. Click `Generate from CSV`.
 6. Confirm `species-safe` appears.
-7. Confirm `evidence_pack.zip`, `sequence_safety_table.csv`, `publication_blockers.csv`, `dwc_occurrence_core_publishable.csv`, `molecular_evidence_report.html`, `theorem_checklist.json`, `verified_segment_evidence_array.parquet` and `graph_provenance_audit.csv` are visible or downloadable.
+7. Confirm `evidence_pack.zip`, `sequence_safety_table.csv`, `publication_blockers.csv`, `dwc_occurrence_core_publishable.csv`, `molecular_evidence_report.html`, `math_viability_audit.json`, `theorem_checklist.json`, `verified_segment_evidence_array.parquet` and `graph_provenance_audit.csv` are visible or downloadable.
 8. Open `Math & proof` and confirm formulas render.
 9. Open `Observatory`, run `Run GBIF-backed Aedes Spain`, and confirm `observatory_evidence_pack.zip`, `snapshot_manifest.json`, `observatory_vsea.parquet` and Judge OPO rows are visible.
 10. Open `Research audit` and confirm the 1000-record / 100-claim audit summary is visible.

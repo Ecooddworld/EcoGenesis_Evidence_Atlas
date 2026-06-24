@@ -17,21 +17,21 @@
   },
   "@graph": [
     {
-      "id": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "id": "run:3b037205cc904c08a613a6ccea42f724",
       "type": "run",
       "label": "EcoGenesis adversarial 100-sequence fail-closed GSEG/GSIG stress batch",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "46dd3b7bca6e37a3f9e2e78adceac3c72443fa9f2017f33c38d61b0f0ee82292",
-      "@id": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "provenance_hash": "b255de04256f1e9bb65e82adeb01bc4697e3b4ac24580157c2de68ea4ba1aa35",
+      "@id": "run:3b037205cc904c08a613a6ccea42f724",
       "@type": "run"
     },
     {
-      "id": "reference_manifest:13a1f3c48dd73c86868583ef06b524ff51abc2dc63065ec6e61bb2ab0e99eb7b",
+      "id": "reference_manifest:06f92f0dc9f74684c5b585f93f2a10f471aae725aafbdb415302810ad6e5d5d8",
       "type": "reference_manifest",
       "label": "COI Animals / BOLD public clustered reference",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "70389867267a6342d3fb4d91f0fa199f584787152ef69acbe3316b07970dd49d",
-      "@id": "reference_manifest:13a1f3c48dd73c86868583ef06b524ff51abc2dc63065ec6e61bb2ab0e99eb7b",
+      "provenance_hash": "fdcb1477b2612481564826a452f992d331a1d4d59d93530be62178b1ea511c47",
+      "@id": "reference_manifest:06f92f0dc9f74684c5b585f93f2a10f471aae725aafbdb415302810ad6e5d5d8",
       "@type": "reference_manifest"
     },
     {
@@ -4717,9 +4717,9 @@
       "id": "artifact:adversarial_report.md",
       "type": "artifact",
       "label": "adversarial_report.md",
-      "sha256": "dcbd1504bae322d740c5d33aac47aaaadfc1f807c897b07d1142157610818cd0",
+      "sha256": "ef98f961b0e92e3e5089da47894634566fd4032a6b2c569ca5bb22c65be1a246",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "7154aee630b57a54be403a9f5e5d9623c33ca1b3c80d66614296c106bc5ea98f",
+      "provenance_hash": "a9408212b0f17cc4b876f7db53560abbea56e7ac00673c9493f7e25120a49601",
       "@id": "artifact:adversarial_report.md",
       "@type": "artifact"
     },
@@ -4757,9 +4757,9 @@
       "id": "artifact:artifact_checksums.json",
       "type": "artifact",
       "label": "artifact_checksums.json",
-      "sha256": "fd48636bf750926848c576b4947a2073496a1cc62b97a3c7857b4388b6723233",
+      "sha256": "e6a960abc1684b4d10459df2d9c25b4be2a9ebb23b7c7f303c41622bdcc9b866",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "220a5f7fb440ae86ec74d11686d831ad7f32ad1bdf222bc10b2302b745ccf17f",
+      "provenance_hash": "8c5484ac5c5ecca1b27dc9a6b524f0368ff5c86e559b7328c37541dac2006087",
       "@id": "artifact:artifact_checksums.json",
       "@type": "artifact"
     },
@@ -4797,9 +4797,9 @@
       "id": "artifact:citations.md",
       "type": "artifact",
       "label": "citations.md",
-      "sha256": "7090a41912f3e6d6559e203e64cc030dcb11f27bf42f47f6422d9655726da63a",
+      "sha256": "bfdc434968bf832b3b42aa0abebc17eb800b56379785e026b6baa0341776916d",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "4ddb31ce88a77430e2a4cc49aaa4b5cbef32fbf9a121a30b3ae8d1db9d600265",
+      "provenance_hash": "e02d786c9f2f7bbe2c565c3d865c100723197fd1f6741e45e71aff377a2225f5",
       "@id": "artifact:citations.md",
       "@type": "artifact"
     },
@@ -4827,9 +4827,9 @@
       "id": "artifact:contradiction_audit.csv",
       "type": "artifact",
       "label": "contradiction_audit.csv",
-      "sha256": "cbe003744a83689c0c376646405884ce6ca69d2ef960f60a94f1f90d760fe7db",
+      "sha256": "5a1459b8aacafb9caf6bc92c8df2d42420811475c0c50044d66fd113c7fbee4c",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "c52f37cd50b8552266d2c71a802a47b1e045696d573f0bcde8e61b990d37f1cc",
+      "provenance_hash": "7aeb537862808dee4e29c2eaa24f4b5cf4d58bd3015cc343193d8858cda552db",
       "@id": "artifact:contradiction_audit.csv",
       "@type": "artifact"
     },
@@ -4987,9 +4987,9 @@
       "id": "artifact:evidence_graph.json",
       "type": "artifact",
       "label": "evidence_graph.json",
-      "sha256": "83470515bdbfc962aaaa1d65f4e0683e44e143afff0d9b1cfacec3bc57e04c19",
+      "sha256": "1f4b7988e71aafc24ae23f6f793e542df2c1fd16a503c7360ad63344ee0704ee",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "2f1803c1d5f44b2f548e5b045f52c16b5ec16005061a1f0ffaf4be84f038e51a",
+      "provenance_hash": "0aee7f6d6681fad53dfe53569067c67a7944af5a23505ec9dc5cb1a20072663b",
       "@id": "artifact:evidence_graph.json",
       "@type": "artifact"
     },
@@ -4997,9 +4997,9 @@
       "id": "artifact:evidence_graph.jsonld",
       "type": "artifact",
       "label": "evidence_graph.jsonld",
-      "sha256": "33e47636924a971669000397b2038fa21e1729f9b88ef8d8b9e2183042666a13",
+      "sha256": "41d55e339acfb520985080d3c01c0cf1710503da6c03ae9a95e4fc2d18f938b9",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "39c825eb0fd8f34314b41ce8770442c6ac5b5869726d4cfc2d62a0b0dcdae037",
+      "provenance_hash": "e7fed17c72d3097b775ccf7b790e2b95df2006b770a13fa9b276c8f906d24a37",
       "@id": "artifact:evidence_graph.jsonld",
       "@type": "artifact"
     },
@@ -5007,9 +5007,9 @@
       "id": "artifact:evidence_pack.json",
       "type": "artifact",
       "label": "evidence_pack.json",
-      "sha256": "66c2a0891d6e1582f5ef1324e0dce6f59e0a2ace3358acb3fb8606487170d652",
+      "sha256": "9d9456394f1f711b55a5d4defcdbc0d48e5acf04212cf45110689a568da95fb1",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "f88cc3c34fe7e23727b94b731bf3f5b33045c0731f4c6329d5b32d9c09949663",
+      "provenance_hash": "90a2f60c31233e523a51dc72b28e75e052458775056b8f81aa0649315f39c74f",
       "@id": "artifact:evidence_pack.json",
       "@type": "artifact"
     },
@@ -5017,9 +5017,9 @@
       "id": "artifact:evidence_pack.zip",
       "type": "artifact",
       "label": "evidence_pack.zip",
-      "sha256": "88d428690f4465a9ccd9fc4bcacd54e06a05d07a5014826d96daea60c2bb20b9",
+      "sha256": "42ae48e38a76f97efb0dd8ee76f019d023eaee59a425080ac67c486caf82b6b9",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "7850415448665bdacb218e1a0858e9d1631ecfb00008a1ae8612930046a757cf",
+      "provenance_hash": "3b69e04af2a4d69f0e9ff1992808c6c7520c3dbfb5f98c059282a79b0858a67d",
       "@id": "artifact:evidence_pack.zip",
       "@type": "artifact"
     },
@@ -5057,9 +5057,9 @@
       "id": "artifact:function_claim_boundary_audit.csv",
       "type": "artifact",
       "label": "function_claim_boundary_audit.csv",
-      "sha256": "bbbc948ce3d1e3b6310af776f649f4e36cedb9278a8793709fea8edd8206a41b",
+      "sha256": "cffc29a690985e73d6e4b74dd4806a95fcd216dd5fb6f0d6d475874ef38b97a7",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "5f192465a8714d48212504ee50b1b6add0134d10b006fb543baac41ef3229818",
+      "provenance_hash": "6529b4e6f3851eb67db739eaa99152ca0a4371ef0db710cb915125afb6e2e87c",
       "@id": "artifact:function_claim_boundary_audit.csv",
       "@type": "artifact"
     },
@@ -5077,9 +5077,9 @@
       "id": "artifact:graph_provenance_audit.csv",
       "type": "artifact",
       "label": "graph_provenance_audit.csv",
-      "sha256": "64de9b7c1b668f3c2c7f3beea8d0f3ecfba8b2962a71524a8e614eb2401a0ad0",
+      "sha256": "f274478a8790406796cfde9da12c9288d8f0aa350bdb4ea195c1ec3bcee7d299",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "3f80eefcc30732ef0627c5f9df1a349370b6c2a6626d73e144ee6e0a21ceb48b",
+      "provenance_hash": "fdae173f9bd123afa883f694faec5a1abf7595d284692f79ee60157a7c9a21c6",
       "@id": "artifact:graph_provenance_audit.csv",
       "@type": "artifact"
     },
@@ -5127,9 +5127,9 @@
       "id": "artifact:judge_reproducibility_report.md",
       "type": "artifact",
       "label": "judge_reproducibility_report.md",
-      "sha256": "d7d6f60594dac20c004f5f9baf18a771b1df3077fd22862119840eaf2adeec07",
+      "sha256": "9bbe492e63454edba42a2820df06c8de5489de62dde64175a500b3aef1e8c716",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "3559471034c7bc55c0b5be36b8d9aeecb7535bb2413f0c4c7ddc7ae46bb99ab5",
+      "provenance_hash": "feb91268c2d875c32e49887eef010be7e7501741fd291a636726527e6d0a1465",
       "@id": "artifact:judge_reproducibility_report.md",
       "@type": "artifact"
     },
@@ -5137,9 +5137,9 @@
       "id": "artifact:literature_claim_state_audit.csv",
       "type": "artifact",
       "label": "literature_claim_state_audit.csv",
-      "sha256": "9eaac8fe3db8270a6cbaadf1755fd390551fcae5826bcb306c947244751bd806",
+      "sha256": "60f2f6aed28ddb409038f63eb8745b1276c930a6d7eca04fa95d1488213003c0",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "5546b3851a35ed5b1bb5503c1a21354e536649220da391e3e39b7e1fd2955044",
+      "provenance_hash": "f20129b2d508304bdb169b662fa3aaf2a9c5f5e09e17875aa5cd47a7268be0b2",
       "@id": "artifact:literature_claim_state_audit.csv",
       "@type": "artifact"
     },
@@ -5157,9 +5157,9 @@
       "id": "artifact:manual_review_audit.csv",
       "type": "artifact",
       "label": "manual_review_audit.csv",
-      "sha256": "60287dad2ecbbf0970b5fa07b2817739c10d289ca2bddef4590e8cbe49eacea9",
+      "sha256": "fe688509e89003b5199fce0560538514c36b68fca5ea659cff0e3ac6dfa63537",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "6365b411c78bab1b99efdc73765162d5855364878ab761188f3bbd04d067bda9",
+      "provenance_hash": "6be166834f22f8c14bad29f22a243a8ef73071ad523a5c89ccbb77530c79c8dc",
       "@id": "artifact:manual_review_audit.csv",
       "@type": "artifact"
     },
@@ -5181,6 +5181,16 @@
       "ruleset_version": "barcode-gbif-compiler-v2",
       "provenance_hash": "8779ebda9df72ea3e02d808dced0d30dc37b9e5162626bf91a22c439b40a2fb9",
       "@id": "artifact:match_gate_audit.csv",
+      "@type": "artifact"
+    },
+    {
+      "id": "artifact:math_viability_audit.json",
+      "type": "artifact",
+      "label": "math_viability_audit.json",
+      "sha256": "5af6622c26561db98e550e48dbd11a5c1c2c1c968d59daa54ca74be6c7453533",
+      "ruleset_version": "barcode-gbif-compiler-v2",
+      "provenance_hash": "23d99538494623a418c9ce72ec3fc1ac4a1816bb748176de4811dbe410780040",
+      "@id": "artifact:math_viability_audit.json",
       "@type": "artifact"
     },
     {
@@ -5287,9 +5297,9 @@
       "id": "artifact:query_smoke_report.md",
       "type": "artifact",
       "label": "query_smoke_report.md",
-      "sha256": "e303b6dd21f5c2ed3f00a6e152cf5e007ddad7ec8e76300effd1927bd2e6e5e2",
+      "sha256": "1caa01aefdecd40bab06321ddcea1000e678a8ce23cbfb5cc2d347aba4fb4330",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "ddd9e8314242fc90fb39d7fd53c80449a7a1849ef4fabeaeda12a3f4c2602027",
+      "provenance_hash": "e262ff78d585ffe9c67231f3a1595b20e602de2cba68df48325393767db89ada",
       "@id": "artifact:query_smoke_report.md",
       "@type": "artifact"
     },
@@ -5317,9 +5327,9 @@
       "id": "artifact:reference_manifest.json",
       "type": "artifact",
       "label": "reference_manifest.json",
-      "sha256": "5e9e52e3e77c5b6cf53faa6e428ab0de6594ca79f56a9630916563b524fa625c",
+      "sha256": "359e044eefc3c88a35f57954d6f84a70236f828afd919238925235b7ad655531",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "6d96b8f222e8e96c55de85023b29146b4086896ff84b205bee51667ad960a014",
+      "provenance_hash": "96a8f0850ffeeb8276b6f9479a387d42741cebf36a4b7d33a6ea0d4cdfbfe48e",
       "@id": "artifact:reference_manifest.json",
       "@type": "artifact"
     },
@@ -5377,9 +5387,9 @@
       "id": "artifact:ruleset_diff_report.json",
       "type": "artifact",
       "label": "ruleset_diff_report.json",
-      "sha256": "f19354d62fda781735e8bab8f412ad69e70a7f36a5c27478bc190ba69da5d344",
+      "sha256": "ce9f49cebf6f8eb930ad29a988c3ebe683e690698018cfed6ab92683290314e5",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "7d3679a9c9821ee1c44057f2da43db617380b58aa9c2f71369088c703a0e915a",
+      "provenance_hash": "fc35100eff522a6398cae2bf3110cfbbb3ead3dabc9901e5ffefcf5bb435af5d",
       "@id": "artifact:ruleset_diff_report.json",
       "@type": "artifact"
     },
@@ -5387,9 +5397,9 @@
       "id": "artifact:run.json",
       "type": "artifact",
       "label": "run.json",
-      "sha256": "953c423112ffc0ec3b0a0d21c9530b3e7658424aeff7e15cb79ae1e2ab71423e",
+      "sha256": "8c47ded766d0e387c52f7a7d04d042c1e2d30c7ec1c3c987c127a94f98b56a8a",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "e2b796b3d52479967afbb525c4eca41e7910bdc9918a8ab282e9e6bb2c6fc331",
+      "provenance_hash": "dc2bb99080dd27825fd5458c51dfa1382d8d21e9cbe11c7d9633bdeaaddd953b",
       "@id": "artifact:run.json",
       "@type": "artifact"
     },
@@ -5497,9 +5507,9 @@
       "id": "artifact:source_license_audit.csv",
       "type": "artifact",
       "label": "source_license_audit.csv",
-      "sha256": "af4dde4011af92d2e4219420cdaaf85230ab96e2d5bb9c0f31ffcaa95b12228c",
+      "sha256": "0963d3183a9828a5b26898180a850d142774c3a90da62c553e044da2190029be",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "82d9b127d8065caa8d00dd995e6d3f2b011be5b3aa858ddc0ca20eb871b1718c",
+      "provenance_hash": "7a00c9ef38c8f7f27d1f3965e90849e9758544649c04f018391c806166b98607",
       "@id": "artifact:source_license_audit.csv",
       "@type": "artifact"
     },
@@ -5507,9 +5517,9 @@
       "id": "artifact:source_provenance_manifest.json",
       "type": "artifact",
       "label": "source_provenance_manifest.json",
-      "sha256": "92c5320a54db8e6d03abb0ff86a98f20c7c0c4daa6d341112fcf731752ac9a3d",
+      "sha256": "c5ea3388ed44d9893f761fbacdcb61240d248f51e1c30ab037af8369c4e42060",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "e8aeb6cdac2d5dfcb7a1665bd5dd1a6f127220c4ad41c6ea93f029d55324da18",
+      "provenance_hash": "5a41a01761d988e4d7356979aa3e9da0d364e56bec8a9228704b6bd71439c60c",
       "@id": "artifact:source_provenance_manifest.json",
       "@type": "artifact"
     },
@@ -5527,9 +5537,9 @@
       "id": "artifact:theorem_checklist.json",
       "type": "artifact",
       "label": "theorem_checklist.json",
-      "sha256": "220722e230264fe2a2d9c75ff9c45be6f9a98d1c753d47120112b8321aef99bb",
+      "sha256": "a81c20659888e4c4fee832b79a93de5210e786d6736030001f33e599a6acc063",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "95a1465f773ce4eaea3927449c0810a8177c52a6ef249fc99db5a2c81ab92f86",
+      "provenance_hash": "a62a79cec0a55204d27803b50de45e61462626e9280a88d355dbe81770a0374d",
       "@id": "artifact:theorem_checklist.json",
       "@type": "artifact"
     },
@@ -5547,9 +5557,9 @@
       "id": "artifact:trait_function_evidence_audit.csv",
       "type": "artifact",
       "label": "trait_function_evidence_audit.csv",
-      "sha256": "ad764b4ac9fb0f4949f298ca2d9eb67ff4ea9515e3557b414b31ff0c5ea904ec",
+      "sha256": "3f652bc8df61b75a822fc9cd6b842909ea46414ff9aec07ab47f0ec289f2bf71",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "00e5c76e7d556e217c636424f1ba200c884118e05f656bb72fc9e76627d15899",
+      "provenance_hash": "4a85a14335e532c5da99e613e4d68c4a34a9c523bbf7d27fb2a6a86cf0cae3ff",
       "@id": "artifact:trait_function_evidence_audit.csv",
       "@type": "artifact"
     },
@@ -5567,9 +5577,9 @@
       "id": "artifact:verified_segment_evidence_array.csv",
       "type": "artifact",
       "label": "verified_segment_evidence_array.csv",
-      "sha256": "9cfd629a7545e1d41b125dfa0937b44fd878f6f30666732ebe48f27c12ed43be",
+      "sha256": "1d4ee5ca64ee8b3aa47c53e36140e8f7f3a91acab1f6e19f27aeee5c0754b3a5",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "988cea858424eb257512ab2d70dde0c125f57de5f935c2459d4cd301d4628241",
+      "provenance_hash": "ad6ee10aa826015d31b96854b0fd4bb57fdd1a182887e24b9a4605bf60fd1033",
       "@id": "artifact:verified_segment_evidence_array.csv",
       "@type": "artifact"
     },
@@ -5577,9 +5587,9 @@
       "id": "artifact:verified_segment_evidence_array.jsonl",
       "type": "artifact",
       "label": "verified_segment_evidence_array.jsonl",
-      "sha256": "2f533bbc7403a3fe62ee3b99d64b5f1c7ca1bd1639b8f4039a0060ba20c93dd0",
+      "sha256": "3636adf03a1d34b0c3900fc3fcfced948cbbd9f73a218a1bb7b525bd42485240",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "ded310c7699b92a461ad6d7b9fe8a3615f7b99ab892d1b68d8a48f4937d8c25d",
+      "provenance_hash": "4ef1e6d0ae0708f3fe7bad053ff8326b02cbcd83bd7ed3368645f5c01000809a",
       "@id": "artifact:verified_segment_evidence_array.jsonl",
       "@type": "artifact"
     },
@@ -5587,9 +5597,9 @@
       "id": "artifact:verified_segment_evidence_array.parquet",
       "type": "artifact",
       "label": "verified_segment_evidence_array.parquet",
-      "sha256": "74dd28fd41749ae4c5e36841d11de7d238d676bf89b2052518967d0189965be3",
+      "sha256": "9ae857c665f6f2f6084d1aa5fa35dbc30e10ecfef537c8b14f8213a343a3d27e",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "73e001d7e38530fe71e8e8bac0d9b47193af93fe0feeb3830dafe6531a01da8c",
+      "provenance_hash": "cb03dc2f6858bcf1f29b65c8e8a75d6a355ad1516817d9c1e81d81583689372d",
       "@id": "artifact:verified_segment_evidence_array.parquet",
       "@type": "artifact"
     },
@@ -5604,23 +5614,23 @@
       "@type": "artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
-      "target": "reference_manifest:13a1f3c48dd73c86868583ef06b524ff51abc2dc63065ec6e61bb2ab0e99eb7b",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
+      "target": "reference_manifest:06f92f0dc9f74684c5b585f93f2a10f471aae725aafbdb415302810ad6e5d5d8",
       "type": "frozen_against",
-      "id": "edge:6af1306b16a90a67",
+      "id": "edge:1a59b37bd6a048de",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "85d6e54809abb754c101e264c21d33c93e79bfc205e9cf7bd0bd5f4fb14719ae",
-      "@id": "edge:6af1306b16a90a67",
+      "provenance_hash": "71f36291eee9ebd017dd755798552c424e98f093cf67a1c09ed837eacf7d2ebb",
+      "@id": "edge:1a59b37bd6a048de",
       "@type": "frozen_against"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-001-true_species_safe_positive",
       "type": "contains_sequence",
-      "id": "edge:b2a81608c354bfed",
+      "id": "edge:a9c2250be869c88c",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "1b7831033ea46ceae98d1203f3ccff80a42555e5a4dce34019e3eaae4150cdc1",
-      "@id": "edge:b2a81608c354bfed",
+      "provenance_hash": "b0fd09b6643f3ae6d2cb73350f8437616cf78ffc22d36717b6479344f5ef272e",
+      "@id": "edge:a9c2250be869c88c",
       "@type": "contains_sequence"
     },
     {
@@ -5676,13 +5686,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-002-true_species_safe_positive",
       "type": "contains_sequence",
-      "id": "edge:026b50b844ec8e58",
+      "id": "edge:fc11b4fe9278e52a",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "8145332ed8c2b62992d91abf26c8cb7fbe74f6b4e752c92ee092fc92e3a16c52",
-      "@id": "edge:026b50b844ec8e58",
+      "provenance_hash": "aaf686f806dfadfdff653bf7626f8e689b755f3eb932db9e5f19fed467fdd87e",
+      "@id": "edge:fc11b4fe9278e52a",
       "@type": "contains_sequence"
     },
     {
@@ -5738,13 +5748,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-003-true_species_safe_positive",
       "type": "contains_sequence",
-      "id": "edge:c78e68adbd3d24d6",
+      "id": "edge:fbc2ad6fdfc7e227",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "635adcc6736da7ba5efd771947090b97bc2fa79180f6cd9741dd601e630ac3e1",
-      "@id": "edge:c78e68adbd3d24d6",
+      "provenance_hash": "59530bf73ba209762a824cb9cf1f84733f442d60905d93339cdabb796d3c22fa",
+      "@id": "edge:fbc2ad6fdfc7e227",
       "@type": "contains_sequence"
     },
     {
@@ -5800,13 +5810,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-004-true_species_safe_positive",
       "type": "contains_sequence",
-      "id": "edge:8668b53e00a16d48",
+      "id": "edge:b3ba3f8c6aca573e",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "29f81e407dce48c0269139df09101acbf9a31352f02b1463e7a78e87d185f380",
-      "@id": "edge:8668b53e00a16d48",
+      "provenance_hash": "01c06b1eb57795ee294936cc51a2c3308b64d44ff1526eb7c9a4e96edf721893",
+      "@id": "edge:b3ba3f8c6aca573e",
       "@type": "contains_sequence"
     },
     {
@@ -5862,13 +5872,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-005-true_species_safe_positive",
       "type": "contains_sequence",
-      "id": "edge:8f07376a5c910079",
+      "id": "edge:f6231b47476f9659",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "8ee2e229ea52b774f274e97caa95074e0b32fdfeb4015593f3f4f218fb990405",
-      "@id": "edge:8f07376a5c910079",
+      "provenance_hash": "41e67e11e506b83d83e99d725853b4437a2204dc5175cc360a328572f9c3664c",
+      "@id": "edge:f6231b47476f9659",
       "@type": "contains_sequence"
     },
     {
@@ -5924,13 +5934,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-006-true_species_safe_positive",
       "type": "contains_sequence",
-      "id": "edge:ad8439c374a8eb2e",
+      "id": "edge:01d9b6c089ba9241",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "8e899514a1fdc4cfa21965b1eda8f6ac0fb6c05adf87f4db0646e02235487873",
-      "@id": "edge:ad8439c374a8eb2e",
+      "provenance_hash": "3de5286059d439de337f32183b7dc7aa3ae977121f6244e6ae91275ba6c4f43c",
+      "@id": "edge:01d9b6c089ba9241",
       "@type": "contains_sequence"
     },
     {
@@ -5986,13 +5996,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-007-true_species_safe_positive",
       "type": "contains_sequence",
-      "id": "edge:93de5f0c55183a1e",
+      "id": "edge:c5ba2009d331bf76",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "e02bcf5447011855d490afa561817e9887932eb5b411c2530cc1c01fc480a4a1",
-      "@id": "edge:93de5f0c55183a1e",
+      "provenance_hash": "b8a7a7030d12962136619ce439092741176d1d2eb292423e821615eba0fab1fa",
+      "@id": "edge:c5ba2009d331bf76",
       "@type": "contains_sequence"
     },
     {
@@ -6048,13 +6058,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-008-true_species_safe_positive",
       "type": "contains_sequence",
-      "id": "edge:0aca0dbcea41c353",
+      "id": "edge:7af787b60eb2a2c0",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "0f4d15fe7b8730bfa5dfd03f0d4ce5c1c7ea9933ec4580ad12adf2bce8328824",
-      "@id": "edge:0aca0dbcea41c353",
+      "provenance_hash": "b9779399c5edb1b62a6cef174e89d7dee7ef074ccfe544c4389fe0de4d511c3c",
+      "@id": "edge:7af787b60eb2a2c0",
       "@type": "contains_sequence"
     },
     {
@@ -6110,13 +6120,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-009-true_species_safe_positive",
       "type": "contains_sequence",
-      "id": "edge:20a51625c2825558",
+      "id": "edge:a66957fc3e361403",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "21ac59ed418b8eeac4c81e3950a0d9d6fc4bbb231955a57555a400830b91e590",
-      "@id": "edge:20a51625c2825558",
+      "provenance_hash": "fae0bf4940c9ecf6dbc2eca0760329fd685dfdb57e70079af1213cbc715dd0f9",
+      "@id": "edge:a66957fc3e361403",
       "@type": "contains_sequence"
     },
     {
@@ -6172,13 +6182,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-010-true_species_safe_positive",
       "type": "contains_sequence",
-      "id": "edge:33d18f203ea10d2d",
+      "id": "edge:0aceaa51b07050e9",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "3dd62bae30636e8d38b6fbb0834325c613b4c8ce84a9e18401a3ae1fd0968a87",
-      "@id": "edge:33d18f203ea10d2d",
+      "provenance_hash": "f4868454fed8208d67cdc5c76b3683847cfa52577d0935c09a1ffad296dfdd35",
+      "@id": "edge:0aceaa51b07050e9",
       "@type": "contains_sequence"
     },
     {
@@ -6234,13 +6244,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-011-close_sibling_ambiguity",
       "type": "contains_sequence",
-      "id": "edge:57ab843326e3c46c",
+      "id": "edge:f4145553d7a87102",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "ce9323442ba667b63098b9cdcc8883354aed9aef61a501ea30e9715fe1f4c788",
-      "@id": "edge:57ab843326e3c46c",
+      "provenance_hash": "a95d6b3c79af22740b1fa57a99fbbee1298bb70d4de8b46192ea058bc208549e",
+      "@id": "edge:f4145553d7a87102",
       "@type": "contains_sequence"
     },
     {
@@ -6306,13 +6316,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-012-close_sibling_ambiguity",
       "type": "contains_sequence",
-      "id": "edge:be0b69738570294a",
+      "id": "edge:558e185e0b902a54",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "ff81cfd5f4d548e038eb8364048c9390eb72c69e12363755d8d7c030d603bd8e",
-      "@id": "edge:be0b69738570294a",
+      "provenance_hash": "eacd3455f399bb8f08946b166461833ae630cf91a92d2ba9f385bbd027017e25",
+      "@id": "edge:558e185e0b902a54",
       "@type": "contains_sequence"
     },
     {
@@ -6378,13 +6388,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-013-close_sibling_ambiguity",
       "type": "contains_sequence",
-      "id": "edge:fe71ced495ba7c5e",
+      "id": "edge:c186ead27bd34404",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "fec0cf30438213b654857c31d3ade2522cb8ac79a7be8de803c94736f8a19018",
-      "@id": "edge:fe71ced495ba7c5e",
+      "provenance_hash": "7477ba77440a3be5af8e6880ed9ddd4f8797e60a135f8ed106433a761344c567",
+      "@id": "edge:c186ead27bd34404",
       "@type": "contains_sequence"
     },
     {
@@ -6450,13 +6460,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-014-close_sibling_ambiguity",
       "type": "contains_sequence",
-      "id": "edge:98140f4ec5f3f40d",
+      "id": "edge:14fa7805033e918c",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "6a7e4fc169bf0a86435db55231fd6fe2acffa3def8269c8937b797315414e328",
-      "@id": "edge:98140f4ec5f3f40d",
+      "provenance_hash": "26687189af0aa90faf0223fe7fcae657275b2238df06073748563f2b53fc4e45",
+      "@id": "edge:14fa7805033e918c",
       "@type": "contains_sequence"
     },
     {
@@ -6522,13 +6532,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-015-close_sibling_ambiguity",
       "type": "contains_sequence",
-      "id": "edge:c3083caac672fe76",
+      "id": "edge:7433ba1d8e6ff83f",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "2924835e81aec59e6032b0858134b8c00aa7905d9971dcf46c388eb57d1f374f",
-      "@id": "edge:c3083caac672fe76",
+      "provenance_hash": "7d05102634b7e2899cde764fa49703a90acc094d249e7508c49abd46ce42fd37",
+      "@id": "edge:7433ba1d8e6ff83f",
       "@type": "contains_sequence"
     },
     {
@@ -6594,13 +6604,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-016-close_sibling_ambiguity",
       "type": "contains_sequence",
-      "id": "edge:0133f1208d97440a",
+      "id": "edge:d1bc83370fc72913",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "f77efd4e12e90a65ed76700b2d57835f31b3b26c75608d2867779d3962bbbecc",
-      "@id": "edge:0133f1208d97440a",
+      "provenance_hash": "715dbd63d49c040c0b070cf973ebee2875111d2755ad6f0ae26feca1a0fadd8a",
+      "@id": "edge:d1bc83370fc72913",
       "@type": "contains_sequence"
     },
     {
@@ -6666,13 +6676,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-017-close_sibling_ambiguity",
       "type": "contains_sequence",
-      "id": "edge:b919d34693788ab9",
+      "id": "edge:75b1c8bd39d66957",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "d5c3e23cc47c5a45de6f057a4ad102723826f202cd57d33232471018bf41a5ee",
-      "@id": "edge:b919d34693788ab9",
+      "provenance_hash": "aa095202f31236b0aeca3181b672c11089f18b80098ba6c0e84bfc40db990828",
+      "@id": "edge:75b1c8bd39d66957",
       "@type": "contains_sequence"
     },
     {
@@ -6738,13 +6748,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-018-close_sibling_ambiguity",
       "type": "contains_sequence",
-      "id": "edge:a7584b28311358c3",
+      "id": "edge:ae272aee1fe30fa3",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "f6d8d5e44910024c8dc92066909af3f82e4ab5b57ba5ad8b456b5cb3b17e9535",
-      "@id": "edge:a7584b28311358c3",
+      "provenance_hash": "02a5b5c5ac3856c8504abd401750f1ff8dd501a394d01275f1168803220618d1",
+      "@id": "edge:ae272aee1fe30fa3",
       "@type": "contains_sequence"
     },
     {
@@ -6810,13 +6820,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-019-close_sibling_ambiguity",
       "type": "contains_sequence",
-      "id": "edge:290fbeb0e552c5f9",
+      "id": "edge:7451e5cd9083075d",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "24d30125cece99a64c3adb4b9e2ba0d2de5c50a45805396836766b33bfda46f8",
-      "@id": "edge:290fbeb0e552c5f9",
+      "provenance_hash": "c5968df347751d6394111fc94be74913e23053de497ae65823feda0f59f80dbd",
+      "@id": "edge:7451e5cd9083075d",
       "@type": "contains_sequence"
     },
     {
@@ -6882,13 +6892,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-020-close_sibling_ambiguity",
       "type": "contains_sequence",
-      "id": "edge:14f422fe9940876a",
+      "id": "edge:17a0be40adedf8f6",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "3f51ffbea8ae366afac13a542c00f2791f5f768557243a43845e544967990d5d",
-      "@id": "edge:14f422fe9940876a",
+      "provenance_hash": "b926a577ea671fe6f208b735f977566add654d2b7231340edeba926c6d2ed927",
+      "@id": "edge:17a0be40adedf8f6",
       "@type": "contains_sequence"
     },
     {
@@ -6954,13 +6964,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-021-weak_coverage_short_fragment",
       "type": "contains_sequence",
-      "id": "edge:26968297baf6949f",
+      "id": "edge:b00db5ac12a0540c",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "230d8de8306954dbf1dc22a09923a1f1ba4485c6b0b22ba83c173a8c6643375c",
-      "@id": "edge:26968297baf6949f",
+      "provenance_hash": "39340adddc3ac4b67a1bd4efe5362b95ab0499672d3ce02f5e154e0c6e36bd4b",
+      "@id": "edge:b00db5ac12a0540c",
       "@type": "contains_sequence"
     },
     {
@@ -7026,13 +7036,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-022-weak_coverage_short_fragment",
       "type": "contains_sequence",
-      "id": "edge:73fb3906aad80fde",
+      "id": "edge:8de496fae6f74dfd",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "88eb75d273e7044254f6af05939ed61718d3147fdc47becd8a971c1b4c02ad0f",
-      "@id": "edge:73fb3906aad80fde",
+      "provenance_hash": "9244641bc76e0347ca738c3b71a8f1d8ec850ba6e1b2c6e7abf3b2a3cf40a240",
+      "@id": "edge:8de496fae6f74dfd",
       "@type": "contains_sequence"
     },
     {
@@ -7098,13 +7108,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-023-weak_coverage_short_fragment",
       "type": "contains_sequence",
-      "id": "edge:8bdcdd947b4d5601",
+      "id": "edge:ea6b949c74dce2b5",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "34589ac10ed9857c00c03bec57d87ea35112c0f719c706930309bd2dbdfcb3d5",
-      "@id": "edge:8bdcdd947b4d5601",
+      "provenance_hash": "6674db265057ca879bfb98ac72e8bf5e7fe7e33ca683df80efdf8619f7068b40",
+      "@id": "edge:ea6b949c74dce2b5",
       "@type": "contains_sequence"
     },
     {
@@ -7170,13 +7180,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-024-weak_coverage_short_fragment",
       "type": "contains_sequence",
-      "id": "edge:59640a6628516809",
+      "id": "edge:18c23865d7b476c1",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "9924ea599eb98937877ac9d445da11b04c99470245b035ab0f3c0cdda5ce36bd",
-      "@id": "edge:59640a6628516809",
+      "provenance_hash": "edbc3b94248d445bc17cad4b91bd496b71983560abffe4034467918c683b3ea2",
+      "@id": "edge:18c23865d7b476c1",
       "@type": "contains_sequence"
     },
     {
@@ -7242,13 +7252,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-025-weak_coverage_short_fragment",
       "type": "contains_sequence",
-      "id": "edge:e1e1139ad52fd18d",
+      "id": "edge:09517cfacab40b30",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "ddd95f213a46223909a82e3e5660c343f5b46df856a83e7c7923bdb258170efa",
-      "@id": "edge:e1e1139ad52fd18d",
+      "provenance_hash": "7ce3c8b67fef747ee753844a84613b2367df4f25c5b9fd877825b0ce262d2e74",
+      "@id": "edge:09517cfacab40b30",
       "@type": "contains_sequence"
     },
     {
@@ -7314,13 +7324,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-026-weak_coverage_short_fragment",
       "type": "contains_sequence",
-      "id": "edge:4cb0b8e375f31300",
+      "id": "edge:ed7f2075421f7f3b",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "b7cb977f01e56c478a6056f67a16cab1956b42507dd7e50a791617044ceeb776",
-      "@id": "edge:4cb0b8e375f31300",
+      "provenance_hash": "1e369e8ee59f7184502cb49145369e3a9de94ad328479dbe4bc4aceb6fb62bab",
+      "@id": "edge:ed7f2075421f7f3b",
       "@type": "contains_sequence"
     },
     {
@@ -7386,13 +7396,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-027-weak_coverage_short_fragment",
       "type": "contains_sequence",
-      "id": "edge:5a3c57cad374ffc1",
+      "id": "edge:58e961de622770f9",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "561e38e933081cbf6fdfcbcfca9a99e5da2882d54afa9d856e97e137575ef49b",
-      "@id": "edge:5a3c57cad374ffc1",
+      "provenance_hash": "cbf78f82f80145220e1fe1a843e9906a0ec6bb62fbc29ea3cad03c6d31467123",
+      "@id": "edge:58e961de622770f9",
       "@type": "contains_sequence"
     },
     {
@@ -7458,13 +7468,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-028-weak_coverage_short_fragment",
       "type": "contains_sequence",
-      "id": "edge:74ee8bb28fc2f6c9",
+      "id": "edge:272bb52c88e6efba",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "c26528d25a427fb307df4c24d57a5d01a367bee7f0e6499c0b7c3c987cc48688",
-      "@id": "edge:74ee8bb28fc2f6c9",
+      "provenance_hash": "e732aa1106297a2634065d9e1fda5606712b43f82604e23d8ee62e7a72da7669",
+      "@id": "edge:272bb52c88e6efba",
       "@type": "contains_sequence"
     },
     {
@@ -7530,13 +7540,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-029-weak_coverage_short_fragment",
       "type": "contains_sequence",
-      "id": "edge:1b05d3de8b8a628b",
+      "id": "edge:16374f5a598b7b27",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "0c1e81af92873594d563118c86c159a17c39d2658931550bf802fd512bfd64ac",
-      "@id": "edge:1b05d3de8b8a628b",
+      "provenance_hash": "8a90518d50d7c58b08152f6cfa3baf5e42aff2e2c5cd24b78c2b9bf12d06a10d",
+      "@id": "edge:16374f5a598b7b27",
       "@type": "contains_sequence"
     },
     {
@@ -7602,13 +7612,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-030-weak_coverage_short_fragment",
       "type": "contains_sequence",
-      "id": "edge:3ea414cdfdd27e1f",
+      "id": "edge:b5f9ab43717d9370",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "8ca2b61b820b25fcf132f9a4b42d99cb7c616055a7b320161cca5e4256dbacd4",
-      "@id": "edge:3ea414cdfdd27e1f",
+      "provenance_hash": "5dcad21c9e458a7d407a2062fb8201615d4f3532383531cbdbf8af6966cc7563",
+      "@id": "edge:b5f9ab43717d9370",
       "@type": "contains_sequence"
     },
     {
@@ -7674,13 +7684,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-031-no_match_novel_lineage",
       "type": "contains_sequence",
-      "id": "edge:e4634c7de07ade1c",
+      "id": "edge:812613b4e84d088e",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "5cdcdd2a57eeaa74ecfc4d11527951dd9131081a906a6f9fa65fa915b982ec78",
-      "@id": "edge:e4634c7de07ade1c",
+      "provenance_hash": "c498cc41615adab37b95238e82c5b4cbf9f2d2a76e49739fa05f58ada2388dc2",
+      "@id": "edge:812613b4e84d088e",
       "@type": "contains_sequence"
     },
     {
@@ -7726,13 +7736,13 @@
       "@type": "blocked_by"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-032-no_match_novel_lineage",
       "type": "contains_sequence",
-      "id": "edge:4e88da7d97815ac7",
+      "id": "edge:3d53b162bf35e998",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "be3dbc34188183374f4af880802287758b984367f4443d911893ceff39ac42fe",
-      "@id": "edge:4e88da7d97815ac7",
+      "provenance_hash": "5a37863eba15a7dbf30a6f0ae70fbeb80ddc56c0aa63a1076e3f9a95f8c45dd1",
+      "@id": "edge:3d53b162bf35e998",
       "@type": "contains_sequence"
     },
     {
@@ -7778,13 +7788,13 @@
       "@type": "blocked_by"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-033-no_match_novel_lineage",
       "type": "contains_sequence",
-      "id": "edge:6421ae49312ff4be",
+      "id": "edge:7a1b77b0ba313f8d",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "ddbb8f8c2b2af9e4c722ffe7c3f271bc53d3354517ce4b3990566d6d42f932c6",
-      "@id": "edge:6421ae49312ff4be",
+      "provenance_hash": "1ebd24f70d7c459a24aaf35e523d5a9c7514718b54bc9617574e041add2800a3",
+      "@id": "edge:7a1b77b0ba313f8d",
       "@type": "contains_sequence"
     },
     {
@@ -7830,13 +7840,13 @@
       "@type": "blocked_by"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-034-no_match_novel_lineage",
       "type": "contains_sequence",
-      "id": "edge:a825f8b2ae1e89af",
+      "id": "edge:ee238dff38317485",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "2e6e6c8c453bc70986278c68f13adaf4de9b130cef1c1f3b4051dfef0a32c701",
-      "@id": "edge:a825f8b2ae1e89af",
+      "provenance_hash": "4bbd8878a0fe453dec0818b38ac56a51083e22b29c757372d271f04821b5aadc",
+      "@id": "edge:ee238dff38317485",
       "@type": "contains_sequence"
     },
     {
@@ -7882,13 +7892,13 @@
       "@type": "blocked_by"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-035-no_match_novel_lineage",
       "type": "contains_sequence",
-      "id": "edge:e5b9b9971d401283",
+      "id": "edge:f2a8672e70dd3fc9",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "1ff08a114961d4b7c6ecb7764875138123393b09b906faa17f8218482756fb1f",
-      "@id": "edge:e5b9b9971d401283",
+      "provenance_hash": "58188ed29d1e19bd9e56dcf607474daca78759e63f39b715ecc835dba5449d8f",
+      "@id": "edge:f2a8672e70dd3fc9",
       "@type": "contains_sequence"
     },
     {
@@ -7934,13 +7944,13 @@
       "@type": "blocked_by"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-036-no_match_novel_lineage",
       "type": "contains_sequence",
-      "id": "edge:671bf70b28e986a2",
+      "id": "edge:1d0ecafe5340d929",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "60232bd7a7dde32313b30a7f4864db904ca6613529a518c5398d0902a80e7fc1",
-      "@id": "edge:671bf70b28e986a2",
+      "provenance_hash": "bd940c42afe739c99b7ca4bdec8ca9962f8765b4db0d5e9703e8b2e69b7010b7",
+      "@id": "edge:1d0ecafe5340d929",
       "@type": "contains_sequence"
     },
     {
@@ -7986,13 +7996,13 @@
       "@type": "blocked_by"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-037-no_match_novel_lineage",
       "type": "contains_sequence",
-      "id": "edge:2d34b326b19dc133",
+      "id": "edge:6cea0ac494ad0b00",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "e0f2dd7265a1a49f29142a52fbab407f274a03bb1d7879b6f3f3d6fdb6b219d8",
-      "@id": "edge:2d34b326b19dc133",
+      "provenance_hash": "b3c43879e4b308a85706ef95b9aeeb764382ac93980d3b4bc5a1b27aaaab6b17",
+      "@id": "edge:6cea0ac494ad0b00",
       "@type": "contains_sequence"
     },
     {
@@ -8038,13 +8048,13 @@
       "@type": "blocked_by"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-038-no_match_novel_lineage",
       "type": "contains_sequence",
-      "id": "edge:0f3a134aee531e7c",
+      "id": "edge:73985e60327b4214",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "7302381a30fbe140f9eb0accc29274b3f354217da1963c4e084c9faf2124b0ba",
-      "@id": "edge:0f3a134aee531e7c",
+      "provenance_hash": "d25278c2b64a34fde58ea2f377ddd8ea176b56f00f75025e3c71adfd5692a46c",
+      "@id": "edge:73985e60327b4214",
       "@type": "contains_sequence"
     },
     {
@@ -8090,13 +8100,13 @@
       "@type": "blocked_by"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-039-no_match_novel_lineage",
       "type": "contains_sequence",
-      "id": "edge:e77024c13fef10fb",
+      "id": "edge:d96470a24f5c13fe",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "7ec59e0fb85b72be73270fd8134b42af0fd85d47deb43d56dbec5d81e4fc75a8",
-      "@id": "edge:e77024c13fef10fb",
+      "provenance_hash": "ba822c21bb06d12f35fb69f27e8b9b2eaf4b43c7c5f23dce0b2f28111dd3cf4a",
+      "@id": "edge:d96470a24f5c13fe",
       "@type": "contains_sequence"
     },
     {
@@ -8142,13 +8152,13 @@
       "@type": "blocked_by"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-040-no_match_novel_lineage",
       "type": "contains_sequence",
-      "id": "edge:ead287177e8fbee9",
+      "id": "edge:0e83ee1ccd912d12",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "fcc60d8a0fe5727c6d9b0524f6d31660008e5b502f9658cbd250db440b9ef430",
-      "@id": "edge:ead287177e8fbee9",
+      "provenance_hash": "b1f246653ff92c87fb55aea4791b71e290c15841bd7b36f65a74752a2d86cfe8",
+      "@id": "edge:0e83ee1ccd912d12",
       "@type": "contains_sequence"
     },
     {
@@ -8194,13 +8204,13 @@
       "@type": "blocked_by"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-041-metadata_blocked_taxonomy_safe",
       "type": "contains_sequence",
-      "id": "edge:88021207fe2f73c2",
+      "id": "edge:b49d0a52b5fef072",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "8175f4338412c871170ea6d8666b1355767aa9b6e1c18489810566bf3b2587de",
-      "@id": "edge:88021207fe2f73c2",
+      "provenance_hash": "c808a622264a092a1493d5a2cdd5c92836115546185c8f449e3f094d6c7afc4c",
+      "@id": "edge:b49d0a52b5fef072",
       "@type": "contains_sequence"
     },
     {
@@ -8266,13 +8276,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-042-metadata_blocked_taxonomy_safe",
       "type": "contains_sequence",
-      "id": "edge:2cc52c8d22761755",
+      "id": "edge:5270fa36de6bbead",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "cb161eed45da68b9476dff3ed4dbbb8bd30e4dc4cac8f9dd596505dd8a16db23",
-      "@id": "edge:2cc52c8d22761755",
+      "provenance_hash": "e8cc1fdf64cdf8da3a4170d5f6dad4128491f4c26efcfbb9137c4a9bd40b21a0",
+      "@id": "edge:5270fa36de6bbead",
       "@type": "contains_sequence"
     },
     {
@@ -8338,13 +8348,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-043-metadata_blocked_taxonomy_safe",
       "type": "contains_sequence",
-      "id": "edge:46f72b12f0d69dd8",
+      "id": "edge:9446d0d3f4b90858",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "8e69f99dc06e9b617e831a404c1f56fae0973e06c71b4bed78fa3b8ab2b7faa2",
-      "@id": "edge:46f72b12f0d69dd8",
+      "provenance_hash": "c54d777e7da9760f0b87e356b21096fbeaaa2068940bdb82eb2d380c9ba2dbef",
+      "@id": "edge:9446d0d3f4b90858",
       "@type": "contains_sequence"
     },
     {
@@ -8410,13 +8420,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-044-metadata_blocked_taxonomy_safe",
       "type": "contains_sequence",
-      "id": "edge:af4472f785991128",
+      "id": "edge:896ff61279d64757",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "7cf425e85f83f07596f550d7191440be44b285449c647d60644c368607939aac",
-      "@id": "edge:af4472f785991128",
+      "provenance_hash": "94254827205bfba8e74bff0401801d5f5131ec2411b32194201ef4af0c0877f1",
+      "@id": "edge:896ff61279d64757",
       "@type": "contains_sequence"
     },
     {
@@ -8482,13 +8492,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-045-metadata_blocked_taxonomy_safe",
       "type": "contains_sequence",
-      "id": "edge:f8a716c06b3c1d46",
+      "id": "edge:5613b95aa746e11a",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "442653d9e37265deb51a06472d962505e50e32c0251c553933fb1730d1dd2a5e",
-      "@id": "edge:f8a716c06b3c1d46",
+      "provenance_hash": "ac0f2cb8bcc34a946aa7557669de50557149e94eab6dce0f58757ced2a60b68b",
+      "@id": "edge:5613b95aa746e11a",
       "@type": "contains_sequence"
     },
     {
@@ -8554,13 +8564,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-046-metadata_blocked_taxonomy_safe",
       "type": "contains_sequence",
-      "id": "edge:e82719e91c7c06bd",
+      "id": "edge:6559f16b171b1ba4",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "da694356e47d31401a6ee0fb1c9502ea9fd50c8dcb49c963b547c65a5b8dbe36",
-      "@id": "edge:e82719e91c7c06bd",
+      "provenance_hash": "5724b14845b21c6629db559e5875afcef5b9460b2175c293caeb3beb89eaba7e",
+      "@id": "edge:6559f16b171b1ba4",
       "@type": "contains_sequence"
     },
     {
@@ -8626,13 +8636,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-047-metadata_blocked_taxonomy_safe",
       "type": "contains_sequence",
-      "id": "edge:a8e566338046eac6",
+      "id": "edge:cc00ce03d805a475",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "9844a7119ca92c03f2da504b77c35e6f727f7bd4b56aba83d7dc2ff13ebeb341",
-      "@id": "edge:a8e566338046eac6",
+      "provenance_hash": "5d905f1d60ce02cc1c6319977ab7af4276a997c73c9717c404535c76d7ab47a7",
+      "@id": "edge:cc00ce03d805a475",
       "@type": "contains_sequence"
     },
     {
@@ -8698,13 +8708,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-048-metadata_blocked_taxonomy_safe",
       "type": "contains_sequence",
-      "id": "edge:2258d09004aed28c",
+      "id": "edge:4a1ae686d6d5b817",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "114a5f0304f3de72d9ec7081a9b1fb5bfb68e9070d93d0b6ac19a2a01fe75652",
-      "@id": "edge:2258d09004aed28c",
+      "provenance_hash": "1995266e67fc071bf54b8c18c8012e136da8fd57db2b90a2b6b67ae67c0b7877",
+      "@id": "edge:4a1ae686d6d5b817",
       "@type": "contains_sequence"
     },
     {
@@ -8770,13 +8780,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-049-metadata_blocked_taxonomy_safe",
       "type": "contains_sequence",
-      "id": "edge:de092c0f5f5b0d42",
+      "id": "edge:57c80fabe401102d",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "e8be367030c6cd7e5956e0d48762313db8688e31fa7eccf2d8e16de8da878759",
-      "@id": "edge:de092c0f5f5b0d42",
+      "provenance_hash": "ef4f00441ccd79dcc19abb312d0281db78c0ffe0ef7f7ab834bfabd8ad972548",
+      "@id": "edge:57c80fabe401102d",
       "@type": "contains_sequence"
     },
     {
@@ -8842,13 +8852,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-050-metadata_blocked_taxonomy_safe",
       "type": "contains_sequence",
-      "id": "edge:8ffa0c264ac0121c",
+      "id": "edge:845103255e5094eb",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "48df0ff1bfb7b42363fa39d77a300ddd12806e01cc021ba8107c3b56407c1be9",
-      "@id": "edge:8ffa0c264ac0121c",
+      "provenance_hash": "237eb26d90c9328e829500b5aaa57a7d3a84b447d15bbc30f035397498a9a59e",
+      "@id": "edge:845103255e5094eb",
       "@type": "contains_sequence"
     },
     {
@@ -8914,13 +8924,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-051-assay_control_failure",
       "type": "contains_sequence",
-      "id": "edge:7826c517f64e7202",
+      "id": "edge:361bac66444ea3a2",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "af88098c930d439cb5215ce906448953097bd2749d6f3519f118957904ca9b93",
-      "@id": "edge:7826c517f64e7202",
+      "provenance_hash": "00b71e376ddc42d94f824d9c41a3bcde20117562d703d01441264f4213ffc8fb",
+      "@id": "edge:361bac66444ea3a2",
       "@type": "contains_sequence"
     },
     {
@@ -8986,13 +8996,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-052-assay_control_failure",
       "type": "contains_sequence",
-      "id": "edge:106f0d550e9c11f5",
+      "id": "edge:7f55271cd5fb41bb",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "c2ee990d7843aa157982017c5b9890297d4e55d3d1aae6574d69bbe27a9cc4ca",
-      "@id": "edge:106f0d550e9c11f5",
+      "provenance_hash": "6bd40c717c9f3b94ffffc440f933f61ed4957066484c09244ef14938a37aff70",
+      "@id": "edge:7f55271cd5fb41bb",
       "@type": "contains_sequence"
     },
     {
@@ -9058,13 +9068,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-053-assay_control_failure",
       "type": "contains_sequence",
-      "id": "edge:f5206a74a683e6d7",
+      "id": "edge:ff1420ead45e9559",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "da7fd71c1dc77b0d785dbd504cb50536beaa9cfeb15ed265fb30e77f525f586f",
-      "@id": "edge:f5206a74a683e6d7",
+      "provenance_hash": "e0ac204a38fdec4fdf330b4dc4beae7ac1c0475932c84b031ccfd04b36a58509",
+      "@id": "edge:ff1420ead45e9559",
       "@type": "contains_sequence"
     },
     {
@@ -9130,13 +9140,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-054-assay_control_failure",
       "type": "contains_sequence",
-      "id": "edge:7c6170311195f47b",
+      "id": "edge:945096c22f872501",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "3f2afcc73a2c46795241f6bd18bdd768f62bba58c775d1ab091c0f14c76312db",
-      "@id": "edge:7c6170311195f47b",
+      "provenance_hash": "ebfd434c1cdacf70f5e00c11833bf994639ea9e5a95428145cfc1db15b2f1c79",
+      "@id": "edge:945096c22f872501",
       "@type": "contains_sequence"
     },
     {
@@ -9202,13 +9212,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-055-assay_control_failure",
       "type": "contains_sequence",
-      "id": "edge:a0e9b026919b50ad",
+      "id": "edge:56bc4ca7f57a882d",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "b1d48751b5ed9b090aebc2c544c9bf970236e5423565ee71114fef2d6d445033",
-      "@id": "edge:a0e9b026919b50ad",
+      "provenance_hash": "6a418615dd90b87633eb353fabd698048cf7b630d769fe5341282c59b733b04a",
+      "@id": "edge:56bc4ca7f57a882d",
       "@type": "contains_sequence"
     },
     {
@@ -9274,13 +9284,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-056-assay_control_failure",
       "type": "contains_sequence",
-      "id": "edge:0016983490c22cd9",
+      "id": "edge:1af6fee540e55d6e",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "bbd01e97156df4c394bfa15e160c59f8f0bb257598389eda5e3752bf2c7be318",
-      "@id": "edge:0016983490c22cd9",
+      "provenance_hash": "5c2dfdeb935f5d7cf5fff34154f51c1c0cd7f2a39539c04719f9bf640d1ec265",
+      "@id": "edge:1af6fee540e55d6e",
       "@type": "contains_sequence"
     },
     {
@@ -9346,13 +9356,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-057-assay_control_failure",
       "type": "contains_sequence",
-      "id": "edge:d76670b97548ab84",
+      "id": "edge:66f57f18a9a1589c",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "d4a4a8d9b4e9ee33b179b3ccbaaa49c415545a8b97d852cc83c689fa9d9a7c5a",
-      "@id": "edge:d76670b97548ab84",
+      "provenance_hash": "98ac9ef50d1e1b5b64dad44d6b5491de1e0a1b2364377db608de5791a57566e2",
+      "@id": "edge:66f57f18a9a1589c",
       "@type": "contains_sequence"
     },
     {
@@ -9418,13 +9428,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-058-assay_control_failure",
       "type": "contains_sequence",
-      "id": "edge:5c6eb8fd04ca79ea",
+      "id": "edge:e3b577872b7b6437",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "56d89b780675fb5b0299777a7ca8fa14324e250d837c6766f90e9ec90f2cc39e",
-      "@id": "edge:5c6eb8fd04ca79ea",
+      "provenance_hash": "2bff541c87920a2b297c229ebc08e4653ab0316aff2dcb5bbcb8b11e4ec00be5",
+      "@id": "edge:e3b577872b7b6437",
       "@type": "contains_sequence"
     },
     {
@@ -9490,13 +9500,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-059-assay_control_failure",
       "type": "contains_sequence",
-      "id": "edge:fe14166743b319b3",
+      "id": "edge:ceb0cb227776db28",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "e59fadf868a7f37a1f71237faec527848099dfdf5a728388b871d43ad1067e11",
-      "@id": "edge:fe14166743b319b3",
+      "provenance_hash": "e3b62c87075abeb31825cafc2314c5ecbad6055034e7f429345b0da5c5740fd5",
+      "@id": "edge:ceb0cb227776db28",
       "@type": "contains_sequence"
     },
     {
@@ -9562,13 +9572,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-060-assay_control_failure",
       "type": "contains_sequence",
-      "id": "edge:cca36b308014daa4",
+      "id": "edge:41b9958e1c16047e",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "9736a05de4d1f2afb1c474492fff5c056cb4956d6413a68699343a3b20c7a842",
-      "@id": "edge:cca36b308014daa4",
+      "provenance_hash": "be4172bb8f8fe9068bee0edb2384e894d124f837d305bb4d9d76a3cd65e824d6",
+      "@id": "edge:41b9958e1c16047e",
       "@type": "contains_sequence"
     },
     {
@@ -9634,13 +9644,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-061-wrong_taxonomy_name_conflict",
       "type": "contains_sequence",
-      "id": "edge:117495168ea6503d",
+      "id": "edge:a966be1ab1b4c08e",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "a11e426fac9801505e07ab131d97a7d6ad2de095516cc861ff3a9d155ff7d0ad",
-      "@id": "edge:117495168ea6503d",
+      "provenance_hash": "dbe83139563f3e01d41b7998e476f0af2ae89697952e17444113473c7ee4a27d",
+      "@id": "edge:a966be1ab1b4c08e",
       "@type": "contains_sequence"
     },
     {
@@ -9706,13 +9716,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-062-wrong_taxonomy_name_conflict",
       "type": "contains_sequence",
-      "id": "edge:23760037420da734",
+      "id": "edge:4fc3c5ed604b8918",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "6ee5819571da64e8b6792a4fc6d3a3eeb7c92e040916755ef6fa70b63045c435",
-      "@id": "edge:23760037420da734",
+      "provenance_hash": "cd265988581f3cde7c8d2dcafd27d9218085d3ed6719720de746ed06306ae49f",
+      "@id": "edge:4fc3c5ed604b8918",
       "@type": "contains_sequence"
     },
     {
@@ -9778,13 +9788,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-063-wrong_taxonomy_name_conflict",
       "type": "contains_sequence",
-      "id": "edge:49395f632ff2c063",
+      "id": "edge:3dedca5623574cb6",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "cff89f1d0019adccfefca7bb6865cf453b2b9e6b8ce284ab9d3082cd37c3b2cf",
-      "@id": "edge:49395f632ff2c063",
+      "provenance_hash": "e83f109d2123a94206db91f06ed30574e610f844895511fd54c3d53e6c8d0a18",
+      "@id": "edge:3dedca5623574cb6",
       "@type": "contains_sequence"
     },
     {
@@ -9850,13 +9860,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-064-wrong_taxonomy_name_conflict",
       "type": "contains_sequence",
-      "id": "edge:723162f9d088f69c",
+      "id": "edge:b11fed701385725f",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "55a71d757bd49d434b083705fe60429a73dfa9be1dbdeb5422e59e57fec36f7e",
-      "@id": "edge:723162f9d088f69c",
+      "provenance_hash": "9183619196fd077e553c8780c4fe3413792154b95f2b9e4771d2595d73a94aee",
+      "@id": "edge:b11fed701385725f",
       "@type": "contains_sequence"
     },
     {
@@ -9922,13 +9932,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-065-wrong_taxonomy_name_conflict",
       "type": "contains_sequence",
-      "id": "edge:72e1e496c2d2a078",
+      "id": "edge:5cd86a8cae6a4fe2",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "d41f29906bf2d1822d68368c18001ea2aff15f6f4f780089d401c3360b1d98b1",
-      "@id": "edge:72e1e496c2d2a078",
+      "provenance_hash": "81c39da534aaf42df52605c4f9e52d6c07ac9c9d20a59ef637c8a9ba3f4b5b7c",
+      "@id": "edge:5cd86a8cae6a4fe2",
       "@type": "contains_sequence"
     },
     {
@@ -9994,13 +10004,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-066-wrong_taxonomy_name_conflict",
       "type": "contains_sequence",
-      "id": "edge:a11c06bf37e0a0a5",
+      "id": "edge:78c3fba7668692de",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "fd3c79214453c6112d33340abee9f8266a24c9d23191246b8ab05a8699c9a41f",
-      "@id": "edge:a11c06bf37e0a0a5",
+      "provenance_hash": "ca04cc4e15e76e12b77d3dd40cfb18dba46530e0896a6d6fc5d8fe13af729baa",
+      "@id": "edge:78c3fba7668692de",
       "@type": "contains_sequence"
     },
     {
@@ -10066,13 +10076,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-067-wrong_taxonomy_name_conflict",
       "type": "contains_sequence",
-      "id": "edge:38124ef846dff876",
+      "id": "edge:aa8fdee40c5f07b4",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "c11efdc6fe3c72c41b9dc11ef90a483e13421555ae3619da962c38f4ae3d53a7",
-      "@id": "edge:38124ef846dff876",
+      "provenance_hash": "0f5ed49d7b4efe2658b3561ae57badf1811b58707213981956359c751c0a8f7f",
+      "@id": "edge:aa8fdee40c5f07b4",
       "@type": "contains_sequence"
     },
     {
@@ -10138,13 +10148,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-068-wrong_taxonomy_name_conflict",
       "type": "contains_sequence",
-      "id": "edge:841fe2d5aaf18424",
+      "id": "edge:06dc7ba1a30b1736",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "0a3f33fe6dc9f09a49be1436c3960238062e835b625aba6b4e04c0d12f227d0f",
-      "@id": "edge:841fe2d5aaf18424",
+      "provenance_hash": "6d1022999cb64924faf3560c04f215b46b916f097703b2c38d10ef9d38ef8462",
+      "@id": "edge:06dc7ba1a30b1736",
       "@type": "contains_sequence"
     },
     {
@@ -10210,13 +10220,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-069-wrong_taxonomy_name_conflict",
       "type": "contains_sequence",
-      "id": "edge:086afd48e11ccd5f",
+      "id": "edge:b2a621ed1614b25a",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "7e847aac568c8335204504725460593f2953b7899e9c40b79e17b3608841110f",
-      "@id": "edge:086afd48e11ccd5f",
+      "provenance_hash": "bce376bba272bfb6bb7e9cbf3b62fa054fab370340980066016309f8c8dc6133",
+      "@id": "edge:b2a621ed1614b25a",
       "@type": "contains_sequence"
     },
     {
@@ -10282,13 +10292,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-070-wrong_taxonomy_name_conflict",
       "type": "contains_sequence",
-      "id": "edge:78a3b0eba485947b",
+      "id": "edge:4688a49bada352a5",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "5b31f6b3254c4173b68bf8d7e2d6b309c675f9250ab65820162ae2857ee30324",
-      "@id": "edge:78a3b0eba485947b",
+      "provenance_hash": "a67653bbda17bd0518476d153d00bded695a93a2334d0819fefd2f9ce3aa997f",
+      "@id": "edge:4688a49bada352a5",
       "@type": "contains_sequence"
     },
     {
@@ -10354,13 +10364,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-071-genome_segment_non_barcode_marker",
       "type": "contains_sequence",
-      "id": "edge:dce667494ba0d27c",
+      "id": "edge:e870938dc3d703c9",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "9cec5d3299cde998264d4c0e69f98dc023695f9f558453cd26187ee41148ffbc",
-      "@id": "edge:dce667494ba0d27c",
+      "provenance_hash": "98d12771ea44594df54da2768dbd7bbeadd8d442654f87a4a1e1cc7e282f3995",
+      "@id": "edge:e870938dc3d703c9",
       "@type": "contains_sequence"
     },
     {
@@ -10416,13 +10426,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-072-genome_segment_non_barcode_marker",
       "type": "contains_sequence",
-      "id": "edge:de6333eeb87cf89d",
+      "id": "edge:6590c8dac3a2b334",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "06b19a110d2415e49255c95670fd6b7d31ff4c66a1fea9d4cf78e2a41ef139e4",
-      "@id": "edge:de6333eeb87cf89d",
+      "provenance_hash": "cdeb73346e78b349f3279d626333780b6d521f3d97c5ffb040033685a3316177",
+      "@id": "edge:6590c8dac3a2b334",
       "@type": "contains_sequence"
     },
     {
@@ -10478,13 +10488,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-073-genome_segment_non_barcode_marker",
       "type": "contains_sequence",
-      "id": "edge:7002d790ba0f51ee",
+      "id": "edge:3d0d2b6de03c1961",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "7fe1cb83e93dfde041f3394b0ccf80cdac2052efe7755900b9a17ddecc533a90",
-      "@id": "edge:7002d790ba0f51ee",
+      "provenance_hash": "62be50cf81252c1c315108e8a35a5e6c9584546a48718671602ae159ae7d3ef8",
+      "@id": "edge:3d0d2b6de03c1961",
       "@type": "contains_sequence"
     },
     {
@@ -10540,13 +10550,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-074-genome_segment_non_barcode_marker",
       "type": "contains_sequence",
-      "id": "edge:4130a2ae9f11944f",
+      "id": "edge:93363c49f538bbcd",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "2e81c87c14086df73739b84203b87f02c13ff2efe4b5ca275f35c8b5188a98c2",
-      "@id": "edge:4130a2ae9f11944f",
+      "provenance_hash": "8fe6afea05794fedc6797feacdffe65413a8595f92eac430d5be41c12a1b9189",
+      "@id": "edge:93363c49f538bbcd",
       "@type": "contains_sequence"
     },
     {
@@ -10602,13 +10612,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-075-genome_segment_non_barcode_marker",
       "type": "contains_sequence",
-      "id": "edge:ec3343d4af225373",
+      "id": "edge:92a35a20d03fa460",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "f8d8f51b2aaecce735cbeb0e0154261b3a7e608d549fbd4baec65a6fff82ca81",
-      "@id": "edge:ec3343d4af225373",
+      "provenance_hash": "2d8416732a9c1109fca79e38d1fd51bf14048cfec3a1868bd50e3aa42912fc31",
+      "@id": "edge:92a35a20d03fa460",
       "@type": "contains_sequence"
     },
     {
@@ -10664,13 +10674,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-076-genome_segment_non_barcode_marker",
       "type": "contains_sequence",
-      "id": "edge:3545d5f928880afc",
+      "id": "edge:c78cbc720339e82b",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "564c956057abfa853122a8c934dc0b78c69f5d49791e9c968efe9137e849774f",
-      "@id": "edge:3545d5f928880afc",
+      "provenance_hash": "6cd24be00b124a0242f9e0c9cac9ac6592acec4eac67de0be0c5bcf1a1fc6c58",
+      "@id": "edge:c78cbc720339e82b",
       "@type": "contains_sequence"
     },
     {
@@ -10726,13 +10736,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-077-genome_segment_non_barcode_marker",
       "type": "contains_sequence",
-      "id": "edge:184a0553702e2b1b",
+      "id": "edge:c6ca449e2d3faab4",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "8755c9b80b79ab97a71e0ea305bec0db52156a466e17941f2ab1b53647444c8b",
-      "@id": "edge:184a0553702e2b1b",
+      "provenance_hash": "f15f479a666d4829dafe0c2366feeb106da8c0028880d1b34f19bdbfa720b835",
+      "@id": "edge:c6ca449e2d3faab4",
       "@type": "contains_sequence"
     },
     {
@@ -10788,13 +10798,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-078-genome_segment_non_barcode_marker",
       "type": "contains_sequence",
-      "id": "edge:4fcb52cc1c20c536",
+      "id": "edge:7c7bf6a64ca5e492",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "a6878f9368e0f21ebefdbef68089708689cbf22863da6ca4a6a5d3e1eed0f7aa",
-      "@id": "edge:4fcb52cc1c20c536",
+      "provenance_hash": "9f80702664f59d0b4b1f7983eabb61d9fe399b6a3c7e22be24a10dfc9feaaa6b",
+      "@id": "edge:7c7bf6a64ca5e492",
       "@type": "contains_sequence"
     },
     {
@@ -10850,13 +10860,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-079-genome_segment_non_barcode_marker",
       "type": "contains_sequence",
-      "id": "edge:9ddbda95f39290de",
+      "id": "edge:a2010641cd859ffa",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "63eb468b5d93aafbe3b0352b42b31a003c219c1d46c024a104cf039df48f55ac",
-      "@id": "edge:9ddbda95f39290de",
+      "provenance_hash": "74bfaa3e40f056ac444f91c1061222b146a1596665c0bdfb8a71c6aca414cd66",
+      "@id": "edge:a2010641cd859ffa",
       "@type": "contains_sequence"
     },
     {
@@ -10912,13 +10922,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-080-genome_segment_non_barcode_marker",
       "type": "contains_sequence",
-      "id": "edge:bb1ff58c22bfaafa",
+      "id": "edge:895736a3763d50ee",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "48bdb8f9e280b80a0c15201adc94c34aa6cc3d541ab66a26d0c9f9b873c507a6",
-      "@id": "edge:bb1ff58c22bfaafa",
+      "provenance_hash": "9c1ba7215d5f5f154fa968303c61b72b2dddea31aa9714f6368b133fa25b4634",
+      "@id": "edge:895736a3763d50ee",
       "@type": "contains_sequence"
     },
     {
@@ -10974,13 +10984,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-081-negative_barcode_gap",
       "type": "contains_sequence",
-      "id": "edge:c319b64f61710240",
+      "id": "edge:579c8c56c0f4d0cd",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "8507ecbe32cd7a4f1b610568d326c615d927dfa2328d83c2875ddd0461f6435f",
-      "@id": "edge:c319b64f61710240",
+      "provenance_hash": "a665e0e833c938c60e85ea4b4704d3441a1099744ebe6ba1c0bc8e85f2e21e18",
+      "@id": "edge:579c8c56c0f4d0cd",
       "@type": "contains_sequence"
     },
     {
@@ -11046,13 +11056,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-082-negative_barcode_gap",
       "type": "contains_sequence",
-      "id": "edge:caf4b59edee8664f",
+      "id": "edge:05ba1afe41cb9c8c",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "b57a47ebfd5c12154b1948d7f719cdc575cfa812dc302a77bcaffa9ca432d5a1",
-      "@id": "edge:caf4b59edee8664f",
+      "provenance_hash": "40e5662dfbf524065877d5a4ab0abb5e6d5d384a4222786a85bd1c646fd05c76",
+      "@id": "edge:05ba1afe41cb9c8c",
       "@type": "contains_sequence"
     },
     {
@@ -11118,13 +11128,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-083-negative_barcode_gap",
       "type": "contains_sequence",
-      "id": "edge:6034518ab4727ced",
+      "id": "edge:abbbbac128946020",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "7fc7291bd48b7eb5d8f1dfddcd40f6dbc1383352e01a63a81beb8affd57dbc5c",
-      "@id": "edge:6034518ab4727ced",
+      "provenance_hash": "4a42082c7ae51c612e383ce2086c2a8a0c70a9f977d9c082473528764a91233c",
+      "@id": "edge:abbbbac128946020",
       "@type": "contains_sequence"
     },
     {
@@ -11190,13 +11200,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-084-negative_barcode_gap",
       "type": "contains_sequence",
-      "id": "edge:4d4b32dbab345a73",
+      "id": "edge:8d633a264a94bd60",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "fa39692b35de068e6a5a961a118101b5b021a5ac05445f09682d1d90fbcd815d",
-      "@id": "edge:4d4b32dbab345a73",
+      "provenance_hash": "cba30da8329bc47558e6ad6c3636522de962330abb982cb370211de1bb1e72e2",
+      "@id": "edge:8d633a264a94bd60",
       "@type": "contains_sequence"
     },
     {
@@ -11262,13 +11272,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-085-negative_barcode_gap",
       "type": "contains_sequence",
-      "id": "edge:6597a80a922f4a82",
+      "id": "edge:9b7218adf837f451",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "efe7b57e2730091b4a419790f74b8aff04aac6a7ad25d69548c4914538345a9f",
-      "@id": "edge:6597a80a922f4a82",
+      "provenance_hash": "ac3bcfe4717bb9fb5b1044c8709fefcaf43fcffb1b6e7c68ebe0ea4f44a1f681",
+      "@id": "edge:9b7218adf837f451",
       "@type": "contains_sequence"
     },
     {
@@ -11334,13 +11344,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-086-negative_barcode_gap",
       "type": "contains_sequence",
-      "id": "edge:a52314d65fb2941b",
+      "id": "edge:3e8247bf61725ccc",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "4d0b110fb4be19c366698f2077c72f6cad538813a2fb356392f072eb68a5bc26",
-      "@id": "edge:a52314d65fb2941b",
+      "provenance_hash": "7d6baaca78e5b2a1bd1873f9ae453113290f3f07c187b31bf7557125637b87d5",
+      "@id": "edge:3e8247bf61725ccc",
       "@type": "contains_sequence"
     },
     {
@@ -11406,13 +11416,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-087-negative_barcode_gap",
       "type": "contains_sequence",
-      "id": "edge:6bfb824261a5998a",
+      "id": "edge:27dac34ae4a09a13",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "0303d764e648d490623b333390b48af4878a987b3719757989b3675fe2af8b29",
-      "@id": "edge:6bfb824261a5998a",
+      "provenance_hash": "07088fc8933758ba299a2a3141c14e727dc9124b5886465f3489a3fbd10ef0d8",
+      "@id": "edge:27dac34ae4a09a13",
       "@type": "contains_sequence"
     },
     {
@@ -11478,13 +11488,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-088-negative_barcode_gap",
       "type": "contains_sequence",
-      "id": "edge:3dd6d15a74c0696c",
+      "id": "edge:8436ea55669e883a",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "536a7698d8f979834dff56fee3fffa37b6a3e413dc8164acdf184f152d3da53b",
-      "@id": "edge:3dd6d15a74c0696c",
+      "provenance_hash": "fec9b9130fb6ba808e3b5416b4f8efd156ccab9dec01536c59845f0b426b648a",
+      "@id": "edge:8436ea55669e883a",
       "@type": "contains_sequence"
     },
     {
@@ -11550,13 +11560,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-089-negative_barcode_gap",
       "type": "contains_sequence",
-      "id": "edge:09b18aa3cfd3d99f",
+      "id": "edge:9c4f5ffcc5a63ddd",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "652342e16b1f011771c127ca2875582c261db5db1e0d7102a4c3a05f0c56fa31",
-      "@id": "edge:09b18aa3cfd3d99f",
+      "provenance_hash": "db9baf30321b928c762074d3be29ce86a957260b0929d0150b17557f33a047e2",
+      "@id": "edge:9c4f5ffcc5a63ddd",
       "@type": "contains_sequence"
     },
     {
@@ -11622,13 +11632,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-090-negative_barcode_gap",
       "type": "contains_sequence",
-      "id": "edge:3fcfdef56569bfa2",
+      "id": "edge:3aee3eb6ab4fe473",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "89e2c8c1072718869048a7b3fa4ceea84d8a1afebc2a8ec6d6e611c52368d985",
-      "@id": "edge:3fcfdef56569bfa2",
+      "provenance_hash": "b89b24752b6f43470b70a0135e5ac2809b4648406c391fa3878614567044b965",
+      "@id": "edge:3aee3eb6ab4fe473",
       "@type": "contains_sequence"
     },
     {
@@ -11694,13 +11704,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-091-missing_diagnostic_kmer",
       "type": "contains_sequence",
-      "id": "edge:cd76f3080f28d192",
+      "id": "edge:2c2f42d77db0184a",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "c2d9d4c7ebe3f1b1b1d69204dae70dc0148a1920f38deebcafd3c41bbad715df",
-      "@id": "edge:cd76f3080f28d192",
+      "provenance_hash": "9d184b56f91cf7018aba7d1f32fce01d68e68cc7f45705568e83cddbeba90ca4",
+      "@id": "edge:2c2f42d77db0184a",
       "@type": "contains_sequence"
     },
     {
@@ -11766,13 +11776,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-092-missing_diagnostic_kmer",
       "type": "contains_sequence",
-      "id": "edge:cac53288615b9695",
+      "id": "edge:b9d21b8adf795ff5",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "f2f468838b9e7bcfc9a9a78a744beea324cdd0dc794e8ffab901873390f41fa6",
-      "@id": "edge:cac53288615b9695",
+      "provenance_hash": "26715f20cfecc7a7bcd5053aa2f504e29711d63527f2ef5ff1425488a29afa04",
+      "@id": "edge:b9d21b8adf795ff5",
       "@type": "contains_sequence"
     },
     {
@@ -11838,13 +11848,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-093-missing_diagnostic_kmer",
       "type": "contains_sequence",
-      "id": "edge:13d13ca29953e782",
+      "id": "edge:9be6fc61299c1077",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "a67fb0640aec7a041b46705a0a67c2673d5b6b67eca4d7740c97d32f88b39ff3",
-      "@id": "edge:13d13ca29953e782",
+      "provenance_hash": "9ae9dfb65c93fe06f822cb6af1de5c7d6ea3ec8915b07950a29d3ee02e360e0c",
+      "@id": "edge:9be6fc61299c1077",
       "@type": "contains_sequence"
     },
     {
@@ -11910,13 +11920,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-094-missing_diagnostic_kmer",
       "type": "contains_sequence",
-      "id": "edge:0c6e6aff956422b4",
+      "id": "edge:3017735bb3126d6a",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "23a82c3e242fa405c1acbcaad4024666e93cac27b64ae0fef2cc4ebaee2b2713",
-      "@id": "edge:0c6e6aff956422b4",
+      "provenance_hash": "068769ebb70e2cfb5edfa39d68b8b2d44817d930b2f60d808a890db7b8e01e00",
+      "@id": "edge:3017735bb3126d6a",
       "@type": "contains_sequence"
     },
     {
@@ -11982,13 +11992,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-095-missing_diagnostic_kmer",
       "type": "contains_sequence",
-      "id": "edge:f4d7a5ecf7987da6",
+      "id": "edge:d2cba4767046c73b",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "25857c3c2b7123cc439ebf5cc53997ea5aaf4d482b9b9ea9bdb4cdb6cc4569ab",
-      "@id": "edge:f4d7a5ecf7987da6",
+      "provenance_hash": "2b0851270400054453b33387559bad46cd146c05a3d629858e3662c9172f1e22",
+      "@id": "edge:d2cba4767046c73b",
       "@type": "contains_sequence"
     },
     {
@@ -12054,13 +12064,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-096-missing_diagnostic_kmer",
       "type": "contains_sequence",
-      "id": "edge:0d28ad7a0c681804",
+      "id": "edge:52a539ef629336a4",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "ca9bdc07dd4da363a422163072febc209b19ec5149e2ef88909c33c7bbbfe467",
-      "@id": "edge:0d28ad7a0c681804",
+      "provenance_hash": "eb8d307f4bdc26115a51c47f2e667a1df41a6ad5e8617ff52853c45a737527ed",
+      "@id": "edge:52a539ef629336a4",
       "@type": "contains_sequence"
     },
     {
@@ -12126,13 +12136,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-097-missing_diagnostic_kmer",
       "type": "contains_sequence",
-      "id": "edge:3e1819c5db2ffa1d",
+      "id": "edge:84bb58b8590cc73c",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "624d8b5ac10081e3210711ba3c995cd4ad520d9c6353142a7df7ad642adb2bce",
-      "@id": "edge:3e1819c5db2ffa1d",
+      "provenance_hash": "64ff49d2dd85745ba4f0a782a520c3e41ac29d47eb8d1dc0064c793cf42c4bf8",
+      "@id": "edge:84bb58b8590cc73c",
       "@type": "contains_sequence"
     },
     {
@@ -12198,13 +12208,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-098-missing_diagnostic_kmer",
       "type": "contains_sequence",
-      "id": "edge:5e667dc5c8c0d6d9",
+      "id": "edge:ff53b7a6bceaa1ae",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "1eef238ce476aac54122e1f1d1104384a2bcff79d4320e193502cecce6c28e95",
-      "@id": "edge:5e667dc5c8c0d6d9",
+      "provenance_hash": "c6b5d22e44d134c5a1b307cef95beb3c3ac39f3494f25a7db010644029fc98cc",
+      "@id": "edge:ff53b7a6bceaa1ae",
       "@type": "contains_sequence"
     },
     {
@@ -12270,13 +12280,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-099-missing_diagnostic_kmer",
       "type": "contains_sequence",
-      "id": "edge:d46cd8f7a4bcd9a5",
+      "id": "edge:38d33e0464843273",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "99ca97a677fe7bd0b9103b5b79ae8e30997c0aa49c276c0bb6b9e352cf60a985",
-      "@id": "edge:d46cd8f7a4bcd9a5",
+      "provenance_hash": "af11b493b868b282e4eb6d97ac3edf19b83cb5e428fc29ac3077e58c6afee340",
+      "@id": "edge:38d33e0464843273",
       "@type": "contains_sequence"
     },
     {
@@ -12342,13 +12352,13 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "sequence:ADV100-100-missing_diagnostic_kmer",
       "type": "contains_sequence",
-      "id": "edge:de3ad4fba421bb91",
+      "id": "edge:9e2f434073a7b0ff",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "d6e344d0160377e7927d761be83c070a847c44c7000b20e8127c9ab8f909c1aa",
-      "@id": "edge:de3ad4fba421bb91",
+      "provenance_hash": "98fc82848bf2f0b890d0f906b0502a7791fe391af78b8a74fa3fbc88ebbc7c4a",
+      "@id": "edge:9e2f434073a7b0ff",
       "@type": "contains_sequence"
     },
     {
@@ -12414,893 +12424,903 @@
       "@type": "matches_reference"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:adversarial_report.md",
       "type": "produces_artifact",
-      "id": "edge:f8cd02ec7ea850e7",
+      "id": "edge:14c3772f4a47501e",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "486a774b92e22810ce650f179fad448710bf57450fd2f55fb8120a942e3e5332",
-      "@id": "edge:f8cd02ec7ea850e7",
+      "provenance_hash": "d1766108813b4f8a75e15524096243a8fc556194586771d95e7bedfc11a29e19",
+      "@id": "edge:14c3772f4a47501e",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:ai_dataset_export_audit.csv",
       "type": "produces_artifact",
-      "id": "edge:c8db94bd5a6423da",
+      "id": "edge:0b0e2af809cffeb5",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "c518f918dff46d4fbf396ea24e13ec1102f4388ace1a1eb6657d744dc6a887e7",
-      "@id": "edge:c8db94bd5a6423da",
+      "provenance_hash": "de60af1d8bb9363fc13d14b1e7d44fc9ac6748f5b05a0122da28fa9da0c6c552",
+      "@id": "edge:0b0e2af809cffeb5",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:ai_output_guardrail_audit.csv",
       "type": "produces_artifact",
-      "id": "edge:c2892db540b816aa",
+      "id": "edge:bb07fda12171b259",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "47f410285e6bff43908e2a344dd76bea13a66ccd853f85ec18514257a0be36f0",
-      "@id": "edge:c2892db540b816aa",
+      "provenance_hash": "8a29ed5a5da76633fa9227e8a4043fe19208f78a28258daca0d503003ec99016",
+      "@id": "edge:bb07fda12171b259",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:ambiguous_sequences.csv",
       "type": "produces_artifact",
-      "id": "edge:8b8d7a3fffcc57a2",
+      "id": "edge:36c3355f5a87f53b",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "cbec8fd458983c4d24940299133d8230649e803e69f5aeae6965b4b346a3654f",
-      "@id": "edge:8b8d7a3fffcc57a2",
+      "provenance_hash": "11d9b70f3088ef18f015034ab19fd3cf941fb1ecc5efda4f160f64cde55f4ad4",
+      "@id": "edge:36c3355f5a87f53b",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:artifact_checksums.json",
       "type": "produces_artifact",
-      "id": "edge:dd283334a4c429a3",
+      "id": "edge:cdbe0d1329e28abc",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "23dbf7045ac56df9ad7c28b13b6129ce9e856545952187058f09fce39158c84f",
-      "@id": "edge:dd283334a4c429a3",
+      "provenance_hash": "b6602f7db6f5ff3e79848dc953af671d0f447a1abae864e7ff57fc919f185472",
+      "@id": "edge:cdbe0d1329e28abc",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:assay_gate_audit.csv",
       "type": "produces_artifact",
-      "id": "edge:a975bb619e8bbfcb",
+      "id": "edge:c19e00336fbc04cc",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "99202bf445c6d6e762246f7c1f7ce153afb646209a2511d7c12870e5b21f6768",
-      "@id": "edge:a975bb619e8bbfcb",
+      "provenance_hash": "cf6966a70d9468d0d9c5dbb36776d60a1dec7e5ee40e1c49eaa213bd1657a69d",
+      "@id": "edge:c19e00336fbc04cc",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:barcode_gap_report.csv",
       "type": "produces_artifact",
-      "id": "edge:f87035644385cdcb",
+      "id": "edge:e7f45b8393787c7a",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "c8d47e87afa8da40f84a57a811deed264e78edd2084c01a4147a9cd831763e82",
-      "@id": "edge:f87035644385cdcb",
+      "provenance_hash": "7e25a7690cae3f4c713e681776292561c2ab43e989782ca07fb1046734de1caa",
+      "@id": "edge:e7f45b8393787c7a",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:ci_math_oracle_report.json",
       "type": "produces_artifact",
-      "id": "edge:477464696c57215f",
+      "id": "edge:6976645ccca8f96e",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "d16c88327e751ff0588ed694dbe7a228f9ad91f8f7b833c5d6938e23c5f5f4b4",
-      "@id": "edge:477464696c57215f",
+      "provenance_hash": "27e218251a73be39961bc85b4ab512a8c97ae2b5bb45b39224a363170c45a8cd",
+      "@id": "edge:6976645ccca8f96e",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:citations.md",
       "type": "produces_artifact",
-      "id": "edge:327f543af36328e0",
+      "id": "edge:62d54a22fd585904",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "08ddb2c6d2f812382b15450996f3d902d08f30c92f35e78434332cfa4cdc6a63",
-      "@id": "edge:327f543af36328e0",
+      "provenance_hash": "4c1eb502ca0f147e9385dd38ad67b1c1b937106b56d0ec90074e90ec47d5a8e0",
+      "@id": "edge:62d54a22fd585904",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:claim_boundaries.csv",
       "type": "produces_artifact",
-      "id": "edge:9733875c3bc0515b",
+      "id": "edge:8b866a7e556959be",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "391b2aae0e1de285e33399487819dc9a0748db0b08409a07db03ad66e105ff46",
-      "@id": "edge:9733875c3bc0515b",
+      "provenance_hash": "58902d02c0ece8671ce992fe4582afcd1614760c0a142d86c4593eb126dc009b",
+      "@id": "edge:8b866a7e556959be",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:contamination_context_audit.csv",
       "type": "produces_artifact",
-      "id": "edge:856e10f66f738dae",
+      "id": "edge:bc7e4350ec608600",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "4d8beae465558a3d498ad9f278023a3d95f54fd61c5f7ff03f92498150b4d3b5",
-      "@id": "edge:856e10f66f738dae",
+      "provenance_hash": "35bd244ddbd1bf46c44a2f65118855973ccb1e73a322e2702093428a78fad08a",
+      "@id": "edge:bc7e4350ec608600",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:contradiction_audit.csv",
       "type": "produces_artifact",
-      "id": "edge:0c32f272123185ce",
+      "id": "edge:be7f00d63459bb9a",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "13afcddbd6fcf2338d7300334d3c44c849f65ae9af58a0292d65ce9e612d2131",
-      "@id": "edge:0c32f272123185ce",
+      "provenance_hash": "863b6f40ac6427e4a6d70f858e95d7251bde4e22feca0df1bf7bfed9b918faa9",
+      "@id": "edge:be7f00d63459bb9a",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:cross_marker_consensus.csv",
       "type": "produces_artifact",
-      "id": "edge:e7386f536245d0d0",
+      "id": "edge:2d32457634bed222",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "d316bd49b3f648de01eb8096070537a401bec389cab5990e1efa2ce533058a0b",
-      "@id": "edge:e7386f536245d0d0",
+      "provenance_hash": "9138b54ef40f02fee8b6bdb701390865a3081464aee73608b3aa4c4edae4a218",
+      "@id": "edge:2d32457634bed222",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:data_accounting_ledger.csv",
       "type": "produces_artifact",
-      "id": "edge:a1477ef859cc56e9",
+      "id": "edge:2a83fff5ae5b661a",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "d5cc1b681894ff88ce199d9dd3e19d1fe254b8b46e7898076ce00939939af91f",
-      "@id": "edge:a1477ef859cc56e9",
+      "provenance_hash": "73d2f1aae72dbd62ce4091f34d5e33ecff09a964ef2be1e99e21cdc43b8aaef4",
+      "@id": "edge:2a83fff5ae5b661a",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:diagnostic_kmer_report.csv",
       "type": "produces_artifact",
-      "id": "edge:b365d5ff2b887758",
+      "id": "edge:8c093f20c7b108db",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "7f9ac3d3fe9ad7d6be80f8e9293df05a73bbeeb0a63f0b1dbd8ca9da80b145af",
-      "@id": "edge:b365d5ff2b887758",
+      "provenance_hash": "32fc2886f8af162c6a7c6863370690b72cd36a1eebfc0dbc49abf894aa8fc4f1",
+      "@id": "edge:8c093f20c7b108db",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:dna_derived_extension_gbif_ready.csv",
       "type": "produces_artifact",
-      "id": "edge:e418f325184c4d34",
+      "id": "edge:a95eb7642305172b",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "3863c629d7bd9ea7ab8cb246f522f0fbe5fe69b82a607530701a82957501d91d",
-      "@id": "edge:e418f325184c4d34",
+      "provenance_hash": "94bffaf36254dff074c12966d5a6f6048fdc6d520eece276da14d569aae90f32",
+      "@id": "edge:a95eb7642305172b",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:dna_derived_extension_publishable.csv",
       "type": "produces_artifact",
-      "id": "edge:8ab54c510468b7f3",
+      "id": "edge:0b82240c459a6f79",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "93c9527904927034db35c5c5c6bd7eb2e5fc1251b3aef3d3e8a6ca3b24ceb0fe",
-      "@id": "edge:8ab54c510468b7f3",
+      "provenance_hash": "a177b331a31a7db92e58eaa44c22ff0843882a2593ab96857eb0fe84d9c566b7",
+      "@id": "edge:0b82240c459a6f79",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:dna_derived_extension_template.csv",
       "type": "produces_artifact",
-      "id": "edge:117c140899ef1873",
+      "id": "edge:f73171ca40e43a69",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "ac400b38b33c73dd3134e2c4bac094d05d37a8ca62ea0479d885bcf94eb759b5",
-      "@id": "edge:117c140899ef1873",
+      "provenance_hash": "9d9cc94a5b52c243e91ef5af3ac10d2dc1bc064362050ab390cad964833c69b2",
+      "@id": "edge:f73171ca40e43a69",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:dna_extension_readiness.csv",
       "type": "produces_artifact",
-      "id": "edge:5e90d95c0c5c4de2",
+      "id": "edge:4f3afc0e21ecaa1e",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "3db23d4cd80ce962fe93407fb1981e6c913af6adfdbf23ddc34e2a9051220183",
-      "@id": "edge:5e90d95c0c5c4de2",
+      "provenance_hash": "e046dbd5ea6121b6ed847cb6a5f92dc487ac5d9904d44b44b304e852402bcd08",
+      "@id": "edge:4f3afc0e21ecaa1e",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:domain_annotation_audit.csv",
       "type": "produces_artifact",
-      "id": "edge:3cf0fb3ee4f790f3",
+      "id": "edge:b3e9ef70b6c42b16",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "3ed1b82e9e281fe2462624c7d30dcfd744ee0b393966602f0483e7e8410aad40",
-      "@id": "edge:3cf0fb3ee4f790f3",
+      "provenance_hash": "833b9ad55cff8d2720c93acea5afbe9c48181042b9d18263c5bc66fe14927d35",
+      "@id": "edge:b3e9ef70b6c42b16",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:domain_to_function_boundary_audit.csv",
       "type": "produces_artifact",
-      "id": "edge:a9cbfa6e09a000d2",
+      "id": "edge:68d8ea9ec974b212",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "2e3cf9028e5cd4e18aebf9d11c66cc0372a2c58b01ddc1007bd074ec7e2aa4ab",
-      "@id": "edge:a9cbfa6e09a000d2",
+      "provenance_hash": "0a78d5f9009ae7d1bac524f3d91bd801cef1301410f4ad02a711d203cfae7f18",
+      "@id": "edge:68d8ea9ec974b212",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:dwc_occurrence_core_gbif_ready.csv",
       "type": "produces_artifact",
-      "id": "edge:0aa06998a2e8f5dd",
+      "id": "edge:c21dd84e550f8562",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "279e3e9b162d5bb2931488ccabb05e0153e13d50d11d061c34c9b5e20c807417",
-      "@id": "edge:0aa06998a2e8f5dd",
+      "provenance_hash": "042c97a7fd47d52ba5db14efcbcbf07bab4fb71334659b1f1dee1edc842f3c6b",
+      "@id": "edge:c21dd84e550f8562",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:dwc_occurrence_core_publishable.csv",
       "type": "produces_artifact",
-      "id": "edge:cd590394153b8a3c",
+      "id": "edge:2fb58b968d54d3a1",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "b4b280d505b6df6ad24027faae043b49b7fc60e8891645bd4d08d75ae75b2b58",
-      "@id": "edge:cd590394153b8a3c",
+      "provenance_hash": "925ae5c57390a4492555cfd08f27c3b281763a2da5ec1e3f733568dc79567b69",
+      "@id": "edge:2fb58b968d54d3a1",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:dwc_occurrence_core_readiness.csv",
       "type": "produces_artifact",
-      "id": "edge:894e81182744d022",
+      "id": "edge:73d261d3be473817",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "af22f604c1a31cb85bd82217f2bb94a705f9f0d7b8caec590ac1d969be1a3539",
-      "@id": "edge:894e81182744d022",
+      "provenance_hash": "7c57a4404b84db50b5a830ae2da38c00d8371f1ee2dea4579821155a002555a8",
+      "@id": "edge:73d261d3be473817",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:dwc_occurrence_core_review.csv",
       "type": "produces_artifact",
-      "id": "edge:f90d8962753932bf",
+      "id": "edge:9f6b74213db38556",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "e24df5c34092cb2340815a0736e07b91d2654635426b9f7069510a4656c552d2",
-      "@id": "edge:f90d8962753932bf",
+      "provenance_hash": "790f25c44182090c8621f4d44e69c67bdc90b294b4e4c0eb992d6267489bbe34",
+      "@id": "edge:9f6b74213db38556",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:dwc_occurrence_core_review_or_repair.csv",
       "type": "produces_artifact",
-      "id": "edge:d46b10ac5709dcb9",
+      "id": "edge:f74574e6b7574c98",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "369d06c269235e0519da27c1b7373f2b3c0f78b5535e7403c561d62acde84780",
-      "@id": "edge:d46b10ac5709dcb9",
+      "provenance_hash": "0854b95c792801f5a8e2ac628f55808f391f452a9372d5bdd79c629d9da21f51",
+      "@id": "edge:f74574e6b7574c98",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:dwc_occurrence_core_template.csv",
       "type": "produces_artifact",
-      "id": "edge:af717cf2fe541d57",
+      "id": "edge:036006d3977ae121",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "a5ec683a8e6ebc4a7a814517be2e62d3ec962b8c1845cf37499bc8ad25c85636",
-      "@id": "edge:af717cf2fe541d57",
+      "provenance_hash": "2d47ad3c920d1d15786e63e03d87e2f72b7c5208c78052f73afaf8c657dbf3ca",
+      "@id": "edge:036006d3977ae121",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:evidence_graph.json",
       "type": "produces_artifact",
-      "id": "edge:23d260ea651b25e0",
+      "id": "edge:2455be69063cd12d",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "8606f9ea8bbdb8190b74cf8cd1bb073b188cf69ba8cc156be973791d2a462976",
-      "@id": "edge:23d260ea651b25e0",
+      "provenance_hash": "94605b33b748d641f45f422673125e0c98d0aebf3f180a6f1e2a657f1cff974b",
+      "@id": "edge:2455be69063cd12d",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:evidence_graph.jsonld",
       "type": "produces_artifact",
-      "id": "edge:19c0b01c80ff8b75",
+      "id": "edge:90340d0cf0b21eaa",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "23261ef63ba61c639d06f1ad3e372b610fb50d48fd0892d66cc15cc29ed49057",
-      "@id": "edge:19c0b01c80ff8b75",
+      "provenance_hash": "6a96e8e2fde050cb11cd90da59043f9a9b48d377fb11d92fe0eaa224003ce28c",
+      "@id": "edge:90340d0cf0b21eaa",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:evidence_pack.json",
       "type": "produces_artifact",
-      "id": "edge:5e9de561f518ebb0",
+      "id": "edge:11e2af91efad4b8e",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "207a0f22e0a85ad95c5ed2c01f035d0a00eb38069d1c41337e584b4b77b9cdf5",
-      "@id": "edge:5e9de561f518ebb0",
+      "provenance_hash": "b90d45aded95613d6f1948a7217e3a7ac8325189c3ed19b875dfd6bcbc84e9c8",
+      "@id": "edge:11e2af91efad4b8e",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:evidence_pack.zip",
       "type": "produces_artifact",
-      "id": "edge:a14e4be9c8c85378",
+      "id": "edge:23e3f284e6a624a6",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "954aa5969422007206f56672482f99ef007b17365fc21b87950ed517512c52cb",
-      "@id": "edge:a14e4be9c8c85378",
+      "provenance_hash": "055e2a5b585afe3f7230303006793618b9e54acad9f1e89c463d6861aed01381",
+      "@id": "edge:23e3f284e6a624a6",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:evolutionary_risk_caveat_audit.csv",
       "type": "produces_artifact",
-      "id": "edge:d2f5aae95943bf85",
+      "id": "edge:665510785510e109",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "680e3e356a6d045ad347d6bf5d475e711fcb45f290ad60c7bd115977881942eb",
-      "@id": "edge:d2f5aae95943bf85",
+      "provenance_hash": "ad517558b67579b55ecc8a8ea7cdc9d4c182bf32c6e06748de64fab2fc6a65c3",
+      "@id": "edge:665510785510e109",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:external_tool_adapter_matrix.csv",
       "type": "produces_artifact",
-      "id": "edge:d6ab6445c7828bd7",
+      "id": "edge:3743b7269368306a",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "b0d7a87c53df6d2509fbe90909e6a844c79bc804dac25a5a117dacfc5e5c8770",
-      "@id": "edge:d6ab6445c7828bd7",
+      "provenance_hash": "1adbf618e13e19b3a54940df9c34329e29f9dd44f06616b9bc0c673d0f7d79f3",
+      "@id": "edge:3743b7269368306a",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:fdr_audit.csv",
       "type": "produces_artifact",
-      "id": "edge:41d7aec7fef27dae",
+      "id": "edge:8213dfc789d4f217",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "f5921231a563f252284c43cc668e8643ce99f7810167289df29fd8d75766b174",
-      "@id": "edge:41d7aec7fef27dae",
+      "provenance_hash": "f20a5ebfb320dbded2098ec008dc0334a174eeadd9a1ad1c2ba74f474f81d241",
+      "@id": "edge:8213dfc789d4f217",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:function_claim_boundary_audit.csv",
       "type": "produces_artifact",
-      "id": "edge:acd2e85ab35d40f4",
+      "id": "edge:b96cc0618d1bd4e9",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "3d8ef26313f0a2a1daf1606a6add1eeeb1b501eb687d176ffc1ba8af2c0e8c06",
-      "@id": "edge:acd2e85ab35d40f4",
+      "provenance_hash": "ea13a07501f765297685b0c7ca7d3985d30e78489d5a954c7d686d8c5bd5f002",
+      "@id": "edge:b96cc0618d1bd4e9",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:gbif_backbone_matches.csv",
       "type": "produces_artifact",
-      "id": "edge:b8df21c7b3946873",
+      "id": "edge:b00b7dfadefda226",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "014ed7eff5af9a9a56444d7e067255aee5f72935878f857db02d92f9e122fbdc",
-      "@id": "edge:b8df21c7b3946873",
+      "provenance_hash": "a71815971f3ba097ccc755d2465a54d6b73ac7f4e04546b3990827644deda49a",
+      "@id": "edge:b00b7dfadefda226",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:graph_provenance_audit.csv",
       "type": "produces_artifact",
-      "id": "edge:525cfd0738795ec6",
+      "id": "edge:77dbf40289992748",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "6330efc07d83c7e361f6a166bead058dcd9433530fbc473bdeda3e59f56eb780",
-      "@id": "edge:525cfd0738795ec6",
+      "provenance_hash": "566df790a0c6ed3a52b365c7ca67875c61d3300d1120f815aaeb1595d0c84ee7",
+      "@id": "edge:77dbf40289992748",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:graph_roundtrip_audit.json",
       "type": "produces_artifact",
-      "id": "edge:211ae20f17d2fc8d",
+      "id": "edge:1dadc73bec4ba14e",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "a50fd40236e7d3d6ae41adc2b0dfcaa296a47517b1a176fe4a6b98a641acb17b",
-      "@id": "edge:211ae20f17d2fc8d",
+      "provenance_hash": "4bf23a86e7c54817fcd9c67553b2cd3d0abdc098479adee81fd4bd1dbbb3a474",
+      "@id": "edge:1dadc73bec4ba14e",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:gseg_graph_schema.json",
       "type": "produces_artifact",
-      "id": "edge:528bffdf4f56abc0",
+      "id": "edge:6744773f0bb7ca44",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "72176cb3aa299e6c36f81c8c1bf33492da309735cafa61758dda842a9faf4866",
-      "@id": "edge:528bffdf4f56abc0",
+      "provenance_hash": "a1537a8667b51dad363e840d0dad5381c30cbe27493521d82fa9674a5d1a5d07",
+      "@id": "edge:6744773f0bb7ca44",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:gsig_graph_schema.yaml",
       "type": "produces_artifact",
-      "id": "edge:6432529d2f800a8a",
+      "id": "edge:206f030d4b5d393b",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "a4db302ac99bb4294a01dd288f8224a3e6f3ec1b0297348b187a7a064ea9e79a",
-      "@id": "edge:6432529d2f800a8a",
+      "provenance_hash": "ecc1ccbbe3c82a829c7d69d5ff047d35f63df9a60e96eec17ef8f25dc11d7942",
+      "@id": "edge:206f030d4b5d393b",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:hard_gate_audit.csv",
       "type": "produces_artifact",
-      "id": "edge:21a4b08764c0321b",
+      "id": "edge:514de1ebf19196d6",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "fcc69883b861be62010cedaa4287128213fbd945a1a281a04b0d8a96d57485ec",
-      "@id": "edge:21a4b08764c0321b",
+      "provenance_hash": "2facb3d850bfdc27529580ebeb4fe8fb631476a72c61379ba3760f511c9205dc",
+      "@id": "edge:514de1ebf19196d6",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:judge_reproducibility_report.md",
       "type": "produces_artifact",
-      "id": "edge:75b152b828479b96",
+      "id": "edge:b1103a62c58d0342",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "a81615dbc9347bed3ad1f3c3d320541d6a76b66f1df591a2fc2d12222e33cfc1",
-      "@id": "edge:75b152b828479b96",
+      "provenance_hash": "b35a7d6d6cc6d912f1e6ef0ebc87efc367dd0d6775001aebefd3e5e5fadf7b70",
+      "@id": "edge:b1103a62c58d0342",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:literature_claim_state_audit.csv",
       "type": "produces_artifact",
-      "id": "edge:a314d605a746a568",
+      "id": "edge:de6acb592a3a82e9",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "1b18ab3c5a5ffc26ba59c11d61b772accf3b53218478c7cc011e3180e27d264f",
-      "@id": "edge:a314d605a746a568",
+      "provenance_hash": "75840c5c33d0df1b2eccbfb760cd35f63af940e4bc68a8f682c2af66cd1fdeb4",
+      "@id": "edge:de6acb592a3a82e9",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:literature_extraction_confidence.csv",
       "type": "produces_artifact",
-      "id": "edge:bfde918774fed30a",
+      "id": "edge:cb92a01fe9c4d669",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "93026a9d36a72d8605053bdf652dd11eac7e2fe9fdb91707eb2add380ce0d91a",
-      "@id": "edge:bfde918774fed30a",
+      "provenance_hash": "91696552bbe27322fd2f5ccd40344e7fb90f625c19a245beaeeba8fa8a2ab9e8",
+      "@id": "edge:cb92a01fe9c4d669",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:manual_review_audit.csv",
       "type": "produces_artifact",
-      "id": "edge:2da9a3bbfdc5666c",
+      "id": "edge:6bfedcd7a48f5571",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "6b139a37f6b719722a8d4c5179a681e43d216bb9bce84be5434d68dff403ebee",
-      "@id": "edge:2da9a3bbfdc5666c",
+      "provenance_hash": "7d943d40e19e9f1f57cabb8fa0cabd0f4b39ccf32b78e22a202b1cd82af6257c",
+      "@id": "edge:6bfedcd7a48f5571",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:marker_profile_audit.csv",
       "type": "produces_artifact",
-      "id": "edge:2ff4cd58166b266e",
+      "id": "edge:0e41154d4701d789",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "827c1583ccb7209af97889185755098e64ee299048bee62022d8dffe14ba0d24",
-      "@id": "edge:2ff4cd58166b266e",
+      "provenance_hash": "01af61de0c19fb08dc98c6b4165f079f9fa22873c3742481572883ceb2c69952",
+      "@id": "edge:0e41154d4701d789",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:match_gate_audit.csv",
       "type": "produces_artifact",
-      "id": "edge:25be797080deaf0b",
+      "id": "edge:eb01ceae95f4bc62",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "0a9d3b2addfa901684ad3fe3e4a8db5ce3e3f87a2101f3eea38d0578f63d87a7",
-      "@id": "edge:25be797080deaf0b",
+      "provenance_hash": "1fe4693188e80fbcf2a7d8d3af6856b988647f20c7a172a6b981b6458c161ea0",
+      "@id": "edge:eb01ceae95f4bc62",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
+      "target": "artifact:math_viability_audit.json",
+      "type": "produces_artifact",
+      "id": "edge:84425c680e23a2d8",
+      "ruleset_version": "barcode-gbif-compiler-v2",
+      "provenance_hash": "c9695dd1845e2b807519e7a4374b8f055218ac179653875b4f54d6c0b5cd7088",
+      "@id": "edge:84425c680e23a2d8",
+      "@type": "produces_artifact"
+    },
+    {
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:metadata_bottlenecks.csv",
       "type": "produces_artifact",
-      "id": "edge:7a14d2107beb3720",
+      "id": "edge:1ae002685f0aa80a",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "dc3758ef991276470ffc590d176dcf2b40a7eeaf08313fc3c9c472ed8e929dfb",
-      "@id": "edge:7a14d2107beb3720",
+      "provenance_hash": "9d1d62bcca5d3bce012b2e8d48b6412dcf897281fa2e6c25cba1e0e12324e4af",
+      "@id": "edge:1ae002685f0aa80a",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:methods_text.md",
       "type": "produces_artifact",
-      "id": "edge:fddb124ecdde157e",
+      "id": "edge:29d2abf88221d31b",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "3845ccef3f74ade1e9ed72b011fa3e4f468537661c3dd28c840eb22cd24ea3c2",
-      "@id": "edge:fddb124ecdde157e",
+      "provenance_hash": "58d28d34f4124f63790e3b5588be13ca26eeca9a19e34e45a61f3a220583a37b",
+      "@id": "edge:29d2abf88221d31b",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:molecular_evidence_report.html",
       "type": "produces_artifact",
-      "id": "edge:86955688b18285bf",
+      "id": "edge:100153a91ae20d1a",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "2578bb3b10a6b875644a0253014b37678c1dcae16bb04a93961e99370420f4c1",
-      "@id": "edge:86955688b18285bf",
+      "provenance_hash": "c9f1b3f11210a571d8656df49d66bf7aa8a73149f536398684bbef3adce08c0f",
+      "@id": "edge:100153a91ae20d1a",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:naive_top_hit_overclaims.csv",
       "type": "produces_artifact",
-      "id": "edge:f7396676608080fb",
+      "id": "edge:457d1deb4fbd29f4",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "2ba58fc7f5d2d828d8794cf383ae9e0b05721d181842eaf420bf3a1956619466",
-      "@id": "edge:f7396676608080fb",
+      "provenance_hash": "ee9a556fc36b42c88527c01a3238e53b2dbe3f1a4aaca23bfb006845b5bf6254",
+      "@id": "edge:457d1deb4fbd29f4",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:nexus_v3_summary.json",
       "type": "produces_artifact",
-      "id": "edge:270e56003eba61e8",
+      "id": "edge:bac0cdeea35fb553",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "85243676e35da25b4995d35878a002d88685e4776e442c41b44e163c956f84ec",
-      "@id": "edge:270e56003eba61e8",
+      "provenance_hash": "3accbeaa6ed82dc872b36dd12b134bc90ef66ddd505c9600cb533d0416647809",
+      "@id": "edge:bac0cdeea35fb553",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:ontology_version_audit.csv",
       "type": "produces_artifact",
-      "id": "edge:d525ce586a517337",
+      "id": "edge:377cad72f70e4355",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "830169abc965fc62fc59964e6421ac9868fd6717aa0568925f1d3fe0fc7a2a94",
-      "@id": "edge:d525ce586a517337",
+      "provenance_hash": "bc983f7e7816c14a6b819b888a08fddbc44d942b82344bb67bc5e93b4161e26f",
+      "@id": "edge:377cad72f70e4355",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:orf_translation_audit.csv",
       "type": "produces_artifact",
-      "id": "edge:94ae79cdf6fe5dfd",
+      "id": "edge:0be2f2a669306bf9",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "f2653f9ff4281f3d6e6ce4a0f792dac36288cebc42fab1904077413525ac6894",
-      "@id": "edge:94ae79cdf6fe5dfd",
+      "provenance_hash": "7d4b8b7703e5775f539313fcb7a56f9993d901a235268abb73e6610b7ec66700",
+      "@id": "edge:0be2f2a669306bf9",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:proof_by_failure_modes.md",
       "type": "produces_artifact",
-      "id": "edge:ff974fee9de19cbd",
+      "id": "edge:ac51c267e0329cbb",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "24f4affe84c43c485c4f2244e52087e79fc9aac34ebce47ee069fdf221083161",
-      "@id": "edge:ff974fee9de19cbd",
+      "provenance_hash": "e979ac1948408defa3ebf60c5e79346a44e9746d5c26f65459575f971e416244",
+      "@id": "edge:ac51c267e0329cbb",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:publication_blockers.csv",
       "type": "produces_artifact",
-      "id": "edge:cfa88cb6106979bf",
+      "id": "edge:39d0f0ee6ccb8eaf",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "fdc7c788c3e2ff04a49f02f16f29a72fae37641353efecb497d76dd7a1ffe6ae",
-      "@id": "edge:cfa88cb6106979bf",
+      "provenance_hash": "6bf90c8591407c1597b9350b41bdac27df9ecfb9ad9c4adae64f0c39e55dad2b",
+      "@id": "edge:39d0f0ee6ccb8eaf",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:publication_integrity_audit.csv",
       "type": "produces_artifact",
-      "id": "edge:b9b5eb0e07d55252",
+      "id": "edge:4b2cfd10b8431d00",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "ca39140b10fc54115348320e803026527bceadaf27110e2f18084fe0d2818210",
-      "@id": "edge:b9b5eb0e07d55252",
+      "provenance_hash": "d8a6dcd8614175ea2780876a38c86a69bbf43c60957b119e514b63c139edbd8f",
+      "@id": "edge:4b2cfd10b8431d00",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:query_smoke_report.md",
       "type": "produces_artifact",
-      "id": "edge:5feab5dabab5eef0",
+      "id": "edge:f751c60dea9fecf6",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "d497f59fdaafdc4fdfece8a3a334f6f934b1ea970fd24023130f6af89de11923",
-      "@id": "edge:5feab5dabab5eef0",
+      "provenance_hash": "693ba48b453430fa0c44e789623b009c4c43fd575caca4632ca4c311b76754e3",
+      "@id": "edge:f751c60dea9fecf6",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:reference_completeness_audit.csv",
       "type": "produces_artifact",
-      "id": "edge:290a430db94d5b8c",
+      "id": "edge:f73f58bfba72ec6e",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "45c18b3ae09322d9b13c34de37f960483aea2cc0b77cf94b1941053b8860b45a",
-      "@id": "edge:290a430db94d5b8c",
+      "provenance_hash": "6c3801ef858fd28e971798980f86fd5e394d1865f9e3efcc3341d60ec5ef4448",
+      "@id": "edge:f73f58bfba72ec6e",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:reference_gap_index.csv",
       "type": "produces_artifact",
-      "id": "edge:f5b2c18b04973ee4",
+      "id": "edge:dec5ebdbcb01391d",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "772f852bd7ea4c421bc242571fdd31bd984282c4e00326be158b498c45254319",
-      "@id": "edge:f5b2c18b04973ee4",
+      "provenance_hash": "5cc926c27828765d752331af5ab80c707c012cf80b88db835a2757fa88949267",
+      "@id": "edge:dec5ebdbcb01391d",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:reference_manifest.json",
       "type": "produces_artifact",
-      "id": "edge:1aea47c9abe74449",
+      "id": "edge:9d703dd06c9c3097",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "41e0a944d24930ba63574c42372eb08aa44701cac7415f5790f1213aa797d38b",
-      "@id": "edge:1aea47c9abe74449",
+      "provenance_hash": "637819a5d88606375f3162f376cba388ae7f6d12783edaa4471f04953bb58fdc",
+      "@id": "edge:9d703dd06c9c3097",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:repair_gain_estimates.csv",
       "type": "produces_artifact",
-      "id": "edge:5347f390c77cfefa",
+      "id": "edge:2dcac877eee4a433",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "566be1a8d569b1a8cbfb873bc4608514b6731e32a341a227fb22652da17e9539",
-      "@id": "edge:5347f390c77cfefa",
+      "provenance_hash": "a40435f56fbc016326e3d171ae558e144ca0aa332f86a6edcf6b34feb743cad6",
+      "@id": "edge:2dcac877eee4a433",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:repair_plan.csv",
       "type": "produces_artifact",
-      "id": "edge:ee93bc5c2c202f84",
+      "id": "edge:fa383912509f1a54",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "e87053d8c7ac36792bd3ab420119956ab353a85572153bb5f2c0b867e13b14d6",
-      "@id": "edge:ee93bc5c2c202f84",
+      "provenance_hash": "0872e84cb40642e436f2f130cb561af4050205f8908df65c87f4a45479e5feb5",
+      "@id": "edge:fa383912509f1a54",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:repairability_audit.csv",
       "type": "produces_artifact",
-      "id": "edge:e9eec4fa9f8ab28d",
+      "id": "edge:0c93b71a0d62b84f",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "dd7fe763bd8f2e37ea87895b538b7a3fec96c06456ffb583f511d2a6e0e472a2",
-      "@id": "edge:e9eec4fa9f8ab28d",
+      "provenance_hash": "6c4502c9f44e264efefaf942de525ea32966b28294d0eca09e6a2a990f17141f",
+      "@id": "edge:0c93b71a0d62b84f",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:report_consistency_audit.csv",
       "type": "produces_artifact",
-      "id": "edge:dfcf771a99a6b377",
+      "id": "edge:1f1dfa0224439e6c",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "05214d79415eb44b2eabdfe7d865ef82ecf05ee5b86c2e74ca63bc4fc42e882c",
-      "@id": "edge:dfcf771a99a6b377",
+      "provenance_hash": "6f6cbc2af89745b517d40b616ccf113839f6af1b40ea9e0e55f96e9ba97c04d7",
+      "@id": "edge:1f1dfa0224439e6c",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:review_taxonomic_hints.csv",
       "type": "produces_artifact",
-      "id": "edge:1ffc27fb07cb8d80",
+      "id": "edge:e45a9dcaa6f33cfe",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "628e0f4676ef1640422448c9ac8343bce59a15d6859f8ac7f830e609f2272102",
-      "@id": "edge:1ffc27fb07cb8d80",
+      "provenance_hash": "fc4d73c4b30c2d6a834c5c406e6eed7c3393167b68c74cf8b80f19e086cb6c81",
+      "@id": "edge:e45a9dcaa6f33cfe",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:ruleset_diff_report.json",
       "type": "produces_artifact",
-      "id": "edge:73f4252e270d69cc",
+      "id": "edge:513d9412fb7913a5",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "218bb301c5eba31e877349770e55b67c1a5e30bab845a0d11d3b1d95987fc19d",
-      "@id": "edge:73f4252e270d69cc",
+      "provenance_hash": "16e8004b1c0e47f93813969cd761817d968d91ca762db47ac9448b9318533e78",
+      "@id": "edge:513d9412fb7913a5",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:run.json",
       "type": "produces_artifact",
-      "id": "edge:796d6d7fc795686d",
+      "id": "edge:1467c818de3e2401",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "1e982ed406ff440a3f310cec8e95831351cb5ee0953abc99b6618d62d056dd19",
-      "@id": "edge:796d6d7fc795686d",
+      "provenance_hash": "6b55feb15c9c98a9c2c7d8a00fbd809607ac44e5aefe86dd51977ed70cbf3a3f",
+      "@id": "edge:1467c818de3e2401",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:safe_taxonomic_assignments.csv",
       "type": "produces_artifact",
-      "id": "edge:edc881d260142ef9",
+      "id": "edge:19b5f57b49c571cd",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "ae290b693808a9fd6e99b8f653508b5c312393cf6f150db20af03cdb0b2c7eb7",
-      "@id": "edge:edc881d260142ef9",
+      "provenance_hash": "c7555dca5163c3752bb63f5e4283d1174565452b74845a6398d24f6bf9c61b3c",
+      "@id": "edge:19b5f57b49c571cd",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:segment_canonicalization_audit.csv",
       "type": "produces_artifact",
-      "id": "edge:6f3570f08f62e785",
+      "id": "edge:3cf2c53f1c6a3944",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "ae2b4e2e2e6d6567fcafad1e8dd52f9689a814ac60fa919a5c2424bff6f99fc1",
-      "@id": "edge:6f3570f08f62e785",
+      "provenance_hash": "7612e9b676a241be281623563e31ba9f5d17916a043241cfff76b46ad8c4bb7f",
+      "@id": "edge:3cf2c53f1c6a3944",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:segment_cluster_audit.csv",
       "type": "produces_artifact",
-      "id": "edge:4901ec383b33f581",
+      "id": "edge:5a824f58ca62588a",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "dc79c4864fb5a2d79b58d12aa8580bd1b26cd401bf4365e4f51913d7e67be303",
-      "@id": "edge:4901ec383b33f581",
+      "provenance_hash": "f7bee747d59b58a3d36006bd81640bf79353c32e2f5581d2a628160b673edcd8",
+      "@id": "edge:5a824f58ca62588a",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:segment_overlap_report.csv",
       "type": "produces_artifact",
-      "id": "edge:658f31fd8c64f910",
+      "id": "edge:8877f826d7678b4a",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "65644dad6a57e8cbe05cc177be3329d9af1dcfb30079d1b858f00c86d2decc84",
-      "@id": "edge:658f31fd8c64f910",
+      "provenance_hash": "c97adf9a8d8c9b0f3de773670b2695ffce76a78396505bbe1eb59dce2a1aa769",
+      "@id": "edge:8877f826d7678b4a",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:segment_safe_taxa.csv",
       "type": "produces_artifact",
-      "id": "edge:f01fb8c9187d3bf4",
+      "id": "edge:5060f18475c4cef2",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "62d54155626c2ca32663243458ddff4baa09c897af91fd48158104de693776e9",
-      "@id": "edge:f01fb8c9187d3bf4",
+      "provenance_hash": "9e5fd99278daf4d57b452c217880edd9cecb993565152e54fcee9218157bb599",
+      "@id": "edge:5060f18475c4cef2",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:segment_taxon_matrix_audit.csv",
       "type": "produces_artifact",
-      "id": "edge:2fe7a963d3f66c2b",
+      "id": "edge:387030c927610b21",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "2e043adf08e13f5be35f9f749ccb7b29588cd92edcd19ed9cb62fd2c4a6ce6e9",
-      "@id": "edge:2fe7a963d3f66c2b",
+      "provenance_hash": "c9df5ae08a662dd9c490867638a92ed01dd916d484a59e3034a398666a7f7429",
+      "@id": "edge:387030c927610b21",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:segment_trait_matrix_audit.csv",
       "type": "produces_artifact",
-      "id": "edge:6ecf37f1beb5738b",
+      "id": "edge:beb235e181de2e01",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "bba373b76a63043c16c7d9a008ac8c5d385d5dada948276b604719e0ab8956b9",
-      "@id": "edge:6ecf37f1beb5738b",
+      "provenance_hash": "54dc9e4fe29884bf1f1e51e278c9c23d0641d102d96abef452a9198a0a75de1d",
+      "@id": "edge:beb235e181de2e01",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:segments.csv",
       "type": "produces_artifact",
-      "id": "edge:721759b15452c013",
+      "id": "edge:69220e15ddbad619",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "f81d333dbfbff090cb1718d63078cbdd478357afaccf2391e0060f4b5d2b31e4",
-      "@id": "edge:721759b15452c013",
+      "provenance_hash": "18092ee89bf5f969b213ff90cec91155f8eb20e2a47d4c4827205d0ff9343057",
+      "@id": "edge:69220e15ddbad619",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:sequence_safety_table.csv",
       "type": "produces_artifact",
-      "id": "edge:d20fb8c02937ad51",
+      "id": "edge:425055b81dd3f8b8",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "ee9c57de2beaf251957ff4b398dec46b83286c36d6bfd671735ec00f08df0460",
-      "@id": "edge:d20fb8c02937ad51",
+      "provenance_hash": "a50eb72249dcbdaff5aa844c52c0ba690d3cec7a71a48c7f870824f41cfbd857",
+      "@id": "edge:425055b81dd3f8b8",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:sharedness_overclaim_audit.csv",
       "type": "produces_artifact",
-      "id": "edge:0cd44af63a21c8f3",
+      "id": "edge:90cb3434a4a5face",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "0da5331dc5bc19006dfadf93ad757b8d36297006052d0bca127e1f2ad829fc2c",
-      "@id": "edge:0cd44af63a21c8f3",
+      "provenance_hash": "a45a970ede1f4f38addd3929372862d53c98e7d8e738a5a2e8a76fd1cad45a3d",
+      "@id": "edge:90cb3434a4a5face",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:source_license_audit.csv",
       "type": "produces_artifact",
-      "id": "edge:6db1578fa7d5d15d",
+      "id": "edge:bbd80e9c52337f13",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "0199e946ffcc4712be4fb584b55fc9985ed8c34d1b62898dea35e3d25a51b0bd",
-      "@id": "edge:6db1578fa7d5d15d",
+      "provenance_hash": "ebc517b149442af10e9a19fbbefc441cf8702d3ee0c75066a2febcfe9d98f334",
+      "@id": "edge:bbd80e9c52337f13",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:source_provenance_manifest.json",
       "type": "produces_artifact",
-      "id": "edge:601604cde4f72d27",
+      "id": "edge:f6a866606b886d59",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "80eb5424f6a6c1ddc8291bd8855487b04e015e1b31c60cde5a79b9aed710cf63",
-      "@id": "edge:601604cde4f72d27",
+      "provenance_hash": "89f35428a5f1097cb44629607a0a223f5a133a7362aa05c05a4353f8f3328f92",
+      "@id": "edge:f6a866606b886d59",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:state_machine_audit.csv",
       "type": "produces_artifact",
-      "id": "edge:326d5488822ca148",
+      "id": "edge:35c40c7b6210b6a0",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "2c86241b9f8dbedf724d523909e207ca0a2a1a43c201f52c0c1035251e16da27",
-      "@id": "edge:326d5488822ca148",
+      "provenance_hash": "ed7922506f75620a9aa3b792335dc1cc5fbfdd2a72e9ce8243cf9e5e5cbdb4e4",
+      "@id": "edge:35c40c7b6210b6a0",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:theorem_checklist.json",
       "type": "produces_artifact",
-      "id": "edge:9ef62b159e56e331",
+      "id": "edge:79eb0e8285fe263b",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "26ef72d6894b918db650b3bcb369efd630b671cdb19dcfb5b41b7d300a7c248c",
-      "@id": "edge:9ef62b159e56e331",
+      "provenance_hash": "2bf2253034d6d8ae526d0967af9d232611e31b03372fe0ba206f24aedbb48d2e",
+      "@id": "edge:79eb0e8285fe263b",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:trait_association_confounding_audit.csv",
       "type": "produces_artifact",
-      "id": "edge:e92f400cd1c43e35",
+      "id": "edge:6d6ccc626081f860",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "62ac25ea6889b9e208eb9917b7da1d4bcf541e0e6aad64392565cca27492cd1a",
-      "@id": "edge:e92f400cd1c43e35",
+      "provenance_hash": "23afb23c1a6307b566ad88f460ffdca161d02f572cf9907b681c54def3759b31",
+      "@id": "edge:6d6ccc626081f860",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:trait_function_evidence_audit.csv",
       "type": "produces_artifact",
-      "id": "edge:42738de61ef3f2f5",
+      "id": "edge:988bb52ea58cbc7b",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "aafa2ace46c701c4752cd0da7cab422727b7a789bff3fb743eec553dd74a9d46",
-      "@id": "edge:42738de61ef3f2f5",
+      "provenance_hash": "6015fad348cce761a2f615641c9f98125afc26743f8e8653def56bba763e5654",
+      "@id": "edge:988bb52ea58cbc7b",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:validation_fold_metrics.csv",
       "type": "produces_artifact",
-      "id": "edge:c039cc26c61172bf",
+      "id": "edge:cbcdc1b25ba15ed1",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "3ad3d4ec582811199568f9918afc68a4278eca33d21f3ce7f1a93b1ece89396b",
-      "@id": "edge:c039cc26c61172bf",
+      "provenance_hash": "ea0e26d47d53c2be1b6a0cf5c3ec973fe8bea1bdee02f0c4b49b4ded8011615a",
+      "@id": "edge:cbcdc1b25ba15ed1",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:verified_segment_evidence_array.csv",
       "type": "produces_artifact",
-      "id": "edge:d320466abc02f4ab",
+      "id": "edge:15b03d70c2eaa1e5",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "6373be72a39ec093dd4210822c0702ad6db0a210dc9948d4718d70bb6ff1da4b",
-      "@id": "edge:d320466abc02f4ab",
+      "provenance_hash": "2b5c90beb40fbb18ca1b1f6e86160ddcb66a292de9ecbc813d1155c31f972b16",
+      "@id": "edge:15b03d70c2eaa1e5",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:verified_segment_evidence_array.jsonl",
       "type": "produces_artifact",
-      "id": "edge:4460b0abf2fa8682",
+      "id": "edge:0eaedec144ac1e56",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "177aaee973e7ba33143ebbce78caaa607e014afcebe087f9742d1986ecaab0f1",
-      "@id": "edge:4460b0abf2fa8682",
+      "provenance_hash": "8dcbf4e624f0db3e02db442dff178b19aca0bcdb02a86b9bb7cee0889f2a47a5",
+      "@id": "edge:0eaedec144ac1e56",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:verified_segment_evidence_array.parquet",
       "type": "produces_artifact",
-      "id": "edge:3e61a7f3e0242d20",
+      "id": "edge:1c31152999273341",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "2814957b6e5cd3696afaaad4fa28e1ccd80c04a318b78637bd4ef3a65e7c80fa",
-      "@id": "edge:3e61a7f3e0242d20",
+      "provenance_hash": "de331a36df3c9e7ac7e1245a2c7735eb3cd4d31c5050bfe35d11c0d256449eaa",
+      "@id": "edge:1c31152999273341",
       "@type": "produces_artifact"
     },
     {
-      "source": "run:f02adbce819e40cc8fd7884db97fdb8a",
+      "source": "run:3b037205cc904c08a613a6ccea42f724",
       "target": "artifact:vsea_graph_reconciliation.csv",
       "type": "produces_artifact",
-      "id": "edge:65019f4ff89be256",
+      "id": "edge:93d91de1d37f0946",
       "ruleset_version": "barcode-gbif-compiler-v2",
-      "provenance_hash": "aec3bff70bc42663e370df29eeb5705c8d3e0a466d506e2f766fc6d2ea94ea82",
-      "@id": "edge:65019f4ff89be256",
+      "provenance_hash": "abe95a83b5a753d89904408dbd8f99210b45eed88f2e02c7fa8f4910a43aebc1",
+      "@id": "edge:93d91de1d37f0946",
       "@type": "produces_artifact"
     }
   ]

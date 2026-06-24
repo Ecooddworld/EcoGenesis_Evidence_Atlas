@@ -40,6 +40,7 @@ ADVERSARIAL_DIR = REPORTS_ROOT / "adversarial-100-sequences"
 
 REQUIRED_GSEG_GSIG_EXPORTS = {
     "theorem_checklist.json",
+    "math_viability_audit.json",
     "verified_segment_evidence_array.csv",
     "verified_segment_evidence_array.jsonl",
     "verified_segment_evidence_array.parquet",
@@ -307,6 +308,7 @@ def render_report(
     expected_matched = all(row["pass"] == "True" for row in rows)
     hard_gate_failures = pack["metrics"].get("hard_gate_failures", 0)
     theorem = json.loads(str(artifacts["theorem_checklist.json"]))
+    math_viability = json.loads(str(artifacts["math_viability_audit.json"]))
     graph_roundtrip = json.loads(str(artifacts["graph_roundtrip_audit.json"]))
     parquet_bytes = artifacts["verified_segment_evidence_array.parquet"]
     parquet_status = "PAR1" if isinstance(parquet_bytes, bytes) and parquet_bytes[:4] == b"PAR1" else "not_parquet_magic"
@@ -338,6 +340,8 @@ def render_report(
         f"- GSEG/GSIG exports present: {required_present}",
         f"- ZIP contains GSEG/GSIG exports: {zip_contains_required}",
         f"- VSEA Parquet magic: `{parquet_status}`",
+        f"- Math viability audit: `{math_viability['summary']['status']}` "
+        f"({math_viability['summary']['checks']} checks, {math_viability['summary']['failed']} failed)",
         f"- Theorem checklist release gate: `{theorem['summary']['release_gate']}`",
         f"- Graph roundtrip audit: `{graph_roundtrip['status']}`",
     ]
@@ -411,6 +415,9 @@ def write_report_set(
     theorem = json.loads(str(artifacts["theorem_checklist.json"]))
     if theorem["summary"]["fail"] != 0 or theorem["summary"]["release_gate"] != "pass":
         raise SystemExit(f"{report_prefix}: theorem checklist failed")
+    math_viability = json.loads(str(artifacts["math_viability_audit.json"]))
+    if math_viability["summary"]["status"] != "pass" or math_viability["summary"]["failed"] != 0:
+        raise SystemExit(f"{report_prefix}: math viability audit failed")
     parquet_bytes = artifacts["verified_segment_evidence_array.parquet"]
     if not isinstance(parquet_bytes, bytes) or parquet_bytes[:4] != b"PAR1":
         raise SystemExit(f"{report_prefix}: VSEA parquet is not a real parquet file")

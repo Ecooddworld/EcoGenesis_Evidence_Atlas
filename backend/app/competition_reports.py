@@ -28,6 +28,7 @@ REPORT_DEFINITIONS = {
 
 REQUIRED_GSEG_GSIG_EXPORTS = {
     "theorem_checklist.json",
+    "math_viability_audit.json",
     "verified_segment_evidence_array.csv",
     "verified_segment_evidence_array.jsonl",
     "verified_segment_evidence_array.parquet",
@@ -62,6 +63,7 @@ PUBLIC_REPORT_FILES = {
     "verified_segment_evidence_array.jsonl",
     "verified_segment_evidence_array.parquet",
     "theorem_checklist.json",
+    "math_viability_audit.json",
     "graph_roundtrip_audit.json",
     "graph_provenance_audit.csv",
     "report_consistency_audit.csv",
@@ -115,6 +117,7 @@ def competition_report_summary(report_id: str) -> dict[str, Any]:
     returned_exports = load_json_list(directory / definition["exports"])
     zip_entries = zip_entry_names(directory / "evidence_pack.zip")
     theorem = load_json_object(directory / "theorem_checklist.json")
+    math_viability = load_json_object(directory / "math_viability_audit.json")
     graph_roundtrip = load_json_object(directory / "graph_roundtrip_audit.json")
     parquet_magic = read_magic(directory / "verified_segment_evidence_array.parquet")
     required_present = REQUIRED_GSEG_GSIG_EXPORTS <= export_names
@@ -128,6 +131,8 @@ def competition_report_summary(report_id: str) -> dict[str, Any]:
         and parquet_magic == b"PAR1"
         and theorem.get("summary", {}).get("release_gate") == "pass"
         and theorem.get("summary", {}).get("fail") == 0
+        and math_viability.get("summary", {}).get("status") == "pass"
+        and math_viability.get("summary", {}).get("failed") == 0
         and graph_roundtrip.get("status") == "pass"
         and report_file.exists()
     ) else "review"
@@ -149,6 +154,9 @@ def competition_report_summary(report_id: str) -> dict[str, Any]:
             "vsea_parquet_magic": parquet_magic.decode("utf-8", errors="replace") or "missing",
             "theorem_release_gate": theorem.get("summary", {}).get("release_gate", "missing"),
             "theorem_failures": theorem.get("summary", {}).get("fail"),
+            "math_viability_status": math_viability.get("summary", {}).get("status", "missing"),
+            "math_viability_failures": math_viability.get("summary", {}).get("failed"),
+            "math_viability_checks": math_viability.get("summary", {}).get("checks"),
             "graph_roundtrip_status": graph_roundtrip.get("status", "missing"),
         },
         "decision_classes": dict(sorted(decision_counts.items())),
@@ -193,6 +201,9 @@ def missing_report_summary(report_id: str, definition: dict[str, str]) -> dict[s
             "vsea_parquet_magic": "missing",
             "theorem_release_gate": "missing",
             "theorem_failures": None,
+            "math_viability_status": "missing",
+            "math_viability_failures": None,
+            "math_viability_checks": None,
             "graph_roundtrip_status": "missing",
         },
         "decision_classes": {},

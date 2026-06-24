@@ -2,7 +2,7 @@
   "tool": "EcoGenesis Nexus",
   "layer": "Barcode-to-GBIF Evidence Compiler",
   "reference_database": "COI Animals / BOLD public clustered reference",
-  "reference_manifest_sha256": "13a1f3c48dd73c86868583ef06b524ff51abc2dc63065ec6e61bb2ab0e99eb7b",
+  "reference_manifest_sha256": "06f92f0dc9f74684c5b585f93f2a10f471aae725aafbdb415302810ad6e5d5d8",
   "reference_source": "request.reference_database",
   "reference_doi_or_url": null,
   "reference_license": null,

@@ -60,5 +60,5 @@ cd backend
 
 Current expected report facts:
 
-- `reports/competition-100-sequences/competition_100_sequence_report.md`: 100 records, 89 exports, expected decisions matched, hard-gate failures `0`, theorem release gate `pass`, graph roundtrip `pass`.
-- `reports/adversarial-100-sequences/adversarial_100_sequence_report.md`: 100 records, 89 exports, expected decisions matched, false species-safe outside positive controls `0`, theorem release gate `pass`, graph roundtrip `pass`.
+- `reports/competition-100-sequences/competition_100_sequence_report.md`: 100 records, 90 exports, expected decisions matched, hard-gate failures `0`, math viability `pass`, theorem release gate `pass`, graph roundtrip `pass`.
+- `reports/adversarial-100-sequences/adversarial_100_sequence_report.md`: 100 records, 90 exports, expected decisions matched, false species-safe outside positive controls `0`, math viability `pass`, theorem release gate `pass`, graph roundtrip `pass`.

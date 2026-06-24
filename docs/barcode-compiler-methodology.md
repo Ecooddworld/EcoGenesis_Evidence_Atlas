@@ -41,6 +41,14 @@ Each sequence record contains:
 
 ## Match Type
 
+The compiler stores `identity` and `queryCoverage` as API/export percentages in `[0, 100]`.
+The formulas below use normalized fractions:
+
+```text
+p_identity = identity / 100
+p_coverage = queryCoverage / 100
+```
+
 The compiler uses the GBIF Sequence ID-style gates:
 
 - `exact`: identity >= 99% and queryCoverage >= 80%
@@ -55,7 +63,8 @@ Species-level output is impossible unless the top hit is `exact`.
 For each hit:
 
 ```text
-d = 1 - identity
+p_identity = identity / 100
+d = 1 - p_identity
 SE = sqrt(d * (1 - d) / aligned_length)
 ```
 
@@ -124,7 +133,7 @@ Required DNA-derived evidence fields:
 - `queryCoverage`
 - `methodOrSOP`
 
-If these are missing, the compiler may still report a taxonomic status such as `species-safe`, but the final decision class becomes `not-publishable`.
+If these are missing, or an assay/quality gate blocks publication, the compiler may still report a taxonomic status such as `species-safe`, but the final decision class becomes `not-publishable` and `published_taxon` remains `none`.
 
 Publication stages:
 
@@ -134,6 +143,13 @@ Publication stages:
 - `dataset_ready`: dataset metadata passes, but recommended record-level fields are incomplete.
 - `gold_ready`: required fields, recommended fields and dataset metadata all pass.
 
+The important state-machine rule is:
+
+```text
+TaxStatus(s) can be species-safe while DecisionClass(s, M) is not-publishable.
+published_taxon is emitted only when the safe taxonomic status and required publication gates both pass.
+```
+
 ## Outputs
 
 The main output is an Evidence Pack with:
@@ -142,6 +158,7 @@ The main output is an Evidence Pack with:
 - blocked claims
 - barcode gap report
 - diagnostic k-mer report
+- independent math viability audit that reconciles formulas with generated decisions
 - publishable Darwin Core Occurrence and DNA-derived extension templates
 - review-only templates for weak, blocked or not-publishable records
 - reference manifest

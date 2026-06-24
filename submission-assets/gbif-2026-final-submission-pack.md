@@ -76,7 +76,8 @@ examples/aedes_weak_coverage.csv     -> weak
 Latest local verification on 2026-06-24:
 
 ```text
-backend pytest: 77 passed, 1 skipped
+backend pytest: 79 passed, 1 skipped
+math viability verifier: pass, 2 packs, 142 checks, 0 failed
 frontend tests: 14 passed
 frontend build: passed
 Docker compose CLI: available
@@ -84,8 +85,8 @@ Docker smoke: passed on the production stack; frontend, backend, proxy, VSEARCH 
 Local backend health: ok
 Local frontend HTTP: 200
 Contest readiness API: pass, 17 checks, 0 failed
-Competition 100-sequence API run: expected decisions matched, hard_gate_failures=0, exports=89, theorem=pass, graph_roundtrip=pass
-Adversarial 100-sequence stress run: expected decisions matched, false species-safe outside positive controls=0, exports=89, theorem=pass, graph_roundtrip=pass
+Competition 100-sequence API run: expected decisions matched, hard_gate_failures=0, exports=90, theorem=pass, graph_roundtrip=pass, math_viability=pass
+Adversarial 100-sequence stress run: expected decisions matched, false species-safe outside positive controls=0, exports=90, theorem=pass, graph_roundtrip=pass, math_viability=pass
 Observatory demo report: hard_gate_status=pass, OPO artifacts present, VSEA Parquet=PAR1
 Operability report: pass
 ```
