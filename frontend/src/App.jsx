@@ -378,7 +378,7 @@ Implemented output:
 
 s = query sequence
 H = reference hits:
-  identity, coverage, bitScore, evalue, taxon, lineage
+  identityPercent, coveragePercent, bitScore, evalue, taxon, lineage
 T = taxonomy / GBIF backbone lineage
 M = occurrence and DNA-derived metadata
 R = reference evidence for barcode gap and diagnostic k-mers
@@ -388,11 +388,15 @@ tau_safe = maximum safe taxonomic rank`,
   {
     label: 'Match gates',
     title: 'Species claims require an exact Sequence ID-style match',
-    formula: `h_i = (taxon_i, identity_i, coverage_i, evalue_i, bitScore_i, L_i)
+    formula: `h_i = (taxon_i, identityPercent_i, coveragePercent_i, evalue_i, bitScore_i, L_i)
 
-Exact(h_i) = I(identity_i >= 0.99) * I(coverage_i >= 0.80)
-Close(h_i) = I(0.90 < identity_i < 0.99) * I(coverage_i >= 0.80)
-Weak(h_i)  = I(identity_i < 0.90 OR coverage_i < 0.80)
+API/export values are percents:
+p_i = identityPercent_i / 100
+c_i = coveragePercent_i / 100
+
+Exact(h_i) = I(p_i >= 0.99) * I(c_i >= 0.80)
+Close(h_i) = I(0.90 < p_i < 0.99) * I(c_i >= 0.80)
+Weak(h_i)  = I(p_i < 0.90 OR c_i < 0.80)
 
 First species gate:
 G1(s) = Exact(h_1)
@@ -404,7 +408,8 @@ species-level claim is forbidden`,
   {
     label: 'Ambiguity test',
     title: 'A top hit must be distinguishable from competitors',
-    formula: `d_i = 1 - identity_i
+    formula: `p_i = identityPercent_i / 100
+d_i = 1 - p_i
 SE_i = sqrt(d_i * (1 - d_i) / aligned_length_i)
 
 Delta_j = d_j - d_top
@@ -468,32 +473,35 @@ F_dna = {marker, sequenceID, referenceDatabase,
          identity, queryCoverage, methodOrSOP}
 DNAPass(M) = product over f in F_dna of I(M_f != empty)
 
-Publishable(M, s) =
-  CorePass(M) AND DNAPass(M) AND TaxonomicSafe(s)`,
+RecordRequiredPass(M, s) =
+  CorePass(M) AND DNAPass(M)
+  AND AssayPass(M) AND QualityPass(M)
+  AND TaxonomicSafe(s)`,
     proof: 'A sequence may be taxonomically strong but still not publishable. Missing occurrenceID or eventDate changes the final decision to not-publishable and keeps published_taxon empty.',
   },
   {
     label: 'Decision function',
     title: 'Final classes are fail-closed',
-    formula: `Decision(s,M) =
+    formula: `TaxStatus(s) =
   species-safe      if Exact(h_1)=1
                     AND rank(LCA(U(s))) = species
                     AND BG(t) > 0
                     AND DS(s,t) > 0
-                    AND Publishable = 1
 
   genus-safe        if rank(LCA(U(s))) = genus
-                    AND CorePass = 1
-                    AND DNAPass = 1
 
   higher-rank-safe  if rank(LCA(U(s))) in {family, order, class, ...}
 
   ambiguous         if |U(s)| > 1
                     AND rank(LCA(U(s))) > species
 
-  weak              if identity_1 < 0.90 OR coverage_1 < 0.80
+  weak              if p_1 < 0.90 OR c_1 < 0.80
 
-  not-publishable   if CorePass = 0 OR DNAPass = 0
+DecisionClass(s,M) =
+  not-publishable   if TaxStatus is safe rank
+                    AND RecordRequiredPass = 0
+
+  TaxStatus         otherwise
 
   no-match          if H(s) = empty`,
     proof: 'The species-safe path is the narrowest path. Any failed species gate either downgrades the rank, moves the record to review, or blocks publication.',
@@ -744,8 +752,8 @@ h_j = (
   taxon_j,
   rank_j,
   lineage_j,
-  identity_j,
-  coverage_j,
+  identityPercent_j,
+  coveragePercent_j,
   aligned_length_j,
   bitScore_j,
   evalue_j
@@ -810,13 +818,16 @@ If publication gates fail:
     formula: `For hit h_j:
 
 Exact(h_j) =
-  I(identity_j >= 0.99) * I(coverage_j >= 0.80)
+  I(p_j >= 0.99) * I(c_j >= 0.80)
 
 Close(h_j) =
-  I(0.90 < identity_j < 0.99) * I(coverage_j >= 0.80)
+  I(0.90 < p_j < 0.99) * I(c_j >= 0.80)
 
 Weak(h_j) =
-  I(identity_j < 0.90 OR coverage_j < 0.80)
+  I(p_j < 0.90 OR c_j < 0.80)
+
+p_j = identityPercent_j / 100
+c_j = coveragePercent_j / 100
 
 NoMatch(s) =
   I(|H(s)| = 0)
@@ -830,7 +841,8 @@ If SpeciesGate_1(s) = 0:
   {
     label: '04',
     title: 'Ambiguity boundary: top hit must be distinguishable',
-    formula: `d_j = 1 - identity_j
+    formula: `p_j = identityPercent_j / 100
+d_j = 1 - p_j
 
 SE_j = sqrt(d_j * (1 - d_j) / aligned_length_j)
 
@@ -1045,8 +1057,10 @@ DNAPass(M) =
 
 PubDecision(M, s) =
   gbifReady   if CorePass = 1 AND DNAPass = 1
+              AND AssayPass = 1 AND DatasetPass = 1
   repairable  if TaxDecision != noMatch
-              AND (CorePass = 0 OR DNAPass = 0)
+              AND (CorePass = 0 OR DNAPass = 0
+                   OR AssayPass = 0 OR DatasetPass = 0)
   notReady    if no usable sequence evidence
               OR no usable metadata`,
     meaning: 'This is the repair layer. It tells the user whether the problem is biology, reference evidence or simply missing GBIF publication fields.',
@@ -1070,7 +1084,7 @@ PubDecision(M, s) =
     rank(LCA(U(s))) in {family, order, class, ...}
 
   weak if
-    identity_top < 0.90 OR coverage_top < 0.80
+    p_top < 0.90 OR c_top < 0.80
 
   noMatch if
     H(s) is empty
@@ -1078,7 +1092,7 @@ PubDecision(M, s) =
 Final export rule:
 
 If TaxDecision is safe rank
-AND PubDecision = gbifReady:
+AND required record gates pass:
   published_taxon = tau_safe
 
 Else:
@@ -1339,17 +1353,17 @@ const renderedFormulaSections = [
     label: '03',
     title: 'Identity and coverage gates',
     equations: [
-      <MathRow key="exact"><Func>Exact</Func><Paren><Mi>h</Mi><Sub>i</Sub></Paren><Op>=</Op><Indicator><Mi>identity</Mi><Sub>i</Sub><Op>&gt;=</Op>0.99</Indicator><Op>*</Op><Indicator><Mi>coverage</Mi><Sub>i</Sub><Op>&gt;=</Op>0.80</Indicator></MathRow>,
-      <MathRow key="close"><Func>Close</Func><Paren><Mi>h</Mi><Sub>i</Sub></Paren><Op>=</Op><Indicator>0.90<Op>&lt;</Op><Mi>identity</Mi><Sub>i</Sub><Op>&lt;</Op>0.99</Indicator><Op>*</Op><Indicator><Mi>coverage</Mi><Sub>i</Sub><Op>&gt;=</Op>0.80</Indicator></MathRow>,
-      <MathRow key="weak"><Func>Weak</Func><Paren><Mi>h</Mi><Sub>i</Sub></Paren><Op>=</Op><Indicator><Mi>identity</Mi><Sub>i</Sub><Op>&lt;</Op>0.90<Op>or</Op><Mi>coverage</Mi><Sub>i</Sub><Op>&lt;</Op>0.80</Indicator></MathRow>,
+      <MathRow key="exact"><Func>Exact</Func><Paren><Mi>h</Mi><Sub>i</Sub></Paren><Op>=</Op><Indicator><Mi>p</Mi><Sub>i</Sub><Op>&gt;=</Op>0.99</Indicator><Op>*</Op><Indicator><Mi>c</Mi><Sub>i</Sub><Op>&gt;=</Op>0.80</Indicator></MathRow>,
+      <MathRow key="close"><Func>Close</Func><Paren><Mi>h</Mi><Sub>i</Sub></Paren><Op>=</Op><Indicator>0.90<Op>&lt;</Op><Mi>p</Mi><Sub>i</Sub><Op>&lt;</Op>0.99</Indicator><Op>*</Op><Indicator><Mi>c</Mi><Sub>i</Sub><Op>&gt;=</Op>0.80</Indicator></MathRow>,
+      <MathRow key="weak"><Func>Weak</Func><Paren><Mi>h</Mi><Sub>i</Sub></Paren><Op>=</Op><Indicator><Mi>p</Mi><Sub>i</Sub><Op>&lt;</Op>0.90<Op>or</Op><Mi>c</Mi><Sub>i</Sub><Op>&lt;</Op>0.80</Indicator></MathRow>,
     ],
-    explanation: 'Species-level claims are forbidden unless the top hit passes the exact identity and coverage gate.',
+    explanation: 'Here p=identityPercent/100 and c=queryCoveragePercent/100. Species-level claims are forbidden unless the top hit passes the exact gate.',
   },
   {
     label: '04',
     title: 'Ambiguity boundary',
     equations: [
-      <MathRow key="d"><Mi>d</Mi><Sub>i</Sub><Op>=</Op>1<Op>-</Op><Mi>identity</Mi><Sub>i</Sub></MathRow>,
+      <MathRow key="d"><Mi>d</Mi><Sub>i</Sub><Op>=</Op>1<Op>-</Op><Mi>p</Mi><Sub>i</Sub></MathRow>,
       <MathRow key="se"><Mi>SE</Mi><Sub>i</Sub><Op>=</Op><Sqrt><Frac top={<><Mi>d</Mi><Sub>i</Sub><Paren>1<Op>-</Op><Mi>d</Mi><Sub>i</Sub></Paren></>} bottom={<><Mi>L</Mi><Sub>i</Sub></>} /></Sqrt></MathRow>,
       <MathRow key="boundary"><Mi>Delta</Mi><Sub>j</Sub><Op>=</Op><Mi>d</Mi><Sub>j</Sub><Op>-</Op><Mi>d</Mi><Sub>top</Sub><Op>,</Op><Mi>B</Mi><Sub>j</Sub><Op>=</Op>1.96<Sqrt><Mi>SE</Mi><Sub>top</Sub><Sup>2</Sup><Op>+</Op><Mi>SE</Mi><Sub>j</Sub><Sup>2</Sup></Sqrt></MathRow>,
       <MathRow key="ambiguous"><Mi>h</Mi><Sub>j</Sub><Op>in</Op><Mi>U</Mi><Paren><Mi>s</Mi></Paren><Op>iff</Op><Mi>Delta</Mi><Sub>j</Sub><Op>&lt;=</Op><Mi>B</Mi><Sub>j</Sub></MathRow>,
@@ -1418,7 +1432,7 @@ const renderedFormulaSections = [
       <Cases key="tax-decision" lhs={<><Mi>TaxDecision</Mi><Paren><Mi>s</Mi></Paren></>} rows={[
         [<><Mi>speciesSafe</Mi></>, <><Func>Exact</Func><Paren><Mi>h</Mi><Sub>top</Sub></Paren><Op>=</Op>1 <Op>and</Op> <Func>rank</Func><Paren><Func>LCA</Func><Paren><Mi>U</Mi><Paren><Mi>s</Mi></Paren></Paren></Paren><Op>=</Op><Mi>species</Mi> <Op>and</Op> <Mi>BG</Mi><Paren><Mi>t</Mi></Paren><Op>&gt;</Op>0</>],
         [<><Mi>genusSafe</Mi></>, <><Func>rank</Func><Paren><Func>LCA</Func><Paren><Mi>U</Mi><Paren><Mi>s</Mi></Paren></Paren></Paren><Op>=</Op><Mi>genus</Mi></>],
-        [<><Mi>weak</Mi></>, <><Mi>identity</Mi><Sub>top</Sub><Op>&lt;</Op>0.90 <Op>or</Op> <Mi>coverage</Mi><Sub>top</Sub><Op>&lt;</Op>0.80</>],
+        [<><Mi>weak</Mi></>, <><Mi>p</Mi><Sub>top</Sub><Op>&lt;</Op>0.90 <Op>or</Op> <Mi>c</Mi><Sub>top</Sub><Op>&lt;</Op>0.80</>],
         [<><Mi>noMatch</Mi></>, <><Mi>H</Mi><Paren><Mi>s</Mi></Paren><Op>=</Op><Empty /></>],
       ]} />,
     ],
@@ -1504,7 +1518,7 @@ const solvedRows = [
 const testAnalysisRows = [
   ['Frontend unit tests', '14 passed', 'Overview, workbench, upload flow, reference search, proof pages and visual lecture render with the final export contract.'],
   ['Frontend production build', 'Passed', 'Vite build completed and the page can be shipped as a static frontend.'],
-  ['Backend pytest', '77 passed, 1 skipped', 'API, compiler logic, exports, GSEG/GSIG checks, contest readiness and regression behavior remain operational.'],
+  ['Backend pytest', '79 passed, 1 skipped', 'API, compiler logic, math viability, exports, GSEG/GSIG checks, contest readiness and regression behavior remain operational.'],
   ['Barcode operability script', 'PASS', 'Expected decisions, API endpoint, ZIP bundle and required exports all passed.'],
   ['Browser smoke', '0 console errors', 'Proof page and workbench rendered locally; no horizontal overflow was detected in the tested viewport.'],
   ['GBIF-backed smoke', 'OK', 'Snapshot manifests preserve source mode, taxonKey 1651430, occurrence counts and explicit fixture fallback state when fallback is used.'],
@@ -1542,7 +1556,7 @@ const numericExamples = [
   {
     title: 'Aedes good case: species-safe',
     interpretation: 'The competitor is distinguishable, barcode gap is positive, diagnostic support is present and required metadata passes.',
-    formula: `identity_1 = 0.996, coverage_1 = 0.96
+    formula: `p_identity_1 = 0.996, p_coverage_1 = 0.96
 Exact(h_1) = 1
 
 d_1 = 1 - 0.996 = 0.004
@@ -1560,8 +1574,8 @@ Result: species-safe`,
   {
     title: 'Aedes ambiguous case: genus-safe',
     interpretation: 'The competitor is statistically indistinguishable, so the safe rank collapses from species to genus.',
-    formula: `identity_1 = 0.994
-identity_2 = 0.993
+    formula: `p_identity_1 = 0.994
+p_identity_2 = 0.993
 
 d_1 = 0.006
 d_2 = 0.007
@@ -1586,6 +1600,7 @@ const evidencePackRows = [
   ['review_taxonomic_hints.csv', 'Blocked or weak records kept as repair/review hints.'],
   ['barcode_gap_report.csv', 'Marker/reference separability evidence.'],
   ['diagnostic_kmer_report.csv', 'Diagnostic support, expected random hits and p_false_positive.'],
+  ['math_viability_audit.json', 'Independent formula reconciliation for match gates, LCA, barcode gap, k-mer probability and export invariants.'],
   ['publication_blockers.csv', 'Exact field/gate blockers that must be repaired.'],
   ['claim_boundaries.csv', 'Supported and explicitly unsupported claims for each sequence.'],
   ['reference_completeness_audit.csv', 'Explicit RCI 2.0 status and reference-context caveats.'],
@@ -1663,7 +1678,7 @@ const exportGroups = [
   {
     title: 'Nexus V3 audit',
     description: 'Hard-gate consistency, marker/assay profiles, prevented top-hit overclaims, reference gaps and adapter direction.',
-    match: ['nexus_v3_summary.json', 'hard_gate_audit.csv', 'marker_profile_audit.csv', 'assay_gate_audit.csv', 'dna_extension_readiness.csv', 'naive_top_hit_overclaims.csv', 'reference_gap_index.csv', 'reference_completeness_audit.csv', 'segment_overlap_report.csv', 'external_tool_adapter_matrix.csv'],
+    match: ['nexus_v3_summary.json', 'hard_gate_audit.csv', 'math_viability_audit.json', 'marker_profile_audit.csv', 'assay_gate_audit.csv', 'dna_extension_readiness.csv', 'naive_top_hit_overclaims.csv', 'reference_gap_index.csv', 'reference_completeness_audit.csv', 'segment_overlap_report.csv', 'external_tool_adapter_matrix.csv'],
   },
   {
     title: 'GSEG / GSIG proof layer',
@@ -6417,7 +6432,7 @@ function CompilerWorkbench({
   const filteredRecords = filterDecisionRecords(records, decisionFilter);
   const csvValidation = csvImport?.validation;
   const csvHasFatalErrors = csvValidation && !csvValidation.ok;
-  const keyExports = ['evidence_pack.zip', 'molecular_evidence_report.html', 'sequence_safety_table.csv', 'methods_text.md', 'citations.md', 'hard_gate_audit.csv', 'marker_profile_audit.csv', 'assay_gate_audit.csv', 'repair_plan.csv', 'naive_top_hit_overclaims.csv', 'theorem_checklist.json', 'verified_segment_evidence_array.parquet', 'graph_provenance_audit.csv']
+  const keyExports = ['evidence_pack.zip', 'molecular_evidence_report.html', 'sequence_safety_table.csv', 'methods_text.md', 'citations.md', 'hard_gate_audit.csv', 'math_viability_audit.json', 'marker_profile_audit.csv', 'assay_gate_audit.csv', 'repair_plan.csv', 'naive_top_hit_overclaims.csv', 'theorem_checklist.json', 'verified_segment_evidence_array.parquet', 'graph_provenance_audit.csv']
     .map((name) => exports.find((item) => item.name === name))
     .filter(Boolean);
   const selectedReferenceDatasetMeta = referenceDatasets.find((dataset) => dataset.id === selectedReferenceDataset);

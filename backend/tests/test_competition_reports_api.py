@@ -27,9 +27,12 @@ def test_competition_reports_api_reads_frozen_100_sequence_batches(monkeypatch) 
     assert competition["summary"]["records"] == 100
     assert competition["summary"]["expected_matched"] == 100
     assert competition["summary"]["expected_failed"] == 0
-    assert competition["summary"]["exports"] == 89
+    assert competition["summary"]["exports"] == 90
     assert competition["summary"]["vsea_parquet_magic"] == "PAR1"
     assert competition["summary"]["theorem_release_gate"] == "pass"
+    assert competition["summary"]["math_viability_status"] == "pass"
+    assert competition["summary"]["math_viability_failures"] == 0
+    assert competition["summary"]["math_viability_checks"] > 0
     assert competition["summary"]["graph_roundtrip_status"] == "pass"
     assert competition["decision_classes"]["species-safe"] == 25
 

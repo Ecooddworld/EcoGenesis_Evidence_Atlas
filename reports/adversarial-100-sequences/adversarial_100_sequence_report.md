@@ -1,20 +1,21 @@
 # Adversarial 100-Sequence Fail-Closed Stress Report
 
-Generated: 2026-06-15T02:27:54+02:00
+Generated: 2026-06-24T23:51:51+02:00
 Backend: local compiler script `backend/scripts/generate_competition_reports.py`
-Run ID: `f02adbce819e40cc8fd7884db97fdb8a`
+Run ID: `3b037205cc904c08a613a6ccea42f724`
 
 ## Result
 
 - Records submitted: 100
 - API status: completed
-- Exports returned: 89
+- Exports returned: 90
 - Expected decisions matched: True
 - Hard-gate failures: 0
-- Evidence Pack ZIP SHA-256: `888dc1c61d83eb0b8142ad0c4baa6b5de5fc3a3eb9da1398d954738baab1b37b`
+- Evidence Pack ZIP SHA-256: `8c88081aba62e0dba593f59ee8c16400ebc61a845602347ed396aab85a9733c1`
 - GSEG/GSIG exports present: True
 - ZIP contains GSEG/GSIG exports: True
 - VSEA Parquet magic: `PAR1`
+- Math viability audit: `pass` (936 checks, 0 failed)
 - Theorem checklist release gate: `pass`
 - Graph roundtrip audit: `pass`
 - False species-safe outside positive controls: 0

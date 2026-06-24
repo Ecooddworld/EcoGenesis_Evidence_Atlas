@@ -12,7 +12,7 @@ cd backend
 Expected current result:
 
 ```text
-74 passed, 1 skipped
+79 passed, 1 skipped
 ```
 
 Required barcode compiler coverage:
@@ -38,6 +38,7 @@ Required barcode compiler coverage:
 - GSIG Observatory exports include `observatory_evidence_pack.zip`, `snapshot_manifest.json`, `source_registry_audit.json`, `observatory_vsea.parquet`, `observatory_graph.jsonld`, `gbif_export_preview.csv`, `ai_ready_dataset.jsonl` and all 20 OPO audit artifacts.
 - `tests/test_gsig_observatory_reference_checks.py` verifies the Observatory source registry, pipeline DAG, UI contract, proof obligations, visual claim-state projection and AI label separation.
 - `tests/test_observatory_api.py` verifies `/api/observatory/*`, generated parquet, GBIF fixture fallback recording, VSEA/segment/claim endpoints and export links.
+- `tests/test_math_viability.py` verifies the independent math viability oracle over default and edge-case packs.
 
 Legacy `/api/evidence/*` tests remain active to guarantee the occurrence-audit layer still works for GBIF context and regression.
 
@@ -154,6 +155,21 @@ Expected:
 - The shared-fragment graph path includes segment evidence rather than only top-hit summary data.
 - `/api/observatory/status` and `/api/observatory/run-demo` work through the frontend proxy.
 
+## Math Viability
+
+Run from the repository root:
+
+```bash
+backend/.venv/bin/python backend/scripts/verify_math_viability.py
+```
+
+Expected:
+
+- status `pass`;
+- 2 generated packs checked;
+- 142 formula and invariant checks;
+- match gates, ambiguity boundary, safe LCA, barcode gap, diagnostic k-mer probability, hard-gate theorem, publication separation and batch metrics all reconcile with the Evidence Pack.
+
 ## Operability Report
 
 Run:
@@ -178,17 +194,18 @@ Current Docker-backed batch reports:
 
 - `reports/competition-100-sequences/competition_100_sequence_report.md`
   - 100 records;
-  - 89 exports;
+  - 90 exports;
   - expected decisions matched;
   - hard-gate failures: `0`;
   - 50 publishable candidates, 0 formal GBIF-ready rows;
-  - GSEG/GSIG exports present, VSEA Parquet magic `PAR1`, theorem release gate `pass`, graph roundtrip `pass`.
+  - GSEG/GSIG exports present, math viability audit `pass`, VSEA Parquet magic `PAR1`, theorem release gate `pass`, graph roundtrip `pass`.
 - `reports/adversarial-100-sequences/adversarial_100_sequence_report.md`
   - 100 adversarial records across no-match, weak, ambiguity, metadata, assay, name-conflict, custom-marker and missing-evidence cases;
   - expected decisions matched;
   - hard-gate failures: `0`;
   - false species-safe outside positive controls: `0`;
-  - GSEG/GSIG exports present, VSEA Parquet magic `PAR1`, theorem release gate `pass`, graph roundtrip `pass`.
+  - 90 exports;
+  - GSEG/GSIG exports present, math viability audit `pass`, VSEA Parquet magic `PAR1`, theorem release gate `pass`, graph roundtrip `pass`.
 
 Regenerate both reports:
 

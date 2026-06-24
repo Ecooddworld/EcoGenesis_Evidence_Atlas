@@ -51,19 +51,20 @@ Current solved behavior:
 
 ## Verification Status
 
-- Frontend unit tests: `3 passed`
+- Frontend unit tests: `14 passed`
 - Frontend production build: passed
-- Backend pytest: `23 passed, 1 skipped`
+- Backend pytest: `79 passed, 1 skipped`
+- Math viability verifier: `PASS`, 2 packs, 142 checks, 0 failed
 - Barcode operability script: `PASS`
 - Browser smoke: `0` console errors, `20` math notebook sections, no horizontal overflow
 - GBIF-backed Observatory smoke: `ok`, `taxonKey=1651430`, source mode recorded in `snapshot_manifest.json`; fixture fallback is explicit when used
 
-## What Is Specified But Not Fully Implemented Yet
+## Current Scope Boundaries
 
-- Reference Completeness Gate
-- Protein Sanity Gate
-- Assay Evidence Gate
-- Repair Optimizer
+- Reference completeness is exported as a visible caveat unless an external reference-coverage audit is attached.
+- Protein sanity remains a roadmap/no-claim QC layer; no protein-derived species claims are exported.
+- Assay evidence gates are implemented for publication blocking where required fields are configured.
+- Repair optimizer is implemented as ranked repair actions and gain estimates; budgeted optimization remains a future planning layer.
 - Reference Gap Dashboard
 - Publisher Bottleneck Dashboard
 - Fragment Sharedness Explorer

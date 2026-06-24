@@ -13,7 +13,7 @@
   },
   "direct_compiler": {
     "pass": true,
-    "run_id": "c050699ca14642419c05dd89d6c7b4bb",
+    "run_id": "181ae7c097994d04bc52e71bacc7b56c",
     "metrics": {
       "processed_records": 4,
       "input_records": 4,
@@ -62,7 +62,7 @@
     "missing_exports": [],
     "zip_ok": true,
     "zip_contains_required_exports": true,
-    "evidence_pack_json_sha256": "2ca20972656e6bb161992e539772800ce121100c9376901fef8391f72669fd5b"
+    "evidence_pack_json_sha256": "7f67be842ea6b6fd591086e1d75261505dd51d9e745e44e181ab58fd625a6d22"
   },
   "api": {
     "run_endpoint_status": 200,
@@ -78,7 +78,7 @@
       "AALB-COI-metadata-gap": "not-publishable"
     },
     "api_expected_classes_pass": true,
-    "api_export_count": 89
+    "api_export_count": 90
   },
   "actual_results": [
     {

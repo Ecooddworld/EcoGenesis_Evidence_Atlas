@@ -7,6 +7,7 @@ import json
 import re
 from typing import Any
 
+from app.barcode.math_audit import audit_pack_math
 from app.gseg.artifacts import ArtifactContent, build_gseg_gsig_artifacts
 
 
@@ -53,6 +54,7 @@ def build_barcode_artifacts(pack: dict[str, Any]) -> dict[str, ArtifactContent]:
         "nexus_v3_summary.json": json.dumps(pack["nexus_v3"], indent=2, ensure_ascii=False),
         "external_tool_adapter_matrix.csv": external_tool_adapter_matrix_csv(),
         "proof_by_failure_modes.md": proof_by_failure_modes_md(pack),
+        "math_viability_audit.json": json.dumps(audit_pack_math(pack), indent=2, ensure_ascii=False),
     }
     artifacts.update(build_gseg_gsig_artifacts(pack))
     return artifacts

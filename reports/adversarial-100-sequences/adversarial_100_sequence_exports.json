@@ -46,6 +46,7 @@
   "manual_review_audit.csv",
   "marker_profile_audit.csv",
   "match_gate_audit.csv",
+  "math_viability_audit.json",
   "metadata_bottlenecks.csv",
   "methods_text.md",
   "molecular_evidence_report.html",

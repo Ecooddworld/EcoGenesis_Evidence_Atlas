@@ -1,0 +1,1704 @@
+{
+  "schema": "ecogenesis.math_viability_report.v1",
+  "summary": {
+    "status": "pass",
+    "packs": 2,
+    "checks": 142,
+    "failed": 0
+  },
+  "scope": [
+    "Barcode compiler formulas and hard-gate invariants",
+    "Taxonomic status versus publication/export status separation",
+    "GSEG/GSIG claim-state viability as represented in generated evidence packs"
+  ],
+  "non_claim_boundaries": [
+    "This is an internal consistency and fail-closed proof over supplied inputs.",
+    "It is not an empirical species-delimitation validation over global biodiversity.",
+    "It is not a claim that GBIF occurrence context upgrades molecular evidence."
+  ],
+  "packs": [
+    {
+      "schema": "ecogenesis.barcode.math_viability_audit.v1",
+      "scope": "default_mixed_demo",
+      "summary": {
+        "status": "pass",
+        "checks": 53,
+        "failed": 0,
+        "records": 4
+      },
+      "unit_contract": {
+        "api_identity_query_coverage": "percent values in [0, 100]",
+        "formula_identity_query_coverage": "normalized fractions p_identity=identity/100 and p_coverage=queryCoverage/100",
+        "barcode_gap_distances": "fractions in [0, 1]",
+        "diagnostic_probability": "probability in [0, 1]"
+      },
+      "method_boundary": [
+        "The audit proves internal mathematical consistency for supplied evidence and frozen gates.",
+        "It does not prove absolute species truth outside the supplied reference context.",
+        "It does not infer presence, absence, abundance, distribution, phenotype or function without external evidence.",
+        "Reference completeness remains a visible caveat when no external reference-coverage audit is attached."
+      ],
+      "checks": [
+        {
+          "name": "records_present",
+          "status": "pass",
+          "observed": 4
+        },
+        {
+          "name": "AALB-COI-good:match_gate_formula",
+          "status": "pass",
+          "observed": {
+            "actual": "exact",
+            "expected": "exact"
+          }
+        },
+        {
+          "name": "AALB-COI-good:percent_fraction_boundary",
+          "status": "pass",
+          "observed": {
+            "identity": 99.6,
+            "queryCoverage": 96.0
+          }
+        },
+        {
+          "name": "AALB-COI-good:all_hit_metric_units",
+          "status": "pass",
+          "observed": "all hit metrics in percent/positive-length bounds"
+        },
+        {
+          "name": "AALB-COI-good:ambiguity_set_formula",
+          "status": "pass",
+          "observed": {
+            "actual": [
+              "Aedes albopictus"
+            ],
+            "expected": [
+              "Aedes albopictus"
+            ]
+          }
+        },
+        {
+          "name": "AALB-COI-good:safe_lca_formula",
+          "status": "pass",
+          "observed": {
+            "actual": {
+              "rank": "species",
+              "name": "Aedes albopictus",
+              "taxon_key": 1651430
+            },
+            "expected": {
+              "rank": "species",
+              "name": "Aedes albopictus",
+              "taxon_key": 1651430
+            },
+            "raw_lca": {
+              "rank": "species",
+              "name": "Aedes albopictus",
+              "taxon_key": 1651430
+            }
+          }
+        },
+        {
+          "name": "AALB-COI-good:barcode_gap_formula",
+          "status": "pass",
+          "observed": {
+            "actual": {
+              "status": "pass",
+              "gap": 0.009,
+              "intra_max_distance": 0.009,
+              "inter_min_distance": 0.018
+            },
+            "expected": {
+              "status": "pass",
+              "gap": 0.009
+            }
+          }
+        },
+        {
+          "name": "AALB-COI-good:diagnostic_kmer_probability_formula",
+          "status": "pass",
+          "observed": {
+            "actual": {
+              "status": "pass",
+              "support_count": 3,
+              "support_rate": 0.004934,
+              "k": 15,
+              "query_window_count": 608,
+              "diagnostic_kmer_count": 3,
+              "expected_random_hits": 2e-06,
+              "p_false_positive": 1.7e-06,
+              "alpha": 0.01
+            },
+            "expected": {
+              "status": "pass",
+              "support_rate": 0.004934,
+              "expected_random_hits": 2e-06,
+              "p_false_positive": 1.7e-06
+            }
+          }
+        },
+        {
+          "name": "AALB-COI-good:species_safe_implies_all_hard_gates",
+          "status": "pass",
+          "observed": {
+            "decisionClass": "species-safe",
+            "exact": true,
+            "ambiguity": true,
+            "barcodeGap": true,
+            "diagnosticKmer": true,
+            "marker": true,
+            "core": true,
+            "dna": true,
+            "assay": true
+          }
+        },
+        {
+          "name": "AALB-COI-good:published_taxon_requires_safe_decision_class",
+          "status": "pass",
+          "observed": {
+            "decisionClass": "species-safe",
+            "publishedRank": "species"
+          }
+        },
+        {
+          "name": "AALB-COI-ambiguous:match_gate_formula",
+          "status": "pass",
+          "observed": {
+            "actual": "exact",
+            "expected": "exact"
+          }
+        },
+        {
+          "name": "AALB-COI-ambiguous:percent_fraction_boundary",
+          "status": "pass",
+          "observed": {
+            "identity": 99.4,
+            "queryCoverage": 96.0
+          }
+        },
+        {
+          "name": "AALB-COI-ambiguous:all_hit_metric_units",
+          "status": "pass",
+          "observed": "all hit metrics in percent/positive-length bounds"
+        },
+        {
+          "name": "AALB-COI-ambiguous:ambiguity_set_formula",
+          "status": "pass",
+          "observed": {
+            "actual": [
+              "Aedes aegypti",
+              "Aedes albopictus"
+            ],
+            "expected": [
+              "Aedes aegypti",
+              "Aedes albopictus"
+            ]
+          }
+        },
+        {
+          "name": "AALB-COI-ambiguous:safe_lca_formula",
+          "status": "pass",
+          "observed": {
+            "actual": {
+              "rank": "genus",
+              "name": "Aedes",
+              "taxon_key": null
+            },
+            "expected": {
+              "rank": "genus",
+              "name": "Aedes",
+              "taxon_key": null
+            },
+            "raw_lca": {
+              "rank": "genus",
+              "name": "Aedes",
+              "taxon_key": null
+            }
+          }
+        },
+        {
+          "name": "AALB-COI-ambiguous:barcode_gap_formula",
+          "status": "pass",
+          "observed": {
+            "actual": {
+              "status": "pass",
+              "gap": 0.009,
+              "intra_max_distance": 0.009,
+              "inter_min_distance": 0.018
+            },
+            "expected": {
+              "status": "pass",
+              "gap": 0.009
+            }
+          }
+        },
+        {
+          "name": "AALB-COI-ambiguous:diagnostic_kmer_probability_formula",
+          "status": "pass",
+          "observed": {
+            "actual": {
+              "status": "pass",
+              "support_count": 3,
+              "support_rate": 0.004934,
+              "k": 15,
+              "query_window_count": 608,
+              "diagnostic_kmer_count": 3,
+              "expected_random_hits": 2e-06,
+              "p_false_positive": 1.7e-06,
+              "alpha": 0.01
+            },
+            "expected": {
+              "status": "pass",
+              "support_rate": 0.004934,
+              "expected_random_hits": 2e-06,
+              "p_false_positive": 1.7e-06
+            }
+          }
+        },
+        {
+          "name": "AALB-COI-ambiguous:species_safe_implies_all_hard_gates",
+          "status": "pass",
+          "observed": {
+            "decisionClass": "genus-safe",
+            "exact": true,
+            "ambiguity": false,
+            "barcodeGap": true,
+            "diagnosticKmer": true,
+            "marker": true,
+            "core": true,
+            "dna": true,
+            "assay": true
+          }
+        },
+        {
+          "name": "AALB-COI-ambiguous:published_taxon_requires_safe_decision_class",
+          "status": "pass",
+          "observed": {
+            "decisionClass": "genus-safe",
+            "publishedRank": "genus"
+          }
+        },
+        {
+          "name": "AALB-COI-short:match_gate_formula",
+          "status": "pass",
+          "observed": {
+            "actual": "weak",
+            "expected": "weak"
+          }
+        },
+        {
+          "name": "AALB-COI-short:percent_fraction_boundary",
+          "status": "pass",
+          "observed": {
+            "identity": 99.5,
+            "queryCoverage": 72.0
+          }
+        },
+        {
+          "name": "AALB-COI-short:all_hit_metric_units",
+          "status": "pass",
+          "observed": "all hit metrics in percent/positive-length bounds"
+        },
+        {
+          "name": "AALB-COI-short:ambiguity_set_formula",
+          "status": "pass",
+          "observed": {
+            "actual": [
+              "Aedes albopictus"
+            ],
+            "expected": [
+              "Aedes albopictus"
+            ]
+          }
+        },
+        {
+          "name": "AALB-COI-short:safe_lca_formula",
+          "status": "pass",
+          "observed": {
+            "actual": {
+              "rank": "species",
+              "name": "Aedes albopictus",
+              "taxon_key": 1651430
+            },
+            "expected": {
+              "rank": "species",
+              "name": "Aedes albopictus",
+              "taxon_key": 1651430
+            },
+            "raw_lca": {
+              "rank": "species",
+              "name": "Aedes albopictus",
+              "taxon_key": 1651430
+            }
+          }
+        },
+        {
+          "name": "AALB-COI-short:barcode_gap_formula",
+          "status": "pass",
+          "observed": {
+            "actual": {
+              "status": "pass",
+              "gap": 0.009,
+              "intra_max_distance": 0.009,
+              "inter_min_distance": 0.018
+            },
+            "expected": {
+              "status": "pass",
+              "gap": 0.009
+            }
+          }
+        },
+        {
+          "name": "AALB-COI-short:diagnostic_kmer_probability_formula",
+          "status": "pass",
+          "observed": {
+            "actual": {
+              "status": "pass",
+              "support_count": 3,
+              "support_rate": 0.004934,
+              "k": 15,
+              "query_window_count": 608,
+              "diagnostic_kmer_count": 3,
+              "expected_random_hits": 2e-06,
+              "p_false_positive": 1.7e-06,
+              "alpha": 0.01
+            },
+            "expected": {
+              "status": "pass",
+              "support_rate": 0.004934,
+              "expected_random_hits": 2e-06,
+              "p_false_positive": 1.7e-06
+            }
+          }
+        },
+        {
+          "name": "AALB-COI-short:species_safe_implies_all_hard_gates",
+          "status": "pass",
+          "observed": {
+            "decisionClass": "weak",
+            "exact": false,
+            "ambiguity": true,
+            "barcodeGap": true,
+            "diagnosticKmer": true,
+            "marker": true,
+            "core": true,
+            "dna": true,
+            "assay": true
+          }
+        },
+        {
+          "name": "AALB-COI-short:published_taxon_requires_safe_decision_class",
+          "status": "pass",
+          "observed": {
+            "decisionClass": "weak",
+            "publishedRank": "none"
+          }
+        },
+        {
+          "name": "AALB-COI-metadata-gap:match_gate_formula",
+          "status": "pass",
+          "observed": {
+            "actual": "exact",
+            "expected": "exact"
+          }
+        },
+        {
+          "name": "AALB-COI-metadata-gap:percent_fraction_boundary",
+          "status": "pass",
+          "observed": {
+            "identity": 99.6,
+            "queryCoverage": 96.0
+          }
+        },
+        {
+          "name": "AALB-COI-metadata-gap:all_hit_metric_units",
+          "status": "pass",
+          "observed": "all hit metrics in percent/positive-length bounds"
+        },
+        {
+          "name": "AALB-COI-metadata-gap:ambiguity_set_formula",
+          "status": "pass",
+          "observed": {
+            "actual": [
+              "Aedes albopictus"
+            ],
+            "expected": [
+              "Aedes albopictus"
+            ]
+          }
+        },
+        {
+          "name": "AALB-COI-metadata-gap:safe_lca_formula",
+          "status": "pass",
+          "observed": {
+            "actual": {
+              "rank": "species",
+              "name": "Aedes albopictus",
+              "taxon_key": 1651430
+            },
+            "expected": {
+              "rank": "species",
+              "name": "Aedes albopictus",
+              "taxon_key": 1651430
+            },
+            "raw_lca": {
+              "rank": "species",
+              "name": "Aedes albopictus",
+              "taxon_key": 1651430
+            }
+          }
+        },
+        {
+          "name": "AALB-COI-metadata-gap:barcode_gap_formula",
+          "status": "pass",
+          "observed": {
+            "actual": {
+              "status": "pass",
+              "gap": 0.009,
+              "intra_max_distance": 0.009,
+              "inter_min_distance": 0.018
+            },
+            "expected": {
+              "status": "pass",
+              "gap": 0.009
+            }
+          }
+        },
+        {
+          "name": "AALB-COI-metadata-gap:diagnostic_kmer_probability_formula",
+          "status": "pass",
+          "observed": {
+            "actual": {
+              "status": "pass",
+              "support_count": 3,
+              "support_rate": 0.004934,
+              "k": 15,
+              "query_window_count": 608,
+              "diagnostic_kmer_count": 3,
+              "expected_random_hits": 2e-06,
+              "p_false_positive": 1.7e-06,
+              "alpha": 0.01
+            },
+            "expected": {
+              "status": "pass",
+              "support_rate": 0.004934,
+              "expected_random_hits": 2e-06,
+              "p_false_positive": 1.7e-06
+            }
+          }
+        },
+        {
+          "name": "AALB-COI-metadata-gap:species_safe_implies_all_hard_gates",
+          "status": "pass",
+          "observed": {
+            "decisionClass": "not-publishable",
+            "exact": true,
+            "ambiguity": true,
+            "barcodeGap": true,
+            "diagnosticKmer": true,
+            "marker": true,
+            "core": false,
+            "dna": true,
+            "assay": true
+          }
+        },
+        {
+          "name": "AALB-COI-metadata-gap:metadata_cannot_publish_safe_taxon",
+          "status": "pass",
+          "observed": {
+            "publishedRank": "none",
+            "exportState": "evidence_publishable_repair_required"
+          }
+        },
+        {
+          "name": "AALB-COI-metadata-gap:published_taxon_requires_safe_decision_class",
+          "status": "pass",
+          "observed": {
+            "decisionClass": "not-publishable",
+            "publishedRank": "none"
+          }
+        },
+        {
+          "name": "metrics:processed_records",
+          "status": "pass",
+          "observed": {
+            "actual": 4,
+            "expected": 4
+          }
+        },
+        {
+          "name": "metrics:species_safe_records",
+          "status": "pass",
+          "observed": {
+            "actual": 1,
+            "expected": 1
+          }
+        },
+        {
+          "name": "metrics:genus_safe_records",
+          "status": "pass",
+          "observed": {
+            "actual": 1,
+            "expected": 1
+          }
+        },
+        {
+          "name": "metrics:higher_rank_safe_records",
+          "status": "pass",
+          "observed": {
+            "actual": 0,
+            "expected": 0
+          }
+        },
+        {
+          "name": "metrics:not_publishable_records",
+          "status": "pass",
+          "observed": {
+            "actual": 1,
+            "expected": 1
+          }
+        },
+        {
+          "name": "metrics:safe_rank_records",
+          "status": "pass",
+          "observed": {
+            "actual": 2,
+            "expected": 2
+          }
+        },
+        {
+          "name": "metrics:top_species_hits",
+          "status": "pass",
+          "observed": {
+            "actual": 4,
+            "expected": 4
+          }
+        },
+        {
+          "name": "metrics:blocked_species_claims",
+          "status": "pass",
+          "observed": {
+            "actual": 3,
+            "expected": 3
+          }
+        },
+        {
+          "name": "metrics:publishable_template_records",
+          "status": "pass",
+          "observed": {
+            "actual": 2,
+            "expected": 2
+          }
+        },
+        {
+          "name": "metrics:species_safe_yield",
+          "status": "pass",
+          "observed": {
+            "actual": 0.25,
+            "expected": 0.25
+          }
+        },
+        {
+          "name": "metrics:safe_rank_yield",
+          "status": "pass",
+          "observed": {
+            "actual": 0.5,
+            "expected": 0.5
+          }
+        },
+        {
+          "name": "metrics:molecular_evidence_conversion_yield",
+          "status": "pass",
+          "observed": {
+            "actual": 0.5,
+            "expected": 0.5
+          }
+        },
+        {
+          "name": "metrics:overclaim_prevention_rate",
+          "status": "pass",
+          "observed": {
+            "actual": 0.75,
+            "expected": 0.75
+          }
+        },
+        {
+          "name": "batch:no_unsafe_species_export",
+          "status": "pass",
+          "observed": "published species rows checked"
+        },
+        {
+          "name": "batch:weak_and_no_match_never_publish",
+          "status": "pass",
+          "observed": "weak/no-match/ambiguous rows checked"
+        }
+      ]
+    },
+    {
+      "schema": "ecogenesis.barcode.math_viability_audit.v1",
+      "scope": "edge_case_suite",
+      "summary": {
+        "status": "pass",
+        "checks": 89,
+        "failed": 0,
+        "records": 8
+      },
+      "unit_contract": {
+        "api_identity_query_coverage": "percent values in [0, 100]",
+        "formula_identity_query_coverage": "normalized fractions p_identity=identity/100 and p_coverage=queryCoverage/100",
+        "barcode_gap_distances": "fractions in [0, 1]",
+        "diagnostic_probability": "probability in [0, 1]"
+      },
+      "method_boundary": [
+        "The audit proves internal mathematical consistency for supplied evidence and frozen gates.",
+        "It does not prove absolute species truth outside the supplied reference context.",
+        "It does not infer presence, absence, abundance, distribution, phenotype or function without external evidence.",
+        "Reference completeness remains a visible caveat when no external reference-coverage audit is attached."
+      ],
+      "checks": [
+        {
+          "name": "records_present",
+          "status": "pass",
+          "observed": 8
+        },
+        {
+          "name": "MATH-good:match_gate_formula",
+          "status": "pass",
+          "observed": {
+            "actual": "exact",
+            "expected": "exact"
+          }
+        },
+        {
+          "name": "MATH-good:percent_fraction_boundary",
+          "status": "pass",
+          "observed": {
+            "identity": 99.6,
+            "queryCoverage": 96.0
+          }
+        },
+        {
+          "name": "MATH-good:all_hit_metric_units",
+          "status": "pass",
+          "observed": "all hit metrics in percent/positive-length bounds"
+        },
+        {
+          "name": "MATH-good:ambiguity_set_formula",
+          "status": "pass",
+          "observed": {
+            "actual": [
+              "Aedes albopictus"
+            ],
+            "expected": [
+              "Aedes albopictus"
+            ]
+          }
+        },
+        {
+          "name": "MATH-good:safe_lca_formula",
+          "status": "pass",
+          "observed": {
+            "actual": {
+              "rank": "species",
+              "name": "Aedes albopictus",
+              "taxon_key": 1651430
+            },
+            "expected": {
+              "rank": "species",
+              "name": "Aedes albopictus",
+              "taxon_key": 1651430
+            },
+            "raw_lca": {
+              "rank": "species",
+              "name": "Aedes albopictus",
+              "taxon_key": 1651430
+            }
+          }
+        },
+        {
+          "name": "MATH-good:barcode_gap_formula",
+          "status": "pass",
+          "observed": {
+            "actual": {
+              "status": "pass",
+              "gap": 0.009,
+              "intra_max_distance": 0.009,
+              "inter_min_distance": 0.018
+            },
+            "expected": {
+              "status": "pass",
+              "gap": 0.009
+            }
+          }
+        },
+        {
+          "name": "MATH-good:diagnostic_kmer_probability_formula",
+          "status": "pass",
+          "observed": {
+            "actual": {
+              "status": "pass",
+              "support_count": 3,
+              "support_rate": 0.004934,
+              "k": 15,
+              "query_window_count": 608,
+              "diagnostic_kmer_count": 3,
+              "expected_random_hits": 2e-06,
+              "p_false_positive": 1.7e-06,
+              "alpha": 0.01
+            },
+            "expected": {
+              "status": "pass",
+              "support_rate": 0.004934,
+              "expected_random_hits": 2e-06,
+              "p_false_positive": 1.7e-06
+            }
+          }
+        },
+        {
+          "name": "MATH-good:species_safe_implies_all_hard_gates",
+          "status": "pass",
+          "observed": {
+            "decisionClass": "species-safe",
+            "exact": true,
+            "ambiguity": true,
+            "barcodeGap": true,
+            "diagnosticKmer": true,
+            "marker": true,
+            "core": true,
+            "dna": true,
+            "assay": true
+          }
+        },
+        {
+          "name": "MATH-good:published_taxon_requires_safe_decision_class",
+          "status": "pass",
+          "observed": {
+            "decisionClass": "species-safe",
+            "publishedRank": "species"
+          }
+        },
+        {
+          "name": "MATH-ambiguous:match_gate_formula",
+          "status": "pass",
+          "observed": {
+            "actual": "exact",
+            "expected": "exact"
+          }
+        },
+        {
+          "name": "MATH-ambiguous:percent_fraction_boundary",
+          "status": "pass",
+          "observed": {
+            "identity": 99.4,
+            "queryCoverage": 96.0
+          }
+        },
+        {
+          "name": "MATH-ambiguous:all_hit_metric_units",
+          "status": "pass",
+          "observed": "all hit metrics in percent/positive-length bounds"
+        },
+        {
+          "name": "MATH-ambiguous:ambiguity_set_formula",
+          "status": "pass",
+          "observed": {
+            "actual": [
+              "Aedes aegypti",
+              "Aedes albopictus"
+            ],
+            "expected": [
+              "Aedes aegypti",
+              "Aedes albopictus"
+            ]
+          }
+        },
+        {
+          "name": "MATH-ambiguous:safe_lca_formula",
+          "status": "pass",
+          "observed": {
+            "actual": {
+              "rank": "genus",
+              "name": "Aedes",
+              "taxon_key": null
+            },
+            "expected": {
+              "rank": "genus",
+              "name": "Aedes",
+              "taxon_key": null
+            },
+            "raw_lca": {
+              "rank": "genus",
+              "name": "Aedes",
+              "taxon_key": null
+            }
+          }
+        },
+        {
+          "name": "MATH-ambiguous:barcode_gap_formula",
+          "status": "pass",
+          "observed": {
+            "actual": {
+              "status": "pass",
+              "gap": 0.009,
+              "intra_max_distance": 0.009,
+              "inter_min_distance": 0.018
+            },
+            "expected": {
+              "status": "pass",
+              "gap": 0.009
+            }
+          }
+        },
+        {
+          "name": "MATH-ambiguous:diagnostic_kmer_probability_formula",
+          "status": "pass",
+          "observed": {
+            "actual": {
+              "status": "pass",
+              "support_count": 3,
+              "support_rate": 0.004934,
+              "k": 15,
+              "query_window_count": 608,
+              "diagnostic_kmer_count": 3,
+              "expected_random_hits": 2e-06,
+              "p_false_positive": 1.7e-06,
+              "alpha": 0.01
+            },
+            "expected": {
+              "status": "pass",
+              "support_rate": 0.004934,
+              "expected_random_hits": 2e-06,
+              "p_false_positive": 1.7e-06
+            }
+          }
+        },
+        {
+          "name": "MATH-ambiguous:species_safe_implies_all_hard_gates",
+          "status": "pass",
+          "observed": {
+            "decisionClass": "genus-safe",
+            "exact": true,
+            "ambiguity": false,
+            "barcodeGap": true,
+            "diagnosticKmer": true,
+            "marker": true,
+            "core": true,
+            "dna": true,
+            "assay": true
+          }
+        },
+        {
+          "name": "MATH-ambiguous:published_taxon_requires_safe_decision_class",
+          "status": "pass",
+          "observed": {
+            "decisionClass": "genus-safe",
+            "publishedRank": "genus"
+          }
+        },
+        {
+          "name": "MATH-weak:match_gate_formula",
+          "status": "pass",
+          "observed": {
+            "actual": "weak",
+            "expected": "weak"
+          }
+        },
+        {
+          "name": "MATH-weak:percent_fraction_boundary",
+          "status": "pass",
+          "observed": {
+            "identity": 99.5,
+            "queryCoverage": 72.0
+          }
+        },
+        {
+          "name": "MATH-weak:all_hit_metric_units",
+          "status": "pass",
+          "observed": "all hit metrics in percent/positive-length bounds"
+        },
+        {
+          "name": "MATH-weak:ambiguity_set_formula",
+          "status": "pass",
+          "observed": {
+            "actual": [
+              "Aedes albopictus"
+            ],
+            "expected": [
+              "Aedes albopictus"
+            ]
+          }
+        },
+        {
+          "name": "MATH-weak:safe_lca_formula",
+          "status": "pass",
+          "observed": {
+            "actual": {
+              "rank": "species",
+              "name": "Aedes albopictus",
+              "taxon_key": 1651430
+            },
+            "expected": {
+              "rank": "species",
+              "name": "Aedes albopictus",
+              "taxon_key": 1651430
+            },
+            "raw_lca": {
+              "rank": "species",
+              "name": "Aedes albopictus",
+              "taxon_key": 1651430
+            }
+          }
+        },
+        {
+          "name": "MATH-weak:barcode_gap_formula",
+          "status": "pass",
+          "observed": {
+            "actual": {
+              "status": "pass",
+              "gap": 0.009,
+              "intra_max_distance": 0.009,
+              "inter_min_distance": 0.018
+            },
+            "expected": {
+              "status": "pass",
+              "gap": 0.009
+            }
+          }
+        },
+        {
+          "name": "MATH-weak:diagnostic_kmer_probability_formula",
+          "status": "pass",
+          "observed": {
+            "actual": {
+              "status": "pass",
+              "support_count": 3,
+              "support_rate": 0.004934,
+              "k": 15,
+              "query_window_count": 608,
+              "diagnostic_kmer_count": 3,
+              "expected_random_hits": 2e-06,
+              "p_false_positive": 1.7e-06,
+              "alpha": 0.01
+            },
+            "expected": {
+              "status": "pass",
+              "support_rate": 0.004934,
+              "expected_random_hits": 2e-06,
+              "p_false_positive": 1.7e-06
+            }
+          }
+        },
+        {
+          "name": "MATH-weak:species_safe_implies_all_hard_gates",
+          "status": "pass",
+          "observed": {
+            "decisionClass": "weak",
+            "exact": false,
+            "ambiguity": true,
+            "barcodeGap": true,
+            "diagnosticKmer": true,
+            "marker": true,
+            "core": true,
+            "dna": true,
+            "assay": true
+          }
+        },
+        {
+          "name": "MATH-weak:published_taxon_requires_safe_decision_class",
+          "status": "pass",
+          "observed": {
+            "decisionClass": "weak",
+            "publishedRank": "none"
+          }
+        },
+        {
+          "name": "MATH-metadata-gap:match_gate_formula",
+          "status": "pass",
+          "observed": {
+            "actual": "exact",
+            "expected": "exact"
+          }
+        },
+        {
+          "name": "MATH-metadata-gap:percent_fraction_boundary",
+          "status": "pass",
+          "observed": {
+            "identity": 99.6,
+            "queryCoverage": 96.0
+          }
+        },
+        {
+          "name": "MATH-metadata-gap:all_hit_metric_units",
+          "status": "pass",
+          "observed": "all hit metrics in percent/positive-length bounds"
+        },
+        {
+          "name": "MATH-metadata-gap:ambiguity_set_formula",
+          "status": "pass",
+          "observed": {
+            "actual": [
+              "Aedes albopictus"
+            ],
+            "expected": [
+              "Aedes albopictus"
+            ]
+          }
+        },
+        {
+          "name": "MATH-metadata-gap:safe_lca_formula",
+          "status": "pass",
+          "observed": {
+            "actual": {
+              "rank": "species",
+              "name": "Aedes albopictus",
+              "taxon_key": 1651430
+            },
+            "expected": {
+              "rank": "species",
+              "name": "Aedes albopictus",
+              "taxon_key": 1651430
+            },
+            "raw_lca": {
+              "rank": "species",
+              "name": "Aedes albopictus",
+              "taxon_key": 1651430
+            }
+          }
+        },
+        {
+          "name": "MATH-metadata-gap:barcode_gap_formula",
+          "status": "pass",
+          "observed": {
+            "actual": {
+              "status": "pass",
+              "gap": 0.009,
+              "intra_max_distance": 0.009,
+              "inter_min_distance": 0.018
+            },
+            "expected": {
+              "status": "pass",
+              "gap": 0.009
+            }
+          }
+        },
+        {
+          "name": "MATH-metadata-gap:diagnostic_kmer_probability_formula",
+          "status": "pass",
+          "observed": {
+            "actual": {
+              "status": "pass",
+              "support_count": 3,
+              "support_rate": 0.004934,
+              "k": 15,
+              "query_window_count": 608,
+              "diagnostic_kmer_count": 3,
+              "expected_random_hits": 2e-06,
+              "p_false_positive": 1.7e-06,
+              "alpha": 0.01
+            },
+            "expected": {
+              "status": "pass",
+              "support_rate": 0.004934,
+              "expected_random_hits": 2e-06,
+              "p_false_positive": 1.7e-06
+            }
+          }
+        },
+        {
+          "name": "MATH-metadata-gap:species_safe_implies_all_hard_gates",
+          "status": "pass",
+          "observed": {
+            "decisionClass": "not-publishable",
+            "exact": true,
+            "ambiguity": true,
+            "barcodeGap": true,
+            "diagnosticKmer": true,
+            "marker": true,
+            "core": false,
+            "dna": true,
+            "assay": true
+          }
+        },
+        {
+          "name": "MATH-metadata-gap:metadata_cannot_publish_safe_taxon",
+          "status": "pass",
+          "observed": {
+            "publishedRank": "none",
+            "exportState": "evidence_publishable_repair_required"
+          }
+        },
+        {
+          "name": "MATH-metadata-gap:published_taxon_requires_safe_decision_class",
+          "status": "pass",
+          "observed": {
+            "decisionClass": "not-publishable",
+            "publishedRank": "none"
+          }
+        },
+        {
+          "name": "MATH-negative-gap:match_gate_formula",
+          "status": "pass",
+          "observed": {
+            "actual": "exact",
+            "expected": "exact"
+          }
+        },
+        {
+          "name": "MATH-negative-gap:percent_fraction_boundary",
+          "status": "pass",
+          "observed": {
+            "identity": 99.6,
+            "queryCoverage": 96.0
+          }
+        },
+        {
+          "name": "MATH-negative-gap:all_hit_metric_units",
+          "status": "pass",
+          "observed": "all hit metrics in percent/positive-length bounds"
+        },
+        {
+          "name": "MATH-negative-gap:ambiguity_set_formula",
+          "status": "pass",
+          "observed": {
+            "actual": [
+              "Aedes albopictus"
+            ],
+            "expected": [
+              "Aedes albopictus"
+            ]
+          }
+        },
+        {
+          "name": "MATH-negative-gap:safe_lca_formula",
+          "status": "pass",
+          "observed": {
+            "actual": {
+              "rank": "species",
+              "name": "Aedes albopictus",
+              "taxon_key": 1651430
+            },
+            "expected": {
+              "rank": "species",
+              "name": "Aedes albopictus",
+              "taxon_key": 1651430
+            },
+            "raw_lca": {
+              "rank": "species",
+              "name": "Aedes albopictus",
+              "taxon_key": 1651430
+            }
+          }
+        },
+        {
+          "name": "MATH-negative-gap:barcode_gap_formula",
+          "status": "pass",
+          "observed": {
+            "actual": {
+              "status": "fail",
+              "gap": -0.005,
+              "intra_max_distance": 0.02,
+              "inter_min_distance": 0.015
+            },
+            "expected": {
+              "status": "fail",
+              "gap": -0.005
+            }
+          }
+        },
+        {
+          "name": "MATH-negative-gap:diagnostic_kmer_probability_formula",
+          "status": "pass",
+          "observed": {
+            "actual": {
+              "status": "pass",
+              "support_count": 3,
+              "support_rate": 0.004934,
+              "k": 15,
+              "query_window_count": 608,
+              "diagnostic_kmer_count": 3,
+              "expected_random_hits": 2e-06,
+              "p_false_positive": 1.7e-06,
+              "alpha": 0.01
+            },
+            "expected": {
+              "status": "pass",
+              "support_rate": 0.004934,
+              "expected_random_hits": 2e-06,
+              "p_false_positive": 1.7e-06
+            }
+          }
+        },
+        {
+          "name": "MATH-negative-gap:species_safe_implies_all_hard_gates",
+          "status": "pass",
+          "observed": {
+            "decisionClass": "ambiguous",
+            "exact": true,
+            "ambiguity": true,
+            "barcodeGap": false,
+            "diagnosticKmer": true,
+            "marker": true,
+            "core": true,
+            "dna": true,
+            "assay": true
+          }
+        },
+        {
+          "name": "MATH-negative-gap:published_taxon_requires_safe_decision_class",
+          "status": "pass",
+          "observed": {
+            "decisionClass": "ambiguous",
+            "publishedRank": "none"
+          }
+        },
+        {
+          "name": "MATH-missing-diagnostic:match_gate_formula",
+          "status": "pass",
+          "observed": {
+            "actual": "exact",
+            "expected": "exact"
+          }
+        },
+        {
+          "name": "MATH-missing-diagnostic:percent_fraction_boundary",
+          "status": "pass",
+          "observed": {
+            "identity": 99.6,
+            "queryCoverage": 96.0
+          }
+        },
+        {
+          "name": "MATH-missing-diagnostic:all_hit_metric_units",
+          "status": "pass",
+          "observed": "all hit metrics in percent/positive-length bounds"
+        },
+        {
+          "name": "MATH-missing-diagnostic:ambiguity_set_formula",
+          "status": "pass",
+          "observed": {
+            "actual": [
+              "Aedes albopictus"
+            ],
+            "expected": [
+              "Aedes albopictus"
+            ]
+          }
+        },
+        {
+          "name": "MATH-missing-diagnostic:safe_lca_formula",
+          "status": "pass",
+          "observed": {
+            "actual": {
+              "rank": "species",
+              "name": "Aedes albopictus",
+              "taxon_key": 1651430
+            },
+            "expected": {
+              "rank": "species",
+              "name": "Aedes albopictus",
+              "taxon_key": 1651430
+            },
+            "raw_lca": {
+              "rank": "species",
+              "name": "Aedes albopictus",
+              "taxon_key": 1651430
+            }
+          }
+        },
+        {
+          "name": "MATH-missing-diagnostic:barcode_gap_formula",
+          "status": "pass",
+          "observed": {
+            "actual": {
+              "status": "pass",
+              "gap": 0.009,
+              "intra_max_distance": 0.009,
+              "inter_min_distance": 0.018
+            },
+            "expected": {
+              "status": "pass",
+              "gap": 0.009
+            }
+          }
+        },
+        {
+          "name": "MATH-missing-diagnostic:diagnostic_kmer_probability_formula",
+          "status": "pass",
+          "observed": {
+            "actual": {
+              "status": "missing",
+              "support_count": 0,
+              "support_rate": 0,
+              "k": null,
+              "expected_random_hits": null,
+              "p_false_positive": null
+            },
+            "expected": {
+              "status": "missing",
+              "support_rate": 0,
+              "p_false_positive": null
+            }
+          }
+        },
+        {
+          "name": "MATH-missing-diagnostic:species_safe_implies_all_hard_gates",
+          "status": "pass",
+          "observed": {
+            "decisionClass": "ambiguous",
+            "exact": true,
+            "ambiguity": true,
+            "barcodeGap": true,
+            "diagnosticKmer": false,
+            "marker": true,
+            "core": true,
+            "dna": true,
+            "assay": true
+          }
+        },
+        {
+          "name": "MATH-missing-diagnostic:published_taxon_requires_safe_decision_class",
+          "status": "pass",
+          "observed": {
+            "decisionClass": "ambiguous",
+            "publishedRank": "none"
+          }
+        },
+        {
+          "name": "MATH-qPCR-controls:match_gate_formula",
+          "status": "pass",
+          "observed": {
+            "actual": "exact",
+            "expected": "exact"
+          }
+        },
+        {
+          "name": "MATH-qPCR-controls:percent_fraction_boundary",
+          "status": "pass",
+          "observed": {
+            "identity": 99.6,
+            "queryCoverage": 96.0
+          }
+        },
+        {
+          "name": "MATH-qPCR-controls:all_hit_metric_units",
+          "status": "pass",
+          "observed": "all hit metrics in percent/positive-length bounds"
+        },
+        {
+          "name": "MATH-qPCR-controls:ambiguity_set_formula",
+          "status": "pass",
+          "observed": {
+            "actual": [
+              "Aedes albopictus"
+            ],
+            "expected": [
+              "Aedes albopictus"
+            ]
+          }
+        },
+        {
+          "name": "MATH-qPCR-controls:safe_lca_formula",
+          "status": "pass",
+          "observed": {
+            "actual": {
+              "rank": "species",
+              "name": "Aedes albopictus",
+              "taxon_key": 1651430
+            },
+            "expected": {
+              "rank": "species",
+              "name": "Aedes albopictus",
+              "taxon_key": 1651430
+            },
+            "raw_lca": {
+              "rank": "species",
+              "name": "Aedes albopictus",
+              "taxon_key": 1651430
+            }
+          }
+        },
+        {
+          "name": "MATH-qPCR-controls:barcode_gap_formula",
+          "status": "pass",
+          "observed": {
+            "actual": {
+              "status": "pass",
+              "gap": 0.009,
+              "intra_max_distance": 0.009,
+              "inter_min_distance": 0.018
+            },
+            "expected": {
+              "status": "pass",
+              "gap": 0.009
+            }
+          }
+        },
+        {
+          "name": "MATH-qPCR-controls:diagnostic_kmer_probability_formula",
+          "status": "pass",
+          "observed": {
+            "actual": {
+              "status": "pass",
+              "support_count": 3,
+              "support_rate": 0.004934,
+              "k": 15,
+              "query_window_count": 608,
+              "diagnostic_kmer_count": 3,
+              "expected_random_hits": 2e-06,
+              "p_false_positive": 1.7e-06,
+              "alpha": 0.01
+            },
+            "expected": {
+              "status": "pass",
+              "support_rate": 0.004934,
+              "expected_random_hits": 2e-06,
+              "p_false_positive": 1.7e-06
+            }
+          }
+        },
+        {
+          "name": "MATH-qPCR-controls:species_safe_implies_all_hard_gates",
+          "status": "pass",
+          "observed": {
+            "decisionClass": "not-publishable",
+            "exact": true,
+            "ambiguity": true,
+            "barcodeGap": true,
+            "diagnosticKmer": true,
+            "marker": true,
+            "core": true,
+            "dna": true,
+            "assay": false
+          }
+        },
+        {
+          "name": "MATH-qPCR-controls:metadata_cannot_publish_safe_taxon",
+          "status": "pass",
+          "observed": {
+            "publishedRank": "none",
+            "exportState": "evidence_publishable_repair_required"
+          }
+        },
+        {
+          "name": "MATH-qPCR-controls:published_taxon_requires_safe_decision_class",
+          "status": "pass",
+          "observed": {
+            "decisionClass": "not-publishable",
+            "publishedRank": "none"
+          }
+        },
+        {
+          "name": "MATH-no-match:match_gate_formula",
+          "status": "pass",
+          "observed": {
+            "actual": "no_match",
+            "expected": "no_match"
+          }
+        },
+        {
+          "name": "MATH-no-match:all_hit_metric_units",
+          "status": "pass",
+          "observed": "all hit metrics in percent/positive-length bounds"
+        },
+        {
+          "name": "MATH-no-match:ambiguity_set_formula",
+          "status": "pass",
+          "observed": {
+            "actual": [],
+            "expected": []
+          }
+        },
+        {
+          "name": "MATH-no-match:safe_lca_formula",
+          "status": "pass",
+          "observed": {
+            "actual": {
+              "rank": "none",
+              "name": "No match",
+              "taxon_key": null
+            },
+            "expected": {
+              "rank": "none",
+              "name": "No match",
+              "taxon_key": null
+            },
+            "raw_lca": {
+              "rank": "none",
+              "name": "No match",
+              "taxon_key": null
+            }
+          }
+        },
+        {
+          "name": "MATH-no-match:barcode_gap_formula",
+          "status": "pass",
+          "observed": {
+            "actual": {
+              "status": "not_evaluated",
+              "gap": null
+            },
+            "expected": {
+              "status": "not_evaluated",
+              "gap": null
+            }
+          }
+        },
+        {
+          "name": "MATH-no-match:diagnostic_kmer_probability_formula",
+          "status": "pass",
+          "observed": {
+            "actual": {
+              "status": "not_evaluated",
+              "support_count": 0,
+              "support_rate": 0,
+              "k": null,
+              "p_false_positive": null
+            },
+            "expected": {
+              "status": "not_evaluated",
+              "support_rate": 0,
+              "p_false_positive": null
+            }
+          }
+        },
+        {
+          "name": "MATH-no-match:species_safe_implies_all_hard_gates",
+          "status": "pass",
+          "observed": {
+            "decisionClass": "no-match",
+            "exact": false,
+            "ambiguity": false,
+            "barcodeGap": false,
+            "diagnosticKmer": false,
+            "marker": true,
+            "core": true,
+            "dna": true,
+            "assay": true
+          }
+        },
+        {
+          "name": "MATH-no-match:published_taxon_requires_safe_decision_class",
+          "status": "pass",
+          "observed": {
+            "decisionClass": "no-match",
+            "publishedRank": "none"
+          }
+        },
+        {
+          "name": "metrics:processed_records",
+          "status": "pass",
+          "observed": {
+            "actual": 8,
+            "expected": 8
+          }
+        },
+        {
+          "name": "metrics:species_safe_records",
+          "status": "pass",
+          "observed": {
+            "actual": 1,
+            "expected": 1
+          }
+        },
+        {
+          "name": "metrics:genus_safe_records",
+          "status": "pass",
+          "observed": {
+            "actual": 1,
+            "expected": 1
+          }
+        },
+        {
+          "name": "metrics:higher_rank_safe_records",
+          "status": "pass",
+          "observed": {
+            "actual": 0,
+            "expected": 0
+          }
+        },
+        {
+          "name": "metrics:not_publishable_records",
+          "status": "pass",
+          "observed": {
+            "actual": 2,
+            "expected": 2
+          }
+        },
+        {
+          "name": "metrics:safe_rank_records",
+          "status": "pass",
+          "observed": {
+            "actual": 2,
+            "expected": 2
+          }
+        },
+        {
+          "name": "metrics:top_species_hits",
+          "status": "pass",
+          "observed": {
+            "actual": 7,
+            "expected": 7
+          }
+        },
+        {
+          "name": "metrics:blocked_species_claims",
+          "status": "pass",
+          "observed": {
+            "actual": 6,
+            "expected": 6
+          }
+        },
+        {
+          "name": "metrics:publishable_template_records",
+          "status": "pass",
+          "observed": {
+            "actual": 2,
+            "expected": 2
+          }
+        },
+        {
+          "name": "metrics:species_safe_yield",
+          "status": "pass",
+          "observed": {
+            "actual": 0.125,
+            "expected": 0.125
+          }
+        },
+        {
+          "name": "metrics:safe_rank_yield",
+          "status": "pass",
+          "observed": {
+            "actual": 0.25,
+            "expected": 0.25
+          }
+        },
+        {
+          "name": "metrics:molecular_evidence_conversion_yield",
+          "status": "pass",
+          "observed": {
+            "actual": 0.25,
+            "expected": 0.25
+          }
+        },
+        {
+          "name": "metrics:overclaim_prevention_rate",
+          "status": "pass",
+          "observed": {
+            "actual": 0.857143,
+            "expected": 0.857143
+          }
+        },
+        {
+          "name": "batch:no_unsafe_species_export",
+          "status": "pass",
+          "observed": "published species rows checked"
+        },
+        {
+          "name": "batch:weak_and_no_match_never_publish",
+          "status": "pass",
+          "observed": "weak/no-match/ambiguous rows checked"
+        }
+      ]
+    }
+  ]
+}
