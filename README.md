@@ -4,7 +4,7 @@ EcoGenesis is now focused on a narrower, stronger GBIF Challenge tool:
 
 > A deterministic engine that turns DNA barcode, metabarcoding and Sequence ID results into safe, rank-aware, repairable and GBIF-ready molecular occurrence evidence.
 
-The current **Barcode-to-GBIF Evidence Compiler** is the first working layer of this engine. The earlier occurrence-atlas prototype is archived on branch `oddworld/archive-atlas-score-v1`; `main` is the contest-facing molecular decision engine.
+The current **Barcode-to-GBIF Evidence Compiler** is the contest-facing molecular decision engine.
 
 ## Why This Exists
 
