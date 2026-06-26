@@ -75,6 +75,32 @@ const modeLabels = {
 
 const projectRepositoryUrl = 'https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas';
 
+const modeRoutes = {
+  overview: '/',
+  workbench: '/run-compiler',
+  observatory: '/evidence-map',
+  fragmentGraph: '/fragment-graph',
+  research: '/validation',
+  formulas: '/methods',
+  lecture: '/workflow',
+  evidencePack: '/evidence-pack',
+};
+
+const routeModeAliases = {
+  '/overview': 'overview',
+  '/run': 'workbench',
+  '/compiler': 'workbench',
+  '/observatory': 'observatory',
+  '/map': 'observatory',
+  '/fragment': 'fragmentGraph',
+  '/fragment-graph': 'fragmentGraph',
+  '/research': 'research',
+  '/methods-and-audits': 'formulas',
+  '/math': 'formulas',
+  '/visual-lecture': 'lecture',
+  '/evidence-pack': 'evidencePack',
+};
+
 const lectureAnchorIds = new Set([
   'analysis-animation',
   'analysis-picture-sequence',
@@ -83,10 +109,32 @@ const lectureAnchorIds = new Set([
   'animation-storyboard',
 ]);
 
+function normalizePath(pathname) {
+  const normalized = String(pathname || '/').replace(/\/+$/, '');
+  return normalized || '/';
+}
+
+function pathForMode(mode) {
+  return modeRoutes[mode] || '/';
+}
+
+function modeFromLocationPath(pathname) {
+  const normalized = normalizePath(pathname);
+  const directMode = Object.entries(modeRoutes).find(([, route]) => route === normalized)?.[0];
+  return directMode || routeModeAliases[normalized] || null;
+}
+
 function modeFromLocationHash(hash) {
   const anchorId = String(hash || '').replace(/^#/, '');
   if (anchorId === 'observatory' || anchorId === 'gsig-observatory') return 'observatory';
   return lectureAnchorIds.has(anchorId) ? 'lecture' : 'overview';
+}
+
+function modeFromLocation() {
+  if (typeof window === 'undefined') return 'overview';
+  const hashMode = modeFromLocationHash(window.location.hash);
+  if (hashMode !== 'overview') return hashMode;
+  return modeFromLocationPath(window.location.pathname) || 'overview';
 }
 
 function scrollToCurrentAnchor() {
@@ -1810,7 +1858,7 @@ function Cases({ lhs, rows }) {
 
 function App() {
   const [mode, setMode] = useState(() => (
-    typeof window === 'undefined' ? 'overview' : modeFromLocationHash(window.location.hash)
+    modeFromLocation()
   ));
   const [scenarios, setScenarios] = useState([defaultScenario]);
   const [selectedScenarioId, setSelectedScenarioId] = useState(defaultScenario.id);
@@ -1849,18 +1897,48 @@ function App() {
   const [observatoryError, setObservatoryError] = useState('');
   const [observatoryScreen, setObservatoryScreen] = useState('home');
 
+  function navigateMode(nextMode, options = {}) {
+    setMode(nextMode);
+    if (typeof window === 'undefined') return;
+    const nextPath = pathForMode(nextMode);
+    const shouldReplace = options.replace === true;
+    if (
+      window.location.pathname !== nextPath
+      || window.location.search
+      || (window.location.hash && !options.keepHash)
+    ) {
+      window.history[shouldReplace ? 'replaceState' : 'pushState'](
+        { mode: nextMode },
+        '',
+        nextPath,
+      );
+    }
+    const isJsdom = window.navigator?.userAgent?.toLowerCase().includes('jsdom');
+    if (!isJsdom && options.scroll !== false && typeof window.scrollTo === 'function') {
+      try {
+        window.scrollTo({ top: 0, behavior: 'auto' });
+      } catch {
+        // Test environments can expose scrollTo without implementing it.
+      }
+    }
+  }
+
   useEffect(() => {
     if (typeof window === 'undefined') return undefined;
-    function handleHashChange() {
-      const nextMode = modeFromLocationHash(window.location.hash);
+    function syncRoute() {
+      const nextMode = modeFromLocation();
+      setMode(nextMode);
       if (nextMode === 'lecture') {
-        setMode('lecture');
         scrollToCurrentAnchor();
       }
     }
-    handleHashChange();
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    syncRoute();
+    window.addEventListener('popstate', syncRoute);
+    window.addEventListener('hashchange', syncRoute);
+    return () => {
+      window.removeEventListener('popstate', syncRoute);
+      window.removeEventListener('hashchange', syncRoute);
+    };
   }, []);
 
   useEffect(() => {
@@ -1959,7 +2037,7 @@ function App() {
       setRunSummary(summary);
       const detail = await getBarcodeRun(summary.run_id);
       setPack(detail);
-      setMode('workbench');
+      navigateMode('workbench');
     } catch (err) {
       setError(err.message || 'Compiler run failed');
     } finally {
@@ -1992,7 +2070,7 @@ function App() {
       setRunSummary(summary);
       const detail = await getBarcodeRun(summary.run_id);
       setPack(detail);
-      setMode('workbench');
+      navigateMode('workbench');
     } catch (err) {
       setError(err.message || 'CSV compiler run failed');
     } finally {
@@ -2027,7 +2105,7 @@ function App() {
       setSearchResult(result.search);
       setRunSummary(result.run);
       setPack(result.pack);
-      setMode('workbench');
+      navigateMode('workbench');
     } catch (err) {
       setError(err.message || 'Reference search failed');
     } finally {
@@ -2076,7 +2154,7 @@ function App() {
         max_hits: 50,
       });
       setFragmentGraph(graph);
-      setMode('fragmentGraph');
+      navigateMode('fragmentGraph');
     } catch (err) {
       setError(err.message || 'Fragment graph failed');
     } finally {
@@ -2113,7 +2191,7 @@ function App() {
           exports: detail.exports,
         },
       }));
-      setMode('observatory');
+      navigateMode('observatory');
       setObservatoryScreen('home');
     } catch (err) {
       setObservatoryError(err.message || 'Observatory run failed');
@@ -2137,9 +2215,17 @@ function App() {
         </div>
         <nav className="mode-switch" aria-label="View mode">
           {Object.entries(modeLabels).map(([id, label]) => (
-            <button key={id} className={mode === id ? 'active' : ''} onClick={() => setMode(id)}>
+            <a
+              key={id}
+              className={mode === id ? 'active' : ''}
+              href={pathForMode(id)}
+              onClick={(event) => {
+                event.preventDefault();
+                navigateMode(id);
+              }}
+            >
               {label}
-            </button>
+            </a>
           ))}
         </nav>
       </header>
@@ -2152,7 +2238,7 @@ function App() {
           metrics={metrics}
           exports={exports}
           pack={pack}
-          onOpenWorkbench={() => setMode('workbench')}
+          onOpenWorkbench={() => navigateMode('workbench')}
           onRunCompiler={runCompiler}
           loading={loading}
         />
