@@ -2677,6 +2677,7 @@ function ObservatoryVisualSuite({ run, summary, verification, occurrenceRows, re
 
 function ObservatoryGraphExplorer({ run, summary, verification, occurrenceRows, requestBbox }) {
   const flowGraph = useMemo(() => buildObservatoryFlowGraph(run, summary, verification), [run, summary, verification]);
+  const graphInstanceRef = useRef(null);
   const [claimStateFilter, setClaimStateFilter] = useState('all');
   const [nodeTypeFilter, setNodeTypeFilter] = useState('all');
   const [edgeTypeFilter, setEdgeTypeFilter] = useState('all');
@@ -2725,6 +2726,17 @@ function ObservatoryGraphExplorer({ run, summary, verification, occurrenceRows, 
     ...edge,
     selected: selectedEvidence?.kind === 'edge' && selectedEvidence.id === edge.id,
   }));
+  const graphFitKey = renderedNodes
+    .map((node) => `${node.id}:${Math.round(node.position.x)}:${Math.round(node.position.y)}`)
+    .join('|');
+
+  useEffect(() => {
+    if (!renderedNodes.length || !graphInstanceRef.current) return undefined;
+    const handle = window.requestAnimationFrame(() => {
+      graphInstanceRef.current?.fitView({ padding: 0.12, duration: 260, maxZoom: 0.95 });
+    });
+    return () => window.cancelAnimationFrame(handle);
+  }, [graphFitKey, renderedEdges.length, renderedNodes.length]);
 
   return (
     <div className="observatory-graph-explorer">
@@ -2818,9 +2830,14 @@ function ObservatoryGraphExplorer({ run, summary, verification, occurrenceRows, 
               edges={renderedEdges}
               nodeTypes={observatoryGraphNodeTypes}
               fitView
+              fitViewOptions={{ padding: 0.12, maxZoom: 0.95 }}
               minZoom={0.25}
-              maxZoom={1.8}
+              maxZoom={1.35}
               nodesDraggable
+              onInit={(instance) => {
+                graphInstanceRef.current = instance;
+                window.requestAnimationFrame(() => instance.fitView({ padding: 0.12, maxZoom: 0.95 }));
+              }}
               onNodeClick={(_, node) => setSelectedEvidence({ kind: 'node', ...node.data })}
               onEdgeClick={(_, edge) => setSelectedEvidence({ kind: 'edge', ...edge.data })}
             >
@@ -3116,14 +3133,14 @@ async function layoutObservatoryFlow(nodes, edges) {
       layoutOptions: {
         'elk.algorithm': 'layered',
         'elk.direction': 'RIGHT',
-        'elk.layered.spacing.nodeNodeBetweenLayers': '72',
-        'elk.spacing.nodeNode': '44',
+        'elk.layered.spacing.nodeNodeBetweenLayers': '46',
+        'elk.spacing.nodeNode': '28',
         'elk.edgeRouting': 'ORTHOGONAL',
       },
       children: nodes.map((node) => ({
         id: node.id,
-        width: 190,
-        height: node.data.variantCount > 1 ? 112 : 92,
+        width: 166,
+        height: node.data.variantCount > 1 ? 104 : 86,
       })),
       edges: edges.map((edge) => ({
         id: edge.id,
@@ -6611,7 +6628,7 @@ function CompilerWorkbench({
         <section className="quick-start-card">
           <p className="section-label">Run Compiler flow</p>
           <h3>Four steps from molecular input to audit-ready exports.</h3>
-          <div className="lecture-workflow compact">
+          <div className="compiler-flow-list">
             {[
               ['1', 'Choose input', 'Demo, CSV, or reference FASTA search.'],
               ['2', 'Validate input', 'Required fields, weak hits, duplicates and metadata gaps.'],
