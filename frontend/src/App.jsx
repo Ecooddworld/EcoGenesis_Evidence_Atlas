@@ -63,13 +63,14 @@ const defaultScenario = {
 const defaultReferenceSearchSequence = 'ACGTTGACCTAGGCTTACGATCGTACCGATGCTAGCTAGGATCCGATCGTACGATCGTAGCTAGCATCGGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTACGAT';
 
 const modeLabels = {
-  overview: 'Judge overview',
-  workbench: 'Run compiler',
-  observatory: 'Observatory',
-  fragmentGraph: 'Fragment graph',
-  lecture: 'Visual lecture',
-  research: 'Research audit',
-  formulas: 'Math & proof',
+  overview: 'Overview',
+  workbench: 'Run Compiler',
+  observatory: 'Evidence Map',
+  fragmentGraph: 'Fragment Graph',
+  research: 'Validation',
+  formulas: 'Methods & Audits',
+  lecture: 'Workflow',
+  evidencePack: 'Evidence Pack',
 };
 
 const lectureAnchorIds = new Set([
@@ -184,7 +185,7 @@ const evidenceFunnelSteps = [
 const judgeClaimMatrix = [
   ['Occurrence evidence exists in selected region', 'supported', 'Supported as GBIF-mediated evidence context only.'],
   ['Empty cells prove absence', 'blocked', 'Blocked: empty or low-evidence cells are no-evidence cells, not absence.'],
-  ['Observed points are true distribution', 'blocked', 'Blocked: GBIF records reflect data sharing and observer effort.'],
+  ['Observed points are complete distribution model', 'blocked', 'Blocked: GBIF records reflect data sharing and observer effort.'],
   ['Use as formal publication dataset', 'requires verification', 'Requires GBIF download DOI or derived dataset citation.'],
   ['Fine-scale local decisions', 'weak', 'Weak when high coordinate uncertainty or missing uncertainty fields appear.'],
 ];
@@ -215,7 +216,7 @@ const molecularGraphPreview = [
   ['DNA fragment', 'Input sequence, ASV or barcode window.'],
   ['Taxa carrying fragment', 'All matched taxa are visible, not only the top hit.'],
   ['LCA safe rank', 'Shared fragments become genus or clade evidence.'],
-  ['GBIF context', 'Occurrence geography is shown as evidence context, not true distribution.'],
+  ['GBIF context', 'Occurrence geography is shown as evidence context for source and dataset provenance.'],
   ['Protein sanity', 'Coding markers get frame, stop-codon and pseudogene checks.'],
   ['Safe claims', 'Only supported claims without hard blockers enter export.'],
 ];
@@ -665,7 +666,7 @@ not by weak sequence evidence`,
   },
   {
     label: 'Protein sanity',
-    title: 'Amino acids are a QC layer, not species truth',
+    title: 'Amino acids are a coding-marker QC layer',
     formula: `marker_type in {coding, noncoding, rRNA, unknown}
 
 if marker_type != coding:
@@ -1414,7 +1415,7 @@ const renderedFormulaSections = [
       <MathRow key="frame"><Mi>Frame</Mi><Sup>*</Sup><Op>=</Op><Func>arg min</Func><Sub><Mi>f</Mi><Op>in</Op><MathSet>0,1,2</MathSet></Sub><Func>StopCodons</Func><Paren><Func>Translate</Func><Paren><Mi>s</Mi>,<Mi>f</Mi></Paren></Paren></MathRow>,
       <MathRow key="protein-pass"><Mi>ProteinSanityPass</Mi><Op>=</Op><Indicator><Mi>InternalStopCount</Mi><Op>=</Op>0</Indicator><Op>*</Op><Indicator><Mi>Length</Mi><Paren><Mi>s</Mi></Paren><Op>mod</Op>3<Op>=</Op>0</Indicator><Op>*</Op><Indicator><Mi>FrameshiftRisk</Mi><Op>=</Op>0</Indicator></MathRow>,
     ],
-    explanation: 'Protein translation is a coding-marker QC layer, not a species-truth layer.',
+    explanation: 'Protein translation is a coding-marker QC layer; nucleotide evidence remains the taxonomic discriminator.',
   },
   {
     label: '10',
@@ -1509,8 +1510,8 @@ const solvedRows = [
   ['Weak short fragments', 'Solved in the current compiler', 'A high-identity but low-coverage record becomes `weak` and stays out of publishable species exports.'],
   ['Metadata vs taxonomy separation', 'Solved in the current compiler', 'A species-safe record with missing occurrenceID/eventDate becomes `not-publishable`, not a false published species.'],
   ['Evidence pack generation', 'Solved in the current compiler', 'CSV, JSON, HTML, Darwin Core, DNA-derived templates, methods, citations and ZIP exports are generated.'],
-  ['GSEG/GSIG proof layer', 'Solved as a contest-safe extension', 'The compiler now emits VSEA CSV/JSONL/Parquet, theorem checklist, graph provenance, roundtrip and AI guardrail audits.'],
-  ['GBIF-backed Observatory path', 'Solved for occurrence evidence', 'Aedes albopictus in Spain declares its source mode; GBIF API data are used when available and fixture fallback is explicit when used.'],
+  ['Advanced graph artifacts', 'Solved as a contest-safe extension', 'The compiler now emits VSEA CSV/JSONL/Parquet, release checklist, graph provenance, roundtrip and AI guardrail audits.'],
+  ['GBIF-backed Evidence Map path', 'Solved for occurrence evidence', 'Aedes albopictus in Spain declares its source mode; GBIF API data are used when available and fixture fallback is explicit when used.'],
   ['Protein sanity and repair optimizer', 'Bounded in the current release', 'The release reports what can be checked from barcode evidence and marks deeper biological interpretation as roadmap only.'],
   ['Phenotype prediction', 'Deliberately not claimed', 'The project treats phenotype/function as future hypotheses requiring curated external evidence.'],
 ];
@@ -1610,7 +1611,7 @@ const evidencePackRows = [
   ['molecular_evidence_report.html', 'Human-readable report for judges, users and reviewers.'],
   ['evidence_graph.json', 'Machine-readable audit graph of sequence, hit, taxon, blocker and export.'],
   ['verified_segment_evidence_array.parquet', 'Typed VSEA export for downstream graph and analytical checks.'],
-  ['theorem_checklist.json', 'GSEG/GSIG proof-obligation checklist with blocked roadmap claims kept explicit.'],
+  ['theorem_checklist.json', 'Release-gate checklist with blocked roadmap claims kept explicit.'],
   ['graph_provenance_audit.csv', 'Node and edge provenance audit with claim-state and ruleset hashes.'],
   ['ai_output_guardrail_audit.csv', 'Guardrail table proving AI-facing exports cannot strengthen unsupported claims.'],
   ['source_provenance_manifest.json', 'Run-level source, backend and input-contract provenance.'],
@@ -1618,7 +1619,7 @@ const evidencePackRows = [
 
 const nonClaims = [
   ['Gene to phenotype prediction', 'The project only makes safe taxonomic assignments and publication checks.'],
-  ['Protein sequence as species truth', 'Protein translation is a coding-quality layer; nucleotide evidence remains the taxonomic discriminator.'],
+  ['Protein sequence as taxonomic shortcut', 'Protein translation is a coding-quality layer; nucleotide evidence remains the taxonomic discriminator.'],
   ['Absolute biological truth', 'All decisions are reproducible under supplied evidence and reference context.'],
   ['Replacement for GBIF Sequence ID', 'The compiler is a downstream decision layer after Sequence ID / BLAST-style matching.'],
   ['Universal readiness score', 'The project uses deterministic gates and blockers, not arbitrary weights.'],
@@ -1676,13 +1677,13 @@ const exportGroups = [
     match: ['repair_plan.csv', 'repair_gain_estimates.csv', 'metadata_bottlenecks.csv', 'review_taxonomic_hints.csv', 'publication_blockers.csv', 'claim_boundaries.csv', 'state_machine_audit.csv', 'dwc_occurrence_core_review_or_repair.csv', 'ambiguous_sequences.csv', 'barcode_gap_report.csv', 'diagnostic_kmer_report.csv'],
   },
   {
-    title: 'Nexus V3 audit',
+    title: 'Ruleset audit',
     description: 'Hard-gate consistency, marker/assay profiles, prevented top-hit overclaims, reference gaps and adapter direction.',
     match: ['nexus_v3_summary.json', 'hard_gate_audit.csv', 'math_viability_audit.json', 'marker_profile_audit.csv', 'assay_gate_audit.csv', 'dna_extension_readiness.csv', 'naive_top_hit_overclaims.csv', 'reference_gap_index.csv', 'reference_completeness_audit.csv', 'segment_overlap_report.csv', 'external_tool_adapter_matrix.csv'],
   },
   {
-    title: 'GSEG / GSIG proof layer',
-    description: 'Segment evidence array, graph schema, provenance, theorem checklist and guardrails from the production specification.',
+    title: 'Advanced graph artifacts',
+    description: 'Segment evidence array, graph schema, provenance, release checklist and guardrails from the production specification.',
     match: ['theorem_checklist.json', 'verified_segment_evidence_array.csv', 'verified_segment_evidence_array.jsonl', 'verified_segment_evidence_array.parquet', 'gseg_graph_schema.json', 'gsig_graph_schema.yaml', 'evidence_graph.jsonld', 'graph_provenance_audit.csv', 'graph_roundtrip_audit.json', 'vsea_graph_reconciliation.csv', 'sharedness_overclaim_audit.csv', 'function_claim_boundary_audit.csv', 'ai_output_guardrail_audit.csv', 'ai_dataset_export_audit.csv', 'ruleset_diff_report.json', 'report_consistency_audit.csv', 'judge_reproducibility_report.md'],
   },
   {
@@ -2123,9 +2124,9 @@ function App() {
       <header className="topbar">
         <div>
           <p className="eyebrow">EcoGenesis for GBIF Ebbe Nielsen Challenge 2026</p>
-          <h1>Molecular Evidence Conversion & Repair Engine for GBIF</h1>
+          <h1>Barcode-to-GBIF Evidence Compiler</h1>
           <p className="topbar-subtitle">
-            The Barcode-to-GBIF Evidence Compiler is the first working layer: it turns DNA barcode, metabarcoding or Sequence ID results into safe, rank-aware and GBIF-ready molecular occurrence evidence.
+            EcoGenesis converts DNA barcode, metabarcoding, Sequence ID and BLAST-like outputs into safe taxonomic rank decisions, GBIF publication readiness checks, repair actions and downloadable Evidence Packs.
           </p>
         </div>
         <nav className="mode-switch" aria-label="View mode">
@@ -2151,6 +2152,8 @@ function App() {
         />
       ) : mode === 'lecture' ? (
         <VisualLecture />
+      ) : mode === 'evidencePack' ? (
+        <EvidencePackCatalog exports={exports} />
       ) : mode === 'observatory' ? (
         <ObservatoryPanel
           status={observatoryStatus}
@@ -2254,23 +2257,22 @@ function ObservatoryPanel({ status, sources, run, verification, competitionRepor
     <section className="page-grid observatory-page" id="observatory">
       <div className="hero-panel observatory-hero">
         <div>
-          <p className="eyebrow">GSIG Observatory</p>
-          <h2>Source snapshots, molecular segments and claim boundaries in one evidence graph.</h2>
+          <p className="eyebrow">Evidence Map</p>
+          <h2>Spatial context, molecular claim states, blockers and export boundaries in one evidence view.</h2>
           <p>
-            The Observatory layer shows why the current Aedes Spain run is bounded and reproducible: GBIF supplies
-            hashed occurrence context, the barcode compiler supplies molecular gates, and every export preserves the
-            graph claim state without upgrading context into support.
+            The Evidence Map links GBIF occurrence context, VSEA segment evidence, graph provenance and publication
+            boundaries so judges can see where evidence exists, what state it carries and which exports are allowed.
           </p>
           <div className="hero-actions">
             <button className="primary" onClick={onRunLive} disabled={loading}>
-              {loading ? 'Running...' : 'Run GBIF-backed Aedes Spain'}
+              {loading ? 'Running...' : 'Run reproducible judge demo'}
             </button>
             <button onClick={onRunOffline} disabled={loading}>Run reproducible demo</button>
-            {evidencePack && <a className="button-link" href={exportUrl(evidencePack.url)}>Download Observatory Pack</a>}
+            {evidencePack && <a className="button-link" href={exportUrl(evidencePack.url)}>Download Evidence Map Pack</a>}
           </div>
         </div>
         <div className={`verdict-card ${proofPass ? 'observatory-pass' : 'observatory-waiting'}`}>
-          <span>Release gate</span>
+          <span>Map readiness</span>
           <strong>{run ? `Hard gates ${summary.hard_gate_status}` : status?.status || 'Waiting for run'}</strong>
           <small>{run ? run.snapshot_manifest?.snapshot_id : status?.default_demo?.claim_boundary}</small>
         </div>
@@ -2278,11 +2280,65 @@ function ObservatoryPanel({ status, sources, run, verification, competitionRepor
 
       {error && <div className="alert">{error}</div>}
 
+      <section className="panel">
+        <div className="panel-heading-row">
+          <div>
+            <p className="section-label">Evidence Atlas controls</p>
+            <h2>Map layers separate context, molecular evidence, blockers and repair opportunities.</h2>
+          </div>
+          <span className={`status-pill ${proofPass ? 'supported' : 'requires-verification'}`}>
+            {run ? 'judge demo loaded' : 'ready to run'}
+          </span>
+        </div>
+        <div className="snapshot-proof-grid" aria-label="Evidence Map summary cards">
+          {[
+            ['Occurrence context rows', summary.normalized_occurrence_records ?? 0],
+            ['VSEA rows', summary.vsea_rows ?? 0],
+            ['Safe claims', claimStates.taxon_supported ?? 0],
+            ['Weak hypotheses', claimStates.weak_hypothesis ?? 0],
+            ['Blocked exports', summary.blocked_rows_promoted ?? 0],
+            ['Snapshot hash', run?.snapshot_manifest?.snapshot_hash?.slice(0, 12) || 'pending'],
+          ].map(([label, value]) => (
+            <div key={label}>
+              <span>{label}</span>
+              <strong>{value}</strong>
+            </div>
+          ))}
+        </div>
+        <div className="graph-filter-bar" aria-label="Evidence Map layer toggles">
+          {[
+            'GBIF occurrence context',
+            'Molecular evidence',
+            'Safe rank decisions',
+            'Publication blockers',
+            'Repair opportunities',
+            'Segment evidence',
+          ].map((label) => (
+            <label className="graph-toggle" key={label}>
+              <input type="checkbox" defaultChecked />
+              <span>{label}</span>
+            </label>
+          ))}
+        </div>
+        <div className="graph-legend-row" aria-label="Evidence Map status legend">
+          {[
+            ['GBIF-ready / export candidate', '#2f7d55'],
+            ['Safe molecular evidence, repair required', '#2876a3'],
+            ['Review-only / weak hypothesis', '#d7a83f'],
+            ['Ambiguous / LCA downgrade', '#b36b2c'],
+            ['Blocked', '#b84b4b'],
+            ['Context-only occurrence', '#8b9690'],
+          ].map(([label, color]) => (
+            <span key={label}><i style={{ background: color }} /> {label}</span>
+          ))}
+        </div>
+      </section>
+
       <section className="panel observatory-flow-panel">
         <div className="panel-heading-row">
           <div>
-            <p className="section-label">Why the run is auditable</p>
-            <h2>Nothing is trusted until it is hashed, gated and exported with caveats.</h2>
+            <p className="section-label">Judge mode</p>
+            <h2>Reproducible source, VSEA, graph and export checks are visible before download.</h2>
           </div>
           <span className={`status-pill ${proofPass ? 'supported' : 'requires-verification'}`}>
             {run ? summary.hard_gate_status : 'ready'}
@@ -2293,8 +2349,8 @@ function ObservatoryPanel({ status, sources, run, verification, competitionRepor
             ['1', 'GBIF snapshot', run?.snapshot_manifest?.snapshot_hash?.slice(0, 12) || 'pending'],
             ['2', 'Normalize context', `${summary.normalized_occurrence_records ?? 0} rows`],
             ['3', 'Build VSEA', `${summary.vsea_rows ?? 0} segment claims`],
-            ['4', 'Graph proof', `${summary.graph_nodes ?? 0} nodes`],
-            ['5', 'Guard exports', `${proofRows.length || 20} OPO checks`],
+            ['4', 'Graph audit', `${summary.graph_nodes ?? 0} nodes`],
+            ['5', 'Guard exports', `${proofRows.length || 20} checks`],
           ].map(([step, label, value]) => (
             <article key={label} className="observatory-flow-step">
               <span>{step}</span>
@@ -2320,7 +2376,7 @@ function ObservatoryPanel({ status, sources, run, verification, competitionRepor
       <CompetitionReadinessPanel reports={competitionReports} />
 
       <section className="panel">
-        <div className="observatory-tabs" role="tablist" aria-label="Observatory screens">
+        <div className="observatory-tabs" role="tablist" aria-label="Evidence Map screens">
           {screenTabs.map(([id, label]) => (
             <button key={id} className={screen === id ? 'active' : ''} onClick={() => setScreen(id)} type="button">
               {label}
@@ -2355,7 +2411,7 @@ function ObservatoryPanel({ status, sources, run, verification, competitionRepor
                 <article className="claim-state-card">
                   <span className="pill weak">no run</span>
                   <strong>0</strong>
-                  <p>Run the live or reproducible demo to fill the Observatory ledger.</p>
+                  <p>Run the judge demo to fill the Evidence Map ledger.</p>
                 </article>
               )}
             </div>
@@ -2506,7 +2562,7 @@ function ContestReadinessPanel({ dossier }) {
           ['Checks', summary.checks ?? 0],
           ['Failed', summary.failed ?? 0],
           ['Competition', summary.competition_status || 'missing'],
-          ['Observatory', summary.observatory_status || 'missing'],
+          ['Evidence Map', summary.observatory_status || 'missing'],
           ['Reference', summary.reference_backend || 'missing'],
         ].map(([label, value]) => (
           <div key={label}>
@@ -2576,8 +2632,8 @@ function ObservatoryVisualSuite({ run, summary, verification, occurrenceRows, re
     <section className="panel observatory-visual-suite">
       <div className="panel-heading-row">
         <div>
-          <p className="section-label">GSIG evidence graph explorer</p>
-          <h2>Full source, snapshot, segment, claim and export graph for the current Observatory run.</h2>
+          <p className="section-label">Evidence graph explorer</p>
+          <h2>Source, snapshot, segment, claim and export graph for the current map run.</h2>
         </div>
         <span className={`status-pill ${summary?.hard_gate_status === 'pass' ? 'supported' : 'requires-verification'}`}>
           {run ? 'interactive evidence graph' : 'waiting for graph'}
@@ -2590,7 +2646,7 @@ function ObservatoryVisualSuite({ run, summary, verification, occurrenceRows, re
             <strong>{verificationPass ? 'Run files checked' : 'Review run files'}</strong>
             <p>
               {verificationPass
-                ? 'Hashes, proof gates, tables, graph and ZIP contents agree for this exact run.'
+                ? 'Hashes, audit gates, tables, graph and ZIP contents agree for this exact run.'
                 : `${verificationSummary.failed ?? 0} checks need review before export.`}
             </p>
             {runId && (
@@ -2753,8 +2809,8 @@ function ObservatoryGraphExplorer({ run, summary, verification, occurrenceRows, 
       <div className="graph-workspace">
         <div className="graph-canvas-shell" aria-label="Interactive GSIG evidence graph">
           <div className="graph-canvas-heading">
-            <strong>EcoGenesis GSIG Evidence Graph</strong>
-            <span>Visible evidence, not complete world.</span>
+            <strong>EcoGenesis Evidence Graph</strong>
+            <span>Claim states, blockers, provenance and export boundaries.</span>
           </div>
           {renderedNodes.length ? (
             <ReactFlow
@@ -2779,7 +2835,7 @@ function ObservatoryGraphExplorer({ run, summary, verification, occurrenceRows, 
             </ReactFlow>
           ) : (
             <div className="graph-empty-state">
-              <strong>Run the Observatory demo to build the graph.</strong>
+              <strong>Run the Evidence Map demo to build the graph.</strong>
               <p>Source snapshots, VSEA rows and claim boundaries will appear here after a run.</p>
             </div>
           )}
@@ -2803,8 +2859,8 @@ function ObservatoryGraphExplorer({ run, summary, verification, occurrenceRows, 
         ].map(([label, state]) => (
           <span key={state}><i style={{ background: claimStateColor(state) }} /> {label}</span>
         ))}
-        <strong>OPO-07: UI cannot upgrade claims.</strong>
-        <strong>OPO-08: blocked claims stay visible.</strong>
+        <strong>Guardrail: UI preserves claim states.</strong>
+        <strong>Guardrail: blocked rows stay visible.</strong>
       </div>
     </div>
   );
@@ -3234,7 +3290,7 @@ function SnapshotMapVisual({ rows, bbox, snapshot, summary }) {
   const datasetCount = new Set(rows.map((row) => row.datasetKey).filter(Boolean)).size;
   const datedRows = rows.filter((row) => row.eventDate || row.year).length;
   const issueRows = rows.filter((row) => occurrenceNeedsReview(row)).length;
-  const boundary = snapshot?.claim_boundary || summary?.claim_boundary || 'Use this map as source provenance only. Barcode, VSEA and GSEG proof gates decide molecular support.';
+  const boundary = snapshot?.claim_boundary || summary?.claim_boundary || 'Claim strength is bounded by molecular gates, publication gates and source provenance.';
   const sourceModeLabel = observatorySourceModeLabel(sourceMode);
   const taxonKey = firstPresent(rows.map((row) => row.acceptedTaxonKey || row.taxonKey));
   const countryCode = firstPresent(rows.map((row) => row.countryCode));
@@ -3342,8 +3398,8 @@ function SnapshotMapVisual({ rows, bbox, snapshot, summary }) {
       <div className="visual-card-heading">
         <span>01</span>
         <div>
-          <h3>GBIF occurrence context map</h3>
-          <p>{hashShort ? `Proof ID ${hashShort}; ${sourceModeLabel}; map records are provenance context, not claim support.` : 'Run the demo to lock the source evidence before drawing records.'}</p>
+          <h3>Evidence Map</h3>
+          <p>{hashShort ? `Snapshot ${hashShort}; ${sourceModeLabel}; occurrence context is linked to molecular claim states and export boundaries.` : 'Run the judge demo to lock the source snapshot before drawing records.'}</p>
         </div>
       </div>
       <div className="gbif-map-shell">
@@ -3357,9 +3413,9 @@ function SnapshotMapVisual({ rows, bbox, snapshot, summary }) {
             <span>Base map + occurrence density; snapshot markers load in browser.</span>
           </div>
         </div>
-        <div className="gbif-map-footer">
+      <div className="gbif-map-footer">
           <span>Snapshot bbox: {mapBounds.west.toFixed(1)}, {mapBounds.south.toFixed(1)}, {mapBounds.east.toFixed(1)}, {mapBounds.north.toFixed(1)}</span>
-          <span>{plottedRows}/{rows.length || 0} source rows plotted as local proof markers</span>
+          <span>{plottedRows}/{rows.length || 0} source rows plotted as evidence context markers</span>
         </div>
       </div>
       <div className="snapshot-dataset-legend" aria-label="Occurrence datasets plotted on map">
@@ -3413,10 +3469,10 @@ function SnapshotMapVisual({ rows, bbox, snapshot, summary }) {
         </div>
       </div>
       <div className="snapshot-legend">
-        <span><i className="legend-dot context" /> Clean occurrence context</span>
-        <span><i className="legend-dot review" /> Metadata or coordinate review</span>
+        <span><i className="legend-dot context" /> Context-only occurrence</span>
+        <span><i className="legend-dot review" /> Repair required / review</span>
         <span><i className="legend-ring" /> Coordinate uncertainty radius</span>
-        <span><i className="legend-line" /> Claim decided by barcode + GSEG gates</span>
+        <span><i className="legend-line" /> Claim decided by molecular + publication gates</span>
       </div>
       <p className="snapshot-boundary">{boundary}</p>
     </article>
@@ -3504,7 +3560,7 @@ function VseaMatrixVisual({ rows, compact = false }) {
             ))}
           </div>
         )) : (
-          <div className="vsea-matrix-empty">Run Observatory to emit VSEA rows.</div>
+          <div className="vsea-matrix-empty">Run Evidence Map to emit VSEA rows.</div>
         )}
       </div>
     </article>
@@ -3582,10 +3638,10 @@ function ProofWheelVisual({ rows }) {
         <span>04</span>
         <div>
           <h3>Proof obligations</h3>
-          <p>{passCount}/{visibleRows.length} Observatory checks passing.</p>
+          <p>{passCount}/{visibleRows.length} Evidence Map checks passing.</p>
         </div>
       </div>
-      <div className="proof-wheel" aria-label="Observatory proof obligation wheel">
+      <div className="proof-wheel" aria-label="Evidence Map audit wheel">
         {visibleRows.map((row, index) => (
           <span
             key={row.id}
@@ -3622,15 +3678,14 @@ function SubmissionOverview({ referenceStatus, metrics, exports, pack, onOpenWor
     <section className="page-grid">
       <div className="hero-panel">
         <div>
-          <p className="eyebrow">Production judge view</p>
-          <h2>Decision cockpit for safe molecular evidence, not another biodiversity dashboard.</h2>
+          <p className="eyebrow">Contest-ready molecular evidence software</p>
+          <h2>Safe molecular evidence. Rank-aware decisions. GBIF-ready exports.</h2>
           <p>
-            EcoGenesis turns DNA barcode, metabarcoding and Sequence ID outputs into a clear decision:
-            what can be claimed, what must be downgraded, what is blocked, and which repair actions convert the
-            most evidence into GBIF-ready publication material.
+            EcoGenesis converts DNA barcode, metabarcoding, Sequence ID and BLAST-like outputs into safe taxonomic
+            rank decisions, publication readiness states, repair actions and reproducible Evidence Packs.
           </p>
           <div className="hero-actions">
-            <button className="primary" onClick={onOpenWorkbench}>Open Workbench</button>
+            <button className="primary" onClick={onOpenWorkbench}>Run demo</button>
             <button onClick={onRunCompiler} disabled={loading}>{loading ? 'Running...' : 'Run mixed demo'}</button>
             {evidencePack && (
               <a className="button-link" href={exportUrl(evidencePack.url)}>Download Evidence Pack</a>
@@ -3638,11 +3693,30 @@ function SubmissionOverview({ referenceStatus, metrics, exports, pack, onOpenWor
           </div>
         </div>
         <div className="verdict-card production-verdict">
-          <span>Contest verdict</span>
-          <strong>{hasRun ? pack?.summary?.verdict : 'Ready for judge demo: deterministic barcode gates, source boundaries and exportable evidence pack.'}</strong>
-          <small>{referenceStatus?.message || 'Loading compiler reference status...'}</small>
+          <span>Compiler output</span>
+          <strong>{hasRun ? pack?.summary?.verdict : 'Safe rank decisions, publication readiness, repair plans and audit-ready exports.'}</strong>
+          <small>{referenceStatus?.message || 'Checking compiler reference status...'}</small>
         </div>
       </div>
+
+      <section className="panel">
+        <p className="section-label">What it does</p>
+        <h2>From molecular identification output to GBIF-oriented evidence artifacts.</h2>
+        <div className="layer-grid">
+          {[
+            ['Molecular gates', 'Identity, coverage, competitor/LCA, barcode gap, diagnostic k-mers, marker profile and assay/QC context.'],
+            ['Publication gates', 'Darwin Core fields, DNA-derived metadata, method/SOP, reference database and dataset readiness stay separate from taxonomy.'],
+            ['Evidence outputs', 'CSV, JSON, HTML, VSEA, graph provenance, guardrail audits, repair plans and downloadable Evidence Packs.'],
+            ['Evidence Atlas', 'GBIF occurrence context, molecular claim states, blockers and export boundaries are visible on the map and graph.'],
+          ].map(([title, body]) => (
+            <article className="layer-card" key={title}>
+              <span>{title.slice(0, 1)}</span>
+              <h3>{title}</h3>
+              <p>{body}</p>
+            </article>
+          ))}
+        </div>
+      </section>
 
       <SourceBoundaryPanel />
 
@@ -3659,10 +3733,10 @@ function SubmissionOverview({ referenceStatus, metrics, exports, pack, onOpenWor
       </section>
 
       <section className="panel">
-        <p className="section-label">Evidence path</p>
-        <h2>Every claim moves through visible gates.</h2>
+        <p className="section-label">Pipeline</p>
+        <h2>Every output moves through visible gates before it reaches an Evidence Pack.</h2>
         <div className="pipeline">
-          {['identity', 'coverage', 'ambiguity LCA', 'barcode gap', 'diagnostic k-mers', 'GBIF metadata', 'publication pack'].map((step) => (
+          {['DNA / Sequence ID / BLAST', 'reference-hit metrics', 'safe-rank compiler', 'publication readiness', 'Evidence Pack + Map + Graph'].map((step) => (
             <div key={step}>{step}</div>
           ))}
         </div>
@@ -3686,19 +3760,21 @@ function SubmissionOverview({ referenceStatus, metrics, exports, pack, onOpenWor
 
       <section className="panel two-column">
         <div>
-          <p className="section-label">Safe claims</p>
+          <p className="section-label">Claim boundary</p>
+          <h3>Evidence-bounded claims stay explicit.</h3>
           <ul className="plain-list">
-            <li>Species-level output is allowed only when molecular gates pass and the record is publication-ready.</li>
-            <li>Ambiguous top hits are downgraded to the lowest common ancestor.</li>
-            <li>Candidate taxonomy is separated from the taxon that can actually be published.</li>
+            <li>Claim strength is bounded by molecular gates, publication gates and provenance.</li>
+            <li>Safe-rank evidence, publication readiness and export eligibility are reported as separate decisions.</li>
+            <li>Stronger biological interpretations require additional curated evidence outside automatic export.</li>
           </ul>
         </div>
         <div>
-          <p className="section-label">Blocked claims</p>
-          <ul className="plain-list blocked">
-            <li>Top hit alone is never treated as enough for a species claim.</li>
-            <li>Short coverage, missing barcode gap or missing diagnostic k-mers block species output.</li>
-            <li>Missing occurrenceID or eventDate blocks GBIF-ready publication.</li>
+          <p className="section-label">Judge verification</p>
+          <h3>Reviewers can inspect the result end to end.</h3>
+          <ul className="plain-list">
+            <li>Competition and adversarial batches expose expected-versus-observed decisions.</li>
+            <li>Audits preserve hard-gate invariants, graph provenance and AI export boundaries.</li>
+            <li>Evidence Pack files are downloadable for independent review.</li>
           </ul>
         </div>
       </section>
@@ -3711,11 +3787,12 @@ function SourceBoundaryPanel() {
     <section className="panel source-boundary-panel">
       <div className="source-boundary-heading">
         <div>
-          <p className="section-label">Barcode-source boundary</p>
-          <h2>Connected sources are barcode inputs, not hidden biodiversity shortcuts.</h2>
+          <p className="section-label">Source provenance</p>
+          <h2>Molecular evidence and GBIF context are linked without mixing decision roles.</h2>
           <p>
             The compiler evaluates supplied molecular hit evidence and selected reference FASTA. GBIF occurrence
-            data remain an audit/citation layer and cannot override the molecular gates.
+            data are attached as spatial, dataset and citation provenance while claim strength remains governed by
+            molecular and publication gates.
           </p>
         </div>
         <div className="source-link-stack" aria-label="Official source links">
@@ -3733,6 +3810,95 @@ function SourceBoundaryPanel() {
           </article>
         ))}
       </div>
+    </section>
+  );
+}
+
+const evidencePackCatalogGroups = [
+  {
+    title: 'Core outputs',
+    files: [
+      ['evidence_pack.json', 'Complete machine-readable run ledger.', 'Use for reproducible review and downstream integration.'],
+      ['sequence_safety_table.csv', 'Per-sequence TaxStatus, PubStatus, blockers and export state.', 'Use to audit safe rank decisions.'],
+      ['publication_blockers.csv', 'Publication blockers and repair actions.', 'Use to prioritize metadata repair.'],
+      ['molecular_evidence_report.html', 'Human-readable run report.', 'Use for judge review and publisher handoff.'],
+    ],
+  },
+  {
+    title: 'Publication templates',
+    files: [
+      ['dwc_occurrence_core_publishable.csv', 'Darwin Core rows allowed by gates.', 'Use as publication candidate material.'],
+      ['dwc_occurrence_core_review.csv', 'Rows that need review or repair.', 'Use as repair queue.'],
+      ['dna_derived_extension_publishable.csv', 'DNA-derived extension candidate fields.', 'Use with GBIF DNA-derived publishing workflows.'],
+    ],
+  },
+  {
+    title: 'Audits',
+    files: [
+      ['hard_gate_audit.csv', 'Identity, coverage, ambiguity, barcode gap and metadata gate trace.', 'Use to verify fail-closed behavior.'],
+      ['math_viability_audit.json', 'Numerical consistency of gates and metrics.', 'Use to check formulas against output.'],
+      ['naive_top_hit_overclaims.csv', 'Top-hit species claims blocked by compiler gates.', 'Use to show overclaim prevention.'],
+      ['graph_provenance_audit.csv', 'Graph nodes and edges carry provenance hashes.', 'Use to inspect graph integrity.'],
+      ['ai_output_guardrail_audit.csv', 'AI-ready exports preserve claim states.', 'Use to verify label separation.'],
+    ],
+  },
+  {
+    title: 'Graph / VSEA',
+    files: [
+      ['verified_segment_evidence_array.csv', 'Segment-level claim state matrix.', 'Use to inspect VSEA rows.'],
+      ['verified_segment_evidence_array.parquet', 'Columnar VSEA export.', 'Use for larger analytical workflows.'],
+      ['evidence_graph.jsonld', 'Evidence graph with provenance and claim/blocker edges.', 'Use for graph review and integration.'],
+      ['graph_roundtrip_audit.json', 'Graph serialization consistency check.', 'Use before release or platform import.'],
+    ],
+  },
+];
+
+function EvidencePackCatalog({ exports = [] }) {
+  const exportMap = new Map(exports.map((item) => [item.name, item]));
+  return (
+    <section className="page-grid">
+      <section className="hero-panel">
+        <div>
+          <p className="eyebrow">Evidence Pack</p>
+          <h2>Downloadable artifacts for rank decisions, publication readiness, repairs and audits.</h2>
+          <p>
+            The Evidence Pack is the reviewable product output: tables for users, JSON for machines, HTML for judges,
+            graph/VSEA artifacts for provenance, and guardrail audits for export safety.
+          </p>
+        </div>
+        <div className="verdict-card production-verdict">
+          <span>Artifact contract</span>
+          <strong>CSV + JSON + HTML + VSEA + graph + audits</strong>
+          <small>Runtime links appear here after a compiler or Evidence Map run.</small>
+        </div>
+      </section>
+
+      {evidencePackCatalogGroups.map((group) => (
+        <section className="panel" key={group.title}>
+          <p className="section-label">{group.title}</p>
+          <div className="artifact-table">
+            <div><strong>File</strong><strong>What it checks / when to use</strong></div>
+            {group.files.map(([name, checks, use]) => {
+              const exported = exportMap.get(name);
+              return (
+                <div key={name}>
+                  <strong>{exported ? <a href={exportUrl(exported.url)}>{name}</a> : name}</strong>
+                  <span>{checks} {use}</span>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      ))}
+
+      <section className="panel">
+        <p className="section-label">Claim boundary</p>
+        <h2>Evidence Pack exports preserve claim strength and provenance.</h2>
+        <p className="proof-copy">
+          EcoGenesis reports evidence-bounded molecular and publication-readiness decisions. Stronger biological
+          interpretations require additional curated evidence and remain outside automatic export.
+        </p>
+      </section>
     </section>
   );
 }
@@ -3767,7 +3933,7 @@ function JudgeDecisionDashboard({ metrics, hasRun }) {
         </article>
         <article className="decision-card blocked">
           <span>Do not claim</span>
-          <strong>Absence, true distribution, trend or phenotype truth</strong>
+          <strong>Absence, distribution model, trend or phenotype interpretation</strong>
           <p>These are explicitly blocked unless external models, bias correction or curated trait evidence exist.</p>
         </article>
         <article className="decision-card repair">
@@ -3894,12 +4060,12 @@ function VisualLecture() {
     <section className="visual-lecture page-grid">
       <section className="lecture-hero panel">
         <div>
-          <p className="section-label">Visual explanation</p>
-          <h2>Sequence visual lab: from DNA letters to safe GBIF evidence.</h2>
+          <p className="section-label">Workflow</p>
+          <h2>From molecular input to Evidence Pack, map and graph.</h2>
           <p>
-            This page explains the project like a guided science board. A DNA sequence is compared with reference
-            sequences, competitors are checked, unsafe species claims are downgraded, and missing GBIF fields become
-            repair actions instead of hidden failures.
+            This storyboard makes the compiler legible in minutes: molecular inputs become reference-hit evidence,
+            gates compute a safe rank, publication readiness is checked separately, and every result becomes an
+            auditable artifact.
           </p>
           <div className="lecture-actions">
             <a className="button-link" href="#analysis-animation">Watch analysis</a>
@@ -3915,8 +4081,8 @@ function VisualLecture() {
               <span className={`base-tile ${base}`} key={`${base}-${index}`}>{base}</span>
             ))}
           </div>
-          <strong>DNA letters are evidence inputs, not final truth.</strong>
-          <p>The compiler asks: how strong is the match, who else is close, and what can be safely published?</p>
+          <strong>DNA letters are evidence inputs.</strong>
+          <p>The compiler asks: how strong is the match, who else is close, and which rank can be exported safely?</p>
         </div>
       </section>
 
@@ -4630,7 +4796,7 @@ function ClaimBoundaryVisual() {
         </article>
         <article className="blocked">
           <strong>Blocked</strong>
-          <span>No absence, true distribution, trend or phenotype truth from these data alone.</span>
+          <span>Stronger biological interpretations require curated external evidence beyond automatic export.</span>
         </article>
       </div>
     </div>
@@ -4642,18 +4808,17 @@ function ResearchAudit() {
     <section className="research-page">
       <section className="research-hero panel">
         <div>
-          <p className="section-label">Research audit layer</p>
-          <h2>What the 1000-record GBIF occurrence-audit suite really proves, and what it does not prove.</h2>
+          <p className="section-label">Validation</p>
+          <h2>Competition, adversarial and Evidence Map runs make the compiler reviewable.</h2>
           <p>
-            This layer keeps the project honest: the 1000-record suite validates occurrence evidence auditing,
-            source concentration, metadata risks and safe scientific claim generation. It does not pretend to be
-            the molecular fragment graph itself. The molecular compiler remains the core implemented engine, and
-            the expanded Molecular Evidence Graph is the next research layer.
+            Validation is organized as practical review evidence: compiler batches, occurrence metadata audit,
+            adversarial stress tests and Evidence Map verification. The same artifacts can be downloaded and inspected
+            by judges.
           </p>
         </div>
         <div className="proof-summary">
-          <strong>Accepted separation</strong>
-          <span>Occurrence audit is context. Barcode Compiler is the working molecular safety engine. Molecular Evidence Graph is the full direction.</span>
+          <strong>Validation scope</strong>
+          <span>Compiler gates, occurrence metadata context, graph provenance, output verification and export guardrails are checked separately.</span>
         </div>
       </section>
 
@@ -4668,8 +4833,8 @@ function ResearchAudit() {
       </section>
 
       <section className="panel">
-        <p className="section-label">Product architecture</p>
-        <h2>Three levels, no mixed promises.</h2>
+        <p className="section-label">Validation layers</p>
+        <h2>Compiler validation, occurrence metadata audit and Evidence Map verification stay separated.</h2>
         <div className="layer-grid">
           {architectureLevels.map(([level, title, body]) => (
             <article className="layer-card" key={level}>
@@ -4735,7 +4900,7 @@ function ResearchAudit() {
 
       <section className="panel final-proof">
         <p className="section-label">Upgrade direction</p>
-        <h2>The next winning step is fragment-level evidence, not another abstract score.</h2>
+          <h2>The next winning step is fragment-level evidence with audit-ready graph artifacts.</h2>
         <p>
           The project should now evolve from occurrence audit into fragment sharedness: sequence fragment to all
           taxa carrying it, LCA safe rank, specificity, GBIF geography context, coding-marker protein sanity and
@@ -4780,10 +4945,10 @@ function ProofAndFormulas() {
     <section className="proof-page">
       <section className="proof-hero panel">
         <div>
-          <p className="section-label">Evidence basis</p>
-          <h2>Why the engine can say "publish", "repair", "downgrade" or "block".</h2>
+          <p className="section-label">Methods & Audits</p>
+          <h2>How the compiler decides: input model, gates, readiness and audit invariants.</h2>
           <p>
-            This page exposes the mathematical basis behind the Molecular Evidence Conversion & Repair Engine for GBIF.
+            This page exposes the mathematical basis behind the Barcode-to-GBIF Evidence Compiler.
             The Barcode-to-GBIF Evidence Compiler is the first implemented layer: species-level output is allowed only
             when every molecular and publication gate passes. Otherwise the record is downgraded, kept for repair or
             blocked from publishable exports.
@@ -4817,8 +4982,8 @@ function ProofAndFormulas() {
         <p className="proof-copy">
           The current Barcode Compiler is the first working version of a larger engine. Its job is to stop unsafe
           top-hit species claims, preserve useful safe-rank evidence, expose publication blockers and generate a
-          reproducible evidence pack. The current contest build also exports the GSEG/GSIG proof layer: VSEA,
-          theorem checklist, graph provenance, roundtrip checks and AI guardrails.
+          reproducible evidence pack. The current contest build also exports advanced graph artifacts: VSEA,
+          release checklist, graph provenance, roundtrip checks and AI guardrails.
         </p>
         <div className="engine-equation">
           <span>maximize</span>
@@ -4829,12 +4994,12 @@ function ProofAndFormulas() {
       </section>
 
       <section className="panel">
-        <p className="section-label">Full mathematical notebook</p>
-        <h2>Complete formulas and explanations behind the engine.</h2>
+        <p className="section-label">Audit notebook</p>
+        <h2>Complete formulas and “why this matters” notes behind the engine.</h2>
         <p className="proof-copy">
           This is the full evidence logic, not just a summary. Each block shows the formula, the variables it uses,
           and what the formula protects against in the workflow. The current backend implements the core compiler
-          gates plus the GSEG/GSIG graph-proof exports. Deeper protein, assay, repair and trait/function layers are
+          gates plus advanced graph audit exports. Deeper protein, assay, repair and trait/function layers are
           kept as explicit roadmap or no-claim boundaries unless their evidence is present.
         </p>
       </section>
@@ -4845,7 +5010,7 @@ function ProofAndFormulas() {
         <p className="proof-copy">
           These are the judge-facing formulas: fractions are rendered with bars, indices are real subscripts, and
           set operations are shown as mathematical operators. The text notebook below remains as the implementation
-          contract, but this section is the visual proof layer.
+          contract, but this section is the visual audit layer.
         </p>
       </section>
 
@@ -4944,9 +5109,9 @@ function ProofAndFormulas() {
 
       <section className="panel">
         <p className="section-label">Test analysis</p>
-        <h2>What we actually solved and proved with the current implementation.</h2>
+        <h2>What the current implementation verifies.</h2>
         <p className="proof-copy">
-          The tests do not prove biological truth. They prove that the implemented workflow behaves fail-closed:
+          The tests verify that the implemented workflow behaves fail-closed:
           unsafe species claims are blocked, ambiguous records are downgraded, missing metadata prevents publication,
           evidence exports are generated, and GBIF-backed runs declare their source mode, including fixture fallback
           when network data are unavailable.
@@ -5003,8 +5168,8 @@ function ProofAndFormulas() {
       </section>
 
       <section className="panel proof-theorem">
-        <p className="section-label">Proof by contradiction</p>
-        <h2>If the compiler emits species-safe, the species claim is not a blind top-hit claim.</h2>
+        <p className="section-label">Invariant check</p>
+        <h2>If the compiler emits species-safe, every required species gate has passed.</h2>
         <ol className="proof-steps">
           {proofSteps.map((step) => (
             <li key={step}>{step}</li>
@@ -5055,7 +5220,7 @@ function ProofAndFormulas() {
 
       <section className="panel final-proof">
         <p className="section-label">Final conclusion</p>
-        <h2>The core contribution is not species guessing. It is evidence conversion with repairable loss accounting.</h2>
+        <h2>The core contribution is evidence conversion with repairable loss accounting.</h2>
         <p>
           The strongest version of the project is a deterministic GBIF-facing engine that receives molecular evidence,
           prevents unsafe species overclaiming, keeps safe genus or higher-rank evidence, identifies metadata and
@@ -5201,8 +5366,8 @@ function FragmentGraphExplorer({
           <div className="fragment-boundary-note">
             <strong>Boundary of the claim</strong>
             <span>This graph shows where the fragment appears inside the selected reference dataset.</span>
-            <span>It does not prove natural occurrence, absence, phenotype or global distribution.</span>
-            <span>To expand coverage, upload a larger curated reference FASTA in Run compiler.</span>
+            <span>Stronger biological claims remain outside automatic fragment export.</span>
+            <span>To expand coverage, upload a larger curated reference FASTA in Run Compiler.</span>
           </div>
         </aside>
 
@@ -5276,7 +5441,7 @@ function FragmentGraphSummary({ graph, loading }) {
       </div>
       <div className="fragment-claim-box blocked">
         <strong>Do not claim</strong>
-        <span>{(graph.claim_boundary?.not_supported || ['absence, true distribution, phenotype, abundance or global presence claims']).join('; ')}</span>
+        <span>{(graph.claim_boundary?.not_supported || ['absence claims, distribution models, phenotype, abundance or global presence claims']).join('; ')}</span>
       </div>
       <div>
         <h4>Kingdoms found</h4>
@@ -5607,7 +5772,7 @@ function StandardFragmentDashboardSvg({ graph }) {
               </g>
             );
           })}
-          <text x="482" y="276" className="shared-warning-line">Lineage is reference-backed context, not proof of global distribution.</text>
+          <text x="482" y="276" className="shared-warning-line">Lineage is reference-backed context for safe-rank interpretation.</text>
         </g>
 
         <g className="shared-card hit-card" filter="url(#standardCardShadow)">
@@ -6444,6 +6609,25 @@ function CompilerWorkbench({
     <section className={`workspace ${pack ? 'has-results' : ''}`}>
       <aside className="control-panel">
         <section className="quick-start-card">
+          <p className="section-label">Run Compiler flow</p>
+          <h3>Four steps from molecular input to audit-ready exports.</h3>
+          <div className="lecture-workflow compact">
+            {[
+              ['1', 'Choose input', 'Demo, CSV, or reference FASTA search.'],
+              ['2', 'Validate input', 'Required fields, weak hits, duplicates and metadata gaps.'],
+              ['3', 'Run gates', 'Identity, coverage, competitor/LCA, barcode gap, k-mers and metadata.'],
+              ['4', 'Export pack', 'CSV, JSON, HTML, VSEA, graph and audit files.'],
+            ].map(([index, title, body]) => (
+              <article key={title}>
+                <span>{index}</span>
+                <strong>{title}</strong>
+                <p>{body}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="quick-start-card">
           <p className="section-label">Start here</p>
           <h3>Use the demo first, then upload your CSV.</h3>
           <p>
@@ -6666,7 +6850,7 @@ function CompilerWorkbench({
           <p className="section-label">Data source</p>
           <strong>{referenceStatus?.status === 'ready' ? 'Compiler ready' : 'Compiler status'}</strong>
           <span>
-            Molecular scoring uses supplied Sequence ID / BLAST / BOLD / UNITE-style CSV rows or the selected FASTA reference dataset. GBIF occurrence audit is available in Research audit, but it is not used as hidden molecular evidence.
+            Molecular scoring uses supplied Sequence ID / BLAST / BOLD / UNITE-style CSV rows or the selected FASTA reference dataset. GBIF occurrence context is reviewed in Validation and Evidence Map.
           </span>
         </section>
 
@@ -6702,8 +6886,8 @@ function CompilerWorkbench({
               <p className="section-label">What happens after you click run</p>
               <h2>From a DNA match table to safe claims and repair actions.</h2>
               <p>
-                EcoGenesis does not guess a species from the top hit. It checks whether the evidence is strong enough,
-                downgrades unsafe claims, separates publication blockers, then builds a downloadable evidence pack.
+                EcoGenesis computes the safest evidence-supported taxonomic rank, separates publication blockers,
+                ranks repair actions and builds a downloadable Evidence Pack.
               </p>
               <EvidenceProcessFlow activeIndex={loading ? 1 : 0} />
               <div className="empty-state-actions">
@@ -6996,8 +7180,8 @@ function NexusAuditPanel({ pack }) {
     <section className="panel nexus-audit-panel">
       <div className="panel-heading-row">
         <div>
-          <p className="section-label">Nexus V3 audit</p>
-          <h3>Molecular evidence conversion, not species guessing.</h3>
+          <p className="section-label">Ruleset audit</p>
+          <h3>Molecular evidence conversion, safe ranks and repairable loss accounting.</h3>
         </div>
         <span className={`audit-status ${hardGateFailures === 0 ? 'pass' : 'warn'}`}>
           {hardGateFailures === 0 ? 'Hard gates passed' : 'Hard-gate warning'}

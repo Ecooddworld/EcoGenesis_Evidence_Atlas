@@ -333,7 +333,7 @@ const sharedFragmentGraphPayload = {
   },
   claim_boundary: {
     supported: 'Family-level fragment evidence for Culicidae; lower-rank claims are blocked.',
-    not_supported: ['natural occurrence, absence, abundance or distribution', 'global species truth outside the selected reference dataset'],
+    not_supported: ['natural occurrence, absence, abundance or distribution', 'global species conclusion outside the selected reference dataset'],
   },
   segments: [
     {
@@ -483,7 +483,7 @@ const observatoryRunDetail = {
     snapshot_id: 'gbif-aedes-spain-abc123',
     snapshot_hash: 'abc123def4567890',
     source_mode: 'fixture_fallback',
-    claim_boundary: 'Occurrence records are context and provenance only; they do not strengthen molecular taxon support.',
+    claim_boundary: 'Claim strength is bounded by molecular gates, publication gates and source provenance.',
   },
   normalized_occurrence_context: [
     {
@@ -702,20 +702,22 @@ describe('Barcode compiler UI', () => {
 
     render(<App />);
 
-    expect(await screen.findByText('Molecular Evidence Conversion & Repair Engine for GBIF')).toBeInTheDocument();
-    expect(screen.getByText('Judge overview')).toBeInTheDocument();
-    expect(screen.getByText('Decision cockpit for safe molecular evidence, not another biodiversity dashboard.')).toBeInTheDocument();
+    expect(await screen.findByText('Barcode-to-GBIF Evidence Compiler')).toBeInTheDocument();
+    expect(screen.getByText('Overview')).toBeInTheDocument();
+    expect(screen.getByText('Safe molecular evidence. Rank-aware decisions. GBIF-ready exports.')).toBeInTheDocument();
+    expect(screen.getByText('What it does')).toBeInTheDocument();
     expect(screen.getByText('Evidence funnel')).toBeInTheDocument();
     expect(screen.getByText('Claim matrix')).toBeInTheDocument();
     expect(screen.getByText('Repair optimizer')).toBeInTheDocument();
-    expect(screen.getByText('Research audit')).toBeInTheDocument();
+    expect(screen.getByText('Validation')).toBeInTheDocument();
+    expect(screen.getByText('Evidence Pack')).toBeInTheDocument();
 
     fireEvent.click(screen.getByText('Run mixed demo'));
 
     await waitFor(() => expect(screen.getAllByText('AALB-COI-good').length).toBeGreaterThan(0));
     expect(screen.getByText('species-safe')).toBeInTheDocument();
     expect(screen.getAllByText('evidence_pack.zip').length).toBeGreaterThan(0);
-    expect(screen.getByText('GSEG / GSIG proof layer')).toBeInTheDocument();
+    expect(screen.getByText('Advanced graph artifacts')).toBeInTheDocument();
     expect(screen.getAllByText('theorem_checklist.json').length).toBeGreaterThan(0);
     expect(screen.getAllByText('verified_segment_evidence_array.parquet').length).toBeGreaterThan(0);
     expect(screen.getByText('Data accounting ledger')).toBeInTheDocument();
@@ -741,7 +743,7 @@ describe('Barcode compiler UI', () => {
     });
 
     render(<App />);
-    fireEvent.click(await screen.findByText('Run compiler'));
+    fireEvent.click(await screen.findByText('Run Compiler'));
 
     expect(screen.getByLabelText('Demo case')).toBeInTheDocument();
     expect(screen.getByText('Run selected demo')).toBeInTheDocument();
@@ -778,7 +780,7 @@ describe('Barcode compiler UI', () => {
     });
 
     render(<App />);
-    fireEvent.click(await screen.findByText('Run compiler'));
+    fireEvent.click(await screen.findByText('Run Compiler'));
 
     expect(screen.getByText('Upload CSV results')).toBeInTheDocument();
     expect(screen.getByText('Download CSV template')).toBeInTheDocument();
@@ -824,7 +826,7 @@ describe('Barcode compiler UI', () => {
     });
 
     render(<App />);
-    fireEvent.click(await screen.findByText('Run compiler'));
+    fireEvent.click(await screen.findByText('Run Compiler'));
     expect(await screen.findByText('Run real Aedes COI species-safe check')).toBeInTheDocument();
     expect(await screen.findByText('GBIF backbone: pre_enriched_manifest · enriched 2 / fallback 0')).toBeInTheDocument();
     fireEvent.click(screen.getAllByText('Run real data')[0]);
@@ -863,7 +865,7 @@ describe('Barcode compiler UI', () => {
     });
 
     render(<App />);
-    fireEvent.click(await screen.findByText('Fragment graph'));
+    fireEvent.click(await screen.findByText('Fragment Graph'));
 
     expect(screen.getByText('Real fragment-to-taxa explorer')).toBeInTheDocument();
     expect(screen.getByLabelText('Fragment reference dataset')).toBeInTheDocument();
@@ -932,7 +934,7 @@ describe('Barcode compiler UI', () => {
     });
 
     render(<App />);
-    fireEvent.click(await screen.findByText('Fragment graph'));
+    fireEvent.click(await screen.findByText('Fragment Graph'));
     fireEvent.click(screen.getByText('Run shared short-fragment tree'));
 
     await waitFor(() => expect(screen.getByText('Short-fragment evidence')).toBeInTheDocument());
@@ -984,7 +986,7 @@ describe('Barcode compiler UI', () => {
     });
 
     render(<App />);
-    fireEvent.click(await screen.findByText('Run compiler'));
+    fireEvent.click(await screen.findByText('Run Compiler'));
 
     fireEvent.change(screen.getByLabelText('Dataset title'), { target: { value: 'Custom Aedes COI' } });
     const fasta = new File(['>AALB|Aedes albopictus|species|1651430\nACGT\n'], 'custom_aedes.fasta', { type: 'text/plain' });
@@ -1014,9 +1016,9 @@ describe('Barcode compiler UI', () => {
     });
 
     render(<App />);
-    fireEvent.click(await screen.findByText('Visual lecture'));
+    fireEvent.click(await screen.findByText('Workflow'));
 
-    expect(screen.getByText('Sequence visual lab: from DNA letters to safe GBIF evidence.')).toBeInTheDocument();
+    expect(screen.getByText('From molecular input to Evidence Pack, map and graph.')).toBeInTheDocument();
     expect(screen.getByText('Compiler logic animation')).toBeInTheDocument();
     expect(screen.getByText('How EcoGenesis reaches a bounded claim, step by step.')).toBeInTheDocument();
     expect(screen.getByText('Generated analysis pictures')).toBeInTheDocument();
@@ -1157,14 +1159,14 @@ describe('Barcode compiler UI', () => {
     });
 
     render(<App />);
-    fireEvent.click(await screen.findByText('Math & proof'));
+    fireEvent.click(await screen.findByText('Methods & Audits'));
 
-    expect(screen.getByText('Evidence basis')).toBeInTheDocument();
+    expect(screen.getAllByText('Methods & Audits').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Evidence Conversion Problem').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Repair optimizer').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Protein sanity').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Evidence graph').length).toBeGreaterThan(0);
-    expect(screen.getByText('Full mathematical notebook')).toBeInTheDocument();
+    expect(screen.getByText('Audit notebook')).toBeInTheDocument();
     expect(screen.getByText('Rendered mathematical notation')).toBeInTheDocument();
     expect(screen.getByText('Reference completeness')).toBeInTheDocument();
     expect(screen.getByText('Reference Completeness Gate')).toBeInTheDocument();
@@ -1173,7 +1175,7 @@ describe('Barcode compiler UI', () => {
     expect(screen.getByText('Test analysis')).toBeInTheDocument();
     expect(screen.getByText('GBIF-backed smoke')).toBeInTheDocument();
     expect(screen.getByText('Decision function')).toBeInTheDocument();
-    expect(screen.getByText('Proof by contradiction')).toBeInTheDocument();
+    expect(screen.getByText('Invariant check')).toBeInTheDocument();
     expect(screen.getAllByText(/p_false_positive/).length).toBeGreaterThan(0);
   });
 
@@ -1196,17 +1198,17 @@ describe('Barcode compiler UI', () => {
     });
 
     render(<App />);
-    fireEvent.click(await screen.findByText('Research audit'));
+    fireEvent.click(await screen.findByText('Validation'));
 
-    expect(screen.getByText('Research audit layer')).toBeInTheDocument();
+    expect(screen.getAllByText('Validation').length).toBeGreaterThan(0);
     expect(screen.getByText('Occurrence Evidence Audit Shell')).toBeInTheDocument();
     expect(screen.getByText('Downloaded records are now separated from deduplicated records.')).toBeInTheDocument();
     expect(screen.getByText('Risk heatmap')).toBeInTheDocument();
     expect(screen.getByText('theory_claims_100.csv')).toBeInTheDocument();
-    expect(screen.getByText('The next winning step is fragment-level evidence, not another abstract score.')).toBeInTheDocument();
+    expect(screen.getByText('The next winning step is fragment-level evidence with audit-ready graph artifacts.')).toBeInTheDocument();
   });
 
-  it('runs the GSIG Observatory layer and exposes the contest proof screens', async () => {
+  it('runs the Evidence Map layer and exposes the contest audit screens', async () => {
     vi.spyOn(globalThis, 'fetch').mockImplementation((url, options) => {
       const textUrl = String(url);
       if (textUrl.endsWith('/api/barcode/demo-scenarios')) {
@@ -1246,27 +1248,29 @@ describe('Barcode compiler UI', () => {
     });
 
     render(<App />);
-    fireEvent.click(await screen.findByText('Observatory'));
+    fireEvent.click(await screen.findByText('Evidence Map'));
 
-    expect(screen.getByText('GSIG Observatory')).toBeInTheDocument();
-    expect(screen.getByText('Source snapshots, molecular segments and claim boundaries in one evidence graph.')).toBeInTheDocument();
-    fireEvent.click(screen.getByText('Run GBIF-backed Aedes Spain'));
+    expect(screen.getAllByText('Evidence Map').length).toBeGreaterThan(0);
+    expect(screen.getByText('Spatial context, molecular claim states, blockers and export boundaries in one evidence view.')).toBeInTheDocument();
+    fireEvent.click(screen.getByText('Run reproducible judge demo'));
 
     await waitFor(() => expect(screen.getByText('Hard gates pass')).toBeInTheDocument());
-    expect(screen.getByText('Download Observatory Pack')).toBeInTheDocument();
+    expect(screen.getByText('Download Evidence Map Pack')).toBeInTheDocument();
+    expect(screen.getByText('Evidence Atlas controls')).toBeInTheDocument();
+    expect(screen.getByText('GBIF-ready / export candidate')).toBeInTheDocument();
     expect(screen.getByText('GBIF snapshot')).toBeInTheDocument();
     expect(screen.getByText('Output verification')).toBeInTheDocument();
     expect(screen.getByText('Run files checked')).toBeInTheDocument();
-    expect(screen.getByText('Hashes, proof gates, tables, graph and ZIP contents agree for this exact run.')).toBeInTheDocument();
+    expect(screen.getByText('Hashes, audit gates, tables, graph and ZIP contents agree for this exact run.')).toBeInTheDocument();
     expect(screen.getByText('Verification report')).toBeInTheDocument();
     expect(screen.getByText('Verification data')).toBeInTheDocument();
     expect(screen.getByText('67')).toBeInTheDocument();
     expect(screen.getAllByText('0').length).toBeGreaterThan(0);
-    expect(screen.getByText('GSIG evidence graph explorer')).toBeInTheDocument();
-    expect(screen.getByText('Full source, snapshot, segment, claim and export graph for the current Observatory run.')).toBeInTheDocument();
-    expect(screen.getAllByText('EcoGenesis GSIG Evidence Graph').length).toBeGreaterThan(0);
-    expect(screen.getAllByText('Visible evidence, not complete world.').length).toBeGreaterThan(0);
-    expect(screen.getByText('GBIF occurrence context map')).toBeInTheDocument();
+    expect(screen.getByText('Evidence graph explorer')).toBeInTheDocument();
+    expect(screen.getByText('Source, snapshot, segment, claim and export graph for the current map run.')).toBeInTheDocument();
+    expect(screen.getAllByText('EcoGenesis Evidence Graph').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Claim states, blockers, provenance and export boundaries.').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Evidence Map').length).toBeGreaterThan(0);
     expect(screen.getByText('Open in GBIF')).toBeInTheDocument();
     expect(screen.getByText('Review flags')).toBeInTheDocument();
     expect(screen.queryByText('Source evidence map')).not.toBeInTheDocument();
@@ -1276,15 +1280,14 @@ describe('Barcode compiler UI', () => {
     await waitFor(() => expect(screen.getAllByText('AALB-COI-good').length).toBeGreaterThan(0));
     expect(screen.getAllByText('AALB-COI-short').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Short fragment blocker').length).toBeGreaterThan(0);
-    expect(screen.getByText('OPO-07: UI cannot upgrade claims.')).toBeInTheDocument();
-    expect(screen.getByText('OPO-08: blocked claims stay visible.')).toBeInTheDocument();
+    expect(screen.getByText('Guardrail: UI preserves claim states.')).toBeInTheDocument();
+    expect(screen.getByText('Guardrail: blocked rows stay visible.')).toBeInTheDocument();
     fireEvent.click(screen.getAllByRole('button', { name: /AALB-COI-good/i })[0]);
     expect(screen.getByText('Merged variants')).toBeInTheDocument();
     fireEvent.change(screen.getByLabelText('Claim state'), { target: { value: 'weak_hypothesis' } });
     expect(screen.getAllByText('AALB-COI-short').length).toBeGreaterThan(0);
     expect(screen.getByText('none')).toBeInTheDocument();
-    expect(screen.getByText(/map records are provenance context, not claim support/i)).toBeInTheDocument();
-    expect(screen.getByText('Occurrence records are context and provenance only; they do not strengthen molecular taxon support.')).toBeInTheDocument();
+    expect(screen.getAllByText(/Claim strength is bounded by molecular gates, publication gates and source provenance/i).length).toBeGreaterThan(0);
     expect(screen.getByText('Contest readiness dossier')).toBeInTheDocument();
     expect(screen.getByText('All current contest gates are passing.')).toBeInTheDocument();
     expect(screen.getByText('contest_readiness.md')).toBeInTheDocument();

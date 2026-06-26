@@ -33,10 +33,10 @@ Required barcode compiler coverage:
 - `/api/barcode/fragment-graph` returns segment-level coordinates, source monitor data, known annotation hints and claim boundaries.
 - `scientificName` conflicts with the molecular top hit block publication while preserving the molecular evidence state;
 - Evidence Pack exports include `data_accounting_ledger.csv`, `state_machine_audit.csv`, `reference_completeness_audit.csv`, structured `publication_blockers.csv`, graph-backed `claim_boundaries.csv` and `profile_id` in `safe_taxonomic_assignments.csv`.
-- GSEG/GSIG exports include `theorem_checklist.json`, real `verified_segment_evidence_array.parquet`, `graph_provenance_audit.csv`, `graph_roundtrip_audit.json`, `ai_output_guardrail_audit.csv` and `judge_reproducibility_report.md`.
+- Advanced graph exports include `theorem_checklist.json`, real `verified_segment_evidence_array.parquet`, `graph_provenance_audit.csv`, `graph_roundtrip_audit.json`, `ai_output_guardrail_audit.csv` and `judge_reproducibility_report.md`.
 - `tests/test_gseg_gsig_reference_checks.py` verifies the reference math and guardrail oracle for safe taxa, canonical segment hashing, sharedness, claim-state transitions, AI export preservation, provenance and BH-FDR.
-- GSIG Observatory exports include `observatory_evidence_pack.zip`, `snapshot_manifest.json`, `source_registry_audit.json`, `observatory_vsea.parquet`, `observatory_graph.jsonld`, `gbif_export_preview.csv`, `ai_ready_dataset.jsonl` and all 20 OPO audit artifacts.
-- `tests/test_gsig_observatory_reference_checks.py` verifies the Observatory source registry, pipeline DAG, UI contract, proof obligations, visual claim-state projection and AI label separation.
+- Evidence Map exports include `observatory_evidence_pack.zip`, `snapshot_manifest.json`, `source_registry_audit.json`, `observatory_vsea.parquet`, `observatory_graph.jsonld`, `gbif_export_preview.csv`, `ai_ready_dataset.jsonl` and all 20 OPO audit artifacts.
+- `tests/test_gsig_observatory_reference_checks.py` verifies the Evidence Map source registry, pipeline DAG, UI contract, audit obligations, visual claim-state projection and AI label separation.
 - `tests/test_observatory_api.py` verifies `/api/observatory/*`, generated parquet, GBIF fixture fallback recording, VSEA/segment/claim endpoints and export links.
 - `tests/test_math_viability.py` verifies the independent math viability oracle over default and edge-case packs.
 
@@ -61,16 +61,16 @@ production build passed
 
 Required UI coverage:
 
-- Judge overview renders.
-- Run compiler opens.
+- Overview renders.
+- Run Compiler opens.
 - `Upload CSV results` block is visible.
 - `Download CSV template` link is visible.
 - CSV upload shows preview and validation warnings.
 - `Generate from CSV` displays result dashboard and export links.
 - Advanced JSON remains available for developer workflows.
-- `Math & proof` opens.
-- `Research audit` opens.
-- `Observatory` opens, runs Aedes Spain, renders VSEA and Judge proof screens.
+- `Methods & Audits` opens.
+- `Validation` opens.
+- `Evidence Map` opens, runs the judge demo, renders VSEA and Judge audit screens.
 - `Data accounting ledger` renders after a run and shows denominators for candidate, safe, publishable and formal GBIF-ready states.
 
 ## API Smoke
@@ -108,12 +108,12 @@ Expected:
 - CSV template returns header row;
 - import returns `validation.ok=true`;
 - run returns `species_safe_records=1`.
-- Observatory run returns `hard_gate_status=pass`, `vsea_rows=4` and downloadable `observatory_evidence_pack.zip`.
+- Evidence Map run returns `hard_gate_status=pass`, `vsea_rows=4` and downloadable `observatory_evidence_pack.zip`.
 
 ## Browser Smoke
 
 1. Open http://127.0.0.1:13100.
-2. Open `Run compiler`.
+2. Open `Run Compiler`.
 3. Upload `examples/aedes_good.csv`.
 4. Confirm preview and validation summary are visible.
 5. Click `Generate from CSV`.
@@ -127,12 +127,12 @@ Expected:
    - `theorem_checklist.json`
    - `verified_segment_evidence_array.parquet`
    - `graph_provenance_audit.csv`
-8. Open `Math & proof`.
-9. Open `Observatory`.
-10. Click `Run GBIF-backed Aedes Spain`.
+8. Open `Methods & Audits`.
+9. Open `Evidence Map`.
+10. Click `Run reproducible judge demo`.
 11. Confirm `GBIF snapshot`, `VSEA`, `Graph`, `Exports` and `Judge` screens render.
 12. Confirm `observatory_evidence_pack.zip`, `observatory_vsea.parquet`, `snapshot_manifest.json` and `proof_summary.json` are linked.
-13. Open `Research audit`.
+13. Open `Validation`.
 14. Confirm console errors are zero and there is no horizontal overflow.
 
 ## Docker Smoke
@@ -168,7 +168,7 @@ Expected:
 - status `pass`;
 - 2 generated packs checked;
 - 142 formula and invariant checks;
-- match gates, ambiguity boundary, safe LCA, barcode gap, diagnostic k-mer probability, hard-gate theorem, publication separation and batch metrics all reconcile with the Evidence Pack.
+- match gates, ambiguity boundary, safe LCA, barcode gap, diagnostic k-mer probability, hard-gate invariant, publication separation and batch metrics all reconcile with the Evidence Pack.
 
 ## Operability Report
 
@@ -198,14 +198,14 @@ Current Docker-backed batch reports:
   - expected decisions matched;
   - hard-gate failures: `0`;
   - 50 publishable candidates, 0 formal GBIF-ready rows;
-  - GSEG/GSIG exports present, math viability audit `pass`, VSEA Parquet magic `PAR1`, theorem release gate `pass`, graph roundtrip `pass`.
+  - Advanced graph exports present, math viability audit `pass`, VSEA Parquet magic `PAR1`, release gate `pass`, graph roundtrip `pass`.
 - `reports/adversarial-100-sequences/adversarial_100_sequence_report.md`
   - 100 adversarial records across no-match, weak, ambiguity, metadata, assay, name-conflict, custom-marker and missing-evidence cases;
   - expected decisions matched;
   - hard-gate failures: `0`;
   - false species-safe outside positive controls: `0`;
   - 90 exports;
-  - GSEG/GSIG exports present, math viability audit `pass`, VSEA Parquet magic `PAR1`, theorem release gate `pass`, graph roundtrip `pass`.
+  - Advanced graph exports present, math viability audit `pass`, VSEA Parquet magic `PAR1`, release gate `pass`, graph roundtrip `pass`.
 
 Regenerate both reports:
 
@@ -214,9 +214,9 @@ cd backend
 .venv/bin/python scripts/generate_competition_reports.py
 ```
 
-## GSIG Observatory Report
+## Evidence Map Report
 
-Current generated Observatory report:
+Current generated Evidence Map report:
 
 - `reports/observatory-demo/README.md`
   - hard-gate status: `pass`;
