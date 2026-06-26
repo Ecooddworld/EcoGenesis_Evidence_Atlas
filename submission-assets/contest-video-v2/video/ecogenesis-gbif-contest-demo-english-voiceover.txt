@@ -1,0 +1,23 @@
+Problem: biodiversity evidence is fragmented. Occurrence records may live in one system, DNA barcode fragments in another, BLAST or Sequence ID tables in a lab pipeline, and publication metadata in spreadsheets. When these pieces are not connected, useful evidence can be lost, and species-level claims can become stronger than the data actually support.
+
+EcoGenesis is a Barcode-to-GBIF Evidence Compiler. It takes DNA barcode, metabarcoding, Sequence ID and BLAST-like outputs, then runs deterministic evidence gates. The result is not just a label. It is a safe taxonomic rank decision, a publication-readiness state, a repair plan, and a reproducible Evidence Pack.
+
+On the public demo site, the interface is organized around the whole evidence path. Judges can open the overview, run the compiler, inspect the evidence map, view the fragment graph, check validation, read methods and download the Evidence Pack. Each section has its own public route, so the workflow is easy to review and cite.
+
+The Run Compiler screen is where molecular evidence enters the system. A user can upload a CSV, start from a demo workflow, or test a reference fragment. The compiler validates required molecular fields, sequence context, reference-hit metrics, and publication metadata before it lets any record move forward.
+
+In the mixed demo, records do not collapse into one simplistic answer. Some are species-safe, some are genus-safe, some remain weak, and some are not publishable until metadata are repaired. This is the core behavior: useful molecular evidence is preserved, but unsafe species exports and incomplete publication records are stopped.
+
+The Evidence Map turns the results into a spatial evidence atlas. It connects GBIF occurrence context with claim states, snapshot hashes, VSEA rows, graph objects and export boundaries. The map is not a proof of presence by itself; it is a way to inspect provenance, context and claim strength in one place.
+
+In the live Evidence Map, reviewers can see which rows are safe, repair-required, review-only or blocked. The same view exposes judge-mode checks, graph audits and export boundaries before download. That makes the spatial layer explanatory and auditable rather than a visual shortcut.
+
+The Fragment Graph shows how marker fragments link to reference taxa and safe LCA decisions. When a fragment points to multiple close taxa, EcoGenesis reports the most specific safe rank instead of forcing a species claim. This keeps evidence, competitors and caveats together.
+
+Uncertainty is handled through explicit gates: identity and coverage, ambiguity and LCA downgrade, barcode gap, diagnostic k-mer support, marker profile, publication readiness and graph provenance. A top hit does not become a species-level output unless the required gates pass.
+
+Validation is built into the submission package. The project includes backend tests, frontend tests, competition batches, adversarial batches, graph audits and contest-readiness checks. The important validation target is fail-closed behavior: weak coverage, close competitors, metadata gaps and unsafe exports must be blocked or downgraded.
+
+The final deliverable is the Evidence Pack. It includes CSV, JSON, HTML, VSEA, graph and audit outputs for review, repair and reuse. Researchers can inspect sequence safety tables, publication blockers, molecular evidence reports, graph provenance and machine-readable export artifacts.
+
+EcoGenesis is already a working contest prototype with a live demo, public source code, reproducible outputs and downloadable evidence artifacts. It can scale to larger reference libraries, institutional pipelines, richer GBIF publishing workflows and broader molecular evidence observatories. The call to action is simple: open the live demo, run the workflow, and inspect the evidence before publication.

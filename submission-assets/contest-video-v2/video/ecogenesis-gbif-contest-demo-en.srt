@@ -1,0 +1,275 @@
+1
+00:00:00,000 --> 00:00:03,833
+Problem: biodiversity evidence is fragmented. Occurrence
+
+2
+00:00:03,833 --> 00:00:07,667
+records may live in one system, DNA barcode fragments in
+
+3
+00:00:07,667 --> 00:00:11,500
+another, BLAST or Sequence ID tables in a lab pipeline, and
+
+4
+00:00:11,500 --> 00:00:15,333
+publication metadata in spreadsheets. When these pieces are
+
+5
+00:00:15,333 --> 00:00:19,167
+not connected, useful evidence can be lost, and species-level
+
+6
+00:00:19,167 --> 00:00:23,000
+claims can become stronger than the data actually support.
+
+7
+00:00:23,000 --> 00:00:26,667
+EcoGenesis is a Barcode-to-GBIF Evidence Compiler. It takes
+
+8
+00:00:26,667 --> 00:00:30,333
+DNA barcode, metabarcoding, Sequence ID and BLAST-like
+
+9
+00:00:30,333 --> 00:00:34,000
+outputs, then runs deterministic evidence gates. The result is
+
+10
+00:00:34,000 --> 00:00:37,667
+not just a label. It is a safe taxonomic rank decision, a
+
+11
+00:00:37,667 --> 00:00:41,333
+publication-readiness state, a repair plan, and a reproducible
+
+12
+00:00:41,333 --> 00:00:45,000
+Evidence Pack.
+
+13
+00:00:45,000 --> 00:00:48,500
+On the public demo site, the interface is organized around the
+
+14
+00:00:48,500 --> 00:00:52,000
+whole evidence path. Judges can open the overview, run the
+
+15
+00:00:52,000 --> 00:00:55,500
+compiler, inspect the evidence map, view the fragment graph,
+
+16
+00:00:55,500 --> 00:00:59,000
+check validation, read methods and download the Evidence Pack.
+
+17
+00:00:59,000 --> 00:01:02,500
+Each section has its own public route, so the workflow is easy
+
+18
+00:01:02,500 --> 00:01:06,000
+to review and cite.
+
+19
+00:01:06,000 --> 00:01:10,200
+The Run Compiler screen is where molecular evidence enters the
+
+20
+00:01:10,200 --> 00:01:14,400
+system. A user can upload a CSV, start from a demo workflow,
+
+21
+00:01:14,400 --> 00:01:18,600
+or test a reference fragment. The compiler validates required
+
+22
+00:01:18,600 --> 00:01:22,800
+molecular fields, sequence context, reference-hit metrics, and
+
+23
+00:01:22,800 --> 00:01:27,000
+publication metadata before it lets any record move forward.
+
+24
+00:01:27,000 --> 00:01:30,500
+In the mixed demo, records do not collapse into one simplistic
+
+25
+00:01:30,500 --> 00:01:34,000
+answer. Some are species-safe, some are genus-safe, some
+
+26
+00:01:34,000 --> 00:01:37,500
+remain weak, and some are not publishable until metadata are
+
+27
+00:01:37,500 --> 00:01:41,000
+repaired. This is the core behavior: useful molecular evidence
+
+28
+00:01:41,000 --> 00:01:44,500
+is preserved, but unsafe species exports and incomplete
+
+29
+00:01:44,500 --> 00:01:48,000
+publication records are stopped.
+
+30
+00:01:48,000 --> 00:01:51,500
+The Evidence Map turns the results into a spatial evidence
+
+31
+00:01:51,500 --> 00:01:55,000
+atlas. It connects GBIF occurrence context with claim states,
+
+32
+00:01:55,000 --> 00:01:58,500
+snapshot hashes, VSEA rows, graph objects and export
+
+33
+00:01:58,500 --> 00:02:02,000
+boundaries. The map is not a proof of presence by itself; it
+
+34
+00:02:02,000 --> 00:02:05,500
+is a way to inspect provenance, context and claim strength in
+
+35
+00:02:05,500 --> 00:02:09,000
+one place.
+
+36
+00:02:09,000 --> 00:02:12,600
+In the live Evidence Map, reviewers can see which rows are
+
+37
+00:02:12,600 --> 00:02:16,200
+safe, repair-required, review-only or blocked. The same view
+
+38
+00:02:16,200 --> 00:02:19,800
+exposes judge-mode checks, graph audits and export boundaries
+
+39
+00:02:19,800 --> 00:02:23,400
+before download. That makes the spatial layer explanatory and
+
+40
+00:02:23,400 --> 00:02:27,000
+auditable rather than a visual shortcut.
+
+41
+00:02:27,000 --> 00:02:30,600
+The Fragment Graph shows how marker fragments link to
+
+42
+00:02:30,600 --> 00:02:34,200
+reference taxa and safe LCA decisions. When a fragment points
+
+43
+00:02:34,200 --> 00:02:37,800
+to multiple close taxa, EcoGenesis reports the most specific
+
+44
+00:02:37,800 --> 00:02:41,400
+safe rank instead of forcing a species claim. This keeps
+
+45
+00:02:41,400 --> 00:02:45,000
+evidence, competitors and caveats together.
+
+46
+00:02:45,000 --> 00:02:48,800
+Uncertainty is handled through explicit gates: identity and
+
+47
+00:02:48,800 --> 00:02:52,600
+coverage, ambiguity and LCA downgrade, barcode gap, diagnostic
+
+48
+00:02:52,600 --> 00:02:56,400
+k-mer support, marker profile, publication readiness and graph
+
+49
+00:02:56,400 --> 00:03:00,200
+provenance. A top hit does not become a species-level output
+
+50
+00:03:00,200 --> 00:03:04,000
+unless the required gates pass.
+
+51
+00:03:04,000 --> 00:03:07,833
+Validation is built into the submission package. The project
+
+52
+00:03:07,833 --> 00:03:11,667
+includes backend tests, frontend tests, competition batches,
+
+53
+00:03:11,667 --> 00:03:15,500
+adversarial batches, graph audits and contest-readiness
+
+54
+00:03:15,500 --> 00:03:19,333
+checks. The important validation target is fail-closed
+
+55
+00:03:19,333 --> 00:03:23,167
+behavior: weak coverage, close competitors, metadata gaps and
+
+56
+00:03:23,167 --> 00:03:27,000
+unsafe exports must be blocked or downgraded.
+
+57
+00:03:27,000 --> 00:03:31,200
+The final deliverable is the Evidence Pack. It includes CSV,
+
+58
+00:03:31,200 --> 00:03:35,400
+JSON, HTML, VSEA, graph and audit outputs for review, repair
+
+59
+00:03:35,400 --> 00:03:39,600
+and reuse. Researchers can inspect sequence safety tables,
+
+60
+00:03:39,600 --> 00:03:43,800
+publication blockers, molecular evidence reports, graph
+
+61
+00:03:43,800 --> 00:03:48,000
+provenance and machine-readable export artifacts.
+
+62
+00:03:48,000 --> 00:03:51,375
+EcoGenesis is already a working contest prototype with a live
+
+63
+00:03:51,375 --> 00:03:54,750
+demo, public source code, reproducible outputs and
+
+64
+00:03:54,750 --> 00:03:58,125
+downloadable evidence artifacts. It can scale to larger
+
+65
+00:03:58,125 --> 00:04:01,500
+reference libraries, institutional pipelines, richer GBIF
+
+66
+00:04:01,500 --> 00:04:04,875
+publishing workflows and broader molecular evidence
+
+67
+00:04:04,875 --> 00:04:08,250
+observatories. The call to action is simple: open the live
+
+68
+00:04:08,250 --> 00:04:11,625
+demo, run the workflow, and inspect the evidence before
+
+69
+00:04:11,625 --> 00:04:15,000
+publication.
