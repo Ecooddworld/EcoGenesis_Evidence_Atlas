@@ -1,0 +1,38 @@
+{
+	admin off
+}
+
+(ecogenesis_app) {
+	encode zstd gzip
+	root * /srv
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options nosniff
+		X-Frame-Options DENY
+		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy geolocation=(), microphone=(), camera=()
+		-Server
+	}
+
+	handle /api/* {
+		reverse_proxy backend:8000
+	}
+
+	handle /health {
+		reverse_proxy backend:8000
+	}
+
+	handle {
+		try_files {path} /index.html
+		file_server
+	}
+}
+
+http://89.167.66.248 {
+	redir https://ecooddworld.eu{uri} permanent
+}
+
+ecooddworld.eu, www.ecooddworld.eu {
+	import ecogenesis_app
+}

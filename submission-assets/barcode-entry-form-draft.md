@@ -26,17 +26,20 @@ The tool benefits GBIF data users, publishers, nodes and reviewers by making mol
 
 ## Operating Instructions
 
+Hosted demo: https://ecooddworld.eu
+
 ```bash
 docker compose up --build
 ```
 
-Open http://localhost:13100, go to `Run compiler`, upload one of the CSV examples in `examples/`, review validation, click `Generate from CSV`, inspect the decision table and download `evidence_pack.zip`. Then open `Observatory`, run `Run GBIF-backed Aedes Spain`, inspect source snapshot, VSEA, graph, exports and Judge tabs, and download `observatory_evidence_pack.zip`.
+Open the hosted demo or local http://localhost:13100, go to `Run compiler`, upload one of the CSV examples in `examples/`, review validation, click `Generate from CSV`, inspect the decision table and download `evidence_pack.zip`. Then open `Observatory`, run `Run GBIF-backed Aedes Spain`, inspect source snapshot, VSEA, graph, exports and Judge tabs, and download `observatory_evidence_pack.zip`.
 
 ## Required Final Links
 
-- Repository: https://github.com/oddworld666/EcoGenesis_Evidence_Atlas
+- Repository: https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas
+- Hosted demo: https://ecooddworld.eu
 - Public video URL: paste into the official form after upload
-- Main README: https://github.com/oddworld666/EcoGenesis_Evidence_Atlas/blob/main/README.md
+- Main README: https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas/blob/main/README.md
 - `docs/submission.md`
 - `docs/barcode-compiler-methodology.md`
 - `docs/nexus-v3/EcoGenesis_Nexus_V3_FULL_PROJECT_RU.md`

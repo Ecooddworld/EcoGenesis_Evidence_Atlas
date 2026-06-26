@@ -78,10 +78,18 @@ The frozen gates are documented in:
 - `docs/gbif-dna-derived-readiness.md`
 - `docs/gseg-gsig-production.md`
 - `docs/gsig-observatory.md`
+- `docs/production-caddy-deployment.md`
 - `docs/nexus-v3/EcoGenesis_Nexus_V3_FULL_PROJECT_RU.md`
 - `docs/nexus-v3/EcoGenesis_Nexus_V3_scientific_validation_report.md`
 
 ## Quick Start
+
+Live hosted demo:
+
+- Production UI: https://ecooddworld.eu
+- Health check: https://ecooddworld.eu/health
+
+Local judge run:
 
 ```bash
 docker compose up --build
@@ -93,7 +101,15 @@ Open:
 - Backend health: http://localhost:18100/health
 - Backend docs: http://localhost:18100/docs
 
-This is the contest-facing production stack: the backend image installs **VSEARCH** and **NCBI BLAST+**, bundles the example reference datasets, and stores generated evidence packs in `./data`. The frontend is a static production build served by Nginx; `/api` is proxied to the backend inside Docker, so the UI works from one URL.
+This local stack builds the same compiler runtime used for contest review: the backend image installs **VSEARCH** and **NCBI BLAST+**, bundles the example reference datasets, and stores generated evidence packs in `./data`. The frontend is a static production build served through a single URL with `/api` proxied to the backend inside Docker.
+
+Hosted production deployment uses Caddy:
+
+```bash
+docker compose -f docker-compose.caddy.yml up -d --build
+```
+
+The Caddy stack serves `https://ecooddworld.eu`, redirects HTTP to HTTPS, keeps the backend internal on the Docker network, persists TLS certificates in Docker volumes, and only allows CORS from the HTTPS domain pair.
 
 The legacy V3 compose file is kept as an alias for older instructions:
 
@@ -115,7 +131,7 @@ Automated Docker smoke test:
 scripts/docker_smoke.sh
 ```
 
-The smoke test builds the stack on ports `13200/18200`, checks backend health directly and through the frontend proxy, verifies that the Vite/Nginx frontend shell and JavaScript asset are served, requires the Docker backend to report `vsearch`, and runs both the mini Aedes reference-search compile path and the shared-fragment graph path through the Nginx `/api` proxy.
+The smoke test builds the stack on ports `13200/18200`, checks backend health directly and through the frontend proxy, verifies that the Vite production frontend shell and JavaScript asset are served, requires the Docker backend to report `vsearch`, and runs both the mini Aedes reference-search compile path and the shared-fragment graph path through the `/api` proxy.
 
 ### Main User Flow
 

@@ -147,7 +147,7 @@ Expected:
 
 - Docker builds the backend and frontend images.
 - Backend health passes on the published backend port.
-- Frontend Nginx serves the Vite shell and JavaScript asset.
+- Frontend production server serves the Vite shell and JavaScript asset.
 - `/health` and `/api/*` work through the frontend proxy.
 - `/api/barcode/search-status` reports `preferred_backend=vsearch` inside Docker.
 - The mini Aedes reference-search compile path returns a completed run.

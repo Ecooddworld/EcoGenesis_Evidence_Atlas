@@ -36,6 +36,13 @@ This submission matters to the GBIF community because it improves the utility an
 
 ### Run with Docker
 
+Hosted demo:
+
+- https://ecooddworld.eu
+- https://www.ecooddworld.eu
+
+Local judge run:
+
 ```bash
 docker compose up --build
 ```
@@ -46,7 +53,7 @@ Open:
 - Backend health: http://localhost:18100/health
 - Backend API docs: http://localhost:18100/docs
 
-The Docker stack is the recommended judge-facing run path. It builds the frontend as static production assets, serves them with Nginx, proxies `/api` to the backend service, installs VSEARCH and NCBI BLAST+ in the backend image, and bundles the example reference dataset required for the reference-search workflow.
+The local Docker stack is the reproducible judge-facing run path. It builds the frontend as static production assets, proxies `/api` to the backend service, installs VSEARCH and NCBI BLAST+ in the backend image, and bundles the example reference dataset required for the reference-search workflow. Hosted production uses Caddy through `docker-compose.caddy.yml`: HTTP redirects to HTTPS, Caddy handles TLS, and the backend is internal-only.
 
 ### Main UI Flow
 
@@ -118,15 +125,17 @@ Russian subtitles and English transcript are included in the same folder. Import
 
 ## Source and Submission Documentation Links
 
-- Repository: https://github.com/oddworld666/EcoGenesis_Evidence_Atlas
-- Main README: https://github.com/oddworld666/EcoGenesis_Evidence_Atlas/blob/main/README.md
-- Submission documentation: https://github.com/oddworld666/EcoGenesis_Evidence_Atlas/blob/main/docs/submission.md
-- Methodology: https://github.com/oddworld666/EcoGenesis_Evidence_Atlas/blob/main/docs/barcode-compiler-methodology.md
-- Nexus V3 full project: https://github.com/oddworld666/EcoGenesis_Evidence_Atlas/blob/main/docs/nexus-v3/EcoGenesis_Nexus_V3_FULL_PROJECT_RU.md
-- Proof by failure modes: https://github.com/oddworld666/EcoGenesis_Evidence_Atlas/blob/main/docs/proof-by-failure-modes.md
-- GBIF DNA-derived readiness: https://github.com/oddworld666/EcoGenesis_Evidence_Atlas/blob/main/docs/gbif-dna-derived-readiness.md
-- Testing: https://github.com/oddworld666/EcoGenesis_Evidence_Atlas/blob/main/docs/testing.md
-- Final submission pack: https://github.com/oddworld666/EcoGenesis_Evidence_Atlas/blob/main/submission-assets/gbif-2026-final-submission-pack.md
+- Hosted demo: https://ecooddworld.eu
+- Repository: https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas
+- Main README: https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas/blob/main/README.md
+- Submission documentation: https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas/blob/main/docs/submission.md
+- Methodology: https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas/blob/main/docs/barcode-compiler-methodology.md
+- Nexus V3 full project: https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas/blob/main/docs/nexus-v3/EcoGenesis_Nexus_V3_FULL_PROJECT_RU.md
+- Proof by failure modes: https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas/blob/main/docs/proof-by-failure-modes.md
+- GBIF DNA-derived readiness: https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas/blob/main/docs/gbif-dna-derived-readiness.md
+- Production Caddy deployment: https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas/blob/main/docs/production-caddy-deployment.md
+- Testing: https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas/blob/main/docs/testing.md
+- Final submission pack: https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas/blob/main/submission-assets/gbif-2026-final-submission-pack.md
 
 ## Notes Before Final Form Submission
 

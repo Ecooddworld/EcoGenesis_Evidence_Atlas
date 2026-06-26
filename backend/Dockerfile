@@ -17,7 +17,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY backend/app ./app
 COPY backend/fixtures ./fixtures
-COPY backend/data ./data
+RUN mkdir -p ./data
 COPY references ./references
 COPY reports/competition-100-sequences ./reports/competition-100-sequences
 COPY reports/adversarial-100-sequences ./reports/adversarial-100-sequences

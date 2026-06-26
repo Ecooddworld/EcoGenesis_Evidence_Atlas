@@ -13,7 +13,7 @@ Use these in the final GBIF Challenge video and judge walkthrough.
 
 ## UI Review Path
 
-1. Open http://localhost:13100.
+1. Open `https://ecooddworld.eu` or local http://localhost:13100.
 2. Open **Run compiler**.
 3. Click **Download CSV template** to show the expected input format.
 4. Upload `examples/aedes_good.csv`.
