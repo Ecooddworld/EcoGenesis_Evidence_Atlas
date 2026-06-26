@@ -11,7 +11,7 @@ services:
       GBIF_BASE_URL: ${GBIF_BASE_URL:-https://api.gbif.org/v1}
       GBIF_BACKBONE_ENRICH_UPLOADS: ${GBIF_BACKBONE_ENRICH_UPLOADS:-true}
       BARCODE_SEARCH_BACKEND: ${BARCODE_SEARCH_BACKEND:-auto}
-      CORS_ALLOW_ORIGINS: ${CORS_ALLOW_ORIGINS:-https://ecooddworld.eu,https://www.ecooddworld.eu,http://localhost:13100,http://127.0.0.1:13100}
+      CORS_ALLOW_ORIGINS: ${CORS_ALLOW_ORIGINS:-https://ecooddworld.eu,https://www.ecooddworld.eu}
     expose:
       - "8000"
     volumes:

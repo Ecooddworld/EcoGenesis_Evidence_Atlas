@@ -21,12 +21,6 @@ This folder contains the materials prepared for the 2026 GBIF Ebbe Nielsen Chall
 - `barcode-video/video/ecogenesis-barcode-to-gbif-english-voiceover.txt`: English voiceover transcript.
 - `barcode-video/video/demo-thumbnail-english-voice-ru-subs.png`: local thumbnail.
 
-## Older Local Media
-
-- `video/ecogenesis-evidence-atlas-demo.mp4`: older local demo video for the previous Evidence Atlas flow.
-- `video/ecogenesis-evidence-atlas-demo.srt`: captions for the older video.
-- `screenshots/*.png`: older Evidence Atlas screenshots.
-
 ## Recommended Public Links
 
 - Hosted demo: https://ecooddworld.eu
