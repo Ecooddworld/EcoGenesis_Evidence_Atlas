@@ -7,6 +7,7 @@ node_modules/
 dist/
 build/
 .DS_Store
+Archivo.zip
 data/*
 !data/.gitkeep
 backend/data/*
@@ -15,4 +16,5 @@ backend/app/__pycache__/
 backend/app/evidence/__pycache__/
 backend/tests/__pycache__/
 submission-assets/.video-tmp/
+submission-assets/barcode-video/.video-tmp/
 submission-assets/ru/.video-tmp/

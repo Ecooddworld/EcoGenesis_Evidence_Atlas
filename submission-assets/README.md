@@ -7,6 +7,7 @@ This folder contains the materials prepared for the 2026 GBIF Ebbe Nielsen Chall
 - `gbif-entry-form-draft.md`: copy-ready text for the official entry form.
 - `gbif-2026-final-submission-pack.md`: compact final package with dates, links, summary, instructions and readiness status.
 - `final-submission-checklist.md`: remaining actions before pressing submit.
+- `judge-walkthrough.md`: compact video/demo script for judges and release notes.
 - `barcode-video-script.md`: final video script for the current CSV Upload -> Score workflow.
 - `barcode-entry-form-draft.md`: shorter project-specific entry text.
 - `../docs/nexus-v3/`: Nexus V3 project documentation, validation report, demo report and GBIF pitch material.
@@ -28,14 +29,15 @@ This folder contains the materials prepared for the 2026 GBIF Ebbe Nielsen Chall
 
 ## Recommended Public Links
 
+- Hosted demo: https://ecooddworld.eu
 - Contest page: https://www.gbif.org/news/3DyM3tK5wgYipqyaHwG2c2/2026-ebbe-nielsen-challenge-open-for-submissions
 - Official rules: https://www.gbif.org/awards/ebbe-2026-rules
 - Entry form: https://www.survey-xact.dk/LinkCollector?key=YCAEZQR4SPC1
-- Repository: https://github.com/oddworld666/EcoGenesis_Evidence_Atlas
+- Repository: https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas
 
 ## Before Submission
 
-1. Make the repository public.
+1. Confirm the repository visibility or judge access path follows the final contest rule.
 2. Enter team/member details in the official GBIF form or approved private submission document.
 3. Upload `barcode-video/video/ecogenesis-barcode-to-gbif-english-voice-ru-subs.mp4` to a public no-login URL.
 4. Paste the public video URL into the official GBIF form.

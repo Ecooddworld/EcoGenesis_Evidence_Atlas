@@ -1,0 +1,45 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    environment:
+      EVIDENCE_MODE: ${EVIDENCE_MODE:-online_with_empty_fallback}
+      EVIDENCE_DATA_DIR: /data/evidence
+      REFERENCE_DATA_DIR: /app/references
+      USER_REFERENCE_DATA_DIR: /data/evidence/reference-datasets
+      GBIF_BASE_URL: ${GBIF_BASE_URL:-https://api.gbif.org/v1}
+      GBIF_BACKBONE_ENRICH_UPLOADS: ${GBIF_BACKBONE_ENRICH_UPLOADS:-true}
+      BARCODE_SEARCH_BACKEND: ${BARCODE_SEARCH_BACKEND:-auto}
+      CORS_ALLOW_ORIGINS: ${CORS_ALLOW_ORIGINS:-https://ecooddworld.eu,https://www.ecooddworld.eu,http://localhost:13100,http://127.0.0.1:13100}
+    expose:
+      - "8000"
+    volumes:
+      - ./data:/data/evidence
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health').read()"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  caddy:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile.caddy
+      args:
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-}
+    ports:
+      - "${HTTP_PORT:-80}:80"
+      - "${HTTPS_PORT:-443}:443"
+    depends_on:
+      backend:
+        condition: service_healthy
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+    restart: unless-stopped
+
+volumes:
+  caddy_data:
+  caddy_config:

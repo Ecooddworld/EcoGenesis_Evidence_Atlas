@@ -27,11 +27,13 @@ The tool improves the utility and quality of GBIF-mediated and GBIF-ready data b
 
 ## Operating Instructions
 
+Hosted demo: https://ecooddworld.eu
+
 ```bash
 docker compose up --build
 ```
 
-Open http://localhost:13100.
+Open the hosted demo or local http://localhost:13100.
 
 1. Open `Run compiler`.
 2. Upload a CSV exported from GBIF Sequence ID, BLAST, BOLD, UNITE or a lab pipeline.

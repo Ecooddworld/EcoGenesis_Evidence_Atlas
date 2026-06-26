@@ -22,17 +22,27 @@ Current architecture: **EcoGenesis Nexus V3 + GSEG/GSIG proof layer + GSIG Obser
 - Team members and affiliations: fill final names and contact.
 - Abstract and rationale: copy from `submission-assets/gbif-entry-form-draft.md`.
 - Operating instructions: copy from `submission-assets/gbif-entry-form-draft.md`.
+- Hosted demo: https://ecooddworld.eu
 - Video URL: paste the public no-login video URL into the official form after upload.
 - Local final video for upload: `submission-assets/barcode-video/video/ecogenesis-barcode-to-gbif-english-voice-ru-subs.mp4`.
 - Source/docs links:
-  - https://github.com/oddworld666/EcoGenesis_Evidence_Atlas
-  - https://github.com/oddworld666/EcoGenesis_Evidence_Atlas/blob/main/README.md
-  - https://github.com/oddworld666/EcoGenesis_Evidence_Atlas/blob/main/docs/submission.md
-  - https://github.com/oddworld666/EcoGenesis_Evidence_Atlas/blob/main/docs/barcode-compiler-methodology.md
-  - https://github.com/oddworld666/EcoGenesis_Evidence_Atlas/blob/main/docs/nexus-v3/EcoGenesis_Nexus_V3_FULL_PROJECT_RU.md
-  - https://github.com/oddworld666/EcoGenesis_Evidence_Atlas/blob/main/docs/testing.md
+  - https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas
+  - https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas/blob/main/README.md
+  - https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas/blob/main/docs/submission.md
+  - https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas/blob/main/docs/barcode-compiler-methodology.md
+  - https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas/blob/main/docs/production-caddy-deployment.md
+  - https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas/blob/main/docs/nexus-v3/EcoGenesis_Nexus_V3_FULL_PROJECT_RU.md
+  - https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas/blob/main/docs/testing.md
 
 ## Current Working Demo
+
+Hosted:
+
+```text
+https://ecooddworld.eu
+```
+
+Local:
 
 Run:
 
@@ -73,7 +83,7 @@ examples/aedes_weak_coverage.csv     -> weak
 
 ## Final Verification Status
 
-Latest local verification on 2026-06-24:
+Latest verification on 2026-06-26:
 
 ```text
 backend pytest: 79 passed, 1 skipped
@@ -82,6 +92,7 @@ frontend tests: 14 passed
 frontend build: passed
 Docker compose CLI: available
 Docker smoke: passed on the production stack; frontend, backend, proxy, VSEARCH backend, compiler, graph, Observatory and contest-readiness API checked
+Hosted Caddy deployment: HTTPS 200, HTTP redirects to HTTPS, IP HTTP redirects to https://ecooddworld.eu, backend internal-only, CORS restricted to https://ecooddworld.eu and https://www.ecooddworld.eu
 Local backend health: ok
 Local frontend HTTP: 200
 Contest readiness API: pass, 17 checks, 0 failed

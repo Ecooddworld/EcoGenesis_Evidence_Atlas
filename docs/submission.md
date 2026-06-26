@@ -107,7 +107,7 @@ The Observatory run additionally produces:
 
 ## Demo Flow For Judges
 
-1. Open the app at http://localhost:13100.
+1. Open the hosted app at https://ecooddworld.eu, or run it locally at http://localhost:13100.
 2. Open `Run compiler`.
 3. Upload `examples/aedes_good.csv`.
 4. Show CSV preview and validation summary.
@@ -122,6 +122,13 @@ The Observatory run additionally produces:
 
 ## Operating Instructions
 
+Hosted demo:
+
+- https://ecooddworld.eu
+- https://www.ecooddworld.eu
+
+Local Docker run:
+
 ```bash
 docker compose up --build
 ```
@@ -131,7 +138,9 @@ Open:
 - Frontend: http://localhost:13100
 - Backend API docs: http://localhost:18100/docs
 
-This command builds the contest-facing Docker stack: static production frontend, Nginx `/api` proxy, FastAPI backend, bundled example reference datasets, VSEARCH and NCBI BLAST+ installed in the backend image, and generated evidence packs persisted in `./data`.
+This command builds the local contest-review stack: static production frontend, `/api` proxy, FastAPI backend, bundled example reference datasets, VSEARCH and NCBI BLAST+ installed in the backend image, and generated evidence packs persisted in `./data`.
+
+Hosted production uses `docker-compose.caddy.yml` with Caddy. HTTP redirects to HTTPS, TLS is handled automatically, and the backend is exposed only inside the Docker network.
 
 Run tests:
 

@@ -25,6 +25,10 @@ Entry form: https://www.survey-xact.dk/LinkCollector?key=YCAEZQR4SPC1
 - [x] Entry form copy is prepared in `submission-assets/gbif-entry-form-draft.md`.
 - [x] Final local explainer video exists: `submission-assets/barcode-video/video/ecogenesis-barcode-to-gbif-english-voice-ru-subs.mp4`.
 - [x] Russian subtitles and English transcript exist for the final local video.
+- [x] Hosted demo is deployed at `https://ecooddworld.eu`.
+- [x] Caddy handles HTTPS and redirects HTTP to HTTPS.
+- [x] Backend is internal-only behind the Caddy reverse proxy.
+- [x] Production CORS is restricted to `https://ecooddworld.eu` and `https://www.ecooddworld.eu`.
 
 ## Must Do Before Pressing Submit
 
@@ -58,7 +62,7 @@ npm run build
 
 ## Manual Browser Smoke
 
-1. Open http://localhost:13100.
+1. Open `https://ecooddworld.eu` or local http://localhost:13100.
 2. Open `Run compiler`.
 3. Upload `examples/aedes_good.csv`.
 4. Confirm CSV preview and validation are visible.
