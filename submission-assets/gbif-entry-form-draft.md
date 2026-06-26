@@ -121,7 +121,7 @@ Local final video file prepared for upload:
 
 `submission-assets/barcode-video/video/ecogenesis-barcode-to-gbif-english-voice-ru-subs.mp4`
 
-Russian subtitles and English transcript are included in the same folder. Important: the older local MP4 in `submission-assets/video/` demonstrates the previous Evidence Atlas flow; do not use it as the final submission video.
+Russian subtitles and English transcript are included in the same folder.
 
 ## Source and Submission Documentation Links
 

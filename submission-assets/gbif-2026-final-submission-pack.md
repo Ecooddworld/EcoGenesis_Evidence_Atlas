@@ -50,7 +50,7 @@ Run:
 docker compose up --build
 ```
 
-Open http://localhost:13100.
+Open the hosted demo at https://ecooddworld.eu or local http://localhost:13100.
 
 Primary flow:
 
