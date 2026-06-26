@@ -5,7 +5,7 @@ type: software
 authors:
   - family-names: Oddworld
     given-names: EcoGenesis
-repository-code: https://github.com/oddworld666/EcoGenesis_Evidence_Atlas
+url: https://ecooddworld.eu
 license: MIT
 version: 1.0.0-gbif-2026
 date-released: 2026-06-02

@@ -5,7 +5,7 @@
   "marker": "COI-5P",
   "fasta": "aedes_coi_mini.fasta",
   "source": "EcoGenesis synthetic reference example derived from the demo Aedes COI control sequence; for workflow validation only",
-  "doi_or_url": "https://github.com/oddworld666/EcoGenesis_Evidence_Atlas",
+  "doi_or_url": "https://ecooddworld.eu",
   "license": "CC0-1.0 for this synthetic example",
   "reference_total_windows": 5000000,
   "references": {

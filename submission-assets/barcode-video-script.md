@@ -113,7 +113,7 @@ Voiceover:
 Visual:
 
 - Return to overview.
-- Show final project title and GitHub repository URL.
+- Show final project title and public demo URL.
 
 ## Required Final Checks Before Upload
 

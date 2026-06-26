@@ -38,7 +38,7 @@ Entry form: https://www.survey-xact.dk/LinkCollector?key=YCAEZQR4SPC1
 - [ ] Upload the video to a public no-cost URL that plays without login.
 - [x] Add captions or transcript for the video.
 - [ ] Paste the public video URL into the official GBIF form after upload.
-- [ ] Create a GitHub release, for example `v1.0-gbif-2026`.
+- [ ] Create a release tag, for example `v1.0-gbif-2026`.
 - [ ] Add the release URL to the final entry form if available.
 - [ ] Re-run all final verification commands on the release commit.
 - [ ] Confirm no secrets, private local paths or private API keys are present in submitted materials.
