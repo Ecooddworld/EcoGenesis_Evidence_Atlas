@@ -17,4 +17,5 @@ backend/app/evidence/__pycache__/
 backend/tests/__pycache__/
 submission-assets/.video-tmp/
 submission-assets/barcode-video/.video-tmp/
+submission-assets/platform-video/.video-tmp/
 submission-assets/ru/.video-tmp/

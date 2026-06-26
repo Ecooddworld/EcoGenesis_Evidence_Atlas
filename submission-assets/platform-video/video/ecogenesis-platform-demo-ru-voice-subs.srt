@@ -1,0 +1,47 @@
+1
+00:00:00,000 --> 00:00:12,000
+EcoGenesis: строгий molecular evidence compiler для GBIF-ready решений.
+
+2
+00:00:12,000 --> 00:00:32,000
+Демо показывает, где evidence strong, где species claim blocked, и что можно repair.
+
+3
+00:00:32,000 --> 00:01:02,000
+Пайплайн: схема входа -> safety gates -> publication gates -> Evidence Pack.
+
+4
+00:01:02,000 --> 00:01:27,000
+Главный экран связывает демо, proof layer, exports и walkthrough для оценки.
+
+5
+00:01:27,000 --> 00:01:48,000
+Пользователь загружает CSV и видит schema, поля и validation context.
+
+6
+00:01:48,000 --> 00:02:12,000
+Результат разделяет TaxStatus, PubStatus, blockers, candidate_taxon и published_taxon.
+
+7
+00:02:12,000 --> 00:02:32,000
+Evidence Pack сохраняет таблицы, methods, citations, audits и machine-readable outputs.
+
+8
+00:02:32,000 --> 00:02:55,000
+Math and proof фиксирует failure modes: competitor, barcode gap, k-mer, metadata, provenance.
+
+9
+00:02:55,000 --> 00:03:19,000
+Research audit показывает GSEG, GSIG, Observatory и AI guardrails без status promotion.
+
+10
+00:03:19,000 --> 00:03:41,000
+Платформа расширяется через ingestion, reference registry и provenance graph.
+
+11
+00:03:41,000 --> 00:04:08,000
+Следующий слой: repair optimizer, Observatory dashboard, exports и guardrail audits.
+
+12
+00:04:08,000 --> 00:04:41,000
+Финальный claim строгий: supported within supplied reference context, not biological truth.
