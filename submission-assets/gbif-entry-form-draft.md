@@ -121,11 +121,11 @@ https://ecooddworld.eu/submission-video/
 
 Direct MP4:
 
-https://ecooddworld.eu/submission-video/ecogenesis-platform-demo-ru-voice-subs.mp4
+https://ecooddworld.eu/submission-video/ecogenesis-gbif-contest-demo-en-subs.mp4
 
 Local final video file:
 
-`submission-assets/platform-video/video/ecogenesis-platform-demo-ru-voice-subs.mp4`
+`submission-assets/contest-video-v2/video/ecogenesis-gbif-contest-demo-en-subs.mp4`
 
 ## Source and Submission Documentation Links
 

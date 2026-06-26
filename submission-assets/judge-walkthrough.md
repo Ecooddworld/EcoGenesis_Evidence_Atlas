@@ -7,9 +7,9 @@ Use this file as the compact demo script for judges, release notes, or the publi
 - Hosted demo: https://ecooddworld.eu
 - Submission video: https://ecooddworld.eu/submission-video/
 - Source repository: https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas
-- Final local video: `submission-assets/platform-video/video/ecogenesis-platform-demo-ru-voice-subs.mp4`
-- Captions: `submission-assets/platform-video/video/ecogenesis-platform-demo-ru-voice-subs.srt`
-- Transcript: `submission-assets/platform-video/video/ecogenesis-platform-demo-ru-voiceover.txt`
+- Final local video: `submission-assets/contest-video-v2/video/ecogenesis-gbif-contest-demo-en-subs.mp4`
+- Captions: `submission-assets/contest-video-v2/video/ecogenesis-gbif-contest-demo-en.srt`
+- Transcript: `submission-assets/contest-video-v2/video/ecogenesis-gbif-contest-demo-english-voiceover.txt`
 
 ## Main UI Flow
 

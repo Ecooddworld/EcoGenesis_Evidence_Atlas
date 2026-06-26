@@ -1,1 +1,0 @@
-Judge overview: the project is a decision cockpit, not another dashboard.

@@ -19,7 +19,7 @@ COPY --from=build /app/dist /srv
 COPY submission-assets/contest-video-v2/video/ecogenesis-gbif-contest-demo-en-subs.mp4 /srv/submission-video/
 COPY submission-assets/contest-video-v2/video/ecogenesis-gbif-contest-demo-en.srt /srv/submission-video/
 COPY submission-assets/contest-video-v2/video/ecogenesis-gbif-contest-demo-english-voiceover.txt /srv/submission-video/
-COPY submission-assets/contest-video-v2/video/ecogenesis-gbif-contest-demo-russian-transcript.md /srv/submission-video/
+COPY submission-assets/contest-video-v2/video/ecogenesis-gbif-contest-demo-transcript.md /srv/submission-video/
 COPY submission-assets/contest-video-v2/video/demo-thumbnail-contest-en.png /srv/submission-video/
 
 EXPOSE 80 443

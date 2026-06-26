@@ -718,6 +718,7 @@ describe('Barcode compiler UI', () => {
     expect(screen.getByRole('link', { name: 'Methods & Audits' })).toHaveAttribute('href', '/methods');
     expect(screen.getByRole('link', { name: 'Workflow' })).toHaveAttribute('href', '/workflow');
     expect(screen.getByRole('link', { name: 'Evidence Pack' })).toHaveAttribute('href', '/evidence-pack');
+    expect(screen.getByRole('link', { name: 'Video Presentation' })).toHaveAttribute('href', '/submission-video/');
     expect(screen.getAllByRole('link', { name: 'Source repository' })[0]).toHaveAttribute(
       'href',
       'https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas',

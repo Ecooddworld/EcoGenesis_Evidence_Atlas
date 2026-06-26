@@ -2227,6 +2227,7 @@ function App() {
               {label}
             </a>
           ))}
+          <a href="/submission-video/">Video Presentation</a>
         </nav>
       </header>
 

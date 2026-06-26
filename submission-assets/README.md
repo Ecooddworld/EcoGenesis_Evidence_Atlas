@@ -16,10 +16,11 @@ This folder contains the materials prepared for the 2026 GBIF Ebbe Nielsen Chall
 
 ## Final Local Video
 
-- `platform-video/video/ecogenesis-platform-demo-ru-voice-subs.mp4`: current workflow-first submission video, with voiceover and burned subtitles.
-- `platform-video/video/ecogenesis-platform-demo-ru-voice-subs.srt`: external subtitle file.
-- `platform-video/video/ecogenesis-platform-demo-ru-voiceover.txt`: voiceover transcript.
-- `platform-video/video/demo-thumbnail-platform-ru.png`: local thumbnail.
+- `contest-video-v2/video/ecogenesis-gbif-contest-demo-en-subs.mp4`: current contest submission video, with voiceover and burned subtitles.
+- `contest-video-v2/video/ecogenesis-gbif-contest-demo-en.srt`: external subtitle file.
+- `contest-video-v2/video/ecogenesis-gbif-contest-demo-english-voiceover.txt`: voiceover transcript.
+- `contest-video-v2/video/ecogenesis-gbif-contest-demo-transcript.md`: additional transcript.
+- `contest-video-v2/video/demo-thumbnail-contest-en.png`: local thumbnail.
 
 ## Recommended Public Links
 
@@ -35,6 +36,6 @@ This folder contains the materials prepared for the 2026 GBIF Ebbe Nielsen Chall
 1. Confirm the public repository URL remains reachable for judges.
 2. Enter team/member details in the official GBIF form or approved private submission document.
 3. Paste the public video URL into the official GBIF form: https://ecooddworld.eu/submission-video/
-4. Keep the direct MP4 URL available if the form requires a file link: https://ecooddworld.eu/submission-video/ecogenesis-platform-demo-ru-voice-subs.mp4
+4. Keep the direct MP4 URL available if the form requires a file link: https://ecooddworld.eu/submission-video/ecogenesis-gbif-contest-demo-en-subs.mp4
 5. Create a release tag, for example `v1.0-gbif-2026`.
 6. Re-run backend tests, frontend tests, build, Observatory report generation, operability verification and browser smoke.

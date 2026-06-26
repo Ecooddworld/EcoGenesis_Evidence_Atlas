@@ -1,8 +1,0 @@
-The Problem
-
-A top DNA match is not automatically a safe biodiversity record.
-
-It may be short or ambiguous.
-It may be shared by several species.
-It may be unsupported by reference evidence.
-It may be blocked by missing metadata.

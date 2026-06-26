@@ -52,8 +52,8 @@ The final deliverable is the Evidence Pack. It includes CSV, JSON, HTML, VSEA, g
 EcoGenesis is already a working contest prototype with a live demo, public source code, reproducible outputs and downloadable evidence artifacts. It can scale to larger reference libraries, institutional pipelines, richer GBIF publishing workflows and broader molecular evidence observatories. The call to action is simple: open the live demo, run the workflow, and inspect the evidence before publication.
 EOF
 
-cat > "$OUT_DIR/ecogenesis-gbif-contest-demo-russian-transcript.md" <<'EOF'
-# Русская расшифровка нового конкурсного видео EcoGenesis
+cat > "$OUT_DIR/ecogenesis-gbif-contest-demo-transcript.md" <<'EOF'
+# Расшифровка нового конкурсного видео EcoGenesis
 
 ## 1. Проблема
 Проблема в том, что biodiversity evidence часто раздроблена. Occurrence records могут лежать в одной системе, DNA barcode fragments — в другой, BLAST или Sequence ID tables — в лабораторном pipeline, а publication metadata — в spreadsheets. Когда эти части не связаны, полезное evidence теряется, а species-level claims могут становиться сильнее, чем реально поддерживают данные.
