@@ -711,6 +711,13 @@ describe('Barcode compiler UI', () => {
     expect(screen.getByText('Repair optimizer')).toBeInTheDocument();
     expect(screen.getByText('Validation')).toBeInTheDocument();
     expect(screen.getByText('Evidence Pack')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Run Compiler' })).toHaveAttribute('href', '/run-compiler');
+    expect(screen.getByRole('link', { name: 'Evidence Map' })).toHaveAttribute('href', '/evidence-map');
+    expect(screen.getByRole('link', { name: 'Fragment Graph' })).toHaveAttribute('href', '/fragment-graph');
+    expect(screen.getByRole('link', { name: 'Validation' })).toHaveAttribute('href', '/validation');
+    expect(screen.getByRole('link', { name: 'Methods & Audits' })).toHaveAttribute('href', '/methods');
+    expect(screen.getByRole('link', { name: 'Workflow' })).toHaveAttribute('href', '/workflow');
+    expect(screen.getByRole('link', { name: 'Evidence Pack' })).toHaveAttribute('href', '/evidence-pack');
     expect(screen.getAllByRole('link', { name: 'Source repository' })[0]).toHaveAttribute(
       'href',
       'https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas',
@@ -1022,6 +1029,7 @@ describe('Barcode compiler UI', () => {
     render(<App />);
     fireEvent.click(await screen.findByText('Workflow'));
 
+    expect(window.location.pathname).toBe('/workflow');
     expect(screen.getByText('From molecular input to Evidence Pack, map and graph.')).toBeInTheDocument();
     expect(screen.getByText('Compiler logic animation')).toBeInTheDocument();
     expect(screen.getByText('How EcoGenesis reaches a bounded claim, step by step.')).toBeInTheDocument();
@@ -1063,6 +1071,34 @@ describe('Barcode compiler UI', () => {
     expect(screen.getByText('What can I claim?')).toBeInTheDocument();
     expect(screen.getByText('Where this leads')).toBeInTheDocument();
     expect(screen.getByText('From one compiler to a Molecular Evidence Graph for GBIF.')).toBeInTheDocument();
+  });
+
+  it('opens shareable section routes directly', async () => {
+    vi.spyOn(globalThis, 'fetch').mockImplementation((url) => {
+      const textUrl = String(url);
+      if (textUrl.endsWith('/api/barcode/demo-scenarios')) {
+        return Promise.resolve(new Response(JSON.stringify(demoScenarios), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/reference-status')) {
+        return Promise.resolve(new Response(JSON.stringify({ status: 'ready', message: 'Compiler ready.' }), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/search-status')) {
+        return Promise.resolve(new Response(JSON.stringify(searchStatus), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/reference-datasets')) {
+        return Promise.resolve(new Response(JSON.stringify(referenceDatasets), { status: 200 }));
+      }
+      return Promise.resolve(new Response('{}', { status: 404 }));
+    });
+
+    window.history.pushState({}, '', '/workflow');
+    render(<App />);
+    expect(await screen.findByText('From molecular input to Evidence Pack, map and graph.')).toBeInTheDocument();
+
+    cleanup();
+    window.history.pushState({}, '', '/evidence-pack');
+    render(<App />);
+    expect(await screen.findByText('Downloadable artifacts for rank decisions, publication readiness, repairs and audits.')).toBeInTheDocument();
   });
 
   it('opens the safe-claim picture directly from the URL hash', async () => {

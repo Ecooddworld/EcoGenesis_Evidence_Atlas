@@ -111,17 +111,22 @@ a {
   width: 100%;
 }
 
+.mode-switch a,
 .mode-switch button,
 button,
 .button-link {
+  align-items: center;
   border-radius: 7px;
   cursor: pointer;
+  display: inline-flex;
   font-weight: 850;
+  justify-content: center;
   min-height: 40px;
   padding: 0 14px;
   text-decoration: none;
 }
 
+.mode-switch a,
 .mode-switch button {
   background: transparent;
   border: 0;
@@ -129,6 +134,7 @@ button,
   white-space: nowrap;
 }
 
+.mode-switch a.active,
 .mode-switch button.active,
 .primary {
   background: #1e5b69;
@@ -7489,6 +7495,7 @@ th {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
+  .mode-switch a,
   .mode-switch button {
     white-space: normal;
   }

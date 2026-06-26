@@ -23,6 +23,11 @@
 		reverse_proxy backend:8000
 	}
 
+	handle /submission-video* {
+		try_files {path} {path}/ /submission-video/index.html
+		file_server
+	}
+
 	handle {
 		try_files {path} /index.html
 		file_server
