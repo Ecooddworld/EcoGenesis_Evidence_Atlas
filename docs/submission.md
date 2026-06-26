@@ -2,15 +2,13 @@
 
 ## Submission Name
 
-Molecular Evidence Conversion & Repair Engine for GBIF
+Barcode-to-GBIF Evidence Compiler
 
 Working module: **Barcode-to-GBIF Evidence Compiler**
 
 ## Core Idea
 
-The project turns DNA barcode, metabarcoding and Sequence ID-style outputs into safe, rank-aware and GBIF-ready molecular occurrence evidence.
-
-It does not try to guess species from DNA in a black-box way. It answers:
+The project turns DNA barcode, metabarcoding, Sequence ID and BLAST-like outputs into safe taxonomic rank decisions, GBIF publication readiness checks, repair actions and reproducible Evidence Packs. It answers:
 
 > Can this molecular record safely support a species-level occurrence, must it be downgraded to genus or higher rank, or is it blocked from publication until evidence or metadata are repaired?
 
@@ -22,9 +20,9 @@ The 2026 GBIF Ebbe Nielsen Challenge accepts tools, workflows and analyses that 
 - preserving ambiguous evidence at the safest supported taxonomic rank;
 - separating taxonomic safety from GBIF publication readiness;
 - exposing repair actions for publishers and data managers;
-- producing repeatable CSV, HTML, JSON and ZIP Evidence Packs.
-- adding a GSEG/GSIG proof layer with VSEA, graph provenance, theorem checklist and AI guardrail audits while unsupported function/phenotype claims remain blocked.
-- adding a GSIG Observatory layer that hashes GBIF source snapshots, visualizes VSEA-to-graph evidence, preserves claim boundaries in GBIF/AI exports and ships all 20 OPO proof-obligation artifacts.
+- producing repeatable CSV, HTML, JSON and ZIP Evidence Packs;
+- adding advanced graph artifacts with VSEA, graph provenance, release checklist and AI guardrail audits while unsupported function/phenotype claims remain blocked;
+- adding an Evidence Map layer that hashes GBIF source snapshots, visualizes VSEA-to-graph evidence, preserves claim boundaries in GBIF/AI exports and ships all 20 audit artifacts.
 
 ## What The Tool Produces
 
@@ -89,7 +87,7 @@ Each run produces:
 - `evidence_pack.json`
 - `evidence_pack.zip`
 
-The Observatory run additionally produces:
+The Evidence Map run additionally produces:
 
 - `observatory_evidence_pack.zip`
 - `observatory_report.md`
@@ -108,17 +106,17 @@ The Observatory run additionally produces:
 ## Demo Flow For Judges
 
 1. Open the hosted app at https://ecooddworld.eu, or run it locally at http://localhost:13100.
-2. Open `Run compiler`.
+2. Open `Run Compiler`.
 3. Upload `examples/aedes_good.csv`.
 4. Show CSV preview and validation summary.
 5. Click `Generate from CSV`.
 6. Show `species-safe` decision and Evidence Pack exports.
 7. Upload or explain `examples/aedes_ambiguous.csv` to show downgrade to `genus-safe`.
 8. Upload or explain `examples/aedes_missing_metadata.csv` to show taxonomic evidence preserved while publication is blocked.
-9. Open `Math & proof` to show the deterministic gates.
-10. Show the `GSEG / GSIG proof layer` export group: `theorem_checklist.json`, VSEA Parquet and graph provenance.
-11. Open `Observatory`, run `Run GBIF-backed Aedes Spain`, and show the GBIF occurrence context map, VSEA matrix, Evidence Graph Explorer and proof wheel before opening the source snapshot, VSEA, graph, exports and Judge tabs.
-12. Open `Research audit` to show the GBIF occurrence-audit layer and 100 evidence claims.
+9. Open `Methods & Audits` to show the deterministic gates.
+10. Show the advanced graph artifact group: `theorem_checklist.json`, VSEA Parquet and graph provenance.
+11. Open `Evidence Map`, run `Run reproducible judge demo`, and show the GBIF occurrence context map, VSEA matrix, Evidence Graph Explorer and audit wheel before opening the source snapshot, VSEA, graph, exports and Judge tabs.
+12. Open `Validation` to show the competition, adversarial, Evidence Map and GBIF occurrence-audit checks.
 
 ## Operating Instructions
 

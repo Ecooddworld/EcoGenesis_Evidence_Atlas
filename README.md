@@ -1,8 +1,8 @@
-# Molecular Evidence Conversion & Repair Engine for GBIF
+# Barcode-to-GBIF Evidence Compiler
 
 EcoGenesis is now focused on a narrower, stronger GBIF Challenge tool:
 
-> A deterministic engine that turns DNA barcode, metabarcoding and Sequence ID results into safe, rank-aware, repairable and GBIF-ready molecular occurrence evidence.
+> A deterministic compiler that turns DNA barcode, metabarcoding, Sequence ID and BLAST-like outputs into safe taxonomic rank decisions, GBIF publication readiness checks, repair actions and reproducible Evidence Packs.
 
 The current **Barcode-to-GBIF Evidence Compiler** is the contest-facing molecular decision engine.
 
@@ -12,11 +12,11 @@ Many users can produce barcode or metabarcoding results, but still face a hard p
 
 > From a large stream of molecular detections, which records can safely support a species-level occurrence, which must be downgraded to genus or higher rank, which are blocked by reference/library or sequence evidence, and which repair actions unlock the most GBIF-ready records?
 
-This compiler does not claim absolute biological truth. It produces a reproducible decision under frozen rules, supplied reference-hit metrics, a taxonomy lineage, barcode gap evidence, diagnostic k-mer evidence and GBIF publication metadata.
+EcoGenesis produces a reproducible decision under frozen rules, supplied reference-hit metrics, taxonomy lineage, barcode gap evidence, diagnostic k-mer evidence and GBIF publication metadata.
 
 ## Evidence Conversion Problem
 
-The global task is not "guess the species from DNA". It is:
+The global task is:
 
 ```text
 How can a large stream of DNA / metabarcoding results be converted into the
@@ -68,8 +68,8 @@ The larger engine adds:
 - protein sanity layer for coding markers: frame, stop codon, frameshift and pseudogene/NUMT warnings
 - assay evidence gate for eDNA/metabarcoding controls and replicates
 - Molecular Evidence Graph linking fragments, taxa, GBIF geography, protein context, claims and blockers
-- GSEG/GSIG proof layer: Verified Segment Evidence Array, theorem checklist, graph provenance, roundtrip and AI guardrail audits
-- GSIG Observatory layer: source registry, GBIF snapshot hashing, VSEA-to-graph visualization, OPO proof audits, GBIF/AI export guardrails and Judge Mode
+- advanced graph artifacts: Verified Segment Evidence Array, release checklist, graph provenance, roundtrip and AI guardrail audits
+- Evidence Map layer: source registry, GBIF snapshot hashing, VSEA-to-graph visualization, audit checks, GBIF/AI export guardrails and Judge Mode
 
 The frozen gates are documented in:
 
@@ -135,25 +135,25 @@ The smoke test builds the stack on ports `13200/18200`, checks backend health di
 
 ### Main User Flow
 
-1. Open `Run compiler`.
+1. Open `Run Compiler`.
 2. Upload a CSV exported from GBIF Sequence ID, BLAST, BOLD, UNITE or a lab pipeline.
 3. Review the preview and validation summary.
 4. Click `Generate from CSV`.
 5. Inspect `species-safe`, `genus-safe`, `weak`, `not-publishable` and blocked claims.
 6. Download `evidence_pack.zip` or individual CSV/HTML exports.
 
-### GSIG Observatory Flow
+### Evidence Map Flow
 
-The `Observatory` tab is the contest proof layer. It runs a small Aedes Spain GBIF-backed snapshot, links that hashed occurrence context to the molecular VSEA rows, visualizes the GBIF occurrence map, VSEA matrix, evidence graph and proof wheel, then exports all 20 Observatory proof-obligation artifacts.
+The `Evidence Map` tab runs a small Aedes Spain GBIF-backed snapshot, links that hashed occurrence context to the molecular VSEA rows, visualizes the GBIF occurrence map, VSEA matrix, evidence graph and audit wheel, then exports all 20 Evidence Map audit artifacts.
 
-The important boundary is strict: GBIF occurrence data can explain where context came from, but it cannot upgrade a weak or blocked barcode claim. The Observatory UI, AI-ready dataset and GBIF export preview all preserve `claim_state`, caveats and provenance hashes.
+Claim strength remains bounded by molecular gates, publication gates and provenance. The Evidence Map UI, AI-ready dataset and GBIF export preview preserve `claim_state`, caveats and provenance hashes.
 
-1. Open `Observatory`.
-2. Click `Run GBIF-backed Aedes Spain` for the small GBIF path with source mode and any fixture fallback recorded in `snapshot_manifest.json`.
+1. Open `Evidence Map`.
+2. Click `Run reproducible judge demo` for the small GBIF path with source mode and any fixture fallback recorded in `snapshot_manifest.json`.
 3. Click `Run reproducible demo` for the deterministic offline judge path.
 4. Download `observatory_evidence_pack.zip`.
 
-Regenerate the checked-in Observatory report pack:
+Regenerate the checked-in Evidence Map report pack:
 
 ```bash
 cd backend
@@ -199,9 +199,9 @@ The Workbench also has a `Reference search` panel. It supports both bundled refe
 3. Select the uploaded dataset or `EcoGenesis mini COI reference dataset for Aedes smoke tests`.
 4. Paste a barcode sequence.
 5. Click `Search reference & compile`.
-6. Inspect the returned hits, the backend used (`vsearch`, `blastn` or `python-local`), segment map, source monitor, claim boundary and generated Nexus V3 decision dashboard.
+6. Inspect the returned hits, the backend used (`vsearch`, `blastn` or `python-local`), segment map, source monitor, claim boundary and generated hard-gate decision dashboard.
 
-For a no-setup real-data check, open `Run compiler` and use the bundled quick actions:
+For a no-setup real-data check, open `Run Compiler` and use the bundled quick actions:
 
 - `Run real Aedes COI species-safe check` uses real NCBI GenBank COI accessions and should produce species-level molecular evidence for `Aedes albopictus` when the marker separates the taxa. If the runtime falls back to `python-local` or occurrence metadata is missing, the taxonomic status can be `species-safe` while the publication decision remains `not-publishable`.
 - `Run conserved Quercus rbcL safe-rank check` uses real NCBI GenBank rbcL accessions and should produce genus-level molecular evidence, because the shared rbcL window cannot safely distinguish `Quercus robur` from `Quercus petraea`.
@@ -215,7 +215,7 @@ query sequence
 -> VSEARCH / BLAST+ / deterministic local mini-search
 -> normalized reference hits
 -> segment overlap map and source provenance
--> Nexus V3 hard-gate compiler
+-> conservative hard-gate compiler
 -> safe/blocked claims and Evidence Pack
 ```
 
@@ -249,7 +249,7 @@ For uploaded FASTA reference datasets, EcoGenesis tries to enrich taxon names ag
 - `GET /api/barcode/runs/{run_id}/exports`
 - `GET /api/barcode/runs/{run_id}/exports/{artifact_name}`
 
-## GSIG Observatory API
+## Evidence Map API
 
 - `GET /api/observatory/status`
 - `GET /api/observatory/sources`
@@ -282,7 +282,7 @@ For uploaded FASTA reference datasets, EcoGenesis tries to enrich taxon names ag
 - `GET /api/competition-reports/{report_id}/files/{file_name}`
 
 The Docker backend image includes the frozen `competition-100-sequences` and `adversarial-100-sequences` report directories so the contest UI and API can serve those 100-sequence verification packs without relying on host-only files.
-The contest readiness endpoint aggregates backend capability, the frozen 100-sequence reports and the latest Observatory output verification into one pass/review dossier.
+The contest readiness endpoint aggregates backend capability, the frozen 100-sequence reports and the latest Evidence Map output verification into one pass/review dossier.
 
 Minimal request shape:
 
@@ -427,7 +427,7 @@ The built-in API demo also includes a mixed batch with species-safe, genus-safe,
 
 Prebuilt mixed-batch artifacts live in `reports/barcode-demo/`. Open `reports/barcode-demo/molecular_evidence_report.html` or inspect `reports/barcode-demo/sequence_safety_table.csv`.
 
-Contest batch artifacts live in `reports/competition-100-sequences/` and `reports/adversarial-100-sequences/`. They are regenerated by `backend/scripts/generate_competition_reports.py` and currently contain 90 exports per run, including real VSEA Parquet files, math viability audits, theorem checklists and graph provenance audits.
+Contest batch artifacts live in `reports/competition-100-sequences/` and `reports/adversarial-100-sequences/`. They are regenerated by `backend/scripts/generate_competition_reports.py` and currently contain 90 exports per run, including real VSEA Parquet files, math viability audits, release checklists and graph provenance audits.
 
 ## CLI Runner
 
@@ -480,7 +480,7 @@ The verification script runs the compiler and API, checks expected decisions, va
 - `reports/barcode-operability/operability_report.json`
 - `reports/barcode-operability/browser-v3-reference-search-dashboard.png`
 
-## Observatory Output Verification
+## Evidence Map Output Verification
 
 ```bash
 cd backend
