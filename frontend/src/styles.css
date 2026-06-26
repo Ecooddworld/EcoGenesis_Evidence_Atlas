@@ -71,6 +71,25 @@ a {
   max-width: 860px;
 }
 
+.topbar-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.topbar-links a {
+  background: #eef5f0;
+  border: 1px solid #c8d9cf;
+  border-radius: 7px;
+  color: #1f4936;
+  font-size: 0.9rem;
+  font-weight: 850;
+  line-height: 1.2;
+  padding: 9px 12px;
+  text-decoration: none;
+}
+
 .eyebrow,
 .section-label {
   color: #566a60;

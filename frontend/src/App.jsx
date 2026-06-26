@@ -73,6 +73,8 @@ const modeLabels = {
   evidencePack: 'Evidence Pack',
 };
 
+const projectRepositoryUrl = 'https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas';
+
 const lectureAnchorIds = new Set([
   'analysis-animation',
   'analysis-picture-sequence',
@@ -205,6 +207,7 @@ const barcodeSourceCards = [
 ];
 
 const officialSourceLinks = [
+  ['Source repository', projectRepositoryUrl],
   ['GBIF Sequence ID', 'https://www.gbif.org/tools/sequence-id'],
   ['GBIF DNA-derived publishing guide', 'https://docs.gbif.org/publishing-dna-derived-data/en/'],
   ['NCBI nucleotide BLAST', 'https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastSearch&PROGRAM=blastn'],
@@ -2128,6 +2131,9 @@ function App() {
           <p className="topbar-subtitle">
             EcoGenesis converts DNA barcode, metabarcoding, Sequence ID and BLAST-like outputs into safe taxonomic rank decisions, GBIF publication readiness checks, repair actions and downloadable Evidence Packs.
           </p>
+          <div className="topbar-links" aria-label="Project links">
+            <a href={projectRepositoryUrl} target="_blank" rel="noreferrer">Source repository</a>
+          </div>
         </div>
         <nav className="mode-switch" aria-label="View mode">
           {Object.entries(modeLabels).map(([id, label]) => (
@@ -3704,6 +3710,7 @@ function SubmissionOverview({ referenceStatus, metrics, exports, pack, onOpenWor
           <div className="hero-actions">
             <button className="primary" onClick={onOpenWorkbench}>Run demo</button>
             <button onClick={onRunCompiler} disabled={loading}>{loading ? 'Running...' : 'Run mixed demo'}</button>
+            <a className="button-link" href={projectRepositoryUrl} target="_blank" rel="noreferrer">Source repository</a>
             {evidencePack && (
               <a className="button-link" href={exportUrl(evidencePack.url)}>Download Evidence Pack</a>
             )}
