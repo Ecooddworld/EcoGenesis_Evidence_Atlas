@@ -5,10 +5,11 @@ Use this file as the compact demo script for judges, release notes, or the publi
 ## Links
 
 - Hosted demo: https://ecooddworld.eu
+- Submission video: https://ecooddworld.eu/submission-video/
 - Source repository: https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas
-- Final local video: `submission-assets/barcode-video/video/ecogenesis-barcode-to-gbif-english-voice-ru-subs.mp4`
-- Captions: `submission-assets/barcode-video/video/ecogenesis-barcode-to-gbif-english-voice-ru-subs.srt`
-- Transcript: `submission-assets/barcode-video/video/ecogenesis-barcode-to-gbif-english-voiceover.txt`
+- Final local video: `submission-assets/platform-video/video/ecogenesis-platform-demo-ru-voice-subs.mp4`
+- Captions: `submission-assets/platform-video/video/ecogenesis-platform-demo-ru-voice-subs.srt`
+- Transcript: `submission-assets/platform-video/video/ecogenesis-platform-demo-ru-voiceover.txt`
 
 ## Main UI Flow
 

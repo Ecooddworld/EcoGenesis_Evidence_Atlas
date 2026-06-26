@@ -115,13 +115,17 @@ Expected current regression status:
 
 ## Video URL
 
-Upload the final CSV Upload -> Score demo video to YouTube, Vimeo, Google Drive, Figshare, OSF or another public no-cost location, then paste that URL into the official GBIF form.
+Use the public no-login submission video URL in the official GBIF form:
 
-Local final video file prepared for upload:
+https://ecooddworld.eu/submission-video/
 
-`submission-assets/barcode-video/video/ecogenesis-barcode-to-gbif-english-voice-ru-subs.mp4`
+Direct MP4:
 
-Russian subtitles and English transcript are included in the same folder.
+https://ecooddworld.eu/submission-video/ecogenesis-platform-demo-ru-voice-subs.mp4
+
+Local final video file:
+
+`submission-assets/platform-video/video/ecogenesis-platform-demo-ru-voice-subs.mp4`
 
 ## Source and Submission Documentation Links
 

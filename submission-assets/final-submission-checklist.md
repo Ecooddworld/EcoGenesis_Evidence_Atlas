@@ -23,8 +23,8 @@ Entry form: https://www.survey-xact.dk/LinkCollector?key=YCAEZQR4SPC1
 - [x] Mathematical methodology and proof-by-failure-mode docs exist.
 - [x] License, citation and data license files exist.
 - [x] Entry form copy is prepared in `submission-assets/gbif-entry-form-draft.md`.
-- [x] Final local explainer video exists: `submission-assets/barcode-video/video/ecogenesis-barcode-to-gbif-english-voice-ru-subs.mp4`.
-- [x] Russian subtitles and English transcript exist for the final local video.
+- [x] Final public workflow-first video exists at `https://ecooddworld.eu/submission-video/`.
+- [x] Local MP4, subtitles and transcript exist under `submission-assets/platform-video/video/`.
 - [x] Hosted demo is deployed at `https://ecooddworld.eu`.
 - [x] Caddy handles HTTPS and redirects HTTP to HTTPS.
 - [x] Backend is internal-only behind the Caddy reverse proxy.
@@ -80,7 +80,7 @@ npm run build
 - Team members: enter in the official form or approved private submission document.
 - Abstract and rationale: ready.
 - Operating instructions: ready.
-- Video link: paste into the official form after public upload. Local file is ready at `submission-assets/platform-video/video/ecogenesis-platform-demo-ru-voice-subs.mp4`.
+- Video link: https://ecooddworld.eu/submission-video/
 - Source/documentation links: ready; public repository is `https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas`.
 
 ## Risk Notes

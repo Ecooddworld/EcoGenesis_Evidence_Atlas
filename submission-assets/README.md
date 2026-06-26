@@ -16,14 +16,15 @@ This folder contains the materials prepared for the 2026 GBIF Ebbe Nielsen Chall
 
 ## Final Local Video
 
-- `barcode-video/video/ecogenesis-barcode-to-gbif-english-voice-ru-subs.mp4`: current final explainer video for the CSV Upload -> Score workflow, with English voiceover and burned Russian subtitles.
-- `barcode-video/video/ecogenesis-barcode-to-gbif-english-voice-ru-subs.srt`: external Russian subtitle file.
-- `barcode-video/video/ecogenesis-barcode-to-gbif-english-voiceover.txt`: English voiceover transcript.
-- `barcode-video/video/demo-thumbnail-english-voice-ru-subs.png`: local thumbnail.
+- `platform-video/video/ecogenesis-platform-demo-ru-voice-subs.mp4`: current workflow-first submission video, with voiceover and burned subtitles.
+- `platform-video/video/ecogenesis-platform-demo-ru-voice-subs.srt`: external subtitle file.
+- `platform-video/video/ecogenesis-platform-demo-ru-voiceover.txt`: voiceover transcript.
+- `platform-video/video/demo-thumbnail-platform-ru.png`: local thumbnail.
 
 ## Recommended Public Links
 
 - Hosted demo: https://ecooddworld.eu
+- Submission video: https://ecooddworld.eu/submission-video/
 - Contest page: https://www.gbif.org/news/3DyM3tK5wgYipqyaHwG2c2/2026-ebbe-nielsen-challenge-open-for-submissions
 - Official rules: https://www.gbif.org/awards/ebbe-2026-rules
 - Entry form: https://www.survey-xact.dk/LinkCollector?key=YCAEZQR4SPC1
@@ -33,7 +34,7 @@ This folder contains the materials prepared for the 2026 GBIF Ebbe Nielsen Chall
 
 1. Confirm the public repository URL remains reachable for judges.
 2. Enter team/member details in the official GBIF form or approved private submission document.
-3. Upload `barcode-video/video/ecogenesis-barcode-to-gbif-english-voice-ru-subs.mp4` to a public no-login URL.
-4. Paste the public video URL into the official GBIF form.
+3. Paste the public video URL into the official GBIF form: https://ecooddworld.eu/submission-video/
+4. Keep the direct MP4 URL available if the form requires a file link: https://ecooddworld.eu/submission-video/ecogenesis-platform-demo-ru-voice-subs.mp4
 5. Create a release tag, for example `v1.0-gbif-2026`.
 6. Re-run backend tests, frontend tests, build, Observatory report generation, operability verification and browser smoke.

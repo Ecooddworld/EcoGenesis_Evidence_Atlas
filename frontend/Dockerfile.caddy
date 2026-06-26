@@ -16,5 +16,9 @@ FROM caddy:2-alpine
 
 COPY frontend/Caddyfile /etc/caddy/Caddyfile
 COPY --from=build /app/dist /srv
+COPY submission-assets/platform-video/video/ecogenesis-platform-demo-ru-voice-subs.mp4 /srv/submission-video/
+COPY submission-assets/platform-video/video/ecogenesis-platform-demo-ru-voice-subs.srt /srv/submission-video/
+COPY submission-assets/platform-video/video/ecogenesis-platform-demo-ru-voiceover.txt /srv/submission-video/
+COPY submission-assets/platform-video/video/demo-thumbnail-platform-ru.png /srv/submission-video/
 
 EXPOSE 80 443
