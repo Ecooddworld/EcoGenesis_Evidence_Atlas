@@ -1,0 +1,27 @@
+EcoGenesis Evidence Atlas — это демонстрация того, как молекулярные наблюдения можно превращать в осторожные, проверяемые и пригодные для публикации решения.
+
+Главная идея простая: top hit не равен species truth. Демо не обещает доказать присутствие вида только по одной строке результата. Оно показывает, какие утверждения поддержаны supplied reference context, какие надо понизить до рода или более высокого ранга, а какие должны остаться review-only.
+
+Проблема, которую решает инструмент, возникает у лабораторий, экологов и data publishers постоянно. Есть CSV из DNA barcode, metabarcoding, Sequence ID или BLAST-like pipeline. В нем есть последовательности, identity, coverage, lineage, metadata и иногда GBIF occurrence context. Но перед публикацией нужен строгий ответ: что безопасно вывести на species rank, что blocked, что repairable, и какие поля надо исправить первыми.
+
+Первая часть демо показывает ценность системы. EcoGenesis разделяет taxonomic safety и publication readiness. Запись может быть species-safe по molecular evidence, но все равно not GBIF-ready, если отсутствуют occurrenceID, eventDate, methodOrSOP, referenceDatabase или assay context. В таком случае evidence сохраняется, но publication blocked by metadata.
+
+Во второй части пользователь открывает compiler, загружает CSV и видит preview. Система проверяет required molecular fields, Darwin Core fields, DNA-derived metadata, invalid DNA characters, duplicated identifiers, coverage, aligned length, marker profile and assay profile.
+
+Затем включаются safety gates. Exact match требует identity не ниже 99 процентов и query coverage не ниже 80 процентов. Если есть competitor, статистически неотличимый от top hit, species-level claim blocked, а вывод понижается до LCA. Если barcode gap отсутствует или не положительный, species claim тоже blocked. Если diagnostic k-mer support отсутствует или false-positive risk слишком высокий, record остается review-only или downgraded.
+
+Результат не просто показывает зеленую или красную метку. Он объясняет DecisionClass, TaxStatus, PubStatus, candidate_taxon, published_taxon, blockers and repair actions. Это важно для честной публикации: weak, ambiguous и metadata-blocked records не получают published_taxon.
+
+Дальше демо показывает Evidence Pack. Внутри есть sequence safety table, publication blockers, repair plan, methods text, citations, molecular evidence report, math viability audit, marker and assay audits, theorem checklist, VSEA, graph provenance audit and AI guardrail audit. Это делает результат проверяемым человеком и машиной.
+
+В разделе Math and proof видно, что проект построен как proof-by-failure-modes. Species-safe claim запрещен, если сработал хотя бы один blocker: weak hit, indistinguishable competitor, missing barcode gap, missing diagnostic k-mer support, metadata block, scientificName conflict, reference library gap, graph provenance problem or AI export status promotion.
+
+Research audit показывает следующий слой: GSEG, GSIG and Observatory. Segment-level evidence не имеет права превращать shared fragment в species-specific claim. Визуализация explanatory only: карта, matrix, graph and proof wheel не меняют claim_state. AI-ready export тоже не может повысить weak_hypothesis, blocked или review_only.
+
+Последняя часть объясняет, как развить демо в платформу. Первый модуль — ingestion layer для лабораторных CSV, FASTA, BLAST, VSEARCH, BOLD, UNITE and GBIF Sequence ID. Второй — reference and barcode-gap registry, чтобы видеть, где species-level output невозможен из-за library gaps. Третий — evidence graph with provenance hashes, чтобы каждое решение было связано с ruleset version, input artifact and blocker.
+
+Четвертый модуль — publisher repair optimizer. Он показывает, какие metadata repairs дадут максимальный прирост GBIF-ready records: occurrenceID, eventDate, methodOrSOP, referenceDatabase, assay fields, scientificName conflict resolution and citation completeness. Пятый модуль — Observatory dashboard for datasets, sources, exports and guardrails.
+
+Так EcoGenesis становится не просто демо-страницей, а научной платформой проверки гипотез. Она не заменяет эксперта и не угадывает biological truth. Она снижает риск overclaim, сохраняет evidence, блокирует unsafe species claims and produces reproducible, reviewable, GBIF-ready export candidates.
+
+Финальный вывод: это инструмент для перехода от “у нас есть top hit” к “мы знаем, какой claim безопасен, что заблокировано, что repairable, и какие данные нужны для следующего шага”.
