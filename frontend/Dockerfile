@@ -16,6 +16,10 @@ FROM nginx:1.27-alpine
 
 COPY frontend/nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /app/dist /usr/share/nginx/html
+COPY submission-assets/platform-video/video/ecogenesis-platform-demo-ru-voice-subs.mp4 /usr/share/nginx/html/submission-video/
+COPY submission-assets/platform-video/video/ecogenesis-platform-demo-ru-voice-subs.srt /usr/share/nginx/html/submission-video/
+COPY submission-assets/platform-video/video/ecogenesis-platform-demo-ru-voiceover.txt /usr/share/nginx/html/submission-video/
+COPY submission-assets/platform-video/video/demo-thumbnail-platform-ru.png /usr/share/nginx/html/submission-video/
 
 EXPOSE 80
 

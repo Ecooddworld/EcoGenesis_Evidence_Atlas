@@ -23,8 +23,9 @@ Current architecture: **EcoGenesis Nexus V3 + GSEG/GSIG proof layer + GSIG Obser
 - Abstract and rationale: copy from `submission-assets/gbif-entry-form-draft.md`.
 - Operating instructions: copy from `submission-assets/gbif-entry-form-draft.md`.
 - Hosted demo: https://ecooddworld.eu
-- Video URL: paste the public no-login video URL into the official form after upload.
-- Local final video for upload: `submission-assets/barcode-video/video/ecogenesis-barcode-to-gbif-english-voice-ru-subs.mp4`.
+- Submission video: https://ecooddworld.eu/submission-video/
+- Direct MP4: https://ecooddworld.eu/submission-video/ecogenesis-platform-demo-ru-voice-subs.mp4
+- Local final video: `submission-assets/platform-video/video/ecogenesis-platform-demo-ru-voice-subs.mp4`.
 - Source/docs: https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas; the canonical docs are `README.md`, `docs/submission.md`, `docs/barcode-compiler-methodology.md`, `docs/production-caddy-deployment.md`, `docs/nexus-v3/EcoGenesis_Nexus_V3_FULL_PROJECT_RU.md` and `docs/testing.md`.
 
 ## Current Working Demo
@@ -101,7 +102,7 @@ Before final submission, re-run the commands in `submission-assets/final-submiss
 
 - Confirm the public source repository URL remains reachable for the final contest review path.
 - Enter team/member details in the official form or approved private submission document.
-- Upload the final CSV Upload -> Score demo video from `submission-assets/barcode-video/video/ecogenesis-barcode-to-gbif-english-voice-ru-subs.mp4`.
-- Paste the public video URL into the official GBIF form after upload.
+- Paste the public submission video URL into the official GBIF form: https://ecooddworld.eu/submission-video/
+- Keep the direct MP4 URL available if the form requires a file URL: https://ecooddworld.eu/submission-video/ecogenesis-platform-demo-ru-voice-subs.mp4
 - Create release tag `v1.0-gbif-2026`.
 - Confirm every submitted URL opens without login.

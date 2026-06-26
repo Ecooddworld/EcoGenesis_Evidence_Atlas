@@ -37,7 +37,7 @@ Open the hosted demo or local http://localhost:13100, go to `Run compiler`, uplo
 ## Required Final Links
 
 - Hosted demo: https://ecooddworld.eu
-- Public video URL: paste into the official form after upload
+- Public video URL: https://ecooddworld.eu/submission-video/
 - Source repository URL: https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas
 - `docs/submission.md`
 - `docs/barcode-compiler-methodology.md`
