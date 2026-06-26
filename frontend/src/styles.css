@@ -3310,6 +3310,50 @@ button:disabled {
   margin: 0;
 }
 
+.compiler-flow-list {
+  display: grid;
+  gap: 9px;
+  margin-top: 8px;
+}
+
+.compiler-flow-list article {
+  align-items: start;
+  background: #f8fbf8;
+  border: 1px solid #dbe4dd;
+  border-radius: 8px;
+  display: grid;
+  gap: 5px 10px;
+  grid-template-columns: 32px minmax(0, 1fr);
+  min-width: 0;
+  padding: 10px;
+}
+
+.compiler-flow-list span {
+  align-items: center;
+  background: #1e5b69;
+  border-radius: 999px;
+  color: #fff;
+  display: inline-flex;
+  font-size: 0.82rem;
+  font-weight: 900;
+  height: 30px;
+  justify-content: center;
+  width: 30px;
+}
+
+.compiler-flow-list strong {
+  color: #17201a;
+  font-size: 0.93rem;
+  line-height: 1.18;
+  min-width: 0;
+}
+
+.compiler-flow-list p {
+  grid-column: 2;
+  line-height: 1.35;
+  min-width: 0;
+}
+
 .quick-start-actions,
 .empty-state-actions {
   display: flex;
@@ -5412,16 +5456,16 @@ summary {
 
 .graph-workspace {
   display: grid;
-  gap: 14px;
-  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.36fr);
-  min-height: 650px;
+  gap: 16px;
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .graph-canvas-shell {
   background: #f8fbf8;
   border: 1px solid #cfded5;
   border-radius: 8px;
-  min-height: 650px;
+  height: clamp(560px, 62vh, 760px);
+  min-height: 560px;
   overflow: hidden;
   position: relative;
 }
@@ -5457,6 +5501,10 @@ summary {
     #f8fbf8;
 }
 
+.graph-canvas-shell .react-flow__viewport {
+  transition: transform 180ms ease;
+}
+
 .graph-empty-state {
   align-content: center;
   display: grid;
@@ -5481,7 +5529,7 @@ summary {
   border: 0;
   box-shadow: none;
   padding: 0;
-  width: 190px;
+  width: 166px;
 }
 
 .observatory-flow-node-inner {
@@ -5492,8 +5540,8 @@ summary {
   box-shadow: 0 12px 26px rgba(24, 43, 33, 0.08);
   display: grid;
   gap: 5px;
-  min-height: 82px;
-  padding: 10px 12px;
+  min-height: 78px;
+  padding: 10px;
 }
 
 .observatory-flow-node.supported .observatory-flow-node-inner {
@@ -5525,14 +5573,14 @@ summary {
 
 .observatory-flow-node-inner strong {
   color: #17201a;
-  font-size: 0.88rem;
+  font-size: 0.84rem;
   line-height: 1.16;
   overflow-wrap: anywhere;
 }
 
 .observatory-flow-node-inner small {
   color: #53655c;
-  font-size: 0.73rem;
+  font-size: 0.7rem;
   font-weight: 750;
   line-height: 1.2;
   overflow-wrap: anywhere;
@@ -5557,7 +5605,8 @@ summary {
 .graph-inspector {
   align-content: start;
   display: grid;
-  gap: 12px;
+  gap: 16px;
+  grid-template-columns: minmax(300px, 0.82fr) minmax(480px, 1.18fr);
   min-width: 0;
 }
 
@@ -5662,11 +5711,25 @@ summary {
 }
 
 .graph-source-context-card .snapshot-map {
-  min-height: 160px;
+  min-height: 320px;
 }
 
 .graph-source-context-card .snapshot-proof-grid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.graph-source-context-card .gbif-leaflet-map {
+  height: clamp(340px, 38vh, 460px);
+}
+
+.graph-source-context-card .gbif-map-toolbar strong,
+.graph-source-context-card .gbif-map-footer span {
+  font-size: 0.8rem;
+}
+
+.graph-source-context-card .snapshot-dataset-legend,
+.graph-source-context-card .snapshot-selected-record {
+  display: none;
 }
 
 .graph-legend-row {
@@ -6427,6 +6490,7 @@ summary {
   .observatory-graph-grid,
   .observatory-graph-canvas,
   .output-verification-strip,
+  .graph-inspector,
   .graph-workspace {
     grid-template-columns: 1fr;
   }
@@ -7534,14 +7598,19 @@ th {
   }
 
   .graph-canvas-shell {
-    min-height: 560px;
+    height: 560px;
+    min-height: 520px;
   }
 
   .observatory-flow-node {
-    width: 170px;
+    width: 158px;
   }
 
   .snapshot-proof-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .graph-source-context-card .snapshot-proof-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
