@@ -36,10 +36,9 @@ Open the hosted demo or local http://localhost:13100, go to `Run compiler`, uplo
 
 ## Required Final Links
 
-- Repository: https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas
 - Hosted demo: https://ecooddworld.eu
 - Public video URL: paste into the official form after upload
-- Main README: https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas/blob/main/README.md
+- Source repository URL: paste into the official form if requested
 - `docs/submission.md`
 - `docs/barcode-compiler-methodology.md`
 - `docs/nexus-v3/EcoGenesis_Nexus_V3_FULL_PROJECT_RU.md`

@@ -27,7 +27,7 @@ This folder contains the materials prepared for the 2026 GBIF Ebbe Nielsen Chall
 - Contest page: https://www.gbif.org/news/3DyM3tK5wgYipqyaHwG2c2/2026-ebbe-nielsen-challenge-open-for-submissions
 - Official rules: https://www.gbif.org/awards/ebbe-2026-rules
 - Entry form: https://www.survey-xact.dk/LinkCollector?key=YCAEZQR4SPC1
-- Repository: https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas
+- Source repository: provide the public repository URL in the official form if requested.
 
 ## Before Submission
 
@@ -35,5 +35,5 @@ This folder contains the materials prepared for the 2026 GBIF Ebbe Nielsen Chall
 2. Enter team/member details in the official GBIF form or approved private submission document.
 3. Upload `barcode-video/video/ecogenesis-barcode-to-gbif-english-voice-ru-subs.mp4` to a public no-login URL.
 4. Paste the public video URL into the official GBIF form.
-5. Create a GitHub release, for example `v1.0-gbif-2026`.
+5. Create a release tag, for example `v1.0-gbif-2026`.
 6. Re-run backend tests, frontend tests, build, Observatory report generation, operability verification and browser smoke.

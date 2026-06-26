@@ -12,7 +12,7 @@ import requests
 from .demo import POPULAR_TAXA
 
 
-USER_AGENT = "ecogenesis-evidence-atlas/0.1 (+https://github.com/oddworld666/EcoGenesis_Evidence_Atlas)"
+USER_AGENT = "ecogenesis-evidence-atlas/0.1 (+https://ecooddworld.eu)"
 
 
 @dataclass(frozen=True)

@@ -126,22 +126,22 @@ Russian subtitles and English transcript are included in the same folder.
 ## Source and Submission Documentation Links
 
 - Hosted demo: https://ecooddworld.eu
-- Repository: https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas
-- Main README: https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas/blob/main/README.md
-- Submission documentation: https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas/blob/main/docs/submission.md
-- Methodology: https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas/blob/main/docs/barcode-compiler-methodology.md
-- Nexus V3 full project: https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas/blob/main/docs/nexus-v3/EcoGenesis_Nexus_V3_FULL_PROJECT_RU.md
-- Proof by failure modes: https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas/blob/main/docs/proof-by-failure-modes.md
-- GBIF DNA-derived readiness: https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas/blob/main/docs/gbif-dna-derived-readiness.md
-- Production Caddy deployment: https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas/blob/main/docs/production-caddy-deployment.md
-- Testing: https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas/blob/main/docs/testing.md
-- Final submission pack: https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas/blob/main/submission-assets/gbif-2026-final-submission-pack.md
+- Source repository URL: paste into the official form if requested.
+- Main README: `README.md`
+- Submission documentation: `docs/submission.md`
+- Methodology: `docs/barcode-compiler-methodology.md`
+- Nexus V3 full project: `docs/nexus-v3/EcoGenesis_Nexus_V3_FULL_PROJECT_RU.md`
+- Proof by failure modes: `docs/proof-by-failure-modes.md`
+- GBIF DNA-derived readiness: `docs/gbif-dna-derived-readiness.md`
+- Production Caddy deployment: `docs/production-caddy-deployment.md`
+- Testing: `docs/testing.md`
+- Final submission pack: `submission-assets/gbif-2026-final-submission-pack.md`
 
 ## Notes Before Final Form Submission
 
-- Confirm the GitHub repository visibility follows the final contest review path.
+- Confirm the source repository visibility follows the final contest review path.
 - Confirm all public URLs work without login.
 - Enter team details only in the official form or an approved private submission document.
 - Paste the public video URL into the official form after upload.
-- Create a GitHub release, for example `v1.0-gbif-2026`.
+- Create a release tag, for example `v1.0-gbif-2026`.
 - Do not submit local file paths as the only evidence.

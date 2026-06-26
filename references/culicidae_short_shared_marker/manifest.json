@@ -5,7 +5,7 @@
   "marker": "COI-short",
   "fasta": "culicidae_short_shared_marker.fasta",
   "source": "EcoGenesis bundled validation reference showing how a short conserved marker fragment can match many species",
-  "doi_or_url": "https://github.com/oddworld666/EcoGenesis_Evidence_Atlas",
+  "doi_or_url": "https://ecooddworld.eu",
   "license": "CC0-1.0 for this synthetic validation reference",
   "usage_scope": "Short-fragment graph validation only; not a curated production barcode reference database.",
   "accessed_at": "2026-06-04",
