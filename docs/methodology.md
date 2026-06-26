@@ -8,4 +8,4 @@ Read:
 - `docs/proof-by-failure-modes.md`
 - `docs/gbif-dna-derived-readiness.md`
 
-The legacy occurrence Atlas methodology remains available in the archived branch `oddworld/archive-atlas-score-v1`.
+Legacy occurrence-atlas notes are kept outside the contest-facing methodology.
