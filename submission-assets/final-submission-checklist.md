@@ -32,7 +32,7 @@ Entry form: https://www.survey-xact.dk/LinkCollector?key=YCAEZQR4SPC1
 
 ## Must Do Before Pressing Submit
 
-- [ ] Confirm the repository visibility follows the final contest rule; if it stays private, add judge access or an approved private review link.
+- [x] Source repository is public for judge review: https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas.
 - [ ] Enter final team member names, affiliations, country and contact email in the official GBIF form or approved private submission document.
 - [x] Record or rebuild the final video around the current CSV Upload -> Score workflow.
 - [ ] Upload the video to a public no-cost URL that plays without login.
@@ -80,8 +80,8 @@ npm run build
 - Team members: enter in the official form or approved private submission document.
 - Abstract and rationale: ready.
 - Operating instructions: ready.
-- Video link: paste into the official form after public upload. Local file is ready at `submission-assets/barcode-video/video/ecogenesis-barcode-to-gbif-english-voice-ru-subs.mp4`.
-- Source/documentation links: ready; keep private only if the contest review path accepts judge access or an approved private source link.
+- Video link: paste into the official form after public upload. Local file is ready at `submission-assets/platform-video/video/ecogenesis-platform-demo-ru-voice-subs.mp4`.
+- Source/documentation links: ready; public repository is `https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas`.
 
 ## Risk Notes
 

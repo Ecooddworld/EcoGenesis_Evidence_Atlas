@@ -711,6 +711,10 @@ describe('Barcode compiler UI', () => {
     expect(screen.getByText('Repair optimizer')).toBeInTheDocument();
     expect(screen.getByText('Validation')).toBeInTheDocument();
     expect(screen.getByText('Evidence Pack')).toBeInTheDocument();
+    expect(screen.getAllByRole('link', { name: 'Source repository' })[0]).toHaveAttribute(
+      'href',
+      'https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas',
+    );
 
     fireEvent.click(screen.getByText('Run mixed demo'));
 

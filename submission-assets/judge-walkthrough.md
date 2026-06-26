@@ -5,7 +5,7 @@ Use this file as the compact demo script for judges, release notes, or the publi
 ## Links
 
 - Hosted demo: https://ecooddworld.eu
-- Source repository: provide the public repository URL in the official form if requested.
+- Source repository: https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas
 - Final local video: `submission-assets/barcode-video/video/ecogenesis-barcode-to-gbif-english-voice-ru-subs.mp4`
 - Captions: `submission-assets/barcode-video/video/ecogenesis-barcode-to-gbif-english-voice-ru-subs.srt`
 - Transcript: `submission-assets/barcode-video/video/ecogenesis-barcode-to-gbif-english-voiceover.txt`

@@ -126,7 +126,7 @@ Russian subtitles and English transcript are included in the same folder.
 ## Source and Submission Documentation Links
 
 - Hosted demo: https://ecooddworld.eu
-- Source repository URL: paste into the official form if requested.
+- Source repository URL: https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas
 - Main README: `README.md`
 - Submission documentation: `docs/submission.md`
 - Methodology: `docs/barcode-compiler-methodology.md`
@@ -139,7 +139,7 @@ Russian subtitles and English transcript are included in the same folder.
 
 ## Notes Before Final Form Submission
 
-- Confirm the source repository visibility follows the final contest review path.
+- Confirm the public source repository URL remains reachable for the final contest review path.
 - Confirm all public URLs work without login.
 - Enter team details only in the official form or an approved private submission document.
 - Paste the public video URL into the official form after upload.

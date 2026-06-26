@@ -1,47 +1,43 @@
 1
-00:00:00,000 --> 00:00:12,000
-EcoGenesis: строгий molecular evidence compiler для GBIF-ready решений.
+00:00:00,000 --> 00:00:25,000
+Workflow scrolls from molecular input to Evidence Pack, map and graph.
 
 2
-00:00:12,000 --> 00:00:32,000
-Демо показывает, где evidence strong, где species claim blocked, и что можно repair.
+00:00:25,000 --> 00:00:50,000
+Overview states the product claim and exposes the public source repository.
 
 3
-00:00:32,000 --> 00:01:02,000
-Пайплайн: схема входа -> safety gates -> publication gates -> Evidence Pack.
+00:00:50,000 --> 00:01:15,000
+Run Compiler shows input, validation, hard gates, decisions, blockers and repairs.
 
 4
-00:01:02,000 --> 00:01:27,000
-Главный экран связывает демо, proof layer, exports и walkthrough для оценки.
+00:01:15,000 --> 00:01:41,000
+Evidence Map links GBIF context, claim states, blockers and export boundaries.
 
 5
-00:01:27,000 --> 00:01:48,000
-Пользователь загружает CSV и видит schema, поля и validation context.
+00:01:41,000 --> 00:02:03,000
+Evidence Graph keeps provenance visible and cannot upgrade weak or blocked claims.
 
 6
-00:01:48,000 --> 00:02:12,000
-Результат разделяет TaxStatus, PubStatus, blockers, candidate_taxon и published_taxon.
+00:02:03,000 --> 00:02:25,000
+Evidence Map exports package VSEA, graph, GBIF preview and AI guardrail files.
 
 7
-00:02:12,000 --> 00:02:32,000
-Evidence Pack сохраняет таблицы, methods, citations, audits и machine-readable outputs.
+00:02:25,000 --> 00:02:47,000
+Judge view exposes contest readiness, verification reports and adversarial packs.
 
 8
-00:02:32,000 --> 00:02:55,000
-Math and proof фиксирует failure modes: competitor, barcode gap, k-mer, metadata, provenance.
+00:02:47,000 --> 00:03:12,000
+Fragment Graph checks a marker fragment, hit comparison and safest LCA.
 
 9
-00:02:55,000 --> 00:03:19,000
-Research audit показывает GSEG, GSIG, Observatory и AI guardrails без status promotion.
+00:03:12,000 --> 00:03:35,000
+Validation shows batch, adversarial, graph, VSEA and export guardrail checks.
 
 10
-00:03:19,000 --> 00:03:41,000
-Платформа расширяется через ingestion, reference registry и provenance graph.
+00:03:35,000 --> 00:03:57,000
+Methods and Audits document gates, failure modes and publication boundaries.
 
 11
-00:03:41,000 --> 00:04:08,000
-Следующий слой: repair optimizer, Observatory dashboard, exports и guardrail audits.
-
-12
-00:04:08,000 --> 00:04:41,000
-Финальный claim строгий: supported within supplied reference context, not biological truth.
+00:03:57,000 --> 00:04:31,000
+Evidence Pack exports CSV, JSON, HTML, VSEA, graph and audit files for reuse.
