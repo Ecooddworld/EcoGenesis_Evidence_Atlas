@@ -1,4 +1,4 @@
-import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import App from './App.jsx';
 
@@ -711,17 +711,21 @@ describe('Barcode compiler UI', () => {
     expect(screen.getByText('Repair optimizer')).toBeInTheDocument();
     expect(screen.getByText('Validation')).toBeInTheDocument();
     expect(screen.getByText('Evidence Pack')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Run Compiler' })).toHaveAttribute('href', '/run-compiler');
-    expect(screen.getByRole('link', { name: 'Evidence Map' })).toHaveAttribute('href', '/evidence-map');
-    expect(screen.getByRole('link', { name: 'Fragment Graph' })).toHaveAttribute('href', '/fragment-graph');
-    expect(screen.getByRole('link', { name: 'Validation' })).toHaveAttribute('href', '/validation');
-    expect(screen.getByRole('link', { name: 'Methods & Audits' })).toHaveAttribute('href', '/methods');
-    expect(screen.getByRole('link', { name: 'Workflow' })).toHaveAttribute('href', '/workflow');
-    expect(screen.getByRole('link', { name: 'Evidence Pack' })).toHaveAttribute('href', '/evidence-pack');
-    expect(screen.getByRole('link', { name: 'Privacy' })).toHaveAttribute('href', '/privacy');
-    expect(screen.getByRole('link', { name: 'Visitor Metrics' })).toHaveAttribute('href', '/analytics');
-    expect(screen.getByRole('link', { name: 'Video Presentation' })).toHaveAttribute('href', '/submission-video/');
-    expect(screen.getAllByRole('link', { name: 'Source repository' })[0]).toHaveAttribute(
+    const primaryNav = screen.getByRole('navigation', { name: 'Primary sections' });
+    expect(within(primaryNav).getByRole('link', { name: 'Run Compiler' })).toHaveAttribute('href', '/run-compiler');
+    expect(within(primaryNav).getByRole('link', { name: 'Evidence Map' })).toHaveAttribute('href', '/evidence-map');
+    expect(within(primaryNav).getByRole('link', { name: 'Fragment Graph' })).toHaveAttribute('href', '/fragment-graph');
+    expect(within(primaryNav).getByRole('link', { name: 'Validation' })).toHaveAttribute('href', '/validation');
+    expect(within(primaryNav).getByRole('link', { name: 'Methods & Audits' })).toHaveAttribute('href', '/methods');
+    expect(within(primaryNav).getByRole('link', { name: 'Workflow' })).toHaveAttribute('href', '/workflow');
+    expect(within(primaryNav).getByRole('link', { name: 'Evidence Pack' })).toHaveAttribute('href', '/evidence-pack');
+    expect(within(primaryNav).getByRole('link', { name: 'Video Presentation' })).toHaveAttribute('href', '/submission-video/');
+    expect(within(primaryNav).queryByRole('link', { name: 'Privacy' })).not.toBeInTheDocument();
+    expect(within(primaryNav).queryByRole('link', { name: 'Visitor Metrics' })).not.toBeInTheDocument();
+    const utilityLinks = screen.getByRole('contentinfo', { name: 'Site utility links' });
+    expect(within(utilityLinks).getByRole('link', { name: 'Privacy' })).toHaveAttribute('href', '/privacy');
+    expect(within(utilityLinks).getByRole('link', { name: 'Visitor Metrics' })).toHaveAttribute('href', '/analytics');
+    expect(within(utilityLinks).getByRole('link', { name: 'Source repository' })).toHaveAttribute(
       'href',
       'https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas',
     );

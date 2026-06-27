@@ -71,25 +71,6 @@ a {
   max-width: 860px;
 }
 
-.topbar-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 14px;
-}
-
-.topbar-links a {
-  background: #eef5f0;
-  border: 1px solid #c8d9cf;
-  border-radius: 7px;
-  color: #1f4936;
-  font-size: 0.9rem;
-  font-weight: 850;
-  line-height: 1.2;
-  padding: 9px 12px;
-  text-decoration: none;
-}
-
 .eyebrow,
 .section-label {
   color: #566a60;
@@ -137,6 +118,51 @@ button,
 .mode-switch a.active,
 .mode-switch button.active,
 .primary {
+  background: #1e5b69;
+  color: #fff;
+}
+
+.site-footer {
+  color: #53655c;
+  margin: 24px auto 0;
+  max-width: 1380px;
+}
+
+.utility-details {
+  background: #fff;
+  border: 1px solid #dbe4dd;
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+
+.utility-details summary {
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.utility-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.utility-links a {
+  background: #eef5f0;
+  border: 1px solid #c8d9cf;
+  border-radius: 7px;
+  color: #1f4936;
+  font-size: 0.9rem;
+  font-weight: 850;
+  line-height: 1.2;
+  padding: 9px 12px;
+  text-decoration: none;
+}
+
+.utility-links a.active {
   background: #1e5b69;
   color: #fff;
 }

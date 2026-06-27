@@ -77,6 +77,17 @@ const modeLabels = {
   analytics: 'Visitor Metrics',
 };
 
+const primaryModeIds = [
+  'overview',
+  'workbench',
+  'observatory',
+  'fragmentGraph',
+  'research',
+  'formulas',
+  'lecture',
+  'evidencePack',
+];
+
 const projectRepositoryUrl = 'https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas';
 
 const modeRoutes = {
@@ -2236,12 +2247,9 @@ function App() {
           <p className="topbar-subtitle">
             EcoGenesis converts DNA barcode, metabarcoding, Sequence ID and BLAST-like outputs into safe taxonomic rank decisions, GBIF publication readiness checks, repair actions and downloadable Evidence Packs.
           </p>
-          <div className="topbar-links" aria-label="Project links">
-            <a href={projectRepositoryUrl} target="_blank" rel="noreferrer">Source repository</a>
-          </div>
         </div>
-        <nav className="mode-switch" aria-label="View mode">
-          {Object.entries(modeLabels).map(([id, label]) => (
+        <nav className="mode-switch" aria-label="Primary sections">
+          {primaryModeIds.map((id) => (
             <a
               key={id}
               className={mode === id ? 'active' : ''}
@@ -2251,7 +2259,7 @@ function App() {
                 navigateMode(id);
               }}
             >
-              {label}
+              {modeLabels[id]}
             </a>
           ))}
           <a href="/submission-video/">Video Presentation</a>
@@ -2350,7 +2358,34 @@ function App() {
           exports={exports}
         />
       )}
+      <SiteFooter mode={mode} navigateMode={navigateMode} />
     </main>
+  );
+}
+
+function SiteFooter({ mode, navigateMode }) {
+  return (
+    <footer className="site-footer" aria-label="Site utility links">
+      <details className="utility-details" open>
+        <summary>Site operations and source</summary>
+        <div className="utility-links">
+          {['privacy', 'analytics'].map((id) => (
+            <a
+              key={id}
+              className={mode === id ? 'active' : ''}
+              href={pathForMode(id)}
+              onClick={(event) => {
+                event.preventDefault();
+                navigateMode(id);
+              }}
+            >
+              {modeLabels[id]}
+            </a>
+          ))}
+          <a href={projectRepositoryUrl} target="_blank" rel="noreferrer">Source repository</a>
+        </div>
+      </details>
+    </footer>
   );
 }
 
