@@ -718,6 +718,8 @@ describe('Barcode compiler UI', () => {
     expect(screen.getByRole('link', { name: 'Methods & Audits' })).toHaveAttribute('href', '/methods');
     expect(screen.getByRole('link', { name: 'Workflow' })).toHaveAttribute('href', '/workflow');
     expect(screen.getByRole('link', { name: 'Evidence Pack' })).toHaveAttribute('href', '/evidence-pack');
+    expect(screen.getByRole('link', { name: 'Privacy' })).toHaveAttribute('href', '/privacy');
+    expect(screen.getByRole('link', { name: 'Visitor Metrics' })).toHaveAttribute('href', '/analytics');
     expect(screen.getByRole('link', { name: 'Video Presentation' })).toHaveAttribute('href', '/submission-video/');
     expect(screen.getAllByRole('link', { name: 'Source repository' })[0]).toHaveAttribute(
       'href',
@@ -734,6 +736,72 @@ describe('Barcode compiler UI', () => {
     expect(screen.getAllByText('verified_segment_evidence_array.parquet').length).toBeGreaterThan(0);
     expect(screen.getByText('Data accounting ledger')).toBeInTheDocument();
     expect(screen.getByText('publishable_candidate_n')).toBeInTheDocument();
+  });
+
+  it('opens privacy notice and token-protected visitor metrics', async () => {
+    vi.spyOn(globalThis, 'fetch').mockImplementation((url, options) => {
+      const textUrl = String(url);
+      if (textUrl.endsWith('/api/analytics/pageview')) {
+        return Promise.resolve(new Response(JSON.stringify({ tracked: true }), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/analytics/summary')) {
+        expect(options?.headers?.['X-Analytics-Token']).toBe('test-token');
+        return Promise.resolve(new Response(JSON.stringify({
+          privacy_mode: 'first-party, no cookies, raw IP not stored',
+          retention_days: 90,
+          totals: {
+            pageviews_24h: 4,
+            visitors_24h: 2,
+            pageviews_7d: 9,
+            visitors_7d: 5,
+            stored_pageviews: 9,
+          },
+          top_pages: [{ path: '/workflow', pageviews: 4, visitors: 2 }],
+          referrers: [{ referrer_host: 'direct', pageviews: 4 }],
+          daily: [{ day: '2026-06-27', pageviews: 4, visitors: 2 }],
+          devices: [{ device_type: 'desktop', pageviews: 4 }],
+          browsers: [{ user_agent_family: 'safari', pageviews: 4 }],
+          recent: [{
+            ts: '2026-06-27T10:00:00+00:00',
+            path: '/workflow',
+            referrer_host: 'direct',
+            device_type: 'desktop',
+            user_agent_family: 'safari',
+            language: 'en',
+          }],
+        }), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/demo-scenarios')) {
+        return Promise.resolve(new Response(JSON.stringify(demoScenarios), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/reference-status')) {
+        return Promise.resolve(new Response(JSON.stringify({ status: 'ready', message: 'Compiler ready.' }), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/search-status')) {
+        return Promise.resolve(new Response(JSON.stringify(searchStatus), { status: 200 }));
+      }
+      if (textUrl.endsWith('/api/barcode/reference-datasets')) {
+        return Promise.resolve(new Response(JSON.stringify(referenceDatasets), { status: 200 }));
+      }
+      return Promise.resolve(new Response('{}', { status: 404 }));
+    });
+
+    render(<App />);
+
+    fireEvent.click(await screen.findByRole('link', { name: 'Privacy' }));
+    expect(await screen.findByText('Privacy-first contest site analytics and data handling.')).toBeInTheDocument();
+    expect(screen.getByText('No raw IP address in the application analytics database.')).toBeInTheDocument();
+    expect(screen.getByText('No cookie identifiers, advertising identifiers or third-party tracking pixels.')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('link', { name: 'Visitor Metrics' }));
+    expect(await screen.findByText('Private first-party traffic dashboard.')).toBeInTheDocument();
+    fireEvent.change(screen.getByLabelText('Admin token'), { target: { value: 'test-token' } });
+    fireEvent.click(screen.getByText('Load metrics'));
+
+    expect(await screen.findByText('Metrics loaded.')).toBeInTheDocument();
+    expect(screen.getByText('Views / 24h')).toBeInTheDocument();
+    expect(screen.getAllByText('/workflow').length).toBeGreaterThan(0);
+    expect(document.body.textContent).toContain('Privacy mode: first-party, no cookies, raw IP not stored');
   });
 
   it('opens the workbench and exposes the request editor', async () => {

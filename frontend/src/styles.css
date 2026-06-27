@@ -106,7 +106,7 @@ a {
   border-radius: 8px;
   display: grid;
   gap: 4px;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
   padding: 5px;
   width: 100%;
 }
@@ -235,6 +235,107 @@ button:disabled {
 
 .metrics-grid.compact {
   margin-top: 16px;
+}
+
+.privacy-grid,
+.analytics-mini-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 18px;
+}
+
+.privacy-grid > div,
+.claim-boundary-box,
+.analytics-list {
+  background: #f7fbf8;
+  border: 1px solid #d8e6dd;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.privacy-grid h3,
+.analytics-list h3,
+.claim-boundary-box h3 {
+  margin: 0 0 10px;
+}
+
+.privacy-grid ul {
+  color: #43584f;
+  line-height: 1.55;
+  margin: 0;
+  padding-left: 20px;
+}
+
+.claim-boundary-box {
+  margin-top: 18px;
+}
+
+.analytics-token-form {
+  align-items: end;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(220px, 1fr) auto;
+  margin-top: 18px;
+}
+
+.analytics-token-form label {
+  color: #53655c;
+  display: grid;
+  font-size: 0.85rem;
+  font-weight: 850;
+  gap: 6px;
+}
+
+.analytics-token-form input {
+  border: 1px solid #cbd8d0;
+  border-radius: 7px;
+  color: #17201a;
+  font: inherit;
+  min-height: 42px;
+  padding: 0 12px;
+}
+
+.analytics-overview {
+  margin-top: 0;
+}
+
+.analytics-columns {
+  align-items: stretch;
+}
+
+.analytics-table-panel table {
+  border-collapse: collapse;
+  min-width: 100%;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.analytics-table-panel th,
+.analytics-table-panel td {
+  border-bottom: 1px solid #e4ece6;
+  color: #43584f;
+  font-size: 0.9rem;
+  padding: 10px 8px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.analytics-table-panel th {
+  color: #53655c;
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.analytics-list-row {
+  align-items: center;
+  border-top: 1px solid #e4ece6;
+  display: flex;
+  justify-content: space-between;
+  padding: 9px 0;
 }
 
 .judge-dashboard {
@@ -7487,12 +7588,14 @@ th {
   .two-column,
   .product-split,
   .graph-preview-panel,
-  .lecture-two-column {
+  .lecture-two-column,
+  .privacy-grid,
+  .analytics-mini-grid {
     grid-template-columns: 1fr;
   }
 
   .mode-switch {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
   }
 
   .mode-switch a,
@@ -7600,6 +7703,10 @@ th {
   .observatory-visual-grid,
   .competition-report-grid,
   .observatory-export-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .analytics-token-form {
     grid-template-columns: 1fr;
   }
 

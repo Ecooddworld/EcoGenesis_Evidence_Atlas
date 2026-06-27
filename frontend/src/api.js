@@ -208,6 +208,29 @@ export async function getContestReadiness() {
   return response.json();
 }
 
+export async function trackAnalyticsPageview(payload) {
+  const response = await fetch(`${API_BASE_URL}/api/analytics/pageview`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+    keepalive: true,
+  });
+  if (!response.ok) {
+    throw new Error(`Analytics pageview was not accepted: ${response.status}`);
+  }
+  return response.json();
+}
+
+export async function getAnalyticsSummary(token) {
+  const response = await fetch(`${API_BASE_URL}/api/analytics/summary`, {
+    headers: { 'X-Analytics-Token': token },
+  });
+  if (!response.ok) {
+    throw new Error(`Analytics summary could not be loaded: ${response.status}`);
+  }
+  return response.json();
+}
+
 export async function getEvidenceRun(runId) {
   const response = await fetch(`${API_BASE_URL}/api/evidence/runs/${runId}`);
   if (!response.ok) {

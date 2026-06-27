@@ -55,6 +55,56 @@ def test_gbif_status_reports_unavailable_api(monkeypatch) -> None:
     assert "empty no-evidence fallback" in payload["message"]
 
 
+def test_analytics_pageview_respects_dnt(tmp_path, monkeypatch) -> None:
+    monkeypatch.setenv("ANALYTICS_DB_PATH", str(tmp_path / "analytics.sqlite3"))
+    monkeypatch.setenv("ANALYTICS_ADMIN_TOKEN", "test-token")
+    client = TestClient(app)
+
+    response = client.post(
+        "/api/analytics/pageview",
+        headers={"DNT": "1"},
+        json={"path": "/workflow", "title": "Workflow"},
+    )
+
+    assert response.status_code == 200
+    assert response.json() == {"tracked": False, "reason": "dnt"}
+
+    summary = client.get("/api/analytics/summary", headers={"X-Analytics-Token": "test-token"})
+    assert summary.status_code == 200
+    assert summary.json()["totals"]["stored_pageviews"] == 0
+
+
+def test_analytics_summary_requires_token_and_reports_aggregates(tmp_path, monkeypatch) -> None:
+    monkeypatch.setenv("ANALYTICS_DB_PATH", str(tmp_path / "analytics.sqlite3"))
+    monkeypatch.setenv("ANALYTICS_ADMIN_TOKEN", "test-token")
+    monkeypatch.setenv("ANALYTICS_HASH_SECRET", "test-hash-secret")
+    client = TestClient(app)
+
+    response = client.post(
+        "/api/analytics/pageview",
+        headers={
+            "User-Agent": "Mozilla/5.0 Test Safari/605.1.15",
+            "Accept-Language": "en-US,en;q=0.9",
+            "X-Forwarded-For": "203.0.113.10",
+        },
+        json={"path": "/evidence-map?token=secret", "title": "Evidence Map", "referrer": "https://gbif.org/example"},
+    )
+
+    assert response.status_code == 200
+    assert response.json() == {"tracked": True}
+
+    unauthorized = client.get("/api/analytics/summary")
+    assert unauthorized.status_code == 401
+
+    summary = client.get("/api/analytics/summary", headers={"X-Analytics-Token": "test-token"})
+    assert summary.status_code == 200
+    payload = summary.json()
+    assert payload["totals"]["stored_pageviews"] == 1
+    assert payload["top_pages"][0]["path"] == "/evidence-map"
+    assert payload["referrers"][0]["referrer_host"] == "gbif.org"
+    assert "raw IP not stored" in payload["privacy_mode"]
+
+
 def test_fixture_run_and_export_endpoints(tmp_path, monkeypatch) -> None:
     monkeypatch.setenv("EVIDENCE_DATA_DIR", str(tmp_path))
     client = TestClient(app)

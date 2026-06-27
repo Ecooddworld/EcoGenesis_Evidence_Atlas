@@ -4,10 +4,11 @@ import mimetypes
 import os
 
 import requests
-from fastapi import FastAPI, File, Form, HTTPException, Query, UploadFile
+from fastapi import FastAPI, File, Form, HTTPException, Query, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, HTMLResponse, Response
 
+from .analytics import AnalyticsPageview, analytics_summary, record_pageview
 from .barcode.compiler import run_barcode_compiler
 from .barcode.csv_import import CSV_TEMPLATE_TEXT, parse_barcode_csv
 from .barcode.demo import BARCODE_DEMO_SCENARIOS, DEFAULT_BARCODE_REQUEST
@@ -81,6 +82,16 @@ app.add_middleware(
 @app.get("/health")
 def health() -> dict:
     return {"status": "ok", "service": "ecogenesis-barcode-gbif-compiler"}
+
+
+@app.post("/api/analytics/pageview")
+def analytics_pageview(event: AnalyticsPageview, request: Request) -> dict:
+    return record_pageview(event, request)
+
+
+@app.get("/api/analytics/summary")
+def get_analytics_summary(request: Request) -> dict:
+    return analytics_summary(request.headers.get("x-analytics-token"))
 
 
 @app.get("/api/barcode/demo-scenarios")

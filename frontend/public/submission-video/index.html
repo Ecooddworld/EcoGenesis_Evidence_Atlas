@@ -111,6 +111,7 @@
         <a href="/run-compiler">Run Compiler</a>
         <a href="/evidence-map">Evidence Map</a>
         <a href="/evidence-pack">Evidence Pack</a>
+        <a href="/privacy">Privacy</a>
         <a href="https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas">Source repository</a>
       </nav>
       <p class="note">
@@ -118,5 +119,23 @@
         https://ecooddworld.eu/submission-video/ecogenesis-gbif-contest-demo-en-subs.mp4
       </p>
     </main>
+    <script>
+      (() => {
+        const dnt = navigator.doNotTrack === '1' || window.doNotTrack === '1';
+        const gpc = navigator.globalPrivacyControl === true;
+        if (dnt || gpc) return;
+        fetch('/api/analytics/pageview', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            path: window.location.pathname,
+            title: 'Submission video',
+            referrer: document.referrer || '',
+            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || '',
+          }),
+          keepalive: true,
+        }).catch(() => {});
+      })();
+    </script>
   </body>
 </html>

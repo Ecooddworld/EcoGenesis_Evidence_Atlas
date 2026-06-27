@@ -25,11 +25,13 @@ import {
   getObservatoryRunVerification,
   getObservatorySources,
   getObservatoryStatus,
+  getAnalyticsSummary,
   importBarcodeCsv,
   runBarcodeCompiler,
   runBarcodeCsv,
   runObservatoryDemo,
   runBarcodeReferenceSearch,
+  trackAnalyticsPageview,
   uploadBarcodeReferenceDataset,
 } from './api.js';
 
@@ -71,6 +73,8 @@ const modeLabels = {
   formulas: 'Methods & Audits',
   lecture: 'Workflow',
   evidencePack: 'Evidence Pack',
+  privacy: 'Privacy',
+  analytics: 'Visitor Metrics',
 };
 
 const projectRepositoryUrl = 'https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas';
@@ -84,6 +88,8 @@ const modeRoutes = {
   formulas: '/methods',
   lecture: '/workflow',
   evidencePack: '/evidence-pack',
+  privacy: '/privacy',
+  analytics: '/analytics',
 };
 
 const routeModeAliases = {
@@ -99,6 +105,9 @@ const routeModeAliases = {
   '/math': 'formulas',
   '/visual-lecture': 'lecture',
   '/evidence-pack': 'evidencePack',
+  '/privacy-policy': 'privacy',
+  '/metrics': 'analytics',
+  '/visitor-metrics': 'analytics',
 };
 
 const lectureAnchorIds = new Set([
@@ -150,6 +159,13 @@ function scrollToCurrentAnchor() {
   };
   schedule(scrollToTarget);
   [80, 240, 600].forEach((delay) => window.setTimeout(scrollToTarget, delay));
+}
+
+function privacySignalEnabled() {
+  if (typeof window === 'undefined') return false;
+  return window.navigator?.doNotTrack === '1'
+    || window.doNotTrack === '1'
+    || window.navigator?.globalPrivacyControl === true;
 }
 
 const scientificSuiteMetrics = [
@@ -1946,6 +1962,17 @@ function App() {
   }, [mode]);
 
   useEffect(() => {
+    if (typeof window === 'undefined' || privacySignalEnabled()) return;
+    const label = modeLabels[mode] || 'EcoGenesis';
+    trackAnalyticsPageview({
+      path: window.location.pathname,
+      title: label,
+      referrer: document.referrer || '',
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || '',
+    }).catch(() => {});
+  }, [mode]);
+
+  useEffect(() => {
     let mounted = true;
     Promise.all([getBarcodeDemoScenarios(), getBarcodeReferenceStatus(), getBarcodeSearchStatus(), getBarcodeReferenceDatasets()])
       .then(([demoScenarios, status, backendStatus, datasets]) => {
@@ -2280,6 +2307,10 @@ function App() {
         <ProofAndFormulas />
       ) : mode === 'research' ? (
         <ResearchAudit />
+      ) : mode === 'privacy' ? (
+        <PrivacyPolicy />
+      ) : mode === 'analytics' ? (
+        <VisitorMetrics />
       ) : (
         <CompilerWorkbench
           scenarios={scenarios}
@@ -2320,6 +2351,225 @@ function App() {
         />
       )}
     </main>
+  );
+}
+
+function PrivacyPolicy() {
+  return (
+    <section className="page-stack">
+      <article className="panel privacy-panel">
+        <p className="eyebrow">Privacy notice</p>
+        <h2>Privacy-first contest site analytics and data handling.</h2>
+        <p>
+          EcoGenesis uses a minimal first-party analytics layer to understand whether the public demo is reachable,
+          which pages are useful, and whether contest materials are being opened. The site does not use Google
+          Analytics, advertising trackers, third-party analytics scripts, cookies, localStorage-based visitor IDs,
+          or cross-site profiling.
+        </p>
+        <div className="privacy-grid">
+          <div>
+            <h3>What the site measures</h3>
+            <ul>
+              <li>Page path, timestamp, page title and referrer host.</li>
+              <li>Coarse browser family, coarse device type and primary browser language.</li>
+              <li>A daily pseudonymous visitor hash used only for approximate daily visitor counts.</li>
+              <li>Do Not Track and Global Privacy Control signals are respected and skip app analytics.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>What the app does not store for analytics</h3>
+            <ul>
+              <li>No raw IP address in the application analytics database.</li>
+              <li>No full user agent string in the application analytics database.</li>
+              <li>No cookie identifiers, advertising identifiers or third-party tracking pixels.</li>
+              <li>No analytics event that can change scientific claim state, export state or compiler output.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Uploaded scientific data</h3>
+            <p>
+              Files submitted to the compiler are processed to produce molecular evidence summaries, publication
+              readiness checks, repair actions and downloadable Evidence Packs. Uploaded molecular data should be
+              treated as research data: do not upload confidential records unless you are comfortable processing
+              them on this hosted demo.
+            </p>
+          </div>
+          <div>
+            <h3>Retention and access</h3>
+            <p>
+              Application analytics are retained for 90 days by default and then purged. Server infrastructure may
+              keep security logs separately. The private Visitor Metrics page is protected by an admin token and is
+              intended only for operational monitoring of this contest demo.
+            </p>
+          </div>
+        </div>
+        <div className="claim-boundary-box">
+          <h3>Scientific boundary</h3>
+          <p>
+            Analytics only measure site usage. They never promote weak, blocked, review-only or hypothesis rows into
+            stronger biological claims. EcoGenesis claim strength remains governed by evidence gates and provenance.
+          </p>
+        </div>
+        <p className="small-muted">
+          Controller: EcoGenesis Evidence Atlas project. Contact and source code: <a href={projectRepositoryUrl} target="_blank" rel="noreferrer">public repository</a>.
+          Last updated: 27 June 2026.
+        </p>
+      </article>
+    </section>
+  );
+}
+
+function VisitorMetrics() {
+  const [token, setToken] = useState(() => {
+    if (typeof window === 'undefined') return '';
+    return window.sessionStorage.getItem('ecogenesisAnalyticsToken') || '';
+  });
+  const [summary, setSummary] = useState(null);
+  const [status, setStatus] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  async function loadMetrics(event) {
+    event?.preventDefault();
+    setLoading(true);
+    setStatus('');
+    try {
+      if (typeof window !== 'undefined') {
+        window.sessionStorage.setItem('ecogenesisAnalyticsToken', token);
+      }
+      const payload = await getAnalyticsSummary(token);
+      setSummary(payload);
+      setStatus('Metrics loaded.');
+    } catch (err) {
+      setSummary(null);
+      setStatus(err.message || 'Metrics unavailable.');
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const totals = summary?.totals || {};
+  return (
+    <section className="page-stack">
+      <article className="panel">
+        <p className="eyebrow">Visitor Metrics</p>
+        <h2>Private first-party traffic dashboard.</h2>
+        <p>
+          This dashboard reads the local EcoGenesis analytics store. It reports page usage, approximate visitors,
+          referrer hosts and recent pageviews without cookies, raw IP storage or third-party analytics scripts.
+        </p>
+        <form className="analytics-token-form" onSubmit={loadMetrics}>
+          <label>
+            Admin token
+            <input
+              type="password"
+              value={token}
+              onChange={(event) => setToken(event.target.value)}
+              placeholder="Paste analytics token"
+              autoComplete="off"
+            />
+          </label>
+          <button type="submit" disabled={loading}>{loading ? 'Loading...' : 'Load metrics'}</button>
+        </form>
+        {status && <p className="small-muted">{status}</p>}
+      </article>
+
+      {summary && (
+        <>
+          <section className="metrics-grid analytics-overview">
+            <Metric label="Views / 24h" value={totals.pageviews_24h ?? 0} detail="First-party pageviews" />
+            <Metric label="Visitors / 24h" value={totals.visitors_24h ?? 0} detail="Daily pseudonymous count" />
+            <Metric label="Views / 7d" value={totals.pageviews_7d ?? 0} detail="Rolling seven days" />
+            <Metric label="Visitors / 7d" value={totals.visitors_7d ?? 0} detail="Daily hashes, not cross-site IDs" />
+          </section>
+
+          <section className="two-column analytics-columns">
+            <AnalyticsTable
+              title="Top pages"
+              columns={['Path', 'Views', 'Visitors']}
+              rows={(summary.top_pages || []).map((row) => [row.path, row.pageviews, row.visitors])}
+            />
+            <AnalyticsTable
+              title="Referrer hosts"
+              columns={['Host', 'Views']}
+              rows={(summary.referrers || []).map((row) => [row.referrer_host, row.pageviews])}
+            />
+          </section>
+
+          <section className="two-column analytics-columns">
+            <AnalyticsTable
+              title="Daily activity"
+              columns={['Day', 'Views', 'Visitors']}
+              rows={(summary.daily || []).map((row) => [row.day, row.pageviews, row.visitors])}
+            />
+            <div className="panel">
+              <p className="eyebrow">Traffic shape</p>
+              <div className="analytics-mini-grid">
+                <AnalyticsList title="Devices" rows={(summary.devices || []).map((row) => [row.device_type, row.pageviews])} />
+                <AnalyticsList title="Browsers" rows={(summary.browsers || []).map((row) => [row.user_agent_family, row.pageviews])} />
+              </div>
+              <p className="small-muted">
+                Privacy mode: {summary.privacy_mode}. Retention: {summary.retention_days} days.
+              </p>
+            </div>
+          </section>
+
+          <AnalyticsTable
+            title="Recent pageviews"
+            columns={['Time', 'Path', 'Referrer', 'Device', 'Browser', 'Lang']}
+            rows={(summary.recent || []).map((row) => [
+              new Date(row.ts).toLocaleString(),
+              row.path,
+              row.referrer_host,
+              row.device_type,
+              row.user_agent_family,
+              row.language,
+            ])}
+          />
+        </>
+      )}
+    </section>
+  );
+}
+
+function AnalyticsTable({ title, columns, rows }) {
+  return (
+    <article className="panel analytics-table-panel">
+      <p className="eyebrow">{title}</p>
+      <div className="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              {columns.map((column) => <th key={column}>{column}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {rows.length ? rows.map((row, index) => (
+              <tr key={`${title}-${index}`}>
+                {row.map((cell, cellIndex) => <td key={cellIndex}>{cell}</td>)}
+              </tr>
+            )) : (
+              <tr>
+                <td colSpan={columns.length}>No rows yet.</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </article>
+  );
+}
+
+function AnalyticsList({ title, rows }) {
+  return (
+    <div className="analytics-list">
+      <h3>{title}</h3>
+      {rows.length ? rows.map(([label, value]) => (
+        <div className="analytics-list-row" key={label}>
+          <span>{label}</span>
+          <strong>{value}</strong>
+        </div>
+      )) : <p className="small-muted">No rows yet.</p>}
+    </div>
   );
 }
 
