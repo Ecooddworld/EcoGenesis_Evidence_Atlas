@@ -3,7 +3,7 @@
   "summary": {
     "status": "pass",
     "packs": 2,
-    "checks": 142,
+    "checks": 139,
     "failed": 0
   },
   "scope": [
@@ -12,7 +12,7 @@
     "GSEG/GSIG claim-state viability as represented in generated evidence packs"
   ],
   "non_claim_boundaries": [
-    "This is an internal consistency and fail-closed proof over supplied inputs.",
+    "This is an internal formula-consistency and fail-closed check over supplied inputs.",
     "It is not an empirical species-delimitation validation over global biodiversity.",
     "It is not a claim that GBIF occurrence context upgrades molecular evidence."
   ],
@@ -22,7 +22,7 @@
       "scope": "default_mixed_demo",
       "summary": {
         "status": "pass",
-        "checks": 53,
+        "checks": 52,
         "failed": 0,
         "records": 4
       },
@@ -33,7 +33,7 @@
         "diagnostic_probability": "probability in [0, 1]"
       },
       "method_boundary": [
-        "The audit proves internal mathematical consistency for supplied evidence and frozen gates.",
+        "The audit checks internal formula consistency for supplied evidence and frozen gates.",
         "It does not prove absolute species truth outside the supplied reference context.",
         "It does not infer presence, absence, abundance, distribution, phenotype or function without external evidence.",
         "Reference completeness remains a visible caveat when no external reference-coverage audit is attached."
@@ -103,10 +103,26 @@
           "status": "pass",
           "observed": {
             "actual": {
+              "intra_max_distance": 0.009,
+              "inter_min_distance": 0.018,
+              "target_reference_count": 12,
+              "target_specimen_count": 12,
+              "intra_pair_count": 66,
+              "inter_taxon_count": 4,
+              "inter_reference_count": 30,
+              "inter_pair_count": 360,
+              "distance_method": "global_alignment_needleman_wunsch_edit_p_distance_v1",
+              "minimum_aligned_sites": 600,
+              "gap_ci_lower": 0.004,
+              "gap_ci_upper": 0.014,
+              "bootstrap_replicates": 1000,
+              "bootstrap_method": "stratified specimen bootstrap regression fixture",
               "status": "pass",
               "gap": 0.009,
-              "intra_max_distance": 0.009,
-              "inter_min_distance": 0.018
+              "minimum_target_reference_specimens": 3,
+              "minimum_inter_taxa": 2,
+              "minimum_aligned_sites_required": 80,
+              "minimum_bootstrap_replicates": 200
             },
             "expected": {
               "status": "pass",
@@ -119,21 +135,41 @@
           "status": "pass",
           "observed": {
             "actual": {
+              "reference_total_windows": 5000000,
+              "epsilon": 0.01,
+              "alpha": 0.01,
+              "k": 15,
+              "target_sequence_count": 12,
+              "negative_taxon_count": 4,
+              "negative_sequence_count": 30,
+              "conservation_fraction": 1.0,
+              "canonicalized": true,
+              "reverse_complement_checked": true,
+              "background_scope": "synthetic regression fixture; informational only and not externally audited",
               "status": "pass",
               "support_count": 3,
-              "support_rate": 0.004934,
-              "k": 15,
-              "query_window_count": 608,
+              "support_rate": 0.004732,
+              "query_window_count": 634,
               "diagnostic_kmer_count": 3,
               "expected_random_hits": 2e-06,
-              "p_false_positive": 1.7e-06,
-              "alpha": 0.01
+              "p_false_positive": 3.54e-06,
+              "minimum_support_count": 2,
+              "single_substitution_min_support": 1,
+              "sequencing_error_robustness_method": "exhaustive_single_position_kmer_loss_bound_v1",
+              "sequencing_error_robustness_pass": true,
+              "minimum_target_sequence_count": 3,
+              "minimum_negative_taxon_count": 2,
+              "minimum_negative_sequence_count": 6,
+              "minimum_conservation_fraction": 0.95,
+              "reference_sampling_pass": true,
+              "conservation_pass": true,
+              "canonical_contract_pass": true
             },
             "expected": {
               "status": "pass",
-              "support_rate": 0.004934,
+              "support_rate": 0.004732,
               "expected_random_hits": 2e-06,
-              "p_false_positive": 1.7e-06
+              "p_false_positive": 3.54e-06
             }
           }
         },
@@ -141,7 +177,7 @@
           "name": "AALB-COI-good:species_safe_implies_all_hard_gates",
           "status": "pass",
           "observed": {
-            "decisionClass": "species-safe",
+            "decisionClass": "ambiguous",
             "exact": true,
             "ambiguity": true,
             "barcodeGap": true,
@@ -156,8 +192,8 @@
           "name": "AALB-COI-good:published_taxon_requires_safe_decision_class",
           "status": "pass",
           "observed": {
-            "decisionClass": "species-safe",
-            "publishedRank": "species"
+            "decisionClass": "ambiguous",
+            "publishedRank": "none"
           }
         },
         {
@@ -221,10 +257,26 @@
           "status": "pass",
           "observed": {
             "actual": {
+              "intra_max_distance": 0.009,
+              "inter_min_distance": 0.018,
+              "target_reference_count": 12,
+              "target_specimen_count": 12,
+              "intra_pair_count": 66,
+              "inter_taxon_count": 4,
+              "inter_reference_count": 30,
+              "inter_pair_count": 360,
+              "distance_method": "global_alignment_needleman_wunsch_edit_p_distance_v1",
+              "minimum_aligned_sites": 600,
+              "gap_ci_lower": 0.004,
+              "gap_ci_upper": 0.014,
+              "bootstrap_replicates": 1000,
+              "bootstrap_method": "stratified specimen bootstrap regression fixture",
               "status": "pass",
               "gap": 0.009,
-              "intra_max_distance": 0.009,
-              "inter_min_distance": 0.018
+              "minimum_target_reference_specimens": 3,
+              "minimum_inter_taxa": 2,
+              "minimum_aligned_sites_required": 80,
+              "minimum_bootstrap_replicates": 200
             },
             "expected": {
               "status": "pass",
@@ -237,21 +289,41 @@
           "status": "pass",
           "observed": {
             "actual": {
+              "reference_total_windows": 5000000,
+              "epsilon": 0.01,
+              "alpha": 0.01,
+              "k": 15,
+              "target_sequence_count": 12,
+              "negative_taxon_count": 4,
+              "negative_sequence_count": 30,
+              "conservation_fraction": 1.0,
+              "canonicalized": true,
+              "reverse_complement_checked": true,
+              "background_scope": "synthetic regression fixture; informational only and not externally audited",
               "status": "pass",
               "support_count": 3,
-              "support_rate": 0.004934,
-              "k": 15,
-              "query_window_count": 608,
+              "support_rate": 0.004732,
+              "query_window_count": 634,
               "diagnostic_kmer_count": 3,
               "expected_random_hits": 2e-06,
-              "p_false_positive": 1.7e-06,
-              "alpha": 0.01
+              "p_false_positive": 3.54e-06,
+              "minimum_support_count": 2,
+              "single_substitution_min_support": 1,
+              "sequencing_error_robustness_method": "exhaustive_single_position_kmer_loss_bound_v1",
+              "sequencing_error_robustness_pass": true,
+              "minimum_target_sequence_count": 3,
+              "minimum_negative_taxon_count": 2,
+              "minimum_negative_sequence_count": 6,
+              "minimum_conservation_fraction": 0.95,
+              "reference_sampling_pass": true,
+              "conservation_pass": true,
+              "canonical_contract_pass": true
             },
             "expected": {
               "status": "pass",
-              "support_rate": 0.004934,
+              "support_rate": 0.004732,
               "expected_random_hits": 2e-06,
-              "p_false_positive": 1.7e-06
+              "p_false_positive": 3.54e-06
             }
           }
         },
@@ -337,10 +409,26 @@
           "status": "pass",
           "observed": {
             "actual": {
+              "intra_max_distance": 0.009,
+              "inter_min_distance": 0.018,
+              "target_reference_count": 12,
+              "target_specimen_count": 12,
+              "intra_pair_count": 66,
+              "inter_taxon_count": 4,
+              "inter_reference_count": 30,
+              "inter_pair_count": 360,
+              "distance_method": "global_alignment_needleman_wunsch_edit_p_distance_v1",
+              "minimum_aligned_sites": 600,
+              "gap_ci_lower": 0.004,
+              "gap_ci_upper": 0.014,
+              "bootstrap_replicates": 1000,
+              "bootstrap_method": "stratified specimen bootstrap regression fixture",
               "status": "pass",
               "gap": 0.009,
-              "intra_max_distance": 0.009,
-              "inter_min_distance": 0.018
+              "minimum_target_reference_specimens": 3,
+              "minimum_inter_taxa": 2,
+              "minimum_aligned_sites_required": 80,
+              "minimum_bootstrap_replicates": 200
             },
             "expected": {
               "status": "pass",
@@ -353,21 +441,41 @@
           "status": "pass",
           "observed": {
             "actual": {
+              "reference_total_windows": 5000000,
+              "epsilon": 0.01,
+              "alpha": 0.01,
+              "k": 15,
+              "target_sequence_count": 12,
+              "negative_taxon_count": 4,
+              "negative_sequence_count": 30,
+              "conservation_fraction": 1.0,
+              "canonicalized": true,
+              "reverse_complement_checked": true,
+              "background_scope": "synthetic regression fixture; informational only and not externally audited",
               "status": "pass",
               "support_count": 3,
-              "support_rate": 0.004934,
-              "k": 15,
-              "query_window_count": 608,
+              "support_rate": 0.004732,
+              "query_window_count": 634,
               "diagnostic_kmer_count": 3,
               "expected_random_hits": 2e-06,
-              "p_false_positive": 1.7e-06,
-              "alpha": 0.01
+              "p_false_positive": 3.54e-06,
+              "minimum_support_count": 2,
+              "single_substitution_min_support": 1,
+              "sequencing_error_robustness_method": "exhaustive_single_position_kmer_loss_bound_v1",
+              "sequencing_error_robustness_pass": true,
+              "minimum_target_sequence_count": 3,
+              "minimum_negative_taxon_count": 2,
+              "minimum_negative_sequence_count": 6,
+              "minimum_conservation_fraction": 0.95,
+              "reference_sampling_pass": true,
+              "conservation_pass": true,
+              "canonical_contract_pass": true
             },
             "expected": {
               "status": "pass",
-              "support_rate": 0.004934,
+              "support_rate": 0.004732,
               "expected_random_hits": 2e-06,
-              "p_false_positive": 1.7e-06
+              "p_false_positive": 3.54e-06
             }
           }
         },
@@ -453,10 +561,26 @@
           "status": "pass",
           "observed": {
             "actual": {
+              "intra_max_distance": 0.009,
+              "inter_min_distance": 0.018,
+              "target_reference_count": 12,
+              "target_specimen_count": 12,
+              "intra_pair_count": 66,
+              "inter_taxon_count": 4,
+              "inter_reference_count": 30,
+              "inter_pair_count": 360,
+              "distance_method": "global_alignment_needleman_wunsch_edit_p_distance_v1",
+              "minimum_aligned_sites": 600,
+              "gap_ci_lower": 0.004,
+              "gap_ci_upper": 0.014,
+              "bootstrap_replicates": 1000,
+              "bootstrap_method": "stratified specimen bootstrap regression fixture",
               "status": "pass",
               "gap": 0.009,
-              "intra_max_distance": 0.009,
-              "inter_min_distance": 0.018
+              "minimum_target_reference_specimens": 3,
+              "minimum_inter_taxa": 2,
+              "minimum_aligned_sites_required": 80,
+              "minimum_bootstrap_replicates": 200
             },
             "expected": {
               "status": "pass",
@@ -469,21 +593,41 @@
           "status": "pass",
           "observed": {
             "actual": {
+              "reference_total_windows": 5000000,
+              "epsilon": 0.01,
+              "alpha": 0.01,
+              "k": 15,
+              "target_sequence_count": 12,
+              "negative_taxon_count": 4,
+              "negative_sequence_count": 30,
+              "conservation_fraction": 1.0,
+              "canonicalized": true,
+              "reverse_complement_checked": true,
+              "background_scope": "synthetic regression fixture; informational only and not externally audited",
               "status": "pass",
               "support_count": 3,
-              "support_rate": 0.004934,
-              "k": 15,
-              "query_window_count": 608,
+              "support_rate": 0.004732,
+              "query_window_count": 634,
               "diagnostic_kmer_count": 3,
               "expected_random_hits": 2e-06,
-              "p_false_positive": 1.7e-06,
-              "alpha": 0.01
+              "p_false_positive": 3.54e-06,
+              "minimum_support_count": 2,
+              "single_substitution_min_support": 1,
+              "sequencing_error_robustness_method": "exhaustive_single_position_kmer_loss_bound_v1",
+              "sequencing_error_robustness_pass": true,
+              "minimum_target_sequence_count": 3,
+              "minimum_negative_taxon_count": 2,
+              "minimum_negative_sequence_count": 6,
+              "minimum_conservation_fraction": 0.95,
+              "reference_sampling_pass": true,
+              "conservation_pass": true,
+              "canonical_contract_pass": true
             },
             "expected": {
               "status": "pass",
-              "support_rate": 0.004934,
+              "support_rate": 0.004732,
               "expected_random_hits": 2e-06,
-              "p_false_positive": 1.7e-06
+              "p_false_positive": 3.54e-06
             }
           }
         },
@@ -491,7 +635,7 @@
           "name": "AALB-COI-metadata-gap:species_safe_implies_all_hard_gates",
           "status": "pass",
           "observed": {
-            "decisionClass": "not-publishable",
+            "decisionClass": "ambiguous",
             "exact": true,
             "ambiguity": true,
             "barcodeGap": true,
@@ -503,18 +647,10 @@
           }
         },
         {
-          "name": "AALB-COI-metadata-gap:metadata_cannot_publish_safe_taxon",
-          "status": "pass",
-          "observed": {
-            "publishedRank": "none",
-            "exportState": "evidence_publishable_repair_required"
-          }
-        },
-        {
           "name": "AALB-COI-metadata-gap:published_taxon_requires_safe_decision_class",
           "status": "pass",
           "observed": {
-            "decisionClass": "not-publishable",
+            "decisionClass": "ambiguous",
             "publishedRank": "none"
           }
         },
@@ -530,8 +666,8 @@
           "name": "metrics:species_safe_records",
           "status": "pass",
           "observed": {
-            "actual": 1,
-            "expected": 1
+            "actual": 0,
+            "expected": 0
           }
         },
         {
@@ -554,16 +690,16 @@
           "name": "metrics:not_publishable_records",
           "status": "pass",
           "observed": {
-            "actual": 1,
-            "expected": 1
+            "actual": 0,
+            "expected": 0
           }
         },
         {
           "name": "metrics:safe_rank_records",
           "status": "pass",
           "observed": {
-            "actual": 2,
-            "expected": 2
+            "actual": 1,
+            "expected": 1
           }
         },
         {
@@ -578,20 +714,28 @@
           "name": "metrics:blocked_species_claims",
           "status": "pass",
           "observed": {
-            "actual": 3,
-            "expected": 3
+            "actual": 4,
+            "expected": 4
           }
         },
         {
           "name": "metrics:publishable_template_records",
           "status": "pass",
           "observed": {
-            "actual": 2,
-            "expected": 2
+            "actual": 1,
+            "expected": 1
           }
         },
         {
           "name": "metrics:species_safe_yield",
+          "status": "pass",
+          "observed": {
+            "actual": 0.0,
+            "expected": 0.0
+          }
+        },
+        {
+          "name": "metrics:safe_rank_yield",
           "status": "pass",
           "observed": {
             "actual": 0.25,
@@ -599,27 +743,19 @@
           }
         },
         {
-          "name": "metrics:safe_rank_yield",
-          "status": "pass",
-          "observed": {
-            "actual": 0.5,
-            "expected": 0.5
-          }
-        },
-        {
           "name": "metrics:molecular_evidence_conversion_yield",
           "status": "pass",
           "observed": {
-            "actual": 0.5,
-            "expected": 0.5
+            "actual": 0.25,
+            "expected": 0.25
           }
         },
         {
           "name": "metrics:overclaim_prevention_rate",
           "status": "pass",
           "observed": {
-            "actual": 0.75,
-            "expected": 0.75
+            "actual": 1.0,
+            "expected": 1.0
           }
         },
         {
@@ -639,7 +775,7 @@
       "scope": "edge_case_suite",
       "summary": {
         "status": "pass",
-        "checks": 89,
+        "checks": 87,
         "failed": 0,
         "records": 8
       },
@@ -650,7 +786,7 @@
         "diagnostic_probability": "probability in [0, 1]"
       },
       "method_boundary": [
-        "The audit proves internal mathematical consistency for supplied evidence and frozen gates.",
+        "The audit checks internal formula consistency for supplied evidence and frozen gates.",
         "It does not prove absolute species truth outside the supplied reference context.",
         "It does not infer presence, absence, abundance, distribution, phenotype or function without external evidence.",
         "Reference completeness remains a visible caveat when no external reference-coverage audit is attached."
@@ -720,10 +856,26 @@
           "status": "pass",
           "observed": {
             "actual": {
+              "intra_max_distance": 0.009,
+              "inter_min_distance": 0.018,
+              "target_reference_count": 12,
+              "target_specimen_count": 12,
+              "intra_pair_count": 66,
+              "inter_taxon_count": 4,
+              "inter_reference_count": 30,
+              "inter_pair_count": 360,
+              "distance_method": "global_alignment_needleman_wunsch_edit_p_distance_v1",
+              "minimum_aligned_sites": 600,
+              "gap_ci_lower": 0.004,
+              "gap_ci_upper": 0.014,
+              "bootstrap_replicates": 1000,
+              "bootstrap_method": "stratified specimen bootstrap regression fixture",
               "status": "pass",
               "gap": 0.009,
-              "intra_max_distance": 0.009,
-              "inter_min_distance": 0.018
+              "minimum_target_reference_specimens": 3,
+              "minimum_inter_taxa": 2,
+              "minimum_aligned_sites_required": 80,
+              "minimum_bootstrap_replicates": 200
             },
             "expected": {
               "status": "pass",
@@ -736,21 +888,41 @@
           "status": "pass",
           "observed": {
             "actual": {
+              "reference_total_windows": 5000000,
+              "epsilon": 0.01,
+              "alpha": 0.01,
+              "k": 15,
+              "target_sequence_count": 12,
+              "negative_taxon_count": 4,
+              "negative_sequence_count": 30,
+              "conservation_fraction": 1.0,
+              "canonicalized": true,
+              "reverse_complement_checked": true,
+              "background_scope": "synthetic regression fixture; informational only and not externally audited",
               "status": "pass",
               "support_count": 3,
-              "support_rate": 0.004934,
-              "k": 15,
-              "query_window_count": 608,
+              "support_rate": 0.004732,
+              "query_window_count": 634,
               "diagnostic_kmer_count": 3,
               "expected_random_hits": 2e-06,
-              "p_false_positive": 1.7e-06,
-              "alpha": 0.01
+              "p_false_positive": 3.54e-06,
+              "minimum_support_count": 2,
+              "single_substitution_min_support": 1,
+              "sequencing_error_robustness_method": "exhaustive_single_position_kmer_loss_bound_v1",
+              "sequencing_error_robustness_pass": true,
+              "minimum_target_sequence_count": 3,
+              "minimum_negative_taxon_count": 2,
+              "minimum_negative_sequence_count": 6,
+              "minimum_conservation_fraction": 0.95,
+              "reference_sampling_pass": true,
+              "conservation_pass": true,
+              "canonical_contract_pass": true
             },
             "expected": {
               "status": "pass",
-              "support_rate": 0.004934,
+              "support_rate": 0.004732,
               "expected_random_hits": 2e-06,
-              "p_false_positive": 1.7e-06
+              "p_false_positive": 3.54e-06
             }
           }
         },
@@ -758,7 +930,7 @@
           "name": "MATH-good:species_safe_implies_all_hard_gates",
           "status": "pass",
           "observed": {
-            "decisionClass": "species-safe",
+            "decisionClass": "ambiguous",
             "exact": true,
             "ambiguity": true,
             "barcodeGap": true,
@@ -773,8 +945,8 @@
           "name": "MATH-good:published_taxon_requires_safe_decision_class",
           "status": "pass",
           "observed": {
-            "decisionClass": "species-safe",
-            "publishedRank": "species"
+            "decisionClass": "ambiguous",
+            "publishedRank": "none"
           }
         },
         {
@@ -838,10 +1010,26 @@
           "status": "pass",
           "observed": {
             "actual": {
+              "intra_max_distance": 0.009,
+              "inter_min_distance": 0.018,
+              "target_reference_count": 12,
+              "target_specimen_count": 12,
+              "intra_pair_count": 66,
+              "inter_taxon_count": 4,
+              "inter_reference_count": 30,
+              "inter_pair_count": 360,
+              "distance_method": "global_alignment_needleman_wunsch_edit_p_distance_v1",
+              "minimum_aligned_sites": 600,
+              "gap_ci_lower": 0.004,
+              "gap_ci_upper": 0.014,
+              "bootstrap_replicates": 1000,
+              "bootstrap_method": "stratified specimen bootstrap regression fixture",
               "status": "pass",
               "gap": 0.009,
-              "intra_max_distance": 0.009,
-              "inter_min_distance": 0.018
+              "minimum_target_reference_specimens": 3,
+              "minimum_inter_taxa": 2,
+              "minimum_aligned_sites_required": 80,
+              "minimum_bootstrap_replicates": 200
             },
             "expected": {
               "status": "pass",
@@ -854,21 +1042,41 @@
           "status": "pass",
           "observed": {
             "actual": {
+              "reference_total_windows": 5000000,
+              "epsilon": 0.01,
+              "alpha": 0.01,
+              "k": 15,
+              "target_sequence_count": 12,
+              "negative_taxon_count": 4,
+              "negative_sequence_count": 30,
+              "conservation_fraction": 1.0,
+              "canonicalized": true,
+              "reverse_complement_checked": true,
+              "background_scope": "synthetic regression fixture; informational only and not externally audited",
               "status": "pass",
               "support_count": 3,
-              "support_rate": 0.004934,
-              "k": 15,
-              "query_window_count": 608,
+              "support_rate": 0.004732,
+              "query_window_count": 634,
               "diagnostic_kmer_count": 3,
               "expected_random_hits": 2e-06,
-              "p_false_positive": 1.7e-06,
-              "alpha": 0.01
+              "p_false_positive": 3.54e-06,
+              "minimum_support_count": 2,
+              "single_substitution_min_support": 1,
+              "sequencing_error_robustness_method": "exhaustive_single_position_kmer_loss_bound_v1",
+              "sequencing_error_robustness_pass": true,
+              "minimum_target_sequence_count": 3,
+              "minimum_negative_taxon_count": 2,
+              "minimum_negative_sequence_count": 6,
+              "minimum_conservation_fraction": 0.95,
+              "reference_sampling_pass": true,
+              "conservation_pass": true,
+              "canonical_contract_pass": true
             },
             "expected": {
               "status": "pass",
-              "support_rate": 0.004934,
+              "support_rate": 0.004732,
               "expected_random_hits": 2e-06,
-              "p_false_positive": 1.7e-06
+              "p_false_positive": 3.54e-06
             }
           }
         },
@@ -954,10 +1162,26 @@
           "status": "pass",
           "observed": {
             "actual": {
+              "intra_max_distance": 0.009,
+              "inter_min_distance": 0.018,
+              "target_reference_count": 12,
+              "target_specimen_count": 12,
+              "intra_pair_count": 66,
+              "inter_taxon_count": 4,
+              "inter_reference_count": 30,
+              "inter_pair_count": 360,
+              "distance_method": "global_alignment_needleman_wunsch_edit_p_distance_v1",
+              "minimum_aligned_sites": 600,
+              "gap_ci_lower": 0.004,
+              "gap_ci_upper": 0.014,
+              "bootstrap_replicates": 1000,
+              "bootstrap_method": "stratified specimen bootstrap regression fixture",
               "status": "pass",
               "gap": 0.009,
-              "intra_max_distance": 0.009,
-              "inter_min_distance": 0.018
+              "minimum_target_reference_specimens": 3,
+              "minimum_inter_taxa": 2,
+              "minimum_aligned_sites_required": 80,
+              "minimum_bootstrap_replicates": 200
             },
             "expected": {
               "status": "pass",
@@ -970,21 +1194,41 @@
           "status": "pass",
           "observed": {
             "actual": {
+              "reference_total_windows": 5000000,
+              "epsilon": 0.01,
+              "alpha": 0.01,
+              "k": 15,
+              "target_sequence_count": 12,
+              "negative_taxon_count": 4,
+              "negative_sequence_count": 30,
+              "conservation_fraction": 1.0,
+              "canonicalized": true,
+              "reverse_complement_checked": true,
+              "background_scope": "synthetic regression fixture; informational only and not externally audited",
               "status": "pass",
               "support_count": 3,
-              "support_rate": 0.004934,
-              "k": 15,
-              "query_window_count": 608,
+              "support_rate": 0.004732,
+              "query_window_count": 634,
               "diagnostic_kmer_count": 3,
               "expected_random_hits": 2e-06,
-              "p_false_positive": 1.7e-06,
-              "alpha": 0.01
+              "p_false_positive": 3.54e-06,
+              "minimum_support_count": 2,
+              "single_substitution_min_support": 1,
+              "sequencing_error_robustness_method": "exhaustive_single_position_kmer_loss_bound_v1",
+              "sequencing_error_robustness_pass": true,
+              "minimum_target_sequence_count": 3,
+              "minimum_negative_taxon_count": 2,
+              "minimum_negative_sequence_count": 6,
+              "minimum_conservation_fraction": 0.95,
+              "reference_sampling_pass": true,
+              "conservation_pass": true,
+              "canonical_contract_pass": true
             },
             "expected": {
               "status": "pass",
-              "support_rate": 0.004934,
+              "support_rate": 0.004732,
               "expected_random_hits": 2e-06,
-              "p_false_positive": 1.7e-06
+              "p_false_positive": 3.54e-06
             }
           }
         },
@@ -1070,10 +1314,26 @@
           "status": "pass",
           "observed": {
             "actual": {
+              "intra_max_distance": 0.009,
+              "inter_min_distance": 0.018,
+              "target_reference_count": 12,
+              "target_specimen_count": 12,
+              "intra_pair_count": 66,
+              "inter_taxon_count": 4,
+              "inter_reference_count": 30,
+              "inter_pair_count": 360,
+              "distance_method": "global_alignment_needleman_wunsch_edit_p_distance_v1",
+              "minimum_aligned_sites": 600,
+              "gap_ci_lower": 0.004,
+              "gap_ci_upper": 0.014,
+              "bootstrap_replicates": 1000,
+              "bootstrap_method": "stratified specimen bootstrap regression fixture",
               "status": "pass",
               "gap": 0.009,
-              "intra_max_distance": 0.009,
-              "inter_min_distance": 0.018
+              "minimum_target_reference_specimens": 3,
+              "minimum_inter_taxa": 2,
+              "minimum_aligned_sites_required": 80,
+              "minimum_bootstrap_replicates": 200
             },
             "expected": {
               "status": "pass",
@@ -1086,21 +1346,41 @@
           "status": "pass",
           "observed": {
             "actual": {
+              "reference_total_windows": 5000000,
+              "epsilon": 0.01,
+              "alpha": 0.01,
+              "k": 15,
+              "target_sequence_count": 12,
+              "negative_taxon_count": 4,
+              "negative_sequence_count": 30,
+              "conservation_fraction": 1.0,
+              "canonicalized": true,
+              "reverse_complement_checked": true,
+              "background_scope": "synthetic regression fixture; informational only and not externally audited",
               "status": "pass",
               "support_count": 3,
-              "support_rate": 0.004934,
-              "k": 15,
-              "query_window_count": 608,
+              "support_rate": 0.004732,
+              "query_window_count": 634,
               "diagnostic_kmer_count": 3,
               "expected_random_hits": 2e-06,
-              "p_false_positive": 1.7e-06,
-              "alpha": 0.01
+              "p_false_positive": 3.54e-06,
+              "minimum_support_count": 2,
+              "single_substitution_min_support": 1,
+              "sequencing_error_robustness_method": "exhaustive_single_position_kmer_loss_bound_v1",
+              "sequencing_error_robustness_pass": true,
+              "minimum_target_sequence_count": 3,
+              "minimum_negative_taxon_count": 2,
+              "minimum_negative_sequence_count": 6,
+              "minimum_conservation_fraction": 0.95,
+              "reference_sampling_pass": true,
+              "conservation_pass": true,
+              "canonical_contract_pass": true
             },
             "expected": {
               "status": "pass",
-              "support_rate": 0.004934,
+              "support_rate": 0.004732,
               "expected_random_hits": 2e-06,
-              "p_false_positive": 1.7e-06
+              "p_false_positive": 3.54e-06
             }
           }
         },
@@ -1108,7 +1388,7 @@
           "name": "MATH-metadata-gap:species_safe_implies_all_hard_gates",
           "status": "pass",
           "observed": {
-            "decisionClass": "not-publishable",
+            "decisionClass": "ambiguous",
             "exact": true,
             "ambiguity": true,
             "barcodeGap": true,
@@ -1120,18 +1400,10 @@
           }
         },
         {
-          "name": "MATH-metadata-gap:metadata_cannot_publish_safe_taxon",
-          "status": "pass",
-          "observed": {
-            "publishedRank": "none",
-            "exportState": "evidence_publishable_repair_required"
-          }
-        },
-        {
           "name": "MATH-metadata-gap:published_taxon_requires_safe_decision_class",
           "status": "pass",
           "observed": {
-            "decisionClass": "not-publishable",
+            "decisionClass": "ambiguous",
             "publishedRank": "none"
           }
         },
@@ -1194,13 +1466,29 @@
           "status": "pass",
           "observed": {
             "actual": {
-              "status": "fail",
-              "gap": -0.005,
               "intra_max_distance": 0.02,
-              "inter_min_distance": 0.015
+              "inter_min_distance": 0.015,
+              "target_reference_count": 12,
+              "target_specimen_count": 12,
+              "intra_pair_count": 66,
+              "inter_taxon_count": 4,
+              "inter_reference_count": 30,
+              "inter_pair_count": 360,
+              "distance_method": "global_alignment_needleman_wunsch_edit_p_distance_v1",
+              "minimum_aligned_sites": 600,
+              "gap_ci_lower": -0.01,
+              "gap_ci_upper": 0.0,
+              "bootstrap_replicates": 1000,
+              "bootstrap_method": "stratified specimen bootstrap regression fixture",
+              "status": "fail_gap_confidence_interval_crosses_zero",
+              "gap": -0.005,
+              "minimum_target_reference_specimens": 3,
+              "minimum_inter_taxa": 2,
+              "minimum_aligned_sites_required": 80,
+              "minimum_bootstrap_replicates": 200
             },
             "expected": {
-              "status": "fail",
+              "status": "fail_gap_confidence_interval_crosses_zero",
               "gap": -0.005
             }
           }
@@ -1210,21 +1498,41 @@
           "status": "pass",
           "observed": {
             "actual": {
+              "reference_total_windows": 5000000,
+              "epsilon": 0.01,
+              "alpha": 0.01,
+              "k": 15,
+              "target_sequence_count": 12,
+              "negative_taxon_count": 4,
+              "negative_sequence_count": 30,
+              "conservation_fraction": 1.0,
+              "canonicalized": true,
+              "reverse_complement_checked": true,
+              "background_scope": "synthetic regression fixture; informational only and not externally audited",
               "status": "pass",
               "support_count": 3,
-              "support_rate": 0.004934,
-              "k": 15,
-              "query_window_count": 608,
+              "support_rate": 0.004732,
+              "query_window_count": 634,
               "diagnostic_kmer_count": 3,
               "expected_random_hits": 2e-06,
-              "p_false_positive": 1.7e-06,
-              "alpha": 0.01
+              "p_false_positive": 3.54e-06,
+              "minimum_support_count": 2,
+              "single_substitution_min_support": 1,
+              "sequencing_error_robustness_method": "exhaustive_single_position_kmer_loss_bound_v1",
+              "sequencing_error_robustness_pass": true,
+              "minimum_target_sequence_count": 3,
+              "minimum_negative_taxon_count": 2,
+              "minimum_negative_sequence_count": 6,
+              "minimum_conservation_fraction": 0.95,
+              "reference_sampling_pass": true,
+              "conservation_pass": true,
+              "canonical_contract_pass": true
             },
             "expected": {
               "status": "pass",
-              "support_rate": 0.004934,
+              "support_rate": 0.004732,
               "expected_random_hits": 2e-06,
-              "p_false_positive": 1.7e-06
+              "p_false_positive": 3.54e-06
             }
           }
         },
@@ -1310,10 +1618,26 @@
           "status": "pass",
           "observed": {
             "actual": {
+              "intra_max_distance": 0.009,
+              "inter_min_distance": 0.018,
+              "target_reference_count": 12,
+              "target_specimen_count": 12,
+              "intra_pair_count": 66,
+              "inter_taxon_count": 4,
+              "inter_reference_count": 30,
+              "inter_pair_count": 360,
+              "distance_method": "global_alignment_needleman_wunsch_edit_p_distance_v1",
+              "minimum_aligned_sites": 600,
+              "gap_ci_lower": 0.004,
+              "gap_ci_upper": 0.014,
+              "bootstrap_replicates": 1000,
+              "bootstrap_method": "stratified specimen bootstrap regression fixture",
               "status": "pass",
               "gap": 0.009,
-              "intra_max_distance": 0.009,
-              "inter_min_distance": 0.018
+              "minimum_target_reference_specimens": 3,
+              "minimum_inter_taxa": 2,
+              "minimum_aligned_sites_required": 80,
+              "minimum_bootstrap_replicates": 200
             },
             "expected": {
               "status": "pass",
@@ -1422,10 +1746,26 @@
           "status": "pass",
           "observed": {
             "actual": {
+              "intra_max_distance": 0.009,
+              "inter_min_distance": 0.018,
+              "target_reference_count": 12,
+              "target_specimen_count": 12,
+              "intra_pair_count": 66,
+              "inter_taxon_count": 4,
+              "inter_reference_count": 30,
+              "inter_pair_count": 360,
+              "distance_method": "global_alignment_needleman_wunsch_edit_p_distance_v1",
+              "minimum_aligned_sites": 600,
+              "gap_ci_lower": 0.004,
+              "gap_ci_upper": 0.014,
+              "bootstrap_replicates": 1000,
+              "bootstrap_method": "stratified specimen bootstrap regression fixture",
               "status": "pass",
               "gap": 0.009,
-              "intra_max_distance": 0.009,
-              "inter_min_distance": 0.018
+              "minimum_target_reference_specimens": 3,
+              "minimum_inter_taxa": 2,
+              "minimum_aligned_sites_required": 80,
+              "minimum_bootstrap_replicates": 200
             },
             "expected": {
               "status": "pass",
@@ -1438,21 +1778,41 @@
           "status": "pass",
           "observed": {
             "actual": {
+              "reference_total_windows": 5000000,
+              "epsilon": 0.01,
+              "alpha": 0.01,
+              "k": 15,
+              "target_sequence_count": 12,
+              "negative_taxon_count": 4,
+              "negative_sequence_count": 30,
+              "conservation_fraction": 1.0,
+              "canonicalized": true,
+              "reverse_complement_checked": true,
+              "background_scope": "synthetic regression fixture; informational only and not externally audited",
               "status": "pass",
               "support_count": 3,
-              "support_rate": 0.004934,
-              "k": 15,
-              "query_window_count": 608,
+              "support_rate": 0.004732,
+              "query_window_count": 634,
               "diagnostic_kmer_count": 3,
               "expected_random_hits": 2e-06,
-              "p_false_positive": 1.7e-06,
-              "alpha": 0.01
+              "p_false_positive": 3.54e-06,
+              "minimum_support_count": 2,
+              "single_substitution_min_support": 1,
+              "sequencing_error_robustness_method": "exhaustive_single_position_kmer_loss_bound_v1",
+              "sequencing_error_robustness_pass": true,
+              "minimum_target_sequence_count": 3,
+              "minimum_negative_taxon_count": 2,
+              "minimum_negative_sequence_count": 6,
+              "minimum_conservation_fraction": 0.95,
+              "reference_sampling_pass": true,
+              "conservation_pass": true,
+              "canonical_contract_pass": true
             },
             "expected": {
               "status": "pass",
-              "support_rate": 0.004934,
+              "support_rate": 0.004732,
               "expected_random_hits": 2e-06,
-              "p_false_positive": 1.7e-06
+              "p_false_positive": 3.54e-06
             }
           }
         },
@@ -1460,7 +1820,7 @@
           "name": "MATH-qPCR-controls:species_safe_implies_all_hard_gates",
           "status": "pass",
           "observed": {
-            "decisionClass": "not-publishable",
+            "decisionClass": "ambiguous",
             "exact": true,
             "ambiguity": true,
             "barcodeGap": true,
@@ -1472,18 +1832,10 @@
           }
         },
         {
-          "name": "MATH-qPCR-controls:metadata_cannot_publish_safe_taxon",
-          "status": "pass",
-          "observed": {
-            "publishedRank": "none",
-            "exportState": "evidence_publishable_repair_required"
-          }
-        },
-        {
           "name": "MATH-qPCR-controls:published_taxon_requires_safe_decision_class",
           "status": "pass",
           "observed": {
-            "decisionClass": "not-publishable",
+            "decisionClass": "ambiguous",
             "publishedRank": "none"
           }
         },
@@ -1596,8 +1948,8 @@
           "name": "metrics:species_safe_records",
           "status": "pass",
           "observed": {
-            "actual": 1,
-            "expected": 1
+            "actual": 0,
+            "expected": 0
           }
         },
         {
@@ -1620,16 +1972,16 @@
           "name": "metrics:not_publishable_records",
           "status": "pass",
           "observed": {
-            "actual": 2,
-            "expected": 2
+            "actual": 0,
+            "expected": 0
           }
         },
         {
           "name": "metrics:safe_rank_records",
           "status": "pass",
           "observed": {
-            "actual": 2,
-            "expected": 2
+            "actual": 1,
+            "expected": 1
           }
         },
         {
@@ -1644,20 +1996,28 @@
           "name": "metrics:blocked_species_claims",
           "status": "pass",
           "observed": {
-            "actual": 6,
-            "expected": 6
+            "actual": 7,
+            "expected": 7
           }
         },
         {
           "name": "metrics:publishable_template_records",
           "status": "pass",
           "observed": {
-            "actual": 2,
-            "expected": 2
+            "actual": 1,
+            "expected": 1
           }
         },
         {
           "name": "metrics:species_safe_yield",
+          "status": "pass",
+          "observed": {
+            "actual": 0.0,
+            "expected": 0.0
+          }
+        },
+        {
+          "name": "metrics:safe_rank_yield",
           "status": "pass",
           "observed": {
             "actual": 0.125,
@@ -1665,27 +2025,19 @@
           }
         },
         {
-          "name": "metrics:safe_rank_yield",
-          "status": "pass",
-          "observed": {
-            "actual": 0.25,
-            "expected": 0.25
-          }
-        },
-        {
           "name": "metrics:molecular_evidence_conversion_yield",
           "status": "pass",
           "observed": {
-            "actual": 0.25,
-            "expected": 0.25
+            "actual": 0.125,
+            "expected": 0.125
           }
         },
         {
           "name": "metrics:overclaim_prevention_rate",
           "status": "pass",
           "observed": {
-            "actual": 0.857143,
-            "expected": 0.857143
+            "actual": 1.0,
+            "expected": 1.0
           }
         },
         {

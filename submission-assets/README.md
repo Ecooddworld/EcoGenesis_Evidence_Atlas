@@ -1,6 +1,6 @@
 # GBIF 2026 Submission Assets
 
-This folder contains the materials prepared for the 2026 GBIF Ebbe Nielsen Challenge submission.
+This folder contains the materials prepared for the 2026 GBIF Ebbe Nielsen Challenge submission. Current copy describes EcoGenesis as a rule-based contest prototype: outputs are validation candidates, not independently validated identifications or accepted GBIF publications. The canonical product and testing boundaries are in `../README.md`, `../docs/submission.md`, `../docs/barcode-compiler-methodology.md` and `../docs/testing.md`.
 
 ## Canonical Files
 
@@ -10,8 +10,8 @@ This folder contains the materials prepared for the 2026 GBIF Ebbe Nielsen Chall
 - `judge-walkthrough.md`: compact video/demo script for judges and release notes.
 - `barcode-video-script.md`: final video script for the current CSV Upload -> Score workflow.
 - `barcode-entry-form-draft.md`: shorter project-specific entry text.
-- `../docs/nexus-v3/`: Nexus V3 project documentation, validation report, demo report and GBIF pitch material.
-- `../docs/gsig-observatory.md` and `../reports/observatory-demo/`: Observatory contract/API documentation and generated OPO evidence pack.
+- `../docs/nexus-v3/`: historical Nexus V3 design material; current claims are governed by the canonical docs above.
+- `../docs/gsig-observatory.md` and `../reports/observatory-demo/`: Evidence Map contract/API documentation and generated release-check pack.
 - `../references/aedes_coi_mini/` and `../reports/synthetic-ambiguity-benchmark/`: V3 reference-search example, mini FASTA manifest, and naive top-hit vs EcoGenesis benchmark evidence.
 
 ## Final Local Video
@@ -21,6 +21,16 @@ This folder contains the materials prepared for the 2026 GBIF Ebbe Nielsen Chall
 - `contest-video-v2/video/ecogenesis-gbif-contest-demo-english-voiceover.txt`: voiceover transcript.
 - `contest-video-v2/video/ecogenesis-gbif-contest-demo-transcript.md`: additional transcript.
 - `contest-video-v2/video/demo-thumbnail-contest-en.png`: local thumbnail.
+
+The current MP4 is regenerated from the adjacent voiceover and SRT. If those files and the MP4 do not share the same remediation commit, treat the MP4 as stale and do not submit it.
+
+## ARCHIVED Pre-Remediation Materials
+
+Do not submit the following as current product copy. They predate the bounded-claim and validation-candidate terminology:
+
+- `gbif-submission-assets.zip`: archived repository snapshot; see `gbif-submission-assets.zip.ARCHIVED.md`.
+- `video-voiceover.txt`, `demo-video-captions.srt` and `build_submission_video.sh`: archived first-generation occurrence-audit video materials.
+- `contest-video-v2/pptx-slides/` and `contest-video-v2/site-screens/`: historical visual captures; use the current transcript and live product for authoritative wording.
 
 ## Recommended Public Links
 

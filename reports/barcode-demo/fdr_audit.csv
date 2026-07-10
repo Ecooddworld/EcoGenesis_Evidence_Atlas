@@ -1,0 +1,2 @@
+testFamily,pvalues,discoveries,alpha,oracleMatchesExpected,status,caveat
+reference_oracle_bh_fdr,0.001; 0.02; 0.2,True; True; False,0.05,True,not_applicable_no_hypothesis_tests,"This is a unit oracle only. No trait-association hypothesis family is present in this run, so no empirical FDR claim is made."

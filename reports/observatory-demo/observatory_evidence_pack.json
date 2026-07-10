@@ -1,71 +1,72 @@
 {
   "schema": "ecogenesis.gsig.observatory.evidence_pack.v1",
   "run": {
-    "run_id": "38d525a51d8546e598b9f5cbe9864c42",
+    "run_id": "0026e96063174d8f96d6066a7d59c14c",
     "mode": "offline_demo",
-    "started_at": "2026-06-14T22:03:14.450380+00:00",
-    "finished_at": "2026-06-14T22:03:14.578252+00:00",
+    "started_at": "2026-07-10T11:36:53.573704+00:00",
+    "finished_at": "2026-07-10T11:36:53.801292+00:00",
     "tool": "EcoGenesis GSIG Observatory",
     "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-    "barcode_run_id": "0bf2e37ba9354de2859702a12d2efe9e",
+    "barcode_run_id": "957711dbf1c4444cbcbbb141f194657f",
     "contract_validation": {
       "status": "pass",
       "checks": {
         "source_registry": [],
         "pipeline_dag": [],
         "ui_contract": [],
-        "proof_obligations": []
+        "release_checks": []
       },
       "contract_versions": {
         "source_registry": "GSIG-OBS-SOURCES-1.0",
         "pipeline_dag": "GSIG-OBS-DAG-1.0",
         "ui_contract": "GSIG-OBS-UI-1.0",
-        "proof_obligation_set": "GSIG-Observatory-OPO-v1"
+        "release_check_set": "GSIG-Observatory-Release-Checks-v1"
       }
     },
     "artifact_checksums": {
-      "ai_dataset_export_audit.csv": "7465562f6acb11f4141835162de4f3256a783dbea5b404e34caa79ebe8049a23",
-      "ai_ready_dataset.jsonl": "9f09945f9b1e7802e22f0571c3b911fdb895145d7c60f86e5996156b193b4626",
-      "api_policy_audit.csv": "bbbde51aa4a7f42ebc7c0d7f019fff784a214593466f9766b44e8c83548ef428",
-      "blocked_claim_visibility_audit.csv": "55e2e9e0aa3fb1817dbcd0d47a04f387375c318c4d85d439ee237ac8b4da19f8",
-      "claim_boundaries.csv": "8b54aab2757ef0f053d478ba29cc2dc19be437e665217e35275bc87390594984",
-      "contract_validation.json": "08f9c2d485630646062afcf88315a2d3dcf961ad369eb616017321bcca9cbb06",
-      "contradiction_visual_audit.csv": "faacda61c5ad34791ce81c88d462ff292805d1f3b0a366abbadbb2252129e696",
-      "ecogenesis_gsig_observatory_proof_obligations_v4.json": "62f01b148f3ea09bd36e6a8f3f37773097ef9713f6a88516557524b04b598c26",
-      "gbif_export_claim_boundary_audit.csv": "d4d8dfd0fcfe6c9c3895e60289e6bce21b80030200a86f7211eb4864b7946912",
-      "gbif_export_preview.csv": "f9f0e28d0aeabfc37aba51a95b7227b5029043fe35112e82211e88de68e0b287",
-      "gbif_occurrence_context.parquet": "c9fa0658647ebfcf7eea3f6ad1c88b1923d50eae0b88612e32a95e7c31241543",
+      "ai_dataset_export_audit.csv": "f970c06ddca1a194bf0a3dc8322f11c3865e7cc6a07b4078f3854e5f896767a8",
+      "ai_ready_dataset.jsonl": "f9404f3cf420ef98edf143b35d81f4f0f8a49814c87d27bf1f26d8801a7aacef",
+      "api_policy_audit.csv": "35abc04e44fd765f342c5151d9ce16043fee584d517de8ab5a9e3fb731b3e35b",
+      "blocked_claim_visibility_audit.csv": "0036169dd70214018edf3941163ec7d3cfb36681413e1cf3a9f12151af6e2ab4",
+      "claim_boundaries.csv": "2930f43320ffec8287d87476a7161afa57a138e11f02df18700b4f2c11af713f",
+      "contract_validation.json": "8fe2d357820a73e93c291b867fe43a9c474a37b298a788ac8907a317cb1d64d7",
+      "contradiction_visual_audit.csv": "98c832fddeabb4510139fccf26cf9d3c584f813e714ef15ecd216ed4481b8d70",
+      "ecogenesis_gsig_observatory_release_checks_v1.json": "122c3f8ec16f3f42781d7d316f26621523ca91ba53f605643d50309c453261d6",
+      "gbif_export_claim_boundary_audit.csv": "4468206aba74d7e6d599ba6c021fa18cafe58262b333208992b1f4e63a300205",
+      "gbif_export_preview.csv": "79427e088363319ba009cfa71e827f0e104cf1e9cb486582fa0ff23014ad1409",
+      "gbif_occurrence_context.parquet": "7633412134d3256f4b16811bf974e725730ec473cc47175f108ee7b4760e9e6b",
       "gbif_occurrence_snapshot.json": "775ca90695a913128d6ed0579f3ee3268ecd15febb5fd8f6de5f49c1d3186ffb",
-      "gbif_query_strategy_audit.csv": "a657343b55724c9abd1499f83090769d8aef8c6916f26533d75ee0d8b3d6ad15",
-      "graph_roundtrip_audit.csv": "0d6dc51465aaf4cab97bba5c9679dd49c47a229dc13c071642d2b0c58ee51824",
-      "gsig_observatory_pipeline_dag.yaml": "914b0da3f8e70422aff621d6832a04129a583b17d3b190d90024fdda20e82f1c",
-      "gsig_observatory_source_registry.yaml": "4980e5fb234d503de1ab7d6eda03522b9b519f19175f73440e78e97f041a5d5c",
-      "gsig_observatory_ui_contract.yaml": "34d5945e8ee061f4c0c59109b0f0cab5f067a2073b7eb3ef6704868e51f193e6",
-      "judge_mode_non_claims_audit.csv": "ce9dec5cacabbf148ea0d1d52727c01b878a9be0a4d46608d9606a048a7e85ae",
+      "gbif_query_strategy_audit.csv": "60ca351a1259cabd2326964df3602a688b70ce7dba447d4638a3f8e655751b72",
+      "graph_roundtrip_audit.csv": "a0f3a244347df355b9b8d5ed5d0c1b73b5be268d0c16445b290d0f2fd5e5d142",
+      "gsig_observatory_pipeline_dag.yaml": "521f3bdd87c549761c425dc01fb6b243eea338fe73ac7e801dd1666ee3f533d5",
+      "gsig_observatory_source_registry.yaml": "f3eb61027dab09e8213404f8c011a014c7fba5cda5b3a6ad6c5dc5887ff45bc9",
+      "gsig_observatory_ui_contract.yaml": "b3d2a42735cdb2cc0d5ec6ae69bf34d88c3331943929d93f8191d8544e2492a2",
+      "judge_mode_non_claims_audit.csv": "dfee0a4034e6a66d8e88cad89e7574b7b81ec9913f959e5a72e4ed62931b3a1d",
       "license_blocker_audit.csv": "b8c13e3191c15172dbd6dd055106953334d09696d34c670897d2c1b8051f770c",
-      "literature_claim_state_audit.csv": "62f77a1c59d066a32da6bd61c6e2562110d39464d03ae5833b413023f56290d4",
+      "literature_claim_state_audit.csv": "75e910731febcea0336b42b856be2401f191abf37cc1db0b8bbc7c3b6143cff4",
       "normalized_occurrence_context.csv": "a2adf3116c7b77906059d7b9543ca64faaeb3ba1bdba9089bacb7dbf6551e98c",
       "normalized_occurrence_context.json": "16f80c7ee8ee742e507b7ce03e3398aafc7d4316a600af2b26971c6fc88cf29a",
-      "observatory_graph.jsonld": "babdd1f0d74637cd54d1df2b80c13c5fad91491d961dcded041187d4f75141e0",
-      "observatory_report.md": "f8fafec209338fa2deae7195a577229ebb83895a4ecac61860f7b2e839ec8f02",
-      "observatory_status.json": "78767d0ec8149c5c212354836626c3d5ee857a8a2501ebdbf94ed96ed6592003",
-      "observatory_vsea.csv": "aa9572c82dd4083b9f01f3ba9ee57120c5a219f4be7be5fa5791cc8c9b354aa4",
-      "observatory_vsea.jsonl": "271fa98c98d6935b75c805eb2dc8babacde3c75cdcf1caf2c63c57413371a28c",
-      "observatory_vsea.parquet": "f5c11a7d93722a2b1e8576dfd4e1f195e5fb7b8b5fefec8959b2075128f94e10",
-      "offline_demo_reproducibility.json": "a517aaff83911dd68ab0c8275501b47c3fcab842eca79d0d7b1ebb17177a34cf",
-      "pipeline_execution_trace.json": "fa8584623812d843ddc2b3432f6e39f3362a780b226bdf004ebde73a021d26bc",
-      "proof_summary.json": "12b649a74516793db8129b59154e8a72f5a4add8432cf569aaef028b26d89226",
-      "repair_optimizer_guardrail_audit.csv": "6fa4399a27a3560666d5768b1443a25281fa1d4d00b207b441c9dbfbd72e7e08",
-      "segment_catalog.csv": "e5533a3c7e7d9c2f5704cff9abda59f40268d0e02f3a60bdbb6698d8da02e3f0",
-      "sharedness_visual_overclaim_audit.csv": "df08191c75954854c5a3e3ad9c7e13b98cf24148e23661f061152f0a4448c90d",
-      "snapshot_manifest.json": "d47333c7093ed13d08baf45c7f28e021799ac4692a0e7be31e7a95ff63f072bd",
-      "source_freshness_claim_audit.csv": "e9c705e5a84f5599f02bc75184815e619b6eb3d229fce3b4b0a2f07d2676bd1a",
-      "source_provenance_manifest.json": "289456c0795ad52b259d39a9cd3af4c38bb0ce5ae825b1fd4864033c4d7846c0",
-      "source_registry_audit.json": "4e591b8ce64f54e3ed3b3c19058d61e977a5116af95f6b5d59fa3b2b48578f2a",
-      "taxa_segments.csv": "1147f178acfbf52578912c7a2760bc3e989655500c468c3962c8392cc8b6108a",
+      "observatory_graph.jsonld": "3ac6a7327ebfe5e7ddd16bc1029e1792ed624352d4ff04a70e32defeb36519e0",
+      "observatory_report.md": "fa12291ac731f011f03c0de84d5f17cb19b32eb0e082499c9348beea3246bd8e",
+      "observatory_status.json": "dd643d026e36fdca81cb11a9ac34996e0d8a697b141da7a4055ccfc14b61dca7",
+      "observatory_vsea.csv": "6df03ac95bc11e812e1cb5aaf921d2e7f4fcd7207d9dab0312c749e6aaa9ab8d",
+      "observatory_vsea.jsonl": "be242968528f135182b2d9aa495b62c30a28e37423e801147649c28500f6d175",
+      "observatory_vsea.parquet": "33908e041f6cd81ffbb5e0d7657cd9f6ae816675da103acd4ef47c0fdb663344",
+      "offline_demo_reproducibility.json": "fbd7fe7994041a6512d3fd347b4463d798af18fd8172eb983690dc486c41b41a",
+      "pipeline_execution_trace.json": "7d4597a8be51eddb4278cadb9250a1a6ca08d9bfb37e4a4f128cb4ad49366b14",
+      "proof_summary.json": "03080ae70709aae18a9db2782ed9717704627bf4f27e7838557393f1b63b5019",
+      "release_check_summary.json": "ba7fca5532d915bbe8f203ff617e7f342f5661d5cca57e674014224d8ab923c4",
+      "repair_optimizer_guardrail_audit.csv": "e172a246ae92eb029aad1a8a9569008bf4a5910747259aa6a2995d2d6d2bc5a6",
+      "segment_catalog.csv": "0470f201e5407e3b64f1732f188013ef588df4a4405bfd2509eb4ffa7ba46b1b",
+      "sharedness_visual_overclaim_audit.csv": "693edb2f7c07c0644475e9a1b2e04c9d52d02a579daa4eeb9e04a29827066707",
+      "snapshot_manifest.json": "f8bd189479976c34d716db7c1e776156329ecbde6c23be46831e2ce55bcbf1ca",
+      "source_freshness_claim_audit.csv": "aa5ca76893dddb6211bb5c413ad66c72b3afee09283402bfdbe9e4f894707c78",
+      "source_provenance_manifest.json": "3b6ea69045d936131255e2d598a022072492976e0ff54e83891367d36c74a518",
+      "source_registry_audit.json": "dfa5e6b6e13271447778f14de48f4d4624e24224b89277b3dab69ff9a67f165a",
+      "taxa_segments.csv": "dbd1d269b45ac134ae91b74d34b32da4c9ce316707fb50f2b2848ea0d708914f",
       "ui_ledger_consistency_audit.csv": "be19f87b5313adc3b3465e4ef6ae17df162342edaa5e6fd4fe6a04a808854a60",
-      "visualization_guardrail_audit.csv": "f5962202c5fe296f8ee29b552994be7d6ab5001bf426e93720058ff8278b2179",
-      "vsea_provenance_audit.csv": "3b47a57224f4e1f78f545a197b6e5cdc6341b8de068caffd3631e40eb35cb4f7"
+      "visualization_guardrail_audit.csv": "d96f9bcc72a771b930278f52750681b8ed050a48b2d263b5948833ae9b728f58",
+      "vsea_provenance_audit.csv": "0d3d4f2d4f48d8d4f88ee3e0b8be4158ae56f14c8db8aaba78d0ea87ff39dc6b"
     },
     "self_referential_exports": [
       "observatory_evidence_pack.json",
@@ -96,30 +97,33 @@
     "normalized_occurrence_records": 12,
     "segments": 4,
     "vsea_rows": 4,
+    "rule_evidence_rows": 4,
     "claim_states": {
-      "taxon_supported": 3,
+      "taxon_ambiguous": 2,
+      "taxon_supported": 1,
       "weak_hypothesis": 1
     },
     "gbif_export_states": {
-      "candidate_gbif_row": 2,
-      "excluded_or_repair_required": 2
+      "excluded_or_repair_required": 3,
+      "candidate_gbif_row": 1
     },
     "graph_nodes": 14,
-    "graph_edges": 17,
+    "graph_edges": 13,
     "hard_gate_status": "pass",
     "hard_gate_failures": 0,
+    "release_status": "review",
     "barcode_records": 4,
     "claim_boundary": "Visualization, GBIF context and AI exports preserve graph claim states and cannot upgrade evidence."
   },
   "contracts": {
     "source_registry": {
       "registry_version": "GSIG-OBS-SOURCES-1.0",
-      "principle": "Every automated source is a licensed, snapshot-based, provenance-captured input. Live retrieval never becomes evidence until it is hashed, normalized, audited and assigned a claim state.",
+      "principle": "Every automated source is a licensed, snapshot-based, provenance-captured input. Network retrieval never becomes evidence until it is hashed, normalized, audited and assigned a claim state.",
       "sources": [
         {
           "source_id": "gbif_occurrence_api",
           "name": "GBIF Occurrence API and Download API",
-          "status": "mvp_integration",
+          "status": "contest_integration",
           "class": "biodiversity_occurrence",
           "acquisition_mode": [
             "paged_search_for_small_demo",
@@ -153,7 +157,7 @@
         {
           "source_id": "gbif_dna_derived_extension",
           "name": "GBIF DNA-derived data extension tables",
-          "status": "mvp_integration",
+          "status": "contest_integration",
           "class": "dna_derived_metadata",
           "acquisition_mode": [
             "DwC-A_parse",
@@ -358,15 +362,16 @@
         "live_update_review_queue"
       ],
       "global_guardrails": [
-        "No live response is treated as verified evidence until snapshot_hash and provenance_hash are computed.",
+        "No live response is treated as rule-checked evidence until snapshot_hash and provenance_hash are computed.",
         "No visualization can upgrade a claim state.",
-        "No AI output can overwrite a verified graph fact.",
+        "No AI output can overwrite a rule-checked graph fact.",
         "Large GBIF queries use download jobs rather than aggressive paged API loops.",
         "Every export preserves claim_state, caveats and ruleset_hash."
       ],
       "steps": [
         {
           "id": "source_select",
+          "implementation_status": "implemented",
           "module": "src/observatory/source_registry.py",
           "inputs": [
             "source_registry.yaml"
@@ -381,6 +386,7 @@
         },
         {
           "id": "snapshot_fetch",
+          "implementation_status": "implemented",
           "module": "src/observatory/fetch_snapshots.py",
           "inputs": [
             "selected_sources.json"
@@ -396,6 +402,7 @@
         },
         {
           "id": "dwca_parse",
+          "implementation_status": "planned_not_executed_in_observatory_demo",
           "module": "src/observatory/parse_dwca.py",
           "inputs": [
             "raw_snapshots/*.zip"
@@ -412,6 +419,7 @@
         },
         {
           "id": "normalize",
+          "implementation_status": "implemented",
           "module": "src/normalize/normalize_observatory_records.py",
           "inputs": [
             "occurrence_core.parquet",
@@ -427,6 +435,7 @@
         },
         {
           "id": "segmentize",
+          "implementation_status": "implemented",
           "module": "src/segments/build_segment_catalog.py",
           "inputs": [
             "normalized_records.parquet"
@@ -442,13 +451,14 @@
         },
         {
           "id": "compute_evidence",
+          "implementation_status": "implemented",
           "module": "src/evidence/run_gseg_gates.py",
           "inputs": [
             "segment_catalog.parquet",
             "reference_manifest.json"
           ],
           "outputs": [
-            "vsea.parquet",
+            "rule_evidence.parquet",
             "hard_gate_audit.csv",
             "claim_boundaries.csv"
           ],
@@ -459,9 +469,10 @@
         },
         {
           "id": "graph_build",
+          "implementation_status": "implemented",
           "module": "src/graph/build_observatory_graph.py",
           "inputs": [
-            "vsea.parquet",
+            "rule_evidence.parquet",
             "annotation_overlay.parquet",
             "literature_claims.parquet"
           ],
@@ -477,10 +488,11 @@
         },
         {
           "id": "visual_index",
+          "implementation_status": "planned_not_executed_in_backend",
           "module": "src/ui/build_visual_index.py",
           "inputs": [
             "evidence_graph.json",
-            "vsea.parquet"
+            "rule_evidence.parquet"
           ],
           "outputs": [
             "visual_index.duckdb",
@@ -493,9 +505,10 @@
         },
         {
           "id": "export_pack",
+          "implementation_status": "implemented",
           "module": "src/exports/export_observatory_pack.py",
           "inputs": [
-            "vsea.parquet",
+            "rule_evidence.parquet",
             "evidence_graph.json",
             "graph_provenance_audit.csv"
           ],
@@ -514,7 +527,7 @@
     },
     "ui_contract": {
       "ui_contract_version": "GSIG-OBS-UI-1.0",
-      "design_principle": "The UI is an explanation system over a verified evidence graph, not a decorative dashboard.",
+      "design_principle": "The UI is an explanation system over a rule-checked evidence graph, not a decorative dashboard.",
       "global_controls": [
         "claim_state_filter",
         "source_snapshot_selector",
@@ -558,7 +571,7 @@
         },
         {
           "id": "vsea_grid",
-          "title": "Verified Segment Evidence Array Grid",
+          "title": "Rule Evidence Segment Grid",
           "purpose": "Browse segment x taxon x reference x evidence records with claim states.",
           "required_widgets": [
             "segment_table",
@@ -570,7 +583,7 @@
           ],
           "guardrails": [
             "blocked_claims_not_hidden",
-            "raw_and_verified_separated"
+            "raw_and_rule_checked_separated"
           ]
         },
         {
@@ -638,7 +651,7 @@
         {
           "id": "gbif_workbench",
           "title": "GBIF Export Workbench",
-          "purpose": "Prepare Occurrence core and DNA-derived extension files from verified, bounded evidence only.",
+          "purpose": "Prepare Occurrence core and DNA-derived extension files from rule-supported, bounded evidence only.",
           "required_widgets": [
             "occurrence_core_preview",
             "dna_extension_preview",
@@ -654,7 +667,7 @@
         {
           "id": "ai_dataset_builder",
           "title": "AI-Ready Dataset Builder",
-          "purpose": "Export matrices and graph features while separating verified labels, weak hypotheses and blocked claims.",
+          "purpose": "Export matrices and graph features while separating rule-supported labels, weak hypotheses and blocked claims.",
           "required_widgets": [
             "feature_selector",
             "label_state_selector",
@@ -670,207 +683,209 @@
         {
           "id": "judge_mode",
           "title": "Judge Mode",
-          "purpose": "One-click competition path: run demo, inspect graph, view proof checklist and export evidence pack.",
+          "purpose": "One-click competition path: run demo, inspect graph, view release checklist and export evidence pack.",
           "required_widgets": [
             "run_demo_button",
-            "proof_obligation_status",
+            "release_check_status",
             "artifact_manifest",
             "video_storyboard",
             "non_claims_panel"
           ],
           "guardrails": [
-            "demo_reproducible_offline",
+            "demo_offline_fixture_self_check",
             "roadmap_not_claimed_as_done"
           ]
         }
       ]
     },
-    "proof_obligations": {
-      "proof_obligation_set": "GSIG-Observatory-OPO-v1",
+    "release_checks": {
+      "release_check_set": "GSIG-Observatory-Release-Checks-v1",
+      "source_legacy_contract": "ecogenesis_gsig_observatory_proof_obligations_v4.json",
+      "terminology_boundary": "These are executable release checks, not mathematical proof obligations and not external scientific validation.",
       "extends": [
         "GSEG PO-01..PO-32",
         "GSIG PO-21..PO-50"
       ],
-      "obligations": [
+      "checks": [
         {
-          "id": "OPO-01",
+          "id": "RC-01",
           "name": "Every automated source has license and rate-limit policy",
           "artifact": "source_registry_audit.json",
           "test": "test_source_registry_contract",
           "acceptance_criteria": "0 sources without license_policy or rate_limit_policy",
           "severity": "hard_gate",
-          "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+          "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
         },
         {
-          "id": "OPO-02",
+          "id": "RC-02",
           "name": "Live data are snapshots before evidence use",
           "artifact": "snapshot_manifest.json",
           "test": "test_snapshot_hash_required",
           "acceptance_criteria": "100% live payloads have snapshot_hash",
           "severity": "hard_gate",
-          "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+          "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
         },
         {
-          "id": "OPO-03",
+          "id": "RC-03",
           "name": "No website scraping of GBIF public pages",
           "artifact": "api_policy_audit.csv",
           "test": "test_gbif_no_scraping_policy",
           "acceptance_criteria": "all GBIF collection uses API/download/DwC-A",
           "severity": "hard_gate",
-          "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+          "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
         },
         {
-          "id": "OPO-04",
+          "id": "RC-04",
           "name": "GBIF large queries use download strategy",
           "artifact": "gbif_query_strategy_audit.csv",
           "test": "test_large_query_download_strategy",
           "acceptance_criteria": "large queries not executed as aggressive paged search",
           "severity": "review_gate",
-          "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+          "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
         },
         {
-          "id": "OPO-05",
+          "id": "RC-05",
           "name": "Every source record joins to provenance",
           "artifact": "source_provenance_manifest.json",
           "test": "test_record_provenance_completeness",
           "acceptance_criteria": "provenance completeness = 100%",
           "severity": "hard_gate",
-          "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+          "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
         },
         {
-          "id": "OPO-06",
+          "id": "RC-06",
           "name": "VSEA rows preserve source snapshot identity",
           "artifact": "vsea_provenance_audit.csv",
           "test": "test_vsea_snapshot_identity",
           "acceptance_criteria": "all rows have source_id, snapshot_id, ruleset_hash",
           "severity": "review_gate",
-          "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+          "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
         },
         {
-          "id": "OPO-07",
+          "id": "RC-07",
           "name": "Visualization cannot upgrade claim states",
           "artifact": "visualization_guardrail_audit.csv",
           "test": "test_visual_read_only_claim_state",
           "acceptance_criteria": "0 visual claim promotions",
           "severity": "hard_gate",
-          "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+          "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
         },
         {
-          "id": "OPO-08",
+          "id": "RC-08",
           "name": "Blocked claims remain visible in UI filters",
           "artifact": "blocked_claim_visibility_audit.csv",
           "test": "test_blocked_claim_visibility",
           "acceptance_criteria": "0 hidden blocked claims in default judge mode",
           "severity": "review_gate",
-          "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+          "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
         },
         {
-          "id": "OPO-09",
+          "id": "RC-09",
           "name": "Shared segments cannot be shown as species-specific",
           "artifact": "sharedness_visual_overclaim_audit.csv",
           "test": "test_shared_segment_species_specific_block",
           "acceptance_criteria": "0 sharedness overclaims",
           "severity": "hard_gate",
-          "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+          "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
         },
         {
-          "id": "OPO-10",
-          "name": "AI-ready exports separate verified labels and hypotheses",
+          "id": "RC-10",
+          "name": "AI-ready exports separate rule-supported labels and hypotheses",
           "artifact": "ai_dataset_export_audit.csv",
           "test": "test_ai_label_state_separation",
           "acceptance_criteria": "0 hypothesis labels exported as verified positives",
           "severity": "hard_gate",
-          "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+          "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
         },
         {
-          "id": "OPO-11",
+          "id": "RC-11",
           "name": "Literature links are evidence objects, not truth objects",
           "artifact": "literature_claim_state_audit.csv",
           "test": "test_publication_claim_state_required",
           "acceptance_criteria": "all publication claims have evidence_state",
           "severity": "review_gate",
-          "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+          "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
         },
         {
-          "id": "OPO-12",
+          "id": "RC-12",
           "name": "Trait/function panels preserve contradiction status",
           "artifact": "contradiction_visual_audit.csv",
           "test": "test_contradiction_not_averaged_away",
           "acceptance_criteria": "contradictions visible and queryable",
           "severity": "review_gate",
-          "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+          "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
         },
         {
-          "id": "OPO-13",
+          "id": "RC-13",
           "name": "GBIF export only uses bounded safe taxon",
           "artifact": "gbif_export_claim_boundary_audit.csv",
           "test": "test_gbif_safe_taxon_export",
           "acceptance_criteria": "0 exports with stronger taxon than safe_lca",
           "severity": "hard_gate",
-          "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+          "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
         },
         {
-          "id": "OPO-14",
+          "id": "RC-14",
           "name": "Repair optimizer cannot upgrade biological claims by metadata alone",
           "artifact": "repair_optimizer_guardrail_audit.csv",
           "test": "test_metadata_repair_no_biology_upgrade",
           "acceptance_criteria": "0 biological upgrades from metadata-only repair",
           "severity": "hard_gate",
-          "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+          "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
         },
         {
-          "id": "OPO-15",
-          "name": "Offline demo is reproducible without external APIs",
+          "id": "RC-15",
+          "name": "Offline fixture inputs carry a deterministic self-check fingerprint",
           "artifact": "offline_demo_reproducibility.json",
-          "test": "test_offline_demo_reproducible",
-          "acceptance_criteria": "same checksums across clean runs",
-          "severity": "hard_gate",
-          "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+          "test": "test_offline_demo_self_check_is_not_reproducibility_proof",
+          "acceptance_criteria": "canonical input fingerprint recorded; independent clean-run comparison explicitly not claimed",
+          "severity": "review_gate",
+          "claim_boundary": "This release check is informational until an independent clean execution produces and compares normalized output checksums."
         },
         {
-          "id": "OPO-16",
+          "id": "RC-16",
           "name": "Every UI count matches data accounting ledger",
           "artifact": "ui_ledger_consistency_audit.csv",
           "test": "test_ui_counts_match_ledger",
           "acceptance_criteria": "0 mismatched counters",
           "severity": "review_gate",
-          "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+          "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
         },
         {
-          "id": "OPO-17",
+          "id": "RC-17",
           "name": "Graph import/export roundtrip preserves claim states",
           "artifact": "graph_roundtrip_audit.csv",
           "test": "test_graph_roundtrip_claim_states",
           "acceptance_criteria": "100% claim_state equality after roundtrip",
           "severity": "hard_gate",
-          "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+          "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
         },
         {
-          "id": "OPO-18",
+          "id": "RC-18",
           "name": "Source freshness is shown as context, not evidence strength",
           "artifact": "source_freshness_claim_audit.csv",
           "test": "test_freshness_not_evidence_strength",
           "acceptance_criteria": "0 freshness-based claim upgrades",
           "severity": "review_gate",
-          "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+          "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
         },
         {
-          "id": "OPO-19",
+          "id": "RC-19",
           "name": "Unknown license blocks public atlas insertion",
           "artifact": "license_blocker_audit.csv",
           "test": "test_unknown_license_blocks_public_insert",
           "acceptance_criteria": "all unknown-license records are private/pending",
           "severity": "hard_gate",
-          "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+          "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
         },
         {
-          "id": "OPO-20",
+          "id": "RC-20",
           "name": "Judge mode displays non-claims and roadmap boundaries",
           "artifact": "judge_mode_non_claims_audit.csv",
           "test": "test_judge_mode_non_claims_present",
           "acceptance_criteria": "non-claims panel present and rendered",
           "severity": "hard_gate",
-          "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+          "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
         }
       ]
     }
@@ -899,7 +914,7 @@
     },
     "query_sha256": "e97efa4320a4fad6b12a9c7291dbd82b6b922d7e82c38c3d98866f8450c8f66d",
     "raw_payload_sha256": "e10968fba4a7366821709e8c8e3e7fa1898c727b0cfa31dd52e830c10814dba4",
-    "retrieved_at": "2026-06-14T22:03:14.485769+00:00",
+    "retrieved_at": "2026-07-10T11:36:53.611257+00:00",
     "records_returned": 12,
     "normalized_records": 12,
     "claim_boundary": "Occurrence records are context and provenance only; they do not strengthen molecular taxon support.",
@@ -1164,8 +1179,8 @@
       {
         "source_id": "project_user_uploads",
         "status": "barcode_pack_compiled",
-        "barcode_run_id": "0bf2e37ba9354de2859702a12d2efe9e",
-        "request_fingerprint": "463387c1727e1d4c8152dcb1647c7e63f74d17eeabe89995a7e3470b92e31e06",
+        "barcode_run_id": "957711dbf1c4444cbcbbb141f194657f",
+        "request_fingerprint": "3fe43bbf12dcea778106e5f9df5d01ec041fe98274db99b89af2dc2e48e8aeca",
         "claim_boundary": "Molecular barcode/GSEG gates define taxon support."
       }
     ],
@@ -1452,181 +1467,189 @@
   "vsea": [
     {
       "vsea_id": "obs-vsea:AALB-COI-good:1",
-      "barcode_run_id": "0bf2e37ba9354de2859702a12d2efe9e",
+      "barcode_run_id": "957711dbf1c4444cbcbbb141f194657f",
       "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
       "source_id": "project_user_uploads",
       "context_source_id": "gbif_occurrence_api",
       "snapshot_id": "gbif-aedes-spain-30dc62b4a7bd",
       "snapshot_hash": "30dc62b4a7bdfacae821ea329c1240b9c4b659d152019db7252db46ca92b31bb",
       "sequence_id": "AALB-COI-good",
-      "segment_id": "segment:AALB-COI-good:1-622",
-      "segment_hash": "0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
+      "segment_id": "segment:AALB-COI-good:1-658",
+      "segment_hash": "23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
       "relation_type": "SUPPORTS_TAXON",
       "target_id": "taxon:species:Aedes albopictus",
       "target_label": "Aedes albopictus",
       "safe_rank": "species",
-      "decision_class": "species-safe",
-      "publication_bucket": "publishable_candidate",
-      "export_state": "dwc_template_ready",
-      "claim_state": "taxon_supported",
-      "evidence_type": "molecular_barcode_hard_gates",
-      "claim_boundary": "Species-level molecular assignment candidate for Aedes albopictus within the supplied reference context.",
+      "decision_class": "ambiguous",
+      "taxonomic_status": "ambiguous",
+      "publication_bucket": "repair_required",
+      "export_state": "review_only",
+      "claim_state": "taxon_ambiguous",
+      "evidence_type": "molecular_barcode_rule_checks",
+      "claim_boundary": "Review-only candidate at species rank: Aedes albopictus.",
       "caveats": "absolute species truth outside the stated reference context; natural presence, absence, abundance or distribution without occurrence evidence; phenotype, pathogenicity, ecological role or invasiveness; replacement for GBIF Sequence ID, curated reference databases or expert review",
-      "blockers": "",
-      "gbifID_context": "1001",
-      "datasetKey_context": "spain-mosquito-watch",
-      "eventDate_context": "2025-08-14",
-      "countryCode_context": "ES",
-      "context_claim_boundary": "GBIF context is linked after hashing; it does not promote claim_state.",
-      "ui_claim_state": "taxon_supported",
-      "ai_label": "positive_verified",
-      "gbif_export_state": "candidate_gbif_row",
-      "provenance_hash": "f9ee263afd6c8fbd0ec127d833486e1e1eef80532a57e7e9b20853359313ba92",
-      "observatory_provenance_hash": "1760e75d811665f3b2acf6ab662c6a1720c2fd542d47fed4c71eb878d95f91f4",
-      "record_provenance_hash": "de76aa8e69696459c496af28d8cc42d72671b2516aa39e256dce94297676820f"
+      "blockers": "species claim blocked: reference completeness attestation blocked scientific use: unsigned; species claim blocked: reference completeness failed: server_attestation_verified; species claim blocked: reference completeness failed: externally_audited_status; species claim blocked: reference completeness failed: audit_checksum_supplied; species claim blocked: sequence QC failed: chimera check pass; evidence-bundle trust=unsigned",
+      "gbifID_context": null,
+      "datasetKey_context": null,
+      "eventDate_context": null,
+      "countryCode_context": null,
+      "context_linkage_status": "unlinked_context_only",
+      "context_claim_boundary": "The GBIF snapshot is run-level geographic context only. No occurrence is linked to this molecular row without a shared eventID, materialSampleID, specimen identifier, or documented dataset lineage.",
+      "ui_claim_state": "taxon_ambiguous",
+      "ai_label": "candidate_hypothesis",
+      "gbif_export_state": "excluded_or_repair_required",
+      "provenance_hash": "bd10eafba0ce98770c8ac80090b399fd5bc1e1d850178289b73728ae0eab3950",
+      "observatory_provenance_hash": "e7c6a7404eb905dc8cb2e7a702238c5742ec723b8be5b27182c0b08ffdbf959b",
+      "record_provenance_hash": "ca4561d6f8e78daef02cffb336abf7af3c74c4969cf60f1052000c3ec0aab060"
     },
     {
       "vsea_id": "obs-vsea:AALB-COI-ambiguous:2",
-      "barcode_run_id": "0bf2e37ba9354de2859702a12d2efe9e",
+      "barcode_run_id": "957711dbf1c4444cbcbbb141f194657f",
       "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
       "source_id": "project_user_uploads",
       "context_source_id": "gbif_occurrence_api",
       "snapshot_id": "gbif-aedes-spain-30dc62b4a7bd",
       "snapshot_hash": "30dc62b4a7bdfacae821ea329c1240b9c4b659d152019db7252db46ca92b31bb",
       "sequence_id": "AALB-COI-ambiguous",
-      "segment_id": "segment:AALB-COI-ambiguous:1-622",
-      "segment_hash": "0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
+      "segment_id": "segment:AALB-COI-ambiguous:1-658",
+      "segment_hash": "23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
       "relation_type": "SUPPORTS_TAXON",
       "target_id": "taxon:genus:Aedes",
       "target_label": "Aedes",
       "safe_rank": "genus",
       "decision_class": "genus-safe",
+      "taxonomic_status": "genus-safe",
       "publication_bucket": "publishable_candidate",
       "export_state": "dwc_template_ready",
       "claim_state": "taxon_supported",
-      "evidence_type": "molecular_barcode_hard_gates",
+      "evidence_type": "molecular_barcode_rule_checks",
       "claim_boundary": "Genus-level molecular evidence for Aedes; species-level naming is blocked for this sequence.",
       "caveats": "absolute species truth outside the stated reference context; natural presence, absence, abundance or distribution without occurrence evidence; phenotype, pathogenicity, ecological role or invasiveness; replacement for GBIF Sequence ID, curated reference databases or expert review",
-      "blockers": "species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus",
-      "gbifID_context": "1002",
-      "datasetKey_context": "spain-mosquito-watch",
-      "eventDate_context": "2024-09-02",
-      "countryCode_context": "ES",
-      "context_claim_boundary": "GBIF context is linked after hashing; it does not promote claim_state.",
+      "blockers": "species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus; species claim blocked: reference completeness attestation blocked scientific use: unsigned; species claim blocked: reference completeness failed: server_attestation_verified; species claim blocked: reference completeness failed: externally_audited_status; species claim blocked: reference completeness failed: audit_checksum_supplied; species claim blocked: sequence QC failed: chimera check pass; evidence-bundle trust=unsigned",
+      "gbifID_context": null,
+      "datasetKey_context": null,
+      "eventDate_context": null,
+      "countryCode_context": null,
+      "context_linkage_status": "unlinked_context_only",
+      "context_claim_boundary": "The GBIF snapshot is run-level geographic context only. No occurrence is linked to this molecular row without a shared eventID, materialSampleID, specimen identifier, or documented dataset lineage.",
       "ui_claim_state": "taxon_supported",
-      "ai_label": "positive_verified",
+      "ai_label": "positive_rule_supported",
       "gbif_export_state": "candidate_gbif_row",
-      "provenance_hash": "2a96da22b1f7a21e54c36d15eddf6a01e04b1f57dbd31e5ab5c1a4cbee1a6648",
-      "observatory_provenance_hash": "f0cb7fc5e81854981fb97eac8792fea406231e3c3abc4e64426efb14b00242a3",
-      "record_provenance_hash": "bf091de0f0498057d18b5e9cf231d09ac8ca829b8322a60e9de9cfc4c72a2d39"
+      "provenance_hash": "031ac8bee8de0167c0a4963e03663a5039114b396b9dafcad21d46db18a309f1",
+      "observatory_provenance_hash": "52b55ff30e029800a6e0f045038781bc40588f07e5b3bb260b76d571994c996a",
+      "record_provenance_hash": "f1f63396626d376e82967adbd72d549781e71f0aabef9cd9ddd6566aefdc2d2b"
     },
     {
       "vsea_id": "obs-vsea:AALB-COI-short:3",
-      "barcode_run_id": "0bf2e37ba9354de2859702a12d2efe9e",
+      "barcode_run_id": "957711dbf1c4444cbcbbb141f194657f",
       "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
       "source_id": "project_user_uploads",
       "context_source_id": "gbif_occurrence_api",
       "snapshot_id": "gbif-aedes-spain-30dc62b4a7bd",
       "snapshot_hash": "30dc62b4a7bdfacae821ea329c1240b9c4b659d152019db7252db46ca92b31bb",
       "sequence_id": "AALB-COI-short",
-      "segment_id": "segment:AALB-COI-short:1-622",
-      "segment_hash": "0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
+      "segment_id": "segment:AALB-COI-short:1-658",
+      "segment_hash": "23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
       "relation_type": "SUPPORTS_TAXON",
       "target_id": "taxon:species:Aedes albopictus",
       "target_label": "Aedes albopictus",
       "safe_rank": "species",
       "decision_class": "weak",
+      "taxonomic_status": "weak",
       "publication_bucket": "repair_required",
       "export_state": "review_only",
       "claim_state": "weak_hypothesis",
-      "evidence_type": "molecular_barcode_hard_gates",
+      "evidence_type": "molecular_barcode_rule_checks",
       "claim_boundary": "Review-only molecular hint; identity, coverage or marker profile is too weak for a safe taxonomic claim.",
       "caveats": "absolute species truth outside the stated reference context; natural presence, absence, abundance or distribution without occurrence evidence; phenotype, pathogenicity, ecological role or invasiveness; replacement for GBIF Sequence ID, curated reference databases or expert review",
-      "blockers": "species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%; species claim blocked: query coverage < 80%",
-      "gbifID_context": "1003",
-      "datasetKey_context": "spain-mosquito-watch",
-      "eventDate_context": "2023-07-18",
-      "countryCode_context": "ES",
-      "context_claim_boundary": "GBIF context is linked after hashing; it does not promote claim_state.",
+      "blockers": "species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%; species claim blocked: query coverage < 80%; species claim blocked: reference completeness attestation blocked scientific use: unsigned; species claim blocked: reference completeness failed: server_attestation_verified; species claim blocked: reference completeness failed: externally_audited_status; species claim blocked: reference completeness failed: audit_checksum_supplied; species claim blocked: sequence QC failed: chimera check pass; evidence-bundle trust=unsigned",
+      "gbifID_context": null,
+      "datasetKey_context": null,
+      "eventDate_context": null,
+      "countryCode_context": null,
+      "context_linkage_status": "unlinked_context_only",
+      "context_claim_boundary": "The GBIF snapshot is run-level geographic context only. No occurrence is linked to this molecular row without a shared eventID, materialSampleID, specimen identifier, or documented dataset lineage.",
       "ui_claim_state": "weak_hypothesis",
       "ai_label": "candidate_hypothesis",
       "gbif_export_state": "excluded_or_repair_required",
-      "provenance_hash": "fd0b1242b8e47507776020b6f4e6ccf54b93258f5ea0cb37969e7aa8cbdcdab9",
-      "observatory_provenance_hash": "1a2fc0978d03d9673282261d89e4859c47b9485fa8f7d72dfeb4fb22d3bc3cb7",
-      "record_provenance_hash": "758c2b907c2ee7c9e100e23b5f0ef9118e62639d5826c62c8a84cba06e211659"
+      "provenance_hash": "70e603fb7236feecc352db1d151d956f5c005685ba8d00613a245bfd1e80855f",
+      "observatory_provenance_hash": "d8a117000071cfefa2f031bb95ab96b3a6337a3279103e394d1669addece1352",
+      "record_provenance_hash": "36fe32a7fccf895c77da1f598ae900b9f438eba580dbc3df31e147fcd15b548e"
     },
     {
       "vsea_id": "obs-vsea:AALB-COI-metadata-gap:4",
-      "barcode_run_id": "0bf2e37ba9354de2859702a12d2efe9e",
+      "barcode_run_id": "957711dbf1c4444cbcbbb141f194657f",
       "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
       "source_id": "project_user_uploads",
       "context_source_id": "gbif_occurrence_api",
       "snapshot_id": "gbif-aedes-spain-30dc62b4a7bd",
       "snapshot_hash": "30dc62b4a7bdfacae821ea329c1240b9c4b659d152019db7252db46ca92b31bb",
       "sequence_id": "AALB-COI-metadata-gap",
-      "segment_id": "segment:AALB-COI-metadata-gap:1-622",
-      "segment_hash": "0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
+      "segment_id": "segment:AALB-COI-metadata-gap:1-658",
+      "segment_hash": "23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
       "relation_type": "SUPPORTS_TAXON",
       "target_id": "taxon:species:Aedes albopictus",
       "target_label": "Aedes albopictus",
       "safe_rank": "species",
-      "decision_class": "not-publishable",
+      "decision_class": "ambiguous",
+      "taxonomic_status": "ambiguous",
       "publication_bucket": "repair_required",
-      "export_state": "evidence_publishable_repair_required",
-      "claim_state": "taxon_supported",
-      "evidence_type": "molecular_barcode_hard_gates",
+      "export_state": "review_only",
+      "claim_state": "taxon_ambiguous",
+      "evidence_type": "molecular_barcode_rule_checks",
       "claim_boundary": "Review-only candidate at species rank: Aedes albopictus.",
       "caveats": "absolute species truth outside the stated reference context; natural presence, absence, abundance or distribution without occurrence evidence; phenotype, pathogenicity, ecological role or invasiveness; replacement for GBIF Sequence ID, curated reference databases or expert review",
-      "blockers": "publication blocked: missing required Occurrence core field occurrenceID; publication blocked: missing required Occurrence core field eventDate",
-      "gbifID_context": "1004",
-      "datasetKey_context": "spain-mosquito-watch",
-      "eventDate_context": "2022-08-01",
-      "countryCode_context": "ES",
-      "context_claim_boundary": "GBIF context is linked after hashing; it does not promote claim_state.",
-      "ui_claim_state": "taxon_supported",
-      "ai_label": "positive_verified",
+      "blockers": "species claim blocked: reference completeness attestation blocked scientific use: unsigned; species claim blocked: reference completeness failed: server_attestation_verified; species claim blocked: reference completeness failed: externally_audited_status; species claim blocked: reference completeness failed: audit_checksum_supplied; species claim blocked: sequence QC failed: chimera check pass; evidence-bundle trust=unsigned; publication blocked: missing required Occurrence core field occurrenceID; publication blocked: missing required Occurrence core field eventDate",
+      "gbifID_context": null,
+      "datasetKey_context": null,
+      "eventDate_context": null,
+      "countryCode_context": null,
+      "context_linkage_status": "unlinked_context_only",
+      "context_claim_boundary": "The GBIF snapshot is run-level geographic context only. No occurrence is linked to this molecular row without a shared eventID, materialSampleID, specimen identifier, or documented dataset lineage.",
+      "ui_claim_state": "taxon_ambiguous",
+      "ai_label": "candidate_hypothesis",
       "gbif_export_state": "excluded_or_repair_required",
-      "provenance_hash": "04f4b89770f76abba4a85245bc77ccbd1b9d08d87bd8892a4be3f32dc3a285f9",
-      "observatory_provenance_hash": "2330da7c4b390f7595289232a334ff3114b4ff1592639db2165fc8c04f29ef1d",
-      "record_provenance_hash": "6a782175846025b9a7eb6ac6b1a8ef84393784ed23ca9f4f0b81f47009888711"
+      "provenance_hash": "6062383b3fc2afdbe8caa723043fc709b5a88a11d51e5d386ff19e53def132c2",
+      "observatory_provenance_hash": "ecdf6cf4e69f48e2afcf6f803da67e74e6de7081d8f593a9f20f30f1e99721ce",
+      "record_provenance_hash": "6428c8f708f39dde9b8119d06d1494e870da30a1e6f663111df49932bea4250b"
     }
   ],
   "segment_catalog": [
     {
-      "segment_id": "segment:AALB-COI-good:1-622",
-      "segment_hash": "0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
+      "segment_id": "segment:AALB-COI-good:1-658",
+      "segment_hash": "23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
       "sequence_id": "AALB-COI-good",
-      "claim_state": "taxon_supported",
+      "claim_state": "taxon_ambiguous",
       "safe_rank": "species",
       "target_label": "Aedes albopictus",
-      "provenance_hash": "4fb0c55af47dd932734c3fbd7b6c5064ba200164ec7b521d0f2d9feedb1e45a5"
+      "provenance_hash": "5db77e012aa633f53056d429258472f581880b68bcecf9ab17a6aad882834db1"
     },
     {
-      "segment_id": "segment:AALB-COI-ambiguous:1-622",
-      "segment_hash": "0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
+      "segment_id": "segment:AALB-COI-ambiguous:1-658",
+      "segment_hash": "23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
       "sequence_id": "AALB-COI-ambiguous",
       "claim_state": "taxon_supported",
       "safe_rank": "genus",
       "target_label": "Aedes",
-      "provenance_hash": "3c3dcb347ba9e0ceec577a1002b9e22081b77b98d2cc6f772f53f7cd4c4f5962"
+      "provenance_hash": "3ec4a638aa51e2beaabd567115cc5713df1ec16d40c3ea81fe04b8379b1aafd6"
     },
     {
-      "segment_id": "segment:AALB-COI-short:1-622",
-      "segment_hash": "0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
+      "segment_id": "segment:AALB-COI-short:1-658",
+      "segment_hash": "23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
       "sequence_id": "AALB-COI-short",
       "claim_state": "weak_hypothesis",
       "safe_rank": "species",
       "target_label": "Aedes albopictus",
-      "provenance_hash": "0734fdfdc0b453ffb835b6096e768a315d512adda4699cf35362b19312af8eaf"
+      "provenance_hash": "bf459b43939c556763afafc13a72a92d58fab39112fd84f7c7ae29699537f49f"
     },
     {
-      "segment_id": "segment:AALB-COI-metadata-gap:1-622",
-      "segment_hash": "0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
+      "segment_id": "segment:AALB-COI-metadata-gap:1-658",
+      "segment_hash": "23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
       "sequence_id": "AALB-COI-metadata-gap",
-      "claim_state": "taxon_supported",
+      "claim_state": "taxon_ambiguous",
       "safe_rank": "species",
       "target_label": "Aedes albopictus",
-      "provenance_hash": "adb22d5c08e312d79ee74082a14b340d08661717915d60b14c9e4470cea2b8c4"
+      "provenance_hash": "e5a70cc619269af8238e439010176518e3d5328f9b6fc598db920de0f11d9750"
     }
   ],
   "taxa_segments": [
@@ -1634,87 +1657,87 @@
       "taxon_id": "taxon:species:Aedes albopictus",
       "taxon_label": "Aedes albopictus",
       "safe_rank": "species",
-      "segment_id": "segment:AALB-COI-good:1-622",
-      "claim_state": "taxon_supported",
-      "provenance_hash": "ede874181913ca28bbca8a326191ef416d1441520f7e6937d4ed8469ae2eddd2"
+      "segment_id": "segment:AALB-COI-good:1-658",
+      "claim_state": "taxon_ambiguous",
+      "provenance_hash": "b12bf6ada01cf10d5b210a08384abbcd32ee99e14d05dcc35503713fa73393a4"
     },
     {
       "taxon_id": "taxon:genus:Aedes",
       "taxon_label": "Aedes",
       "safe_rank": "genus",
-      "segment_id": "segment:AALB-COI-ambiguous:1-622",
+      "segment_id": "segment:AALB-COI-ambiguous:1-658",
       "claim_state": "taxon_supported",
-      "provenance_hash": "55faf4abe655ffeb75a7e611c2534e1b7722894a74126e08066f8443ec3d3fec"
+      "provenance_hash": "bd5a4aa44a652767836e4c940937353f0ce5840487605d0a8df84a4b07c48564"
     },
     {
       "taxon_id": "taxon:species:Aedes albopictus",
       "taxon_label": "Aedes albopictus",
       "safe_rank": "species",
-      "segment_id": "segment:AALB-COI-short:1-622",
+      "segment_id": "segment:AALB-COI-short:1-658",
       "claim_state": "weak_hypothesis",
-      "provenance_hash": "5f60d1516479c9f52f2a08c1c6178074918329619aacdea8a17f7dd0fc6a82fd"
+      "provenance_hash": "42758098ef7c62dcc8dc0ef6ff29e06ddb84ffdf477e05be6c1e5318daa85859"
     },
     {
       "taxon_id": "taxon:species:Aedes albopictus",
       "taxon_label": "Aedes albopictus",
       "safe_rank": "species",
-      "segment_id": "segment:AALB-COI-metadata-gap:1-622",
-      "claim_state": "taxon_supported",
-      "provenance_hash": "e4f1a3c6bbf957fceda0452b5e10ed7673010a84e54740c5eb2ede99939168b2"
+      "segment_id": "segment:AALB-COI-metadata-gap:1-658",
+      "claim_state": "taxon_ambiguous",
+      "provenance_hash": "ca6ab6793ff451234f9c071a8ec3d27012bbd1a9ffbc8326711f2bd5f0ffae08"
     }
   ],
   "claim_boundaries": [
     {
-      "claim_id": "claim:segment:AALB-COI-good:1-622:taxon:species:Aedes albopictus",
-      "segment_id": "segment:AALB-COI-good:1-622",
+      "claim_id": "claim:segment:AALB-COI-good:1-658:taxon:species:Aedes albopictus",
+      "segment_id": "segment:AALB-COI-good:1-658",
       "target_id": "taxon:species:Aedes albopictus",
-      "claim_state": "taxon_supported",
-      "allowed": true,
-      "boundary": "Species-level molecular assignment candidate for Aedes albopictus within the supplied reference context.",
+      "claim_state": "taxon_ambiguous",
+      "allowed": false,
+      "boundary": "Review-only candidate at species rank: Aedes albopictus.",
       "caveats": "absolute species truth outside the stated reference context; natural presence, absence, abundance or distribution without occurrence evidence; phenotype, pathogenicity, ecological role or invasiveness; replacement for GBIF Sequence ID, curated reference databases or expert review",
-      "blockers": "",
+      "blockers": "species claim blocked: reference completeness attestation blocked scientific use: unsigned; species claim blocked: reference completeness failed: server_attestation_verified; species claim blocked: reference completeness failed: externally_audited_status; species claim blocked: reference completeness failed: audit_checksum_supplied; species claim blocked: sequence QC failed: chimera check pass; evidence-bundle trust=unsigned",
       "gbif_context_promotes_claim": false,
       "ui_promotes_claim": false,
-      "provenance_hash": "a465f92632db30932827c30b7f03d4c09fddfdf6ef8dad5a0272aa43bbc14338"
+      "provenance_hash": "6d14790ca20a3595bc46067503aff5c1edd73776a505295e61bff90c5a1a44ed"
     },
     {
-      "claim_id": "claim:segment:AALB-COI-ambiguous:1-622:taxon:genus:Aedes",
-      "segment_id": "segment:AALB-COI-ambiguous:1-622",
+      "claim_id": "claim:segment:AALB-COI-ambiguous:1-658:taxon:genus:Aedes",
+      "segment_id": "segment:AALB-COI-ambiguous:1-658",
       "target_id": "taxon:genus:Aedes",
       "claim_state": "taxon_supported",
       "allowed": true,
       "boundary": "Genus-level molecular evidence for Aedes; species-level naming is blocked for this sequence.",
       "caveats": "absolute species truth outside the stated reference context; natural presence, absence, abundance or distribution without occurrence evidence; phenotype, pathogenicity, ecological role or invasiveness; replacement for GBIF Sequence ID, curated reference databases or expert review",
-      "blockers": "species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus",
+      "blockers": "species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus; species claim blocked: reference completeness attestation blocked scientific use: unsigned; species claim blocked: reference completeness failed: server_attestation_verified; species claim blocked: reference completeness failed: externally_audited_status; species claim blocked: reference completeness failed: audit_checksum_supplied; species claim blocked: sequence QC failed: chimera check pass; evidence-bundle trust=unsigned",
       "gbif_context_promotes_claim": false,
       "ui_promotes_claim": false,
-      "provenance_hash": "ecb337b75b008e19e35c6aa6cddd0bca92cbd7704f66652a9be6dcfe96b77362"
+      "provenance_hash": "3fcdba5d11c4b39829535bd0d931011b1afc2c73303ebc8e8066ed3773388123"
     },
     {
-      "claim_id": "claim:segment:AALB-COI-short:1-622:taxon:species:Aedes albopictus",
-      "segment_id": "segment:AALB-COI-short:1-622",
+      "claim_id": "claim:segment:AALB-COI-short:1-658:taxon:species:Aedes albopictus",
+      "segment_id": "segment:AALB-COI-short:1-658",
       "target_id": "taxon:species:Aedes albopictus",
       "claim_state": "weak_hypothesis",
       "allowed": false,
       "boundary": "Review-only molecular hint; identity, coverage or marker profile is too weak for a safe taxonomic claim.",
       "caveats": "absolute species truth outside the stated reference context; natural presence, absence, abundance or distribution without occurrence evidence; phenotype, pathogenicity, ecological role or invasiveness; replacement for GBIF Sequence ID, curated reference databases or expert review",
-      "blockers": "species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%; species claim blocked: query coverage < 80%",
+      "blockers": "species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%; species claim blocked: query coverage < 80%; species claim blocked: reference completeness attestation blocked scientific use: unsigned; species claim blocked: reference completeness failed: server_attestation_verified; species claim blocked: reference completeness failed: externally_audited_status; species claim blocked: reference completeness failed: audit_checksum_supplied; species claim blocked: sequence QC failed: chimera check pass; evidence-bundle trust=unsigned",
       "gbif_context_promotes_claim": false,
       "ui_promotes_claim": false,
-      "provenance_hash": "e94564aca6e200041b1cdb8c59632000ddb68ab4474e9ed761d0d40f4568f9e9"
+      "provenance_hash": "c945fc124571d16ba0dfcbe1e0ccc9b0bbb115dce2d162dda8a2ed1317f143a4"
     },
     {
-      "claim_id": "claim:segment:AALB-COI-metadata-gap:1-622:taxon:species:Aedes albopictus",
-      "segment_id": "segment:AALB-COI-metadata-gap:1-622",
+      "claim_id": "claim:segment:AALB-COI-metadata-gap:1-658:taxon:species:Aedes albopictus",
+      "segment_id": "segment:AALB-COI-metadata-gap:1-658",
       "target_id": "taxon:species:Aedes albopictus",
-      "claim_state": "taxon_supported",
-      "allowed": true,
+      "claim_state": "taxon_ambiguous",
+      "allowed": false,
       "boundary": "Review-only candidate at species rank: Aedes albopictus.",
       "caveats": "absolute species truth outside the stated reference context; natural presence, absence, abundance or distribution without occurrence evidence; phenotype, pathogenicity, ecological role or invasiveness; replacement for GBIF Sequence ID, curated reference databases or expert review",
-      "blockers": "publication blocked: missing required Occurrence core field occurrenceID; publication blocked: missing required Occurrence core field eventDate",
+      "blockers": "species claim blocked: reference completeness attestation blocked scientific use: unsigned; species claim blocked: reference completeness failed: server_attestation_verified; species claim blocked: reference completeness failed: externally_audited_status; species claim blocked: reference completeness failed: audit_checksum_supplied; species claim blocked: sequence QC failed: chimera check pass; evidence-bundle trust=unsigned; publication blocked: missing required Occurrence core field occurrenceID; publication blocked: missing required Occurrence core field eventDate",
       "gbif_context_promotes_claim": false,
       "ui_promotes_claim": false,
-      "provenance_hash": "91a8c21db9e4eeeaaec3a7b3ab249e4050f26f41c1cfee069f56c26eaab3cad0"
+      "provenance_hash": "b0c14948366854b4d0a3bdbe4ba90d03ae08cfd57bcef70dd0311a7c4d595f30"
     }
   ],
   "graph": {
@@ -1736,11 +1759,11 @@
     },
     "@graph": [
       {
-        "id": "run:38d525a51d8546e598b9f5cbe9864c42",
+        "id": "run:0026e96063174d8f96d6066a7d59c14c",
         "type": "Run",
         "mode": "offline_demo",
         "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-        "provenance_hash": "0b17175d2646bf3e92da160738faf556b46df27600c1a8556faae765f8733449"
+        "provenance_hash": "f6aafb7709f2571b298c676de50886b8310bbee48808fbfe445303deda22e729"
       },
       {
         "id": "source:gbif_occurrence_api",
@@ -1763,49 +1786,49 @@
         "provenance_hash": "024ce809dec48de41eedae0998fe44cd41e63aa308b62066ef35bb447bf9e336"
       },
       {
-        "id": "segment:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
+        "id": "segment:23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
         "type": "Segment",
-        "segment_id": "segment:AALB-COI-good:1-622",
-        "segment_hash": "0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
-        "claim_state": "taxon_supported",
+        "segment_id": "segment:AALB-COI-good:1-658",
+        "segment_hash": "23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
+        "claim_state": "taxon_ambiguous",
         "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-        "provenance_hash": "cb8823e1820f7d842e51910cc37787f50a3642c225d2177cf4cf048b891da314"
+        "provenance_hash": "01e9c59fa4c05e08906513bd50ee983419970a06bd646e27759646a14201a1ea"
       },
       {
-        "id": "segment:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
+        "id": "segment:23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
         "type": "Segment",
-        "segment_id": "segment:AALB-COI-ambiguous:1-622",
-        "segment_hash": "0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
+        "segment_id": "segment:AALB-COI-ambiguous:1-658",
+        "segment_hash": "23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
         "claim_state": "taxon_supported",
         "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-        "provenance_hash": "b3e143d20d7cdcbae85045c7f17a062a00d8f130eeabcd17bc98ba46e9ff6ea4"
+        "provenance_hash": "28b09dc5800b1afef329bde716a38c3bc9715b653b831dbd2af7f7521fe45fde"
       },
       {
-        "id": "segment:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
+        "id": "segment:23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
         "type": "Segment",
-        "segment_id": "segment:AALB-COI-short:1-622",
-        "segment_hash": "0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
+        "segment_id": "segment:AALB-COI-short:1-658",
+        "segment_hash": "23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
         "claim_state": "weak_hypothesis",
         "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-        "provenance_hash": "a1f01f4e5443a46cc4a271daa1dbe841baa70ed715f266ccc724974f513dc097"
+        "provenance_hash": "2b81f71f7db0ccf1ef4075b1e947f7f1fc2556b6f5e84f294faeca1793b46153"
       },
       {
-        "id": "segment:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
+        "id": "segment:23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
         "type": "Segment",
-        "segment_id": "segment:AALB-COI-metadata-gap:1-622",
-        "segment_hash": "0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
-        "claim_state": "taxon_supported",
+        "segment_id": "segment:AALB-COI-metadata-gap:1-658",
+        "segment_hash": "23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
+        "claim_state": "taxon_ambiguous",
         "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-        "provenance_hash": "6b229bf3ee1f7ef0639ece0baea7eb8703c71a0fe4b4b79420ac0ca6bb2fed31"
+        "provenance_hash": "ea5454355d5b0731a9b7e4d9bf9f2ae2dc2ac3126a723c4ff7dffae9b8ec41df"
       },
       {
         "id": "taxon:species:Aedes albopictus",
         "type": "Taxon",
         "label": "Aedes albopictus",
         "safe_rank": "species",
-        "claim_state": "taxon_supported",
+        "claim_state": "taxon_ambiguous",
         "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-        "provenance_hash": "2f49d50ef191aac6a3205cd26fa74fd116ef5b1cd2f3d37c14ba23757e878377"
+        "provenance_hash": "dc7ebfa6e18cf78ff5b3fcd2704d980a8520504c448a00797b38b0c586c4baba"
       },
       {
         "id": "taxon:genus:Aedes",
@@ -1817,201 +1840,166 @@
         "provenance_hash": "233c1752b61b4be3806d2a646b25377d610ae6b18a8274134380048e76d21b7c"
       },
       {
-        "id": "claim:segment:AALB-COI-good:1-622:taxon:species:Aedes albopictus",
+        "id": "claim:segment:AALB-COI-good:1-658:taxon:species:Aedes albopictus",
         "type": "EvidenceClaim",
-        "claim_state": "taxon_supported",
-        "claim_boundary": "Species-level molecular assignment candidate for Aedes albopictus within the supplied reference context.",
+        "claim_state": "taxon_ambiguous",
+        "claim_boundary": "Review-only candidate at species rank: Aedes albopictus.",
         "caveats": "absolute species truth outside the stated reference context; natural presence, absence, abundance or distribution without occurrence evidence; phenotype, pathogenicity, ecological role or invasiveness; replacement for GBIF Sequence ID, curated reference databases or expert review",
         "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-        "provenance_hash": "51b2d7aac69ec0377b523c8ce49b94690cafcfd654870402821c8d5f5596ba8c"
+        "provenance_hash": "37b3a3ebb23a8ef4c6f7d96a5b094b4550af4939964658fde72234f33999acaf"
       },
       {
-        "id": "claim:segment:AALB-COI-ambiguous:1-622:taxon:genus:Aedes",
+        "id": "claim:segment:AALB-COI-ambiguous:1-658:taxon:genus:Aedes",
         "type": "EvidenceClaim",
         "claim_state": "taxon_supported",
         "claim_boundary": "Genus-level molecular evidence for Aedes; species-level naming is blocked for this sequence.",
         "caveats": "absolute species truth outside the stated reference context; natural presence, absence, abundance or distribution without occurrence evidence; phenotype, pathogenicity, ecological role or invasiveness; replacement for GBIF Sequence ID, curated reference databases or expert review",
         "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-        "provenance_hash": "d49f43be9ca633cf35fa9ba5e038b5c649ce5f754d8ce6ec0a7f91225ca6fce3"
+        "provenance_hash": "c1440291c9d034c041255f6a76697cf9382c5dd40a4c0751db9e300c0a68c19d"
       },
       {
-        "id": "claim:segment:AALB-COI-short:1-622:taxon:species:Aedes albopictus",
+        "id": "claim:segment:AALB-COI-short:1-658:taxon:species:Aedes albopictus",
         "type": "EvidenceClaim",
         "claim_state": "weak_hypothesis",
         "claim_boundary": "Review-only molecular hint; identity, coverage or marker profile is too weak for a safe taxonomic claim.",
         "caveats": "absolute species truth outside the stated reference context; natural presence, absence, abundance or distribution without occurrence evidence; phenotype, pathogenicity, ecological role or invasiveness; replacement for GBIF Sequence ID, curated reference databases or expert review",
         "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-        "provenance_hash": "9cb78af6e80fbfe65d7cc9cc34ffefde3a6eeb00ceecf2b43c5a4c6a5fb1b7c7"
+        "provenance_hash": "36b33dc94cc40f0a9c31a0d69c3ab130a6970b9c24d9d8b65a6e194e92c94551"
       },
       {
-        "id": "claim:segment:AALB-COI-metadata-gap:1-622:taxon:species:Aedes albopictus",
+        "id": "claim:segment:AALB-COI-metadata-gap:1-658:taxon:species:Aedes albopictus",
         "type": "EvidenceClaim",
-        "claim_state": "taxon_supported",
+        "claim_state": "taxon_ambiguous",
         "claim_boundary": "Review-only candidate at species rank: Aedes albopictus.",
         "caveats": "absolute species truth outside the stated reference context; natural presence, absence, abundance or distribution without occurrence evidence; phenotype, pathogenicity, ecological role or invasiveness; replacement for GBIF Sequence ID, curated reference databases or expert review",
         "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-        "provenance_hash": "d41e9514605b6d07e1b039d02a38fefbb72434b9b643a753dc5918b20f5b29f3"
+        "provenance_hash": "53499ca9891c5bb3be20340ddae164c8aeee0e3ec058550a0388e41a9d93e9fd"
       },
       {
-        "id": "edge:38d525a51d8546e598b9f5cbe9864c42:uses-snapshot",
+        "id": "edge:0026e96063174d8f96d6066a7d59c14c:uses-snapshot",
         "type": "USES_SNAPSHOT",
-        "source": "run:38d525a51d8546e598b9f5cbe9864c42",
+        "source": "run:0026e96063174d8f96d6066a7d59c14c",
         "target": "snapshot:gbif-aedes-spain-30dc62b4a7bd",
         "claim_state": "occurrence_context",
         "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-        "provenance_hash": "2d5b9500a80cdad05a97a3d97683e8e9df923bc4b53c30dcf18af98bf66aa8f6"
+        "provenance_hash": "a0526b40dcf33cb5473bfd7c1d0a7f361cb93efe1178a116f4b62f4ff0f173ec"
       },
       {
-        "id": "edge:38d525a51d8546e598b9f5cbe9864c42:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9:source",
+        "id": "edge:0026e96063174d8f96d6066a7d59c14c:23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300:source",
         "type": "FROM_SOURCE",
-        "source": "segment:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
+        "source": "segment:23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
+        "target": "source:project_user_uploads",
+        "claim_state": "taxon_ambiguous",
+        "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
+        "provenance_hash": "7046f2a380fbffc8d38e1455181d675669fa1654cd55d432d6cdfa6b50e000b5"
+      },
+      {
+        "id": "edge:0026e96063174d8f96d6066a7d59c14c:23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300:source",
+        "type": "FROM_SOURCE",
+        "source": "segment:23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
         "target": "source:project_user_uploads",
         "claim_state": "taxon_supported",
         "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-        "provenance_hash": "87442c4152a34c8ccd7b566b042f35acc40d416164cc228df56830e1078af2e4"
+        "provenance_hash": "5ff6b64fb252642a791f885423338076b66209907b086e9d4a662ed315b8fcdc"
       },
       {
-        "id": "edge:38d525a51d8546e598b9f5cbe9864c42:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9:source",
+        "id": "edge:0026e96063174d8f96d6066a7d59c14c:23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300:source",
         "type": "FROM_SOURCE",
-        "source": "segment:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
-        "target": "source:project_user_uploads",
-        "claim_state": "taxon_supported",
-        "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-        "provenance_hash": "87442c4152a34c8ccd7b566b042f35acc40d416164cc228df56830e1078af2e4"
-      },
-      {
-        "id": "edge:38d525a51d8546e598b9f5cbe9864c42:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9:source",
-        "type": "FROM_SOURCE",
-        "source": "segment:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
+        "source": "segment:23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
         "target": "source:project_user_uploads",
         "claim_state": "weak_hypothesis",
         "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-        "provenance_hash": "766bc081c18e91fe9e7f40bdddd50fd2c0a0cfeea8b21740ca701686e090cb48"
+        "provenance_hash": "ed2c83fa50f0b9fc64548afe81a5f8273ece79abaa30650810287fdab9c0ee52"
       },
       {
-        "id": "edge:38d525a51d8546e598b9f5cbe9864c42:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9:source",
+        "id": "edge:0026e96063174d8f96d6066a7d59c14c:23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300:source",
         "type": "FROM_SOURCE",
-        "source": "segment:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
+        "source": "segment:23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
         "target": "source:project_user_uploads",
-        "claim_state": "taxon_supported",
+        "claim_state": "taxon_ambiguous",
         "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-        "provenance_hash": "87442c4152a34c8ccd7b566b042f35acc40d416164cc228df56830e1078af2e4"
+        "provenance_hash": "7046f2a380fbffc8d38e1455181d675669fa1654cd55d432d6cdfa6b50e000b5"
       },
       {
-        "id": "edge:claim:segment:AALB-COI-good:1-622:taxon:species:Aedes albopictus:segment",
+        "id": "edge:claim:segment:AALB-COI-good:1-658:taxon:species:Aedes albopictus:segment",
         "type": "HAS_SEGMENT",
-        "source": "claim:segment:AALB-COI-good:1-622:taxon:species:Aedes albopictus",
-        "target": "segment:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
-        "claim_state": "taxon_supported",
+        "source": "claim:segment:AALB-COI-good:1-658:taxon:species:Aedes albopictus",
+        "target": "segment:23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
+        "claim_state": "taxon_ambiguous",
         "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-        "provenance_hash": "5c3d7bd4da1abd1bc72c0e6af271dd51f8f5c332c7babaf6010d7e55246ddbc6"
+        "provenance_hash": "ec9921c824e70cb68f39ed6f8cb1ee90a998070320d7e13355001388d8e74b9e"
       },
       {
-        "id": "edge:claim:segment:AALB-COI-good:1-622:taxon:species:Aedes albopictus:taxon",
-        "type": "SUPPORTS_TAXON",
-        "source": "claim:segment:AALB-COI-good:1-622:taxon:species:Aedes albopictus",
+        "id": "edge:claim:segment:AALB-COI-good:1-658:taxon:species:Aedes albopictus:taxon",
+        "type": "BLOCKED_OR_REVIEW",
+        "source": "claim:segment:AALB-COI-good:1-658:taxon:species:Aedes albopictus",
         "target": "taxon:species:Aedes albopictus",
-        "claim_state": "taxon_supported",
+        "claim_state": "taxon_ambiguous",
         "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-        "provenance_hash": "4c88efd8a8aa2f6ba9d98934f3bd08b631342b68eb367061b8fef694006b8b0a"
+        "provenance_hash": "b1f9361abb0d57792edb59ab6f23536e281536ca0489e3c23d1beba8c5149a15"
       },
       {
-        "id": "edge:claim:segment:AALB-COI-good:1-622:taxon:species:Aedes albopictus:context",
-        "type": "HAS_OCCURRENCE_CONTEXT",
-        "source": "claim:segment:AALB-COI-good:1-622:taxon:species:Aedes albopictus",
-        "target": "snapshot:gbif-aedes-spain-30dc62b4a7bd",
-        "claim_state": "occurrence_context",
-        "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-        "provenance_hash": "1a1acc3861dd22077103928c5a9f1919be8ed221b91e90e8b565e95fb0dba784"
-      },
-      {
-        "id": "edge:claim:segment:AALB-COI-ambiguous:1-622:taxon:genus:Aedes:segment",
+        "id": "edge:claim:segment:AALB-COI-ambiguous:1-658:taxon:genus:Aedes:segment",
         "type": "HAS_SEGMENT",
-        "source": "claim:segment:AALB-COI-ambiguous:1-622:taxon:genus:Aedes",
-        "target": "segment:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
+        "source": "claim:segment:AALB-COI-ambiguous:1-658:taxon:genus:Aedes",
+        "target": "segment:23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
         "claim_state": "taxon_supported",
         "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-        "provenance_hash": "acf51ea4c69e8153ec37c3f2d0fbc308f85ba987810c0175599a79c467d1a323"
+        "provenance_hash": "65a962e62970086054c06643c83c43884023abbc92bfef749990d571332a3904"
       },
       {
-        "id": "edge:claim:segment:AALB-COI-ambiguous:1-622:taxon:genus:Aedes:taxon",
+        "id": "edge:claim:segment:AALB-COI-ambiguous:1-658:taxon:genus:Aedes:taxon",
         "type": "SUPPORTS_TAXON",
-        "source": "claim:segment:AALB-COI-ambiguous:1-622:taxon:genus:Aedes",
+        "source": "claim:segment:AALB-COI-ambiguous:1-658:taxon:genus:Aedes",
         "target": "taxon:genus:Aedes",
         "claim_state": "taxon_supported",
         "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-        "provenance_hash": "7010e34113f6ad393b2d9625d17a1383eeca57323cdfeafcd73a07c2fec81b92"
+        "provenance_hash": "9b2b2b7ad8a34e5dd2b49db98311f4057113d7a5099aadfc53d2d9628503299c"
       },
       {
-        "id": "edge:claim:segment:AALB-COI-ambiguous:1-622:taxon:genus:Aedes:context",
-        "type": "HAS_OCCURRENCE_CONTEXT",
-        "source": "claim:segment:AALB-COI-ambiguous:1-622:taxon:genus:Aedes",
-        "target": "snapshot:gbif-aedes-spain-30dc62b4a7bd",
-        "claim_state": "occurrence_context",
-        "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-        "provenance_hash": "54131df556b14a51de69ca4acd3a426acab89c5a59a694a3f5fd7a800da342b6"
-      },
-      {
-        "id": "edge:claim:segment:AALB-COI-short:1-622:taxon:species:Aedes albopictus:segment",
+        "id": "edge:claim:segment:AALB-COI-short:1-658:taxon:species:Aedes albopictus:segment",
         "type": "HAS_SEGMENT",
-        "source": "claim:segment:AALB-COI-short:1-622:taxon:species:Aedes albopictus",
-        "target": "segment:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
+        "source": "claim:segment:AALB-COI-short:1-658:taxon:species:Aedes albopictus",
+        "target": "segment:23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
         "claim_state": "weak_hypothesis",
         "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-        "provenance_hash": "7d0dc29785b71c3bcdd03a0bb1bf5f608c362bc523bddaf79485c4e3ba8fc7c7"
+        "provenance_hash": "80c8662272ed8457cdee0f0ccefd7e1266a19cdc3e8a8ae6681c3eb68b37bb77"
       },
       {
-        "id": "edge:claim:segment:AALB-COI-short:1-622:taxon:species:Aedes albopictus:taxon",
+        "id": "edge:claim:segment:AALB-COI-short:1-658:taxon:species:Aedes albopictus:taxon",
         "type": "BLOCKED_OR_REVIEW",
-        "source": "claim:segment:AALB-COI-short:1-622:taxon:species:Aedes albopictus",
+        "source": "claim:segment:AALB-COI-short:1-658:taxon:species:Aedes albopictus",
         "target": "taxon:species:Aedes albopictus",
         "claim_state": "weak_hypothesis",
         "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-        "provenance_hash": "dae517873813e3473784b22cb9740488207704bbef67572a3e487ba984cf801c"
+        "provenance_hash": "ac5c2f123d7c276d8a396037b83880ed80ff88f8e963462876ab63159a977217"
       },
       {
-        "id": "edge:claim:segment:AALB-COI-short:1-622:taxon:species:Aedes albopictus:context",
-        "type": "HAS_OCCURRENCE_CONTEXT",
-        "source": "claim:segment:AALB-COI-short:1-622:taxon:species:Aedes albopictus",
-        "target": "snapshot:gbif-aedes-spain-30dc62b4a7bd",
-        "claim_state": "occurrence_context",
-        "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-        "provenance_hash": "a9014e71434e2bb5162d7db6ba18b5ef5a2c0a4ee21d91e3049dafef006cc896"
-      },
-      {
-        "id": "edge:claim:segment:AALB-COI-metadata-gap:1-622:taxon:species:Aedes albopictus:segment",
+        "id": "edge:claim:segment:AALB-COI-metadata-gap:1-658:taxon:species:Aedes albopictus:segment",
         "type": "HAS_SEGMENT",
-        "source": "claim:segment:AALB-COI-metadata-gap:1-622:taxon:species:Aedes albopictus",
-        "target": "segment:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
-        "claim_state": "taxon_supported",
+        "source": "claim:segment:AALB-COI-metadata-gap:1-658:taxon:species:Aedes albopictus",
+        "target": "segment:23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
+        "claim_state": "taxon_ambiguous",
         "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-        "provenance_hash": "2a6996a9dea9b564914a998041a63c86a36dab4269f3e3b839e2798e85bf3bc0"
+        "provenance_hash": "4f662ad87e8c34425cedc1ccc9b476baec762a30fb9b0808dc7282acc14d1b33"
       },
       {
-        "id": "edge:claim:segment:AALB-COI-metadata-gap:1-622:taxon:species:Aedes albopictus:taxon",
-        "type": "SUPPORTS_TAXON",
-        "source": "claim:segment:AALB-COI-metadata-gap:1-622:taxon:species:Aedes albopictus",
+        "id": "edge:claim:segment:AALB-COI-metadata-gap:1-658:taxon:species:Aedes albopictus:taxon",
+        "type": "BLOCKED_OR_REVIEW",
+        "source": "claim:segment:AALB-COI-metadata-gap:1-658:taxon:species:Aedes albopictus",
         "target": "taxon:species:Aedes albopictus",
-        "claim_state": "taxon_supported",
+        "claim_state": "taxon_ambiguous",
         "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-        "provenance_hash": "62d8ed2689930cd7694989b36fa162bef631da0c5d0f8fb945a7ed874786cb96"
-      },
-      {
-        "id": "edge:claim:segment:AALB-COI-metadata-gap:1-622:taxon:species:Aedes albopictus:context",
-        "type": "HAS_OCCURRENCE_CONTEXT",
-        "source": "claim:segment:AALB-COI-metadata-gap:1-622:taxon:species:Aedes albopictus",
-        "target": "snapshot:gbif-aedes-spain-30dc62b4a7bd",
-        "claim_state": "occurrence_context",
-        "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-        "provenance_hash": "aea9ac105a1f3c6229fe46cd404e67dbf0cad4e9c3b7c30be49c78c87bbc7071"
+        "provenance_hash": "ad16061f3b5930546d511a25c04ec3114f827a0dcc5f4e3fb1439ba457953c29"
       }
     ],
     "summary": {
-      "run_id": "38d525a51d8546e598b9f5cbe9864c42",
+      "run_id": "0026e96063174d8f96d6066a7d59c14c",
       "nodes": 14,
-      "edges": 17,
+      "edges": 13,
       "claim_states": {
-        "taxon_supported": 3,
+        "taxon_ambiguous": 2,
+        "taxon_supported": 1,
         "weak_hypothesis": 1
       }
     }
@@ -2019,112 +2007,112 @@
   "gbif_export_preview": [
     {
       "occurrenceID": "urn:ecogenesis:observatory:AALB-COI-good",
-      "scientificName": "Aedes albopictus",
-      "taxonRank": "species",
+      "scientificName": "",
+      "taxonRank": "",
       "sequenceID": "AALB-COI-good",
-      "segmentID": "segment:AALB-COI-good:1-622",
-      "claim_state": "taxon_supported",
-      "export_allowed": true,
-      "export_state": "ready_for_gbif_review",
-      "blockers": "",
+      "segmentID": "segment:AALB-COI-good:1-658",
+      "claim_state": "taxon_ambiguous",
+      "export_allowed": false,
+      "export_state": "blocked_or_repair_required",
+      "blockers": "species claim blocked: reference completeness attestation blocked scientific use: unsigned; species claim blocked: reference completeness failed: server_attestation_verified; species claim blocked: reference completeness failed: externally_audited_status; species claim blocked: reference completeness failed: audit_checksum_supplied; species claim blocked: sequence QC failed: chimera check pass; evidence-bundle trust=unsigned",
       "basis": "molecular gates only; GBIF occurrence context does not promote claim",
-      "provenance_hash": "1760e75d811665f3b2acf6ab662c6a1720c2fd542d47fed4c71eb878d95f91f4"
+      "provenance_hash": "e7c6a7404eb905dc8cb2e7a702238c5742ec723b8be5b27182c0b08ffdbf959b"
     },
     {
       "occurrenceID": "urn:ecogenesis:observatory:AALB-COI-ambiguous",
       "scientificName": "Aedes",
       "taxonRank": "genus",
       "sequenceID": "AALB-COI-ambiguous",
-      "segmentID": "segment:AALB-COI-ambiguous:1-622",
+      "segmentID": "segment:AALB-COI-ambiguous:1-658",
       "claim_state": "taxon_supported",
       "export_allowed": true,
       "export_state": "ready_for_gbif_review",
-      "blockers": "species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus",
+      "blockers": "species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus; species claim blocked: reference completeness attestation blocked scientific use: unsigned; species claim blocked: reference completeness failed: server_attestation_verified; species claim blocked: reference completeness failed: externally_audited_status; species claim blocked: reference completeness failed: audit_checksum_supplied; species claim blocked: sequence QC failed: chimera check pass; evidence-bundle trust=unsigned",
       "basis": "molecular gates only; GBIF occurrence context does not promote claim",
-      "provenance_hash": "f0cb7fc5e81854981fb97eac8792fea406231e3c3abc4e64426efb14b00242a3"
+      "provenance_hash": "52b55ff30e029800a6e0f045038781bc40588f07e5b3bb260b76d571994c996a"
     },
     {
       "occurrenceID": "urn:ecogenesis:observatory:AALB-COI-short",
       "scientificName": "",
       "taxonRank": "",
       "sequenceID": "AALB-COI-short",
-      "segmentID": "segment:AALB-COI-short:1-622",
+      "segmentID": "segment:AALB-COI-short:1-658",
       "claim_state": "weak_hypothesis",
       "export_allowed": false,
       "export_state": "blocked_or_repair_required",
-      "blockers": "species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%; species claim blocked: query coverage < 80%",
+      "blockers": "species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%; species claim blocked: query coverage < 80%; species claim blocked: reference completeness attestation blocked scientific use: unsigned; species claim blocked: reference completeness failed: server_attestation_verified; species claim blocked: reference completeness failed: externally_audited_status; species claim blocked: reference completeness failed: audit_checksum_supplied; species claim blocked: sequence QC failed: chimera check pass; evidence-bundle trust=unsigned",
       "basis": "molecular gates only; GBIF occurrence context does not promote claim",
-      "provenance_hash": "1a2fc0978d03d9673282261d89e4859c47b9485fa8f7d72dfeb4fb22d3bc3cb7"
+      "provenance_hash": "d8a117000071cfefa2f031bb95ab96b3a6337a3279103e394d1669addece1352"
     },
     {
       "occurrenceID": "urn:ecogenesis:observatory:AALB-COI-metadata-gap",
       "scientificName": "",
       "taxonRank": "",
       "sequenceID": "AALB-COI-metadata-gap",
-      "segmentID": "segment:AALB-COI-metadata-gap:1-622",
-      "claim_state": "taxon_supported",
+      "segmentID": "segment:AALB-COI-metadata-gap:1-658",
+      "claim_state": "taxon_ambiguous",
       "export_allowed": false,
       "export_state": "blocked_or_repair_required",
-      "blockers": "publication blocked: missing required Occurrence core field occurrenceID; publication blocked: missing required Occurrence core field eventDate",
+      "blockers": "species claim blocked: reference completeness attestation blocked scientific use: unsigned; species claim blocked: reference completeness failed: server_attestation_verified; species claim blocked: reference completeness failed: externally_audited_status; species claim blocked: reference completeness failed: audit_checksum_supplied; species claim blocked: sequence QC failed: chimera check pass; evidence-bundle trust=unsigned; publication blocked: missing required Occurrence core field occurrenceID; publication blocked: missing required Occurrence core field eventDate",
       "basis": "molecular gates only; GBIF occurrence context does not promote claim",
-      "provenance_hash": "2330da7c4b390f7595289232a334ff3114b4ff1592639db2165fc8c04f29ef1d"
+      "provenance_hash": "ecdf6cf4e69f48e2afcf6f803da67e74e6de7081d8f593a9f20f30f1e99721ce"
     }
   ],
   "ai_ready_dataset": [
     {
-      "segment_id": "segment:AALB-COI-good:1-622",
-      "segment_hash": "0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
+      "segment_id": "segment:AALB-COI-good:1-658",
+      "segment_hash": "23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
       "target_label": "Aedes albopictus",
       "safe_rank": "species",
-      "claim_state": "taxon_supported",
-      "label": "positive_verified",
-      "features_only": false,
+      "claim_state": "taxon_ambiguous",
+      "label": "candidate_hypothesis",
+      "features_only": true,
       "caveats": "absolute species truth outside the stated reference context; natural presence, absence, abundance or distribution without occurrence evidence; phenotype, pathogenicity, ecological role or invasiveness; replacement for GBIF Sequence ID, curated reference databases or expert review",
-      "blockers": "",
-      "provenance_hash": "1760e75d811665f3b2acf6ab662c6a1720c2fd542d47fed4c71eb878d95f91f4"
+      "blockers": "species claim blocked: reference completeness attestation blocked scientific use: unsigned; species claim blocked: reference completeness failed: server_attestation_verified; species claim blocked: reference completeness failed: externally_audited_status; species claim blocked: reference completeness failed: audit_checksum_supplied; species claim blocked: sequence QC failed: chimera check pass; evidence-bundle trust=unsigned",
+      "provenance_hash": "e7c6a7404eb905dc8cb2e7a702238c5742ec723b8be5b27182c0b08ffdbf959b"
     },
     {
-      "segment_id": "segment:AALB-COI-ambiguous:1-622",
-      "segment_hash": "0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
+      "segment_id": "segment:AALB-COI-ambiguous:1-658",
+      "segment_hash": "23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
       "target_label": "Aedes",
       "safe_rank": "genus",
       "claim_state": "taxon_supported",
-      "label": "positive_verified",
+      "label": "positive_rule_supported",
       "features_only": false,
       "caveats": "absolute species truth outside the stated reference context; natural presence, absence, abundance or distribution without occurrence evidence; phenotype, pathogenicity, ecological role or invasiveness; replacement for GBIF Sequence ID, curated reference databases or expert review",
-      "blockers": "species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus",
-      "provenance_hash": "f0cb7fc5e81854981fb97eac8792fea406231e3c3abc4e64426efb14b00242a3"
+      "blockers": "species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus; species claim blocked: reference completeness attestation blocked scientific use: unsigned; species claim blocked: reference completeness failed: server_attestation_verified; species claim blocked: reference completeness failed: externally_audited_status; species claim blocked: reference completeness failed: audit_checksum_supplied; species claim blocked: sequence QC failed: chimera check pass; evidence-bundle trust=unsigned",
+      "provenance_hash": "52b55ff30e029800a6e0f045038781bc40588f07e5b3bb260b76d571994c996a"
     },
     {
-      "segment_id": "segment:AALB-COI-short:1-622",
-      "segment_hash": "0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
+      "segment_id": "segment:AALB-COI-short:1-658",
+      "segment_hash": "23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
       "target_label": "Aedes albopictus",
       "safe_rank": "species",
       "claim_state": "weak_hypothesis",
       "label": "candidate_hypothesis",
       "features_only": true,
       "caveats": "absolute species truth outside the stated reference context; natural presence, absence, abundance or distribution without occurrence evidence; phenotype, pathogenicity, ecological role or invasiveness; replacement for GBIF Sequence ID, curated reference databases or expert review",
-      "blockers": "species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%; species claim blocked: query coverage < 80%",
-      "provenance_hash": "1a2fc0978d03d9673282261d89e4859c47b9485fa8f7d72dfeb4fb22d3bc3cb7"
+      "blockers": "species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%; species claim blocked: query coverage < 80%; species claim blocked: reference completeness attestation blocked scientific use: unsigned; species claim blocked: reference completeness failed: server_attestation_verified; species claim blocked: reference completeness failed: externally_audited_status; species claim blocked: reference completeness failed: audit_checksum_supplied; species claim blocked: sequence QC failed: chimera check pass; evidence-bundle trust=unsigned",
+      "provenance_hash": "d8a117000071cfefa2f031bb95ab96b3a6337a3279103e394d1669addece1352"
     },
     {
-      "segment_id": "segment:AALB-COI-metadata-gap:1-622",
-      "segment_hash": "0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
+      "segment_id": "segment:AALB-COI-metadata-gap:1-658",
+      "segment_hash": "23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
       "target_label": "Aedes albopictus",
       "safe_rank": "species",
-      "claim_state": "taxon_supported",
-      "label": "positive_verified",
-      "features_only": false,
+      "claim_state": "taxon_ambiguous",
+      "label": "candidate_hypothesis",
+      "features_only": true,
       "caveats": "absolute species truth outside the stated reference context; natural presence, absence, abundance or distribution without occurrence evidence; phenotype, pathogenicity, ecological role or invasiveness; replacement for GBIF Sequence ID, curated reference databases or expert review",
-      "blockers": "publication blocked: missing required Occurrence core field occurrenceID; publication blocked: missing required Occurrence core field eventDate",
-      "provenance_hash": "2330da7c4b390f7595289232a334ff3114b4ff1592639db2165fc8c04f29ef1d"
+      "blockers": "species claim blocked: reference completeness attestation blocked scientific use: unsigned; species claim blocked: reference completeness failed: server_attestation_verified; species claim blocked: reference completeness failed: externally_audited_status; species claim blocked: reference completeness failed: audit_checksum_supplied; species claim blocked: sequence QC failed: chimera check pass; evidence-bundle trust=unsigned; publication blocked: missing required Occurrence core field occurrenceID; publication blocked: missing required Occurrence core field eventDate",
+      "provenance_hash": "ecdf6cf4e69f48e2afcf6f803da67e74e6de7081d8f593a9f20f30f1e99721ce"
     }
   ],
   "audit_artifacts": {
     "source_registry_audit.json": {
       "registry_version": "GSIG-OBS-SOURCES-1.0",
       "source_count": 7,
-      "mvp_sources": [
+      "contest_sources": [
         "gbif_occurrence_api",
         "gbif_dna_derived_extension"
       ],
@@ -2133,7 +2121,7 @@
       "rows": [
         {
           "source_id": "gbif_occurrence_api",
-          "status": "mvp_integration",
+          "status": "contest_integration",
           "license_policy_present": true,
           "rate_limit_policy_present": true,
           "provenance_required": true,
@@ -2143,7 +2131,7 @@
         },
         {
           "source_id": "gbif_dna_derived_extension",
-          "status": "mvp_integration",
+          "status": "contest_integration",
           "license_policy_present": true,
           "rate_limit_policy_present": true,
           "provenance_required": true,
@@ -2228,7 +2216,7 @@
       },
       "query_sha256": "e97efa4320a4fad6b12a9c7291dbd82b6b922d7e82c38c3d98866f8450c8f66d",
       "raw_payload_sha256": "e10968fba4a7366821709e8c8e3e7fa1898c727b0cfa31dd52e830c10814dba4",
-      "retrieved_at": "2026-06-14T22:03:14.485769+00:00",
+      "retrieved_at": "2026-07-10T11:36:53.611257+00:00",
       "records_returned": 12,
       "normalized_records": 12,
       "claim_boundary": "Occurrence records are context and provenance only; they do not strengthen molecular taxon support.",
@@ -2240,12 +2228,13 @@
         "collection_method": "GBIF API via /occurrence/search or fixture replay",
         "scrapes_gbif_pages": false,
         "user_agent_policy": "configured_in_GBIFClient",
+        "registered_acquisition_modes": "asynchronous_download_for_large_batches; paged_search_for_small_demo",
         "status": "pass"
       }
     ],
     "gbif_query_strategy_audit.csv": [
       {
-        "run_id": "38d525a51d8546e598b9f5cbe9864c42",
+        "run_id": "0026e96063174d8f96d6066a7d59c14c",
         "mode": "offline_demo",
         "requested_limit": 50,
         "strategy": "paged_search_for_small_demo",
@@ -2254,7 +2243,7 @@
       }
     ],
     "source_provenance_manifest.json": {
-      "run_id": "38d525a51d8546e598b9f5cbe9864c42",
+      "run_id": "0026e96063174d8f96d6066a7d59c14c",
       "snapshot_id": "gbif-aedes-spain-30dc62b4a7bd",
       "snapshot_hash": "30dc62b4a7bdfacae821ea329c1240b9c4b659d152019db7252db46ca92b31bb",
       "source_ids": [
@@ -2269,7 +2258,7 @@
         "snapshot_hash_present": true,
         "provenance_hash_present": true,
         "source_id": "project_user_uploads",
-        "claim_state": "taxon_supported",
+        "claim_state": "taxon_ambiguous",
         "status": "pass"
       },
       {
@@ -2293,15 +2282,15 @@
         "snapshot_hash_present": true,
         "provenance_hash_present": true,
         "source_id": "project_user_uploads",
-        "claim_state": "taxon_supported",
+        "claim_state": "taxon_ambiguous",
         "status": "pass"
       }
     ],
     "visualization_guardrail_audit.csv": [
       {
         "vsea_id": "obs-vsea:AALB-COI-good:1",
-        "graph_claim_state": "taxon_supported",
-        "ui_claim_state": "taxon_supported",
+        "graph_claim_state": "taxon_ambiguous",
+        "ui_claim_state": "taxon_ambiguous",
         "visual_promotes_claim": false,
         "status": "pass"
       },
@@ -2321,8 +2310,8 @@
       },
       {
         "vsea_id": "obs-vsea:AALB-COI-metadata-gap:4",
-        "graph_claim_state": "taxon_supported",
-        "ui_claim_state": "taxon_supported",
+        "graph_claim_state": "taxon_ambiguous",
+        "ui_claim_state": "taxon_ambiguous",
         "visual_promotes_claim": false,
         "status": "pass"
       }
@@ -2330,73 +2319,81 @@
     "blocked_claim_visibility_audit.csv": [
       {
         "screen_id": "vsea_grid",
-        "blocked_or_review_rows": 1,
-        "hidden_by_default": false,
+        "blocked_or_review_rows": 3,
+        "contractRequiresVisibility": true,
         "status": "pass"
       },
       {
         "screen_id": "judge_mode",
-        "blocked_or_review_rows": 1,
-        "hidden_by_default": false,
+        "blocked_or_review_rows": 3,
+        "contractRequiresVisibility": true,
         "status": "pass"
       }
     ],
     "sharedness_visual_overclaim_audit.csv": [
       {
-        "segment_id": "segment:AALB-COI-good:1-622",
+        "segment_id": "segment:AALB-COI-good:1-658",
         "safe_rank": "species",
-        "claim_state": "taxon_supported",
-        "species_specific_badge_allowed": true,
+        "claim_state": "taxon_ambiguous",
+        "species_specific_badge_allowed": false,
+        "ui_guardrail_declared": true,
+        "overclaim_violation": false,
         "status": "pass"
       },
       {
-        "segment_id": "segment:AALB-COI-ambiguous:1-622",
+        "segment_id": "segment:AALB-COI-ambiguous:1-658",
         "safe_rank": "genus",
         "claim_state": "taxon_supported",
         "species_specific_badge_allowed": false,
+        "ui_guardrail_declared": true,
+        "overclaim_violation": false,
         "status": "pass"
       },
       {
-        "segment_id": "segment:AALB-COI-short:1-622",
+        "segment_id": "segment:AALB-COI-short:1-658",
         "safe_rank": "species",
         "claim_state": "weak_hypothesis",
         "species_specific_badge_allowed": false,
+        "ui_guardrail_declared": true,
+        "overclaim_violation": false,
         "status": "pass"
       },
       {
-        "segment_id": "segment:AALB-COI-metadata-gap:1-622",
+        "segment_id": "segment:AALB-COI-metadata-gap:1-658",
         "safe_rank": "species",
-        "claim_state": "taxon_supported",
-        "species_specific_badge_allowed": true,
+        "claim_state": "taxon_ambiguous",
+        "species_specific_badge_allowed": false,
+        "ui_guardrail_declared": true,
+        "overclaim_violation": false,
         "status": "pass"
       }
     ],
     "ai_dataset_export_audit.csv": [
       {
-        "segment_id": "segment:AALB-COI-good:1-622",
-        "claim_state": "taxon_supported",
-        "label": "positive_verified",
+        "segment_id": "segment:AALB-COI-good:1-658",
+        "claim_state": "taxon_ambiguous",
+        "label": "candidate_hypothesis",
         "safe_for_ai_export": true,
         "status": "pass"
       },
       {
-        "segment_id": "segment:AALB-COI-ambiguous:1-622",
+        "segment_id": "segment:AALB-COI-ambiguous:1-658",
         "claim_state": "taxon_supported",
-        "label": "positive_verified",
+        "label": "positive_rule_supported",
         "safe_for_ai_export": true,
         "status": "pass"
       },
       {
-        "segment_id": "segment:AALB-COI-short:1-622",
+        "segment_id": "segment:AALB-COI-short:1-658",
         "claim_state": "weak_hypothesis",
         "label": "candidate_hypothesis",
         "safe_for_ai_export": true,
         "status": "pass"
       },
       {
-        "segment_id": "segment:AALB-COI-metadata-gap:1-622",
-        "claim_state": "taxon_supported",
-        "label": "positive_verified",
+        "segment_id": "segment:AALB-COI-metadata-gap:1-658",
+        "claim_state": "taxon_ambiguous",
+        "label": "candidate_hypothesis",
         "safe_for_ai_export": true,
         "status": "pass"
       }
@@ -2406,7 +2403,7 @@
         "literature_source": "not_connected",
         "automated_truth_promotion": false,
         "claim_state": "not_applicable_no_claim",
-        "status": "pass"
+        "status": "not_applicable_no_claim"
       }
     ],
     "contradiction_visual_audit.csv": [
@@ -2414,15 +2411,16 @@
         "contradictions_observed": 0,
         "suppressed_in_ui": false,
         "claim_exported": false,
-        "status": "pass"
+        "status": "not_applicable_no_claim"
       }
     ],
     "gbif_export_claim_boundary_audit.csv": [
       {
         "occurrenceID": "urn:ecogenesis:observatory:AALB-COI-good",
-        "claim_state": "taxon_supported",
-        "export_allowed": true,
+        "claim_state": "taxon_ambiguous",
+        "export_allowed": false,
         "gbif_context_promotes_claim": false,
+        "bounded_taxon_present": false,
         "status": "pass"
       },
       {
@@ -2430,6 +2428,7 @@
         "claim_state": "taxon_supported",
         "export_allowed": true,
         "gbif_context_promotes_claim": false,
+        "bounded_taxon_present": true,
         "status": "pass"
       },
       {
@@ -2437,13 +2436,15 @@
         "claim_state": "weak_hypothesis",
         "export_allowed": false,
         "gbif_context_promotes_claim": false,
+        "bounded_taxon_present": false,
         "status": "pass"
       },
       {
         "occurrenceID": "urn:ecogenesis:observatory:AALB-COI-metadata-gap",
-        "claim_state": "taxon_supported",
+        "claim_state": "taxon_ambiguous",
         "export_allowed": false,
         "gbif_context_promotes_claim": false,
+        "bounded_taxon_present": false,
         "status": "pass"
       }
     ],
@@ -2452,16 +2453,19 @@
         "suggestion_type": "metadata_repair",
         "changes_claim_state": false,
         "requires_rerun": true,
+        "ui_guardrail_declared": true,
         "status": "pass"
       }
     ],
     "offline_demo_reproducibility.json": {
-      "run_id": "38d525a51d8546e598b9f5cbe9864c42",
-      "fixture_hash": "c2302d6cb192408a22491c78608b805dfcc0610e58425f1d745d22af1e465f1b",
-      "repeat_hash": "c2302d6cb192408a22491c78608b805dfcc0610e58425f1d745d22af1e465f1b",
-      "deterministic": true,
+      "run_id": "0026e96063174d8f96d6066a7d59c14c",
+      "input_fingerprint": "3b45baa30e726ee75004a38152fbbdc0233cac45714c08772e4375d31c72aa24",
+      "independent_repeat_execution_performed": false,
+      "independent_output_comparison_performed": false,
+      "deterministic": null,
       "live_mode_fallback_recorded": false,
-      "status": "pass"
+      "status": "informational_self_check",
+      "claim_boundary": "This run records a canonical fingerprint of the bundled fixture inputs only. It does not compare outputs from an independent clean execution and therefore does not establish reproducibility."
     },
     "ui_ledger_consistency_audit.csv": [
       {
@@ -2475,16 +2479,17 @@
     ],
     "graph_roundtrip_audit.csv": [
       {
-        "graph_items": 31,
+        "graph_items": 27,
         "missing_provenance_hash": 0,
         "roundtrip_json_ok": true,
+        "claim_states_preserved": true,
         "status": "pass"
       }
     ],
     "source_freshness_claim_audit.csv": [
       {
         "source_id": "gbif_occurrence_api",
-        "retrieved_at": "2026-06-14T22:03:14.485769+00:00",
+        "retrieved_at": "2026-07-10T11:36:53.611257+00:00",
         "freshness_displayed": true,
         "freshness_changes_claim_state": false,
         "status": "pass"
@@ -2539,6 +2544,7 @@
         "planned_sources_visible": 0,
         "planned_sources_export_claims": false,
         "roadmap_labeled_no_claim": true,
+        "non_claims_panel_present": true,
         "status": "pass"
       }
     ],
@@ -2548,13 +2554,13 @@
         "source_registry": [],
         "pipeline_dag": [],
         "ui_contract": [],
-        "proof_obligations": []
+        "release_checks": []
       },
       "contract_versions": {
         "source_registry": "GSIG-OBS-SOURCES-1.0",
         "pipeline_dag": "GSIG-OBS-DAG-1.0",
         "ui_contract": "GSIG-OBS-UI-1.0",
-        "proof_obligation_set": "GSIG-Observatory-OPO-v1"
+        "release_check_set": "GSIG-Observatory-Release-Checks-v1"
       }
     },
     "pipeline_execution_trace.json": {
@@ -2571,6 +2577,7 @@
             "source_license_present",
             "source_rate_policy_present"
           ],
+          "execution_evidence": "source registry loaded",
           "status": "pass"
         },
         {
@@ -2584,6 +2591,7 @@
             "snapshot_hash_present",
             "api_policy_logged"
           ],
+          "execution_evidence": "snapshot hash present",
           "status": "pass"
         },
         {
@@ -2598,7 +2606,8 @@
             "occurrence_id_joinable",
             "dna_extension_schema_valid"
           ],
-          "status": "pass"
+          "execution_evidence": "no DwC-A input was parsed in this Observatory demo path",
+          "status": "not_executed_no_claim"
         },
         {
           "id": "normalize",
@@ -2610,6 +2619,7 @@
             "taxon_backbone_candidate_logged",
             "coordinate_uncertainty_logged"
           ],
+          "execution_evidence": "12 occurrence context rows normalized",
           "status": "pass"
         },
         {
@@ -2623,13 +2633,14 @@
             "canonical_hash_deterministic",
             "reverse_complement_policy_logged"
           ],
+          "execution_evidence": "4 rule-evidence rows segmentized",
           "status": "pass"
         },
         {
           "id": "compute_evidence",
           "module": "src/evidence/run_gseg_gates.py",
           "outputs": [
-            "vsea.parquet",
+            "rule_evidence.parquet",
             "hard_gate_audit.csv",
             "claim_boundaries.csv"
           ],
@@ -2637,6 +2648,7 @@
             "hard_gate_failures_zero",
             "species_overclaim_zero"
           ],
+          "execution_evidence": "4 rule-evidence rows computed",
           "status": "pass"
         },
         {
@@ -2651,6 +2663,7 @@
             "all_nodes_have_provenance",
             "claim_states_preserved"
           ],
+          "execution_evidence": "27 graph items built",
           "status": "pass"
         },
         {
@@ -2664,7 +2677,8 @@
             "visualization_read_only",
             "blocked_claims_visible"
           ],
-          "status": "pass"
+          "execution_evidence": "no persistent visual index is built by this backend path",
+          "status": "not_executed_no_claim"
         },
         {
           "id": "export_pack",
@@ -2679,523 +2693,734 @@
             "export_claim_states_preserved",
             "ai_labels_separated_from_hypotheses"
           ],
+          "execution_evidence": "artifact payloads prepared; filesystem verification runs after save",
           "status": "pass"
         }
       ]
     }
   },
-  "proof_summary": {
-    "proof_obligation_set": "GSIG-Observatory-OPO-v1",
+  "release_check_summary": {
+    "release_check_set": "GSIG-Observatory-Release-Checks-v1",
     "total": 20,
     "hard_gate_failures": 0,
     "hard_gate_status": "pass",
+    "review_items": 3,
+    "release_status": "review",
+    "claim_boundary": "Pass covers computed run-local checks only. Review/not-applicable/not-executed items are not external scientific validation or proof of publication readiness.",
     "rows": [
       {
-        "id": "OPO-01",
+        "id": "RC-01",
         "name": "Every automated source has license and rate-limit policy",
         "artifact": "source_registry_audit.json",
         "severity": "hard_gate",
         "status": "pass",
         "release_blocking": false,
-        "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+        "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
       },
       {
-        "id": "OPO-02",
+        "id": "RC-02",
         "name": "Live data are snapshots before evidence use",
         "artifact": "snapshot_manifest.json",
         "severity": "hard_gate",
         "status": "pass",
         "release_blocking": false,
-        "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+        "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
       },
       {
-        "id": "OPO-03",
+        "id": "RC-03",
         "name": "No website scraping of GBIF public pages",
         "artifact": "api_policy_audit.csv",
         "severity": "hard_gate",
         "status": "pass",
         "release_blocking": false,
-        "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+        "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
       },
       {
-        "id": "OPO-04",
+        "id": "RC-04",
         "name": "GBIF large queries use download strategy",
         "artifact": "gbif_query_strategy_audit.csv",
         "severity": "review_gate",
         "status": "pass",
         "release_blocking": false,
-        "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+        "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
       },
       {
-        "id": "OPO-05",
+        "id": "RC-05",
         "name": "Every source record joins to provenance",
         "artifact": "source_provenance_manifest.json",
         "severity": "hard_gate",
         "status": "pass",
         "release_blocking": false,
-        "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+        "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
       },
       {
-        "id": "OPO-06",
+        "id": "RC-06",
         "name": "VSEA rows preserve source snapshot identity",
         "artifact": "vsea_provenance_audit.csv",
         "severity": "review_gate",
         "status": "pass",
         "release_blocking": false,
-        "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+        "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
       },
       {
-        "id": "OPO-07",
+        "id": "RC-07",
         "name": "Visualization cannot upgrade claim states",
         "artifact": "visualization_guardrail_audit.csv",
         "severity": "hard_gate",
         "status": "pass",
         "release_blocking": false,
-        "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+        "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
       },
       {
-        "id": "OPO-08",
+        "id": "RC-08",
         "name": "Blocked claims remain visible in UI filters",
         "artifact": "blocked_claim_visibility_audit.csv",
         "severity": "review_gate",
         "status": "pass",
         "release_blocking": false,
-        "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+        "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
       },
       {
-        "id": "OPO-09",
+        "id": "RC-09",
         "name": "Shared segments cannot be shown as species-specific",
         "artifact": "sharedness_visual_overclaim_audit.csv",
         "severity": "hard_gate",
         "status": "pass",
         "release_blocking": false,
-        "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+        "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
       },
       {
-        "id": "OPO-10",
-        "name": "AI-ready exports separate verified labels and hypotheses",
+        "id": "RC-10",
+        "name": "AI-ready exports separate rule-supported labels and hypotheses",
         "artifact": "ai_dataset_export_audit.csv",
         "severity": "hard_gate",
         "status": "pass",
         "release_blocking": false,
-        "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+        "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
       },
       {
-        "id": "OPO-11",
+        "id": "RC-11",
         "name": "Literature links are evidence objects, not truth objects",
         "artifact": "literature_claim_state_audit.csv",
         "severity": "review_gate",
-        "status": "pass",
+        "status": "not_applicable_no_claim",
         "release_blocking": false,
-        "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+        "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
       },
       {
-        "id": "OPO-12",
+        "id": "RC-12",
         "name": "Trait/function panels preserve contradiction status",
         "artifact": "contradiction_visual_audit.csv",
         "severity": "review_gate",
-        "status": "pass",
+        "status": "not_applicable_no_claim",
         "release_blocking": false,
-        "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+        "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
       },
       {
-        "id": "OPO-13",
+        "id": "RC-13",
         "name": "GBIF export only uses bounded safe taxon",
         "artifact": "gbif_export_claim_boundary_audit.csv",
         "severity": "hard_gate",
         "status": "pass",
         "release_blocking": false,
-        "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+        "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
       },
       {
-        "id": "OPO-14",
+        "id": "RC-14",
         "name": "Repair optimizer cannot upgrade biological claims by metadata alone",
         "artifact": "repair_optimizer_guardrail_audit.csv",
         "severity": "hard_gate",
         "status": "pass",
         "release_blocking": false,
-        "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+        "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
       },
       {
-        "id": "OPO-15",
-        "name": "Offline demo is reproducible without external APIs",
+        "id": "RC-15",
+        "name": "Offline fixture inputs carry a deterministic self-check fingerprint",
         "artifact": "offline_demo_reproducibility.json",
-        "severity": "hard_gate",
-        "status": "pass",
+        "severity": "review_gate",
+        "status": "informational_self_check",
         "release_blocking": false,
-        "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+        "claim_boundary": "This release check is informational until an independent clean execution produces and compares normalized output checksums."
       },
       {
-        "id": "OPO-16",
+        "id": "RC-16",
         "name": "Every UI count matches data accounting ledger",
         "artifact": "ui_ledger_consistency_audit.csv",
         "severity": "review_gate",
         "status": "pass",
         "release_blocking": false,
-        "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+        "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
       },
       {
-        "id": "OPO-17",
+        "id": "RC-17",
         "name": "Graph import/export roundtrip preserves claim states",
         "artifact": "graph_roundtrip_audit.csv",
         "severity": "hard_gate",
         "status": "pass",
         "release_blocking": false,
-        "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+        "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
       },
       {
-        "id": "OPO-18",
+        "id": "RC-18",
         "name": "Source freshness is shown as context, not evidence strength",
         "artifact": "source_freshness_claim_audit.csv",
         "severity": "review_gate",
         "status": "pass",
         "release_blocking": false,
-        "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+        "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
       },
       {
-        "id": "OPO-19",
+        "id": "RC-19",
         "name": "Unknown license blocks public atlas insertion",
         "artifact": "license_blocker_audit.csv",
         "severity": "hard_gate",
         "status": "pass",
         "release_blocking": false,
-        "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+        "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
       },
       {
-        "id": "OPO-20",
+        "id": "RC-20",
         "name": "Judge mode displays non-claims and roadmap boundaries",
         "artifact": "judge_mode_non_claims_audit.csv",
         "severity": "hard_gate",
         "status": "pass",
         "release_blocking": false,
-        "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+        "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
       }
     ]
   },
+  "proof_summary": {
+    "release_check_set": "GSIG-Observatory-Release-Checks-v1",
+    "total": 20,
+    "hard_gate_failures": 0,
+    "hard_gate_status": "pass",
+    "review_items": 3,
+    "release_status": "review",
+    "claim_boundary": "Pass covers computed run-local checks only. Review/not-applicable/not-executed items are not external scientific validation or proof of publication readiness.",
+    "rows": [
+      {
+        "id": "RC-01",
+        "name": "Every automated source has license and rate-limit policy",
+        "artifact": "source_registry_audit.json",
+        "severity": "hard_gate",
+        "status": "pass",
+        "release_blocking": false,
+        "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
+      },
+      {
+        "id": "RC-02",
+        "name": "Live data are snapshots before evidence use",
+        "artifact": "snapshot_manifest.json",
+        "severity": "hard_gate",
+        "status": "pass",
+        "release_blocking": false,
+        "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
+      },
+      {
+        "id": "RC-03",
+        "name": "No website scraping of GBIF public pages",
+        "artifact": "api_policy_audit.csv",
+        "severity": "hard_gate",
+        "status": "pass",
+        "release_blocking": false,
+        "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
+      },
+      {
+        "id": "RC-04",
+        "name": "GBIF large queries use download strategy",
+        "artifact": "gbif_query_strategy_audit.csv",
+        "severity": "review_gate",
+        "status": "pass",
+        "release_blocking": false,
+        "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
+      },
+      {
+        "id": "RC-05",
+        "name": "Every source record joins to provenance",
+        "artifact": "source_provenance_manifest.json",
+        "severity": "hard_gate",
+        "status": "pass",
+        "release_blocking": false,
+        "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
+      },
+      {
+        "id": "RC-06",
+        "name": "VSEA rows preserve source snapshot identity",
+        "artifact": "vsea_provenance_audit.csv",
+        "severity": "review_gate",
+        "status": "pass",
+        "release_blocking": false,
+        "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
+      },
+      {
+        "id": "RC-07",
+        "name": "Visualization cannot upgrade claim states",
+        "artifact": "visualization_guardrail_audit.csv",
+        "severity": "hard_gate",
+        "status": "pass",
+        "release_blocking": false,
+        "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
+      },
+      {
+        "id": "RC-08",
+        "name": "Blocked claims remain visible in UI filters",
+        "artifact": "blocked_claim_visibility_audit.csv",
+        "severity": "review_gate",
+        "status": "pass",
+        "release_blocking": false,
+        "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
+      },
+      {
+        "id": "RC-09",
+        "name": "Shared segments cannot be shown as species-specific",
+        "artifact": "sharedness_visual_overclaim_audit.csv",
+        "severity": "hard_gate",
+        "status": "pass",
+        "release_blocking": false,
+        "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
+      },
+      {
+        "id": "RC-10",
+        "name": "AI-ready exports separate rule-supported labels and hypotheses",
+        "artifact": "ai_dataset_export_audit.csv",
+        "severity": "hard_gate",
+        "status": "pass",
+        "release_blocking": false,
+        "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
+      },
+      {
+        "id": "RC-11",
+        "name": "Literature links are evidence objects, not truth objects",
+        "artifact": "literature_claim_state_audit.csv",
+        "severity": "review_gate",
+        "status": "not_applicable_no_claim",
+        "release_blocking": false,
+        "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
+      },
+      {
+        "id": "RC-12",
+        "name": "Trait/function panels preserve contradiction status",
+        "artifact": "contradiction_visual_audit.csv",
+        "severity": "review_gate",
+        "status": "not_applicable_no_claim",
+        "release_blocking": false,
+        "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
+      },
+      {
+        "id": "RC-13",
+        "name": "GBIF export only uses bounded safe taxon",
+        "artifact": "gbif_export_claim_boundary_audit.csv",
+        "severity": "hard_gate",
+        "status": "pass",
+        "release_blocking": false,
+        "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
+      },
+      {
+        "id": "RC-14",
+        "name": "Repair optimizer cannot upgrade biological claims by metadata alone",
+        "artifact": "repair_optimizer_guardrail_audit.csv",
+        "severity": "hard_gate",
+        "status": "pass",
+        "release_blocking": false,
+        "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
+      },
+      {
+        "id": "RC-15",
+        "name": "Offline fixture inputs carry a deterministic self-check fingerprint",
+        "artifact": "offline_demo_reproducibility.json",
+        "severity": "review_gate",
+        "status": "informational_self_check",
+        "release_blocking": false,
+        "claim_boundary": "This release check is informational until an independent clean execution produces and compares normalized output checksums."
+      },
+      {
+        "id": "RC-16",
+        "name": "Every UI count matches data accounting ledger",
+        "artifact": "ui_ledger_consistency_audit.csv",
+        "severity": "review_gate",
+        "status": "pass",
+        "release_blocking": false,
+        "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
+      },
+      {
+        "id": "RC-17",
+        "name": "Graph import/export roundtrip preserves claim states",
+        "artifact": "graph_roundtrip_audit.csv",
+        "severity": "hard_gate",
+        "status": "pass",
+        "release_blocking": false,
+        "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
+      },
+      {
+        "id": "RC-18",
+        "name": "Source freshness is shown as context, not evidence strength",
+        "artifact": "source_freshness_claim_audit.csv",
+        "severity": "review_gate",
+        "status": "pass",
+        "release_blocking": false,
+        "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
+      },
+      {
+        "id": "RC-19",
+        "name": "Unknown license blocks public atlas insertion",
+        "artifact": "license_blocker_audit.csv",
+        "severity": "hard_gate",
+        "status": "pass",
+        "release_blocking": false,
+        "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
+      },
+      {
+        "id": "RC-20",
+        "name": "Judge mode displays non-claims and roadmap boundaries",
+        "artifact": "judge_mode_non_claims_audit.csv",
+        "severity": "hard_gate",
+        "status": "pass",
+        "release_blocking": false,
+        "claim_boundary": "This release check prevents automated collection or visualization from producing stronger claims than the rule-checked graph supports."
+      }
+    ],
+    "deprecated_field": true,
+    "replacement": "release_check_summary",
+    "terminology_note": "Compatibility alias only; these are release checks, not formal proof obligations.",
+    "proof_obligation_set": null
+  },
   "barcode_summary": {
     "title": "Barcode-to-GBIF Evidence Compiler",
-    "project_title": "Aedes COI batch: safe, ambiguous, weak and metadata cases",
+    "project_title": "Aedes COI synthetic batch: unsigned, ambiguous, weak and metadata cases",
     "marker": "COI-5P",
     "reference_database": "COI Animals / BOLD public clustered reference",
     "method_or_sop": "GBIF Sequence ID-compatible BLAST workflow with deterministic rank gates",
     "processed_records": 4,
-    "species_safe_records": 1,
+    "species_safe_records": 0,
+    "species_rule_pass_records": 0,
     "genus_safe_records": 1,
-    "not_publishable_records": 1,
-    "record_ready_records": 2,
+    "not_publishable_records": 0,
+    "record_ready_records": 1,
     "dataset_ready_records": 0,
-    "blocked_species_claims": 3,
-    "verdict": "At least one sequence is species-safe under the frozen molecular evidence gates; publication readiness is reported separately."
+    "validation_candidate_records": 0,
+    "blocked_species_claims": 4,
+    "scientific_release_status": "blocked",
+    "verdict": "The run produced safe downgraded molecular evidence, but no species-level publication candidate.",
+    "dwca_local_validation_status": "blocked",
+    "dwca_release_gate": "blocked_local_validation"
   },
   "exports": [
     {
       "name": "ai_dataset_export_audit.csv",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/ai_dataset_export_audit.csv",
-      "size_bytes": 360,
-      "sha256": "7465562f6acb11f4141835162de4f3256a783dbea5b404e34caa79ebe8049a23",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/ai_dataset_export_audit.csv",
+      "size_bytes": 372,
+      "sha256": "f970c06ddca1a194bf0a3dc8322f11c3865e7cc6a07b4078f3854e5f896767a8",
       "checksum_status": "embedded"
     },
     {
       "name": "ai_ready_dataset.jsonl",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/ai_ready_dataset.jsonl",
-      "size_bytes": 3107,
-      "sha256": "9f09945f9b1e7802e22f0571c3b911fdb895145d7c60f86e5996156b193b4626",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/ai_ready_dataset.jsonl",
+      "size_bytes": 4835,
+      "sha256": "f9404f3cf420ef98edf143b35d81f4f0f8a49814c87d27bf1f26d8801a7aacef",
       "checksum_status": "embedded"
     },
     {
       "name": "api_policy_audit.csv",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/api_policy_audit.csv",
-      "size_bytes": 178,
-      "sha256": "bbbde51aa4a7f42ebc7c0d7f019fff784a214593466f9766b44e8c83548ef428",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/api_policy_audit.csv",
+      "size_bytes": 276,
+      "sha256": "35abc04e44fd765f342c5151d9ce16043fee584d517de8ab5a9e3fb731b3e35b",
       "checksum_status": "embedded"
     },
     {
       "name": "blocked_claim_visibility_audit.csv",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/blocked_claim_visibility_audit.csv",
-      "size_bytes": 105,
-      "sha256": "55e2e9e0aa3fb1817dbcd0d47a04f387375c318c4d85d439ee237ac8b4da19f8",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/blocked_claim_visibility_audit.csv",
+      "size_bytes": 112,
+      "sha256": "0036169dd70214018edf3941163ec7d3cfb36681413e1cf3a9f12151af6e2ab4",
       "checksum_status": "embedded"
     },
     {
       "name": "claim_boundaries.csv",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/claim_boundaries.csv",
-      "size_bytes": 2927,
-      "sha256": "8b54aab2757ef0f053d478ba29cc2dc19be437e665217e35275bc87390594984",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/claim_boundaries.csv",
+      "size_bytes": 4599,
+      "sha256": "2930f43320ffec8287d87476a7161afa57a138e11f02df18700b4f2c11af713f",
       "checksum_status": "embedded"
     },
     {
       "name": "contract_validation.json",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/contract_validation.json",
-      "size_bytes": 352,
-      "sha256": "08f9c2d485630646062afcf88315a2d3dcf961ad369eb616017321bcca9cbb06",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/contract_validation.json",
+      "size_bytes": 357,
+      "sha256": "8fe2d357820a73e93c291b867fe43a9c474a37b298a788ac8907a317cb1d64d7",
       "checksum_status": "embedded"
     },
     {
       "name": "contradiction_visual_audit.csv",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/contradiction_visual_audit.csv",
-      "size_bytes": 82,
-      "sha256": "faacda61c5ad34791ce81c88d462ff292805d1f3b0a366abbadbb2252129e696",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/contradiction_visual_audit.csv",
+      "size_bytes": 101,
+      "sha256": "98c832fddeabb4510139fccf26cf9d3c584f813e714ef15ecd216ed4481b8d70",
       "checksum_status": "embedded"
     },
     {
-      "name": "ecogenesis_gsig_observatory_proof_obligations_v4.json",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/ecogenesis_gsig_observatory_proof_obligations_v4.json",
-      "size_bytes": 9387,
-      "sha256": "62f01b148f3ea09bd36e6a8f3f37773097ef9713f6a88516557524b04b598c26",
+      "name": "ecogenesis_gsig_observatory_release_checks_v1.json",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/ecogenesis_gsig_observatory_release_checks_v1.json",
+      "size_bytes": 9838,
+      "sha256": "122c3f8ec16f3f42781d7d316f26621523ca91ba53f605643d50309c453261d6",
       "checksum_status": "embedded"
     },
     {
       "name": "gbif_export_claim_boundary_audit.csv",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/gbif_export_claim_boundary_audit.csv",
-      "size_bytes": 383,
-      "sha256": "d4d8dfd0fcfe6c9c3895e60289e6bce21b80030200a86f7211eb4864b7946912",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/gbif_export_claim_boundary_audit.csv",
+      "size_bytes": 429,
+      "sha256": "4468206aba74d7e6d599ba6c021fa18cafe58262b333208992b1f4e63a300205",
       "checksum_status": "embedded"
     },
     {
       "name": "gbif_export_preview.csv",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/gbif_export_preview.csv",
-      "size_bytes": 1669,
-      "sha256": "f9f0e28d0aeabfc37aba51a95b7227b5029043fe35112e82211e88de68e0b287",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/gbif_export_preview.csv",
+      "size_bytes": 3370,
+      "sha256": "79427e088363319ba009cfa71e827f0e104cf1e9cb486582fa0ff23014ad1409",
       "checksum_status": "embedded"
     },
     {
       "name": "gbif_occurrence_context.parquet",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/gbif_occurrence_context.parquet",
-      "size_bytes": 8061,
-      "sha256": "c9fa0658647ebfcf7eea3f6ad1c88b1923d50eae0b88612e32a95e7c31241543",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/gbif_occurrence_context.parquet",
+      "size_bytes": 8354,
+      "sha256": "7633412134d3256f4b16811bf974e725730ec473cc47175f108ee7b4760e9e6b",
       "checksum_status": "embedded"
     },
     {
       "name": "gbif_occurrence_snapshot.json",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/gbif_occurrence_snapshot.json",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/gbif_occurrence_snapshot.json",
       "size_bytes": 7494,
       "sha256": "775ca90695a913128d6ed0579f3ee3268ecd15febb5fd8f6de5f49c1d3186ffb",
       "checksum_status": "embedded"
     },
     {
       "name": "gbif_query_strategy_audit.csv",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/gbif_query_strategy_audit.csv",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/gbif_query_strategy_audit.csv",
       "size_bytes": 156,
-      "sha256": "a657343b55724c9abd1499f83090769d8aef8c6916f26533d75ee0d8b3d6ad15",
+      "sha256": "60ca351a1259cabd2326964df3602a688b70ce7dba447d4638a3f8e655751b72",
       "checksum_status": "embedded"
     },
     {
       "name": "graph_roundtrip_audit.csv",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/graph_roundtrip_audit.csv",
-      "size_bytes": 76,
-      "sha256": "0d6dc51465aaf4cab97bba5c9679dd49c47a229dc13c071642d2b0c58ee51824",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/graph_roundtrip_audit.csv",
+      "size_bytes": 104,
+      "sha256": "a0f3a244347df355b9b8d5ed5d0c1b73b5be268d0c16445b290d0f2fd5e5d142",
       "checksum_status": "embedded"
     },
     {
       "name": "gsig_observatory_pipeline_dag.yaml",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/gsig_observatory_pipeline_dag.yaml",
-      "size_bytes": 2892,
-      "sha256": "914b0da3f8e70422aff621d6832a04129a583b17d3b190d90024fdda20e82f1c",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/gsig_observatory_pipeline_dag.yaml",
+      "size_bytes": 3318,
+      "sha256": "521f3bdd87c549761c425dc01fb6b243eea338fe73ac7e801dd1666ee3f533d5",
       "checksum_status": "embedded"
     },
     {
       "name": "gsig_observatory_source_registry.yaml",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/gsig_observatory_source_registry.yaml",
-      "size_bytes": 6390,
-      "sha256": "4980e5fb234d503de1ab7d6eda03522b9b519f19175f73440e78e97f041a5d5c",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/gsig_observatory_source_registry.yaml",
+      "size_bytes": 6401,
+      "sha256": "f3eb61027dab09e8213404f8c011a014c7fba5cda5b3a6ad6c5dc5887ff45bc9",
       "checksum_status": "embedded"
     },
     {
       "name": "gsig_observatory_ui_contract.yaml",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/gsig_observatory_ui_contract.yaml",
-      "size_bytes": 3992,
-      "sha256": "34d5945e8ee061f4c0c59109b0f0cab5f067a2073b7eb3ef6704868e51f193e6",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/gsig_observatory_ui_contract.yaml",
+      "size_bytes": 4007,
+      "sha256": "b3d2a42735cdb2cc0d5ec6ae69bf34d88c3331943929d93f8191d8544e2492a2",
       "checksum_status": "embedded"
     },
     {
       "name": "judge_mode_non_claims_audit.csv",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/judge_mode_non_claims_audit.csv",
-      "size_bytes": 104,
-      "sha256": "ce9dec5cacabbf148ea0d1d52727c01b878a9be0a4d46608d9606a048a7e85ae",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/judge_mode_non_claims_audit.csv",
+      "size_bytes": 134,
+      "sha256": "dfee0a4034e6a66d8e88cad89e7574b7b81ec9913f959e5a72e4ed62931b3a1d",
       "checksum_status": "embedded"
     },
     {
       "name": "license_blocker_audit.csv",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/license_blocker_audit.csv",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/license_blocker_audit.csv",
       "size_bytes": 302,
       "sha256": "b8c13e3191c15172dbd6dd055106953334d09696d34c670897d2c1b8051f770c",
       "checksum_status": "embedded"
     },
     {
       "name": "literature_claim_state_audit.csv",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/literature_claim_state_audit.csv",
-      "size_bytes": 112,
-      "sha256": "62f77a1c59d066a32da6bd61c6e2562110d39464d03ae5833b413023f56290d4",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/literature_claim_state_audit.csv",
+      "size_bytes": 131,
+      "sha256": "75e910731febcea0336b42b856be2401f191abf37cc1db0b8bbc7c3b6143cff4",
       "checksum_status": "embedded"
     },
     {
       "name": "normalized_occurrence_context.csv",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/normalized_occurrence_context.csv",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/normalized_occurrence_context.csv",
       "size_bytes": 3699,
       "sha256": "a2adf3116c7b77906059d7b9543ca64faaeb3ba1bdba9089bacb7dbf6551e98c",
       "checksum_status": "embedded"
     },
     {
       "name": "normalized_occurrence_context.json",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/normalized_occurrence_context.json",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/normalized_occurrence_context.json",
       "size_bytes": 9037,
       "sha256": "16f80c7ee8ee742e507b7ce03e3398aafc7d4316a600af2b26971c6fc88cf29a",
       "checksum_status": "embedded"
     },
     {
       "name": "observatory_evidence_pack.json",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/observatory_evidence_pack.json",
-      "size_bytes": 132713,
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/observatory_evidence_pack.json",
+      "size_bytes": 151206,
       "sha256": null,
       "checksum_status": "external_manifest_only",
       "checksum_note": "Checksum is verified from the file manifest/API because embedding it here would change this evidence pack or ZIP."
     },
     {
       "name": "observatory_evidence_pack.zip",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/observatory_evidence_pack.zip",
-      "size_bytes": 64537,
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/observatory_evidence_pack.zip",
+      "size_bytes": 69471,
       "sha256": null,
       "checksum_status": "external_manifest_only",
       "checksum_note": "Checksum is verified from the file manifest/API because embedding it here would change this evidence pack or ZIP."
     },
     {
       "name": "observatory_graph.jsonld",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/observatory_graph.jsonld",
-      "size_bytes": 15427,
-      "sha256": "babdd1f0d74637cd54d1df2b80c13c5fad91491d961dcded041187d4f75141e0",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/observatory_graph.jsonld",
+      "size_bytes": 13455,
+      "sha256": "3ac6a7327ebfe5e7ddd16bc1029e1792ed624352d4ff04a70e32defeb36519e0",
       "checksum_status": "embedded"
     },
     {
       "name": "observatory_report.md",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/observatory_report.md",
-      "size_bytes": 2294,
-      "sha256": "f8fafec209338fa2deae7195a577229ebb83895a4ecac61860f7b2e839ec8f02",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/observatory_report.md",
+      "size_bytes": 2424,
+      "sha256": "fa12291ac731f011f03c0de84d5f17cb19b32eb0e082499c9348beea3246bd8e",
       "checksum_status": "embedded"
     },
     {
       "name": "observatory_status.json",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/observatory_status.json",
-      "size_bytes": 630,
-      "sha256": "78767d0ec8149c5c212354836626c3d5ee857a8a2501ebdbf94ed96ed6592003",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/observatory_status.json",
+      "size_bytes": 713,
+      "sha256": "dd643d026e36fdca81cb11a9ac34996e0d8a697b141da7a4055ccfc14b61dca7",
       "checksum_status": "embedded"
     },
     {
       "name": "observatory_vsea.csv",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/observatory_vsea.csv",
-      "size_bytes": 5884,
-      "sha256": "aa9572c82dd4083b9f01f3ba9ee57120c5a219f4be7be5fa5791cc8c9b354aa4",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/observatory_vsea.csv",
+      "size_bytes": 8068,
+      "sha256": "6df03ac95bc11e812e1cb5aaf921d2e7f4fcd7207d9dab0312c749e6aaa9ab8d",
       "checksum_status": "embedded"
     },
     {
       "name": "observatory_vsea.jsonl",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/observatory_vsea.jsonl",
-      "size_bytes": 8125,
-      "sha256": "271fa98c98d6935b75c805eb2dc8babacde3c75cdcf1caf2c63c57413371a28c",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/observatory_vsea.jsonl",
+      "size_bytes": 10501,
+      "sha256": "be242968528f135182b2d9aa495b62c30a28e37423e801147649c28500f6d175",
       "checksum_status": "embedded"
     },
     {
       "name": "observatory_vsea.parquet",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/observatory_vsea.parquet",
-      "size_bytes": 15516,
-      "sha256": "f5c11a7d93722a2b1e8576dfd4e1f195e5fb7b8b5fefec8959b2075128f94e10",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/observatory_vsea.parquet",
+      "size_bytes": 18860,
+      "sha256": "33908e041f6cd81ffbb5e0d7657cd9f6ae816675da103acd4ef47c0fdb663344",
       "checksum_status": "embedded"
     },
     {
       "name": "offline_demo_reproducibility.json",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/offline_demo_reproducibility.json",
-      "size_bytes": 306,
-      "sha256": "a517aaff83911dd68ab0c8275501b47c3fcab842eca79d0d7b1ebb17177a34cf",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/offline_demo_reproducibility.json",
+      "size_bytes": 563,
+      "sha256": "fbd7fe7994041a6512d3fd347b4463d798af18fd8172eb983690dc486c41b41a",
       "checksum_status": "embedded"
     },
     {
       "name": "pipeline_execution_trace.json",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/pipeline_execution_trace.json",
-      "size_bytes": 3053,
-      "sha256": "fa8584623812d843ddc2b3432f6e39f3362a780b226bdf004ebde73a021d26bc",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/pipeline_execution_trace.json",
+      "size_bytes": 3723,
+      "sha256": "7d4597a8be51eddb4278cadb9250a1a6ca08d9bfb37e4a4f128cb4ad49366b14",
       "checksum_status": "embedded"
     },
     {
       "name": "proof_summary.json",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/proof_summary.json",
-      "size_bytes": 8062,
-      "sha256": "12b649a74516793db8129b59154e8a72f5a4add8432cf569aaef028b26d89226",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/proof_summary.json",
+      "size_bytes": 8704,
+      "sha256": "03080ae70709aae18a9db2782ed9717704627bf4f27e7838557393f1b63b5019",
+      "checksum_status": "embedded"
+    },
+    {
+      "name": "release_check_summary.json",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/release_check_summary.json",
+      "size_bytes": 8495,
+      "sha256": "ba7fca5532d915bbe8f203ff617e7f342f5661d5cca57e674014224d8ab923c4",
       "checksum_status": "embedded"
     },
     {
       "name": "repair_optimizer_guardrail_audit.csv",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/repair_optimizer_guardrail_audit.csv",
-      "size_bytes": 90,
-      "sha256": "6fa4399a27a3560666d5768b1443a25281fa1d4d00b207b441c9dbfbd72e7e08",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/repair_optimizer_guardrail_audit.csv",
+      "size_bytes": 117,
+      "sha256": "e172a246ae92eb029aad1a8a9569008bf4a5910747259aa6a2995d2d6d2bc5a6",
       "checksum_status": "embedded"
     },
     {
       "name": "segment_catalog.csv",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/segment_catalog.csv",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/segment_catalog.csv",
       "size_bytes": 954,
-      "sha256": "e5533a3c7e7d9c2f5704cff9abda59f40268d0e02f3a60bdbb6698d8da02e3f0",
+      "sha256": "0470f201e5407e3b64f1732f188013ef588df4a4405bfd2509eb4ffa7ba46b1b",
       "checksum_status": "embedded"
     },
     {
       "name": "sharedness_visual_overclaim_audit.csv",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/sharedness_visual_overclaim_audit.csv",
-      "size_bytes": 333,
-      "sha256": "df08191c75954854c5a3e3ad9c7e13b98cf24148e23661f061152f0a4448c90d",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/sharedness_visual_overclaim_audit.csv",
+      "size_bytes": 421,
+      "sha256": "693edb2f7c07c0644475e9a1b2e04c9d52d02a579daa4eeb9e04a29827066707",
       "checksum_status": "embedded"
     },
     {
       "name": "snapshot_manifest.json",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/snapshot_manifest.json",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/snapshot_manifest.json",
       "size_bytes": 1082,
-      "sha256": "d47333c7093ed13d08baf45c7f28e021799ac4692a0e7be31e7a95ff63f072bd",
+      "sha256": "f8bd189479976c34d716db7c1e776156329ecbde6c23be46831e2ce55bcbf1ca",
       "checksum_status": "embedded"
     },
     {
       "name": "source_freshness_claim_audit.csv",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/source_freshness_claim_audit.csv",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/source_freshness_claim_audit.csv",
       "size_bytes": 149,
-      "sha256": "e9c705e5a84f5599f02bc75184815e619b6eb3d229fce3b4b0a2f07d2676bd1a",
+      "sha256": "aa5ca76893dddb6211bb5c413ad66c72b3afee09283402bfdbe9e4f894707c78",
       "checksum_status": "embedded"
     },
     {
       "name": "source_provenance_manifest.json",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/source_provenance_manifest.json",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/source_provenance_manifest.json",
       "size_bytes": 750,
-      "sha256": "289456c0795ad52b259d39a9cd3af4c38bb0ce5ae825b1fd4864033c4d7846c0",
+      "sha256": "3b6ea69045d936131255e2d598a022072492976e0ff54e83891367d36c74a518",
       "checksum_status": "embedded"
     },
     {
       "name": "source_registry_audit.json",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/source_registry_audit.json",
-      "size_bytes": 2319,
-      "sha256": "4e591b8ce64f54e3ed3b3c19058d61e977a5116af95f6b5d59fa3b2b48578f2a",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/source_registry_audit.json",
+      "size_bytes": 2331,
+      "sha256": "dfa5e6b6e13271447778f14de48f4d4624e24224b89277b3dab69ff9a67f165a",
       "checksum_status": "embedded"
     },
     {
       "name": "taxa_segments.csv",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/taxa_segments.csv",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/taxa_segments.csv",
       "size_bytes": 718,
-      "sha256": "1147f178acfbf52578912c7a2760bc3e989655500c468c3962c8392cc8b6108a",
+      "sha256": "dbd1d269b45ac134ae91b74d34b32da4c9ce316707fb50f2b2848ea0d708914f",
       "checksum_status": "embedded"
     },
     {
       "name": "ui_ledger_consistency_audit.csv",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/ui_ledger_consistency_audit.csv",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/ui_ledger_consistency_audit.csv",
       "size_bytes": 119,
       "sha256": "be19f87b5313adc3b3465e4ef6ae17df162342edaa5e6fd4fe6a04a808854a60",
       "checksum_status": "embedded"
     },
     {
       "name": "visualization_guardrail_audit.csv",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/visualization_guardrail_audit.csv",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/visualization_guardrail_audit.csv",
       "size_bytes": 356,
-      "sha256": "f5962202c5fe296f8ee29b552994be7d6ab5001bf426e93720058ff8278b2179",
+      "sha256": "d96f9bcc72a771b930278f52750681b8ed050a48b2d263b5948833ae9b728f58",
       "checksum_status": "embedded"
     },
     {
       "name": "vsea_provenance_audit.csv",
-      "url": "/api/observatory/runs/38d525a51d8546e598b9f5cbe9864c42/exports/vsea_provenance_audit.csv",
+      "url": "/api/observatory/runs/0026e96063174d8f96d6066a7d59c14c/exports/vsea_provenance_audit.csv",
       "size_bytes": 405,
-      "sha256": "3b47a57224f4e1f78f545a197b6e5cdc6341b8de068caffd3631e40eb35cb4f7",
+      "sha256": "0d3d4f2d4f48d8d4f88ee3e0b8be4158ae56f14c8db8aaba78d0ea87ff39dc6b",
       "checksum_status": "embedded"
     }
   ]

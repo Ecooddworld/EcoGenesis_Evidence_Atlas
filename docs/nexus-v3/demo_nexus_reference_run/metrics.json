@@ -1,4 +1,6 @@
 {
+  "archival_status": "historical_internal_fixture_metrics",
+  "terminology_warning": "Legacy safe/ready metrics are not independent scientific validation or GBIF/IPT acceptance.",
   "processed_records": 4,
   "species_safe": 2,
   "genus_safe": 1,

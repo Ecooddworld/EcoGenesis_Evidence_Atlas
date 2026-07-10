@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+echo "ARCHIVED pre-remediation video builder. Use submission-assets/contest-video-v2/build_contest_video_en.sh and the current docs/submission.md boundary instead." >&2
+exit 1
+
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 ASSET_DIR="$ROOT_DIR/submission-assets"
 SCREEN_DIR="$ASSET_DIR/screenshots"

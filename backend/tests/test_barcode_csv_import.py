@@ -21,14 +21,14 @@ def compile_csv(name: str, tmp_path, monkeypatch) -> dict:
     return run_barcode_compiler(BarcodeCompilerRequest(**parsed["request"]))
 
 
-def test_csv_good_example_compiles_species_safe(tmp_path, monkeypatch) -> None:
+def test_csv_good_example_stays_review_without_scientific_gate_evidence(tmp_path, monkeypatch) -> None:
     pack = compile_csv("aedes_good.csv", tmp_path, monkeypatch)
     record = pack["records"][0]
 
-    assert record["decision_class"] == "species-safe"
-    assert record["published_taxon"]["name"] == "Aedes albopictus"
-    assert record["barcode_gap"]["status"] == "pass"
-    assert record["diagnostic_kmers"]["status"] == "pass"
+    assert record["decision_class"] == "ambiguous"
+    assert record["published_taxon"]["rank"] == "none"
+    assert record["barcode_gap"]["status"] == "insufficient_intraspecific_sampling"
+    assert record["diagnostic_kmers"]["status"] == "insufficient_reference_sampling"
 
 
 def test_csv_ambiguous_example_downgrades_to_genus(tmp_path, monkeypatch) -> None:
@@ -44,8 +44,8 @@ def test_csv_missing_metadata_preserves_taxonomic_evidence_but_blocks_publicatio
     pack = compile_csv("aedes_missing_metadata.csv", tmp_path, monkeypatch)
     record = pack["records"][0]
 
-    assert record["taxonomic_status"] == "species-safe"
-    assert record["decision_class"] == "not-publishable"
+    assert record["taxonomic_status"] == "ambiguous"
+    assert record["decision_class"] == "ambiguous"
     assert record["published_taxon"]["rank"] == "none"
     assert record["metadata_readiness"]["core_missing"] == ["occurrenceID", "eventDate"]
 
@@ -92,7 +92,7 @@ def test_csv_alias_columns_resolve_and_compile(tmp_path, monkeypatch) -> None:
     assert request.records[0].hits[0].taxon == "Aedes albopictus"
 
     pack = run_barcode_compiler(request)
-    assert pack["records"][0]["decision_class"] == "species-safe"
+    assert pack["records"][0]["decision_class"] == "ambiguous"
 
 
 def test_long_format_hit_rows_group_by_sequence_id(tmp_path, monkeypatch) -> None:
@@ -139,7 +139,7 @@ def test_run_csv_api_creates_run_and_exports_zip(tmp_path, monkeypatch) -> None:
     assert response.status_code == 200
     payload = response.json()
     assert payload["status"] == "completed"
-    assert payload["summary"]["species_safe_records"] == 1
+    assert payload["summary"]["species_rule_pass_records"] == 0
     assert any(item["name"] == "evidence_pack.zip" for item in payload["exports"])
     assert barcode_artifact_path(payload["run_id"], "evidence_pack.zip").exists()
 

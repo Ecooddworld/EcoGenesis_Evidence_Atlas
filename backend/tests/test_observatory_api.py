@@ -41,10 +41,23 @@ def test_observatory_pipeline_builds_release_pack(tmp_path, monkeypatch) -> None
     export_names = {item["name"] for item in pack["exports"]}
 
     assert pack["summary"]["hard_gate_status"] == "pass"
+    assert pack["summary"]["release_status"] == "review"
     assert pack["proof_summary"]["hard_gate_failures"] == 0
+    assert pack["release_check_summary"]["review_items"] >= 1
     assert pack["summary"]["normalized_occurrence_records"] == 12
     assert pack["summary"]["segments"] == 4
     assert pack["summary"]["gbif_export_states"]["candidate_gbif_row"] >= 1
+    offline_check = pack["audit_artifacts"]["offline_demo_reproducibility.json"]
+    assert offline_check["status"] == "informational_self_check"
+    assert offline_check["deterministic"] is None
+    assert offline_check["independent_repeat_execution_performed"] is False
+    assert offline_check["independent_output_comparison_performed"] is False
+    release_check = next(
+        row for row in pack["release_check_summary"]["rows"] if row["id"] == "RC-15"
+    )
+    assert release_check["severity"] == "review_gate"
+    assert release_check["status"] == "informational_self_check"
+    assert release_check["release_blocking"] is False
     assert OPO_ARTIFACTS <= export_names
     assert {
         "observatory_evidence_pack.json",
@@ -54,6 +67,8 @@ def test_observatory_pipeline_builds_release_pack(tmp_path, monkeypatch) -> None
         "observatory_graph.jsonld",
         "gbif_export_preview.csv",
         "ai_ready_dataset.jsonl",
+        "release_check_summary.json",
+        "ecogenesis_gsig_observatory_release_checks_v1.json",
         "observatory_evidence_pack.zip",
     } <= export_names
     actual_exports = observatory_export_manifest(pack["run"]["run_id"])
@@ -65,7 +80,9 @@ def test_observatory_pipeline_builds_release_pack(tmp_path, monkeypatch) -> None
         assert persisted_exports[name]["checksum_status"] == "external_manifest_only"
         assert name not in persisted_pack["run"]["artifact_checksums"]
     assert observatory_artifact_path(pack["run"]["run_id"], "observatory_vsea.parquet").read_bytes()[:4] == b"PAR1"
-    assert all(row["context_claim_boundary"].startswith("GBIF context") for row in pack["vsea"])
+    assert all(row["context_linkage_status"] == "unlinked_context_only" for row in pack["vsea"])
+    assert all(row["gbifID_context"] is None for row in pack["vsea"])
+    assert all("run-level geographic context only" in row["context_claim_boundary"] for row in pack["vsea"])
     verification = verify_observatory_run_outputs(pack["run"]["run_id"])
     assert verification["summary"]["status"] == "pass"
     assert verification["summary"]["failed"] == 0

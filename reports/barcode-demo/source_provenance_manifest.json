@@ -1,0 +1,12 @@
+{
+  "tool": "EcoGenesis Nexus",
+  "layer": "Barcode-to-GBIF Evidence Compiler",
+  "reference_database": "COI Animals / BOLD public clustered reference",
+  "reference_manifest_sha256": "ddc1adf27441f43cff806fce6d797566760fb9db1783126d37d1b72580f43840",
+  "reference_source": "request.reference_database",
+  "reference_doi_or_url": null,
+  "reference_license": null,
+  "reference_search_backends": [],
+  "degraded_backend_records": [],
+  "input_contract": "Sequence ID, BLAST, VSEARCH or lab-pipeline hits are treated as source evidence. EcoGenesis computes bounded claims and publication readiness; it does not convert a top hit directly into species truth."
+}

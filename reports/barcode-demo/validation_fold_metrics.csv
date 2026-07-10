@@ -1,0 +1,2 @@
+foldID,scope,records,falseSpeciesRulePassRate,speciesPrecision,speciesRecall,abstentionRate,status,caveat
+external_holdout_required,external_validation,4,,,,,external_validation_missing,Internal hard-gate consistency is not an empirical validation fold. Attach specimen-backed holdout labels before reporting accuracy metrics.

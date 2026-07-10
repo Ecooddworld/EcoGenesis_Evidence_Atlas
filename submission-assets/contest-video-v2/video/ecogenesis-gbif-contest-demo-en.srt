@@ -1,275 +1,303 @@
 1
-00:00:00,000 --> 00:00:03,833
-Problem: biodiversity evidence is fragmented. Occurrence
+00:00:00,000 --> 00:00:03,500
+EcoGenesis V2 is the evidence-bounded release of the
 
 2
-00:00:03,833 --> 00:00:07,667
-records may live in one system, DNA barcode fragments in
+00:00:03,500 --> 00:00:07,000
+Barcode-to-GBIF Evidence Compiler. It addresses a fragmented
 
 3
-00:00:07,667 --> 00:00:11,500
-another, BLAST or Sequence ID tables in a lab pipeline, and
+00:00:07,000 --> 00:00:10,500
+evidence problem: occurrence records may live in one system,
 
 4
-00:00:11,500 --> 00:00:15,333
-publication metadata in spreadsheets. When these pieces are
+00:00:10,500 --> 00:00:14,000
+DNA barcode fragments in another, BLAST or Sequence ID tables
 
 5
-00:00:15,333 --> 00:00:19,167
-not connected, useful evidence can be lost, and species-level
+00:00:14,000 --> 00:00:17,500
+in a lab pipeline, and publication metadata in spreadsheets.
 
 6
-00:00:19,167 --> 00:00:23,000
-claims can become stronger than the data actually support.
+00:00:17,500 --> 00:00:21,000
+When these pieces are not connected, useful evidence can be
 
 7
-00:00:23,000 --> 00:00:26,667
-EcoGenesis is a Barcode-to-GBIF Evidence Compiler. It takes
+00:00:21,000 --> 00:00:24,500
+lost, and species-level claims can become stronger than the
 
 8
-00:00:26,667 --> 00:00:30,333
-DNA barcode, metabarcoding, Sequence ID and BLAST-like
+00:00:24,500 --> 00:00:28,000
+data actually support.
 
 9
-00:00:30,333 --> 00:00:34,000
-outputs, then runs deterministic evidence gates. The result is
+00:00:28,000 --> 00:00:31,500
+EcoGenesis is a Barcode-to-GBIF Evidence Compiler. It takes
 
 10
-00:00:34,000 --> 00:00:37,667
-not just a label. It is a safe taxonomic rank decision, a
+00:00:31,500 --> 00:00:35,000
+DNA barcode, metabarcoding, Sequence ID and BLAST-like
 
 11
-00:00:37,667 --> 00:00:41,333
-publication-readiness state, a repair plan, and a reproducible
+00:00:35,000 --> 00:00:38,500
+outputs, then runs configured evidence gates. The result is
 
 12
-00:00:41,333 --> 00:00:45,000
-Evidence Pack.
+00:00:38,500 --> 00:00:42,000
+not species truth. It is a bounded rank result, a
 
 13
-00:00:45,000 --> 00:00:48,500
-On the public demo site, the interface is organized around the
+00:00:42,000 --> 00:00:45,500
+publication-readiness check, a repair plan, and a reproducible
 
 14
-00:00:48,500 --> 00:00:52,000
-whole evidence path. Judges can open the overview, run the
+00:00:45,500 --> 00:00:49,000
+Evidence Pack for review.
 
 15
-00:00:52,000 --> 00:00:55,500
-compiler, inspect the evidence map, view the fragment graph,
+00:00:49,000 --> 00:00:52,667
+On the public demo site, judges can open the overview, run the
 
 16
-00:00:55,500 --> 00:00:59,000
-check validation, read methods and download the Evidence Pack.
+00:00:52,667 --> 00:00:56,333
+compiler, inspect the Evidence Map, view the Fragment Graph,
 
 17
-00:00:59,000 --> 00:01:02,500
-Each section has its own public route, so the workflow is easy
+00:00:56,333 --> 00:01:00,000
+open Regression and Audits, read Methods and Audits, and
 
 18
-00:01:02,500 --> 00:01:06,000
-to review and cite.
+00:01:00,000 --> 00:01:03,667
+download the GBIF Repair Pack. A persistent prototype notice
 
 19
-00:01:06,000 --> 00:01:10,200
-The Run Compiler screen is where molecular evidence enters the
+00:01:03,667 --> 00:01:07,333
+states that the tool is not an independently validated
 
 20
-00:01:10,200 --> 00:01:14,400
-system. A user can upload a CSV, start from a demo workflow,
+00:01:07,333 --> 00:01:11,000
+taxonomic identifier or a GBIF publisher.
 
 21
-00:01:14,400 --> 00:01:18,600
-or test a reference fragment. The compiler validates required
+00:01:11,000 --> 00:01:14,667
+The Run Compiler screen is where molecular evidence enters the
 
 22
-00:01:18,600 --> 00:01:22,800
-molecular fields, sequence context, reference-hit metrics, and
+00:01:14,667 --> 00:01:18,333
+system. A user can upload a CSV, start from a demo workflow,
 
 23
-00:01:22,800 --> 00:01:27,000
-publication metadata before it lets any record move forward.
+00:01:18,333 --> 00:01:22,000
+or test a reference fragment. The compiler checks required
 
 24
-00:01:27,000 --> 00:01:30,500
-In the mixed demo, records do not collapse into one simplistic
+00:01:22,000 --> 00:01:25,667
+molecular fields, sequence context, reference-hit metrics,
 
 25
-00:01:30,500 --> 00:01:34,000
-answer. Some are species-safe, some are genus-safe, some
+00:01:25,667 --> 00:01:29,333
+reference and sequence-quality evidence, and publication
 
 26
-00:01:34,000 --> 00:01:37,500
-remain weak, and some are not publishable until metadata are
+00:01:29,333 --> 00:01:33,000
+metadata before it routes a record.
 
 27
-00:01:37,500 --> 00:01:41,000
-repaired. This is the core behavior: useful molecular evidence
+00:01:33,000 --> 00:01:37,000
+Under the current fail-closed reference attestation, the
 
 28
-00:01:41,000 --> 00:01:44,500
-is preserved, but unsafe species exports and incomplete
+00:01:37,000 --> 00:01:41,000
+bundled mixed demo emits no species rule-pass. AALB-COI-good
 
 29
-00:01:44,500 --> 00:01:48,000
-publication records are stopped.
+00:01:41,000 --> 00:01:45,000
+and AALB-COI-metadata-gap are ambiguous, AALB-COI-ambiguous is
 
 30
-00:01:48,000 --> 00:01:51,500
-The Evidence Map turns the results into a spatial evidence
+00:01:45,000 --> 00:01:49,000
+bounded at genus, and AALB-COI-short is weak. The metadata-gap
 
 31
-00:01:51,500 --> 00:01:55,000
-atlas. It connects GBIF occurrence context with claim states,
+00:01:49,000 --> 00:01:53,000
+row also carries publication blockers. These are run-local
 
 32
-00:01:55,000 --> 00:01:58,500
-snapshot hashes, VSEA rows, graph objects and export
+00:01:53,000 --> 00:01:57,000
+rule results and validation candidates, not independently
 
 33
-00:01:58,500 --> 00:02:02,000
-boundaries. The map is not a proof of presence by itself; it
+00:01:57,000 --> 00:02:01,000
+confirmed identifications or accepted GBIF records.
 
 34
-00:02:02,000 --> 00:02:05,500
-is a way to inspect provenance, context and claim strength in
+00:02:01,000 --> 00:02:04,333
+The Evidence Map shows hashed GBIF occurrence context beside
 
 35
-00:02:05,500 --> 00:02:09,000
-one place.
+00:02:04,333 --> 00:02:07,667
+molecular rule-evidence rows, graph objects and export
 
 36
-00:02:09,000 --> 00:02:12,600
-In the live Evidence Map, reviewers can see which rows are
+00:02:07,667 --> 00:02:11,000
+boundaries. The occurrence rows are explicitly unlinked from
 
 37
-00:02:12,600 --> 00:02:16,200
-safe, repair-required, review-only or blocked. The same view
+00:02:11,000 --> 00:02:14,333
+the molecular rows unless shared specimen or event identifiers
 
 38
-00:02:16,200 --> 00:02:19,800
-exposes judge-mode checks, graph audits and export boundaries
+00:02:14,333 --> 00:02:17,667
+are supplied. The map cannot upgrade a molecular claim and is
 
 39
-00:02:19,800 --> 00:02:23,400
-before download. That makes the spatial layer explanatory and
+00:02:17,667 --> 00:02:21,000
+not evidence of presence by itself.
 
 40
-00:02:23,400 --> 00:02:27,000
-auditable rather than a visual shortcut.
+00:02:21,000 --> 00:02:24,500
+In the Evidence Map, reviewers can see rule-supported
 
 41
-00:02:27,000 --> 00:02:30,600
-The Fragment Graph shows how marker fragments link to
+00:02:24,500 --> 00:02:28,000
+candidates, repair-required rows, review-only hypotheses and
 
 42
-00:02:30,600 --> 00:02:34,200
-reference taxa and safe LCA decisions. When a fragment points
+00:02:28,000 --> 00:02:31,500
+blocked exports. The same view exposes release checks, graph
 
 43
-00:02:34,200 --> 00:02:37,800
-to multiple close taxa, EcoGenesis reports the most specific
+00:02:31,500 --> 00:02:35,000
+audits and export boundaries before download. Passing those
 
 44
-00:02:37,800 --> 00:02:41,400
-safe rank instead of forcing a species claim. This keeps
+00:02:35,000 --> 00:02:38,500
+checks means the files agree for that run; it does not
 
 45
-00:02:41,400 --> 00:02:45,000
-evidence, competitors and caveats together.
+00:02:38,500 --> 00:02:42,000
+establish external scientific validity.
 
 46
-00:02:45,000 --> 00:02:48,800
-Uncertainty is handled through explicit gates: identity and
+00:02:42,000 --> 00:02:45,167
+The Fragment Graph shows how marker fragments link to
 
 47
-00:02:48,800 --> 00:02:52,600
-coverage, ambiguity and LCA downgrade, barcode gap, diagnostic
+00:02:45,167 --> 00:02:48,333
+reference taxa and an LCA-bounded rank. When a fragment points
 
 48
-00:02:52,600 --> 00:02:56,400
-k-mer support, marker profile, publication readiness and graph
+00:02:48,333 --> 00:02:51,500
+to multiple close taxa, EcoGenesis reports the most specific
 
 49
-00:02:56,400 --> 00:03:00,200
-provenance. A top hit does not become a species-level output
+00:02:51,500 --> 00:02:54,667
+rank allowed by the configured rules instead of forcing a
 
 50
-00:03:00,200 --> 00:03:04,000
-unless the required gates pass.
+00:02:54,667 --> 00:02:57,833
+species claim. Evidence, competitors and caveats remain
 
 51
-00:03:04,000 --> 00:03:07,833
-Validation is built into the submission package. The project
+00:02:57,833 --> 00:03:01,000
+together.
 
 52
-00:03:07,833 --> 00:03:11,667
-includes backend tests, frontend tests, competition batches,
+00:03:01,000 --> 00:03:04,667
+Uncertainty is handled through explicit gates: identity and
 
 53
-00:03:11,667 --> 00:03:15,500
-adversarial batches, graph audits and contest-readiness
+00:03:04,667 --> 00:03:08,333
+coverage, ambiguity and LCA downgrade, barcode gap, locally
 
 54
-00:03:15,500 --> 00:03:19,333
-checks. The important validation target is fail-closed
+00:03:08,333 --> 00:03:12,000
+unique k-mer support in the selected reference set, marker
 
 55
-00:03:19,333 --> 00:03:23,167
-behavior: weak coverage, close competitors, metadata gaps and
+00:03:12,000 --> 00:03:15,667
+profile, publication checks and graph provenance. A top hit
 
 56
-00:03:23,167 --> 00:03:27,000
-unsafe exports must be blocked or downgraded.
+00:03:15,667 --> 00:03:19,333
+does not become a species-level validation candidate unless
 
 57
-00:03:27,000 --> 00:03:31,200
-The final deliverable is the Evidence Pack. It includes CSV,
+00:03:19,333 --> 00:03:23,000
+every configured requirement passes.
 
 58
-00:03:31,200 --> 00:03:35,400
-JSON, HTML, VSEA, graph and audit outputs for review, repair
+00:03:23,000 --> 00:03:26,667
+Regression and integrity checks are built into the submission
 
 59
-00:03:35,400 --> 00:03:39,600
-and reuse. Researchers can inspect sequence safety tables,
+00:03:26,667 --> 00:03:30,333
+package. The project includes backend and frontend tests,
 
 60
-00:03:39,600 --> 00:03:43,800
-publication blockers, molecular evidence reports, graph
+00:03:30,333 --> 00:03:34,000
+repeated-fixture competition batches, adversarial cases, graph
 
 61
-00:03:43,800 --> 00:03:48,000
-provenance and machine-readable export artifacts.
+00:03:34,000 --> 00:03:37,667
+audits and contest-readiness checks. They test fail-closed
 
 62
-00:03:48,000 --> 00:03:51,375
-EcoGenesis is already a working contest prototype with a live
+00:03:37,667 --> 00:03:41,333
+behavior and internal consistency; independent multi-taxon
 
 63
-00:03:51,375 --> 00:03:54,750
-demo, public source code, reproducible outputs and
+00:03:41,333 --> 00:03:45,000
+scientific validation remains future work.
 
 64
-00:03:54,750 --> 00:03:58,125
-downloadable evidence artifacts. It can scale to larger
+00:03:45,000 --> 00:03:48,667
+The final deliverable is the Evidence Pack. It includes CSV,
 
 65
-00:03:58,125 --> 00:04:01,500
-reference libraries, institutional pipelines, richer GBIF
+00:03:48,667 --> 00:03:52,333
+JSON, HTML, rule-evidence, graph and audit outputs for review,
 
 66
-00:04:01,500 --> 00:04:04,875
-publishing workflows and broader molecular evidence
+00:03:52,333 --> 00:03:56,000
+repair and reuse. Researchers can inspect sequence decision
 
 67
-00:04:04,875 --> 00:04:08,250
-observatories. The call to action is simple: open the live
+00:03:56,000 --> 00:03:59,667
+tables, blockers, validation-candidate templates, molecular
 
 68
-00:04:08,250 --> 00:04:11,625
-demo, run the workflow, and inspect the evidence before
+00:03:59,667 --> 00:04:03,333
+evidence reports, graph provenance and machine-readable
 
 69
-00:04:11,625 --> 00:04:15,000
+00:04:03,333 --> 00:04:07,000
+artifacts.
+
+70
+00:04:07,000 --> 00:04:10,571
+EcoGenesis is a working contest prototype with a live demo,
+
+71
+00:04:10,571 --> 00:04:14,143
+public source code, reproducible run-local outputs and
+
+72
+00:04:14,143 --> 00:04:17,714
+downloadable evidence artifacts. It is not yet a validated
+
+73
+00:04:17,714 --> 00:04:21,286
+scientific identifier or complete GBIF publishing pipeline.
+
+74
+00:04:21,286 --> 00:04:24,857
+The call to action is simple: run the workflow, inspect its
+
+75
+00:04:24,857 --> 00:04:28,429
+boundaries, and validate candidate records externally before
+
+76
+00:04:28,429 --> 00:04:32,000
 publication.

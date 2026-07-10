@@ -2,11 +2,11 @@
 
 Status: `pass`
 
-- Checks: `66`
+- Checks: `68`
 - Failed: `0`
-- VSEA rows: `4`
+- Rule-evidence rows: `4`
 - Occurrence rows: `12`
-- ZIP entries: `43`
+- ZIP entries: `44`
 
 ## Failed Checks
 

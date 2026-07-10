@@ -7,17 +7,17 @@ cd backend
 .venv/bin/python scripts/generate_observatory_demo_report.py
 ```
 
-Run ID: `38d525a51d8546e598b9f5cbe9864c42`
+Run ID: `0026e96063174d8f96d6066a7d59c14c`
 
 ## Result
 
 - Hard gate status: `pass`
 - GBIF source mode: `fixture`
 - Occurrence context rows: `12`
-- VSEA rows: `4`
+- Rule-evidence rows: `4`
 - Segments: `4`
-- Graph: `14` nodes, `17` edges
-- Claim states: `{"taxon_supported": 3, "weak_hypothesis": 1}`
+- Graph: `14` nodes, `13` edges
+- Claim states: `{"taxon_ambiguous": 2, "taxon_supported": 1, "weak_hypothesis": 1}`
 
 ## Contest Boundary
 
@@ -33,6 +33,7 @@ Key files:
 - `observatory_graph.jsonld`
 - `gbif_export_preview.csv`
 - `ai_ready_dataset.jsonl`
-- `proof_summary.json`
+- `release_check_summary.json`
+- `proof_summary.json` (deprecated compatibility alias)
 - `observatory_output_verification.json`
 - `observatory_output_verification.md`

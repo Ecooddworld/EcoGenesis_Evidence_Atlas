@@ -7,6 +7,7 @@ import json
 import re
 from typing import Any
 
+from app.barcode.dwca import build_dwca_artifacts
 from app.barcode.math_audit import audit_pack_math
 from app.gseg.artifacts import ArtifactContent, build_gseg_gsig_artifacts
 
@@ -41,12 +42,16 @@ def build_barcode_artifacts(pack: dict[str, Any]) -> dict[str, ArtifactContent]:
         "naive_top_hit_overclaims.csv": table_csv(pack.get("naive_top_hit_overclaims", [])),
         "dwc_occurrence_core_template.csv": occurrence_core_csv(pack, publishable_only=False),
         "dwc_occurrence_core_publishable.csv": occurrence_core_csv(pack, publishable_only=True),
-        "dwc_occurrence_core_gbif_ready.csv": occurrence_core_csv(pack, publishable_only=True, gbif_ready_only=True),
+        "dwc_occurrence_core_validation_candidates.csv": occurrence_core_csv(
+            pack, publishable_only=True, validation_candidate_only=True
+        ),
         "dwc_occurrence_core_review.csv": occurrence_core_csv(pack, publishable_only=False),
         "dwc_occurrence_core_review_or_repair.csv": occurrence_review_or_repair_csv(pack),
         "dna_derived_extension_template.csv": dna_extension_csv(pack, publishable_only=False),
         "dna_derived_extension_publishable.csv": dna_extension_csv(pack, publishable_only=True),
-        "dna_derived_extension_gbif_ready.csv": dna_extension_csv(pack, publishable_only=True, gbif_ready_only=True),
+        "dna_derived_extension_validation_candidates.csv": dna_extension_csv(
+            pack, publishable_only=True, validation_candidate_only=True
+        ),
         "molecular_evidence_report.html": molecular_report_html(pack),
         "methods_text.md": methods_text_md(pack),
         "citations.md": citations_md(pack),
@@ -56,6 +61,7 @@ def build_barcode_artifacts(pack: dict[str, Any]) -> dict[str, ArtifactContent]:
         "proof_by_failure_modes.md": proof_by_failure_modes_md(pack),
         "math_viability_audit.json": json.dumps(audit_pack_math(pack), indent=2, ensure_ascii=False),
     }
+    artifacts.update(build_dwca_artifacts(pack))
     artifacts.update(build_gseg_gsig_artifacts(pack))
     return artifacts
 
@@ -366,8 +372,8 @@ def best_action_for_blocker(blocker: str, actions: list[str]) -> str:
 
 def export_state_explanation(record: dict[str, Any]) -> str:
     state = record.get("export_state")
-    if state == "formal_gbif_ready":
-        return "Safe taxonomic decision plus dataset-level metadata gates; formal GBIF-ready export row is allowed."
+    if state == "candidate_for_gbif_validation":
+        return "Safe taxonomic decision plus local dataset-level metadata gates; row is a candidate for external GBIF/IPT validation."
     if state == "dwc_template_ready":
         return "Safe taxonomic decision with a non-empty published taxon; publishable template row is allowed, dataset metadata still needs review."
     if state == "evidence_publishable_repair_required":
@@ -478,10 +484,15 @@ def table_csv(rows: list[dict[str, Any]]) -> str:
     return write_csv(rows)
 
 
-def occurrence_core_csv(pack: dict[str, Any], *, publishable_only: bool, gbif_ready_only: bool = False) -> str:
+def occurrence_core_csv(
+    pack: dict[str, Any],
+    *,
+    publishable_only: bool,
+    validation_candidate_only: bool = False,
+) -> str:
     rows = []
     for record in pack["records"]:
-        if gbif_ready_only and record.get("publication_bucket") != "gbif_ready":
+        if validation_candidate_only and record.get("export_state") != "candidate_for_gbif_validation":
             continue
         if publishable_only and record["published_taxon"]["rank"] == "none":
             continue
@@ -537,10 +548,15 @@ def occurrence_review_or_repair_csv(pack: dict[str, Any]) -> str:
     return write_csv(rows)
 
 
-def dna_extension_csv(pack: dict[str, Any], *, publishable_only: bool, gbif_ready_only: bool = False) -> str:
+def dna_extension_csv(
+    pack: dict[str, Any],
+    *,
+    publishable_only: bool,
+    validation_candidate_only: bool = False,
+) -> str:
     rows = []
     for record in pack["records"]:
-        if gbif_ready_only and record.get("publication_bucket") != "gbif_ready":
+        if validation_candidate_only and record.get("export_state") != "candidate_for_gbif_validation":
             continue
         if publishable_only and record["published_taxon"]["rank"] == "none":
             continue
@@ -599,7 +615,7 @@ def molecular_report_html(pack: dict[str, Any]) -> str:
             "candidate_n",
             "safe_n",
             "publishable_candidate_n",
-            "gbif_ready_n",
+            "validation_candidate_n",
             "repair_required_n",
             "blocked_top_species_claims_n",
             "hard_gate_failures_n",
@@ -655,7 +671,7 @@ def molecular_report_html(pack: dict[str, Any]) -> str:
   <p>{html.escape(pack['summary']['verdict'])}</p>
   <section class="summary">
     <div class="card"><strong>{pack['metrics']['processed_records']}</strong><br />processed</div>
-    <div class="card"><strong>{pack['metrics']['species_safe_records']}</strong><br />species-safe</div>
+    <div class="card"><strong>{pack['metrics']['species_rule_pass_records']}</strong><br />species rule-pass candidates</div>
     <div class="card"><strong>{pack['metrics']['blocked_species_claims']}</strong><br />blocked species claims</div>
     <div class="card"><strong>{pack['metrics']['publication_repair_efficiency']}</strong><br />repair explainability</div>
   </section>
@@ -723,7 +739,9 @@ Reference context: **{pack['summary']['reference_database']}**. Marker: **{pack[
 
 For each DNA barcode/metabarcoding sequence, the compiler evaluated a marker-specific identity/coverage profile, a 95% ambiguity test over mismatch-rate standard errors, lowest common ancestor of indistinguishable hits, barcode gap, diagnostic k-mer support, diagnostic false-positive probability, assay evidence gates and GBIF publication metadata readiness.
 
-Species-level output is fail-closed: a sequence is `species-safe` only when the marker exact-match gate, ambiguity/LCA gate, positive barcode gap gate, diagnostic k-mer gate, marker-profile species gate, assay gate and publication-readiness gates all pass.
+Species-level output is fail-closed inside the current ruleset: `scientific_decision_state=species-rule-pass` means the configured molecular and assay rules passed, not independently validated species truth. The deprecated `species-safe` decision token is retained only for API compatibility.
+
+The CSV exports remain review templates. When every selected record and the supplied dataset metadata pass the local DwC-A contract, the pack also includes a separate `dwca.zip` with an Occurrence core, DNA-derived extension, `meta.xml` and `eml.xml`. `dwca_validation_report.json` records local semantic and roundtrip results. A local pass is not IPT ingestion or GBIF publication; external IPT/GBIF validation remains an explicit release blocker.
 
 The pack separates `candidate_taxon` from `published_taxon`: blocked or weak records can remain useful as review hints, but they are not emitted as publishable Darwin Core species records.
 
@@ -739,7 +757,7 @@ Nexus V3 audit files in this Evidence Pack add:
 
 - `data_accounting_ledger.csv` for explicit numerators and denominators;
 - `state_machine_audit.csv` for taxonomic status, publication bucket and export-state separation;
-- `hard_gate_audit.csv` for species-safe consistency checks;
+- `hard_gate_audit.csv` for species rule-pass consistency checks;
 - `naive_top_hit_overclaims.csv` for overclaim prevention evidence;
 - `reference_gap_index.csv` for marker/reference bottlenecks;
 - `reference_completeness_audit.csv` for explicit RCI 2.0 status and reference-context caveats;
@@ -788,7 +806,7 @@ API-derived evidence packs and local reference-search examples are useful for re
 
 
 def proof_by_failure_modes_md(pack: dict[str, Any]) -> str:
-    return """# Proof By Failure Modes
+    return """# Failure-Mode Invariants
 
 The compiler blocks species-level claims when any required gate fails:
 
@@ -797,18 +815,20 @@ The compiler blocks species-level claims when any required gate fails:
 - barcode gap is missing or non-positive;
 - diagnostic k-mer support is missing, zero or above the configured false-positive probability threshold;
 - marker profile disallows species export for the supplied marker/span;
-- qPCR/ddPCR required assay evidence is missing;
+- qPCR/ddPCR or eDNA/metabarcoding required assay evidence is missing;
 - required Occurrence core or DNA-derived metadata is missing.
 
-Therefore `species-safe` is not a blind top-hit label. It means the record passed all frozen molecular evidence and GBIF-readiness gates in this run.
+Therefore `species-rule-pass` is not a blind top-hit label and not an external validation result. It means the record passed the current molecular and assay rules in this run.
 
 ## Nexus V3 Hard-Gate Audit
 
 The `hard_gate_audit.csv` export verifies the contradiction condition explicitly:
 
-If a record is emitted as `species-safe`, then the marker exact-match gate, ambiguity/LCA gate, barcode gap gate, diagnostic k-mer gate, marker profile gate, Occurrence core gate, DNA metadata gate and assay gate must all pass.
+If a record is emitted with primary state `species-rule-pass`, then the marker exact-match gate, ambiguity/LCA gate, barcode gap gate, diagnostic k-mer gate, reference-completeness gate, sequence-QC gate, marker profile gate and assay gate must all pass. Publication metadata is checked separately.
 
-If any of those gates fail while `species-safe` is emitted, `hardGateViolation=true`. A valid run must have zero hard-gate failures.
+If any required gate fails while a final species rule-pass publication decision is emitted, `hardGateViolation=true`. A valid run must have zero hard-gate failures.
+
+These checks demonstrate internal rule consistency. They do not prove that the thresholds are biologically calibrated for every taxon, marker, laboratory workflow or reference database.
 """
 
 

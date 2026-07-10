@@ -1,0 +1,5 @@
+segmentID,clusterID,memberCount,members,reproducibleAcrossInputOrder,status,rowOrder
+segment:AALB-COI-good:1-658,cluster:fbb5aa6b1772,4,AALB-COI-ambiguous; AALB-COI-good; AALB-COI-metadata-gap; AALB-COI-short,True,pass,0
+segment:AALB-COI-ambiguous:1-658,cluster:fbb5aa6b1772,4,AALB-COI-ambiguous; AALB-COI-good; AALB-COI-metadata-gap; AALB-COI-short,True,pass,1
+segment:AALB-COI-short:1-658,cluster:fbb5aa6b1772,4,AALB-COI-ambiguous; AALB-COI-good; AALB-COI-metadata-gap; AALB-COI-short,True,pass,2
+segment:AALB-COI-metadata-gap:1-658,cluster:fbb5aa6b1772,4,AALB-COI-ambiguous; AALB-COI-good; AALB-COI-metadata-gap; AALB-COI-short,True,pass,3

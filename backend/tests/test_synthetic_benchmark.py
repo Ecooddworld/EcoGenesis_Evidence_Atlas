@@ -12,6 +12,6 @@ def test_synthetic_ambiguity_benchmark_outputs_comparison(tmp_path, monkeypatch)
     assert summary["hard_gate_failures"] == 0
     assert summary["naive_species_claims"] == 40
     assert summary["naive_unsafe_species_claims"] > 0
-    assert summary["ecogenesis_species_safe_claims"] < summary["naive_species_claims"]
+    assert summary["ecogenesis_species_rule_pass_fixture_records"] < summary["naive_species_claims"]
     assert (tmp_path / "benchmark" / "naive_vs_ecogenesis.csv").exists()
     assert (tmp_path / "benchmark" / "summary.md").exists()

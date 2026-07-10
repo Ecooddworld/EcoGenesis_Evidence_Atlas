@@ -4,7 +4,6 @@ from collections import Counter
 from copy import deepcopy
 from datetime import datetime, timezone
 import json
-from pathlib import Path
 from typing import Any
 from uuid import uuid4
 
@@ -12,14 +11,14 @@ from app.barcode.compiler import run_barcode_compiler
 from app.barcode.demo import DEFAULT_BARCODE_REQUEST
 from app.barcode.schemas import BarcodeCompilerRequest
 from app.evidence.gbif import GBIFClient, normalize_occurrences
-from app.gseg.artifacts import jsonl, parquet_bytes, provenance_hash, verified_segment_evidence_rows, write_csv
+from app.gseg.artifacts import jsonl, parquet_bytes, provenance_hash, rule_evidence_segment_rows, write_csv
 
 from .reference_checks import (
     CONTRACT_DIR,
     ai_export_is_safe,
     contract_validation_summary,
     pipeline_dag,
-    proof_obligations,
+    release_checks,
     source_registry,
     ui_contract,
     visual_claim_projection,
@@ -73,7 +72,7 @@ def run_observatory_demo(request: ObservatoryRunRequest) -> dict[str, Any]:
     registry = source_registry()
     dag = pipeline_dag()
     ui = ui_contract()
-    proof = proof_obligations()
+    release_contract = release_checks()
     snapshot = build_gbif_snapshot(request)
     barcode_pack = run_barcode_compiler(BarcodeCompilerRequest(**DEFAULT_BARCODE_REQUEST))
     vsea_rows = observatory_vsea_rows(barcode_pack, snapshot, request)
@@ -97,7 +96,7 @@ def run_observatory_demo(request: ObservatoryRunRequest) -> dict[str, Any]:
         registry=registry,
         dag=dag,
         ui=ui,
-        proof=proof,
+        proof=release_contract,
         validation=validation,
         snapshot=snapshot,
         vsea_rows=vsea_rows,
@@ -106,7 +105,7 @@ def run_observatory_demo(request: ObservatoryRunRequest) -> dict[str, Any]:
         gbif_rows=gbif_rows,
         ai_rows=ai_rows,
     )
-    proof_summary = proof_summary_from_obligations(proof, audit_artifacts["artifact_status"])
+    release_summary = release_check_summary(release_contract, audit_artifacts["artifact_status"])
     finished_at = datetime.now(timezone.utc)
     summary = build_summary(
         request=request,
@@ -114,7 +113,7 @@ def run_observatory_demo(request: ObservatoryRunRequest) -> dict[str, Any]:
         vsea_rows=vsea_rows,
         occurrence_rows=occurrence_rows,
         graph=graph,
-        proof_summary=proof_summary,
+        proof_summary=release_summary,
         barcode_pack=barcode_pack,
     )
     pack: dict[str, Any] = {
@@ -135,7 +134,7 @@ def run_observatory_demo(request: ObservatoryRunRequest) -> dict[str, Any]:
             "source_registry": registry,
             "pipeline_dag": dag,
             "ui_contract": ui,
-            "proof_obligations": proof,
+            "release_checks": release_contract,
         },
         "snapshot_manifest": snapshot["manifest"],
         "raw_snapshot_payload": snapshot["raw_payload"],
@@ -149,7 +148,8 @@ def run_observatory_demo(request: ObservatoryRunRequest) -> dict[str, Any]:
         "gbif_export_preview": gbif_rows,
         "ai_ready_dataset": ai_rows,
         "audit_artifacts": audit_artifacts["payloads"],
-        "proof_summary": proof_summary,
+        "release_check_summary": release_summary,
+        "proof_summary": deprecated_proof_summary_alias(release_summary),
         "barcode_summary": barcode_pack["summary"],
         "exports": [],
     }
@@ -309,14 +309,12 @@ def observatory_vsea_rows(
     snapshot: dict[str, Any],
     request: ObservatoryRunRequest,
 ) -> list[dict[str, Any]]:
-    source_rows = verified_segment_evidence_rows(barcode_pack)
+    source_rows = rule_evidence_segment_rows(barcode_pack)
     records_by_id = {record["sequence_id"]: record for record in barcode_pack.get("records", [])}
-    occurrences = snapshot["normalized_occurrence_rows"]
     out = []
     for index, row in enumerate(source_rows, start=1):
         sequence_id = row["sequenceID"]
         record = records_by_id.get(sequence_id, {})
-        occurrence = occurrences[(index - 1) % len(occurrences)] if occurrences else {}
         claim_state = row.get("claimState") or "blocked"
         export_state = row.get("exportState")
         safe_rank = row.get("safeRank") or "none"
@@ -324,7 +322,7 @@ def observatory_vsea_rows(
         if claim_state == "weak_hypothesis":
             label = "candidate_hypothesis"
         elif claim_state == "taxon_supported":
-            label = "positive_verified"
+            label = "positive_rule_supported"
         elif claim_state == "taxon_ambiguous":
             label = "candidate_hypothesis"
         else:
@@ -345,6 +343,7 @@ def observatory_vsea_rows(
             "target_label": safe_label,
             "safe_rank": safe_rank,
             "decision_class": row.get("decisionClass"),
+            "taxonomic_status": record.get("taxonomic_status"),
             "publication_bucket": row.get("publicationBucket"),
             "export_state": export_state,
             "claim_state": claim_state,
@@ -352,15 +351,19 @@ def observatory_vsea_rows(
             "claim_boundary": row.get("claimBoundary"),
             "caveats": row.get("caveats"),
             "blockers": row.get("blockers"),
-            "gbifID_context": occurrence.get("gbifID"),
-            "datasetKey_context": occurrence.get("datasetKey"),
-            "eventDate_context": occurrence.get("eventDate"),
-            "countryCode_context": occurrence.get("countryCode"),
-            "context_claim_boundary": "GBIF context is linked after hashing; it does not promote claim_state.",
+            "gbifID_context": None,
+            "datasetKey_context": None,
+            "eventDate_context": None,
+            "countryCode_context": None,
+            "context_linkage_status": "unlinked_context_only",
+            "context_claim_boundary": (
+                "The GBIF snapshot is run-level geographic context only. No occurrence is linked to this molecular row "
+                "without a shared eventID, materialSampleID, specimen identifier, or documented dataset lineage."
+            ),
             "ui_claim_state": claim_state,
             "ai_label": label,
             "gbif_export_state": "candidate_gbif_row"
-            if claim_state == "taxon_supported" and export_state in {"formal_gbif_ready", "dwc_template_ready"}
+            if claim_state == "taxon_supported" and export_state in {"candidate_for_gbif_validation", "dwc_template_ready"}
             else "excluded_or_repair_required",
             "provenance_hash": row["provenanceHash"],
         }
@@ -534,14 +537,6 @@ def build_observatory_graph(
                     claim_state=row["claim_state"],
                     ruleset_version=request.ruleset_version,
                 ),
-                graph_edge(
-                    f"edge:{claim_id}:context",
-                    "HAS_OCCURRENCE_CONTEXT",
-                    claim_id,
-                    f"snapshot:{snapshot['manifest']['snapshot_id']}",
-                    claim_state="occurrence_context",
-                    ruleset_version=request.ruleset_version,
-                ),
             ]
         )
     return {
@@ -596,7 +591,7 @@ def gbif_export_rows(vsea_rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     rows = []
     for row in vsea_rows:
         allowed = row["claim_state"] == "taxon_supported" and row["export_state"] in {
-            "formal_gbif_ready",
+            "candidate_for_gbif_validation",
             "dwc_template_ready",
         }
         rows.append(
@@ -626,7 +621,7 @@ def ai_ready_rows(vsea_rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
             "safe_rank": row["safe_rank"],
             "claim_state": row["claim_state"],
             "label": row["ai_label"],
-            "features_only": row["ai_label"] != "positive_verified",
+            "features_only": row["ai_label"] != "positive_rule_supported",
             "caveats": row["caveats"],
             "blockers": row["blockers"],
             "provenance_hash": row["observatory_provenance_hash"],
@@ -660,16 +655,28 @@ def build_audit_artifacts(
     payloads["snapshot_manifest.json"] = snapshot["manifest"]
     status["snapshot_manifest.json"] = "pass" if snapshot["manifest"].get("snapshot_hash") else "fail"
 
+    gbif_source = next(
+        (source for source in registry.get("sources", []) if source.get("source_id") == LIVE_SOURCE_ID),
+        {},
+    )
+    acquisition_modes = {str(item).lower() for item in gbif_source.get("acquisition_mode", [])}
+    license_policy = str(gbif_source.get("license_policy") or "").lower()
+    api_policy_ok = (
+        bool(acquisition_modes & {"paged_search_for_small_demo", "asynchronous_download_for_large_batches"})
+        and "do not scrape" in license_policy
+        and bool(gbif_source.get("rate_limit_policy"))
+    )
     payloads["api_policy_audit.csv"] = [
         {
             "source_id": LIVE_SOURCE_ID,
             "collection_method": "GBIF API via /occurrence/search or fixture replay",
-            "scrapes_gbif_pages": False,
+            "scrapes_gbif_pages": "do not scrape" not in license_policy,
             "user_agent_policy": "configured_in_GBIFClient",
-            "status": "pass",
+            "registered_acquisition_modes": "; ".join(sorted(acquisition_modes)),
+            "status": "pass" if api_policy_ok else "fail",
         }
     ]
-    status["api_policy_audit.csv"] = "pass"
+    status["api_policy_audit.csv"] = payloads["api_policy_audit.csv"][0]["status"]
 
     payloads["gbif_query_strategy_audit.csv"] = [
         {
@@ -690,7 +697,9 @@ def build_audit_artifacts(
         "source_ids": [LIVE_SOURCE_ID, MOLECULAR_SOURCE_ID],
         "provenance_complete": all(row.get("observatory_provenance_hash") for row in vsea_rows),
     }
-    status["source_provenance_manifest.json"] = "pass"
+    status["source_provenance_manifest.json"] = (
+        "pass" if payloads["source_provenance_manifest.json"]["provenance_complete"] else "fail"
+    )
 
     payloads["vsea_provenance_audit.csv"] = [
         {
@@ -718,42 +727,60 @@ def build_audit_artifacts(
     status["visualization_guardrail_audit.csv"] = "pass" if all(row["status"] == "pass" for row in payloads["visualization_guardrail_audit.csv"]) else "fail"
 
     blocked_rows = [row for row in vsea_rows if row["claim_state"] != "taxon_supported"]
+    blocked_ui_contract_ok = ui_guardrail_present(ui, "vsea_grid", "blocked_claims_not_hidden")
+    judge_nonclaims_present = ui_widget_present(ui, "judge_mode", "non_claims_panel")
     payloads["blocked_claim_visibility_audit.csv"] = [
         {
             "screen_id": "vsea_grid",
             "blocked_or_review_rows": len(blocked_rows),
-            "hidden_by_default": False,
-            "status": "pass",
+            "contractRequiresVisibility": blocked_ui_contract_ok,
+            "status": "pass" if blocked_ui_contract_ok else "fail",
         },
         {
             "screen_id": "judge_mode",
             "blocked_or_review_rows": len(blocked_rows),
-            "hidden_by_default": False,
-            "status": "pass",
+            "contractRequiresVisibility": judge_nonclaims_present,
+            "status": "pass" if judge_nonclaims_present else "fail",
         },
     ]
-    status["blocked_claim_visibility_audit.csv"] = "pass"
+    status["blocked_claim_visibility_audit.csv"] = aggregate_row_status(
+        payloads["blocked_claim_visibility_audit.csv"]
+    )
 
-    payloads["sharedness_visual_overclaim_audit.csv"] = [
-        {
-            "segment_id": row["segment_id"],
-            "safe_rank": row["safe_rank"],
-            "claim_state": row["claim_state"],
-            "species_specific_badge_allowed": row["claim_state"] == "taxon_supported" and row["safe_rank"] == "species",
-            "status": "pass",
-        }
-        for row in vsea_rows
-    ]
-    status["sharedness_visual_overclaim_audit.csv"] = "pass"
+    sharedness_guardrail = ui_guardrail_present(
+        ui, "tree_of_life_segment_map", "shared_segments_cannot_be_species_specific"
+    )
+    payloads["sharedness_visual_overclaim_audit.csv"] = []
+    for row in vsea_rows:
+        species_specific_badge_allowed = (
+            row["claim_state"] == "taxon_supported" and row["safe_rank"] == "species"
+        )
+        violation = species_specific_badge_allowed and row.get("taxonomic_status") != "species-safe"
+        payloads["sharedness_visual_overclaim_audit.csv"].append(
+            {
+                "segment_id": row["segment_id"],
+                "safe_rank": row["safe_rank"],
+                "claim_state": row["claim_state"],
+                "species_specific_badge_allowed": species_specific_badge_allowed,
+                "ui_guardrail_declared": sharedness_guardrail,
+                "overclaim_violation": violation,
+                "status": "pass" if sharedness_guardrail and not violation else "fail",
+            }
+        )
+    status["sharedness_visual_overclaim_audit.csv"] = aggregate_row_status(
+        payloads["sharedness_visual_overclaim_audit.csv"]
+    )
 
     payloads["ai_dataset_export_audit.csv"] = [
         {
             "segment_id": row["segment_id"],
             "claim_state": row["claim_state"],
             "label": row["label"],
-            "safe_for_ai_export": not (row["label"] == "positive_verified" and row["claim_state"] != "taxon_supported"),
+            "safe_for_ai_export": not (
+                row["label"] == "positive_rule_supported" and row["claim_state"] != "taxon_supported"
+            ),
             "status": "pass"
-            if not (row["label"] == "positive_verified" and row["claim_state"] != "taxon_supported")
+            if not (row["label"] == "positive_rule_supported" and row["claim_state"] != "taxon_supported")
             else "fail",
         }
         for row in ai_rows
@@ -765,20 +792,20 @@ def build_audit_artifacts(
             "literature_source": "not_connected",
             "automated_truth_promotion": False,
             "claim_state": "not_applicable_no_claim",
-            "status": "pass",
+            "status": "not_applicable_no_claim",
         }
     ]
-    status["literature_claim_state_audit.csv"] = "pass"
+    status["literature_claim_state_audit.csv"] = "not_applicable_no_claim"
 
     payloads["contradiction_visual_audit.csv"] = [
         {
             "contradictions_observed": 0,
             "suppressed_in_ui": False,
             "claim_exported": False,
-            "status": "pass",
+            "status": "not_applicable_no_claim",
         }
     ]
-    status["contradiction_visual_audit.csv"] = "pass"
+    status["contradiction_visual_audit.csv"] = "not_applicable_no_claim"
 
     payloads["gbif_export_claim_boundary_audit.csv"] = [
         {
@@ -786,23 +813,41 @@ def build_audit_artifacts(
             "claim_state": row["claim_state"],
             "export_allowed": row["export_allowed"],
             "gbif_context_promotes_claim": False,
-            "status": "pass" if (row["export_allowed"] == (row["claim_state"] == "taxon_supported")) or not row["export_allowed"] else "pass",
+            "bounded_taxon_present": bool(row.get("scientificName") and row.get("taxonRank")),
+            "status": "pass"
+            if (
+                not row["export_allowed"]
+                or (
+                    row["claim_state"] == "taxon_supported"
+                    and bool(row.get("scientificName"))
+                    and bool(row.get("taxonRank"))
+                )
+            )
+            else "fail",
         }
         for row in gbif_rows
     ]
-    status["gbif_export_claim_boundary_audit.csv"] = "pass"
+    status["gbif_export_claim_boundary_audit.csv"] = aggregate_row_status(
+        payloads["gbif_export_claim_boundary_audit.csv"]
+    )
 
+    repair_guardrail = ui_guardrail_present(
+        ui, "repair_optimizer", "metadata_repair_cannot_upgrade_biology"
+    )
     payloads["repair_optimizer_guardrail_audit.csv"] = [
         {
             "suggestion_type": "metadata_repair",
             "changes_claim_state": False,
             "requires_rerun": True,
-            "status": "pass",
+            "ui_guardrail_declared": repair_guardrail,
+            "status": "pass" if repair_guardrail else "fail",
         }
     ]
-    status["repair_optimizer_guardrail_audit.csv"] = "pass"
+    status["repair_optimizer_guardrail_audit.csv"] = aggregate_row_status(
+        payloads["repair_optimizer_guardrail_audit.csv"]
+    )
 
-    offline_hash = provenance_hash(
+    offline_input_fingerprint = provenance_hash(
         {
             "fixture": "aedes_albopictus_spain.json",
             "barcode_request": DEFAULT_BARCODE_REQUEST,
@@ -811,53 +856,68 @@ def build_audit_artifacts(
     )
     payloads["offline_demo_reproducibility.json"] = {
         "run_id": run_id,
-        "fixture_hash": offline_hash,
-        "repeat_hash": provenance_hash(
-            {
-                "fixture": "aedes_albopictus_spain.json",
-                "barcode_request": DEFAULT_BARCODE_REQUEST,
-                "ruleset_version": request.ruleset_version,
-            }
-        ),
-        "deterministic": True,
+        "input_fingerprint": offline_input_fingerprint,
+        "independent_repeat_execution_performed": False,
+        "independent_output_comparison_performed": False,
+        "deterministic": None,
         "live_mode_fallback_recorded": snapshot["manifest"]["fallback_used"],
-        "status": "pass",
+        "status": "informational_self_check",
+        "claim_boundary": (
+            "This run records a canonical fingerprint of the bundled fixture inputs only. "
+            "It does not compare outputs from an independent clean execution and therefore "
+            "does not establish reproducibility."
+        ),
     }
-    status["offline_demo_reproducibility.json"] = "pass"
+    status["offline_demo_reproducibility.json"] = payloads["offline_demo_reproducibility.json"]["status"]
 
+    graph_claim_rows = sum(1 for item in graph.get("@graph", []) if item.get("type") == "EvidenceClaim")
+    counts_match = len(vsea_rows) == graph_claim_rows
     payloads["ui_ledger_consistency_audit.csv"] = [
         {
             "ui_contract_version": ui.get("ui_contract_version"),
             "vsea_rows": len(vsea_rows),
-            "ledger_rows": len(vsea_rows),
+            "ledger_rows": graph_claim_rows,
             "occurrence_context_rows": len(occurrence_rows),
-            "counts_match": True,
-            "status": "pass",
+            "counts_match": counts_match,
+            "status": "pass" if counts_match else "fail",
         }
     ]
-    status["ui_ledger_consistency_audit.csv"] = "pass"
+    status["ui_ledger_consistency_audit.csv"] = payloads["ui_ledger_consistency_audit.csv"][0]["status"]
 
     graph_items = graph.get("@graph", [])
+    roundtripped_graph = json.loads(json.dumps(graph, sort_keys=True, ensure_ascii=False))
+    roundtripped_items = roundtripped_graph.get("@graph", [])
+    before_claim_states = sorted(
+        (item.get("id"), item.get("claim_state")) for item in graph_items if item.get("claim_state")
+    )
+    after_claim_states = sorted(
+        (item.get("id"), item.get("claim_state")) for item in roundtripped_items if item.get("claim_state")
+    )
+    roundtrip_ok = len(graph_items) == len(roundtripped_items) and before_claim_states == after_claim_states
     payloads["graph_roundtrip_audit.csv"] = [
         {
             "graph_items": len(graph_items),
             "missing_provenance_hash": sum(1 for item in graph_items if not item.get("provenance_hash")),
-            "roundtrip_json_ok": True,
-            "status": "pass" if graph_items and all(item.get("provenance_hash") for item in graph_items) else "fail",
+            "roundtrip_json_ok": roundtrip_ok,
+            "claim_states_preserved": before_claim_states == after_claim_states,
+            "status": "pass"
+            if graph_items and roundtrip_ok and all(item.get("provenance_hash") for item in graph_items)
+            else "fail",
         }
     ]
     status["graph_roundtrip_audit.csv"] = payloads["graph_roundtrip_audit.csv"][0]["status"]
 
+    retrieved_at_present = bool(snapshot["manifest"].get("retrieved_at"))
     payloads["source_freshness_claim_audit.csv"] = [
         {
             "source_id": LIVE_SOURCE_ID,
             "retrieved_at": snapshot["manifest"]["retrieved_at"],
             "freshness_displayed": True,
             "freshness_changes_claim_state": False,
-            "status": "pass",
+            "status": "pass" if retrieved_at_present else "fail",
         }
     ]
-    status["source_freshness_claim_audit.csv"] = "pass"
+    status["source_freshness_claim_audit.csv"] = payloads["source_freshness_claim_audit.csv"][0]["status"]
 
     payloads["license_blocker_audit.csv"] = [
         {
@@ -871,32 +931,92 @@ def build_audit_artifacts(
     status["license_blocker_audit.csv"] = "pass" if all(row["status"] == "pass" for row in payloads["license_blocker_audit.csv"]) else "fail"
 
     planned_sources = [source for source in registry.get("sources", []) if source.get("status") == "planned"]
+    roadmap_guardrail = ui_guardrail_present(ui, "judge_mode", "roadmap_not_claimed_as_done")
     payloads["judge_mode_non_claims_audit.csv"] = [
         {
             "planned_sources_visible": len(planned_sources),
             "planned_sources_export_claims": False,
-            "roadmap_labeled_no_claim": True,
-            "status": "pass",
+            "roadmap_labeled_no_claim": roadmap_guardrail,
+            "non_claims_panel_present": judge_nonclaims_present,
+            "status": "pass" if roadmap_guardrail and judge_nonclaims_present else "fail",
         }
     ]
-    status["judge_mode_non_claims_audit.csv"] = "pass"
+    status["judge_mode_non_claims_audit.csv"] = payloads["judge_mode_non_claims_audit.csv"][0]["status"]
 
     payloads["contract_validation.json"] = validation
     payloads["pipeline_execution_trace.json"] = {
         "dag_version": dag.get("dag_version"),
         "execution_mode": request.mode,
-        "steps": [
+        "steps": pipeline_execution_rows(
+            dag=dag,
+            snapshot=snapshot,
+            occurrence_rows=occurrence_rows,
+            vsea_rows=vsea_rows,
+            graph=graph,
+        ),
+    }
+    return {"payloads": payloads, "artifact_status": status}
+
+
+def aggregate_row_status(rows: list[dict[str, Any]]) -> str:
+    if not rows:
+        return "not_applicable_no_rows"
+    statuses = {row.get("status", "missing") for row in rows}
+    if "fail" in statuses or "missing" in statuses:
+        return "fail"
+    non_passing = statuses - {"pass"}
+    if non_passing:
+        return sorted(non_passing)[0]
+    return "pass"
+
+
+def ui_screen(ui: dict[str, Any], screen_id: str) -> dict[str, Any]:
+    return next((screen for screen in ui.get("screens", []) if screen.get("id") == screen_id), {})
+
+
+def ui_guardrail_present(ui: dict[str, Any], screen_id: str, guardrail: str) -> bool:
+    return guardrail in set(ui_screen(ui, screen_id).get("guardrails", []))
+
+
+def ui_widget_present(ui: dict[str, Any], screen_id: str, widget: str) -> bool:
+    return widget in set(ui_screen(ui, screen_id).get("required_widgets", []))
+
+
+def pipeline_execution_rows(
+    *,
+    dag: dict[str, Any],
+    snapshot: dict[str, Any],
+    occurrence_rows: list[dict[str, Any]],
+    vsea_rows: list[dict[str, Any]],
+    graph: dict[str, Any],
+) -> list[dict[str, Any]]:
+    graph_items = graph.get("@graph", [])
+    observed = {
+        "source_select": (True, "source registry loaded"),
+        "snapshot_fetch": (bool(snapshot.get("manifest", {}).get("snapshot_hash")), "snapshot hash present"),
+        "dwca_parse": (None, "no DwC-A input was parsed in this Observatory demo path"),
+        "normalize": (bool(occurrence_rows), f"{len(occurrence_rows)} occurrence context rows normalized"),
+        "segmentize": (bool(vsea_rows), f"{len(vsea_rows)} rule-evidence rows segmentized"),
+        "compute_evidence": (bool(vsea_rows), f"{len(vsea_rows)} rule-evidence rows computed"),
+        "graph_build": (bool(graph_items), f"{len(graph_items)} graph items built"),
+        "visual_index": (None, "no persistent visual index is built by this backend path"),
+        "export_pack": (True, "artifact payloads prepared; filesystem verification runs after save"),
+    }
+    rows = []
+    for step in dag.get("steps", []):
+        step_id = step.get("id")
+        result, evidence = observed.get(step_id, (None, "step is declared but has no execution evidence"))
+        rows.append(
             {
-                "id": step.get("id"),
+                "id": step_id,
                 "module": step.get("module"),
                 "outputs": step.get("outputs"),
                 "validations": step.get("validations"),
-                "status": "pass",
+                "execution_evidence": evidence,
+                "status": "pass" if result is True else "fail" if result is False else "not_executed_no_claim",
             }
-            for step in dag.get("steps", [])
-        ],
-    }
-    return {"payloads": payloads, "artifact_status": status}
+        )
+    return rows
 
 
 def source_registry_audit(registry: dict[str, Any]) -> dict[str, Any]:
@@ -955,13 +1075,14 @@ def source_provenance_manifest(
     }
 
 
-def proof_summary_from_obligations(proof: dict[str, Any], artifact_status: dict[str, str]) -> dict[str, Any]:
+def release_check_summary(contract: dict[str, Any], artifact_status: dict[str, str]) -> dict[str, Any]:
     rows = []
     hard_failures = []
-    for item in proof.get("obligations", []):
+    review_items = []
+    for item in contract.get("checks", []):
         artifact = item.get("artifact")
         status = artifact_status.get(artifact, "missing")
-        release_blocking = item.get("severity") == "hard_gate" and status not in {"pass", "not_applicable_no_claim"}
+        release_blocking = item.get("severity") == "hard_gate" and status in {"fail", "missing"}
         row = {
             "id": item.get("id"),
             "name": item.get("name"),
@@ -974,13 +1095,31 @@ def proof_summary_from_obligations(proof: dict[str, Any], artifact_status: dict[
         rows.append(row)
         if release_blocking:
             hard_failures.append(row)
+        elif status != "pass":
+            review_items.append(row)
+    release_status = "fail" if hard_failures else "review" if review_items else "pass"
     return {
-        "proof_obligation_set": proof.get("proof_obligation_set"),
+        "release_check_set": contract.get("release_check_set"),
         "total": len(rows),
         "hard_gate_failures": len(hard_failures),
         "hard_gate_status": "pass" if not hard_failures else "fail",
+        "review_items": len(review_items),
+        "release_status": release_status,
+        "claim_boundary": (
+            "Pass covers computed run-local checks only. Review/not-applicable/not-executed items are not "
+            "external scientific validation or proof of publication readiness."
+        ),
         "rows": rows,
     }
+
+
+def deprecated_proof_summary_alias(summary: dict[str, Any]) -> dict[str, Any]:
+    alias = deepcopy(summary)
+    alias["deprecated_field"] = True
+    alias["replacement"] = "release_check_summary"
+    alias["terminology_note"] = "Compatibility alias only; these are release checks, not formal proof obligations."
+    alias["proof_obligation_set"] = None
+    return alias
 
 
 def build_summary(
@@ -1004,12 +1143,14 @@ def build_summary(
         "normalized_occurrence_records": len(occurrence_rows),
         "segments": len({row["segment_id"] for row in vsea_rows}),
         "vsea_rows": len(vsea_rows),
+        "rule_evidence_rows": len(vsea_rows),
         "claim_states": dict(claim_states),
         "gbif_export_states": dict(export_states),
         "graph_nodes": graph["summary"]["nodes"],
         "graph_edges": graph["summary"]["edges"],
         "hard_gate_status": proof_summary["hard_gate_status"],
         "hard_gate_failures": proof_summary["hard_gate_failures"],
+        "release_status": proof_summary["release_status"],
         "barcode_records": barcode_pack["summary"]["processed_records"],
         "claim_boundary": "Visualization, GBIF context and AI exports preserve graph claim states and cannot upgrade evidence.",
     }
@@ -1037,7 +1178,11 @@ def build_observatory_artifacts(pack: dict[str, Any]) -> dict[str, str | bytes]:
         "observatory_graph.jsonld": json.dumps(pack["graph"], indent=2, ensure_ascii=False),
         "gbif_export_preview.csv": write_csv(pack["gbif_export_preview"]),
         "ai_ready_dataset.jsonl": jsonl(pack["ai_ready_dataset"]),
+        "release_check_summary.json": json.dumps(pack["release_check_summary"], indent=2, ensure_ascii=False),
         "proof_summary.json": json.dumps(pack["proof_summary"], indent=2, ensure_ascii=False),
+        "ecogenesis_gsig_observatory_release_checks_v1.json": json.dumps(
+            pack["contracts"]["release_checks"], indent=2, ensure_ascii=False
+        ),
         "contract_validation.json": json.dumps(audits["contract_validation.json"], indent=2, ensure_ascii=False),
         "pipeline_execution_trace.json": json.dumps(audits["pipeline_execution_trace.json"], indent=2, ensure_ascii=False),
     }
@@ -1054,7 +1199,6 @@ def build_observatory_artifacts(pack: dict[str, Any]) -> dict[str, str | bytes]:
         "gsig_observatory_source_registry.yaml",
         "gsig_observatory_pipeline_dag.yaml",
         "gsig_observatory_ui_contract.yaml",
-        "ecogenesis_gsig_observatory_proof_obligations_v4.json",
     ]:
         artifacts[contract_name] = (CONTRACT_DIR / contract_name).read_text(encoding="utf-8")
     return artifacts
@@ -1064,7 +1208,7 @@ def observatory_report_md(pack: dict[str, Any]) -> str:
     summary = pack["summary"]
     rows = "\n".join(
         f"| {row['id']} | {row['severity']} | {row['status']} | `{row['artifact']}` |"
-        for row in pack["proof_summary"]["rows"]
+        for row in pack["release_check_summary"]["rows"]
     )
     return f"""# EcoGenesis GSIG Observatory Demo Report
 
@@ -1072,9 +1216,9 @@ Run ID: `{pack['run']['run_id']}`
 
 ## Verdict
 
-Hard gate status: `{summary['hard_gate_status']}`
+Hard gate status: `{summary['hard_gate_status']}`; overall release status: `{summary['release_status']}`
 
-The Observatory layer is active above the barcode/GSEG compiler. It captures a GBIF occurrence snapshot for Aedes in Spain, hashes and audits the snapshot, links it to the molecular segment evidence graph, and exports GBIF/AI previews without promoting any claim state.
+The Observatory layer is active above the barcode/GSEG compiler. It captures and audits a GBIF occurrence snapshot as run-level geographic context. Molecular rows remain explicitly unlinked unless shared specimen/event identifiers are supplied. GBIF/AI previews cannot promote claim state.
 
 ## Run Summary
 
@@ -1082,18 +1226,18 @@ The Observatory layer is active above the barcode/GSEG compiler. It captures a G
 - Source mode: `{summary['source_mode']}`
 - GBIF fallback used: `{summary['fallback_used']}`
 - Occurrence context rows: `{summary['normalized_occurrence_records']}`
-- VSEA rows: `{summary['vsea_rows']}`
+- Rule-evidence rows: `{summary['rule_evidence_rows']}`
 - Segments: `{summary['segments']}`
 - Graph: `{summary['graph_nodes']}` nodes, `{summary['graph_edges']}` edges
 - Claim states: `{json.dumps(summary['claim_states'], sort_keys=True)}`
 
 ## Claim Boundary
 
-GBIF records are occurrence, geography and dataset context. They never turn a weak or blocked molecular record into a verified taxon claim. Visualization, AI-ready exports and repair suggestions preserve the graph claim state.
+GBIF records are occurrence, geography and dataset context. They never turn a weak or blocked molecular record into a rule-supported taxon claim. Visualization, AI-ready exports and repair suggestions preserve the graph claim state.
 
-## Proof Obligations
+## Release Checks
 
-| OPO | Severity | Status | Artifact |
+| Check | Severity | Status | Artifact |
 | --- | --- | --- | --- |
 {rows}
 """

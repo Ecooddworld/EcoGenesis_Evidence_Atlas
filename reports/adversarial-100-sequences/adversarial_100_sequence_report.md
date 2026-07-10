@@ -1,34 +1,38 @@
-# Adversarial 100-Sequence Fail-Closed Stress Report
+# Adversarial 100-Row Repeated-Fixture Regression Report
 
-Generated: 2026-06-24T23:51:51+02:00
+Generated: 2026-07-10T13:37:32+02:00
 Backend: local compiler script `backend/scripts/generate_competition_reports.py`
-Run ID: `3b037205cc904c08a613a6ccea42f724`
+Run ID: `538da02248e942119c546a1cbfa10c9b`
 
 ## Result
 
 - Records submitted: 100
+- Unique DNA sequence payloads: 1
 - API status: completed
-- Exports returned: 90
+- Exports returned: 92
 - Expected decisions matched: True
 - Hard-gate failures: 0
-- Evidence Pack ZIP SHA-256: `8c88081aba62e0dba593f59ee8c16400ebc61a845602347ed396aab85a9733c1`
+- Evidence Pack ZIP SHA-256: `39bb474325813ef2be175979d1eeecc072737db062f7a57e7fe5b2928ef8ee43`
 - GSEG/GSIG exports present: True
 - ZIP contains GSEG/GSIG exports: True
-- VSEA Parquet magic: `PAR1`
+- Rule-evidence Parquet magic: `PAR1`
 - Math viability audit: `pass` (936 checks, 0 failed)
-- Theorem checklist release gate: `pass`
+- Release-invariant gate: `review`
+- External validation status: `blocked` (these are repeated regression fixtures, not independent specimens)
+- Per-record evidence attestation key: `synthetic-regression-fixture-not-external-trust` (public synthetic regression key; not an external reference audit)
+- DwC-A local validation: `blocked`; release gate: `blocked_local_validation`
 - Graph roundtrip audit: `pass`
-- False species-safe outside positive controls: 0
+- Unexpected species rule-pass in molecular-negative fixtures: 0
 
 ## Decision classes
 
 ```json
 {
-  "species-safe": 10,
+  "species-rule-pass": 30,
   "genus-safe": 20,
   "weak": 10,
   "no-match": 10,
-  "not-publishable": 30,
+  "species-level-molecular-candidate-assay-blocked": 10,
   "ambiguous": 20
 }
 ```
@@ -57,7 +61,7 @@ Run ID: `3b037205cc904c08a613a6ccea42f724`
 ```json
 {
   "assay_control_failure": {
-    "not-publishable": 10
+    "species-level-molecular-candidate-assay-blocked": 10
   },
   "close_sibling_ambiguity": {
     "genus-safe": 10
@@ -66,7 +70,7 @@ Run ID: `3b037205cc904c08a613a6ccea42f724`
     "genus-safe": 10
   },
   "metadata_blocked_taxonomy_safe": {
-    "not-publishable": 10
+    "species-rule-pass": 10
   },
   "missing_diagnostic_kmer": {
     "ambiguous": 10
@@ -78,17 +82,17 @@ Run ID: `3b037205cc904c08a613a6ccea42f724`
     "no-match": 10
   },
   "true_species_safe_positive": {
-    "species-safe": 10
+    "species-rule-pass": 10
   },
   "weak_coverage_short_fragment": {
     "weak": 10
   },
   "wrong_taxonomy_name_conflict": {
-    "not-publishable": 10
+    "species-rule-pass": 10
   }
 }
 ```
 
 ## Interpretation
 
-The run is fail-closed. Species-level output is allowed only when match gates, ambiguity/LCA, barcode gap, diagnostic k-mers, marker profile and publication gates agree. The GSEG/GSIG layer adds VSEA, graph provenance, theorem checklist, AI guardrails and roundtrip checks without claiming phenotype, function or production GraphDB/RDF behavior.
+This is a repeated-fixture regression run, not an empirical validation set. Species-level rule-pass output is fail-closed under the current gates. The GSEG/GSIG layer adds rule-evidence exports, graph provenance, release invariants, AI guardrails and roundtrip checks without claiming biological truth, accuracy, phenotype/function inference or production GraphDB/RDF behavior.

@@ -1,5 +1,7 @@
 # Final DOCX Alignment And Contest Verification Report
 
+> **Archived 2026-06-14 internal audit.** Statuses and terminology below predate the current remediation and are retained only for traceability. `implemented_and_verified`, `species-safe`, `formal GBIF-ready` and fixture-rate claims here are not independent scientific validation or IPT/GBIF acceptance; use the current reports listed in `reports/README.md`.
+
 Source DOCX: `/Users/oddworld/Downloads/EcoGenesis_Molecular_Evidence_Graph_Full_Project_RU.docx`
 Source SHA-256: `af1464a5c233ecdc9780f626208d3d21abcf4bf1f5c20248d76ec76c7ed3a4a8`
 

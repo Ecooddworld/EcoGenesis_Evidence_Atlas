@@ -1,0 +1,5 @@
+sequenceID,topHit,identity,queryCoverage,alignedLength,identityThreshold,coverageThreshold,minAlignedLength,identityPass,coveragePass,lengthPass,exactMatchGate
+AALB-COI-good,Aedes albopictus,99.6,96.0,658,99.0,80.0,500,True,True,True,True
+AALB-COI-ambiguous,Aedes albopictus,99.4,96.0,658,99.0,80.0,500,True,True,True,True
+AALB-COI-short,Aedes albopictus,99.5,72.0,658,99.0,80.0,500,True,False,True,False
+AALB-COI-metadata-gap,Aedes albopictus,99.6,96.0,658,99.0,80.0,500,True,True,True,True

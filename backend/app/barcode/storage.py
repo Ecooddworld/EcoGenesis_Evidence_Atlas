@@ -73,6 +73,21 @@ def load_barcode_pack(run_id: str) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def barcode_export_manifest(run_id: str) -> list[dict[str, Any]]:
+    directory = barcode_run_dir(run_id)
+    exports = []
+    for path in sorted(item for item in directory.iterdir() if item.is_file()):
+        exports.append(
+            {
+                "name": path.name,
+                "url": f"/api/barcode/runs/{run_id}/exports/{path.name}",
+                "size_bytes": path.stat().st_size,
+                "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+            }
+        )
+    return exports
+
+
 def list_barcode_summaries(limit: int = 20) -> list[dict[str, Any]]:
     summaries = []
     for directory in barcode_data_dir().iterdir():
@@ -89,6 +104,7 @@ def list_barcode_summaries(limit: int = 20) -> list[dict[str, Any]]:
                 "project_title": pack.get("summary", {}).get("project_title"),
                 "marker": pack.get("summary", {}).get("marker"),
                 "processed_records": pack.get("summary", {}).get("processed_records"),
+                "species_rule_pass_records": pack.get("summary", {}).get("species_rule_pass_records"),
                 "species_safe_records": pack.get("summary", {}).get("species_safe_records"),
                 "finished_at": pack.get("run", {}).get("finished_at"),
             }

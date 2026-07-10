@@ -17,11 +17,11 @@
   },
   "@graph": [
     {
-      "id": "run:38d525a51d8546e598b9f5cbe9864c42",
+      "id": "run:0026e96063174d8f96d6066a7d59c14c",
       "type": "Run",
       "mode": "offline_demo",
       "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-      "provenance_hash": "0b17175d2646bf3e92da160738faf556b46df27600c1a8556faae765f8733449"
+      "provenance_hash": "f6aafb7709f2571b298c676de50886b8310bbee48808fbfe445303deda22e729"
     },
     {
       "id": "source:gbif_occurrence_api",
@@ -44,49 +44,49 @@
       "provenance_hash": "024ce809dec48de41eedae0998fe44cd41e63aa308b62066ef35bb447bf9e336"
     },
     {
-      "id": "segment:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
+      "id": "segment:23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
       "type": "Segment",
-      "segment_id": "segment:AALB-COI-good:1-622",
-      "segment_hash": "0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
-      "claim_state": "taxon_supported",
+      "segment_id": "segment:AALB-COI-good:1-658",
+      "segment_hash": "23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
+      "claim_state": "taxon_ambiguous",
       "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-      "provenance_hash": "cb8823e1820f7d842e51910cc37787f50a3642c225d2177cf4cf048b891da314"
+      "provenance_hash": "01e9c59fa4c05e08906513bd50ee983419970a06bd646e27759646a14201a1ea"
     },
     {
-      "id": "segment:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
+      "id": "segment:23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
       "type": "Segment",
-      "segment_id": "segment:AALB-COI-ambiguous:1-622",
-      "segment_hash": "0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
+      "segment_id": "segment:AALB-COI-ambiguous:1-658",
+      "segment_hash": "23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
       "claim_state": "taxon_supported",
       "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-      "provenance_hash": "b3e143d20d7cdcbae85045c7f17a062a00d8f130eeabcd17bc98ba46e9ff6ea4"
+      "provenance_hash": "28b09dc5800b1afef329bde716a38c3bc9715b653b831dbd2af7f7521fe45fde"
     },
     {
-      "id": "segment:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
+      "id": "segment:23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
       "type": "Segment",
-      "segment_id": "segment:AALB-COI-short:1-622",
-      "segment_hash": "0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
+      "segment_id": "segment:AALB-COI-short:1-658",
+      "segment_hash": "23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
       "claim_state": "weak_hypothesis",
       "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-      "provenance_hash": "a1f01f4e5443a46cc4a271daa1dbe841baa70ed715f266ccc724974f513dc097"
+      "provenance_hash": "2b81f71f7db0ccf1ef4075b1e947f7f1fc2556b6f5e84f294faeca1793b46153"
     },
     {
-      "id": "segment:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
+      "id": "segment:23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
       "type": "Segment",
-      "segment_id": "segment:AALB-COI-metadata-gap:1-622",
-      "segment_hash": "0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
-      "claim_state": "taxon_supported",
+      "segment_id": "segment:AALB-COI-metadata-gap:1-658",
+      "segment_hash": "23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
+      "claim_state": "taxon_ambiguous",
       "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-      "provenance_hash": "6b229bf3ee1f7ef0639ece0baea7eb8703c71a0fe4b4b79420ac0ca6bb2fed31"
+      "provenance_hash": "ea5454355d5b0731a9b7e4d9bf9f2ae2dc2ac3126a723c4ff7dffae9b8ec41df"
     },
     {
       "id": "taxon:species:Aedes albopictus",
       "type": "Taxon",
       "label": "Aedes albopictus",
       "safe_rank": "species",
-      "claim_state": "taxon_supported",
+      "claim_state": "taxon_ambiguous",
       "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-      "provenance_hash": "2f49d50ef191aac6a3205cd26fa74fd116ef5b1cd2f3d37c14ba23757e878377"
+      "provenance_hash": "dc7ebfa6e18cf78ff5b3fcd2704d980a8520504c448a00797b38b0c586c4baba"
     },
     {
       "id": "taxon:genus:Aedes",
@@ -98,201 +98,166 @@
       "provenance_hash": "233c1752b61b4be3806d2a646b25377d610ae6b18a8274134380048e76d21b7c"
     },
     {
-      "id": "claim:segment:AALB-COI-good:1-622:taxon:species:Aedes albopictus",
+      "id": "claim:segment:AALB-COI-good:1-658:taxon:species:Aedes albopictus",
       "type": "EvidenceClaim",
-      "claim_state": "taxon_supported",
-      "claim_boundary": "Species-level molecular assignment candidate for Aedes albopictus within the supplied reference context.",
+      "claim_state": "taxon_ambiguous",
+      "claim_boundary": "Review-only candidate at species rank: Aedes albopictus.",
       "caveats": "absolute species truth outside the stated reference context; natural presence, absence, abundance or distribution without occurrence evidence; phenotype, pathogenicity, ecological role or invasiveness; replacement for GBIF Sequence ID, curated reference databases or expert review",
       "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-      "provenance_hash": "51b2d7aac69ec0377b523c8ce49b94690cafcfd654870402821c8d5f5596ba8c"
+      "provenance_hash": "37b3a3ebb23a8ef4c6f7d96a5b094b4550af4939964658fde72234f33999acaf"
     },
     {
-      "id": "claim:segment:AALB-COI-ambiguous:1-622:taxon:genus:Aedes",
+      "id": "claim:segment:AALB-COI-ambiguous:1-658:taxon:genus:Aedes",
       "type": "EvidenceClaim",
       "claim_state": "taxon_supported",
       "claim_boundary": "Genus-level molecular evidence for Aedes; species-level naming is blocked for this sequence.",
       "caveats": "absolute species truth outside the stated reference context; natural presence, absence, abundance or distribution without occurrence evidence; phenotype, pathogenicity, ecological role or invasiveness; replacement for GBIF Sequence ID, curated reference databases or expert review",
       "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-      "provenance_hash": "d49f43be9ca633cf35fa9ba5e038b5c649ce5f754d8ce6ec0a7f91225ca6fce3"
+      "provenance_hash": "c1440291c9d034c041255f6a76697cf9382c5dd40a4c0751db9e300c0a68c19d"
     },
     {
-      "id": "claim:segment:AALB-COI-short:1-622:taxon:species:Aedes albopictus",
+      "id": "claim:segment:AALB-COI-short:1-658:taxon:species:Aedes albopictus",
       "type": "EvidenceClaim",
       "claim_state": "weak_hypothesis",
       "claim_boundary": "Review-only molecular hint; identity, coverage or marker profile is too weak for a safe taxonomic claim.",
       "caveats": "absolute species truth outside the stated reference context; natural presence, absence, abundance or distribution without occurrence evidence; phenotype, pathogenicity, ecological role or invasiveness; replacement for GBIF Sequence ID, curated reference databases or expert review",
       "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-      "provenance_hash": "9cb78af6e80fbfe65d7cc9cc34ffefde3a6eeb00ceecf2b43c5a4c6a5fb1b7c7"
+      "provenance_hash": "36b33dc94cc40f0a9c31a0d69c3ab130a6970b9c24d9d8b65a6e194e92c94551"
     },
     {
-      "id": "claim:segment:AALB-COI-metadata-gap:1-622:taxon:species:Aedes albopictus",
+      "id": "claim:segment:AALB-COI-metadata-gap:1-658:taxon:species:Aedes albopictus",
       "type": "EvidenceClaim",
-      "claim_state": "taxon_supported",
+      "claim_state": "taxon_ambiguous",
       "claim_boundary": "Review-only candidate at species rank: Aedes albopictus.",
       "caveats": "absolute species truth outside the stated reference context; natural presence, absence, abundance or distribution without occurrence evidence; phenotype, pathogenicity, ecological role or invasiveness; replacement for GBIF Sequence ID, curated reference databases or expert review",
       "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-      "provenance_hash": "d41e9514605b6d07e1b039d02a38fefbb72434b9b643a753dc5918b20f5b29f3"
+      "provenance_hash": "53499ca9891c5bb3be20340ddae164c8aeee0e3ec058550a0388e41a9d93e9fd"
     },
     {
-      "id": "edge:38d525a51d8546e598b9f5cbe9864c42:uses-snapshot",
+      "id": "edge:0026e96063174d8f96d6066a7d59c14c:uses-snapshot",
       "type": "USES_SNAPSHOT",
-      "source": "run:38d525a51d8546e598b9f5cbe9864c42",
+      "source": "run:0026e96063174d8f96d6066a7d59c14c",
       "target": "snapshot:gbif-aedes-spain-30dc62b4a7bd",
       "claim_state": "occurrence_context",
       "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-      "provenance_hash": "2d5b9500a80cdad05a97a3d97683e8e9df923bc4b53c30dcf18af98bf66aa8f6"
+      "provenance_hash": "a0526b40dcf33cb5473bfd7c1d0a7f361cb93efe1178a116f4b62f4ff0f173ec"
     },
     {
-      "id": "edge:38d525a51d8546e598b9f5cbe9864c42:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9:source",
+      "id": "edge:0026e96063174d8f96d6066a7d59c14c:23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300:source",
       "type": "FROM_SOURCE",
-      "source": "segment:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
+      "source": "segment:23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
+      "target": "source:project_user_uploads",
+      "claim_state": "taxon_ambiguous",
+      "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
+      "provenance_hash": "7046f2a380fbffc8d38e1455181d675669fa1654cd55d432d6cdfa6b50e000b5"
+    },
+    {
+      "id": "edge:0026e96063174d8f96d6066a7d59c14c:23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300:source",
+      "type": "FROM_SOURCE",
+      "source": "segment:23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
       "target": "source:project_user_uploads",
       "claim_state": "taxon_supported",
       "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-      "provenance_hash": "87442c4152a34c8ccd7b566b042f35acc40d416164cc228df56830e1078af2e4"
+      "provenance_hash": "5ff6b64fb252642a791f885423338076b66209907b086e9d4a662ed315b8fcdc"
     },
     {
-      "id": "edge:38d525a51d8546e598b9f5cbe9864c42:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9:source",
+      "id": "edge:0026e96063174d8f96d6066a7d59c14c:23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300:source",
       "type": "FROM_SOURCE",
-      "source": "segment:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
-      "target": "source:project_user_uploads",
-      "claim_state": "taxon_supported",
-      "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-      "provenance_hash": "87442c4152a34c8ccd7b566b042f35acc40d416164cc228df56830e1078af2e4"
-    },
-    {
-      "id": "edge:38d525a51d8546e598b9f5cbe9864c42:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9:source",
-      "type": "FROM_SOURCE",
-      "source": "segment:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
+      "source": "segment:23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
       "target": "source:project_user_uploads",
       "claim_state": "weak_hypothesis",
       "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-      "provenance_hash": "766bc081c18e91fe9e7f40bdddd50fd2c0a0cfeea8b21740ca701686e090cb48"
+      "provenance_hash": "ed2c83fa50f0b9fc64548afe81a5f8273ece79abaa30650810287fdab9c0ee52"
     },
     {
-      "id": "edge:38d525a51d8546e598b9f5cbe9864c42:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9:source",
+      "id": "edge:0026e96063174d8f96d6066a7d59c14c:23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300:source",
       "type": "FROM_SOURCE",
-      "source": "segment:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
+      "source": "segment:23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
       "target": "source:project_user_uploads",
-      "claim_state": "taxon_supported",
+      "claim_state": "taxon_ambiguous",
       "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-      "provenance_hash": "87442c4152a34c8ccd7b566b042f35acc40d416164cc228df56830e1078af2e4"
+      "provenance_hash": "7046f2a380fbffc8d38e1455181d675669fa1654cd55d432d6cdfa6b50e000b5"
     },
     {
-      "id": "edge:claim:segment:AALB-COI-good:1-622:taxon:species:Aedes albopictus:segment",
+      "id": "edge:claim:segment:AALB-COI-good:1-658:taxon:species:Aedes albopictus:segment",
       "type": "HAS_SEGMENT",
-      "source": "claim:segment:AALB-COI-good:1-622:taxon:species:Aedes albopictus",
-      "target": "segment:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
-      "claim_state": "taxon_supported",
+      "source": "claim:segment:AALB-COI-good:1-658:taxon:species:Aedes albopictus",
+      "target": "segment:23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
+      "claim_state": "taxon_ambiguous",
       "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-      "provenance_hash": "5c3d7bd4da1abd1bc72c0e6af271dd51f8f5c332c7babaf6010d7e55246ddbc6"
+      "provenance_hash": "ec9921c824e70cb68f39ed6f8cb1ee90a998070320d7e13355001388d8e74b9e"
     },
     {
-      "id": "edge:claim:segment:AALB-COI-good:1-622:taxon:species:Aedes albopictus:taxon",
-      "type": "SUPPORTS_TAXON",
-      "source": "claim:segment:AALB-COI-good:1-622:taxon:species:Aedes albopictus",
+      "id": "edge:claim:segment:AALB-COI-good:1-658:taxon:species:Aedes albopictus:taxon",
+      "type": "BLOCKED_OR_REVIEW",
+      "source": "claim:segment:AALB-COI-good:1-658:taxon:species:Aedes albopictus",
       "target": "taxon:species:Aedes albopictus",
-      "claim_state": "taxon_supported",
+      "claim_state": "taxon_ambiguous",
       "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-      "provenance_hash": "4c88efd8a8aa2f6ba9d98934f3bd08b631342b68eb367061b8fef694006b8b0a"
+      "provenance_hash": "b1f9361abb0d57792edb59ab6f23536e281536ca0489e3c23d1beba8c5149a15"
     },
     {
-      "id": "edge:claim:segment:AALB-COI-good:1-622:taxon:species:Aedes albopictus:context",
-      "type": "HAS_OCCURRENCE_CONTEXT",
-      "source": "claim:segment:AALB-COI-good:1-622:taxon:species:Aedes albopictus",
-      "target": "snapshot:gbif-aedes-spain-30dc62b4a7bd",
-      "claim_state": "occurrence_context",
-      "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-      "provenance_hash": "1a1acc3861dd22077103928c5a9f1919be8ed221b91e90e8b565e95fb0dba784"
-    },
-    {
-      "id": "edge:claim:segment:AALB-COI-ambiguous:1-622:taxon:genus:Aedes:segment",
+      "id": "edge:claim:segment:AALB-COI-ambiguous:1-658:taxon:genus:Aedes:segment",
       "type": "HAS_SEGMENT",
-      "source": "claim:segment:AALB-COI-ambiguous:1-622:taxon:genus:Aedes",
-      "target": "segment:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
+      "source": "claim:segment:AALB-COI-ambiguous:1-658:taxon:genus:Aedes",
+      "target": "segment:23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
       "claim_state": "taxon_supported",
       "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-      "provenance_hash": "acf51ea4c69e8153ec37c3f2d0fbc308f85ba987810c0175599a79c467d1a323"
+      "provenance_hash": "65a962e62970086054c06643c83c43884023abbc92bfef749990d571332a3904"
     },
     {
-      "id": "edge:claim:segment:AALB-COI-ambiguous:1-622:taxon:genus:Aedes:taxon",
+      "id": "edge:claim:segment:AALB-COI-ambiguous:1-658:taxon:genus:Aedes:taxon",
       "type": "SUPPORTS_TAXON",
-      "source": "claim:segment:AALB-COI-ambiguous:1-622:taxon:genus:Aedes",
+      "source": "claim:segment:AALB-COI-ambiguous:1-658:taxon:genus:Aedes",
       "target": "taxon:genus:Aedes",
       "claim_state": "taxon_supported",
       "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-      "provenance_hash": "7010e34113f6ad393b2d9625d17a1383eeca57323cdfeafcd73a07c2fec81b92"
+      "provenance_hash": "9b2b2b7ad8a34e5dd2b49db98311f4057113d7a5099aadfc53d2d9628503299c"
     },
     {
-      "id": "edge:claim:segment:AALB-COI-ambiguous:1-622:taxon:genus:Aedes:context",
-      "type": "HAS_OCCURRENCE_CONTEXT",
-      "source": "claim:segment:AALB-COI-ambiguous:1-622:taxon:genus:Aedes",
-      "target": "snapshot:gbif-aedes-spain-30dc62b4a7bd",
-      "claim_state": "occurrence_context",
-      "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-      "provenance_hash": "54131df556b14a51de69ca4acd3a426acab89c5a59a694a3f5fd7a800da342b6"
-    },
-    {
-      "id": "edge:claim:segment:AALB-COI-short:1-622:taxon:species:Aedes albopictus:segment",
+      "id": "edge:claim:segment:AALB-COI-short:1-658:taxon:species:Aedes albopictus:segment",
       "type": "HAS_SEGMENT",
-      "source": "claim:segment:AALB-COI-short:1-622:taxon:species:Aedes albopictus",
-      "target": "segment:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
+      "source": "claim:segment:AALB-COI-short:1-658:taxon:species:Aedes albopictus",
+      "target": "segment:23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
       "claim_state": "weak_hypothesis",
       "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-      "provenance_hash": "7d0dc29785b71c3bcdd03a0bb1bf5f608c362bc523bddaf79485c4e3ba8fc7c7"
+      "provenance_hash": "80c8662272ed8457cdee0f0ccefd7e1266a19cdc3e8a8ae6681c3eb68b37bb77"
     },
     {
-      "id": "edge:claim:segment:AALB-COI-short:1-622:taxon:species:Aedes albopictus:taxon",
+      "id": "edge:claim:segment:AALB-COI-short:1-658:taxon:species:Aedes albopictus:taxon",
       "type": "BLOCKED_OR_REVIEW",
-      "source": "claim:segment:AALB-COI-short:1-622:taxon:species:Aedes albopictus",
+      "source": "claim:segment:AALB-COI-short:1-658:taxon:species:Aedes albopictus",
       "target": "taxon:species:Aedes albopictus",
       "claim_state": "weak_hypothesis",
       "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-      "provenance_hash": "dae517873813e3473784b22cb9740488207704bbef67572a3e487ba984cf801c"
+      "provenance_hash": "ac5c2f123d7c276d8a396037b83880ed80ff88f8e963462876ab63159a977217"
     },
     {
-      "id": "edge:claim:segment:AALB-COI-short:1-622:taxon:species:Aedes albopictus:context",
-      "type": "HAS_OCCURRENCE_CONTEXT",
-      "source": "claim:segment:AALB-COI-short:1-622:taxon:species:Aedes albopictus",
-      "target": "snapshot:gbif-aedes-spain-30dc62b4a7bd",
-      "claim_state": "occurrence_context",
-      "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-      "provenance_hash": "a9014e71434e2bb5162d7db6ba18b5ef5a2c0a4ee21d91e3049dafef006cc896"
-    },
-    {
-      "id": "edge:claim:segment:AALB-COI-metadata-gap:1-622:taxon:species:Aedes albopictus:segment",
+      "id": "edge:claim:segment:AALB-COI-metadata-gap:1-658:taxon:species:Aedes albopictus:segment",
       "type": "HAS_SEGMENT",
-      "source": "claim:segment:AALB-COI-metadata-gap:1-622:taxon:species:Aedes albopictus",
-      "target": "segment:0cdc7e725c86d815d403725c2565b1b1adcc3ccffc6bd7ed92faabaa85f290b9",
-      "claim_state": "taxon_supported",
+      "source": "claim:segment:AALB-COI-metadata-gap:1-658:taxon:species:Aedes albopictus",
+      "target": "segment:23c93dfdd10f62fea809f2252487492306f548f7f8f811c6b471231732b6f300",
+      "claim_state": "taxon_ambiguous",
       "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-      "provenance_hash": "2a6996a9dea9b564914a998041a63c86a36dab4269f3e3b839e2798e85bf3bc0"
+      "provenance_hash": "4f662ad87e8c34425cedc1ccc9b476baec762a30fb9b0808dc7282acc14d1b33"
     },
     {
-      "id": "edge:claim:segment:AALB-COI-metadata-gap:1-622:taxon:species:Aedes albopictus:taxon",
-      "type": "SUPPORTS_TAXON",
-      "source": "claim:segment:AALB-COI-metadata-gap:1-622:taxon:species:Aedes albopictus",
+      "id": "edge:claim:segment:AALB-COI-metadata-gap:1-658:taxon:species:Aedes albopictus:taxon",
+      "type": "BLOCKED_OR_REVIEW",
+      "source": "claim:segment:AALB-COI-metadata-gap:1-658:taxon:species:Aedes albopictus",
       "target": "taxon:species:Aedes albopictus",
-      "claim_state": "taxon_supported",
+      "claim_state": "taxon_ambiguous",
       "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-      "provenance_hash": "62d8ed2689930cd7694989b36fa162bef631da0c5d0f8fb945a7ed874786cb96"
-    },
-    {
-      "id": "edge:claim:segment:AALB-COI-metadata-gap:1-622:taxon:species:Aedes albopictus:context",
-      "type": "HAS_OCCURRENCE_CONTEXT",
-      "source": "claim:segment:AALB-COI-metadata-gap:1-622:taxon:species:Aedes albopictus",
-      "target": "snapshot:gbif-aedes-spain-30dc62b4a7bd",
-      "claim_state": "occurrence_context",
-      "ruleset_version": "GSIG-OBS-1.0+barcode-gbif-compiler-v2",
-      "provenance_hash": "aea9ac105a1f3c6229fe46cd404e67dbf0cad4e9c3b7c30be49c78c87bbc7071"
+      "provenance_hash": "ad16061f3b5930546d511a25c04ec3114f827a0dcc5f4e3fb1439ba457953c29"
     }
   ],
   "summary": {
-    "run_id": "38d525a51d8546e598b9f5cbe9864c42",
+    "run_id": "0026e96063174d8f96d6066a7d59c14c",
     "nodes": 14,
-    "edges": 17,
+    "edges": 13,
     "claim_states": {
-      "taxon_supported": 3,
+      "taxon_ambiguous": 2,
+      "taxon_supported": 1,
       "weak_hypothesis": 1
     }
   }

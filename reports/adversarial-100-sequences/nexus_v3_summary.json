@@ -2,7 +2,7 @@
   "positioning": "Molecular Evidence Conversion & Repair Engine for GBIF",
   "working_layer": "Barcode-to-GBIF Evidence Compiler",
   "ruleset_family": "EcoGenesis Nexus V3 conservative hard-gate workflow",
-  "scientific_claim": "The compiler computes the safest publishable taxonomic rank and repair actions under supplied molecular hits, reference evidence and GBIF/DNA-derived metadata. It does not treat a top hit as species truth.",
+  "scientific_claim": "The compiler computes a bounded taxonomic rule result and repair actions under supplied molecular hits, audited reference evidence, sequence/assay QC and GBIF/DNA-derived metadata. It does not treat a top hit or a rule pass as species truth.",
   "conversion_metrics": {
     "MECY_molecular_evidence_conversion_yield": 0.3,
     "SRY_safe_rank_yield": 0.3,
@@ -18,7 +18,9 @@
     "top_species_hits": 90,
     "blocked_or_downgraded_top_species_hits": 80,
     "species_safe_records": 10,
+    "species_rule_pass_records": 30,
     "publishable_template_records": 30,
+    "validation_candidate_records": 0,
     "gbif_ready_records": 0,
     "publishable_candidate_records": 30,
     "repair_required_records": 70,
@@ -37,6 +39,7 @@
     "sequence-derived occurrence evidence, not proof of living presence",
     "empty cells are no-evidence cells, not absence",
     "observed GBIF records are evidence context, not true distribution",
-    "protein/phenotype links remain hypotheses unless external curated evidence is attached"
+    "protein/phenotype links remain hypotheses unless external curated evidence is attached",
+    "local metadata gates create GBIF validation candidates, not complete DwC-A publications"
   ]
 }

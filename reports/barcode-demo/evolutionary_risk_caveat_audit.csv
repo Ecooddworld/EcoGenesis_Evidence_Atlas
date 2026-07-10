@@ -1,0 +1,5 @@
+sequenceID,markerProfile,riskCaveat,hgtIntrogressionParalogyClaimBlocked,status
+AALB-COI-good,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+AALB-COI-ambiguous,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+AALB-COI-short,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass
+AALB-COI-metadata-gap,coi_full_barcode,"Species claims still require ambiguity/LCA, barcode-gap and diagnostic k-mer gates.",True,pass

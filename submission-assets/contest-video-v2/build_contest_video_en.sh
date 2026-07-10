@@ -27,69 +27,69 @@ if ! say -v '?' | awk '{print $1}' | grep -qx "$VOICE"; then
 fi
 
 cat > "$OUT_DIR/ecogenesis-gbif-contest-demo-english-voiceover.txt" <<'EOF'
-Problem: biodiversity evidence is fragmented. Occurrence records may live in one system, DNA barcode fragments in another, BLAST or Sequence ID tables in a lab pipeline, and publication metadata in spreadsheets. When these pieces are not connected, useful evidence can be lost, and species-level claims can become stronger than the data actually support.
+EcoGenesis V2 is the evidence-bounded release of the Barcode-to-GBIF Evidence Compiler. It addresses a fragmented evidence problem: occurrence records may live in one system, DNA barcode fragments in another, BLAST or Sequence ID tables in a lab pipeline, and publication metadata in spreadsheets. When these pieces are not connected, useful evidence can be lost, and species-level claims can become stronger than the data actually support.
 
-EcoGenesis is a Barcode-to-GBIF Evidence Compiler. It takes DNA barcode, metabarcoding, Sequence ID and BLAST-like outputs, then runs deterministic evidence gates. The result is not just a label. It is a safe taxonomic rank decision, a publication-readiness state, a repair plan, and a reproducible Evidence Pack.
+EcoGenesis is a Barcode-to-GBIF Evidence Compiler. It takes DNA barcode, metabarcoding, Sequence ID and BLAST-like outputs, then runs configured evidence gates. The result is not species truth. It is a bounded rank result, a publication-readiness check, a repair plan, and a reproducible Evidence Pack for review.
 
-On the public demo site, the interface is organized around the whole evidence path. Judges can open the overview, run the compiler, inspect the evidence map, view the fragment graph, check validation, read methods and download the Evidence Pack. Each section has its own public route, so the workflow is easy to review and cite.
+On the public demo site, judges can open the overview, run the compiler, inspect the Evidence Map, view the Fragment Graph, open Regression and Audits, read Methods and Audits, and download the GBIF Repair Pack. A persistent prototype notice states that the tool is not an independently validated taxonomic identifier or a GBIF publisher.
 
-The Run Compiler screen is where molecular evidence enters the system. A user can upload a CSV, start from a demo workflow, or test a reference fragment. The compiler validates required molecular fields, sequence context, reference-hit metrics, and publication metadata before it lets any record move forward.
+The Run Compiler screen is where molecular evidence enters the system. A user can upload a CSV, start from a demo workflow, or test a reference fragment. The compiler checks required molecular fields, sequence context, reference-hit metrics, reference and sequence-quality evidence, and publication metadata before it routes a record.
 
-In the mixed demo, records do not collapse into one simplistic answer. Some are species-safe, some are genus-safe, some remain weak, and some are not publishable until metadata are repaired. This is the core behavior: useful molecular evidence is preserved, but unsafe species exports and incomplete publication records are stopped.
+Under the current fail-closed reference attestation, the bundled mixed demo emits no species rule-pass. AALB-COI-good and AALB-COI-metadata-gap are ambiguous, AALB-COI-ambiguous is bounded at genus, and AALB-COI-short is weak. The metadata-gap row also carries publication blockers. These are run-local rule results and validation candidates, not independently confirmed identifications or accepted GBIF records.
 
-The Evidence Map turns the results into a spatial evidence atlas. It connects GBIF occurrence context with claim states, snapshot hashes, VSEA rows, graph objects and export boundaries. The map is not a proof of presence by itself; it is a way to inspect provenance, context and claim strength in one place.
+The Evidence Map shows hashed GBIF occurrence context beside molecular rule-evidence rows, graph objects and export boundaries. The occurrence rows are explicitly unlinked from the molecular rows unless shared specimen or event identifiers are supplied. The map cannot upgrade a molecular claim and is not evidence of presence by itself.
 
-In the live Evidence Map, reviewers can see which rows are safe, repair-required, review-only or blocked. The same view exposes judge-mode checks, graph audits and export boundaries before download. That makes the spatial layer explanatory and auditable rather than a visual shortcut.
+In the Evidence Map, reviewers can see rule-supported candidates, repair-required rows, review-only hypotheses and blocked exports. The same view exposes release checks, graph audits and export boundaries before download. Passing those checks means the files agree for that run; it does not establish external scientific validity.
 
-The Fragment Graph shows how marker fragments link to reference taxa and safe LCA decisions. When a fragment points to multiple close taxa, EcoGenesis reports the most specific safe rank instead of forcing a species claim. This keeps evidence, competitors and caveats together.
+The Fragment Graph shows how marker fragments link to reference taxa and an LCA-bounded rank. When a fragment points to multiple close taxa, EcoGenesis reports the most specific rank allowed by the configured rules instead of forcing a species claim. Evidence, competitors and caveats remain together.
 
-Uncertainty is handled through explicit gates: identity and coverage, ambiguity and LCA downgrade, barcode gap, diagnostic k-mer support, marker profile, publication readiness and graph provenance. A top hit does not become a species-level output unless the required gates pass.
+Uncertainty is handled through explicit gates: identity and coverage, ambiguity and LCA downgrade, barcode gap, locally unique k-mer support in the selected reference set, marker profile, publication checks and graph provenance. A top hit does not become a species-level validation candidate unless every configured requirement passes.
 
-Validation is built into the submission package. The project includes backend tests, frontend tests, competition batches, adversarial batches, graph audits and contest-readiness checks. The important validation target is fail-closed behavior: weak coverage, close competitors, metadata gaps and unsafe exports must be blocked or downgraded.
+Regression and integrity checks are built into the submission package. The project includes backend and frontend tests, repeated-fixture competition batches, adversarial cases, graph audits and contest-readiness checks. They test fail-closed behavior and internal consistency; independent multi-taxon scientific validation remains future work.
 
-The final deliverable is the Evidence Pack. It includes CSV, JSON, HTML, VSEA, graph and audit outputs for review, repair and reuse. Researchers can inspect sequence safety tables, publication blockers, molecular evidence reports, graph provenance and machine-readable export artifacts.
+The final deliverable is the Evidence Pack. It includes CSV, JSON, HTML, rule-evidence, graph and audit outputs for review, repair and reuse. Researchers can inspect sequence decision tables, blockers, validation-candidate templates, molecular evidence reports, graph provenance and machine-readable artifacts.
 
-EcoGenesis is already a working contest prototype with a live demo, public source code, reproducible outputs and downloadable evidence artifacts. It can scale to larger reference libraries, institutional pipelines, richer GBIF publishing workflows and broader molecular evidence observatories. The call to action is simple: open the live demo, run the workflow, and inspect the evidence before publication.
+EcoGenesis is a working contest prototype with a live demo, public source code, reproducible run-local outputs and downloadable evidence artifacts. It is not yet a validated scientific identifier or complete GBIF publishing pipeline. The call to action is simple: run the workflow, inspect its boundaries, and validate candidate records externally before publication.
 EOF
 
 cat > "$OUT_DIR/ecogenesis-gbif-contest-demo-transcript.md" <<'EOF'
-# Расшифровка нового конкурсного видео EcoGenesis
+# Расшифровка EcoGenesis V2 — evidence-bounded release
 
 ## 1. Проблема
-Проблема в том, что biodiversity evidence часто раздроблена. Occurrence records могут лежать в одной системе, DNA barcode fragments — в другой, BLAST или Sequence ID tables — в лабораторном pipeline, а publication metadata — в spreadsheets. Когда эти части не связаны, полезное evidence теряется, а species-level claims могут становиться сильнее, чем реально поддерживают данные.
+EcoGenesis V2 — это evidence-bounded release Barcode-to-GBIF Evidence Compiler. Он решает проблему раздробленного biodiversity evidence: occurrence records могут лежать в одной системе, DNA barcode fragments — в другой, BLAST или Sequence ID tables — в лабораторном pipeline, а publication metadata — в spreadsheets. Когда эти части не связаны, полезное evidence теряется, а species-level claims могут становиться сильнее, чем реально поддерживают данные.
 
 ## 2. Что делает EcoGenesis
-EcoGenesis — это Barcode-to-GBIF Evidence Compiler. Он принимает DNA barcode, metabarcoding, Sequence ID и BLAST-like outputs, затем применяет deterministic evidence gates. Результат — не просто label. Это safe taxonomic rank decision, publication-readiness state, repair plan и reproducible Evidence Pack.
+EcoGenesis — это Barcode-to-GBIF Evidence Compiler. Он принимает DNA barcode, metabarcoding, Sequence ID и BLAST-like outputs, затем применяет configured evidence gates. Результат не является species truth. Это bounded rank result, publication-readiness check, repair plan и reproducible Evidence Pack для review.
 
 ## 3. Интерфейс сайта
-В публичном demo site интерфейс организован вокруг полного evidence path. Судьи могут открыть overview, запустить compiler, посмотреть evidence map, fragment graph, validation, methods и скачать Evidence Pack. У каждого раздела есть public route, поэтому workflow удобно проверять и цитировать.
+В публичном demo site судьи могут открыть overview, запустить compiler, посмотреть Evidence Map и Fragment Graph, открыть Regression & Audits и Methods & Audits, а затем скачать GBIF Repair Pack. Постоянный prototype notice прямо говорит, что инструмент не является independently validated taxonomic identifier или GBIF publisher.
 
 ## 4. Загрузка DNA barcode / molecular evidence
-Run Compiler — это экран, где molecular evidence входит в систему. Пользователь может загрузить CSV, запустить demo workflow или проверить reference fragment. Compiler валидирует required molecular fields, sequence context, reference-hit metrics и publication metadata до того, как record может двигаться дальше.
+Run Compiler — это экран, где molecular evidence входит в систему. Пользователь может загрузить CSV, запустить demo workflow или проверить reference fragment. Compiler проверяет required molecular fields, sequence context, reference-hit metrics, reference and sequence-quality evidence и publication metadata до маршрутизации record.
 
 ## 5. Пример результата
-В mixed demo records не превращаются в один упрощённый ответ. Некоторые становятся species-safe, некоторые genus-safe, некоторые остаются weak, а некоторые not publishable, пока metadata не будут repaired. Главное поведение системы: useful molecular evidence сохраняется, но unsafe species exports и incomplete publication records блокируются.
+При текущей fail-closed reference attestation bundled mixed demo не выдаёт ни одного species rule-pass. AALB-COI-good и AALB-COI-metadata-gap получают состояние ambiguous, AALB-COI-ambiguous ограничивается уровнем genus, а AALB-COI-short получает состояние weak. У metadata-gap row также есть publication blockers. Это run-local rule results и validation candidates, а не independently confirmed identifications или принятые GBIF records.
 
 ## 6. Evidence Map
-Evidence Map превращает результаты в spatial evidence atlas. Он связывает GBIF occurrence context с claim states, snapshot hashes, VSEA rows, graph objects и export boundaries. Карта сама по себе не является proof of presence; это способ проверить provenance, context и claim strength в одном месте.
+Evidence Map показывает hashed GBIF occurrence context рядом с molecular rule-evidence rows, graph objects и export boundaries. Occurrence rows явно не связаны с molecular rows без общих specimen или event identifiers. Карта не может усилить molecular claim и сама по себе не является evidence of presence.
 
 ## 7. Live Evidence Map
-В live Evidence Map reviewers видят, какие rows safe, repair-required, review-only или blocked. Этот же экран показывает judge-mode checks, graph audits и export boundaries before download. Так spatial layer остаётся explanatory and auditable, а не visual shortcut.
+В Evidence Map reviewers видят rule-supported candidates, repair-required rows, review-only hypotheses и blocked exports. Этот же экран показывает release checks, graph audits и export boundaries before download. Pass означает согласованность файлов конкретного run, а не external scientific validity.
 
 ## 8. Fragment Graph
-Fragment Graph показывает, как marker fragments связаны с reference taxa и safe LCA decisions. Если fragment указывает на несколько близких taxa, EcoGenesis reports the most specific safe rank вместо forced species claim. Evidence, competitors и caveats остаются вместе.
+Fragment Graph показывает, как marker fragments связаны с reference taxa и LCA-bounded rank. Если fragment указывает на несколько близких taxa, EcoGenesis сообщает наиболее конкретный rank, разрешённый configured rules, вместо forced species claim. Evidence, competitors и caveats остаются вместе.
 
 ## 9. Проверка неопределённости
-Uncertainty обрабатывается через explicit gates: identity and coverage, ambiguity and LCA downgrade, barcode gap, diagnostic k-mer support, marker profile, publication readiness и graph provenance. Top hit не становится species-level output, пока не пройдены required gates.
+Uncertainty обрабатывается через explicit gates: identity and coverage, ambiguity and LCA downgrade, barcode gap, locally unique k-mer support в выбранном reference set, marker profile, publication checks и graph provenance. Top hit не становится species-level validation candidate, пока не пройдены все configured requirements.
 
-## 10. Validation
-Validation встроена в submission package. Проект включает backend tests, frontend tests, competition batches, adversarial batches, graph audits и contest-readiness checks. Главная цель validation — fail-closed behavior: weak coverage, close competitors, metadata gaps и unsafe exports должны быть blocked or downgraded.
+## 10. Regression и integrity checks
+Regression и integrity checks встроены в submission package. Проект включает backend и frontend tests, repeated-fixture competition batches, adversarial cases, graph audits и contest-readiness checks. Они проверяют fail-closed behavior и internal consistency; independent multi-taxon scientific validation остаётся future work.
 
 ## 11. Evidence Pack
-Final deliverable — Evidence Pack. Он включает CSV, JSON, HTML, VSEA, graph и audit outputs для review, repair and reuse. Researchers могут проверять sequence safety tables, publication blockers, molecular evidence reports, graph provenance и machine-readable export artifacts.
+Final deliverable — Evidence Pack. Он включает CSV, JSON, HTML, rule-evidence, graph и audit outputs для review, repair and reuse. Researchers могут проверять sequence decision tables, blockers, validation-candidate templates, molecular evidence reports, graph provenance и machine-readable artifacts.
 
 ## 12. Масштабирование и call to action
-EcoGenesis уже является working contest prototype с live demo, public source code, reproducible outputs и downloadable evidence artifacts. Он может масштабироваться на larger reference libraries, institutional pipelines, richer GBIF publishing workflows и broader molecular evidence observatories. Call to action простой: открыть live demo, запустить workflow и проверить evidence before publication.
+EcoGenesis — working contest prototype с live demo, public source code, reproducible run-local outputs и downloadable evidence artifacts. Это ещё не validated scientific identifier и не complete GBIF publishing pipeline. Call to action простой: запустить workflow, проверить его boundaries и externally validate candidate records before publication.
 EOF
 
 python3 - "$OUT_DIR/ecogenesis-gbif-contest-demo-english-voiceover.txt" "$TMP_DIR" <<'PY'
@@ -103,56 +103,46 @@ for i, segment in enumerate(segments, 1):
 PY
 
 images=(
-  "$PPTX_SLIDE_DIR/slide-1.png"
-  "$PPTX_SLIDE_DIR/slide-2.png"
   "$SITE_DIR/screencapture-ecooddworld-eu-2026-06-26-16_51_43.png"
-  "$PPTX_SLIDE_DIR/slide-3.png"
+  "$SITE_DIR/screencapture-ecooddworld-eu-2026-06-26-16_51_43.png"
+  "$SITE_DIR/screencapture-ecooddworld-eu-2026-06-26-16_51_43.png"
   "$SITE_DIR/screencapture-ecooddworld-eu-run-compiler-2026-06-26-16_52_06.png"
-  "$PPTX_SLIDE_DIR/slide-4.png"
+  "$SITE_DIR/screencapture-ecooddworld-eu-run-compiler-2026-06-26-16_52_06.png"
   "$SITE_DIR/screencapture-ecooddworld-eu-evidence-map-2026-06-26-16_52_24.png"
-  "$PPTX_SLIDE_DIR/slide-5.png"
-  "$PPTX_SLIDE_DIR/slide-7.png"
-  "$PPTX_SLIDE_DIR/slide-6.png"
-  "$PPTX_SLIDE_DIR/slide-8.png"
-  "$PPTX_SLIDE_DIR/slide-9.png"
+  "$SITE_DIR/screencapture-ecooddworld-eu-evidence-map-2026-06-26-16_52_24.png"
+  "$SITE_DIR/screencapture-ecooddworld-eu-fragment-graph-2026-06-26-16_52_39.png"
+  "$SITE_DIR/screencapture-ecooddworld-eu-methods-2026-06-26-16_53_25.png"
+  "$SITE_DIR/screencapture-ecooddworld-eu-validation-2026-06-26-16_53_03.png"
+  "$SITE_DIR/screencapture-ecooddworld-eu-evidence-pack-2026-06-26-16_54_14.png"
+  "$SITE_DIR/screencapture-ecooddworld-eu-2026-06-26-16_51_43.png"
 )
 
 kinds=(
-  "slide" "slide" "site" "slide" "site" "slide" "site" "slide" "slide" "slide" "slide" "slide"
+  "site" "site" "site" "site" "site" "site" "site" "site" "site" "site" "site" "site"
 )
 
 titles=(
-  "Problem: fragmented molecular and biodiversity records"
-  "What EcoGenesis does"
+  "EcoGenesis V2: evidence-bounded release"
+  "Bounded results, validation candidates and repair actions"
   "Public demo interface"
   "Upload CSV or run a bundled workflow"
   "Mixed demo results and repair states"
-  "GBIF context and claim-state map"
+  "Unlinked GBIF context and molecular claim states"
   "Live evidence map with provenance checks"
-  "Fragments, taxa and safe LCA"
+  "Fragments, taxa and LCA-bounded rank"
   "Uncertainty gates"
-  "Validation and adversarial checks"
-  "Evidence Pack outputs"
+  "Regression and integrity checks"
+  "Validation-candidate Evidence Pack"
   "Live demo and source code"
 )
 
 site_crop_y=(
-  0 0 0 0 110 0 80 0 0 0 0 0
+  0 0 0 0 80 0 80 0 0 0 0 0
 )
 
 highlight_filters=(
-  "drawbox=x=170:y=455:w=930:h=150:color=0x9EEA76@0.55:t=6"
-  "drawbox=x=90:y=370:w=1760:h=470:color=0x9EEA76@0.45:t=5"
-  "drawbox=x=295:y=270:w=1230:h=110:color=0x1E5B69@0.65:t=5,drawbox=x=285:y=420:w=1260:h=210:color=0x9EEA76@0.45:t=5"
-  "drawbox=x=650:y=335:w=860:h=430:color=0x9EEA76@0.50:t=5"
-  "drawbox=x=650:y=290:w=930:h=280:color=0x1E5B69@0.65:t=5,drawbox=x=650:y=620:w=930:h=350:color=0x9EEA76@0.50:t=5"
-  "drawbox=x=1480:y=210:w=350:h=690:color=0x9EEA76@0.55:t=5"
-  "drawbox=x=310:y=350:w=1280:h=240:color=0x1E5B69@0.55:t=5,drawbox=x=330:y=650:w=1210:h=260:color=0x9EEA76@0.45:t=5"
-  "drawbox=x=560:y=420:w=820:h=420:color=0x9EEA76@0.50:t=5"
-  "drawbox=x=880:y=400:w=740:h=365:color=0x9EEA76@0.55:t=5"
-  "drawbox=x=150:y=430:w=1640:h=440:color=0x9EEA76@0.50:t=5"
-  "drawbox=x=120:y=460:w=740:h=455:color=0x9EEA76@0.50:t=5,drawbox=x=1380:y=430:w=430:h=425:color=0x9EEA76@0.50:t=5"
-  "drawbox=x=135:y=755:w=1685:h=230:color=0x9EEA76@0.55:t=5"
+  "null" "null" "null" "null" "null" "null"
+  "null" "null" "null" "null" "null" "null"
 )
 
 make_video_segment() {

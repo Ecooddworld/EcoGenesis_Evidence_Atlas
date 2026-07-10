@@ -1,9 +1,11 @@
+import csv
+import io
 import json
 
 from app.barcode.compiler import run_barcode_compiler
 from app.barcode.demo import BASE_SEQUENCE, base_metadata, request_with_records
 from app.barcode.schemas import BarcodeCompilerRequest
-from app.gseg.artifacts import build_gseg_gsig_artifacts
+from app.gseg.artifacts import build_gseg_gsig_artifacts, recompute_safe_taxon_lca
 from app.gseg.reference_checks import (
     GateVector,
     Hit,
@@ -160,7 +162,60 @@ def test_gseg_artifacts_handle_no_match_records(tmp_path, monkeypatch) -> None:
     assert pack["records"][0]["top_hit"] is None
     assert pack["records"][0]["decision_class"] == "no-match"
     artifacts = build_gseg_gsig_artifacts(pack)
-    theorem = json.loads(artifacts["theorem_checklist.json"])
-    assert theorem["summary"]["fail"] == 0
-    assert theorem["summary"]["release_gate"] == "pass"
+    invariant = json.loads(artifacts["release_invariant_checklist.json"])
+    assert invariant["summary"]["fail"] == 0
+    assert invariant["summary"]["release_gate"] == "review"
+    assert invariant["summary"]["external_validation_missing"] >= 1
+    assert {
+        "theorem_checklist.json",
+        "verified_segment_evidence_array.csv",
+        "verified_segment_evidence_array.jsonl",
+        "verified_segment_evidence_array.parquet",
+    }.isdisjoint(artifacts)
+    lca_rows = list(csv.DictReader(io.StringIO(artifacts["segment_safe_taxa.csv"])))
+    assert lca_rows[0]["lcaCheck"] == "pass"
+    assert lca_rows[0]["recomputedSafeRank"] == "none"
     assert "graph_provenance_audit.csv" in artifacts
+
+
+def test_safe_taxon_check_recomputes_lca_instead_of_comparing_alias_fields() -> None:
+    shared_lineage = [
+        {"rank": "family", "name": "Culicidae", "taxon_key": None},
+        {"rank": "genus", "name": "Aedes", "taxon_key": None},
+    ]
+    hits = [
+        {
+            "taxon": "Aedes albopictus",
+            "rank": "species",
+            "lineage": [
+                *shared_lineage,
+                {"rank": "species", "name": "Aedes albopictus", "taxon_key": None},
+            ],
+        },
+        {
+            "taxon": "Aedes aegypti",
+            "rank": "species",
+            "lineage": [
+                *shared_lineage,
+                {"rank": "species", "name": "Aedes aegypti", "taxon_key": None},
+            ],
+        },
+    ]
+    source_alias = {"rank": "species", "name": "Aedes albopictus", "taxon_key": None}
+    record = {
+        "safe_taxon": source_alias,
+        "candidate_taxon": source_alias,
+        "top_hit": hits[0],
+        "indistinguishable_hits": hits,
+        "metadata_readiness": {"marker_profile": {"species_gate_pass": True}},
+    }
+
+    check = recompute_safe_taxon_lca(record)
+
+    assert check["status"] == "fail"
+    assert check["expected_safe_taxon"]["rank"] == "genus"
+    assert check["expected_safe_taxon"]["name"] == "Aedes"
+
+    record.pop("indistinguishable_hits")
+    unavailable = recompute_safe_taxon_lca(record)
+    assert unavailable["status"] == "not_independently_recomputed"

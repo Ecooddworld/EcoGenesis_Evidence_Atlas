@@ -11,14 +11,14 @@ import zipfile
 
 REPORT_DEFINITIONS = {
     "competition-100-sequences": {
-        "title": "Competition 100-sequence verification batch",
+        "title": "Competition 100-row repeated-fixture regression batch",
         "report": "competition_100_sequence_report.md",
         "results": "competition_100_sequence_results.csv",
         "manifest": "competition_100_sequence_manifest.csv",
         "exports": "competition_100_sequence_exports.json",
     },
     "adversarial-100-sequences": {
-        "title": "Adversarial 100-sequence fail-closed stress batch",
+        "title": "Adversarial 100-row repeated-fixture regression batch",
         "report": "adversarial_100_sequence_report.md",
         "results": "adversarial_100_sequence_results.csv",
         "manifest": "adversarial_100_sequence_manifest.csv",
@@ -27,11 +27,15 @@ REPORT_DEFINITIONS = {
 }
 
 REQUIRED_GSEG_GSIG_EXPORTS = {
-    "theorem_checklist.json",
+    "dwca_validation_report.json",
+    "dwca_roundtrip_contract.json",
+    "dwc_occurrence_core_validation_candidates.csv",
+    "dna_derived_extension_validation_candidates.csv",
+    "release_invariant_checklist.json",
     "math_viability_audit.json",
-    "verified_segment_evidence_array.csv",
-    "verified_segment_evidence_array.jsonl",
-    "verified_segment_evidence_array.parquet",
+    "rule_evidence_segment_array.csv",
+    "rule_evidence_segment_array.jsonl",
+    "rule_evidence_segment_array.parquet",
     "gseg_graph_schema.json",
     "gsig_graph_schema.yaml",
     "evidence_graph.jsonld",
@@ -47,6 +51,15 @@ REQUIRED_GSEG_GSIG_EXPORTS = {
     "judge_reproducibility_report.md",
 }
 
+RETIRED_PUBLIC_ALIASES = {
+    "dwc_occurrence_core_gbif_ready.csv",
+    "dna_derived_extension_gbif_ready.csv",
+    "theorem_checklist.json",
+    "verified_segment_evidence_array.csv",
+    "verified_segment_evidence_array.jsonl",
+    "verified_segment_evidence_array.parquet",
+}
+
 PUBLIC_REPORT_FILES = {
     "adversarial_100_sequence_report.md",
     "competition_100_sequence_report.md",
@@ -58,11 +71,15 @@ PUBLIC_REPORT_FILES = {
     "decision_summary.csv",
     "evidence_pack.zip",
     "evidence_pack.json",
+    "dwca_validation_report.json",
+    "dwca_roundtrip_contract.json",
+    "dwc_occurrence_core_validation_candidates.csv",
+    "dna_derived_extension_validation_candidates.csv",
     "molecular_evidence_report.html",
-    "verified_segment_evidence_array.csv",
-    "verified_segment_evidence_array.jsonl",
-    "verified_segment_evidence_array.parquet",
-    "theorem_checklist.json",
+    "rule_evidence_segment_array.csv",
+    "rule_evidence_segment_array.jsonl",
+    "rule_evidence_segment_array.parquet",
+    "release_invariant_checklist.json",
     "math_viability_audit.json",
     "graph_roundtrip_audit.json",
     "graph_provenance_audit.csv",
@@ -112,30 +129,36 @@ def competition_report_summary(report_id: str) -> dict[str, Any]:
     pass_count = sum(row.get("pass") in {"True", "true", "1", "yes"} for row in results_rows)
     fail_count = len(results_rows) - pass_count
     decision_counts = Counter(row.get("actualDecisionClass", "missing") for row in results_rows)
+    scientific_state_counts = Counter(
+        row.get("scientificDecisionState") or row.get("actualDecisionClass", "missing")
+        for row in results_rows
+    )
     expected_counts = Counter(row.get("expectedDecisionClass", "missing") for row in results_rows)
     export_names = {path.name for path in directory.iterdir() if path.is_file()}
     returned_exports = load_json_list(directory / definition["exports"])
     zip_entries = zip_entry_names(directory / "evidence_pack.zip")
-    theorem = load_json_object(directory / "theorem_checklist.json")
+    invariant = load_json_object(directory / "release_invariant_checklist.json")
     math_viability = load_json_object(directory / "math_viability_audit.json")
     graph_roundtrip = load_json_object(directory / "graph_roundtrip_audit.json")
-    parquet_magic = read_magic(directory / "verified_segment_evidence_array.parquet")
+    dwca_validation = load_json_object(directory / "dwca_validation_report.json")
+    parquet_magic = read_magic(directory / "rule_evidence_segment_array.parquet")
     required_present = REQUIRED_GSEG_GSIG_EXPORTS <= export_names
     zip_contains_required = REQUIRED_GSEG_GSIG_EXPORTS <= zip_entries
     report_file = directory / definition["report"]
-    summary_status = "pass" if (
+    regression_status = "pass" if (
         len(results_rows) == 100
         and fail_count == 0
         and required_present
         and zip_contains_required
         and parquet_magic == b"PAR1"
-        and theorem.get("summary", {}).get("release_gate") == "pass"
-        and theorem.get("summary", {}).get("fail") == 0
+        and invariant.get("summary", {}).get("release_gate") in {"pass", "review"}
+        and invariant.get("summary", {}).get("fail") == 0
         and math_viability.get("summary", {}).get("status") == "pass"
         and math_viability.get("summary", {}).get("failed") == 0
         and graph_roundtrip.get("status") == "pass"
         and report_file.exists()
-    ) else "review"
+    ) else "fail"
+    summary_status = "review" if regression_status == "pass" else "fail"
 
     return {
         "schema": "ecogenesis.competition_reports.summary.v1",
@@ -143,6 +166,11 @@ def competition_report_summary(report_id: str) -> dict[str, Any]:
         "title": definition["title"],
         "summary": {
             "status": summary_status,
+            "regression_status": regression_status,
+            "validation_status": "external_validation_missing",
+            "validation_boundary": (
+                "The 100 rows are repeated regression fixtures, not 100 independent specimens or an empirical benchmark."
+            ),
             "records": len(results_rows),
             "expected_matched": pass_count,
             "expected_failed": fail_count,
@@ -151,15 +179,19 @@ def competition_report_summary(report_id: str) -> dict[str, Any]:
             "zip_entries": len(zip_entries),
             "required_gseg_gsig_exports_present": required_present,
             "zip_contains_required_gseg_gsig_exports": zip_contains_required,
-            "vsea_parquet_magic": parquet_magic.decode("utf-8", errors="replace") or "missing",
-            "theorem_release_gate": theorem.get("summary", {}).get("release_gate", "missing"),
-            "theorem_failures": theorem.get("summary", {}).get("fail"),
+            "retired_aliases_publicly_available": False,
+            "rule_evidence_parquet_magic": parquet_magic.decode("utf-8", errors="replace") or "missing",
+            "release_invariant_gate": invariant.get("summary", {}).get("release_gate", "missing"),
+            "release_invariant_failures": invariant.get("summary", {}).get("fail"),
             "math_viability_status": math_viability.get("summary", {}).get("status", "missing"),
             "math_viability_failures": math_viability.get("summary", {}).get("failed"),
             "math_viability_checks": math_viability.get("summary", {}).get("checks"),
             "graph_roundtrip_status": graph_roundtrip.get("status", "missing"),
+            "dwca_local_validation_status": dwca_validation.get("local_validation_status", "missing"),
+            "dwca_release_gate": dwca_validation.get("release_gate", "missing"),
         },
         "decision_classes": dict(sorted(decision_counts.items())),
+        "scientific_states": dict(sorted(scientific_state_counts.items())),
         "expected_classes": dict(sorted(expected_counts.items())),
         "downloads": competition_report_downloads(report_id, definition, export_names),
     }
@@ -168,7 +200,11 @@ def competition_report_summary(report_id: str) -> dict[str, Any]:
 def competition_report_path(report_id: str, file_name: str) -> Path:
     report_definition(report_id)
     clean_name = Path(file_name).name
-    if clean_name != file_name or clean_name not in PUBLIC_REPORT_FILES:
+    if (
+        clean_name != file_name
+        or clean_name in RETIRED_PUBLIC_ALIASES
+        or clean_name not in PUBLIC_REPORT_FILES
+    ):
         raise FileNotFoundError(file_name)
     path = competition_reports_root() / report_id / clean_name
     if not path.exists() or not path.is_file():
@@ -198,15 +234,21 @@ def missing_report_summary(report_id: str, definition: dict[str, str]) -> dict[s
             "zip_entries": 0,
             "required_gseg_gsig_exports_present": False,
             "zip_contains_required_gseg_gsig_exports": False,
-            "vsea_parquet_magic": "missing",
-            "theorem_release_gate": "missing",
-            "theorem_failures": None,
+            "retired_aliases_publicly_available": False,
+            "regression_status": "missing",
+            "validation_status": "external_validation_missing",
+            "rule_evidence_parquet_magic": "missing",
+            "release_invariant_gate": "missing",
+            "release_invariant_failures": None,
             "math_viability_status": "missing",
             "math_viability_failures": None,
             "math_viability_checks": None,
             "graph_roundtrip_status": "missing",
+            "dwca_local_validation_status": "missing",
+            "dwca_release_gate": "missing",
         },
         "decision_classes": {},
+        "scientific_states": {},
         "expected_classes": {},
         "downloads": [],
     }
@@ -219,8 +261,8 @@ def competition_report_downloads(report_id: str, definition: dict[str, str], exp
         definition["manifest"],
         "evidence_pack.zip",
         "molecular_evidence_report.html",
-        "verified_segment_evidence_array.parquet",
-        "theorem_checklist.json",
+        "rule_evidence_segment_array.parquet",
+        "release_invariant_checklist.json",
         "graph_roundtrip_audit.json",
         "judge_reproducibility_report.md",
     ]

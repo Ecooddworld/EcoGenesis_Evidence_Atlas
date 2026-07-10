@@ -21,8 +21,8 @@ The 2026 GBIF Ebbe Nielsen Challenge accepts tools, workflows and analyses that 
 - separating taxonomic safety from GBIF publication readiness;
 - exposing repair actions for publishers and data managers;
 - producing repeatable CSV, HTML, JSON and ZIP Evidence Packs;
-- adding advanced graph artifacts with VSEA, graph provenance, release checklist and AI guardrail audits while unsupported function/phenotype claims remain blocked;
-- adding an Evidence Map layer that hashes GBIF source snapshots, visualizes VSEA-to-graph evidence, preserves claim boundaries in GBIF/AI exports and ships all 20 audit artifacts.
+- adding advanced graph artifacts with rule-evidence rows, graph provenance, release invariant checks and AI guardrail audits while unsupported function/phenotype claims remain blocked;
+- adding an Evidence Map layer that hashes GBIF source snapshots, visualizes rule-evidence-to-graph evidence, preserves claim boundaries in GBIF/AI exports and ships all 20 audit artifacts.
 
 ## What The Tool Produces
 
@@ -53,13 +53,11 @@ Each run produces:
 - `source_provenance_manifest.json`
 - `reference_manifest.json`
 - `dwc_occurrence_core_template.csv`
-- `dwc_occurrence_core_publishable.csv`
-- `dwc_occurrence_core_gbif_ready.csv`
+- `dwc_occurrence_core_validation_candidates.csv`
 - `dwc_occurrence_core_review.csv`
 - `dwc_occurrence_core_review_or_repair.csv`
 - `dna_derived_extension_template.csv`
-- `dna_derived_extension_publishable.csv`
-- `dna_derived_extension_gbif_ready.csv`
+- `dna_derived_extension_validation_candidates.csv`
 - `molecular_evidence_report.html`
 - `methods_text.md`
 - `citations.md`
@@ -67,15 +65,15 @@ Each run produces:
 - `evidence_graph.jsonld`
 - `nexus_v3_summary.json`
 - `proof_by_failure_modes.md`
-- `theorem_checklist.json`
+- `release_invariant_checklist.json`
 - `artifact_checksums.json`
 - `query_smoke_report.md`
 - `ci_math_oracle_report.json`
 - `gseg_graph_schema.json`
 - `gsig_graph_schema.yaml`
-- `verified_segment_evidence_array.csv`
-- `verified_segment_evidence_array.jsonl`
-- `verified_segment_evidence_array.parquet`
+- `rule_evidence_segment_array.csv`
+- `rule_evidence_segment_array.jsonl`
+- `rule_evidence_segment_array.parquet`
 - `graph_provenance_audit.csv`
 - `graph_roundtrip_audit.json`
 - `vsea_graph_reconciliation.csv`
@@ -86,6 +84,8 @@ Each run produces:
 - `judge_reproducibility_report.md`
 - `evidence_pack.json`
 - `evidence_pack.zip`
+
+Current packs no longer emit or publicly expose `_gbif_ready.csv`, `theorem_checklist.json` or `verified_segment_evidence_array.*`. Their unambiguous replacements are `_validation_candidates.csv`, `release_invariant_checklist.json` and `rule_evidence_segment_array.*`. Historical report directories remain traceability records, not current API contracts.
 
 The Evidence Map run additionally produces:
 
@@ -101,7 +101,7 @@ The Evidence Map run additionally produces:
 - `ai_ready_dataset.jsonl`
 - `observatory_output_verification.json`
 - `observatory_output_verification.md`
-- all 20 `OPO-*` audit artifacts from `ecogenesis_gsig_observatory_proof_obligations_v4.json`
+- all 20 release checks from `ecogenesis_gsig_observatory_release_checks_v1.json`
 
 ## Demo Flow For Judges
 
@@ -110,12 +110,12 @@ The Evidence Map run additionally produces:
 3. Upload `examples/aedes_good.csv`.
 4. Show CSV preview and validation summary.
 5. Click `Generate from CSV`.
-6. Show `species-safe` decision and Evidence Pack exports.
-7. Upload or explain `examples/aedes_ambiguous.csv` to show downgrade to `genus-safe`.
-8. Upload or explain `examples/aedes_missing_metadata.csv` to show taxonomic evidence preserved while publication is blocked.
+6. Show the CSV staying review-only because independent reference/QC evidence is absent, then use the clearly labelled built-in regression fixture to demonstrate `species rule-pass` behavior.
+7. Upload or explain `examples/aedes_ambiguous.csv` to show downgrade to a genus-level rule result.
+8. Upload or explain `examples/aedes_missing_metadata.csv` to show scientific and publication blockers remaining explicit.
 9. Open `Methods & Audits` to show the deterministic gates.
-10. Show the advanced graph artifact group: `theorem_checklist.json`, VSEA Parquet and graph provenance.
-11. Open `Evidence Map`, run `Run reproducible judge demo`, and show the GBIF occurrence context map, VSEA matrix, Evidence Graph Explorer and audit wheel before opening the source snapshot, VSEA, graph, exports and Judge tabs.
+10. Show the advanced graph artifact group: `release_invariant_checklist.json`, rule-evidence Parquet and graph provenance.
+11. Open `Evidence Map`, run `Run reproducible judge demo`, and show the GBIF occurrence context map, rule-evidence matrix, Evidence Graph Explorer and audit wheel before opening the source snapshot, rule-evidence, graph, exports and Judge tabs.
 12. Open `Validation` to show the competition, adversarial, Evidence Map and GBIF occurrence-audit checks.
 
 ## Operating Instructions

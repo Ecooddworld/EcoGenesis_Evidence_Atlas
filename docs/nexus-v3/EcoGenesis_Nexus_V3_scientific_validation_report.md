@@ -1,5 +1,7 @@
 # EcoGenesis Nexus V3 — scientific validation report
 
+> **Archived internal regression report.** `PASS` below means only that the historical fixtures satisfied their internal rules. It is not independent specimen-backed scientific validation and not GBIF/IPT acceptance; use the current competition and holdout reports for release decisions.
+
 Verdict: **PASS**
 
 This validation is an operational reality check, not a claim of universal biological truth. It tests whether the implemented gates prevent the most dangerous publication failure: copying the nearest top-hit species into GBIF when the evidence is ambiguous, weak, unsupported or missing publication metadata.

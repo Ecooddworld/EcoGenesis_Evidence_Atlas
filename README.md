@@ -1,16 +1,22 @@
-# Barcode-to-GBIF Evidence Compiler
+# EcoGenesis V2 — Barcode-to-GBIF Evidence Compiler
+
+**V2 is the evidence-bounded release:** it replaces overstated proof/validation/GBIF-ready language with explicit run-local rule results, external-validation blockers and locally validated publication candidates. The exact release source is tagged [`v2-evidence-bounded`](https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas/tree/v2-evidence-bounded).
 
 EcoGenesis is now focused on a narrower, stronger GBIF Challenge tool:
 
-> A deterministic compiler that turns DNA barcode, metabarcoding, Sequence ID and BLAST-like outputs into safe taxonomic rank decisions, GBIF publication readiness checks, repair actions and reproducible Evidence Packs.
+> A deterministic compiler that turns DNA barcode, metabarcoding, Sequence ID and BLAST-like outputs into bounded taxonomic rule results, GBIF validation-candidate checks, repair actions and reproducible Evidence Packs.
 
 The current **Barcode-to-GBIF Evidence Compiler** is the contest-facing molecular decision engine.
+
+## Scientific Boundary
+
+EcoGenesis is a conservative rule-based triage and metadata-repair prototype. It does not independently validate species truth or prove biological presence. The primary scientific state is `species-rule-pass`; the legacy `species-safe` value remains only as a deprecated API compatibility alias. A run can now produce a structurally complete, locally validated DwC-A candidate containing Occurrence Core, the registered DNA-derived extension, `meta.xml` and EML. It is still not a published or externally accepted GBIF dataset until it passes IPT/GBIF validation, organizational review and registration.
 
 ## Why This Exists
 
 Many users can produce barcode or metabarcoding results, but still face a hard publication question:
 
-> From a large stream of molecular detections, which records can safely support a species-level occurrence, which must be downgraded to genus or higher rank, which are blocked by reference/library or sequence evidence, and which repair actions unlock the most GBIF-ready records?
+> From a large stream of molecular detections, which records pass species-level rule gates, which must be downgraded to genus or higher rank, which are blocked by reference/library or sequence evidence, and which repair actions unlock the most GBIF validation candidates?
 
 EcoGenesis produces a reproducible decision under frozen rules, supplied reference-hit metrics, taxonomy lineage, barcode gap evidence, diagnostic k-mer evidence and GBIF publication metadata.
 
@@ -20,20 +26,20 @@ The global task is:
 
 ```text
 How can a large stream of DNA / metabarcoding results be converted into the
-maximum number of safe, reproducible and GBIF-ready occurrence records without
+maximum number of safe, reproducible and externally validatable occurrence-record candidates without
 manual calibration and without false species-level claims?
 ```
 
 The engine separates two decisions:
 
-- `TaxStatus`: `speciesSafe`, `genusSafe`, `higherRankSafe`, `ambiguous`, `weak`, `noMatch`
-- `PubStatus`: `gbifReady`, `repairable`, `notReady`
+- `scientific_decision_state`: `species-rule-pass`, a conservative genus/higher-rank result, `ambiguous`, `weak`, or `no-match`
+- `export_state`: `candidate_for_gbif_validation`, `dwc_template_ready`, `review_only`, or `not_exportable`
 
-This matters because a sequence can be taxonomically safe while still blocked by missing `occurrenceID`, `eventDate`, workflow metadata or other GBIF-ready publication fields.
+This matters because a sequence can pass taxonomic rule gates while still being blocked by missing `occurrenceID`, `eventDate`, workflow metadata or other GBIF validation-candidate fields.
 
 ## Decision Classes
 
-- `species-safe`: exact match, no indistinguishable competitor outside the species, positive barcode gap and diagnostic k-mer support with low false-positive probability.
+- `species-rule-pass`: exact match plus the configured ambiguity/LCA, aligned barcode-gap sampling and CI, diagnostic k-mer, reference-completeness, sequence-QC and assay gates. It is a ruleset result, not species truth.
 - `genus-safe`: species-level claim is unsafe, but indistinguishable hits share a genus.
 - `higher-rank-safe`: the safe LCA is family or higher.
 - `ambiguous`: the evidence cannot support a clear safe rank.
@@ -49,8 +55,11 @@ The core flow is:
 identity
 -> coverage
 -> ambiguity / LCA
--> barcode gap
--> diagnostic k-mers
+-> aligned barcode gap + sampling + bootstrap CI
+-> conserved canonical diagnostic k-mers + error robustness
+-> audited reference completeness
+-> ambiguity / complexity / ORF / chimera sequence QC
+-> assay controls and replicate semantics
 -> diagnostic false-positive probability
 -> GBIF Occurrence core metadata
 -> DNA-derived metadata
@@ -62,14 +71,14 @@ The larger engine adds:
 - conversion metrics: `MECY`, `RY`, `SRY`, `SSY`, and unsafe top-hit overclaim prevention
 - marker profiles: COI full barcode, COI mini-barcode, ITS, 16S short/full and custom-marker fail-closed policies
 - assay profiles: single-specimen barcode, metabarcoding/eDNA, qPCR/ddPCR and custom targeted workflows
-- repair optimizer: rank actions by how many GBIF-ready records they unlock
-- reference gap index: find taxa/markers/regions where reference libraries block species-safe conversion
+- repair optimizer: rank actions by how many GBIF validation candidates they unlock
+- reference gap index: find taxa/markers/regions where reference libraries block a species-level rule pass
 - publisher bottleneck index: separate DNA problems from metadata problems
-- protein sanity layer for coding markers: frame, stop codon, frameshift and pseudogene/NUMT warnings
+- coding-marker ORF sanity gate: orientation/frame search and internal stop-codon checks; NUMT/pseudogene inference remains outside the implemented claim scope
 - assay evidence gate for eDNA/metabarcoding controls and replicates
-- Molecular Evidence Graph linking fragments, taxa, GBIF geography, protein context, claims and blockers
-- advanced graph artifacts: Verified Segment Evidence Array, release checklist, graph provenance, roundtrip and AI guardrail audits
-- Evidence Map layer: source registry, GBIF snapshot hashing, VSEA-to-graph visualization, audit checks, GBIF/AI export guardrails and Judge Mode
+- Molecular Evidence Graph linking fragments, taxa, claims and blockers; GBIF geography remains separate run-level context unless real specimen linkage exists
+- advanced graph artifacts: rule-evidence segment arrays, release invariant checklist, graph provenance, roundtrip and AI guardrail audits
+- Evidence Map layer: source registry, GBIF snapshot hashing, rule-evidence-to-graph visualization, audit checks, GBIF/AI export guardrails and Judge Mode
 
 The frozen gates are documented in:
 
@@ -106,10 +115,11 @@ This local stack builds the same compiler runtime used for contest review: the b
 Hosted production deployment uses Caddy:
 
 ```bash
+export API_AUTH_TOKEN="$(openssl rand -hex 32)"
 docker compose -f docker-compose.caddy.yml up -d --build
 ```
 
-The Caddy stack serves `https://ecooddworld.eu`, redirects HTTP to HTTPS, keeps the backend internal on the Docker network, persists TLS certificates in Docker volumes, and only allows CORS from the HTTPS domain pair.
+The Caddy stack serves `https://ecooddworld.eu`, redirects HTTP to HTTPS, keeps the backend internal on the Docker network, persists TLS certificates in Docker volumes, and only allows CORS from the HTTPS domain pair. It defaults to authenticated mutations and protected run/export reads; without `API_AUTH_TOKEN` the API fails closed. An interactive public contest demo must deliberately set `API_AUTH_REQUIRED=false`, accepting the documented single-node demo boundary.
 
 The legacy V3 compose file is kept as an alias for older instructions:
 
@@ -139,18 +149,18 @@ The smoke test builds the stack on ports `13200/18200`, checks backend health di
 2. Upload a CSV exported from GBIF Sequence ID, BLAST, BOLD, UNITE or a lab pipeline.
 3. Review the preview and validation summary.
 4. Click `Generate from CSV`.
-5. Inspect `species-safe`, `genus-safe`, `weak`, `not-publishable` and blocked claims.
+5. Inspect `scientific_decision_state`, rank downgrades, `weak`, `not-publishable` and blocked claims.
 6. Download `evidence_pack.zip` or individual CSV/HTML exports.
 
 ### Evidence Map Flow
 
-The `Evidence Map` tab runs a small Aedes Spain GBIF-backed snapshot, links that hashed occurrence context to the molecular VSEA rows, visualizes the GBIF occurrence map, VSEA matrix, evidence graph and audit wheel, then exports all 20 Evidence Map audit artifacts.
+The `Evidence Map` tab runs a small Aedes Spain GBIF-backed snapshot alongside an independent molecular demo. Occurrences are attached only to the run as unlinked context: there is no per-record molecular↔GBIF edge without a shared `eventID`, `materialSampleID`, specimen identifier or dataset lineage. The UI visualizes the separate context, rule-evidence matrix, evidence graph and release checks without implying specimen linkage.
 
 Claim strength remains bounded by molecular gates, publication gates and provenance. The Evidence Map UI, AI-ready dataset and GBIF export preview preserve `claim_state`, caveats and provenance hashes.
 
 1. Open `Evidence Map`.
-2. Click `Run reproducible judge demo` for the small GBIF path with source mode and any fixture fallback recorded in `snapshot_manifest.json`.
-3. Click `Run reproducible demo` for the deterministic offline judge path.
+2. Click `Run judge demo` for the small GBIF path with source mode and any fixture fallback recorded in `snapshot_manifest.json`.
+3. Click `Run offline fixture demo` for the deterministic-input judge path. Its self-check records an input fingerprint; it does not claim an independent clean-run reproducibility comparison.
 4. Download `observatory_evidence_pack.zip`.
 
 Regenerate the checked-in Evidence Map report pack:
@@ -169,7 +179,7 @@ cd backend
 .venv/bin/python scripts/verify_observatory_outputs.py
 ```
 
-FASTA-only input can be searched against a selected reference dataset, but it is intentionally not enough for a GBIF-ready publication decision. The compiler needs occurrence metadata supplied by the user, and production publication requires VSEARCH, BLAST+ or an audited external reference workflow rather than the local deterministic mini-search fallback.
+FASTA-only input can be searched against a selected reference dataset, but it is intentionally not enough for a GBIF validation-candidate publication decision. The compiler needs occurrence metadata supplied by the user, and production publication requires VSEARCH, BLAST+ or an audited external reference workflow rather than the local deterministic mini-search fallback.
 
 ### Contest-Safe Source Connections
 
@@ -180,7 +190,7 @@ This project does not rely on the broader EcoGenesis source aggregator for molec
 - **BOLD / UNITE / lab pipelines**: use their identification or export tables as external evidence, then preserve source, license, access date and method in the CSV or evidence pack.
 - **User FASTA reference datasets**: upload a curated FASTA with headers like `>ref_id|Taxon name|rank|gbifTaxonKey`; the app computes local barcode-gap and diagnostic k-mer evidence.
 - **GBIF Backbone enrichment**: uploaded taxon names can be matched to GBIF backbone for lineage/provenance only.
-- **GBIF occurrence audit**: available under `/api/evidence/*` for research context, citation and bias checks; it never upgrades a weak molecular hit into a species-safe barcode claim.
+- **GBIF occurrence audit**: available under `/api/evidence/*` for run-level research context, citation and bias checks; it never upgrades a molecular result or creates an unsubstantiated specimen link.
 
 Manual connection links:
 
@@ -203,10 +213,10 @@ The Workbench also has a `Reference search` panel. It supports both bundled refe
 
 For a no-setup real-data check, open `Run Compiler` and use the bundled quick actions:
 
-- `Run real Aedes COI species-safe check` uses real NCBI GenBank COI accessions and should produce species-level molecular evidence for `Aedes albopictus` when the marker separates the taxa. If the runtime falls back to `python-local` or occurrence metadata is missing, the taxonomic status can be `species-safe` while the publication decision remains `not-publishable`.
+- `Run real Aedes COI reference check` uses real NCBI GenBank COI accessions to exercise the search and provenance path. Because the small pack has singleton taxon sampling, no external completeness audit and no bootstrap gap CI, it is intentionally review-only and cannot unlock a species-level rule pass.
 - `Run conserved Quercus rbcL safe-rank check` uses real NCBI GenBank rbcL accessions and should produce genus-level molecular evidence, because the shared rbcL window cannot safely distinguish `Quercus robur` from `Quercus petraea`.
 
-Uploaded reference datasets are stored under `./data/reference-datasets` in Docker/local runs. During upload, EcoGenesis computes lightweight barcode-gap and diagnostic k-mer evidence from the supplied FASTA so the same hard gates are used as in CSV scoring. This is still a pre-publication safety workflow: large production studies should use curated, versioned reference libraries and preserve licenses, source URLs and access dates.
+Uploaded reference datasets are stored under `./data/reference-datasets` in Docker/local runs. During upload, EcoGenesis computes alignment-aware local distances and conserved canonical k-mers, but it does not invent an external completeness audit or barcode-gap bootstrap CI. Uploaded packs therefore remain review-only until those evidence fields are supplied from an audited workflow.
 
 This validates the full sequence search path:
 
@@ -222,7 +232,7 @@ query sequence
 Included reference examples:
 
 - `references/aedes_coi_mini/`: synthetic smoke-test FASTA for deterministic regression.
-- `references/ncbi_aedes_coi_small/`: real NCBI GenBank COI records for `Aedes albopictus` and `Aedes aegypti`, with GBIF backbone keys and manifest metadata. This demonstrates the real-data species-level molecular-evidence path when the marker separates the taxa.
+- `references/ncbi_aedes_coi_small/`: real NCBI GenBank COI records for `Aedes albopictus` and `Aedes aegypti`, with GBIF backbone keys and manifest metadata. This demonstrates search/provenance and the fail-closed singleton/reference-completeness boundary, not species validation.
 - `references/ncbi_quercus_rbcl_small/`: real NCBI GenBank rbcL records for `Quercus robur` and `Quercus petraea`, cropped to a shared overlapping rbcL window. This intentionally demonstrates safe-rank downgrade: a conserved marker window can support `Quercus` genus evidence but must not become a species-level claim.
 
 These packs are reproducible workflow examples, not replacements for curated production reference databases.
@@ -281,8 +291,8 @@ For uploaded FASTA reference datasets, EcoGenesis tries to enrich taxon names ag
 - `GET /api/competition-reports/{report_id}`
 - `GET /api/competition-reports/{report_id}/files/{file_name}`
 
-The Docker backend image includes the frozen `competition-100-sequences` and `adversarial-100-sequences` report directories so the contest UI and API can serve those 100-sequence verification packs without relying on host-only files.
-The contest readiness endpoint aggregates backend capability, the frozen 100-sequence reports and the latest Evidence Map output verification into one pass/review dossier.
+The Docker backend image includes the frozen `competition-100-sequences` and `adversarial-100-sequences` report directories. These are explicitly repeated-fixture regression packs, not 100 independent specimens or empirical validation datasets.
+The contest readiness endpoint aggregates backend capability, regression integrity and the latest Evidence Map integrity checks. It remains `review` while independent external validation is absent.
 
 Minimal request shape:
 
@@ -336,7 +346,7 @@ For stronger DNA-derived publication review, the CSV can also include `target_ge
 
 The GBIF occurrence-passport API remains available under `/api/evidence/*` for API checks, regression and comparison; live network use is recorded separately from fixture/regression data.
 
-The compiler separates `taxonomic_status`, `decision_class`, `candidate_taxon`, `published_taxon` and `publication_bucket`. A weak or blocked sequence can still be useful as a review hint, but it is never placed into publishable Darwin Core exports as a species. `dwc_occurrence_core_publishable.csv` contains safe publishable candidates; `dwc_occurrence_core_gbif_ready.csv` is stricter and only contains rows whose `publication_bucket` is `gbif_ready`.
+The compiler separates `scientific_decision_state`, legacy compatibility statuses, `candidate_taxon`, `published_taxon` and `export_state`. A weak or blocked sequence can still be useful as a review hint, but it is never placed into the DwC-A candidate as a species. Current packs use explicit `_validation_candidates.csv` names and do not emit the misleading `_gbif_ready.csv` filename aliases.
 
 ## Evidence Pack Artifacts
 
@@ -369,12 +379,15 @@ Each barcode run exports:
 - `source_provenance_manifest.json`
 - `dwc_occurrence_core_template.csv`
 - `dwc_occurrence_core_publishable.csv`
-- `dwc_occurrence_core_gbif_ready.csv`
+- `dwc_occurrence_core_validation_candidates.csv`
 - `dwc_occurrence_core_review.csv`
 - `dwc_occurrence_core_review_or_repair.csv`
 - `dna_derived_extension_template.csv`
 - `dna_derived_extension_publishable.csv`
-- `dna_derived_extension_gbif_ready.csv`
+- `dna_derived_extension_validation_candidates.csv`
+- `dwca.zip` (locally validated Occurrence Core + DNA-derived extension + `meta.xml` + EML candidate)
+- `dwca_validation_report.json`
+- `dwca_roundtrip_contract.json`
 - `molecular_evidence_report.html`
 - `methods_text.md`
 - `citations.md`
@@ -382,16 +395,16 @@ Each barcode run exports:
 - `nexus_v3_summary.json`
 - `external_tool_adapter_matrix.csv`
 - `proof_by_failure_modes.md`
-- `theorem_checklist.json`
+- `release_invariant_checklist.json`
 - `artifact_checksums.json`
 - `query_smoke_report.md`
 - `ci_math_oracle_report.json`
 - `gseg_graph_schema.json`
 - `gsig_graph_schema.yaml`
 - `evidence_graph.jsonld`
-- `verified_segment_evidence_array.csv`
-- `verified_segment_evidence_array.jsonl`
-- `verified_segment_evidence_array.parquet`
+- `rule_evidence_segment_array.csv`
+- `rule_evidence_segment_array.jsonl`
+- `rule_evidence_segment_array.parquet`
 - `segment_canonicalization_audit.csv`
 - `segment_cluster_audit.csv`
 - `sharedness_overclaim_audit.csv`
@@ -408,6 +421,8 @@ Each barcode run exports:
 - `evidence_pack.json`
 - `evidence_pack.zip`
 
+Current packs and public file endpoints retire `_gbif_ready.csv`, `theorem_checklist.json` and `verified_segment_evidence_array.*`. Use `_validation_candidates.csv`, `release_invariant_checklist.json` and `rule_evidence_segment_array.*` respectively. Historical report directories may retain old filenames only as traceability records.
+
 ## Examples
 
 Fixture CSVs live in `examples/`:
@@ -423,11 +438,11 @@ Reference dataset example:
 - `references/aedes_coi_mini/aedes_coi_mini.fasta`
 - `references/aedes_coi_mini/manifest.json`
 
-The built-in API demo also includes a mixed batch with species-safe, genus-safe, weak and metadata-blocked records.
+The built-in API demo also includes a mixed batch, but its scientific evidence is deliberately unsigned: the plausible species candidates stay review-only, alongside a genus downgrade, a weak result and metadata blockers. Trusted species-rule code paths are exercised only in tests and explicitly labelled synthetic report generators.
 
 Prebuilt mixed-batch artifacts live in `reports/barcode-demo/`. Open `reports/barcode-demo/molecular_evidence_report.html` or inspect `reports/barcode-demo/sequence_safety_table.csv`.
 
-Contest batch artifacts live in `reports/competition-100-sequences/` and `reports/adversarial-100-sequences/`. They are regenerated by `backend/scripts/generate_competition_reports.py` and currently contain 90 exports per run, including real VSEA Parquet files, math viability audits, release checklists and graph provenance audits.
+Contest batch artifacts live in `reports/competition-100-sequences/` and `reports/adversarial-100-sequences/`. They are regenerated by `backend/scripts/generate_competition_reports.py` and currently contain export bundles per run, including rule-evidence Parquet files, formula-consistency audits, release invariant checklists and graph provenance audits.
 
 ## CLI Runner
 
@@ -440,7 +455,7 @@ cd backend
 
 The CLI writes the same barcode Evidence Pack artifacts as the API.
 
-## Synthetic Ambiguous Benchmark
+## Synthetic Regression Stress Test
 
 ```bash
 cd backend
@@ -449,23 +464,53 @@ cd backend
   --output-dir ../reports/synthetic-ambiguity-benchmark
 ```
 
-Latest benchmark result:
+This generator is a deterministic stress/regression fixture, not an independent benchmark. Its latest checked-in result is:
 
 ```text
 Naive top-hit would emit 120 species claims.
 EcoGenesis blocked or downgraded 90 unsafe species claims.
-EcoGenesis emitted 30 species-safe claims.
+EcoGenesis emitted 30 internal species rule-pass fixture results.
 Hard-gate failures: 0.
 Overclaim prevention rate: 0.75.
 ```
 
-Benchmark artifacts:
+Those pass-path rows carry the public key id `synthetic-regression-fixture-not-external-trust`. The key is intentionally reproducible and cannot authenticate evidence to a deployment that uses its own operator secret; the result is regression coverage, not external validation.
+
+Regression artifacts:
 
 - `reports/synthetic-ambiguity-benchmark/summary.md`
 - `reports/synthetic-ambiguity-benchmark/benchmark_summary.json`
 - `reports/synthetic-ambiguity-benchmark/synthetic_ambiguous_dataset.csv`
 - `reports/synthetic-ambiguity-benchmark/naive_vs_ecogenesis.csv`
 - `reports/synthetic-ambiguity-benchmark/evidence_pack.json`
+
+## Independent Holdout Contract
+
+No independent specimen-backed holdout is checked into this repository, so `scientific_release_gate.status` intentionally remains `blocked`. To inspect the required manifest and record schema:
+
+```bash
+cd backend
+.venv/bin/python scripts/run_holdout_benchmark.py --print-contract
+```
+
+With an externally sourced holdout, the harness rejects ID-only fixture clones and reports Wilson confidence intervals, species precision/recall, genus precision, abstention, false species-rule-pass rate, a naive top-hit baseline, and strata by marker, taxonomic group and reference completeness. Release checks use the confidence bounds, not only point estimates.
+
+Request-supplied audit fields are informational by default. A holdout manifest can unlock the scientific release gate only when the trusted harness and API server share an operator-managed HMAC secret of at least 32 bytes:
+
+```bash
+export ECOGENESIS_EVIDENCE_ATTESTATION_SECRET="$(openssl rand -hex 32)"
+export ECOGENESIS_EVIDENCE_ATTESTATION_KEY_ID="holdout-auditor-2026-01"
+cd backend
+.venv/bin/python scripts/run_holdout_benchmark.py \
+  --dataset /absolute/path/to/independent-holdout.json \
+  --output-dir /absolute/path/to/holdout-report
+```
+
+The secret is never accepted as a CLI argument, written to an artifact or supplied through the compiler request. Without it, the harness still writes informational metrics, but emits no attestation and `release_eligible` remains `false`. Attestations are canonical-payload-bound, purpose-separated, ruleset-contract-bound and time-limited; altered payloads, wrong-purpose reuse and expired replays fail closed.
+
+The HMAC establishes which configured audit process issued an unchanged payload; it does not prove that the specimens, labels or audit judgments are scientifically correct. Independent dataset provenance, specimen-backed ground truth and separation from threshold tuning remain mandatory, and no qualifying dataset is bundled here.
+
+Per-record scientific evidence follows the same rule. `status=audited_sufficient`, counts, source and a checksum are not sufficient by themselves: a server-verifiable attestation binds the sequence, exact hit set, reference-completeness inventory, barcode-gap evidence, diagnostic k-mers and chimera/QC evidence. Altering any part blocks scientific use. Built-in demos and CSV examples are deliberately unsigned and therefore remain informational/review-only.
 
 ## Operability Verification
 

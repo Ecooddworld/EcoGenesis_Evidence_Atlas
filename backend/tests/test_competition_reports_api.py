@@ -18,22 +18,29 @@ def test_competition_reports_api_reads_frozen_100_sequence_batches(monkeypatch) 
     index = client.get("/api/competition-reports")
     assert index.status_code == 200
     body = index.json()
-    assert body["status"] == "pass"
+    assert body["status"] == "review"
     reports = {item["report_id"]: item for item in body["reports"]}
     assert set(reports) == {"competition-100-sequences", "adversarial-100-sequences"}
 
     competition = reports["competition-100-sequences"]
-    assert competition["summary"]["status"] == "pass"
+    assert competition["summary"]["status"] == "review"
+    assert competition["summary"]["regression_status"] == "pass"
+    assert competition["summary"]["validation_status"] == "external_validation_missing"
     assert competition["summary"]["records"] == 100
     assert competition["summary"]["expected_matched"] == 100
     assert competition["summary"]["expected_failed"] == 0
-    assert competition["summary"]["exports"] == 90
-    assert competition["summary"]["vsea_parquet_magic"] == "PAR1"
-    assert competition["summary"]["theorem_release_gate"] == "pass"
+    assert competition["summary"]["exports"] >= 90
+    assert competition["summary"]["rule_evidence_parquet_magic"] == "PAR1"
+    assert competition["summary"]["release_invariant_gate"] == "review"
+    assert competition["summary"]["release_invariant_failures"] == 0
     assert competition["summary"]["math_viability_status"] == "pass"
     assert competition["summary"]["math_viability_failures"] == 0
     assert competition["summary"]["math_viability_checks"] > 0
     assert competition["summary"]["graph_roundtrip_status"] == "pass"
+    assert competition["summary"]["retired_aliases_publicly_available"] is False
+    # Scientific rank support is independent of publication metadata: the 25
+    # metadata-blocked records still pass the molecular species rule.
+    assert competition["scientific_states"]["species-rule-pass"] == 50
     assert competition["decision_classes"]["species-safe"] == 25
 
     adversarial = client.get("/api/competition-reports/adversarial-100-sequences")
@@ -43,7 +50,7 @@ def test_competition_reports_api_reads_frozen_100_sequence_batches(monkeypatch) 
 
     report = client.get("/api/competition-reports/competition-100-sequences/files/competition_100_sequence_report.md")
     assert report.status_code == 200
-    assert "Competition 100-Sequence Atlas Run Report" in report.text
+    assert "Repeated-Fixture Regression Report" in report.text
 
     report_head = client.head("/api/competition-reports/competition-100-sequences/files/evidence_pack.zip")
     assert report_head.status_code == 200
@@ -51,6 +58,20 @@ def test_competition_reports_api_reads_frozen_100_sequence_batches(monkeypatch) 
 
     blocked = client.get("/api/competition-reports/competition-100-sequences/files/../README.md")
     assert blocked.status_code == 404
+    retired_aliases = {
+        "dwc_occurrence_core_gbif_ready.csv",
+        "dna_derived_extension_gbif_ready.csv",
+        "theorem_checklist.json",
+        "verified_segment_evidence_array.csv",
+        "verified_segment_evidence_array.jsonl",
+        "verified_segment_evidence_array.parquet",
+    }
+    assert retired_aliases.isdisjoint(item["name"] for item in competition["downloads"])
+    for retired_name in retired_aliases:
+        retired = client.get(
+            f"/api/competition-reports/competition-100-sequences/files/{retired_name}"
+        )
+        assert retired.status_code == 404
 
 
 def test_competition_reports_default_root_survives_backend_cwd(monkeypatch) -> None:
@@ -59,7 +80,7 @@ def test_competition_reports_default_root_survives_backend_cwd(monkeypatch) -> N
 
     body = list_competition_report_summaries()
 
-    assert body["status"] == "pass"
+    assert body["status"] == "review"
     assert {item["summary"]["records"] for item in body["reports"]} == {100}
 
 
@@ -75,9 +96,10 @@ def test_contest_readiness_dossier_aggregates_competition_and_observatory(tmp_pa
     readiness = client.get("/api/contest-readiness")
     assert readiness.status_code == 200
     body = readiness.json()
-    assert body["status"] == "pass"
+    assert body["status"] == "review"
     assert body["summary"]["failed"] == 0
-    assert body["summary"]["competition_status"] == "pass"
+    assert body["summary"]["review_required"] >= 1
+    assert body["summary"]["competition_status"] == "review"
     assert body["summary"]["observatory_run_id"] == run_id
     assert body["summary"]["observatory_status"] == "pass"
     assert any(check["name"] == "observatory_run_verification_pass" for check in body["checks"])
@@ -85,7 +107,7 @@ def test_contest_readiness_dossier_aggregates_competition_and_observatory(tmp_pa
     report = client.get("/api/contest-readiness/report.md")
     assert report.status_code == 200
     assert "# EcoGenesis Contest Readiness Dossier" in report.text
-    assert "Status: `pass`" in report.text
+    assert "Status: `review`" in report.text
 
     report_head = client.head("/api/contest-readiness/report.md")
     assert report_head.status_code == 200

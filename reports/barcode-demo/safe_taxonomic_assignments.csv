@@ -1,3 +1,2 @@
-sequenceID,acceptedScientificName,taxonRank,decisionClass,basis
-AALB-COI-good,Aedes albopictus,species,species-safe,"deterministic identity/coverage, ambiguity LCA, barcode gap, diagnostic k-mer and GBIF metadata gates"
-AALB-COI-ambiguous,Aedes,genus,genus-safe,"deterministic identity/coverage, ambiguity LCA, barcode gap, diagnostic k-mer and GBIF metadata gates"
+sequenceID,acceptedScientificName,taxonRank,decisionClass,profile_id,exportState,basis
+AALB-COI-ambiguous,Aedes,genus,genus-safe,coi_full_barcode,dwc_template_ready,"deterministic identity/coverage, ambiguity LCA, barcode gap, diagnostic k-mer and GBIF metadata gates"

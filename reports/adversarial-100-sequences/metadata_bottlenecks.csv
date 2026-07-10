@@ -7,6 +7,7 @@ missing dataset metadata: license,100,1.0
 missing dataset metadata: contact,100,1.0
 missing dataset metadata: creator,100,1.0
 missing dataset metadata: metadataProvider,100,1.0
+missing dataset metadata: citation,100,1.0
 missing DNA-derived extension field: pcr_primer_forward,100,1.0
 missing DNA-derived extension field: pcr_primer_reverse,100,1.0
 missing DNA-derived extension field: seq_meth,100,1.0
@@ -25,7 +26,18 @@ missing DNA-derived extension field: materialSampleID,10,0.1
 missing assay-recommended field: eventID,10,0.1
 missing assay-recommended field: materialSampleID,10,0.1
 missing assay-required field: occurrenceStatus,10,0.1
+missing assay-required field: assayPlatform,10,0.1
 missing assay-required field: contaminationAssessment,10,0.1
+missing assay-required field: negativeControlStatus,10,0.1
+missing assay-required field: positiveControlStatus,10,0.1
+missing assay-required field: inhibitionControlStatus,10,0.1
+missing assay-required field: technicalReplicateCount,10,0.1
+missing assay-required field: assaySpecificityEvidence,10,0.1
+missing assay-required field: limitOfDetection,10,0.1
 missing assay-recommended field: experimentalVariance,10,0.1
 missing assay-recommended field: quantificationCycle,10,0.1
 missing assay-recommended field: estimatedNumberOfCopies,10,0.1
+missing assay-recommended field: limitOfDetection,10,0.1
+missing assay-recommended field: limitOfQuantification,10,0.1
+missing assay-recommended field: amplificationEfficiency,10,0.1
+missing assay-recommended field: nonDetectInterpretation,10,0.1

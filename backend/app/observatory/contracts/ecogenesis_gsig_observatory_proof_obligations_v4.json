@@ -1,4 +1,7 @@
 {
+  "deprecated": true,
+  "replacement": "ecogenesis_gsig_observatory_release_checks_v1.json (generated in each Observatory evidence pack)",
+  "terminology_note": "Historical compatibility contract only. Its obligations are internal release checks, not mathematical proofs or external scientific validation.",
   "proof_obligation_set": "GSIG-Observatory-OPO-v1",
   "extends": [
     "GSEG PO-01..PO-32",
@@ -133,12 +136,12 @@
     },
     {
       "id": "OPO-15",
-      "name": "Offline demo is reproducible without external APIs",
+      "name": "Offline fixture inputs carry a deterministic self-check fingerprint",
       "artifact": "offline_demo_reproducibility.json",
-      "test": "test_offline_demo_reproducible",
-      "acceptance_criteria": "same checksums across clean runs",
-      "severity": "hard_gate",
-      "claim_boundary": "This obligation prevents automated collection or visualization from producing stronger claims than the verified graph supports."
+      "test": "test_offline_demo_self_check_is_not_reproducibility_proof",
+      "acceptance_criteria": "canonical input fingerprint recorded; independent clean-run comparison explicitly not claimed",
+      "severity": "review_gate",
+      "claim_boundary": "This release check is informational until an independent clean execution produces and compares normalized output checksums."
     },
     {
       "id": "OPO-16",

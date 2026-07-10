@@ -1,0 +1,5 @@
+sequenceID,meaningfullySharedSpecies,specificity,speciesSpecificAllowedBySharedness,speciesSpecificClaimEmitted,overclaimViolation,status
+AALB-COI-good,1,1.0,True,False,False,pass
+AALB-COI-ambiguous,2,0.0,False,False,False,pass
+AALB-COI-short,1,1.0,True,False,False,pass
+AALB-COI-metadata-gap,1,1.0,True,False,False,pass

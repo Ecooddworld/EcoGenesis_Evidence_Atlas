@@ -8,6 +8,11 @@ from typing import Any
 
 import yaml
 
+from app.barcode.math_audit import (
+    expected_candidate_after_marker_profile,
+    expected_lca_taxon,
+)
+
 from .reference_checks import (
     ai_output_allowed,
     benjamini_hochberg,
@@ -15,6 +20,7 @@ from .reference_checks import (
     cluster_equivalent,
     graph_provenance_complete,
     preserve_claim_states_for_ai_export,
+    reverse_complement,
     segment_hash,
     species_specific_allowed,
     specificity,
@@ -89,10 +95,10 @@ GSIG_GRAPH_SCHEMA: dict[str, Any] = {
 
 
 def build_gseg_gsig_artifacts(pack: dict[str, Any]) -> dict[str, ArtifactContent]:
-    vsea_rows = verified_segment_evidence_rows(pack)
+    vsea_rows = rule_evidence_segment_rows(pack)
     graph_audit = graph_provenance_audit_rows(pack)
     ai_rows = ai_dataset_export_rows(vsea_rows)
-    theorem = theorem_checklist(pack, vsea_rows, graph_audit, ai_rows)
+    invariant_checklist = release_invariant_checklist(pack, vsea_rows, graph_audit, ai_rows)
     artifacts: dict[str, ArtifactContent] = {
         "segments.csv": write_csv(segment_rows(pack)),
         "segment_safe_taxa.csv": write_csv(segment_safe_taxa_rows(pack)),
@@ -101,16 +107,16 @@ def build_gseg_gsig_artifacts(pack: dict[str, Any]) -> dict[str, ArtifactContent
         "dwc_occurrence_core_readiness.csv": write_csv(occurrence_core_readiness_rows(pack)),
         "validation_fold_metrics.csv": write_csv(validation_fold_metrics_rows(pack)),
         "adversarial_report.md": adversarial_report_md(pack),
-        "theorem_checklist.json": json.dumps(theorem, indent=2, ensure_ascii=False),
+        "release_invariant_checklist.json": json.dumps(invariant_checklist, indent=2, ensure_ascii=False),
         "artifact_checksums.json": json.dumps(artifact_checksums_manifest(pack), indent=2, ensure_ascii=False),
         "query_smoke_report.md": query_smoke_report_md(pack),
         "ci_math_oracle_report.json": json.dumps(ci_math_oracle_report(), indent=2, ensure_ascii=False),
         "gseg_graph_schema.json": json.dumps(GSIG_GRAPH_SCHEMA, indent=2, ensure_ascii=False),
         "gsig_graph_schema.yaml": yaml.safe_dump(GSIG_GRAPH_SCHEMA, sort_keys=False, allow_unicode=True),
         "evidence_graph.jsonld": json.dumps(evidence_graph_jsonld(pack), indent=2, ensure_ascii=False),
-        "verified_segment_evidence_array.csv": write_csv(vsea_rows),
-        "verified_segment_evidence_array.jsonl": jsonl(vsea_rows),
-        "verified_segment_evidence_array.parquet": parquet_bytes(vsea_rows),
+        "rule_evidence_segment_array.csv": write_csv(vsea_rows),
+        "rule_evidence_segment_array.jsonl": jsonl(vsea_rows),
+        "rule_evidence_segment_array.parquet": parquet_bytes(vsea_rows),
         "segment_canonicalization_audit.csv": write_csv(segment_canonicalization_rows(pack)),
         "segment_cluster_audit.csv": write_csv(segment_cluster_rows(pack)),
         "sharedness_overclaim_audit.csv": write_csv(sharedness_overclaim_rows(pack)),
@@ -140,7 +146,7 @@ def build_gseg_gsig_artifacts(pack: dict[str, Any]) -> dict[str, ArtifactContent
         "segment_trait_matrix_audit.csv": write_csv(segment_trait_matrix_rows()),
         "literature_extraction_confidence.csv": write_csv(roadmap_audit_row("literature_extraction", "no_literature_extraction_claims_exported")),
         "manual_review_audit.csv": write_csv(manual_review_rows(pack)),
-        "judge_reproducibility_report.md": judge_reproducibility_report_md(pack, theorem),
+        "judge_reproducibility_report.md": judge_reproducibility_report_md(pack, invariant_checklist),
     }
     return artifacts
 
@@ -170,6 +176,8 @@ def segment_safe_taxa_rows(pack: dict[str, Any]) -> list[dict[str, Any]]:
     rows = []
     for record in pack["records"]:
         uncertainty_taxa = sorted({hit["taxon"] for hit in record.get("indistinguishable_hits", []) if hit.get("taxon")})
+        lca_check = recompute_safe_taxon_lca(record)
+        expected = lca_check.get("expected_safe_taxon") or {}
         rows.append(
             {
                 "segmentID": segment_id(record),
@@ -180,12 +188,70 @@ def segment_safe_taxa_rows(pack: dict[str, Any]) -> list[dict[str, Any]]:
                 "safeRank": record["safe_taxon"]["rank"],
                 "candidateTaxon": record["candidate_taxon"]["name"],
                 "candidateRank": record["candidate_taxon"]["rank"],
-                "lcaCheck": "pass",
+                "recomputedSafeTaxon": expected.get("name"),
+                "recomputedSafeRank": expected.get("rank"),
+                "lcaCheck": lca_check["status"],
+                "lcaRecomputationMethod": lca_check["method"],
+                "lcaRecomputationNote": lca_check["note"],
                 "decisionClass": record["decision_class"],
                 "claimState": vsea_claim_state(record),
             }
         )
     return rows
+
+
+def recompute_safe_taxon_lca(record: dict[str, Any]) -> dict[str, Any]:
+    if "indistinguishable_hits" not in record or not isinstance(
+        record.get("indistinguishable_hits"), list
+    ):
+        return {
+            "status": "not_independently_recomputed",
+            "method": "unavailable_uncertainty_hit_set",
+            "expected_lca": None,
+            "expected_safe_taxon": None,
+            "actual_safe_taxon": record.get("safe_taxon"),
+            "note": (
+                "The uncertainty hit set is absent, so the exported safe taxon cannot be "
+                "independently recomputed from source evidence."
+            ),
+        }
+
+    uncertainty_hits = record["indistinguishable_hits"]
+    expected_lca = expected_lca_taxon(uncertainty_hits)
+    expected_safe_taxon = expected_candidate_after_marker_profile(record, expected_lca)
+    actual_safe_taxon = record.get("safe_taxon")
+    matches = taxon_identity(actual_safe_taxon) == taxon_identity(expected_safe_taxon)
+    return {
+        "status": "pass" if matches else "fail",
+        "method": "recomputed_from_indistinguishable_hit_lineages_and_marker_profile",
+        "expected_lca": expected_lca,
+        "expected_safe_taxon": expected_safe_taxon,
+        "actual_safe_taxon": actual_safe_taxon,
+        "note": (
+            "The safe taxon matches an independent LCA/marker-profile recomputation."
+            if matches
+            else "The exported safe taxon differs from the LCA/marker-profile recomputation."
+        ),
+    }
+
+
+def taxon_identity(taxon: Any) -> tuple[str, str] | None:
+    if not isinstance(taxon, dict):
+        return None
+    rank = str(taxon.get("rank") or "").strip().lower()
+    name = str(taxon.get("name") or "").strip().casefold()
+    return (rank, name) if rank and name else None
+
+
+def lca_recomputation_status(pack: dict[str, Any]) -> str:
+    checks = [recompute_safe_taxon_lca(record)["status"] for record in pack.get("records", [])]
+    if not checks:
+        return "not_applicable_no_rows"
+    if "fail" in checks:
+        return "fail"
+    if set(checks) == {"pass"}:
+        return "pass"
+    return "not_independently_recomputed"
 
 
 def match_gate_audit_rows(pack: dict[str, Any]) -> list[dict[str, Any]]:
@@ -213,6 +279,16 @@ def match_gate_audit_rows(pack: dict[str, Any]) -> list[dict[str, Any]]:
 
 
 def cross_marker_consensus_rows(pack: dict[str, Any]) -> list[dict[str, Any]]:
+    markers = {
+        record.get("metadata", {}).get("marker") or pack.get("summary", {}).get("marker")
+        for record in pack.get("records", [])
+    }
+    markers.discard(None)
+    status = (
+        "not_applicable_single_marker"
+        if len(markers) <= 1
+        else "not_independently_recomputed"
+    )
     rows = []
     for record in pack["records"]:
         marker = record["metadata"].get("marker") or pack["summary"]["marker"]
@@ -223,8 +299,12 @@ def cross_marker_consensus_rows(pack: dict[str, Any]) -> list[dict[str, Any]]:
                 "markerSafeTaxa": f"{marker}:{record['safe_taxon']['rank']}:{record['safe_taxon']['name']}",
                 "consensusTaxon": record["safe_taxon"]["name"],
                 "consensusRank": record["safe_taxon"]["rank"],
-                "consensusPolicy": "single_marker_lca_identity; multi-marker consensus reserved for explicit multi-marker input",
-                "status": "pass",
+                "consensusPolicy": "no cross-marker LCA without sample-linked multi-marker observations",
+                "status": status,
+                "claimBoundary": (
+                    "No cross-marker consensus is claimed: this pack does not independently group and recompute "
+                    "sample-linked marker assignments."
+                ),
             }
         )
     return rows
@@ -242,27 +322,29 @@ def occurrence_core_readiness_rows(pack: dict[str, Any]) -> list[dict[str, Any]]
                 "recommendedMissing": "; ".join(readiness.get("core_recommended_missing", [])),
                 "publicationBucket": record.get("publication_bucket"),
                 "exportState": record.get("export_state"),
-                "formalGbifReadyAllowed": record.get("export_state") == "formal_gbif_ready",
+                "gbifValidationCandidateAllowed": record.get("export_state") == "candidate_for_gbif_validation",
             }
         )
     return rows
 
 
 def validation_fold_metrics_rows(pack: dict[str, Any]) -> list[dict[str, Any]]:
-    hard_gate_failures = pack["metrics"].get("hard_gate_failures", 0)
     return [
         {
-            "foldID": "current_run_hard_gate_audit",
-            "scope": "within_run_invariant",
+            "foldID": "external_holdout_required",
+            "scope": "external_validation",
             "records": len(pack["records"]),
-            "falseSpeciesSafeRate": 0 if hard_gate_failures == 0 else "failed_hard_gate_audit",
-            "status": "pass" if hard_gate_failures == 0 else "fail",
-            "caveat": "This proves fail-closed invariant for this run; empirical leave-one-out validation remains roadmap until external folds are supplied.",
+            "falseSpeciesRulePassRate": None,
+            "speciesPrecision": None,
+            "speciesRecall": None,
+            "abstentionRate": None,
+            "status": "external_validation_missing",
+            "caveat": "Internal hard-gate consistency is not an empirical validation fold. Attach specimen-backed holdout labels before reporting accuracy metrics.",
         }
     ]
 
 
-def verified_segment_evidence_rows(pack: dict[str, Any]) -> list[dict[str, Any]]:
+def rule_evidence_segment_rows(pack: dict[str, Any]) -> list[dict[str, Any]]:
     rows = []
     for record in pack["records"]:
         row = {
@@ -279,7 +361,7 @@ def verified_segment_evidence_rows(pack: dict[str, Any]) -> list[dict[str, Any]]
             "publicationBucket": record.get("publication_bucket"),
             "exportState": record.get("export_state"),
             "claimState": vsea_claim_state(record),
-            "evidenceType": "molecular_barcode_hard_gates",
+            "evidenceType": "molecular_barcode_rule_checks",
             "sourceID": f"reference_manifest:{pack['reference_manifest']['manifest_sha256']}",
             "claimBoundary": record.get("claim_boundary", {}).get("supported"),
             "caveats": "; ".join(record.get("claim_boundary", {}).get("not_supported", [])),
@@ -291,20 +373,36 @@ def verified_segment_evidence_rows(pack: dict[str, Any]) -> list[dict[str, Any]]
     return rows
 
 
+def verified_segment_evidence_rows(pack: dict[str, Any]) -> list[dict[str, Any]]:
+    """Deprecated compatibility alias; use rule_evidence_segment_rows."""
+    return rule_evidence_segment_rows(pack)
+
+
 def segment_canonicalization_rows(pack: dict[str, Any]) -> list[dict[str, Any]]:
     rows = []
     for record in pack["records"]:
         sequence = sequence_text(record)
         canonical = canonical_segment(sequence, strand_policy="canonical_min")
+        reverse_canonical = canonical_segment(reverse_complement(sequence), strand_policy="canonical_min")
+        forward_hash = segment_hash_for_record(record, pack)
+        reverse_hash = segment_hash(
+            reverse_complement(sequence),
+            0,
+            record["sequence_length"],
+            pack["run"]["ruleset_version"],
+            strand_policy="canonical_min",
+        )
+        deterministic = canonical == reverse_canonical and forward_hash == reverse_hash
         rows.append(
             {
                 "sequenceID": record["sequence_id"],
                 "canonicalPolicy": "canonical_min",
                 "inputLength": len(sequence),
                 "canonicalLength": len(canonical),
-                "segmentHash": segment_hash_for_record(record, pack),
-                "deterministic": segment_hash_for_record(record, pack) == segment_hash_for_record(record, pack),
-                "status": "pass",
+                "segmentHash": forward_hash,
+                "reverseComplementHash": reverse_hash,
+                "strandInvariant": deterministic,
+                "status": "pass" if deterministic else "fail",
             }
         )
     return rows
@@ -314,22 +412,29 @@ def segment_cluster_rows(pack: dict[str, Any]) -> list[dict[str, Any]]:
     rows = []
     records = pack["records"]
     for index, record in enumerate(records):
-        cluster_members = []
-        for other in records:
-            if cluster_equivalent(sequence_text(record), sequence_text(other), k=5, theta_jaccard=0.90):
-                cluster_members.append(other["sequence_id"])
+        cluster_members = cluster_member_ids(record, records)
+        reverse_order_members = cluster_member_ids(record, list(reversed(records)))
+        reproducible = cluster_members == reverse_order_members
         rows.append(
             {
                 "segmentID": segment_id(record),
                 "clusterID": f"cluster:{hashlib.sha1(';'.join(sorted(cluster_members)).encode('utf-8')).hexdigest()[:12]}",
                 "memberCount": len(cluster_members),
                 "members": "; ".join(sorted(cluster_members)),
-                "reproducible": True,
-                "status": "pass",
+                "reproducibleAcrossInputOrder": reproducible,
+                "status": "pass" if reproducible else "fail",
                 "rowOrder": index,
             }
         )
     return rows
+
+
+def cluster_member_ids(record: dict[str, Any], records: list[dict[str, Any]]) -> list[str]:
+    return sorted(
+        other["sequence_id"]
+        for other in records
+        if cluster_equivalent(sequence_text(record), sequence_text(other), k=5, theta_jaccard=0.90)
+    )
 
 
 def sharedness_overclaim_rows(pack: dict[str, Any]) -> list[dict[str, Any]]:
@@ -398,7 +503,7 @@ def function_claim_boundary_rows(pack: dict[str, Any]) -> list[dict[str, Any]]:
             "functionClaimsExported": 0,
             "correlationPromotedToFunction": False,
             "domainOnlyPromotedToFunction": False,
-            "status": "pass",
+            "status": "not_applicable_no_function_claims",
             "guardrail": "The current compiler exports taxonomic/publication evidence only; function claims are blocked.",
         }
     ]
@@ -415,7 +520,7 @@ def ai_output_guardrail_rows() -> list[dict[str, Any]]:
             "case": item["case"],
             "allowed": item["allowed"],
             "status": "pass" if item["allowed"] == (item["case"] == "ai_hypothesis") else "fail",
-            "guardrail": "AI can propose hypotheses but cannot overwrite verified graph facts.",
+            "guardrail": "AI can propose hypotheses but cannot overwrite rule-checked graph facts.",
         }
         for item in examples
     ]
@@ -483,8 +588,9 @@ def fdr_audit_rows() -> list[dict[str, Any]]:
             "pvalues": "; ".join(str(value) for value in pvalues),
             "discoveries": "; ".join(str(item) for item in passed),
             "alpha": 0.05,
-            "status": "pass" if passed == [True, True, False] else "fail",
-            "caveat": "No trait association export is active; this oracle proves the correction guardrail is executable.",
+            "oracleMatchesExpected": passed == [True, True, False],
+            "status": "not_applicable_no_hypothesis_tests" if passed == [True, True, False] else "fail",
+            "caveat": "This is a unit oracle only. No trait-association hypothesis family is present in this run, so no empirical FDR claim is made.",
         }
     ]
 
@@ -493,13 +599,25 @@ def contamination_context_rows(pack: dict[str, Any]) -> list[dict[str, Any]]:
     rows = []
     for record in pack["records"]:
         contamination = record["metadata"].get("contaminationAssessment") or record["metadata"].get("contamination")
+        assay = record["metadata_readiness"]["assay_gate"]
+        contamination_required = assay.get("assay_type") in {"metabarcoding", "qpcr_ddpcr"}
+        preserved = contamination is not None
+        missing_evidence_blocked = bool(
+            contamination_required
+            and not preserved
+            and assay.get("assay_gate_pass") is False
+            and record.get("scientific_decision_state") != "species-rule-pass"
+        )
+        status = "pass" if (not contamination_required or preserved or missing_evidence_blocked) else "fail"
         rows.append(
             {
                 "sequenceID": record["sequence_id"],
                 "contaminationAssessment": contamination or "not_supplied",
-                "assayGate": record["metadata_readiness"]["assay_gate"]["assay_gate_pass"],
-                "preservedInMetadata": contamination is not None,
-                "status": "pass",
+                "assayGate": assay["assay_gate_pass"],
+                "contaminationRequired": contamination_required,
+                "preservedInMetadata": preserved,
+                "missingEvidenceBlocked": missing_evidence_blocked,
+                "status": status,
             }
         )
     return rows
@@ -511,8 +629,12 @@ def evolutionary_risk_rows(pack: dict[str, Any]) -> list[dict[str, Any]]:
             "sequenceID": record["sequence_id"],
             "markerProfile": record["metadata_readiness"]["marker_profile"]["profile_id"],
             "riskCaveat": record["metadata_readiness"]["marker_profile"].get("claim_caveat"),
-            "hgtIntrogressionParalogyClaimBlocked": True,
-            "status": "pass",
+            "hgtIntrogressionParalogyClaimBlocked": bool(
+                record["metadata_readiness"]["marker_profile"].get("claim_caveat")
+            ),
+            "status": "pass"
+            if record["metadata_readiness"]["marker_profile"].get("claim_caveat")
+            else "fail",
         }
         for record in pack["records"]
     ]
@@ -544,7 +666,7 @@ def source_license_rows(pack: dict[str, Any]) -> list[dict[str, Any]]:
             "license": manifest.get("license") or "not_supplied",
             "doiOrUrl": manifest.get("doi_or_url") or "not_supplied",
             "redistributableStatus": "review_required" if not manifest.get("license") else "tracked",
-            "status": "pass",
+            "status": "pass" if manifest.get("license") and manifest.get("doi_or_url") else "review_required",
         }
     ]
 
@@ -588,32 +710,44 @@ def ruleset_diff_report(pack: dict[str, Any]) -> dict[str, Any]:
         "ruleset_version": pack["run"]["ruleset_version"],
         "marker_profiles_hash": provenance_hash(pack["decision_rules"].get("marker_profiles", {})),
         "assay_profiles_hash": provenance_hash(pack["decision_rules"].get("assay_profiles", {})),
-        "hidden_threshold_changes_detected": False,
-        "status": "pass",
+        "baseline_ruleset_hash": None,
+        "hidden_threshold_changes_detected": None,
+        "status": "external_baseline_missing",
+        "claim_boundary": "Current rules are hashed; hidden threshold-change detection requires a prior trusted baseline.",
     }
 
 
 def report_consistency_rows(pack: dict[str, Any]) -> list[dict[str, Any]]:
     metrics = pack["metrics"]
     return [
-        {"metric": "processed_records", "machineValue": metrics["processed_records"], "reportValue": metrics["processed_records"], "status": "pass"},
-        {"metric": "hard_gate_failures", "machineValue": metrics["hard_gate_failures"], "reportValue": metrics["hard_gate_failures"], "status": "pass"},
-        {"metric": "gbif_ready_records", "machineValue": metrics["gbif_ready_records"], "reportValue": metrics["gbif_ready_records"], "status": "pass"},
+        {
+            "metric": key,
+            "machineValue": metrics[key],
+            "reportValue": None,
+            "status": "informational_not_independently_parsed",
+            "caveat": "The human report is generated from this same pack. A pass requires parsing a separately rendered report after generation.",
+        }
+        for key in ("processed_records", "hard_gate_failures", "validation_candidate_records")
     ]
 
 
 def segment_taxon_matrix_rows(pack: dict[str, Any]) -> list[dict[str, Any]]:
-    return [
-        {
-            "segmentHash": segment_hash_for_record(record, pack),
-            "safeTaxon": record["safe_taxon"]["name"],
-            "safeRank": record["safe_taxon"]["rank"],
-            "claimState": vsea_claim_state(record),
-            "safeRankPreserved": True,
-            "status": "pass",
-        }
-        for record in pack["records"]
-    ]
+    rows = []
+    for record in pack["records"]:
+        safe_taxon = record.get("safe_taxon", {})
+        claim_state = vsea_claim_state(record)
+        preserved = bool(safe_taxon.get("name") and safe_taxon.get("rank") and claim_state)
+        rows.append(
+            {
+                "segmentHash": segment_hash_for_record(record, pack),
+                "safeTaxon": safe_taxon.get("name"),
+                "safeRank": safe_taxon.get("rank"),
+                "claimState": claim_state,
+                "safeRankPreserved": preserved,
+                "status": "pass" if preserved else "fail",
+            }
+        )
+    return rows
 
 
 def segment_trait_matrix_rows() -> list[dict[str, Any]]:
@@ -639,7 +773,7 @@ def manual_review_rows(pack: dict[str, Any]) -> list[dict[str, Any]]:
     ]
 
 
-def theorem_checklist(
+def release_invariant_checklist(
     pack: dict[str, Any],
     vsea_rows: list[dict[str, Any]],
     graph_audit_rows: list[dict[str, Any]],
@@ -648,60 +782,145 @@ def theorem_checklist(
     gseg = gseg_obligations(pack)
     gsig = gsig_obligations(pack, vsea_rows, graph_audit_rows, ai_rows)
     obligations = [*gseg, *gsig]
-    summary = {
-        "total": len(obligations),
-        "pass": sum(1 for item in obligations if item["status"] == "pass"),
-        "blocked_roadmap_no_claim": sum(1 for item in obligations if item["status"] == "blocked_roadmap_no_claim"),
-        "not_applicable_no_claim": sum(1 for item in obligations if item["status"] == "not_applicable_no_claim"),
-        "fail": sum(1 for item in obligations if item["status"] == "fail"),
-    }
-    summary["release_gate"] = "pass" if summary["fail"] == 0 else "fail"
-    summary["claim_policy"] = "A roadmap-blocked item is acceptable only when the corresponding scientific or production claim is not exported."
+    statuses = sorted({item["status"] for item in obligations})
+    summary = {"total": len(obligations), **{status: sum(1 for item in obligations if item["status"] == status) for status in statuses}}
+    summary.setdefault("pass", 0)
+    summary.setdefault("fail", 0)
+    non_passing = summary["total"] - summary["pass"] - summary["fail"]
+    if summary["fail"]:
+        summary["release_gate"] = "fail"
+    elif non_passing:
+        summary["release_gate"] = "review"
+    else:
+        summary["release_gate"] = "pass"
+    summary["claim_policy"] = (
+        "Pass means internal invariant satisfied for this pack. Review, roadmap, external-validation-missing "
+        "and no-claim statuses are not proof obligations and must not be marketed as completed scientific validation."
+    )
     return {
-        "schema": "ecogenesis.gseg_gsig.theorem_checklist.v1",
+        "schema": "ecogenesis.gseg_gsig.release_invariant_checklist.v1",
         "run_id": pack["run"]["run_id"],
         "ruleset_version": pack["run"]["ruleset_version"],
         "summary": summary,
-        "obligations": obligations,
+        "checks": obligations,
     }
 
 
 def gseg_obligations(pack: dict[str, Any]) -> list[dict[str, Any]]:
+    markers = {
+        record.get("metadata", {}).get("marker") or pack.get("summary", {}).get("marker")
+        for record in pack.get("records", [])
+    }
+    markers.discard(None)
+    lca_status = lca_recomputation_status(pack)
     specs = [
         ("PO-01", "input_rows_fully_accounted", "data_accounting_ledger.csv", pack["metrics"]["processed_records"] == len(pack["records"])),
         ("PO-02", "species_safe_implies_all_hard_gates", "hard_gate_audit.csv", pack["metrics"]["hard_gate_failures"] == 0),
-        ("PO-03", "safe_taxon_equals_lca_uncertainty_set", "segment_safe_taxa.csv", True),
-        ("PO-04", "no_blind_top_hit_overclaim", "naive_top_hit_overclaims.csv", True),
-        ("PO-05", "exact_identity_coverage_length_gates_recorded", "match_gate_audit.csv", True),
-        ("PO-06", "ambiguity_boundary_visible", "claim_boundaries.csv", True),
-        ("PO-07", "barcode_gap_status_visible", "barcode_gap_report.csv", True),
-        ("PO-08", "diagnostic_kmer_risk_visible", "diagnostic_kmer_report.csv", True),
-        ("PO-09", "marker_profile_versioned", "marker_profile_audit.csv", True),
-        ("PO-10", "assay_controls_checked", "assay_gate_audit.csv", True),
-        ("PO-11", "rci2_missing_produces_caveat", "reference_completeness_audit.csv", True),
+        (
+            "PO-03",
+            "safe_taxon_equals_recomputed_lca_uncertainty_set",
+            "segment_safe_taxa.csv",
+            lca_status == "pass",
+            lca_status,
+        ),
+        ("PO-04", "no_blind_top_hit_overclaim", "naive_top_hit_overclaims.csv", no_blind_species_export(pack)),
+        ("PO-05", "exact_identity_coverage_length_gates_recorded", "match_gate_audit.csv", all(record.get("match_type") in {"exact", "close", "weak", "no_match"} for record in pack["records"])),
+        ("PO-06", "ambiguity_boundary_visible", "claim_boundaries.csv", all(record.get("indistinguishable_hits") is not None for record in pack["records"])),
+        ("PO-07", "barcode_gap_status_visible", "barcode_gap_report.csv", all(bool(record.get("barcode_gap", {}).get("status")) for record in pack["records"])),
+        ("PO-08", "diagnostic_kmer_risk_visible", "diagnostic_kmer_report.csv", all(bool(record.get("diagnostic_kmers", {}).get("status")) for record in pack["records"])),
+        ("PO-09", "marker_profile_versioned", "marker_profile_audit.csv", all(bool(record.get("metadata_readiness", {}).get("marker_profile", {}).get("profile_id")) for record in pack["records"])),
+        ("PO-10", "assay_controls_checked", "assay_gate_audit.csv", all("assay_gate_pass" in record.get("metadata_readiness", {}).get("assay_gate", {}) for record in pack["records"])),
+        ("PO-11", "rci2_missing_produces_caveat", "reference_completeness_audit.csv", all(record.get("reference_completeness", {}).get("rci2_status") for record in pack["records"])),
         ("PO-12", "segment_coordinates_valid", "segments.csv", all(record["sequence_length"] > 0 for record in pack["records"])),
-        ("PO-13", "segment_overlap_auditable", "segment_overlap_report.csv", True),
-        ("PO-14", "cross_marker_consensus_is_lca", "cross_marker_consensus.csv", True),
-        ("PO-15", "metadata_never_strengthens_taxon", "state_machine_audit.csv", True),
-        ("PO-16", "publication_blockers_actionable", "publication_blockers.csv", True),
-        ("PO-17", "repair_actions_have_unlock_estimates", "repair_gain_estimates.csv", True),
+        ("PO-13", "segment_overlap_auditable", "segment_overlap_report.csv", all(record.get("sequence_length", 0) >= len(sequence_text(record)) for record in pack["records"])),
+        (
+            "PO-14",
+            "cross_marker_consensus_is_lca",
+            "cross_marker_consensus.csv",
+            False,
+            (
+                "not_applicable_single_marker"
+                if len(markers) <= 1
+                else "not_independently_recomputed"
+            ),
+        ),
+        ("PO-15", "metadata_never_strengthens_taxon", "state_machine_audit.csv", metadata_never_strengthens_taxon(pack)),
+        ("PO-16", "publication_blockers_actionable", "publication_blockers.csv", blockers_are_actionable(pack)),
+        ("PO-17", "repair_actions_have_unlock_estimates", "repair_gain_estimates.csv", bool(pack.get("repair_plan")) or not any(record.get("blockers") for record in pack["records"])),
         ("PO-18", "reference_manifest_hash_present", "reference_manifest.json", bool(pack["reference_manifest"].get("manifest_sha256"))),
         ("PO-19", "source_provenance_manifest_present", "source_provenance_manifest.json", bool(pack.get("source_provenance"))),
-        ("PO-20", "graph_schema_valid", "gseg_graph_schema.json + evidence_graph.json", True),
-        ("PO-21", "dna_derived_extension_fields_checked", "dna_extension_readiness.csv", True),
-        ("PO-22", "occurrence_core_fields_checked", "dwc_occurrence_core_readiness.csv", True),
-        ("PO-23", "no_absence_inference_without_protocol", "claim_boundaries.csv", True),
-        ("PO-24", "no_phenotype_or_trait_inference", "molecular_evidence_report.html", True),
-        ("PO-25", "validation_false_species_safe_rate_bounded", "validation_fold_metrics.csv", pack["metrics"]["hard_gate_failures"] == 0),
-        ("PO-26", "adversarial_frozen_suite_passes", "adversarial_report.md", True),
-        ("PO-27", "theorem_checklist_generated", "theorem_checklist.json", True),
-        ("PO-28", "evidence_pack_inventory_complete", "evidence_pack.json", True),
-        ("PO-29", "checksums_for_exports_present", "artifact_checksums.json", True),
-        ("PO-30", "human_readable_non_claims_present", "molecular_evidence_report.html", True),
-        ("PO-31", "query_examples_return_deterministic_results", "query_smoke_report.md", True),
-        ("PO-32", "ci_reproduces_reference_formulas", "ci_math_oracle_report.json", True),
+        ("PO-20", "graph_schema_valid", "gseg_graph_schema.json + evidence_graph.json", graph_has_required_fields(pack)),
+        ("PO-21", "dna_derived_extension_fields_checked", "dna_extension_readiness.csv", all("dna_extension_high_priority_missing" in record.get("metadata_readiness", {}) for record in pack["records"])),
+        ("PO-22", "occurrence_core_fields_checked", "dwc_occurrence_core_readiness.csv", all("core_missing" in record.get("metadata_readiness", {}) for record in pack["records"])),
+        ("PO-23", "no_absence_inference_without_protocol", "claim_boundaries.csv", no_absence_or_phenotype_claims(pack, "absence")),
+        ("PO-24", "no_phenotype_or_trait_inference", "molecular_evidence_report.html", no_absence_or_phenotype_claims(pack, "phenotype")),
+        ("PO-25", "validation_false_species_safe_rate_bounded", "validation_fold_metrics.csv", False, "external_validation_missing"),
+        ("PO-26", "adversarial_frozen_suite_passes", "adversarial_report.md", False, "external_validation_missing"),
+        ("PO-27", "release_invariant_checklist_generated", "release_invariant_checklist.json", False, "informational_self_inventory"),
+        ("PO-28", "evidence_pack_inventory_complete", "evidence_pack.json", bool(pack.get("records")) and bool(pack.get("metrics"))),
+        ("PO-29", "checksums_for_non_self_exports_present", "artifact_checksums.json", bool(pack.get("run", {}).get("artifact_checksums"))),
+        ("PO-30", "human_readable_non_claims_present", "molecular_evidence_report.html", all(record.get("claim_boundary", {}).get("not_supported") for record in pack["records"])),
+        ("PO-31", "query_examples_return_deterministic_results", "query_smoke_report.md", False, "informational_report"),
+        ("PO-32", "ci_reproduces_reference_formulas", "ci_math_oracle_report.json", False, "external_ci_not_attached"),
     ]
-    return [obligation("GSEG", *item) for item in specs]
+    checks = []
+    for spec in specs:
+        po_id, name, artifact, predicate, *forced = spec
+        checks.append(
+            obligation(
+                "GSEG",
+                po_id,
+                name,
+                artifact,
+                predicate,
+                forced_status=forced[0] if forced else None,
+            )
+        )
+    return checks
+
+
+def no_blind_species_export(pack: dict[str, Any]) -> bool:
+    return all(
+        not (
+            record.get("published_taxon", {}).get("rank") == "species"
+            and record.get("decision_class") != "species-safe"
+        )
+        for record in pack.get("records", [])
+    )
+
+
+def metadata_never_strengthens_taxon(pack: dict[str, Any]) -> bool:
+    return all(
+        record.get("published_taxon", {}).get("rank") == "none"
+        or record.get("decision_class") in {"species-safe", "genus-safe", "higher-rank-safe"}
+        for record in pack.get("records", [])
+    )
+
+
+def blockers_are_actionable(pack: dict[str, Any]) -> bool:
+    return all(bool(record.get("actions")) for record in pack.get("records", []) if record.get("blockers"))
+
+
+def graph_has_required_fields(pack: dict[str, Any]) -> bool:
+    graph = pack.get("evidence_graph", {})
+    nodes = graph.get("nodes", [])
+    edges = graph.get("edges", [])
+    if not nodes or not edges:
+        return False
+    node_ok = all(all(node.get(field) for field in ("id", "type", "provenance_hash", "ruleset_version")) for node in nodes)
+    edge_ok = all(
+        all(edge.get(field) for field in ("id", "type", "source", "target", "provenance_hash", "ruleset_version"))
+        for edge in edges
+    )
+    return node_ok and edge_ok
+
+
+def no_absence_or_phenotype_claims(pack: dict[str, Any], topic: str) -> bool:
+    needle = "absence" if topic == "absence" else "phenotype"
+    return all(
+        any(needle in str(item).lower() for item in record.get("claim_boundary", {}).get("not_supported", []))
+        for record in pack.get("records", [])
+    )
 
 
 def gsig_obligations(
@@ -712,35 +931,58 @@ def gsig_obligations(
 ) -> list[dict[str, Any]]:
     graph_ok = graph_provenance_complete(pack.get("evidence_graph", {}).get("nodes", []), pack.get("evidence_graph", {}).get("edges", []))
     ai_ok = preserve_claim_states_for_ai_export(ai_rows)
+    license_ok = all(row["status"] == "pass" for row in source_license_rows(pack))
+    markers = {
+        record.get("metadata", {}).get("marker") or pack.get("summary", {}).get("marker")
+        for record in pack.get("records", [])
+    }
+    markers.discard(None)
+    lca_status = lca_recomputation_status(pack)
     specs: list[tuple[str, str, str, bool | None, str]] = [
         ("PO-01", "input_accounting_complete", "data_accounting_ledger.csv", pack["metrics"]["processed_records"] == len(pack["records"]), "pass"),
         ("PO-02", "species_safe_implies_all_hard_gates", "hard_gate_audit.csv", pack["metrics"]["hard_gate_failures"] == 0, "pass"),
-        ("PO-03", "safe_taxon_equals_lca_uncertainty_set", "segment_safe_taxa.csv", True, "pass"),
-        ("PO-04", "no_blind_top_hit_species_export", "naive_top_hit_overclaims.csv", True, "pass"),
-        ("PO-05", "barcode_gap_visible", "barcode_gap_report.csv", True, "pass"),
-        ("PO-06", "diagnostic_kmer_risk_visible", "diagnostic_kmer_report.csv", True, "pass"),
-        ("PO-07", "marker_profile_versioned", "marker_profile_audit.csv", True, "pass"),
-        ("PO-08", "assay_gate_for_detection_claims", "assay_gate_audit.csv", True, "pass"),
-        ("PO-09", "publication_readiness_separate_from_taxon", "state_machine_audit.csv", True, "pass"),
-        ("PO-10", "rci_missing_has_bounded_reference_caveat", "reference_completeness_audit.csv", True, "pass"),
-        ("PO-11", "segment_overlap_auditable", "segment_overlap_report.csv", True, "pass"),
-        ("PO-12", "cross_marker_consensus_is_lca", "cross_marker_consensus.csv", True, "pass"),
-        ("PO-13", "no_absence_inference", "claim_boundaries.csv", True, "pass"),
+        (
+            "PO-03",
+            "safe_taxon_equals_recomputed_lca_uncertainty_set",
+            "segment_safe_taxa.csv",
+            None,
+            lca_status,
+        ),
+        ("PO-04", "no_blind_top_hit_species_export", "naive_top_hit_overclaims.csv", no_blind_species_export(pack), "pass"),
+        ("PO-05", "barcode_gap_visible", "barcode_gap_report.csv", all(bool(record.get("barcode_gap", {}).get("status")) for record in pack["records"]), "pass"),
+        ("PO-06", "diagnostic_kmer_risk_visible", "diagnostic_kmer_report.csv", all(bool(record.get("diagnostic_kmers", {}).get("status")) for record in pack["records"]), "pass"),
+        ("PO-07", "marker_profile_versioned", "marker_profile_audit.csv", all(bool(record.get("metadata_readiness", {}).get("marker_profile", {}).get("profile_id")) for record in pack["records"]), "pass"),
+        ("PO-08", "assay_gate_for_detection_claims", "assay_gate_audit.csv", all("assay_gate_pass" in record.get("metadata_readiness", {}).get("assay_gate", {}) for record in pack["records"]), "pass"),
+        ("PO-09", "publication_readiness_separate_from_taxon", "state_machine_audit.csv", metadata_never_strengthens_taxon(pack), "pass"),
+        ("PO-10", "rci_missing_has_bounded_reference_caveat", "reference_completeness_audit.csv", all(record.get("reference_completeness", {}).get("claim_scope") for record in pack["records"]), "pass"),
+        ("PO-11", "segment_overlap_auditable", "segment_overlap_report.csv", all(record.get("sequence_length", 0) >= len(sequence_text(record)) for record in pack["records"]), "pass"),
+        (
+            "PO-12",
+            "cross_marker_consensus_is_lca",
+            "cross_marker_consensus.csv",
+            None,
+            (
+                "not_applicable_single_marker"
+                if len(markers) <= 1
+                else "not_independently_recomputed"
+            ),
+        ),
+        ("PO-13", "no_absence_inference", "claim_boundaries.csv", no_absence_or_phenotype_claims(pack, "absence"), "pass"),
         ("PO-14", "reference_manifest_hash_present", "reference_manifest.json", bool(pack["reference_manifest"].get("manifest_sha256")), "pass"),
-        ("PO-15", "validation_false_species_safe_rate_bounded", "validation_fold_metrics.csv", pack["metrics"]["hard_gate_failures"] == 0, "pass"),
-        ("PO-16", "adversarial_suite_false_species_safe_zero", "adversarial_report.md", True, "pass"),
-        ("PO-17", "repair_actions_actionable", "publication_blockers.csv", True, "pass"),
+        ("PO-15", "validation_false_species_safe_rate_bounded", "validation_fold_metrics.csv", None, "external_validation_missing"),
+        ("PO-16", "adversarial_suite_false_species_safe_zero", "adversarial_report.md", None, "external_validation_missing"),
+        ("PO-17", "repair_actions_actionable", "publication_blockers.csv", blockers_are_actionable(pack), "pass"),
         ("PO-18", "graph_schema_valid", "evidence_graph.json + gsig_graph_schema.yaml", graph_ok, "pass"),
-        ("PO-19", "gbif_dna_extension_fields_checked", "dna_extension_readiness.csv", True, "pass"),
-        ("PO-20", "human_claim_boundaries_present", "molecular_evidence_report.html", True, "pass"),
-        ("PO-21", "segment_canonicalization_is_deterministic", "segment_canonicalization_audit.csv", True, "pass"),
-        ("PO-22", "segment_clustering_is_reproducible", "segment_cluster_audit.csv", True, "pass"),
+        ("PO-19", "gbif_dna_extension_fields_checked", "dna_extension_readiness.csv", all("dna_extension_high_priority_missing" in record.get("metadata_readiness", {}) for record in pack["records"]), "pass"),
+        ("PO-20", "human_claim_boundaries_present", "molecular_evidence_report.html", all(record.get("claim_boundary", {}).get("not_supported") for record in pack["records"]), "pass"),
+        ("PO-21", "segment_canonicalization_is_strand_invariant", "segment_canonicalization_audit.csv", all(row["status"] == "pass" for row in segment_canonicalization_rows(pack)), "pass"),
+        ("PO-22", "segment_clustering_is_input_order_invariant", "segment_cluster_audit.csv", bool(pack["records"]) and all(row["status"] == "pass" for row in segment_cluster_rows(pack)), "pass"),
         ("PO-23", "shared_segment_cannot_be_species_specific", "sharedness_overclaim_audit.csv", not any(row["status"] == "fail" for row in sharedness_overclaim_rows(pack)), "pass"),
         ("PO-24", "every_trait_function_claim_has_source_evidence", "trait_function_evidence_audit.csv", None, "not_applicable_no_claim"),
         ("PO-25", "literature_claims_are_not_truth_without_evidence_state", "literature_claim_state_audit.csv", None, "not_applicable_no_claim"),
         ("PO-26", "contradictions_are_preserved", "contradiction_audit.csv", None, "not_applicable_no_claim"),
-        ("PO-27", "correlation_does_not_imply_function", "function_claim_boundary_audit.csv", True, "pass"),
-        ("PO-28", "ai_outputs_cannot_overwrite_verified_graph_facts", "ai_output_guardrail_audit.csv", True, "pass"),
+        ("PO-27", "correlation_does_not_imply_function", "function_claim_boundary_audit.csv", None, "not_applicable_no_function_claims"),
+        ("PO-28", "ai_outputs_cannot_overwrite_rule_graph_facts", "ai_output_guardrail_audit.csv", all(row["status"] == "pass" for row in ai_output_guardrail_rows()), "pass"),
         ("PO-29", "every_graph_node_and_edge_has_provenance", "graph_provenance_audit.csv", graph_ok and not any(row["status"] == "fail" for row in graph_audit_rows), "pass"),
         ("PO-30", "ai_dataset_exports_preserve_claim_states", "ai_dataset_export_audit.csv", ai_ok, "pass"),
         ("PO-31", "orf_and_translation_policy_versioned", "orf_translation_audit.csv", None, "blocked_roadmap_no_claim"),
@@ -748,21 +990,27 @@ def gsig_obligations(
         ("PO-33", "ontology_terms_are_versioned", "ontology_version_audit.csv", None, "blocked_roadmap_no_claim"),
         ("PO-34", "retraction_correction_status_checked_where_supported", "publication_integrity_audit.csv", None, "blocked_roadmap_no_claim"),
         ("PO-35", "phylogenetic_clade_confounding_caveat_applied", "trait_association_confounding_audit.csv", None, "blocked_roadmap_no_claim"),
-        ("PO-36", "multiple_testing_correction_applied", "fdr_audit.csv", True, "pass"),
-        ("PO-37", "domain_annotation_alone_cannot_become_function_claim", "domain_to_function_boundary_audit.csv", True, "pass"),
-        ("PO-38", "contaminant_taxa_flags_preserved", "contamination_context_audit.csv", True, "pass"),
-        ("PO-39", "hgt_introgression_paralogy_risk_caveat_represented", "evolutionary_risk_caveat_audit.csv", True, "pass"),
+        ("PO-36", "multiple_testing_correction_applied", "fdr_audit.csv", None, "not_applicable_no_hypothesis_tests"),
+        ("PO-37", "domain_annotation_alone_cannot_become_function_claim", "domain_to_function_boundary_audit.csv", None, "blocked_roadmap_no_claim"),
+        ("PO-38", "contaminant_taxa_flags_preserved", "contamination_context_audit.csv", all(row["status"] == "pass" for row in contamination_context_rows(pack)), "pass"),
+        ("PO-39", "hgt_introgression_paralogy_risk_caveat_represented", "evolutionary_risk_caveat_audit.csv", all(record.get("metadata_readiness", {}).get("marker_profile", {}).get("claim_caveat") for record in pack["records"]), "pass"),
         ("PO-40", "graph_roundtrip_preserves_claim_states", "graph_roundtrip_audit.json", graph_roundtrip_audit(pack)["status"] == "pass", "pass"),
-        ("PO-41", "license_constraints_tracked_per_source", "source_license_audit.csv", True, "pass"),
+        (
+            "PO-41",
+            "license_constraints_tracked_per_source",
+            "source_license_audit.csv",
+            True if license_ok else None,
+            "pass" if license_ok else "review_required",
+        ),
         ("PO-42", "vsea_row_count_reconciles_with_graph_relations", "vsea_graph_reconciliation.csv", len(vsea_rows) == len(pack["records"]), "pass"),
-        ("PO-43", "every_blocker_has_repair_or_nonrepairable_reason", "repairability_audit.csv", True, "pass"),
-        ("PO-44", "no_hidden_threshold_changes_across_runs", "ruleset_diff_report.json", True, "pass"),
-        ("PO-45", "human_report_matches_machine_artifacts", "report_consistency_audit.csv", True, "pass"),
-        ("PO-46", "segment_taxon_matrix_preserves_safe_ranks", "segment_taxon_matrix_audit.csv", True, "pass"),
+        ("PO-43", "every_blocker_has_repair_or_nonrepairable_reason", "repairability_audit.csv", blockers_are_actionable(pack), "pass"),
+        ("PO-44", "no_hidden_threshold_changes_across_runs", "ruleset_diff_report.json", None, "external_baseline_missing"),
+        ("PO-45", "human_report_matches_machine_artifacts", "report_consistency_audit.csv", None, "informational_not_independently_parsed"),
+        ("PO-46", "segment_taxon_matrix_preserves_safe_ranks", "segment_taxon_matrix_audit.csv", all(row["status"] == "pass" for row in segment_taxon_matrix_rows(pack)), "pass"),
         ("PO-47", "segment_trait_matrix_preserves_evidence_states", "segment_trait_matrix_audit.csv", None, "not_applicable_no_claim"),
         ("PO-48", "literature_extraction_confidence_visible", "literature_extraction_confidence.csv", None, "blocked_roadmap_no_claim"),
         ("PO-49", "user_edited_claims_labeled_as_manual_review", "manual_review_audit.csv", None, "not_applicable_no_claim"),
-        ("PO-50", "competition_demo_reproducible_from_repository_instructions", "judge_reproducibility_report.md", True, "pass"),
+        ("PO-50", "competition_demo_reproducible_from_repository_instructions", "judge_reproducibility_report.md", None, "external_ci_not_attached"),
     ]
     out = []
     for po_id, name, artifact, predicate, default_status in specs:
@@ -783,7 +1031,10 @@ def obligation(layer: str, po_id: str, name: str, artifact: str, predicate: bool
         "artifact": artifact,
         "status": status,
         "releaseBlockingFailure": status == "fail",
-        "claimBoundary": "Claim is exported only when status=pass; roadmap/no-claim statuses block the corresponding stronger claim.",
+        "claimBoundary": (
+            "Pass means this internal rule check was satisfied for the current pack. "
+            "Review/no-claim/external-missing statuses must not be presented as completed validation."
+        ),
     }
 
 
@@ -827,11 +1078,15 @@ def evidence_graph_jsonld(pack: dict[str, Any]) -> dict[str, Any]:
 def artifact_checksums_manifest(pack: dict[str, Any]) -> dict[str, Any]:
     checksums = pack.get("run", {}).get("artifact_checksums", {})
     return {
-        "schema": "ecogenesis.artifact_checksums.v1",
+        "schema": "ecogenesis.external_artifact_checksums.v2",
         "run_id": pack["run"]["run_id"],
         "checksums": checksums,
         "checksum_count": len(checksums),
-        "note": "Checksums are generated by the artifact storage layer and embedded into the final evidence pack.",
+        "self_referential_exports": pack.get("run", {}).get("self_referential_exports", []),
+        "note": (
+            "Embedded checksums intentionally exclude self-referential exports. Final checksums for the evidence pack, "
+            "run file, checksum manifest and ZIP are available from the API/filesystem export manifest."
+        ),
     }
 
 
@@ -853,7 +1108,8 @@ def ci_math_oracle_report() -> dict[str, Any]:
             "claim_state_preservation": "implemented",
             "bh_fdr": "implemented",
         },
-        "status": "pass",
+        "status": "reference_oracle_available",
+        "claim_boundary": "This local oracle is executable reference logic, not independent external CI evidence.",
     }
 
 
@@ -866,7 +1122,7 @@ Run ID: `{pack['run']['run_id']}`
 - Current run blocked or downgraded top species hits: `{pack['metrics'].get('blocked_or_downgraded_top_species_hits')}`
 - Frozen 100-record adversarial report: `reports/adversarial-100-sequences/adversarial_100_sequence_report.md`
 
-The evidence pack treats the frozen adversarial suite as the release-level stress report and this run as the local invariant check. Species-level export remains fail-closed when any molecular, marker, assay or publication gate fails.
+The evidence pack treats frozen adversarial reports as regression fixtures and this run as a local invariant check. Species-level export remains fail-closed when any molecular, marker, assay or publication gate fails. External empirical validation remains a separate requirement.
 """
 
 
@@ -885,7 +1141,7 @@ These examples are intentionally JSON/file based. Persistent GraphDB query claim
 """
 
 
-def judge_reproducibility_report_md(pack: dict[str, Any], theorem: dict[str, Any]) -> str:
+def judge_reproducibility_report_md(pack: dict[str, Any], checklist: dict[str, Any]) -> str:
     return f"""# Judge Reproducibility Report
 
 Run ID: `{pack['run']['run_id']}`
@@ -900,14 +1156,14 @@ scripts/docker_smoke.sh
 
 ## Required judge artifacts
 
-- `theorem_checklist.json`
-- `verified_segment_evidence_array.csv`
-- `verified_segment_evidence_array.parquet`
+- `release_invariant_checklist.json`
+- `rule_evidence_segment_array.csv`
+- `rule_evidence_segment_array.parquet`
 - `graph_provenance_audit.csv`
 - `molecular_evidence_report.html`
 - `evidence_pack.zip`
 
-The theorem checklist currently reports release gate `{theorem['summary']['release_gate']}` with `{theorem['summary']['fail']}` blocking failures. Roadmap/no-claim items are allowed only because the corresponding stronger claim is not exported.
+The release invariant checklist currently reports release gate `{checklist['summary']['release_gate']}` with `{checklist['summary']['fail']}` blocking failures. Review/no-claim items are not proof obligations and should not be presented as external scientific validation.
 """
 
 

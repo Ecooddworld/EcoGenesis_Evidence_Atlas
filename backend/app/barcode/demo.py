@@ -5,15 +5,13 @@ from typing import Any
 
 
 BASE_SEQUENCE = (
-    "ACGTTGACCTAGGCTTACGATCGTACCGATGCTAGCTAGGATCCGATCGTACGATCGTAGCTAGCATCG"
-    "GATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGAT"
-    "CGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCATCGATCGTACCGTAGCTAGCTAGGCTAGCT"
-    "AGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGA"
-    "TCGTAGCTAGCATCGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAG"
-    "CATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCATCGATCGTACCGTAG"
-    "CTAGCTAGGCTAGCTAGGATCGATCGTAGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTA"
-    "GGATCGATCGTACGATCGTAGCTAGCATCGATCGTACCGTAGCTAGCTAGGCTAGCTAGGATCGATCGT"
-    "AGCTAGGCTAGCTAGCATCGATCGTACGATCGTAGCTAGCTAGGATCGATCGTACGATCGTAGCTAGCA"
+    "AACATTATACTTTATTTTCGGTATTTGATCTGGAATAGTCGGAACTTCACTAAGAGTTTTAGTTCGTATTGAACTTAGACATCCTGGTATATTTATTGGA"
+    "AATGATCAAATTTATAATGTAATTGTTACTGCTCATGCTTTTATTATAATTTTTTTTATAGTAATACCTATCATAATTGGAGGATTTGGAAACTGACTAG"
+    "TACCCTTAATACTAGGAGCCCCTGATATAGCTTTTCCTCGAATAAATAATATAAGTTTTTGAATATTACCCCCCTCTTTAACACTGCTGCTTTCTAGTTC"
+    "TATAGTAGAAAACGGAGCTGGAACAGGGTGAACGGTTTATCCTCCTCTTTCTTCTAGAACAGCTCATGCTGGGGCTTCAGTTGATTTAGCAATTTTTTCT"
+    "TTACATTTAGCGGGAATCTCATCTATTTTAGGAGCAGTAAATTTTATTACAACTGTAATTAATATACGATCAGCTGGTATTACTCTTGATCGACTACCTT"
+    "TATTTGTGTGATCAGTAGTAATTACAGCTATTTTATTACTTCTTTCTCTACCCGTATTAGCCGGAGCTATTACTATATTATTAACAGACCGAAATTTAAA"
+    "TACATCTTTTTTTGATCCAATTGGAGGGGGAGACCCTATTTTATATCAACATTTATTT"
 )
 
 
@@ -76,11 +74,52 @@ def sequence_record(sequence_id: str, hits: list[dict[str, Any]], *, metadata: d
         "sequence": BASE_SEQUENCE,
         "metadata": metadata if metadata is not None else base_metadata(sequence_id),
         "hits": hits,
-        "barcode_gap": {"intra_max_distance": 0.009, "inter_min_distance": 0.018},
+        "barcode_gap": {
+            "intra_max_distance": 0.009,
+            "inter_min_distance": 0.018,
+            "target_reference_count": 12,
+            "target_specimen_count": 12,
+            "intra_pair_count": 66,
+            "inter_taxon_count": 4,
+            "inter_reference_count": 30,
+            "inter_pair_count": 360,
+            "distance_method": "global_alignment_needleman_wunsch_edit_p_distance_v1",
+            "minimum_aligned_sites": 600,
+            "gap_ci_lower": 0.004,
+            "gap_ci_upper": 0.014,
+            "bootstrap_replicates": 1000,
+            "bootstrap_method": "stratified specimen bootstrap regression fixture",
+        },
         "diagnostic": {
-            "diagnostic_kmers": ["ACGTTGACCTAGGCT", "TGACCTAGGCTTACG", "GCTTACGATCGTACC"],
+            "diagnostic_kmers": ["AACATTATACTTTAT", "ACTTTATTTTCGGTA", "CGGAACTTCACTAAG"],
             "reference_total_windows": 5_000_000,
             "epsilon": 0.01,
+            "target_sequence_count": 12,
+            "negative_taxon_count": 4,
+            "negative_sequence_count": 30,
+            "conservation_fraction": 1.0,
+            "canonicalized": True,
+            "reverse_complement_checked": True,
+            "background_scope": "synthetic regression fixture; informational only and not externally audited",
+        },
+        "reference_completeness": {
+            "status": "not_evaluated",
+            "target_taxon_reference_count": 12,
+            "target_taxon_specimen_count": 12,
+            "close_relative_taxa_expected": 4,
+            "close_relative_taxa_represented": 4,
+            "negative_reference_taxa_count": 4,
+            "negative_reference_sequence_count": 30,
+            "geographic_regions_count": 3,
+            "audit_source": "synthetic regression fixture; informational only, unsigned and not external validation",
+            "audit_sha256": None,
+            "notes": "Deliberately unsigned: the built-in demo cannot unlock a scientific species gate.",
+        },
+        "sequence_qc": {
+            "chimera_status": "pass",
+            "chimera_method": "synthetic regression-fixture assertion",
+            "chimera_reference_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "supplied_orientation": "forward",
         },
     }
 
@@ -137,9 +176,9 @@ def request_with_records(title: str, records: list[dict[str, Any]]) -> dict[str,
 BARCODE_DEMO_SCENARIOS = [
     {
         "id": "aedes-good",
-        "label": "Species-safe Aedes",
-        "description": "All molecular and GBIF-readiness gates pass.",
-        "request": request_with_records("Aedes albopictus species-safe COI record", [GOOD_RECORD]),
+        "label": "Synthetic Aedes candidate",
+        "description": "Internal regression evidence only; unsigned reference completeness keeps scientific release and GBIF use blocked.",
+        "request": request_with_records("Unsigned synthetic Aedes regression candidate", [GOOD_RECORD]),
     },
     {
         "id": "aedes-ambiguous",
@@ -149,8 +188,8 @@ BARCODE_DEMO_SCENARIOS = [
     },
     {
         "id": "aedes-metadata-gap",
-        "label": "Taxon safe, publication blocked",
-        "description": "Molecular evidence passes, but occurrenceID/eventDate are missing.",
+        "label": "Evidence and metadata gaps",
+        "description": "Unsigned synthetic reference evidence and missing occurrenceID/eventDate both block downstream use.",
         "request": request_with_records("Aedes COI record with missing GBIF metadata", [MISSING_METADATA_RECORD]),
     },
     {
@@ -162,9 +201,9 @@ BARCODE_DEMO_SCENARIOS = [
     {
         "id": "mixed-batch",
         "label": "Mixed batch",
-        "description": "One run showing species-safe, genus-safe, weak and not-publishable outcomes.",
+        "description": "Synthetic regression cases remain informational: unsigned completeness, ambiguity, weak coverage and metadata gaps are visible.",
         "request": request_with_records(
-            "Aedes COI batch: safe, ambiguous, weak and metadata cases",
+            "Aedes COI synthetic batch: unsigned, ambiguous, weak and metadata cases",
             [GOOD_RECORD, AMBIGUOUS_RECORD, WEAK_RECORD, MISSING_METADATA_RECORD],
         ),
     },

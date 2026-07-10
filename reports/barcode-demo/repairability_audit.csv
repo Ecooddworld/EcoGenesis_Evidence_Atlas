@@ -1,0 +1,26 @@
+sequenceID,blocker,repairOrReason,status
+AALB-COI-good,species claim blocked: reference completeness attestation blocked scientific use: unsigned,"Attach an audited reference-completeness inventory with per-species depth, close relatives and geographic coverage.",pass
+AALB-COI-good,species claim blocked: reference completeness failed: server_attestation_verified,"Attach an audited reference-completeness inventory with per-species depth, close relatives and geographic coverage.",pass
+AALB-COI-good,species claim blocked: reference completeness failed: externally_audited_status,"Attach an audited reference-completeness inventory with per-species depth, close relatives and geographic coverage.",pass
+AALB-COI-good,species claim blocked: reference completeness failed: audit_checksum_supplied,"Attach an audited reference-completeness inventory with per-species depth, close relatives and geographic coverage.",pass
+AALB-COI-good,species claim blocked: sequence QC failed: chimera check pass; evidence-bundle trust=unsigned,"Attach an audited reference-completeness inventory with per-species depth, close relatives and geographic coverage.",pass
+AALB-COI-ambiguous,species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus,Publish the molecular assignment at genus rank unless additional evidence resolves the ambiguity.,pass
+AALB-COI-ambiguous,species claim blocked: reference completeness attestation blocked scientific use: unsigned,Publish the molecular assignment at genus rank unless additional evidence resolves the ambiguity.,pass
+AALB-COI-ambiguous,species claim blocked: reference completeness failed: server_attestation_verified,Publish the molecular assignment at genus rank unless additional evidence resolves the ambiguity.,pass
+AALB-COI-ambiguous,species claim blocked: reference completeness failed: externally_audited_status,Publish the molecular assignment at genus rank unless additional evidence resolves the ambiguity.,pass
+AALB-COI-ambiguous,species claim blocked: reference completeness failed: audit_checksum_supplied,Publish the molecular assignment at genus rank unless additional evidence resolves the ambiguity.,pass
+AALB-COI-ambiguous,species claim blocked: sequence QC failed: chimera check pass; evidence-bundle trust=unsigned,Publish the molecular assignment at genus rank unless additional evidence resolves the ambiguity.,pass
+AALB-COI-short,species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%,Use a longer/cleaner marker sequence or treat the assignment below species rank.,pass
+AALB-COI-short,species claim blocked: query coverage < 80%,Use a longer/cleaner marker sequence or treat the assignment below species rank.,pass
+AALB-COI-short,species claim blocked: reference completeness attestation blocked scientific use: unsigned,Use a longer/cleaner marker sequence or treat the assignment below species rank.,pass
+AALB-COI-short,species claim blocked: reference completeness failed: server_attestation_verified,Use a longer/cleaner marker sequence or treat the assignment below species rank.,pass
+AALB-COI-short,species claim blocked: reference completeness failed: externally_audited_status,Use a longer/cleaner marker sequence or treat the assignment below species rank.,pass
+AALB-COI-short,species claim blocked: reference completeness failed: audit_checksum_supplied,Use a longer/cleaner marker sequence or treat the assignment below species rank.,pass
+AALB-COI-short,species claim blocked: sequence QC failed: chimera check pass; evidence-bundle trust=unsigned,Use a longer/cleaner marker sequence or treat the assignment below species rank.,pass
+AALB-COI-metadata-gap,species claim blocked: reference completeness attestation blocked scientific use: unsigned,"Attach an audited reference-completeness inventory with per-species depth, close relatives and geographic coverage.",pass
+AALB-COI-metadata-gap,species claim blocked: reference completeness failed: server_attestation_verified,"Attach an audited reference-completeness inventory with per-species depth, close relatives and geographic coverage.",pass
+AALB-COI-metadata-gap,species claim blocked: reference completeness failed: externally_audited_status,"Attach an audited reference-completeness inventory with per-species depth, close relatives and geographic coverage.",pass
+AALB-COI-metadata-gap,species claim blocked: reference completeness failed: audit_checksum_supplied,"Attach an audited reference-completeness inventory with per-species depth, close relatives and geographic coverage.",pass
+AALB-COI-metadata-gap,species claim blocked: sequence QC failed: chimera check pass; evidence-bundle trust=unsigned,"Attach an audited reference-completeness inventory with per-species depth, close relatives and geographic coverage.",pass
+AALB-COI-metadata-gap,publication blocked: missing required Occurrence core field occurrenceID,"Attach an audited reference-completeness inventory with per-species depth, close relatives and geographic coverage.",pass
+AALB-COI-metadata-gap,publication blocked: missing required Occurrence core field eventDate,"Attach an audited reference-completeness inventory with per-species depth, close relatives and geographic coverage.",pass

@@ -12,9 +12,9 @@ Short title: **Barcode-to-GBIF Evidence Compiler**
 
 One-liner:
 
-> A deterministic workflow that turns DNA barcode, metabarcoding and Sequence ID-style outputs into safe, rank-aware and GBIF-ready molecular occurrence evidence.
+> A deterministic workflow that turns DNA barcode, metabarcoding and Sequence ID-style outputs into bounded rank results, GBIF validation candidates and explicit repair actions.
 
-Current architecture: **EcoGenesis Nexus V3 + GSEG/GSIG proof layer + GSIG Observatory**. The working compiler now exports hard-gate audit, prevented naive top-hit overclaims, data accounting ledger, state-machine audit, reference completeness audit, reference gap index, metadata bottlenecks, repair plan, split publishable-candidate / formal GBIF-ready / review templates, VSEA, theorem checklist, graph provenance and AI guardrail audits. The Observatory adds source registry checks, hashed GBIF snapshots, VSEA-to-graph visualization, OPO proof artifacts, GBIF export preview and AI-ready export guardrails.
+Current architecture: **Barcode-to-GBIF Evidence Compiler + Evidence Map + advanced graph audits**. The working compiler exports run-local gate checks, prevented naive top-hit overclaims, data accounting, state-machine and reference-completeness audits, metadata bottlenecks, repair plans, validation-candidate/review templates, rule-evidence rows, a release-invariant checklist, graph provenance and AI guardrails. The Evidence Map adds source-registry checks, hashed GBIF snapshots, unlinked occurrence context, rule-evidence visualization and GBIF validation-candidate previews. These artifacts support inspection; they are not formal proof, independent taxonomic validation or evidence of GBIF acceptance.
 
 ## What To Submit
 
@@ -53,46 +53,46 @@ Run compiler
 -> Upload CSV results
 -> Validate preview
 -> Generate from CSV
--> Inspect safe/blocked claims
+-> Inspect bounded/blocked results
 -> Download Evidence Pack
 ```
 
-Observatory flow:
+Evidence Map flow:
 
 ```text
-Observatory
--> Run GBIF-backed Aedes Spain
--> Inspect source snapshot, VSEA, graph and Judge tabs
--> Download Observatory Evidence Pack
+Evidence Map
+-> Run reproducible judge demo
+-> Inspect source snapshot, rule-evidence rows, graph and Judge tabs
+-> Download Evidence Map Pack
 ```
 
 Example outcomes:
 
 ```text
-examples/aedes_good.csv              -> species-safe
-examples/aedes_ambiguous.csv         -> genus-safe
+examples/aedes_good.csv              -> review-only ambiguous unless external reference/QC evidence is supplied
+examples/aedes_ambiguous.csv         -> genus rule-pass (genus-safe compatibility token)
 examples/aedes_missing_metadata.csv  -> not-publishable
 examples/aedes_weak_coverage.csv     -> weak
 ```
 
 ## Final Verification Status
 
-Latest verification on 2026-06-26:
+Current local regression snapshot on 2026-07-10 (re-run on the exact release commit):
 
 ```text
-backend pytest: 79 passed, 1 skipped
+backend pytest: full suite passed at this local snapshot; exact count belongs to exact-commit CI
 math viability verifier: pass, 2 packs, 142 checks, 0 failed
-frontend tests: 14 passed
+frontend tests: 16 passed
 frontend build: passed
 Docker compose CLI: available
 Docker smoke: passed on the production stack; frontend, backend, proxy, VSEARCH backend, compiler, graph, Observatory and contest-readiness API checked
 Hosted Caddy deployment: HTTPS 200, HTTP redirects to HTTPS, IP HTTP redirects to https://ecooddworld.eu, backend internal-only, CORS restricted to https://ecooddworld.eu and https://www.ecooddworld.eu
 Local backend health: ok
 Local frontend HTTP: 200
-Contest readiness API: pass, 17 checks, 0 failed
-Competition 100-sequence API run: expected decisions matched, hard_gate_failures=0, exports=90, theorem=pass, graph_roundtrip=pass, math_viability=pass
-Adversarial 100-sequence stress run: expected decisions matched, false species-safe outside positive controls=0, exports=90, theorem=pass, graph_roundtrip=pass, math_viability=pass
-Observatory demo report: hard_gate_status=pass, OPO artifacts present, VSEA Parquet=PAR1
+Contest readiness API: review, 18 checks, 0 failed, 1 external-validation review item
+Competition 100-row repeated-fixture regression: expected decisions matched, hard_gate_failures=0, exports=98, release-invariant gate=review, graph_roundtrip=pass, math_viability=pass
+Adversarial 100-row repeated-fixture regression: expected decisions matched, hard_gate_failures=0, exports=98, release-invariant gate=review, graph_roundtrip=pass, math_viability=pass
+Evidence Map demo report: hard_gate_status=pass, release checks present, rule-evidence Parquet=PAR1; occurrence rows remain unlinked context
 Operability report: pass
 ```
 

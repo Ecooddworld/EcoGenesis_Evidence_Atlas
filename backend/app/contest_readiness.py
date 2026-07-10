@@ -23,14 +23,45 @@ def contest_readiness_dossier() -> dict[str, Any]:
         any(backend_status.get("available_backends", {}).values()),
         backend_status.get("preferred_backend"),
     )
-    require(checks, "competition_reports_pass", competition.get("status") == "pass", competition.get("status"))
+    require(
+        checks,
+        "competition_regression_batches_pass",
+        all(
+            report.get("summary", {}).get("regression_status") == "pass"
+            for report in competition.get("reports", [])
+        ),
+        {
+            report.get("report_id"): report.get("summary", {}).get("regression_status")
+            for report in competition.get("reports", [])
+        },
+    )
+    review(
+        checks,
+        "independent_external_validation_attached",
+        competition.get("status") == "pass",
+        competition.get("status"),
+    )
     for report in competition.get("reports", []):
         report_id = report.get("report_id", "unknown")
         summary = report.get("summary", {})
         require(checks, f"{report_id}:records_100", summary.get("records") == 100, summary.get("records"))
         require(checks, f"{report_id}:expected_failed_0", summary.get("expected_failed") == 0, summary.get("expected_failed"))
-        require(checks, f"{report_id}:vsea_parquet", summary.get("vsea_parquet_magic") == "PAR1", summary.get("vsea_parquet_magic"))
-        require(checks, f"{report_id}:theorem_gate", summary.get("theorem_release_gate") == "pass", summary.get("theorem_release_gate"))
+        require(
+            checks,
+            f"{report_id}:rule_evidence_parquet",
+            summary.get("rule_evidence_parquet_magic") == "PAR1",
+            summary.get("rule_evidence_parquet_magic"),
+        )
+        require(
+            checks,
+            f"{report_id}:release_invariants_have_no_failures",
+            summary.get("release_invariant_gate") in {"pass", "review"}
+            and summary.get("release_invariant_failures") == 0,
+            {
+                "gate": summary.get("release_invariant_gate"),
+                "failures": summary.get("release_invariant_failures"),
+            },
+        )
         require(checks, f"{report_id}:graph_roundtrip", summary.get("graph_roundtrip_status") == "pass", summary.get("graph_roundtrip_status"))
 
     require(checks, "observatory_latest_run_exists", bool(latest_run_id), latest_run_id or "missing")
@@ -44,13 +75,15 @@ def contest_readiness_dossier() -> dict[str, Any]:
         require(checks, "observatory_run_failed_0", verification_summary.get("failed") == 0, verification_summary.get("failed", "missing"))
         require(checks, "observatory_run_zip_checked", verification_summary.get("zip_entries", 0) >= 40, verification_summary.get("zip_entries", "missing"))
 
-    failed = [check for check in checks if check["status"] != "pass"]
+    failed = [check for check in checks if check["status"] == "fail"]
+    review_required = [check for check in checks if check["status"] == "review"]
     return {
         "schema": "ecogenesis.contest_readiness.dossier.v1",
-        "status": "pass" if not failed else "review",
+        "status": "fail" if failed else "review" if review_required else "pass",
         "summary": {
             "checks": len(checks),
             "failed": len(failed),
+            "review_required": len(review_required),
             "competition_reports": len(competition.get("reports", [])),
             "competition_status": competition.get("status"),
             "observatory_run_id": latest_run_id,
@@ -68,7 +101,8 @@ def contest_readiness_dossier() -> dict[str, Any]:
 def contest_readiness_markdown(dossier: dict[str, Any]) -> str:
     summary = dossier.get("summary", {})
     checks = dossier.get("checks", [])
-    failed = [check for check in checks if check.get("status") != "pass"]
+    failed = [check for check in checks if check.get("status") == "fail"]
+    review_required = [check for check in checks if check.get("status") == "review"]
     checks_table = "\n".join(
         f"| `{check.get('name')}` | `{check.get('status')}` | `{format_observed(check.get('observed'))}` |"
         for check in checks
@@ -76,6 +110,10 @@ def contest_readiness_markdown(dossier: dict[str, Any]) -> str:
     failures = "\n".join(
         f"- `{check.get('name')}` observed `{format_observed(check.get('observed'))}`"
         for check in failed
+    ) or "- none"
+    reviews = "\n".join(
+        f"- `{check.get('name')}` observed `{format_observed(check.get('observed'))}`"
+        for check in review_required
     ) or "- none"
     competition_lines = "\n".join(
         f"- `{report.get('report_id')}`: `{report.get('summary', {}).get('status')}`, "
@@ -91,6 +129,7 @@ Status: `{dossier.get("status")}`
 | --- | --- |
 | Checks | `{summary.get("checks", 0)}` |
 | Failed | `{summary.get("failed", 0)}` |
+| Review required | `{summary.get("review_required", 0)}` |
 | Reference backend | `{summary.get("reference_backend", "missing")}` |
 | Competition status | `{summary.get("competition_status", "missing")}` |
 | Observatory run | `{summary.get("observatory_run_id") or "missing"}` |
@@ -104,6 +143,10 @@ Status: `{dossier.get("status")}`
 
 {failures}
 
+## Review / External Evidence Required
+
+{reviews}
+
 ## All Checks
 
 | Check | Status | Observed |
@@ -112,12 +155,17 @@ Status: `{dossier.get("status")}`
 
 ## Boundary
 
-This dossier proves system readiness and export integrity. It does not convert occurrence context, visualization, or AI-ready labels into stronger biological claims; claim strength remains governed by barcode gates, VSEA rows, graph provenance, and proof obligations.
+This dossier summarizes system readiness and export integrity checks. It does not convert occurrence context, visualization, or AI-ready labels into stronger biological claims; claim strength remains governed by barcode gates, rule-evidence segment rows, graph provenance, and release invariants.
 """
 
 
 def require(checks: list[dict[str, Any]], name: str, predicate: bool, observed: Any) -> None:
     checks.append({"name": name, "status": "pass" if predicate else "fail", "observed": observed})
+
+
+def review(checks: list[dict[str, Any]], name: str, predicate: bool, observed: Any) -> None:
+    """Record a non-failing boundary that still requires external evidence."""
+    checks.append({"name": name, "status": "pass" if predicate else "review", "observed": observed})
 
 
 def contest_readiness_downloads(latest_run_id: str | None, competition: dict[str, Any]) -> list[dict[str, str]]:

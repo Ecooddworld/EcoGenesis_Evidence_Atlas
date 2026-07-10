@@ -1,0 +1,5 @@
+sequenceID,taxonomicStatus,decisionClass,publicationStatus,publicationStage,publicationBucket,exportState,candidateTaxon,candidateRank,publishedTaxon,publishedRank,stateExplanation
+AALB-COI-good,ambiguous,ambiguous,not-ready,record_recommended_ready,repair_required,review_only,Aedes albopictus,species,None,none,"Record is retained as evidence context or expert review material, not an occurrence export row."
+AALB-COI-ambiguous,genus-safe,genus-safe,record-ready,record_recommended_ready,publishable_candidate,dwc_template_ready,Aedes,genus,Aedes,genus,"Safe taxonomic decision with a non-empty published taxon; publishable template row is allowed, dataset metadata still needs review."
+AALB-COI-short,weak,weak,not-ready,record_recommended_ready,repair_required,review_only,Aedes albopictus,species,None,none,"Record is retained as evidence context or expert review material, not an occurrence export row."
+AALB-COI-metadata-gap,ambiguous,ambiguous,not-ready,record_not_ready,repair_required,review_only,Aedes albopictus,species,None,none,"Record is retained as evidence context or expert review material, not an occurrence export row."

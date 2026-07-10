@@ -1,4 +1,4 @@
-sequenceID,corePass,requiredMissing,recommendedMissing,publicationBucket,exportState,formalGbifReadyAllowed
+sequenceID,corePass,requiredMissing,recommendedMissing,publicationBucket,exportState,gbifValidationCandidateAllowed
 ADV100-001-true_species_safe_positive,True,,,publishable_candidate,dwc_template_ready,False
 ADV100-002-true_species_safe_positive,True,,,publishable_candidate,dwc_template_ready,False
 ADV100-003-true_species_safe_positive,True,,,publishable_candidate,dwc_template_ready,False

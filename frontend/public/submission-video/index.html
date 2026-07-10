@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <title>EcoGenesis Video Presentation</title>
-      <meta
-        name="description"
-        content="EcoGenesis contest video presentation with voiceover, burned subtitles, transcript and downloadable MP4."
+    <title>EcoGenesis V2 · Evidence-bounded release video</title>
+    <meta
+      name="description"
+      content="EcoGenesis V2 evidence-bounded contest video with voiceover, burned subtitles, transcripts and downloadable MP4."
     />
     <style>
       :root {
@@ -127,6 +127,19 @@
         padding: 16px;
       }
 
+      .scope-notice {
+        background: #fff8e8;
+        border: 1px solid #e4c982;
+        border-radius: 8px;
+        color: #4d4022;
+        margin-top: 20px;
+        padding: 14px 16px;
+      }
+
+      .scope-notice strong {
+        color: #3d321b;
+      }
+
       .site-footer {
         color: #53655c;
         margin-top: 24px;
@@ -185,31 +198,33 @@
     <div class="page-shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">EcoGenesis for GBIF Ebbe Nielsen Challenge 2026</p>
+          <p class="eyebrow">EcoGenesis V2 · evidence-bounded release</p>
           <h1>Barcode-to-GBIF Evidence Compiler</h1>
           <p class="topbar-subtitle">
-            EcoGenesis converts DNA barcode, metabarcoding, Sequence ID and BLAST-like outputs into safe taxonomic rank decisions, GBIF publication readiness checks, repair actions and downloadable Evidence Packs.
+            A rule-based contest prototype that converts barcode evidence into bounded taxonomic-rank
+            decisions, publication-readiness checks, repair actions and downloadable Evidence Packs.
           </p>
         </div>
         <nav class="mode-switch" aria-label="Primary sections">
           <a href="/">Overview</a>
           <a href="/run-compiler">Run Compiler</a>
+          <a href="/evidence-pack">GBIF Repair Pack</a>
           <a href="/evidence-map">Evidence Map</a>
-          <a href="/fragment-graph">Fragment Graph</a>
-          <a href="/validation">Validation</a>
-          <a href="/methods">Methods &amp; Audits</a>
-          <a href="/workflow">Workflow</a>
-          <a href="/evidence-pack">Evidence Pack</a>
           <a class="active" href="/submission-video/">Video Presentation</a>
         </nav>
       </header>
 
       <main class="video-panel">
-        <p class="eyebrow">Contest video</p>
+        <p class="eyebrow">Contest video · 4:32 · 272 seconds</p>
         <h1>Video presentation</h1>
         <p>
-          A five-minute product walkthrough: problem context, compiler workflow, DNA barcode input,
-          Evidence Map, Fragment Graph, uncertainty gates, GBIF-ready outputs, validation and Evidence Packs.
+          The corrected V2 walkthrough covers the compiler input, Evidence Map, Fragment Graph,
+          uncertainty gates, GBIF validation candidates, regression checks and Evidence Packs.
+        </p>
+        <p class="scope-notice">
+          <strong>Prototype scope:</strong> EcoGenesis does not claim independent taxonomic validation,
+          GBIF acceptance or GBIF registration. Every generated publication row remains a validation
+          candidate until external reference, dataset and expert review is complete.
         </p>
         <video controls preload="metadata" poster="demo-thumbnail-contest-en.png">
           <source src="ecogenesis-gbif-contest-demo-en-subs.mp4" type="video/mp4" />
@@ -226,9 +241,9 @@
           <summary>Video files, site operations and source</summary>
           <nav class="utility-links" aria-label="Video files and site utility links">
             <a href="ecogenesis-gbif-contest-demo-en-subs.mp4">Direct MP4</a>
-            <a href="ecogenesis-gbif-contest-demo-en.srt">SRT subtitles</a>
-            <a href="ecogenesis-gbif-contest-demo-english-voiceover.txt">Voiceover text</a>
-            <a href="ecogenesis-gbif-contest-demo-transcript.md">Transcript</a>
+            <a href="ecogenesis-gbif-contest-demo-en.srt">English SRT subtitles</a>
+            <a href="ecogenesis-gbif-contest-demo-english-voiceover.txt">English voiceover transcript</a>
+            <a href="ecogenesis-gbif-contest-demo-transcript.md">Detailed transcript</a>
             <a href="/privacy">Privacy</a>
             <a href="https://github.com/Ecooddworld/EcoGenesis_Evidence_Atlas">Source repository</a>
           </nav>

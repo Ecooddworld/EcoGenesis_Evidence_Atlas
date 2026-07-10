@@ -1,5 +1,6 @@
 repairAction,unlockableRecords,estimatedGain,estimatedCost,exampleRecords
-Review marker profile warning: input sequence is shorter than supplied aligned_length; length gates use the supplied alignment span,4,1.0,high,AALB-COI-ambiguous; AALB-COI-good; AALB-COI-metadata-gap; AALB-COI-short
+"Attach an audited reference-completeness inventory with per-species depth, close relatives and geographic coverage.",4,1.0,medium,AALB-COI-ambiguous; AALB-COI-good; AALB-COI-metadata-gap; AALB-COI-short
+"Resolve sequence QC failures (ambiguity, complexity, orientation/ORF or chimera evidence) before species-level use.",4,1.0,high,AALB-COI-ambiguous; AALB-COI-good; AALB-COI-metadata-gap; AALB-COI-short
 "Add assay evidence fields: controls, primers, replicate/QC or qPCR/ddPCR quantification metadata as applicable.",4,1.0,medium,AALB-COI-ambiguous; AALB-COI-good; AALB-COI-metadata-gap; AALB-COI-short
 "Add high-priority DNA-derived extension fields: eventID, materialSampleID, pcr_primer_forward, pcr_primer_reverse, seq_meth.",4,1.0,medium,AALB-COI-ambiguous; AALB-COI-good; AALB-COI-metadata-gap; AALB-COI-short
 Publish the molecular assignment at genus rank unless additional evidence resolves the ambiguity.,1,0.25,medium,AALB-COI-ambiguous

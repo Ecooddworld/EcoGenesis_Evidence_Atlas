@@ -13,7 +13,7 @@ BACKEND_ROOT = Path(__file__).resolve().parents[1]
 REPO_ROOT = BACKEND_ROOT.parent
 REPORT_DIR = REPO_ROOT / "reports" / "observatory-demo"
 
-REQUIRED_OPO_ARTIFACTS = {
+REQUIRED_RELEASE_CHECK_ARTIFACTS = {
     "source_registry_audit.json",
     "snapshot_manifest.json",
     "api_policy_audit.csv",
@@ -53,7 +53,7 @@ def main() -> None:
 def verify_observatory_outputs(report_dir: Path = REPORT_DIR) -> dict[str, Any]:
     checks: list[dict[str, Any]] = []
     pack = load_json(report_dir / "observatory_evidence_pack.json")
-    proof = load_json(report_dir / "proof_summary.json")
+    release_summary = load_json(report_dir / "release_check_summary.json")
     manifest_rows = read_csv(report_dir / "observatory_demo_manifest.csv")
     manifest_by_name = {row["name"]: row for row in manifest_rows}
     pack_exports_by_name = {row["name"]: row for row in pack.get("exports", [])}
@@ -67,9 +67,19 @@ def verify_observatory_outputs(report_dir: Path = REPORT_DIR) -> dict[str, Any]:
         actual_sha = sha256_file(path) if path.exists() else None
         require(checks, f"sha256:{row['name']}", actual_sha == row["sha256"], actual_sha or "missing")
 
-    require(checks, "proof_total_20", proof.get("total") == 20, proof.get("total"))
-    require(checks, "proof_hard_gate_pass", proof.get("hard_gate_failures") == 0, proof.get("hard_gate_failures"))
-    require(checks, "all_opo_artifacts_present", REQUIRED_OPO_ARTIFACTS <= set(manifest_by_name), sorted(REQUIRED_OPO_ARTIFACTS - set(manifest_by_name)))
+    require(checks, "release_check_total_20", release_summary.get("total") == 20, release_summary.get("total"))
+    require(
+        checks,
+        "release_check_hard_gates_pass",
+        release_summary.get("hard_gate_failures") == 0,
+        release_summary.get("hard_gate_failures"),
+    )
+    require(
+        checks,
+        "all_release_check_artifacts_present",
+        REQUIRED_RELEASE_CHECK_ARTIFACTS <= set(manifest_by_name),
+        sorted(REQUIRED_RELEASE_CHECK_ARTIFACTS - set(manifest_by_name)),
+    )
     require(
         checks,
         "embedded_export_checksums_match_manifest",
@@ -124,13 +134,30 @@ def verify_observatory_outputs(report_dir: Path = REPORT_DIR) -> dict[str, Any]:
     ai_rows = read_csv(report_dir / "ai_dataset_export_audit.csv")
     gbif_rows = read_csv(report_dir / "gbif_export_claim_boundary_audit.csv")
     require(checks, "visualization_no_promotion", all(row.get("status") == "pass" for row in visual_rows), status_counts(visual_rows))
-    require(checks, "ai_export_no_false_verified", all(row.get("status") == "pass" for row in ai_rows), status_counts(ai_rows))
+    require(checks, "ai_export_no_false_rule_supported", all(row.get("status") == "pass" for row in ai_rows), status_counts(ai_rows))
     require(checks, "gbif_export_boundary_pass", all(row.get("status") == "pass" for row in gbif_rows), status_counts(gbif_rows))
     require(
         checks,
-        "weak_rows_not_positive_verified",
-        all(not (row.get("claim_state") == "weak_hypothesis" and row.get("ai_label") == "positive_verified") for row in pack.get("vsea", [])),
+        "weak_rows_not_positive_rule_supported",
+        all(
+            not (
+                row.get("claim_state") == "weak_hypothesis"
+                and row.get("ai_label") in {"positive_rule_supported", "positive_verified"}
+            )
+            for row in pack.get("vsea", [])
+        ),
         "weak rows checked",
+    )
+    require(
+        checks,
+        "molecular_rows_do_not_fake_occurrence_links",
+        all(
+            row.get("context_linkage_status") == "unlinked_context_only"
+            and not row.get("gbifID_context")
+            and not row.get("datasetKey_context")
+            for row in pack.get("vsea", [])
+        ),
+        "run-level context only",
     )
 
     require(checks, "snapshot_hash_present", bool(pack.get("snapshot_manifest", {}).get("snapshot_hash")), pack.get("snapshot_manifest", {}).get("snapshot_id"))
@@ -150,6 +177,7 @@ def verify_observatory_outputs(report_dir: Path = REPORT_DIR) -> dict[str, Any]:
             "failed": len(failed),
             "report_dir": str(report_dir),
             "vsea_rows": len(vsea_csv),
+            "rule_evidence_rows": len(vsea_csv),
             "occurrence_rows": len(occurrence_csv),
             "zip_entries": len(zip_names),
         },
@@ -217,7 +245,7 @@ Status: `{report['summary']['status']}`
 
 - Checks: `{report['summary']['checks']}`
 - Failed: `{report['summary']['failed']}`
-- VSEA rows: `{report['summary']['vsea_rows']}`
+- Rule-evidence rows: `{report['summary']['rule_evidence_rows']}`
 - Occurrence rows: `{report['summary']['occurrence_rows']}`
 - ZIP entries: `{report['summary']['zip_entries']}`
 

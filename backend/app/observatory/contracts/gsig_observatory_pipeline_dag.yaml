@@ -4,14 +4,15 @@ execution_modes:
 - cached_snapshot
 - live_update_review_queue
 global_guardrails:
-- No live response is treated as verified evidence until snapshot_hash and provenance_hash
+- No live response is treated as rule-checked evidence until snapshot_hash and provenance_hash
   are computed.
 - No visualization can upgrade a claim state.
-- No AI output can overwrite a verified graph fact.
+- No AI output can overwrite a rule-checked graph fact.
 - Large GBIF queries use download jobs rather than aggressive paged API loops.
 - Every export preserves claim_state, caveats and ruleset_hash.
 steps:
 - id: source_select
+  implementation_status: implemented
   module: src/observatory/source_registry.py
   inputs:
   - source_registry.yaml
@@ -21,6 +22,7 @@ steps:
   - source_license_present
   - source_rate_policy_present
 - id: snapshot_fetch
+  implementation_status: implemented
   module: src/observatory/fetch_snapshots.py
   inputs:
   - selected_sources.json
@@ -31,6 +33,7 @@ steps:
   - snapshot_hash_present
   - api_policy_logged
 - id: dwca_parse
+  implementation_status: planned_not_executed_in_observatory_demo
   module: src/observatory/parse_dwca.py
   inputs:
   - raw_snapshots/*.zip
@@ -42,6 +45,7 @@ steps:
   - occurrence_id_joinable
   - dna_extension_schema_valid
 - id: normalize
+  implementation_status: implemented
   module: src/normalize/normalize_observatory_records.py
   inputs:
   - occurrence_core.parquet
@@ -52,6 +56,7 @@ steps:
   - taxon_backbone_candidate_logged
   - coordinate_uncertainty_logged
 - id: segmentize
+  implementation_status: implemented
   module: src/segments/build_segment_catalog.py
   inputs:
   - normalized_records.parquet
@@ -62,21 +67,23 @@ steps:
   - canonical_hash_deterministic
   - reverse_complement_policy_logged
 - id: compute_evidence
+  implementation_status: implemented
   module: src/evidence/run_gseg_gates.py
   inputs:
   - segment_catalog.parquet
   - reference_manifest.json
   outputs:
-  - vsea.parquet
+  - rule_evidence.parquet
   - hard_gate_audit.csv
   - claim_boundaries.csv
   validations:
   - hard_gate_failures_zero
   - species_overclaim_zero
 - id: graph_build
+  implementation_status: implemented
   module: src/graph/build_observatory_graph.py
   inputs:
-  - vsea.parquet
+  - rule_evidence.parquet
   - annotation_overlay.parquet
   - literature_claims.parquet
   outputs:
@@ -87,10 +94,11 @@ steps:
   - all_nodes_have_provenance
   - claim_states_preserved
 - id: visual_index
+  implementation_status: planned_not_executed_in_backend
   module: src/ui/build_visual_index.py
   inputs:
   - evidence_graph.json
-  - vsea.parquet
+  - rule_evidence.parquet
   outputs:
   - visual_index.duckdb
   - tile_index.json
@@ -98,9 +106,10 @@ steps:
   - visualization_read_only
   - blocked_claims_visible
 - id: export_pack
+  implementation_status: implemented
   module: src/exports/export_observatory_pack.py
   inputs:
-  - vsea.parquet
+  - rule_evidence.parquet
   - evidence_graph.json
   - graph_provenance_audit.csv
   outputs:

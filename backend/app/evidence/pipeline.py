@@ -13,7 +13,7 @@ from .artifacts import build_artifacts, build_graph_memory
 from .gbif import GBIFClient, NormalizedOccurrence, normalize_occurrences
 from .schemas import EvidenceRunRequest, SourceMode
 from .science import build_grid_metrics, build_records_geojson, quality_metrics, serialize_records
-from .scoring import PURPOSE_LABELS, purpose_score_matrix
+from .scoring import purpose_score_matrix
 from .storage import save_artifacts, save_zip_artifact
 
 

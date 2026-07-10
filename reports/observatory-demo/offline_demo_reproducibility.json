@@ -1,8 +1,10 @@
 {
-  "run_id": "38d525a51d8546e598b9f5cbe9864c42",
-  "fixture_hash": "c2302d6cb192408a22491c78608b805dfcc0610e58425f1d745d22af1e465f1b",
-  "repeat_hash": "c2302d6cb192408a22491c78608b805dfcc0610e58425f1d745d22af1e465f1b",
-  "deterministic": true,
+  "run_id": "0026e96063174d8f96d6066a7d59c14c",
+  "input_fingerprint": "3b45baa30e726ee75004a38152fbbdc0233cac45714c08772e4375d31c72aa24",
+  "independent_repeat_execution_performed": false,
+  "independent_output_comparison_performed": false,
+  "deterministic": null,
   "live_mode_fallback_recorded": false,
-  "status": "pass"
+  "status": "informational_self_check",
+  "claim_boundary": "This run records a canonical fingerprint of the bundled fixture inputs only. It does not compare outputs from an independent clean execution and therefore does not establish reproducibility."
 }

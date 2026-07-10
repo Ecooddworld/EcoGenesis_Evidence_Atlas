@@ -12,10 +12,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 
 EXPECTED_CLASSES = {
-    "AALB-COI-good": "species-safe",
+    "AALB-COI-good": "ambiguous",
     "AALB-COI-ambiguous": "genus-safe",
     "AALB-COI-short": "weak",
-    "AALB-COI-metadata-gap": "not-publishable",
+    "AALB-COI-metadata-gap": "ambiguous",
 }
 
 REQUIRED_EXPORTS = {
@@ -45,12 +45,12 @@ REQUIRED_EXPORTS = {
     "naive_top_hit_overclaims.csv",
     "dwc_occurrence_core_template.csv",
     "dwc_occurrence_core_publishable.csv",
-    "dwc_occurrence_core_gbif_ready.csv",
+    "dwc_occurrence_core_validation_candidates.csv",
     "dwc_occurrence_core_review.csv",
     "dwc_occurrence_core_review_or_repair.csv",
     "dna_derived_extension_template.csv",
     "dna_derived_extension_publishable.csv",
-    "dna_derived_extension_gbif_ready.csv",
+    "dna_derived_extension_validation_candidates.csv",
     "molecular_evidence_report.html",
     "methods_text.md",
     "citations.md",
@@ -65,16 +65,12 @@ REQUIRED_EXPORTS = {
     "dwc_occurrence_core_readiness.csv",
     "validation_fold_metrics.csv",
     "adversarial_report.md",
-    "theorem_checklist.json",
     "artifact_checksums.json",
     "query_smoke_report.md",
     "ci_math_oracle_report.json",
     "gseg_graph_schema.json",
     "gsig_graph_schema.yaml",
     "evidence_graph.jsonld",
-    "verified_segment_evidence_array.csv",
-    "verified_segment_evidence_array.jsonl",
-    "verified_segment_evidence_array.parquet",
     "segment_canonicalization_audit.csv",
     "segment_cluster_audit.csv",
     "sharedness_overclaim_audit.csv",
@@ -109,6 +105,20 @@ REQUIRED_EXPORTS = {
     "evidence_pack.zip",
 }
 REQUIRED_ZIP_MEMBERS = REQUIRED_EXPORTS - {"evidence_pack.zip"}
+RETIRED_EXPORTS = {
+    "dwc_occurrence_core_gbif_ready.csv",
+    "dna_derived_extension_gbif_ready.csv",
+    "theorem_checklist.json",
+    "verified_segment_evidence_array.csv",
+    "verified_segment_evidence_array.jsonl",
+    "verified_segment_evidence_array.parquet",
+}
+SELF_REFERENTIAL_EXPORTS = {
+    "artifact_checksums.json",
+    "evidence_pack.json",
+    "evidence_pack.zip",
+    "run.json",
+}
 
 
 def main() -> None:
@@ -158,7 +168,7 @@ def main() -> None:
             "summary": {
                 "tool": "Barcode-to-GBIF Evidence Compiler",
                 "demo": "mixed batch",
-                "meaning": "One run intentionally reaches species-safe, genus-safe, weak and not-publishable decisions.",
+                "meaning": "The public mixed demo verifies fail-closed unsigned candidates, a genus result, weak coverage and metadata blockers; trusted pass paths are covered separately in tests and explicitly synthetic generators.",
             },
             "expected_classes": EXPECTED_CLASSES,
             "direct_compiler": direct_checks,
@@ -175,27 +185,83 @@ def main() -> None:
 
 def check_pack(pack: dict, artifact_path_fn) -> dict:
     export_names = {item["name"] for item in pack["exports"]}
+    export_manifest = {item["name"]: item for item in pack["exports"]}
     missing_exports = sorted(REQUIRED_EXPORTS - export_names)
+    retired_export_leaks = sorted(RETIRED_EXPORTS & export_names)
     actual_classes = classes_by_sequence(pack)
     zip_path = artifact_path_fn(pack["run"]["run_id"], "evidence_pack.zip")
     zip_names: set[str] = set()
     zip_ok = False
+    zip_payloads_match = False
+    zip_inventory_match = False
     if zip_path.exists():
         with zipfile.ZipFile(zip_path) as archive:
             zip_names = set(archive.namelist())
             bad_files = archive.testzip()
             zip_ok = bad_files is None
+            zip_inventory_match = zip_names == export_names - {"evidence_pack.zip"}
+            zip_payloads_match = all(
+                archive.read(name) == artifact_path_fn(pack["run"]["run_id"], name).read_bytes()
+                for name in zip_names
+                if artifact_path_fn(pack["run"]["run_id"], name).exists()
+            )
     evidence_json_path = artifact_path_fn(pack["run"]["run_id"], "evidence_pack.json")
     sha256 = hashlib.sha256(evidence_json_path.read_bytes()).hexdigest() if evidence_json_path.exists() else None
+    export_hashes_match = all(
+        item.get("sha256") == hashlib.sha256(artifact_path_fn(pack["run"]["run_id"], name).read_bytes()).hexdigest()
+        for name, item in export_manifest.items()
+        if artifact_path_fn(pack["run"]["run_id"], name).exists()
+    )
+    checksum_payload = json.loads(
+        artifact_path_fn(pack["run"]["run_id"], "artifact_checksums.json").read_text(encoding="utf-8")
+    )
+    embedded_checksums = checksum_payload.get("checksums", {})
+    expected_embedded_names = export_names - SELF_REFERENTIAL_EXPORTS
+    embedded_checksum_inventory_match = set(embedded_checksums) == expected_embedded_names
+    embedded_checksums_match = all(
+        digest == hashlib.sha256(artifact_path_fn(pack["run"]["run_id"], name).read_bytes()).hexdigest()
+        for name, digest in embedded_checksums.items()
+    )
+    self_references_excluded = not (set(embedded_checksums) & SELF_REFERENTIAL_EXPORTS)
+    returned_checksums = pack.get("run", {}).get("artifact_checksums", {})
+    returned_checksum_inventory_match = set(returned_checksums) == expected_embedded_names
+    returned_checksums_match_manifest = returned_checksums == embedded_checksums
     return {
-        "pass": not missing_exports and actual_classes == EXPECTED_CLASSES and zip_ok and REQUIRED_ZIP_MEMBERS <= zip_names,
+        "pass": all(
+            [
+                not missing_exports,
+                not retired_export_leaks,
+                actual_classes == EXPECTED_CLASSES,
+                zip_ok,
+                REQUIRED_ZIP_MEMBERS <= zip_names,
+                not (RETIRED_EXPORTS & zip_names),
+                zip_inventory_match,
+                zip_payloads_match,
+                export_hashes_match,
+                embedded_checksums_match,
+                embedded_checksum_inventory_match,
+                self_references_excluded,
+                returned_checksum_inventory_match,
+                returned_checksums_match_manifest,
+            ]
+        ),
         "run_id": pack["run"]["run_id"],
         "metrics": pack["metrics"],
         "actual_classes": actual_classes,
         "expected_classes_pass": actual_classes == EXPECTED_CLASSES,
         "missing_exports": missing_exports,
+        "retired_export_leaks": retired_export_leaks,
         "zip_ok": zip_ok,
         "zip_contains_required_exports": REQUIRED_ZIP_MEMBERS <= zip_names,
+        "zip_excludes_retired_exports": not (RETIRED_EXPORTS & zip_names),
+        "zip_inventory_matches_export_manifest": zip_inventory_match,
+        "zip_payloads_match_filesystem": zip_payloads_match,
+        "export_manifest_hashes_match": export_hashes_match,
+        "embedded_checksums_match": embedded_checksums_match,
+        "embedded_checksum_inventory_matches_exports": embedded_checksum_inventory_match,
+        "self_referential_checksums_excluded": self_references_excluded,
+        "returned_checksum_inventory_matches_exports": returned_checksum_inventory_match,
+        "returned_checksums_match_embedded_manifest": returned_checksums_match_manifest,
         "evidence_pack_json_sha256": sha256,
     }
 

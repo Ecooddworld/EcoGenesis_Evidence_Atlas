@@ -1,0 +1,11 @@
+{
+  "schema": "ecogenesis.ruleset_diff_report.v1",
+  "run_id": "b750acd8c22c4a4e992973a06c24eb5f",
+  "ruleset_version": "barcode-gbif-compiler-v2",
+  "marker_profiles_hash": "3ebbc77fca2d92d9f25e9742cb22187ed0dda81d8fd852c7e6779df6698eee4f",
+  "assay_profiles_hash": "836ddb0850baa118ef1b01783c759375a15dc85491d010d4a8af2d1fb0d9247e",
+  "baseline_ruleset_hash": null,
+  "hidden_threshold_changes_detected": null,
+  "status": "external_baseline_missing",
+  "claim_boundary": "Current rules are hashed; hidden threshold-change detection requires a prior trusted baseline."
+}

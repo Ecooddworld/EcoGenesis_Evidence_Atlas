@@ -1,5 +1,7 @@
 # EcoGenesis Nexus
 
+> **Archived pre-remediation pitch.** Legacy `species-safe`, `GBIF-ready` and publishable wording below is not the current product contract and must not be cited as external scientific, IPT or GBIF validation. See the root README and `docs/submission.md` for current validation-candidate terminology.
+
 ## A Molecular Evidence Triage, Taxonomic Safety and Repair Engine for GBIF DNA-derived Data
 
 EcoGenesis Nexus is an open, repeatable pre-publication engine for DNA-derived biodiversity data. It receives raw sequences, ASV/OTU tables, GBIF Sequence ID outputs, BLAST/VSEARCH/MMseqs2-style hit tables or qPCR/ddPCR detection tables and converts each molecular detection into the safest publishable GBIF claim.

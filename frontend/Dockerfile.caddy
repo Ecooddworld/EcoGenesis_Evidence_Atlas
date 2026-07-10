@@ -1,4 +1,4 @@
-FROM node:20-alpine AS build
+FROM node:22-alpine@sha256:16e22a550f3863206a3f701448c45f7912c6896a62de43add43bb9c86130c3e2 AS build
 
 WORKDIR /app
 
@@ -12,14 +12,21 @@ ENV VITE_API_BASE_URL=${VITE_API_BASE_URL}
 
 RUN npm run build
 
-FROM caddy:2-alpine
+FROM caddy:2.11.4-alpine@sha256:5f5c8640aae01df9654968d946d8f1a56c497f1dd5c5cda4cf95ab7c14d58648
+
+RUN addgroup -S -g 10001 ecogenesis \
+    && adduser -S -D -H -u 10001 -G ecogenesis ecogenesis \
+    && mkdir -p /srv /data /config \
+    && chown -R ecogenesis:ecogenesis /srv /data /config
 
 COPY frontend/Caddyfile /etc/caddy/Caddyfile
-COPY --from=build /app/dist /srv
-COPY submission-assets/contest-video-v2/video/ecogenesis-gbif-contest-demo-en-subs.mp4 /srv/submission-video/
-COPY submission-assets/contest-video-v2/video/ecogenesis-gbif-contest-demo-en.srt /srv/submission-video/
-COPY submission-assets/contest-video-v2/video/ecogenesis-gbif-contest-demo-english-voiceover.txt /srv/submission-video/
-COPY submission-assets/contest-video-v2/video/ecogenesis-gbif-contest-demo-transcript.md /srv/submission-video/
-COPY submission-assets/contest-video-v2/video/demo-thumbnail-contest-en.png /srv/submission-video/
+COPY --chown=ecogenesis:ecogenesis --from=build /app/dist /srv
+COPY --chown=ecogenesis:ecogenesis submission-assets/contest-video-v2/video/ecogenesis-gbif-contest-demo-en-subs.mp4 /srv/submission-video/
+COPY --chown=ecogenesis:ecogenesis submission-assets/contest-video-v2/video/ecogenesis-gbif-contest-demo-en.srt /srv/submission-video/
+COPY --chown=ecogenesis:ecogenesis submission-assets/contest-video-v2/video/ecogenesis-gbif-contest-demo-english-voiceover.txt /srv/submission-video/
+COPY --chown=ecogenesis:ecogenesis submission-assets/contest-video-v2/video/ecogenesis-gbif-contest-demo-transcript.md /srv/submission-video/
+COPY --chown=ecogenesis:ecogenesis submission-assets/contest-video-v2/video/demo-thumbnail-contest-en.png /srv/submission-video/
 
-EXPOSE 80 443
+USER 10001:10001
+
+EXPOSE 8080 8443

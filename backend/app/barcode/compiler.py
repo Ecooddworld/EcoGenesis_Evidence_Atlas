@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from copy import deepcopy
 from datetime import datetime, timezone
 import hashlib
 import json
@@ -9,6 +10,7 @@ from typing import Any
 from uuid import uuid4
 
 from .artifacts import build_barcode_artifacts
+from .dwca import build_dwca_package
 from .profiles import (
     ASSAY_PROFILES,
     MARKER_PROFILES,
@@ -17,17 +19,37 @@ from .profiles import (
     marker_profile_readiness,
 )
 from .schemas import BarcodeCompilerRequest, ReferenceHit, SequenceRecord
+from .scientific_gates import (
+    MIN_CLOSE_RELATIVE_TAXA,
+    MIN_DIAGNOSTIC_CONSERVATION,
+    MIN_DIAGNOSTIC_KMER_SUPPORT,
+    MIN_NEGATIVE_REFERENCE_SEQUENCES,
+    MIN_PAIRWISE_ALIGNED_SITES,
+    MIN_TARGET_REFERENCE_SPECIMENS,
+    canonical_kmer,
+    canonical_kmers,
+    evaluate_reference_completeness,
+    evaluate_sequence_qc,
+    scientific_release_gate,
+)
 from .storage import save_barcode_artifacts, save_barcode_zip_artifact
 
 
 CORE_REQUIRED_FIELDS = ["occurrenceID", "basisOfRecord", "scientificName", "eventDate"]
 DNA_REQUIRED_FIELDS = ["marker", "sequenceID", "referenceDatabase", "identity", "queryCoverage", "methodOrSOP"]
 CORE_RECOMMENDED_FIELDS = ["countryCode", "decimalLatitude", "decimalLongitude", "geodeticDatum", "coordinateUncertaintyInMeters"]
-DATASET_METADATA_FIELDS = ["title", "description", "publishingOrganization", "type", "license", "contact", "creator", "metadataProvider"]
+DATASET_METADATA_FIELDS = ["title", "description", "publishingOrganization", "type", "license", "contact", "creator", "metadataProvider", "citation"]
 HIGHER_RANKS = {"family", "order", "class", "phylum", "kingdom"}
 SAFE_RANK_ORDER = ["kingdom", "phylum", "class", "order", "family", "genus", "species"]
 SAFE_TAXONOMIC_STATUSES = {"species-safe", "genus-safe", "higher-rank-safe"}
 NONE_TAXON = {"rank": "none", "name": "None", "taxon_key": None}
+GBIF_VALIDATION_CANDIDATE_STATE = "candidate_for_gbif_validation"
+SELF_REFERENTIAL_EXPORTS = {
+    "artifact_checksums.json",
+    "evidence_pack.json",
+    "evidence_pack.zip",
+    "run.json",
+}
 
 
 def run_barcode_compiler(request: BarcodeCompilerRequest) -> dict[str, Any]:
@@ -36,6 +58,7 @@ def run_barcode_compiler(request: BarcodeCompilerRequest) -> dict[str, Any]:
     reference_manifest = build_reference_manifest(request)
     decisions = [decide_record(record, request) for record in request.records]
     metrics = summarize_decisions(decisions)
+    release_gate = scientific_release_gate(request)
     nexus = build_nexus_v3_summary(decisions, metrics)
     finished_at = datetime.now(timezone.utc)
     request_payload = request.model_dump()
@@ -59,11 +82,14 @@ def run_barcode_compiler(request: BarcodeCompilerRequest) -> dict[str, Any]:
             "method_or_sop": request.method_or_sop,
             "processed_records": metrics["processed_records"],
             "species_safe_records": metrics["species_safe_records"],
+            "species_rule_pass_records": metrics["species_rule_pass_records"],
             "genus_safe_records": metrics["genus_safe_records"],
             "not_publishable_records": metrics["not_publishable_records"],
             "record_ready_records": metrics["record_ready_records"],
             "dataset_ready_records": metrics["dataset_ready_records"],
+            "validation_candidate_records": metrics["validation_candidate_records"],
             "blocked_species_claims": metrics["blocked_species_claims"],
+            "scientific_release_status": release_gate["status"],
             "verdict": build_run_verdict(metrics),
         },
         "reference_manifest": reference_manifest,
@@ -76,21 +102,42 @@ def run_barcode_compiler(request: BarcodeCompilerRequest) -> dict[str, Any]:
         "naive_top_hit_overclaims": naive_top_hit_overclaims(decisions),
         "metadata_bottlenecks": metadata_bottlenecks(decisions),
         "reference_gap_index": reference_gap_index(decisions),
+        "scientific_release_gate": release_gate,
         "repair_plan": repair_plan(decisions),
         "records": decisions,
         "request": request_payload,
     }
+    dwca_package = build_dwca_package(pack)
+    pack["dwca_validation"] = dwca_package["report"]
+    pack["dwca_roundtrip"] = dwca_package["contract"]
+    pack["summary"]["dwca_local_validation_status"] = dwca_package["report"]["local_validation_status"]
+    pack["summary"]["dwca_release_gate"] = dwca_package["report"]["release_gate"]
     pack["evidence_graph"] = build_evidence_graph(pack)
-    artifacts = build_barcode_artifacts(pack)
-    exports = save_barcode_artifacts(run_id, artifacts)
-    zip_export = save_barcode_zip_artifact(run_id, artifacts)
-    pack["exports"] = sorted([*exports, zip_export], key=lambda item: item["name"])
-    pack["run"]["artifact_checksums"] = {item["name"]: item.get("sha256") for item in pack["exports"]}
-    pack["evidence_graph"] = build_evidence_graph(pack)
-    final_artifacts = build_barcode_artifacts(pack)
-    save_barcode_artifacts(run_id, final_artifacts)
-    save_barcode_zip_artifact(run_id, final_artifacts)
-    return pack
+
+    initial_artifacts = build_barcode_artifacts(pack)
+    initial_exports = save_barcode_artifacts(run_id, initial_artifacts)
+    initial_zip = save_barcode_zip_artifact(run_id, initial_artifacts)
+    pack["exports"] = sorted([*initial_exports, initial_zip], key=lambda item: item["name"])
+
+    persisted_pack = pack_for_persistent_artifacts(pack)
+    persisted_pack["evidence_graph"] = build_evidence_graph(persisted_pack)
+    persisted_artifacts = build_barcode_artifacts(persisted_pack)
+    persisted_exports = save_barcode_artifacts(run_id, persisted_artifacts)
+    persisted_zip = save_barcode_zip_artifact(run_id, persisted_artifacts)
+
+    persisted_pack = pack_for_persistent_artifacts(
+        {**pack, "exports": sorted([*persisted_exports, persisted_zip], key=lambda item: item["name"])}
+    )
+    persisted_pack["evidence_graph"] = build_evidence_graph(persisted_pack)
+    final_artifacts = build_barcode_artifacts(persisted_pack)
+    final_exports = save_barcode_artifacts(run_id, final_artifacts)
+    final_zip = save_barcode_zip_artifact(run_id, final_artifacts)
+
+    final_manifest = sorted([*final_exports, final_zip], key=lambda item: item["name"])
+    returned_pack = deepcopy(persisted_pack)
+    returned_pack["exports"] = final_manifest
+    returned_pack.setdefault("run", {})["artifact_checksums"] = embedded_artifact_checksums(final_manifest)
+    return returned_pack
 
 
 def decide_record(record: SequenceRecord, request: BarcodeCompilerRequest) -> dict[str, Any]:
@@ -109,6 +156,7 @@ def decide_record(record: SequenceRecord, request: BarcodeCompilerRequest) -> di
     core_missing = missing_fields(metadata, CORE_REQUIRED_FIELDS)
     dna_missing = missing_fields(metadata, DNA_REQUIRED_FIELDS)
     data_quality_blockers = metadata_quality_blockers(metadata, top_hit)
+    sequence_qc = evaluate_sequence_qc(record, marker_profile)
     core_pass = not core_missing and not data_quality_blockers
     dna_pass = not dna_missing
     publication_stage, publication_checks = publication_stage_for(
@@ -120,6 +168,7 @@ def decide_record(record: SequenceRecord, request: BarcodeCompilerRequest) -> di
     )
 
     if not hits:
+        reference_completeness = evaluate_reference_completeness(record, candidate_species_in_hits=0)
         blockers.append("no reference hit returned")
         actions.append("Run the sequence against a marker-appropriate reference database and attach hit metrics.")
         blockers.extend(assay_gate["assay_blockers"])
@@ -137,6 +186,8 @@ def decide_record(record: SequenceRecord, request: BarcodeCompilerRequest) -> di
             indistinguishable_hits=[],
             barcode_gap_result={"status": "not_evaluated", "gap": None},
             diagnostic_result={"status": "not_evaluated", "support_count": 0, "support_rate": 0, "k": None, "p_false_positive": None},
+            reference_completeness=reference_completeness,
+            sequence_qc=sequence_qc,
             taxonomic_status="no-match",
             decision_class="not-publishable" if publication_stage == "record_not_ready" else "no-match",
             publication_stage=publication_stage,
@@ -157,12 +208,18 @@ def decide_record(record: SequenceRecord, request: BarcodeCompilerRequest) -> di
     candidate_taxon = lowest_common_ancestor(indistinguishable_hits)
     barcode_gap_result = evaluate_barcode_gap(record)
     diagnostic_result = evaluate_diagnostic_kmers(record)
+    reference_completeness = evaluate_reference_completeness(
+        record,
+        candidate_species_in_hits=len({hit.taxon for hit in hits if normalize_rank(hit.rank) == "species"}),
+    )
     taxonomic_status = classify_taxonomic_status(
         match_type=match_type,
         candidate_taxon=candidate_taxon,
         indistinguishable_hits=indistinguishable_hits,
         barcode_gap_result=barcode_gap_result,
         diagnostic_result=diagnostic_result,
+        reference_completeness=reference_completeness,
+        sequence_qc=sequence_qc,
         top_hit=top_hit,
     )
 
@@ -200,7 +257,13 @@ def decide_record(record: SequenceRecord, request: BarcodeCompilerRequest) -> di
         actions.append("Attach reference-set intra/inter distances or use a marker/reference set with positive species separation.")
     if diagnostic_result["status"] != "pass":
         blockers.append(f"species claim blocked: diagnostic k-mer support {diagnostic_result['status']}")
-        actions.append("Attach diagnostic k-mers or keep the assignment below species rank.")
+        actions.append("Attach conserved, reverse-complement-canonical diagnostic k-mers checked against an adequate negative reference universe.")
+    if not reference_completeness["gate_pass"]:
+        blockers.extend(f"species claim blocked: {item}" for item in reference_completeness["blockers"])
+        actions.append("Attach an audited reference-completeness inventory with per-species depth, close relatives and geographic coverage.")
+    if not sequence_qc["gate_pass"]:
+        blockers.extend(f"species claim blocked: {item}" for item in sequence_qc["blockers"])
+        actions.append("Resolve sequence QC failures (ambiguity, complexity, orientation/ORF or chimera evidence) before species-level use.")
 
     blockers.extend(metadata_blockers(core_missing, dna_missing, data_quality_blockers))
     actions.extend(metadata_actions(core_missing, dna_missing))
@@ -229,6 +292,8 @@ def decide_record(record: SequenceRecord, request: BarcodeCompilerRequest) -> di
         indistinguishable_hits=indistinguishable_hits,
         barcode_gap_result=barcode_gap_result,
         diagnostic_result=diagnostic_result,
+        reference_completeness=reference_completeness,
+        sequence_qc=sequence_qc,
         taxonomic_status=taxonomic_status,
         decision_class=decision_class,
         publication_stage=publication_stage,
@@ -356,39 +421,120 @@ def normalize_rank(rank: str) -> str:
 def evaluate_barcode_gap(record: SequenceRecord) -> dict[str, Any]:
     if not record.barcode_gap:
         return {"status": "missing", "gap": None, "intra_max_distance": None, "inter_min_distance": None}
-    intra = record.barcode_gap.intra_max_distance
-    inter = record.barcode_gap.inter_min_distance
+    evidence = record.barcode_gap
+    intra = evidence.intra_max_distance
+    inter = evidence.inter_min_distance
     if intra is None or inter is None:
-        return {"status": "missing", "gap": None, "intra_max_distance": intra, "inter_min_distance": inter}
+        status = (
+            "insufficient_intraspecific_sampling"
+            if (evidence.target_reference_count or 0) < MIN_TARGET_REFERENCE_SPECIMENS
+            or (evidence.target_specimen_count or 0) < MIN_TARGET_REFERENCE_SPECIMENS
+            else "missing"
+        )
+        return {
+            **evidence.model_dump(),
+            "status": status,
+            "gap": None,
+            "intra_max_distance": intra,
+            "inter_min_distance": inter,
+        }
     gap = inter - intra
+    target_references = evidence.target_reference_count or 0
+    target_specimens = evidence.target_specimen_count or 0
+    inter_taxa = evidence.inter_taxon_count or 0
+    distance_method = str(evidence.distance_method or "").lower()
+    aligned_sites = evidence.minimum_aligned_sites or 0
+    if target_references < MIN_TARGET_REFERENCE_SPECIMENS or target_specimens < MIN_TARGET_REFERENCE_SPECIMENS:
+        status = "insufficient_intraspecific_sampling"
+    elif inter_taxa < MIN_CLOSE_RELATIVE_TAXA:
+        status = "insufficient_intertaxon_sampling"
+    elif "align" not in distance_method and "needleman_wunsch" not in distance_method:
+        status = "unaligned_distance_not_accepted"
+    elif aligned_sites < MIN_PAIRWISE_ALIGNED_SITES:
+        status = "insufficient_aligned_sites"
+    elif (evidence.bootstrap_replicates or 0) < 200 or evidence.gap_ci_lower is None or not evidence.bootstrap_method:
+        status = "uncertainty_not_evaluated"
+    elif evidence.gap_ci_lower <= 0:
+        status = "fail_gap_confidence_interval_crosses_zero"
+    else:
+        status = "pass" if gap > 0 else "fail"
     return {
-        "status": "pass" if gap > 0 else "fail",
+        **evidence.model_dump(),
+        "status": status,
         "gap": round(gap, 6),
         "intra_max_distance": intra,
         "inter_min_distance": inter,
+        "minimum_target_reference_specimens": MIN_TARGET_REFERENCE_SPECIMENS,
+        "minimum_inter_taxa": MIN_CLOSE_RELATIVE_TAXA,
+        "minimum_aligned_sites_required": MIN_PAIRWISE_ALIGNED_SITES,
+        "minimum_bootstrap_replicates": 200,
     }
 
 
 def evaluate_diagnostic_kmers(record: SequenceRecord) -> dict[str, Any]:
     if not record.diagnostic:
         return {"status": "missing", "support_count": 0, "support_rate": 0, "k": None, "expected_random_hits": None, "p_false_positive": None}
-    diagnostic_kmers = {item.upper() for item in record.diagnostic.diagnostic_kmers if item}
+    evidence = record.diagnostic
+    raw_diagnostic_kmers = {item.upper() for item in evidence.diagnostic_kmers if item}
+    diagnostic_kmers = {canonical_kmer(item) for item in raw_diagnostic_kmers if set(item.upper()) <= set("ACGT")}
     if not diagnostic_kmers:
-        return {"status": "missing", "support_count": 0, "support_rate": 0, "k": record.diagnostic.k, "expected_random_hits": None, "p_false_positive": None}
-    k = record.diagnostic.k or infer_k(record.diagnostic.reference_total_windows, record.diagnostic.epsilon, diagnostic_kmers)
-    query_kmer_windows = kmers(record.sequence, k)
+        return {"status": "missing", "support_count": 0, "support_rate": 0, "k": evidence.k, "expected_random_hits": None, "p_false_positive": None}
+    k = evidence.k or infer_k(evidence.reference_total_windows, evidence.epsilon, diagnostic_kmers)
+    if any(len(item) != k for item in raw_diagnostic_kmers):
+        return {
+            "status": "invalid_kmer_lengths",
+            "support_count": 0,
+            "support_rate": 0,
+            "k": k,
+            "diagnostic_kmer_count": len(diagnostic_kmers),
+            "expected_random_hits": None,
+            "p_false_positive": None,
+        }
+    query_kmer_windows = sorted(canonical_kmers(record.sequence, k, minimum_entropy=0.55))
     query_kmers = set(query_kmer_windows)
     support_count = len(query_kmers & diagnostic_kmers)
+    supported_occurrences: dict[str, list[int]] = {}
+    for index in range(max(len(record.sequence) - k + 1, 0)):
+        window = record.sequence[index : index + k]
+        if set(window) - set("ACGT"):
+            continue
+        canonical = canonical_kmer(window)
+        if canonical in diagnostic_kmers:
+            supported_occurrences.setdefault(canonical, []).append(index)
+    losses_by_position: dict[int, int] = {}
+    for positions in supported_occurrences.values():
+        intersection_start = max(positions)
+        intersection_end = min(position + k - 1 for position in positions)
+        for position in range(intersection_start, intersection_end + 1):
+            losses_by_position[position] = losses_by_position.get(position, 0) + 1
+    single_error_min_support = support_count - max(losses_by_position.values(), default=0)
     query_window_count = len(query_kmer_windows)
     support_rate = support_count / max(query_window_count, 1)
     expected_random_hits = expected_diagnostic_collisions(query_window_count, len(diagnostic_kmers), k)
-    p_false_positive = false_positive_probability(query_window_count, len(diagnostic_kmers), k)
-    status = "pass" if support_count >= 1 and p_false_positive <= record.diagnostic.alpha else "fail"
-    if support_count < 1:
+    p_false_positive = false_positive_probability(query_window_count, len(diagnostic_kmers) * 2, k)
+    reference_sampling_pass = (
+        (evidence.target_sequence_count or 0) >= MIN_TARGET_REFERENCE_SPECIMENS
+        and (evidence.negative_taxon_count or 0) >= MIN_CLOSE_RELATIVE_TAXA
+        and (evidence.negative_sequence_count or 0) >= MIN_NEGATIVE_REFERENCE_SEQUENCES
+    )
+    conservation_pass = (evidence.conservation_fraction or 0) >= MIN_DIAGNOSTIC_CONSERVATION
+    canonical_contract_pass = evidence.canonicalized and evidence.reverse_complement_checked
+    if not reference_sampling_pass:
+        status = "insufficient_reference_sampling"
+    elif not conservation_pass:
+        status = "not_conserved_within_target_taxon"
+    elif not canonical_contract_pass:
+        status = "canonicalization_not_attested"
+    elif support_count < MIN_DIAGNOSTIC_KMER_SUPPORT:
         status = "fail_no_support"
-    elif p_false_positive > record.diagnostic.alpha:
+    elif single_error_min_support < 1:
+        status = "fail_single_substitution_fragile"
+    elif p_false_positive > evidence.alpha:
         status = "fail_false_positive_risk"
+    else:
+        status = "pass"
     return {
+        **evidence.model_dump(exclude={"diagnostic_kmers"}),
         "status": status,
         "support_count": support_count,
         "support_rate": round(support_rate, 6),
@@ -397,7 +543,18 @@ def evaluate_diagnostic_kmers(record: SequenceRecord) -> dict[str, Any]:
         "diagnostic_kmer_count": len(diagnostic_kmers),
         "expected_random_hits": round(expected_random_hits, 6),
         "p_false_positive": round(p_false_positive, 8),
-        "alpha": record.diagnostic.alpha,
+        "alpha": evidence.alpha,
+        "minimum_support_count": MIN_DIAGNOSTIC_KMER_SUPPORT,
+        "single_substitution_min_support": single_error_min_support,
+        "sequencing_error_robustness_method": "exhaustive_single_position_kmer_loss_bound_v1",
+        "sequencing_error_robustness_pass": single_error_min_support >= 1,
+        "minimum_target_sequence_count": MIN_TARGET_REFERENCE_SPECIMENS,
+        "minimum_negative_taxon_count": MIN_CLOSE_RELATIVE_TAXA,
+        "minimum_negative_sequence_count": MIN_NEGATIVE_REFERENCE_SEQUENCES,
+        "minimum_conservation_fraction": MIN_DIAGNOSTIC_CONSERVATION,
+        "reference_sampling_pass": reference_sampling_pass,
+        "conservation_pass": conservation_pass,
+        "canonical_contract_pass": canonical_contract_pass,
     }
 
 
@@ -430,6 +587,8 @@ def classify_taxonomic_status(
     indistinguishable_hits: list[ReferenceHit],
     barcode_gap_result: dict[str, Any],
     diagnostic_result: dict[str, Any],
+    reference_completeness: dict[str, Any],
+    sequence_qc: dict[str, Any],
     top_hit: ReferenceHit,
 ) -> str:
     safe_rank = candidate_taxon["rank"]
@@ -441,6 +600,8 @@ def classify_taxonomic_status(
         and len({hit.taxon for hit in indistinguishable_hits}) == 1
         and barcode_gap_result["status"] == "pass"
         and diagnostic_result["status"] == "pass"
+        and reference_completeness["gate_pass"]
+        and sequence_qc["gate_pass"]
     ):
         return "species-safe"
     if len({hit.taxon for hit in indistinguishable_hits}) > 1 and safe_rank != "species":
@@ -551,7 +712,7 @@ def degraded_backend_actions(metadata: dict[str, Any]) -> list[str]:
     if not is_degraded_reference_search(metadata):
         return []
     return [
-        "Re-run reference search with VSEARCH, BLAST+ or an audited external reference workflow before GBIF-ready export."
+        "Re-run reference search with VSEARCH, BLAST+ or an audited external reference workflow before GBIF validation-candidate export."
     ]
 
 
@@ -601,7 +762,7 @@ def publication_status(decision_class: str, publication_stage: str) -> str:
     if decision_class not in SAFE_TAXONOMIC_STATUSES:
         return "not-ready"
     if publication_stage in {"dataset_ready", "gold_ready"}:
-        return "gbif-ready"
+        return "candidate-for-gbif-validation"
     if publication_stage in {"record_min_ready", "record_recommended_ready"}:
         return "record-ready"
     return "not-ready"
@@ -609,7 +770,7 @@ def publication_status(decision_class: str, publication_stage: str) -> str:
 
 def publication_bucket(decision_class: str, publication_stage: str, published_taxon: dict[str, Any], blockers: list[str]) -> str:
     if published_taxon.get("rank") != "none" and publication_stage in {"dataset_ready", "gold_ready"}:
-        return "gbif_ready"
+        return "validation_candidate"
     if published_taxon.get("rank") != "none" and decision_class in SAFE_TAXONOMIC_STATUSES:
         return "publishable_candidate"
     if blockers:
@@ -656,9 +817,9 @@ def claim_boundary(
     if published_taxon.get("rank") == "none" and taxonomic_status in SAFE_TAXONOMIC_STATUSES:
         publication = "Taxonomy is bounded as safe, but publication repair is required before Darwin Core or DNA-derived export."
     elif published_taxon.get("rank") == "none":
-        publication = "Not GBIF-ready; repair blockers before publishing Darwin Core or DNA-derived rows."
+        publication = "Not a GBIF validation candidate; repair blockers before external validation or publication."
     elif publication_stage in {"dataset_ready", "gold_ready"}:
-        publication = "GBIF-ready export candidate under the current metadata and dataset-level checks."
+        publication = "Candidate for external GBIF/IPT validation under the current metadata and dataset-level checks."
     else:
         publication = "Publishable candidate for review; dataset-level GBIF metadata is still incomplete."
 
@@ -715,6 +876,8 @@ def build_decision(
     indistinguishable_hits: list[ReferenceHit],
     barcode_gap_result: dict[str, Any],
     diagnostic_result: dict[str, Any],
+    reference_completeness: dict[str, Any],
+    sequence_qc: dict[str, Any],
     taxonomic_status: str,
     decision_class: str,
     publication_stage: str,
@@ -729,15 +892,40 @@ def build_decision(
     blockers: list[str],
     actions: list[str],
 ) -> dict[str, Any]:
+    primary_publication_status = publication_status(decision_class, publication_stage)
+    primary_publication_bucket = publication_bucket(
+        decision_class,
+        publication_stage,
+        published_taxon,
+        blockers,
+    )
     return {
         "sequence_id": record.sequence_id,
         "sequence_md5": hashlib.md5(record.sequence.encode("utf-8")).hexdigest(),
         "sequence_length": sequence_length,
+        "scientific_decision_state": (
+            "species-rule-pass"
+            if taxonomic_status == "species-safe" and assay_gate.get("assay_gate_pass") is True
+            else "species-level-molecular-candidate-assay-blocked"
+            if taxonomic_status == "species-safe"
+            else taxonomic_status
+        ),
         "decision_class": decision_class,
+        "decision_class_compatibility": (
+            {"alias": "species-safe", "status": "deprecated", "replacement": "species-rule-pass"}
+            if taxonomic_status == "species-safe"
+            else None
+        ),
         "taxonomic_status": taxonomic_status,
-        "publication_status": publication_status(decision_class, publication_stage),
+        "publication_status": primary_publication_status,
+        "publication_status_compatibility": (
+            "gbif-ready" if primary_publication_status == "candidate-for-gbif-validation" else primary_publication_status
+        ),
         "publication_stage": publication_stage,
-        "publication_bucket": publication_bucket(decision_class, publication_stage, published_taxon, blockers),
+        "publication_bucket": primary_publication_bucket,
+        "publication_bucket_compatibility": (
+            "gbif_ready" if primary_publication_bucket == "validation_candidate" else primary_publication_bucket
+        ),
         "export_state": export_state(decision_class, taxonomic_status, publication_stage, published_taxon),
         "match_type": match_type,
         "candidate_taxon": candidate_taxon,
@@ -763,7 +951,8 @@ def build_decision(
         "indistinguishable_hits": [hit_summary(hit) for hit in indistinguishable_hits],
         "barcode_gap": barcode_gap_result,
         "diagnostic_kmers": diagnostic_result,
-        "reference_completeness": reference_completeness_summary(metadata, top_hit, hits),
+        "reference_completeness": reference_completeness,
+        "sequence_qc": sequence_qc,
         "metadata_readiness": {
             "core_pass": core_pass,
             "dna_pass": dna_pass,
@@ -790,6 +979,13 @@ def hit_summary(hit: ReferenceHit | None) -> dict[str, Any] | None:
         "identity": hit.identity,
         "query_coverage": hit.query_coverage,
         "aligned_length": hit.aligned_length,
+        "query_start": hit.query_start,
+        "query_end": hit.query_end,
+        "reference_start": hit.reference_start,
+        "reference_end": hit.reference_end,
+        "strand": hit.strand,
+        "mismatch_count": hit.mismatch_count,
+        "gap_count": hit.gap_count,
         "bit_score": hit.bit_score,
         "evalue": hit.evalue,
         "reference_id": hit.reference_id,
@@ -803,13 +999,18 @@ def summarize_decisions(decisions: list[dict[str, Any]]) -> dict[str, Any]:
     processed = len(decisions)
     candidate_records = sum(1 for item in decisions if item["top_hit"])
     species_safe = sum(1 for item in decisions if item["decision_class"] == "species-safe")
+    species_rule_pass = sum(1 for item in decisions if item.get("scientific_decision_state") == "species-rule-pass")
     genus_safe = sum(1 for item in decisions if item["decision_class"] == "genus-safe")
     higher_rank_safe = sum(1 for item in decisions if item["decision_class"] == "higher-rank-safe")
     ambiguous = sum(1 for item in decisions if item["taxonomic_status"] == "ambiguous")
     weak = sum(1 for item in decisions if item["taxonomic_status"] == "weak")
     no_match = sum(1 for item in decisions if item["taxonomic_status"] == "no-match")
     not_publishable = sum(1 for item in decisions if item["decision_class"] == "not-publishable")
-    record_ready = sum(1 for item in decisions if item["publication_status"] in {"record-ready", "gbif-ready"})
+    record_ready = sum(
+        1
+        for item in decisions
+        if item["publication_status"] in {"record-ready", "candidate-for-gbif-validation"}
+    )
     dataset_ready = sum(1 for item in decisions if item["publication_stage"] in {"dataset_ready", "gold_ready"})
     blocked_species = sum(
         1
@@ -819,7 +1020,9 @@ def summarize_decisions(decisions: list[dict[str, Any]]) -> dict[str, Any]:
     top_species = sum(1 for item in decisions if item["top_hit"] and item["top_hit"]["rank"] == "species")
     safe_rank_records = species_safe + genus_safe + higher_rank_safe
     publishable_template_records = sum(1 for item in decisions if item["published_taxon"]["rank"] != "none")
-    gbif_ready_records = sum(1 for item in decisions if item.get("publication_bucket") == "gbif_ready")
+    validation_candidate_records = sum(
+        1 for item in decisions if item.get("publication_bucket") == "validation_candidate"
+    )
     publishable_candidate_records = sum(1 for item in decisions if item.get("publication_bucket") == "publishable_candidate")
     repair_required_records = sum(1 for item in decisions if item.get("publication_bucket") == "repair_required")
     review_only_records = sum(1 for item in decisions if item.get("publication_bucket") == "review_only")
@@ -838,6 +1041,7 @@ def summarize_decisions(decisions: list[dict[str, Any]]) -> dict[str, Any]:
         "safe_records": safe_rank_records,
         "processing_coverage": 1 if processed else 0,
         "species_safe_records": species_safe,
+        "species_rule_pass_records": species_rule_pass,
         "genus_safe_records": genus_safe,
         "higher_rank_safe_records": higher_rank_safe,
         "ambiguous_records": ambiguous,
@@ -847,7 +1051,8 @@ def summarize_decisions(decisions: list[dict[str, Any]]) -> dict[str, Any]:
         "record_ready_records": record_ready,
         "dataset_ready_records": dataset_ready,
         "publishable_template_records": publishable_template_records,
-        "gbif_ready_records": gbif_ready_records,
+        "validation_candidate_records": validation_candidate_records,
+        "gbif_ready_records": validation_candidate_records,
         "publishable_candidate_records": publishable_candidate_records,
         "repair_required_records": repair_required_records,
         "review_only_records": review_only_records,
@@ -872,9 +1077,9 @@ def summarize_decisions(decisions: list[dict[str, Any]]) -> dict[str, Any]:
 
 def build_run_verdict(metrics: dict[str, Any]) -> str:
     if metrics.get("hard_gate_failures"):
-        return "Hard-gate audit found a species-safe inconsistency; do not use this run for publication until the rules are fixed."
-    if metrics["species_safe_records"]:
-        return "At least one sequence is species-safe under the frozen molecular evidence gates; publication readiness is reported separately."
+        return "Hard-gate audit found a species rule-pass inconsistency; do not use this run for publication until the rules are fixed."
+    if metrics["species_rule_pass_records"]:
+        return "At least one sequence passed the species-level rule gates under the supplied evidence; publication readiness is reported separately."
     if metrics["genus_safe_records"] or metrics["higher_rank_safe_records"]:
         return "The run produced safe downgraded molecular evidence, but no species-level publication candidate."
     return "The run correctly blocked species-level publication claims."
@@ -886,8 +1091,9 @@ def build_nexus_v3_summary(decisions: list[dict[str, Any]], metrics: dict[str, A
         "working_layer": "Barcode-to-GBIF Evidence Compiler",
         "ruleset_family": "EcoGenesis Nexus V3 conservative hard-gate workflow",
         "scientific_claim": (
-            "The compiler computes the safest publishable taxonomic rank and repair actions under supplied "
-            "molecular hits, reference evidence and GBIF/DNA-derived metadata. It does not treat a top hit as species truth."
+            "The compiler computes a bounded taxonomic rule result and repair actions under supplied molecular hits, "
+            "audited reference evidence, sequence/assay QC and GBIF/DNA-derived metadata. It does not treat a top hit "
+            "or a rule pass as species truth."
         ),
         "conversion_metrics": {
             "MECY_molecular_evidence_conversion_yield": metrics["molecular_evidence_conversion_yield"],
@@ -904,7 +1110,9 @@ def build_nexus_v3_summary(decisions: list[dict[str, Any]], metrics: dict[str, A
             "top_species_hits": metrics["top_species_hits"],
             "blocked_or_downgraded_top_species_hits": metrics["blocked_or_downgraded_top_species_hits"],
             "species_safe_records": metrics["species_safe_records"],
+            "species_rule_pass_records": metrics["species_rule_pass_records"],
             "publishable_template_records": metrics["publishable_template_records"],
+            "validation_candidate_records": metrics["validation_candidate_records"],
             "gbif_ready_records": metrics["gbif_ready_records"],
             "publishable_candidate_records": metrics["publishable_candidate_records"],
             "repair_required_records": metrics["repair_required_records"],
@@ -924,6 +1132,7 @@ def build_nexus_v3_summary(decisions: list[dict[str, Any]], metrics: dict[str, A
             "empty cells are no-evidence cells, not absence",
             "observed GBIF records are evidence context, not true distribution",
             "protein/phenotype links remain hypotheses unless external curated evidence is attached",
+            "local metadata gates create GBIF validation candidates, not complete DwC-A publications",
         ],
     }
 
@@ -936,13 +1145,26 @@ def hard_gate_audit(decisions: list[dict[str, Any]]) -> list[dict[str, Any]]:
         ambiguity_pass = record["candidate_taxon"]["rank"] == "species" and len({hit["taxon"] for hit in record["indistinguishable_hits"]}) == 1
         barcode_pass = record["barcode_gap"]["status"] == "pass"
         diagnostic_pass = record["diagnostic_kmers"]["status"] == "pass"
+        reference_completeness_pass = record["reference_completeness"].get("gate_pass") is True
+        sequence_qc_pass = record["sequence_qc"].get("gate_pass") is True
         core_pass = record["metadata_readiness"]["core_pass"] is True
         dna_pass = record["metadata_readiness"]["dna_pass"] is True
         marker_profile_pass = record["metadata_readiness"]["marker_profile"]["species_gate_pass"] is True
         assay_pass = record["metadata_readiness"]["assay_gate"]["assay_gate_pass"] is True
         species_safe = record["decision_class"] == "species-safe"
         hard_gate_violation = species_safe and not all(
-            [exact_pass, ambiguity_pass, barcode_pass, diagnostic_pass, marker_profile_pass, core_pass, dna_pass, assay_pass]
+            [
+                exact_pass,
+                ambiguity_pass,
+                barcode_pass,
+                diagnostic_pass,
+                reference_completeness_pass,
+                sequence_qc_pass,
+                marker_profile_pass,
+                core_pass,
+                dna_pass,
+                assay_pass,
+            ]
         )
         rows.append(
             {
@@ -956,12 +1178,14 @@ def hard_gate_audit(decisions: list[dict[str, Any]]) -> list[dict[str, Any]]:
                 "ambiguityLcaGate": gate_status(ambiguity_pass),
                 "barcodeGapGate": record["barcode_gap"]["status"],
                 "diagnosticKmerGate": record["diagnostic_kmers"]["status"],
+                "referenceCompletenessGate": gate_status(reference_completeness_pass),
+                "sequenceQcGate": gate_status(sequence_qc_pass),
                 "markerProfileGate": gate_status(marker_profile_pass),
                 "occurrenceCoreGate": gate_status(core_pass),
                 "dnaMetadataGate": gate_status(dna_pass),
                 "assayGate": gate_status(assay_pass),
                 "hardGateViolation": hard_gate_violation,
-                "auditConclusion": "FAIL: species-safe emitted with failed gate" if hard_gate_violation else "pass: fail-closed rules preserved",
+                "auditConclusion": "FAIL: species rule-pass emitted with failed gate" if hard_gate_violation else "pass: fail-closed rules preserved",
             }
         )
     return rows
@@ -1082,6 +1306,10 @@ def reference_blocker_reasons(record: dict[str, Any]) -> list[str]:
         reasons.append(f"barcode gap {record['barcode_gap']['status']}")
     if record["diagnostic_kmers"]["status"] != "pass":
         reasons.append(f"diagnostic k-mer {record['diagnostic_kmers']['status']}")
+    if not record.get("reference_completeness", {}).get("gate_pass"):
+        reasons.append("reference completeness fail")
+    if not record.get("sequence_qc", {}).get("gate_pass"):
+        reasons.append("sequence QC fail")
     if len({hit["taxon"] for hit in record["indistinguishable_hits"]}) > 1 and record["safe_taxon"]["rank"] != "species":
         reasons.append("LCA downgrade from indistinguishable competitors")
     return reasons
@@ -1105,7 +1333,7 @@ def export_state(
     published_taxon: dict[str, Any],
 ) -> str:
     if published_taxon.get("rank") != "none" and publication_stage in {"dataset_ready", "gold_ready"}:
-        return "formal_gbif_ready"
+        return GBIF_VALIDATION_CANDIDATE_STATE
     if published_taxon.get("rank") != "none" and decision_class in SAFE_TAXONOMIC_STATUSES:
         return "dwc_template_ready"
     if taxonomic_status in SAFE_TAXONOMIC_STATUSES:
@@ -1194,14 +1422,21 @@ def build_data_accounting_ledger(decisions: list[dict[str, Any]], metrics: dict[
             metrics.get("publishable_candidate_records", 0),
             processed,
             "publication",
-            "Safe records emitted into publishable review templates but not formal GBIF-ready.",
+            "Safe records emitted into publishable review templates; dataset metadata still needs validation.",
+        ),
+        row(
+            "validation_candidate_n",
+            metrics.get("validation_candidate_records", 0),
+            processed,
+            "publication",
+            "Records that passed local metadata checks and are candidates for external GBIF/IPT validation.",
         ),
         row(
             "gbif_ready_n",
-            metrics.get("gbif_ready_records", 0),
+            metrics.get("validation_candidate_records", 0),
             processed,
-            "publication",
-            "Records that passed dataset-level metadata checks for formal GBIF-ready export.",
+            "deprecated_compatibility",
+            "Deprecated metric alias; use validation_candidate_n.",
         ),
         row(
             "repair_required_n",
@@ -1247,9 +1482,17 @@ def decision_rules() -> dict[str, Any]:
         "assay_profiles": ASSAY_PROFILES,
         "ambiguity_test": "competitor is indistinguishable when delta mismatch rate <= 1.96 * combined standard error",
         "safe_rank": "lowest common ancestor of statistically indistinguishable hits",
-        "barcode_gap": "species gate requires inter_min_distance - intra_max_distance > 0",
-        "diagnostic_kmers": "species gate requires at least one query k-mer unique to the target taxon in the reference set",
-        "diagnostic_false_positive_gate": "diagnostic support passes only when support_count >= 1 and p_false_positive <= alpha",
+        "barcode_gap": (
+            "species gate requires aligned distances, adequate target/relative sampling, >=200 bootstrap replicates "
+            "and a gap confidence-interval lower bound > 0"
+        ),
+        "diagnostic_kmers": (
+            "species gate requires conserved reverse-complement-canonical target k-mers checked against an adequate negative universe"
+        ),
+        "diagnostic_false_positive_gate": (
+            "diagnostic support passes only when support_count >= 2, single-substitution robustness passes, "
+            "and p_false_positive <= alpha"
+        ),
         "publication_readiness": {
             "occurrence_core_required": CORE_REQUIRED_FIELDS,
             "occurrence_core_recommended": CORE_RECOMMENDED_FIELDS,
@@ -1257,11 +1500,45 @@ def decision_rules() -> dict[str, Any]:
             "dataset_metadata": DATASET_METADATA_FIELDS,
         },
         "publication_buckets": {
-            "gbif_ready": "safe taxonomic decision plus dataset-level metadata readiness",
+            "validation_candidate": "local metadata gates passed; external GBIF/IPT validation and publication remain separate",
             "publishable_candidate": "safe taxonomic decision and record-level metadata, but dataset metadata still needs review",
             "repair_required": "blocked by molecular, backend, assay, Occurrence core or DNA-derived metadata issues",
             "review_only": "kept as evidence context, not exportable as a GBIF occurrence row",
         },
+    }
+
+
+def pack_for_persistent_artifacts(pack: dict[str, Any]) -> dict[str, Any]:
+    persisted = deepcopy(pack)
+    persisted_exports = []
+    for item in persisted.get("exports", []):
+        export = dict(item)
+        if export.get("name") in SELF_REFERENTIAL_EXPORTS:
+            export["sha256"] = None
+            export["checksum_status"] = "external_manifest_only"
+            export["checksum_note"] = (
+                "Checksum is available from the export manifest/API; embedding it here would change "
+                "the bytes of this evidence pack, run file, checksum manifest or ZIP."
+            )
+        else:
+            export["checksum_status"] = "embedded"
+        persisted_exports.append(export)
+    persisted["exports"] = persisted_exports
+    persisted.setdefault("run", {})["artifact_checksums"] = embedded_artifact_checksums(persisted_exports)
+    persisted["run"]["self_referential_exports"] = sorted(SELF_REFERENTIAL_EXPORTS)
+    persisted["run"]["external_checksum_manifest"] = (
+        "Use the API export manifest or filesystem manifest for final evidence_pack.json, "
+        "run.json, artifact_checksums.json and evidence_pack.zip checksums."
+    )
+    return persisted
+
+
+def embedded_artifact_checksums(exports: list[dict[str, Any]]) -> dict[str, str]:
+    """Return only checksums that can be embedded without changing their own bytes."""
+    return {
+        str(item["name"]): str(item["sha256"])
+        for item in exports
+        if item.get("name") not in SELF_REFERENTIAL_EXPORTS and item.get("sha256")
     }
 
 
@@ -1366,7 +1643,15 @@ def build_evidence_graph(pack: dict[str, Any]) -> dict[str, Any]:
             edges.append({"source": sequence_node, "target": hit_node, "type": "matches_reference"})
     for artifact in pack.get("exports", []):
         artifact_node = f"artifact:{artifact['name']}"
-        add_node(node_registry, {"id": artifact_node, "type": "artifact", "label": artifact["name"], "sha256": artifact.get("sha256")})
+        add_node(
+            node_registry,
+            {
+                "id": artifact_node,
+                "type": "artifact",
+                "label": artifact["name"],
+                "checksum_status": artifact.get("checksum_status") or "external_manifest",
+            },
+        )
         edges.append({"source": f"run:{run_id}", "target": artifact_node, "type": "produces_artifact"})
     graph = {
         "meta": {

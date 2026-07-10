@@ -1,7 +1,7 @@
 {
   "registry_version": "GSIG-OBS-SOURCES-1.0",
   "source_count": 7,
-  "mvp_sources": [
+  "contest_sources": [
     "gbif_occurrence_api",
     "gbif_dna_derived_extension"
   ],
@@ -10,7 +10,7 @@
   "rows": [
     {
       "source_id": "gbif_occurrence_api",
-      "status": "mvp_integration",
+      "status": "contest_integration",
       "license_policy_present": true,
       "rate_limit_policy_present": true,
       "provenance_required": true,
@@ -20,7 +20,7 @@
     },
     {
       "source_id": "gbif_dna_derived_extension",
-      "status": "mvp_integration",
+      "status": "contest_integration",
       "license_policy_present": true,
       "rate_limit_policy_present": true,
       "provenance_required": true,

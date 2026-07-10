@@ -45,7 +45,7 @@ def test_reference_dataset_and_search_api_compile_run(tmp_path, monkeypatch) -> 
     assert any(row["id"] == "aedes_coi_mini" for row in datasets.json())
     ncbi_aedes = next(row for row in datasets.json() if row["id"] == "ncbi_aedes_coi_small")
     assert ncbi_aedes["source_type"] == "bundled"
-    assert ncbi_aedes["example_queries"][0]["expected_decision"] == "species-safe"
+    assert ncbi_aedes["example_queries"][0]["expected_decision"] == "review-only"
     assert ncbi_aedes["gbif_backbone_enrichment"]["status"] == "pre_enriched_manifest"
 
     response = client.post(
@@ -71,8 +71,8 @@ def test_reference_dataset_and_search_api_compile_run(tmp_path, monkeypatch) -> 
     assert payload["search"]["hits"][0]["taxon"] == "Aedes albopictus"
     assert payload["run"]["status"] == "completed"
     record = payload["pack"]["records"][0]
-    assert record["taxonomic_status"] == "species-safe"
-    assert record["decision_class"] == "not-publishable"
+    assert record["taxonomic_status"] == "ambiguous"
+    assert record["decision_class"] == "ambiguous"
     assert record["publication_bucket"] == "repair_required"
     assert record["published_taxon"]["rank"] == "none"
     assert any("python-local mini-search is review-only" in blocker for blocker in record["blockers"])
@@ -122,9 +122,11 @@ def test_user_reference_fasta_upload_then_search(tmp_path, monkeypatch) -> None:
     payload = response.json()
     assert payload["search"]["hits"][0]["taxon"] == "Aedes albopictus"
     record = payload["pack"]["records"][0]
-    assert record["taxonomic_status"] == "species-safe"
-    assert record["decision_class"] == "not-publishable"
+    assert record["taxonomic_status"] == "ambiguous"
+    assert record["decision_class"] == "ambiguous"
     assert record["publication_bucket"] == "repair_required"
+    assert record["barcode_gap"]["status"] == "insufficient_intraspecific_sampling"
+    assert record["reference_completeness"]["gate_pass"] is False
 
 
 def test_uploaded_reference_ambiguous_binomials_downgrade_to_genus(tmp_path, monkeypatch) -> None:
@@ -225,7 +227,7 @@ def test_uploaded_reference_uses_gbif_backbone_enrichment(tmp_path, monkeypatch)
     assert manifest["gbif_backbone_enrichment"]["enriched_records"] == 1
 
 
-def test_real_ncbi_aedes_pack_compiles_species_safe() -> None:
+def test_real_ncbi_aedes_pack_blocks_singleton_species_claim() -> None:
     manifest, fasta_path, _entries = search_backend.load_reference_dataset("ncbi_aedes_coi_small")
     sequence = next(iter(search_backend.read_fasta(fasta_path).values()))
 
@@ -242,10 +244,11 @@ def test_real_ncbi_aedes_pack_compiles_species_safe() -> None:
 
     assert result["hits"][0]["taxon"] == "Aedes albopictus"
     assert result["hits"][0]["gbif_taxon_key"] == 1651430
-    assert record["taxonomic_status"] == "species-safe"
-    assert record["decision_class"] == "not-publishable"
+    assert record["taxonomic_status"] == "ambiguous"
+    assert record["decision_class"] == "ambiguous"
     assert record["published_taxon"]["rank"] == "none"
     assert record["metadata"]["analysisCreatedAt"]
+    assert record["barcode_gap"]["status"] == "insufficient_intraspecific_sampling"
 
 
 def test_real_ncbi_quercus_pack_downgrades_conserved_rbcl_to_genus() -> None:

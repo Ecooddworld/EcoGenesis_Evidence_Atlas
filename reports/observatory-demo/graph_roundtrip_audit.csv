@@ -1,2 +1,2 @@
-graph_items,missing_provenance_hash,roundtrip_json_ok,status
-31,0,True,pass
+graph_items,missing_provenance_hash,roundtrip_json_ok,claim_states_preserved,status
+27,0,True,True,pass

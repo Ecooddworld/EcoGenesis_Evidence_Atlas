@@ -4,8 +4,10 @@ from app.observatory.reference_checks import (
     ai_export_is_safe,
     load_json,
     load_yaml,
+    release_checks,
     validate_pipeline_dag,
     validate_proof_obligations,
+    validate_release_checks,
     validate_source_registry,
     validate_ui_contract,
     visual_claim_projection,
@@ -30,6 +32,13 @@ def test_observatory_ui_contract() -> None:
 def test_observatory_proof_obligations_contract() -> None:
     errors = validate_proof_obligations(load_json("ecogenesis_gsig_observatory_proof_obligations_v4.json"))
     assert errors == []
+
+
+def test_observatory_release_checks_are_primary_and_bounded() -> None:
+    contract = release_checks()
+    assert validate_release_checks(contract) == []
+    assert contract["release_check_set"] == "GSIG-Observatory-Release-Checks-v1"
+    assert "not mathematical proof obligations" in contract["terminology_boundary"]
 
 
 def test_observatory_visualization_cannot_promote_claim_state() -> None:

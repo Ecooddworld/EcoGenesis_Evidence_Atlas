@@ -1,4 +1,4 @@
-sequenceID,corePass,requiredMissing,recommendedMissing,publicationBucket,exportState,formalGbifReadyAllowed
+sequenceID,corePass,requiredMissing,recommendedMissing,publicationBucket,exportState,gbifValidationCandidateAllowed
 COMP100-001-species_safe,True,,,publishable_candidate,dwc_template_ready,False
 COMP100-002-species_safe,True,,,publishable_candidate,dwc_template_ready,False
 COMP100-003-species_safe,True,,,publishable_candidate,dwc_template_ready,False

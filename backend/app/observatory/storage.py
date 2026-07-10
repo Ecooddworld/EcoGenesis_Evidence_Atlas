@@ -96,7 +96,12 @@ def list_observatory_summaries(limit: int = 20) -> list[dict[str, Any]]:
                 "snapshot_id": pack.get("snapshot_manifest", {}).get("snapshot_id"),
                 "records": pack.get("summary", {}).get("normalized_occurrence_records"),
                 "segments": pack.get("summary", {}).get("segments"),
-                "hard_gate_status": pack.get("proof_summary", {}).get("hard_gate_status"),
+                "hard_gate_status": pack.get("release_check_summary", pack.get("proof_summary", {})).get(
+                    "hard_gate_status"
+                ),
+                "release_status": pack.get("release_check_summary", pack.get("proof_summary", {})).get(
+                    "release_status"
+                ),
                 "finished_at": pack.get("run", {}).get("finished_at"),
             }
         )

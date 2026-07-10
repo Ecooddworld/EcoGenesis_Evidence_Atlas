@@ -1,5 +1,7 @@
 # Deep Research Report 14: что принято в EcoGenesis Nexus V3
 
+> **Архивная запись внедрения.** Термины `species-safe` и `GBIF-ready` ниже относятся к прежнему compatibility-контракту; актуальные primary states — rule results и GBIF validation candidates, без заявления о внешней научной/GBIF валидации.
+
 Дата внедрения: 2026-06-02.
 
 ## Главный вывод

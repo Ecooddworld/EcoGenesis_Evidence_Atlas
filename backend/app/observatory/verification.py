@@ -10,7 +10,7 @@ import zipfile
 from .storage import load_observatory_pack, observatory_artifact_path, observatory_export_manifest
 
 
-REQUIRED_OPO_ARTIFACTS = {
+REQUIRED_RELEASE_CHECK_ARTIFACTS = {
     "source_registry_audit.json",
     "snapshot_manifest.json",
     "api_policy_audit.csv",
@@ -53,21 +53,30 @@ def verify_observatory_run_outputs(run_id: str) -> dict[str, Any]:
         actual_sha = sha256_file(path) if path.exists() else None
         require(checks, f"sha256:{row['name']}", actual_sha == row.get("sha256"), actual_sha or "missing")
 
-    proof = load_json_object(observatory_artifact_path(run_id, "proof_summary.json"))
-    require(checks, "proof_total_20", proof.get("total") == 20, proof.get("total"))
-    require(checks, "proof_hard_gate_pass", proof.get("hard_gate_failures") == 0, proof.get("hard_gate_failures"))
+    release_summary = load_json_object(observatory_artifact_path(run_id, "release_check_summary.json"))
+    require(checks, "release_check_total_20", release_summary.get("total") == 20, release_summary.get("total"))
     require(
         checks,
-        "proof_summary_matches_pack",
-        proof.get("hard_gate_status") == pack.get("proof_summary", {}).get("hard_gate_status")
-        and proof.get("total") == pack.get("proof_summary", {}).get("total"),
-        {"artifact": proof.get("hard_gate_status"), "pack": pack.get("proof_summary", {}).get("hard_gate_status")},
+        "release_check_hard_gates_pass",
+        release_summary.get("hard_gate_failures") == 0,
+        release_summary.get("hard_gate_failures"),
     )
     require(
         checks,
-        "all_opo_artifacts_present",
-        REQUIRED_OPO_ARTIFACTS <= set(manifest_by_name),
-        sorted(REQUIRED_OPO_ARTIFACTS - set(manifest_by_name)),
+        "release_check_summary_matches_pack",
+        release_summary.get("hard_gate_status")
+        == pack.get("release_check_summary", {}).get("hard_gate_status")
+        and release_summary.get("total") == pack.get("release_check_summary", {}).get("total"),
+        {
+            "artifact": release_summary.get("hard_gate_status"),
+            "pack": pack.get("release_check_summary", {}).get("hard_gate_status"),
+        },
+    )
+    require(
+        checks,
+        "all_release_check_artifacts_present",
+        REQUIRED_RELEASE_CHECK_ARTIFACTS <= set(manifest_by_name),
+        sorted(REQUIRED_RELEASE_CHECK_ARTIFACTS - set(manifest_by_name)),
     )
     require(
         checks,
@@ -156,16 +165,30 @@ def verify_observatory_run_outputs(run_id: str) -> dict[str, Any]:
     ai_rows = read_csv_rows(observatory_artifact_path(run_id, "ai_dataset_export_audit.csv"))
     gbif_rows = read_csv_rows(observatory_artifact_path(run_id, "gbif_export_claim_boundary_audit.csv"))
     require(checks, "visualization_no_promotion", bool(visual_rows) and all_pass(visual_rows), status_counts(visual_rows))
-    require(checks, "ai_export_no_false_verified", bool(ai_rows) and all_pass(ai_rows), status_counts(ai_rows))
+    require(checks, "ai_export_no_false_rule_supported", bool(ai_rows) and all_pass(ai_rows), status_counts(ai_rows))
     require(checks, "gbif_export_boundary_pass", bool(gbif_rows) and all_pass(gbif_rows), status_counts(gbif_rows))
     require(
         checks,
-        "weak_rows_not_positive_verified",
+        "weak_rows_not_positive_rule_supported",
         all(
-            not (row.get("claim_state") == "weak_hypothesis" and row.get("ai_label") == "positive_verified")
+            not (
+                row.get("claim_state") == "weak_hypothesis"
+                and row.get("ai_label") in {"positive_rule_supported", "positive_verified"}
+            )
             for row in pack.get("vsea", [])
         ),
         "weak rows checked",
+    )
+    require(
+        checks,
+        "molecular_rows_do_not_fake_occurrence_links",
+        all(
+            row.get("context_linkage_status") == "unlinked_context_only"
+            and not row.get("gbifID_context")
+            and not row.get("datasetKey_context")
+            for row in pack.get("vsea", [])
+        ),
+        "run-level GBIF context remains unlinked from molecular rows",
     )
     require(
         checks,
@@ -187,7 +210,7 @@ def verify_observatory_run_outputs(run_id: str) -> dict[str, Any]:
     )
     require(
         checks,
-        "summary_release_gate_pass",
+        "summary_hard_gates_pass",
         summary.get("hard_gate_status") == "pass" and summary.get("hard_gate_failures") == 0,
         {"status": summary.get("hard_gate_status"), "hard_gate_failures": summary.get("hard_gate_failures")},
     )
@@ -245,14 +268,15 @@ def verification_report_markdown(report: dict[str, Any]) -> str:
     checks = report.get("checks", [])
     failed = [check for check in checks if check.get("status") != "pass"]
     core_check_names = [
-        "proof_hard_gate_pass",
+        "release_check_hard_gates_pass",
         "embedded_export_checksums_match_manifest",
         "self_referential_exports_deferred",
         "vsea_count_matches_pack",
         "occurrence_count_matches_pack",
         "graph_items_have_provenance",
         "visualization_no_promotion",
-        "ai_export_no_false_verified",
+        "ai_export_no_false_rule_supported",
+        "molecular_rows_do_not_fake_occurrence_links",
         "gbif_export_boundary_pass",
         "zip_entry_checksums_match_manifest",
     ]
@@ -276,7 +300,7 @@ Status: `{summary.get("status")}`
 | Checks | `{summary.get("checks", 0)}` |
 | Failed | `{summary.get("failed", 0)}` |
 | Exports checked | `{summary.get("exports", 0)}` |
-| VSEA rows checked | `{summary.get("vsea_rows", 0)}` |
+| Rule-evidence rows checked | `{summary.get("vsea_rows", 0)}` |
 | Occurrence rows checked | `{summary.get("occurrence_rows", 0)}` |
 | ZIP entries checked | `{summary.get("zip_entries", 0)}` |
 
@@ -292,7 +316,7 @@ Status: `{summary.get("status")}`
 
 ## Claim Boundary
 
-This verification proves file integrity, row accounting, graph provenance, proof obligations, and export guardrails for this exact run. It does not upgrade GBIF occurrence context into molecular proof; claim strength remains controlled by the VSEA and graph gates.
+This verification checks file integrity, row accounting, graph provenance, release invariants, and export guardrails for this exact run. It does not upgrade GBIF occurrence context into molecular proof; claim strength remains controlled by the rule-evidence and graph gates.
 """
 
 

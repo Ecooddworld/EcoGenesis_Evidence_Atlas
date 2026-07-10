@@ -52,7 +52,7 @@ def main() -> None:
                 "report_dir": str(REPORT_DIR),
                 "exports": len(copied),
                 "hard_gate_status": pack["summary"]["hard_gate_status"],
-                "vsea_rows": pack["summary"]["vsea_rows"],
+                "rule_evidence_rows": pack["summary"]["rule_evidence_rows"],
                 "verification_checks": verification["summary"]["checks"],
                 "verification_failed": verification["summary"]["failed"],
             },
@@ -104,7 +104,7 @@ Run ID: `{pack['run']['run_id']}`
 - Hard gate status: `{summary['hard_gate_status']}`
 - GBIF source mode: `{summary['source_mode']}`
 - Occurrence context rows: `{summary['normalized_occurrence_records']}`
-- VSEA rows: `{summary['vsea_rows']}`
+- Rule-evidence rows: `{summary['rule_evidence_rows']}`
 - Segments: `{summary['segments']}`
 - Graph: `{summary['graph_nodes']}` nodes, `{summary['graph_edges']}` edges
 - Claim states: `{json.dumps(summary['claim_states'], sort_keys=True)}`
@@ -123,7 +123,8 @@ Key files:
 - `observatory_graph.jsonld`
 - `gbif_export_preview.csv`
 - `ai_ready_dataset.jsonl`
-- `proof_summary.json`
+- `release_check_summary.json`
+- `proof_summary.json` (deprecated compatibility alias)
 - `observatory_output_verification.json`
 - `observatory_output_verification.md`
 """

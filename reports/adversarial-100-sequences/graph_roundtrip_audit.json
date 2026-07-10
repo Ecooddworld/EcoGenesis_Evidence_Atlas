@@ -1,9 +1,9 @@
 {
   "schema": "ecogenesis.gsig.graph_roundtrip_audit.v1",
-  "nodes_before": 556,
-  "nodes_after": 556,
-  "edges_before": 751,
-  "edges_after": 751,
+  "nodes_before": 558,
+  "nodes_after": 558,
+  "edges_before": 753,
+  "edges_after": 753,
   "claim_states_preserved": true,
   "status": "pass"
 }

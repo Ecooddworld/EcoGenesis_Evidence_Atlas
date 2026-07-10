@@ -1,3 +1,7 @@
+0
+00:00:00,000 --> 00:00:05,000
+ARCHIVED PRE-REMEDIATION CAPTIONS — use contest-video-v2 and docs/submission.md.
+
 1
 00:00:00,000 --> 00:00:12,000
 GBIF records to a defensible decision memo.

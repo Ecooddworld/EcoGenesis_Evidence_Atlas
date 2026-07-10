@@ -24,7 +24,9 @@ Reference context: **COI Animals / BOLD public clustered reference**. Marker: **
 
 For each DNA barcode/metabarcoding sequence, the compiler evaluated a marker-specific identity/coverage profile, a 95% ambiguity test over mismatch-rate standard errors, lowest common ancestor of indistinguishable hits, barcode gap, diagnostic k-mer support, diagnostic false-positive probability, assay evidence gates and GBIF publication metadata readiness.
 
-Species-level output is fail-closed: a sequence is `species-safe` only when the marker exact-match gate, ambiguity/LCA gate, positive barcode gap gate, diagnostic k-mer gate, marker-profile species gate, assay gate and publication-readiness gates all pass.
+Species-level output is fail-closed inside the current ruleset: `scientific_decision_state=species-rule-pass` means the configured molecular and assay rules passed, not independently validated species truth. The deprecated `species-safe` decision token is retained only for API compatibility.
+
+The CSV exports remain review templates. When every selected record and the supplied dataset metadata pass the local DwC-A contract, the pack also includes a separate `dwca.zip` with an Occurrence core, DNA-derived extension, `meta.xml` and `eml.xml`. `dwca_validation_report.json` records local semantic and roundtrip results. A local pass is not IPT ingestion or GBIF publication; external IPT/GBIF validation remains an explicit release blocker.
 
 The pack separates `candidate_taxon` from `published_taxon`: blocked or weak records can remain useful as review hints, but they are not emitted as publishable Darwin Core species records.
 
@@ -38,9 +40,12 @@ The `repair_plan.csv` export ranks repair actions by unlockable record count. Me
 
 Nexus V3 audit files in this Evidence Pack add:
 
-- `hard_gate_audit.csv` for species-safe consistency checks;
+- `data_accounting_ledger.csv` for explicit numerators and denominators;
+- `state_machine_audit.csv` for taxonomic status, publication bucket and export-state separation;
+- `hard_gate_audit.csv` for species rule-pass consistency checks;
 - `naive_top_hit_overclaims.csv` for overclaim prevention evidence;
 - `reference_gap_index.csv` for marker/reference bottlenecks;
+- `reference_completeness_audit.csv` for explicit RCI 2.0 status and reference-context caveats;
 - `marker_profile_audit.csv` for marker-specific gates and caveats;
 - `assay_gate_audit.csv` for qPCR/eDNA/control metadata status;
 - `dna_extension_readiness.csv` for GBIF DNA-derived high-priority fields;

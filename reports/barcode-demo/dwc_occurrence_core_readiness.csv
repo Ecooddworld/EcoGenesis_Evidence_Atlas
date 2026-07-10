@@ -1,0 +1,5 @@
+sequenceID,corePass,requiredMissing,recommendedMissing,publicationBucket,exportState,gbifValidationCandidateAllowed
+AALB-COI-good,True,,,repair_required,review_only,False
+AALB-COI-ambiguous,True,,,publishable_candidate,dwc_template_ready,False
+AALB-COI-short,True,,,repair_required,review_only,False
+AALB-COI-metadata-gap,False,occurrenceID; eventDate,decimalLatitude; decimalLongitude; geodeticDatum; coordinateUncertaintyInMeters,repair_required,review_only,False

@@ -2,9 +2,9 @@
   "db_name": "COI Animals / BOLD public clustered reference",
   "db_version": "not_supplied",
   "source": "request.reference_database",
-  "accessed_at": "2026-06-02",
+  "accessed_at": "2026-07-10",
   "doi_or_url": null,
   "license": null,
   "sha256": null,
-  "manifest_sha256": "da337f143497dd4c0ed01ce65e3f554d9c70d0bacd185e560d9f6c8f28ec45f7"
+  "manifest_sha256": "ddc1adf27441f43cff806fce6d797566760fb9db1783126d37d1b72580f43840"
 }

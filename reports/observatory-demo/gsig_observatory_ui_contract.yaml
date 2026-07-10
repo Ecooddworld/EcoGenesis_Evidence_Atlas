@@ -1,5 +1,5 @@
 ui_contract_version: GSIG-OBS-UI-1.0
-design_principle: The UI is an explanation system over a verified evidence graph,
+design_principle: The UI is an explanation system over a rule-checked evidence graph,
   not a decorative dashboard.
 global_controls:
 - claim_state_filter
@@ -36,7 +36,7 @@ screens:
   - no_unknown_license_ingest
   - live_data_marked_pending
 - id: vsea_grid
-  title: Verified Segment Evidence Array Grid
+  title: Rule Evidence Segment Grid
   purpose: Browse segment x taxon x reference x evidence records with claim states.
   required_widgets:
   - segment_table
@@ -47,7 +47,7 @@ screens:
   - export_subset
   guardrails:
   - blocked_claims_not_hidden
-  - raw_and_verified_separated
+  - raw_and_rule_checked_separated
 - id: graph_explorer
   title: Evidence Graph Explorer
   purpose: 'Explore nodes and edges: segments, taxa, references, publications, annotations,
@@ -100,7 +100,7 @@ screens:
   - metadata_repair_cannot_upgrade_biology
 - id: gbif_workbench
   title: GBIF Export Workbench
-  purpose: Prepare Occurrence core and DNA-derived extension files from verified,
+  purpose: Prepare Occurrence core and DNA-derived extension files from rule-supported,
     bounded evidence only.
   required_widgets:
   - occurrence_core_preview
@@ -113,7 +113,7 @@ screens:
   - safe_taxon_must_match_claim_boundary
 - id: ai_dataset_builder
   title: AI-Ready Dataset Builder
-  purpose: Export matrices and graph features while separating verified labels, weak
+  purpose: Export matrices and graph features while separating rule-supported labels, weak
     hypotheses and blocked claims.
   required_widgets:
   - feature_selector
@@ -126,14 +126,14 @@ screens:
   - hypothesis_labels_separate
 - id: judge_mode
   title: Judge Mode
-  purpose: 'One-click competition path: run demo, inspect graph, view proof checklist
+  purpose: 'One-click competition path: run demo, inspect graph, view release checklist
     and export evidence pack.'
   required_widgets:
   - run_demo_button
-  - proof_obligation_status
+  - release_check_status
   - artifact_manifest
   - video_storyboard
   - non_claims_panel
   guardrails:
-  - demo_reproducible_offline
+  - demo_offline_fixture_self_check
   - roadmap_not_claimed_as_done

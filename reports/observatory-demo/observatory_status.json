@@ -7,18 +7,21 @@
   "normalized_occurrence_records": 12,
   "segments": 4,
   "vsea_rows": 4,
+  "rule_evidence_rows": 4,
   "claim_states": {
-    "taxon_supported": 3,
+    "taxon_ambiguous": 2,
+    "taxon_supported": 1,
     "weak_hypothesis": 1
   },
   "gbif_export_states": {
-    "candidate_gbif_row": 2,
-    "excluded_or_repair_required": 2
+    "excluded_or_repair_required": 3,
+    "candidate_gbif_row": 1
   },
   "graph_nodes": 14,
-  "graph_edges": 17,
+  "graph_edges": 13,
   "hard_gate_status": "pass",
   "hard_gate_failures": 0,
+  "release_status": "review",
   "barcode_records": 4,
   "claim_boundary": "Visualization, GBIF context and AI exports preserve graph claim states and cannot upgrade evidence."
 }

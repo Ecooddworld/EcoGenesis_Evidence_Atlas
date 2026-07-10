@@ -1,2 +1,2 @@
-planned_sources_visible,planned_sources_export_claims,roadmap_labeled_no_claim,status
-0,False,True,pass
+planned_sources_visible,planned_sources_export_claims,roadmap_labeled_no_claim,non_claims_panel_present,status
+0,False,True,True,pass

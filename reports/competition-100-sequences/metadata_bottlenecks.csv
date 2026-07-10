@@ -7,6 +7,7 @@ missing dataset metadata: license,100,1.0
 missing dataset metadata: contact,100,1.0
 missing dataset metadata: creator,100,1.0
 missing dataset metadata: metadataProvider,100,1.0
+missing dataset metadata: citation,100,1.0
 missing DNA-derived extension field: pcr_primer_forward,100,1.0
 missing DNA-derived extension field: pcr_primer_reverse,100,1.0
 missing DNA-derived extension field: seq_meth,100,1.0

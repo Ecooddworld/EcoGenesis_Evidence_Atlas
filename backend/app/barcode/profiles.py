@@ -117,7 +117,14 @@ ASSAY_PROFILES: dict[str, dict[str, Any]] = {
     "metabarcoding": {
         "id": "metabarcoding",
         "label": "Metabarcoding / eDNA batch",
-        "required_fields": [],
+        "required_fields": [
+            "methodOrSOP",
+            "contaminationAssessment",
+            "negativeControlStatus",
+            "positiveControlStatus",
+            "biologicalReplicateCount",
+            "technicalReplicateCount",
+        ],
         "recommended_fields": [
             "eventID",
             "materialSampleID",
@@ -125,22 +132,35 @@ ASSAY_PROFILES: dict[str, dict[str, Any]] = {
             "totalReads",
             "pcr_primer_forward",
             "pcr_primer_reverse",
-            "contaminationAssessment",
-            "methodOrSOP",
         ],
-        "publication_blocking": False,
+        "publication_blocking": True,
         "claim_caveat": "Without controls and replicate/QC metadata, detections remain molecular evidence, not confirmed living presence.",
     },
     "qpcr_ddpcr": {
         "id": "qpcr_ddpcr",
         "label": "Targeted qPCR / ddPCR detection",
-        "required_fields": ["occurrenceStatus", "contaminationAssessment", "methodOrSOP"],
+        "required_fields": [
+            "occurrenceStatus",
+            "assayPlatform",
+            "contaminationAssessment",
+            "negativeControlStatus",
+            "positiveControlStatus",
+            "inhibitionControlStatus",
+            "technicalReplicateCount",
+            "assaySpecificityEvidence",
+            "limitOfDetection",
+            "methodOrSOP",
+        ],
         "recommended_fields": [
             "eventID",
             "materialSampleID",
             "experimentalVariance",
             "quantificationCycle",
             "estimatedNumberOfCopies",
+            "limitOfDetection",
+            "limitOfQuantification",
+            "amplificationEfficiency",
+            "nonDetectInterpretation",
             "pcr_primer_forward",
             "pcr_primer_reverse",
         ],
@@ -150,17 +170,24 @@ ASSAY_PROFILES: dict[str, dict[str, Any]] = {
     "custom_targeted": {
         "id": "custom_targeted",
         "label": "Custom targeted assay",
-        "required_fields": ["methodOrSOP"],
+        "required_fields": [
+            "methodOrSOP",
+            "contaminationAssessment",
+            "negativeControlStatus",
+            "positiveControlStatus",
+            "technicalReplicateCount",
+            "assaySpecificityEvidence",
+        ],
         "recommended_fields": ["eventID", "materialSampleID", "contaminationAssessment"],
-        "publication_blocking": False,
+        "publication_blocking": True,
         "claim_caveat": "Custom targeted assays need a supplied SOP and external validation for formal claims.",
     },
     "unknown": {
         "id": "unknown",
         "label": "Unknown assay",
-        "required_fields": [],
+        "required_fields": ["methodOrSOP"],
         "recommended_fields": ["eventID", "materialSampleID", "methodOrSOP"],
-        "publication_blocking": False,
+        "publication_blocking": True,
         "claim_caveat": "Assay type was not supplied; ecological and monitoring claims require review.",
     },
 }
@@ -268,18 +295,22 @@ def assay_gate_readiness(request: BarcodeCompilerRequest, metadata: dict[str, An
     profile = ASSAY_PROFILES[assay_type]
     required_missing = [field for field in profile["required_fields"] if is_missing(metadata.get(field))]
     recommended_missing = [field for field in profile["recommended_fields"] if is_missing(metadata.get(field))]
-    pass_required = not required_missing
+    semantic_issues = assay_semantic_issues(assay_type, metadata)
+    pass_required = not required_missing and not semantic_issues
     blockers = []
     if profile["publication_blocking"] and required_missing:
         blockers.append(f"assay gate blocked publication: missing {', '.join(required_missing)} for {assay_type}")
+    if profile["publication_blocking"] and semantic_issues:
+        blockers.append(f"assay gate blocked publication: invalid assay evidence for {assay_type}: {'; '.join(semantic_issues)}")
     actions = []
-    if required_missing or recommended_missing:
+    if required_missing or recommended_missing or semantic_issues:
         actions.append("Add assay evidence fields: controls, primers, replicate/QC or qPCR/ddPCR quantification metadata as applicable.")
     return {
         "assay_type": assay_type,
         "assay_label": profile["label"],
         "assay_required_missing": required_missing,
         "assay_recommended_missing": recommended_missing,
+        "assay_semantic_issues": semantic_issues,
         "assay_gate_pass": pass_required,
         "assay_publication_blocking": bool(profile["publication_blocking"]),
         "assay_blockers": blockers,
@@ -299,3 +330,97 @@ def dna_extension_readiness(metadata: dict[str, Any]) -> dict[str, Any]:
 
 def is_missing(value: Any) -> bool:
     return value is None or str(value).strip() == ""
+
+
+def assay_semantic_issues(assay_type: str, metadata: dict[str, Any]) -> list[str]:
+    if assay_type == "unknown":
+        return ["assay type must be identified before a species-level rule pass"]
+    if assay_type not in {"metabarcoding", "qpcr_ddpcr"}:
+        return []
+    issues: list[str] = []
+    negative_ok = {"pass", "passed", "negative", "not detected", "no amplification", "clear"}
+    positive_ok = {"pass", "passed", "positive", "detected", "amplified"}
+    inhibition_ok = {"pass", "passed", "not detected", "no inhibition", "clear"}
+    contamination = normalized_value(metadata.get("contaminationAssessment"))
+    if contamination and not (
+        contamination in {"pass", "passed", "negative", "not detected", "clear"}
+        or "no contamination" in contamination
+        or "contamination not detected" in contamination
+    ):
+        issues.append("contaminationAssessment must explicitly report a passed/no-contamination result")
+    negative = normalized_value(metadata.get("negativeControlStatus"))
+    if negative and negative not in negative_ok:
+        issues.append("negativeControlStatus must report pass/no amplification/not detected")
+    positive = normalized_value(metadata.get("positiveControlStatus"))
+    if positive and positive not in positive_ok:
+        issues.append("positiveControlStatus must report pass/amplified/detected")
+
+    for field in ("biologicalReplicateCount", "technicalReplicateCount"):
+        if is_missing(metadata.get(field)):
+            continue
+        value = positive_integer(metadata.get(field))
+        if value is None or value < 2:
+            issues.append(f"{field} must be an integer >= 2")
+
+    if assay_type == "metabarcoding":
+        read_count = positive_number(metadata.get("readCount"), allow_zero=True)
+        total_reads = positive_number(metadata.get("totalReads"), allow_zero=False)
+        if read_count is not None and total_reads is not None and read_count > total_reads:
+            issues.append("readCount cannot exceed totalReads")
+        return issues
+
+    occurrence = normalized_value(metadata.get("occurrenceStatus"))
+    if occurrence and occurrence not in {"present", "absent"}:
+        issues.append("occurrenceStatus must be present or absent")
+    platform = normalized_value(metadata.get("assayPlatform"))
+    if platform and platform not in {"qpcr", "ddpcr"}:
+        issues.append("assayPlatform must be qPCR or ddPCR")
+    inhibition = normalized_value(metadata.get("inhibitionControlStatus"))
+    if inhibition and inhibition not in inhibition_ok:
+        issues.append("inhibitionControlStatus must report pass/no inhibition")
+    lod = positive_number(metadata.get("limitOfDetection"), allow_zero=False)
+    if not is_missing(metadata.get("limitOfDetection")) and lod is None:
+        issues.append("limitOfDetection must be numeric and > 0")
+    if occurrence == "present":
+        if platform == "qpcr":
+            cq = positive_number(metadata.get("quantificationCycle"), allow_zero=False)
+            if cq is None or cq > 60:
+                issues.append("present qPCR detections require quantificationCycle in (0, 60]")
+            efficiency = positive_number(metadata.get("amplificationEfficiency"), allow_zero=False)
+            if efficiency is None or not 70 <= efficiency <= 130:
+                issues.append("qPCR amplificationEfficiency must be between 70 and 130 percent")
+        elif platform == "ddpcr":
+            copies = positive_number(metadata.get("estimatedNumberOfCopies"), allow_zero=False)
+            if copies is None:
+                issues.append("present ddPCR detections require estimatedNumberOfCopies > 0")
+    if occurrence == "absent" and is_missing(metadata.get("nonDetectInterpretation")):
+        issues.append("absent qPCR/ddPCR results require nonDetectInterpretation")
+    if not is_missing(metadata.get("estimatedNumberOfCopies")):
+        loq = positive_number(metadata.get("limitOfQuantification"), allow_zero=False)
+        if loq is None:
+            issues.append("quantified copy estimates require limitOfQuantification > 0")
+    return issues
+
+
+def normalized_value(value: Any) -> str:
+    return str(value or "").strip().lower().replace("_", " ").replace("-", " ")
+
+
+def positive_integer(value: Any) -> int | None:
+    try:
+        number = int(value)
+    except (TypeError, ValueError):
+        return None
+    return number if str(number) == str(value).strip() or isinstance(value, int) else None
+
+
+def positive_number(value: Any, *, allow_zero: bool) -> float | None:
+    if is_missing(value):
+        return None
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        return None
+    if number < 0 or (number == 0 and not allow_zero):
+        return None
+    return number

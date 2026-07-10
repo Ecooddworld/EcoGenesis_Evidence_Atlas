@@ -10,7 +10,7 @@ export FRONTEND_PORT BACKEND_PORT
 
 cleanup() {
   if [[ "${KEEP_DOCKER_STACK}" != "1" ]]; then
-    docker compose -p "${PROJECT_NAME}" down --remove-orphans >/dev/null
+    docker compose -p "${PROJECT_NAME}" down --volumes --remove-orphans >/dev/null
   fi
 }
 trap cleanup EXIT
@@ -85,10 +85,13 @@ curl -fsS "http://127.0.0.1:${FRONTEND_PORT}/api/observatory/status" -o "${tmpdi
 grep -q '"service":"ecogenesis-gsig-observatory"' "${tmpdir}/observatory-status.json"
 
 curl -fsS "http://127.0.0.1:${FRONTEND_PORT}/api/competition-reports" -o "${tmpdir}/competition-reports.json"
-grep -q '"status":"pass"' "${tmpdir}/competition-reports.json"
+grep -q '"status":"review"' "${tmpdir}/competition-reports.json"
 grep -q '"report_id":"competition-100-sequences"' "${tmpdir}/competition-reports.json"
 grep -q '"report_id":"adversarial-100-sequences"' "${tmpdir}/competition-reports.json"
 grep -q '"records":100' "${tmpdir}/competition-reports.json"
+test "$(grep -o '"regression_status":"pass"' "${tmpdir}/competition-reports.json" | wc -l | tr -d ' ')" -eq 2
+test "$(grep -o '"expected_failed":0' "${tmpdir}/competition-reports.json" | wc -l | tr -d ' ')" -eq 2
+test "$(grep -o '"validation_status":"external_validation_missing"' "${tmpdir}/competition-reports.json" | wc -l | tr -d ' ')" -eq 2
 curl -fsSI "http://127.0.0.1:${FRONTEND_PORT}/api/competition-reports/competition-100-sequences/files/evidence_pack.zip" \
   | grep -q "200 OK"
 
@@ -101,8 +104,9 @@ grep -q '"status":"completed"' "${tmpdir}/observatory-run.json"
 grep -q '"hard_gate_status":"pass"' "${tmpdir}/observatory-run.json"
 
 curl -fsS "http://127.0.0.1:${FRONTEND_PORT}/api/contest-readiness" -o "${tmpdir}/contest-readiness.json"
-grep -q '"status":"pass"' "${tmpdir}/contest-readiness.json"
-grep -q '"competition_status":"pass"' "${tmpdir}/contest-readiness.json"
+grep -q '"status":"review"' "${tmpdir}/contest-readiness.json"
+grep -q '"failed":0' "${tmpdir}/contest-readiness.json"
+grep -q '"competition_status":"review"' "${tmpdir}/contest-readiness.json"
 grep -q '"observatory_status":"pass"' "${tmpdir}/contest-readiness.json"
 curl -fsSI "http://127.0.0.1:${FRONTEND_PORT}/api/contest-readiness/report.md" \
   | grep -q "200 OK"

@@ -1,0 +1,5 @@
+sequenceID,status,rci2Status,referenceContext,closeRelativeCoverage,sequenceQuality,geographicCoverage,perSpeciesDepth,taxonomicStability,candidateSpeciesInHitTable,claimScope
+AALB-COI-good,fail,informational_unverified_reference_audit,,1.0,,,,,2,bounded_to_audited_reference_context_not_absolute_species_truth
+AALB-COI-ambiguous,fail,informational_unverified_reference_audit,,1.0,,,,,2,bounded_to_audited_reference_context_not_absolute_species_truth
+AALB-COI-short,fail,informational_unverified_reference_audit,,1.0,,,,,1,bounded_to_audited_reference_context_not_absolute_species_truth
+AALB-COI-metadata-gap,fail,informational_unverified_reference_audit,,1.0,,,,,1,bounded_to_audited_reference_context_not_absolute_species_truth

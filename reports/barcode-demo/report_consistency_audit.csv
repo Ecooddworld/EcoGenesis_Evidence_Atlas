@@ -1,0 +1,4 @@
+metric,machineValue,reportValue,status,caveat
+processed_records,4,,informational_not_independently_parsed,The human report is generated from this same pack. A pass requires parsing a separately rendered report after generation.
+hard_gate_failures,0,,informational_not_independently_parsed,The human report is generated from this same pack. A pass requires parsing a separately rendered report after generation.
+validation_candidate_records,0,,informational_not_independently_parsed,The human report is generated from this same pack. A pass requires parsing a separately rendered report after generation.

@@ -1,6 +1,6 @@
 metric,value
 processed_records,100
-species_safe_records,25
+species_rule_pass_records,50
 genus_safe_records,25
 ambiguous_records,0
 weak_records,25

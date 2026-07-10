@@ -1,32 +1,35 @@
-# Competition 100-Sequence Atlas Run Report
+# Competition 100-Row Repeated-Fixture Regression Report
 
-Generated: 2026-06-24T23:51:48+02:00
+Generated: 2026-07-10T13:37:12+02:00
 Backend: local compiler script `backend/scripts/generate_competition_reports.py`
-Run ID: `70fbc9adfcab4cdaae0693fff8e21760`
+Run ID: `b2a2d9edb772432db11c6be440a5df05`
 
 ## Result
 
 - Records submitted: 100
+- Unique DNA sequence payloads: 1
 - API status: completed
-- Exports returned: 90
+- Exports returned: 92
 - Expected decisions matched: True
 - Hard-gate failures: 0
-- Evidence Pack ZIP SHA-256: `788eb5820d0dc8e0144991aa56c98551e88bf6f1e9371ba18fa73004c64f1221`
+- Evidence Pack ZIP SHA-256: `63e994dba0909dba4bf1b9b4155a78a4f90cc71e5dbba4484b2260824eda477a`
 - GSEG/GSIG exports present: True
 - ZIP contains GSEG/GSIG exports: True
-- VSEA Parquet magic: `PAR1`
+- Rule-evidence Parquet magic: `PAR1`
 - Math viability audit: `pass` (941 checks, 0 failed)
-- Theorem checklist release gate: `pass`
+- Release-invariant gate: `review`
+- External validation status: `blocked` (these are repeated regression fixtures, not independent specimens)
+- Per-record evidence attestation key: `synthetic-regression-fixture-not-external-trust` (public synthetic regression key; not an external reference audit)
+- DwC-A local validation: `blocked`; release gate: `blocked_local_validation`
 - Graph roundtrip audit: `pass`
 
 ## Decision classes
 
 ```json
 {
-  "species-safe": 25,
+  "species-rule-pass": 50,
   "genus-safe": 25,
-  "weak": 25,
-  "not-publishable": 25
+  "weak": 25
 }
 ```
 
@@ -51,4 +54,4 @@ Run ID: `70fbc9adfcab4cdaae0693fff8e21760`
 
 ## Interpretation
 
-The run is fail-closed. Species-level output is allowed only when match gates, ambiguity/LCA, barcode gap, diagnostic k-mers, marker profile and publication gates agree. The GSEG/GSIG layer adds VSEA, graph provenance, theorem checklist, AI guardrails and roundtrip checks without claiming phenotype, function or production GraphDB/RDF behavior.
+This is a repeated-fixture regression run, not an empirical validation set. Species-level rule-pass output is fail-closed under the current gates. The GSEG/GSIG layer adds rule-evidence exports, graph provenance, release invariants, AI guardrails and roundtrip checks without claiming biological truth, accuracy, phenotype/function inference or production GraphDB/RDF behavior.

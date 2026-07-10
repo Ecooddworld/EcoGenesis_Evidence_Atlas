@@ -36,7 +36,7 @@ def audit_pack_math(pack: dict[str, Any], *, scope: str = "current_pack") -> dic
             "diagnostic_probability": "probability in [0, 1]",
         },
         "method_boundary": [
-            "The audit proves internal mathematical consistency for supplied evidence and frozen gates.",
+            "The audit checks internal formula consistency for supplied evidence and frozen gates.",
             "It does not prove absolute species truth outside the supplied reference context.",
             "It does not infer presence, absence, abundance, distribution, phenotype or function without external evidence.",
             "Reference completeness remains a visible caveat when no external reference-coverage audit is attached.",
@@ -344,7 +344,11 @@ def expected_barcode_gap(gap: dict[str, Any]) -> dict[str, Any]:
     if intra is None or inter is None:
         return {"status": "missing", "gap": None}
     value = float(inter) - float(intra)
-    return {"status": "pass" if value > 0 else "fail", "gap": round(value, 6)}
+    if gap.get("gap_ci_lower") is not None and float(gap["gap_ci_lower"]) <= 0:
+        status = "fail_gap_confidence_interval_crosses_zero"
+    else:
+        status = "pass" if value > 0 else "fail"
+    return {"status": status, "gap": round(value, 6)}
 
 
 def expected_diagnostic_gate(diagnostic: dict[str, Any]) -> dict[str, Any]:
@@ -359,8 +363,9 @@ def expected_diagnostic_gate(diagnostic: dict[str, Any]) -> dict[str, Any]:
             "support_rate": 0 if query_windows == 0 else round(support / max(query_windows, 1), 6),
             "p_false_positive": diagnostic.get("p_false_positive"),
         }
-    p_false_positive = 1 - ((1 - min(1.0, diagnostic_count / (4 ** int(k)))) ** query_windows) if query_windows > 0 else 0.0
-    if support < 1:
+    canonical_multiplier = 2 if diagnostic.get("canonicalized") else 1
+    p_false_positive = 1 - ((1 - min(1.0, (diagnostic_count * canonical_multiplier) / (4 ** int(k)))) ** query_windows) if query_windows > 0 else 0.0
+    if support < int(diagnostic.get("minimum_support_count") or 1):
         status = "fail_no_support"
     elif p_false_positive > alpha:
         status = "fail_false_positive_risk"

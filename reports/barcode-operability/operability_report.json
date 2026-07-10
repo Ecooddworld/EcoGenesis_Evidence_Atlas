@@ -3,48 +3,50 @@
   "summary": {
     "tool": "Barcode-to-GBIF Evidence Compiler",
     "demo": "mixed batch",
-    "meaning": "One run intentionally reaches species-safe, genus-safe, weak and not-publishable decisions."
+    "meaning": "The public mixed demo verifies fail-closed unsigned candidates, a genus result, weak coverage and metadata blockers; trusted pass paths are covered separately in tests and explicitly synthetic generators."
   },
   "expected_classes": {
-    "AALB-COI-good": "species-safe",
+    "AALB-COI-good": "ambiguous",
     "AALB-COI-ambiguous": "genus-safe",
     "AALB-COI-short": "weak",
-    "AALB-COI-metadata-gap": "not-publishable"
+    "AALB-COI-metadata-gap": "ambiguous"
   },
   "direct_compiler": {
     "pass": true,
-    "run_id": "181ae7c097994d04bc52e71bacc7b56c",
+    "run_id": "514054a12d8c4b98bc1f8295bd6f13e0",
     "metrics": {
       "processed_records": 4,
       "input_records": 4,
       "eligible_records": 4,
       "candidate_records": 4,
-      "safe_records": 2,
+      "safe_records": 1,
       "processing_coverage": 1,
-      "species_safe_records": 1,
+      "species_safe_records": 0,
+      "species_rule_pass_records": 0,
       "genus_safe_records": 1,
       "higher_rank_safe_records": 0,
-      "ambiguous_records": 0,
+      "ambiguous_records": 2,
       "weak_records": 1,
       "no_match_records": 0,
-      "not_publishable_records": 1,
-      "record_ready_records": 2,
+      "not_publishable_records": 0,
+      "record_ready_records": 1,
       "dataset_ready_records": 0,
-      "publishable_template_records": 2,
+      "publishable_template_records": 1,
+      "validation_candidate_records": 0,
       "gbif_ready_records": 0,
-      "publishable_candidate_records": 2,
-      "repair_required_records": 2,
+      "publishable_candidate_records": 1,
+      "repair_required_records": 3,
       "review_only_records": 0,
-      "safe_rank_records": 2,
+      "safe_rank_records": 1,
       "repairable_records": 4,
       "top_species_hits": 4,
-      "blocked_or_downgraded_top_species_hits": 3,
-      "species_safe_yield": 0.25,
-      "safe_rank_yield": 0.5,
-      "molecular_evidence_conversion_yield": 0.5,
+      "blocked_or_downgraded_top_species_hits": 4,
+      "species_safe_yield": 0.0,
+      "safe_rank_yield": 0.25,
+      "molecular_evidence_conversion_yield": 0.25,
       "repairable_yield": 1.0,
-      "blocked_species_claims": 3,
-      "overclaim_prevention_rate": 0.75,
+      "blocked_species_claims": 4,
+      "overclaim_prevention_rate": 1.0,
       "overclaim_prevention_proxy": 1,
       "publication_repair_efficiency": 1.0,
       "hard_gate_failures": 0,
@@ -53,16 +55,26 @@
       "marker_species_disabled_records": 0
     },
     "actual_classes": {
-      "AALB-COI-good": "species-safe",
+      "AALB-COI-good": "ambiguous",
       "AALB-COI-ambiguous": "genus-safe",
       "AALB-COI-short": "weak",
-      "AALB-COI-metadata-gap": "not-publishable"
+      "AALB-COI-metadata-gap": "ambiguous"
     },
     "expected_classes_pass": true,
     "missing_exports": [],
+    "retired_export_leaks": [],
     "zip_ok": true,
     "zip_contains_required_exports": true,
-    "evidence_pack_json_sha256": "7f67be842ea6b6fd591086e1d75261505dd51d9e745e44e181ab58fd625a6d22"
+    "zip_excludes_retired_exports": true,
+    "zip_inventory_matches_export_manifest": true,
+    "zip_payloads_match_filesystem": true,
+    "export_manifest_hashes_match": true,
+    "embedded_checksums_match": true,
+    "embedded_checksum_inventory_matches_exports": true,
+    "self_referential_checksums_excluded": true,
+    "returned_checksum_inventory_matches_exports": true,
+    "returned_checksums_match_embedded_manifest": true,
+    "evidence_pack_json_sha256": "f69b7ce657b8315d478e0619c7dd068b4aaef526184ffc0864447074b41f3fb9"
   },
   "api": {
     "run_endpoint_status": 200,
@@ -72,39 +84,45 @@
     "zip_head_status": 200,
     "report_contains_title": true,
     "api_classes": {
-      "AALB-COI-good": "species-safe",
+      "AALB-COI-good": "ambiguous",
       "AALB-COI-ambiguous": "genus-safe",
       "AALB-COI-short": "weak",
-      "AALB-COI-metadata-gap": "not-publishable"
+      "AALB-COI-metadata-gap": "ambiguous"
     },
     "api_expected_classes_pass": true,
-    "api_export_count": 90
+    "api_export_count": 92
   },
   "actual_results": [
     {
       "sequence_id": "AALB-COI-good",
-      "decision_class": "species-safe",
-      "taxonomic_status": "species-safe",
-      "publication_status": "record-ready",
+      "decision_class": "ambiguous",
+      "taxonomic_status": "ambiguous",
+      "publication_status": "not-ready",
       "publication_stage": "record_recommended_ready",
-      "publication_bucket": "publishable_candidate",
-      "export_state": "dwc_template_ready",
+      "publication_bucket": "repair_required",
+      "export_state": "review_only",
       "candidate_taxon": {
         "rank": "species",
         "name": "Aedes albopictus",
         "taxon_key": 1651430
       },
       "published_taxon": {
-        "rank": "species",
-        "name": "Aedes albopictus",
-        "taxon_key": 1651430
+        "rank": "none",
+        "name": "None",
+        "taxon_key": null
       },
       "top_identity": 99.6,
       "top_query_coverage": 96.0,
       "barcode_gap_status": "pass",
       "diagnostic_kmer_status": "pass",
-      "diagnostic_p_false_positive": 1.7e-06,
-      "blockers": []
+      "diagnostic_p_false_positive": 3.54e-06,
+      "blockers": [
+        "species claim blocked: reference completeness attestation blocked scientific use: unsigned",
+        "species claim blocked: reference completeness failed: server_attestation_verified",
+        "species claim blocked: reference completeness failed: externally_audited_status",
+        "species claim blocked: reference completeness failed: audit_checksum_supplied",
+        "species claim blocked: sequence QC failed: chimera check pass; evidence-bundle trust=unsigned"
+      ]
     },
     {
       "sequence_id": "AALB-COI-ambiguous",
@@ -128,9 +146,14 @@
       "top_query_coverage": 96.0,
       "barcode_gap_status": "pass",
       "diagnostic_kmer_status": "pass",
-      "diagnostic_p_false_positive": 1.7e-06,
+      "diagnostic_p_false_positive": 3.54e-06,
       "blockers": [
-        "species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus"
+        "species claim blocked: statistically indistinguishable competitors collapse the safe rank to genus",
+        "species claim blocked: reference completeness attestation blocked scientific use: unsigned",
+        "species claim blocked: reference completeness failed: server_attestation_verified",
+        "species claim blocked: reference completeness failed: externally_audited_status",
+        "species claim blocked: reference completeness failed: audit_checksum_supplied",
+        "species claim blocked: sequence QC failed: chimera check pass; evidence-bundle trust=unsigned"
       ]
     },
     {
@@ -155,20 +178,25 @@
       "top_query_coverage": 72.0,
       "barcode_gap_status": "pass",
       "diagnostic_kmer_status": "pass",
-      "diagnostic_p_false_positive": 1.7e-06,
+      "diagnostic_p_false_positive": 3.54e-06,
       "blockers": [
         "species claim blocked: top hit does not pass coi_full_barcode exact gate identity >= 99% and query coverage >= 80%",
-        "species claim blocked: query coverage < 80%"
+        "species claim blocked: query coverage < 80%",
+        "species claim blocked: reference completeness attestation blocked scientific use: unsigned",
+        "species claim blocked: reference completeness failed: server_attestation_verified",
+        "species claim blocked: reference completeness failed: externally_audited_status",
+        "species claim blocked: reference completeness failed: audit_checksum_supplied",
+        "species claim blocked: sequence QC failed: chimera check pass; evidence-bundle trust=unsigned"
       ]
     },
     {
       "sequence_id": "AALB-COI-metadata-gap",
-      "decision_class": "not-publishable",
-      "taxonomic_status": "species-safe",
+      "decision_class": "ambiguous",
+      "taxonomic_status": "ambiguous",
       "publication_status": "not-ready",
       "publication_stage": "record_not_ready",
       "publication_bucket": "repair_required",
-      "export_state": "evidence_publishable_repair_required",
+      "export_state": "review_only",
       "candidate_taxon": {
         "rank": "species",
         "name": "Aedes albopictus",
@@ -183,8 +211,13 @@
       "top_query_coverage": 96.0,
       "barcode_gap_status": "pass",
       "diagnostic_kmer_status": "pass",
-      "diagnostic_p_false_positive": 1.7e-06,
+      "diagnostic_p_false_positive": 3.54e-06,
       "blockers": [
+        "species claim blocked: reference completeness attestation blocked scientific use: unsigned",
+        "species claim blocked: reference completeness failed: server_attestation_verified",
+        "species claim blocked: reference completeness failed: externally_audited_status",
+        "species claim blocked: reference completeness failed: audit_checksum_supplied",
+        "species claim blocked: sequence QC failed: chimera check pass; evidence-bundle trust=unsigned",
         "publication blocked: missing required Occurrence core field occurrenceID",
         "publication blocked: missing required Occurrence core field eventDate"
       ]

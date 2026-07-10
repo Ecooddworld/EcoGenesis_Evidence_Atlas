@@ -1,4 +1,6 @@
 {
+  "archival_status": "historical_internal_regression_not_external_validation",
+  "terminology_warning": "Legacy species_safe and gbif_ready fields are compatibility-era fixture labels, not biological truth or GBIF/IPT acceptance.",
   "hard_gate_records": 4,
   "hard_gate_failures": 0,
   "naive_top_species_cases": 3,

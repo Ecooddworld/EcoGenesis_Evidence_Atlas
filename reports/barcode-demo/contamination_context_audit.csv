@@ -1,0 +1,5 @@
+sequenceID,contaminationAssessment,assayGate,contaminationRequired,preservedInMetadata,missingEvidenceBlocked,status
+AALB-COI-good,not_supplied,True,False,False,False,pass
+AALB-COI-ambiguous,not_supplied,True,False,False,False,pass
+AALB-COI-short,not_supplied,True,False,False,False,pass
+AALB-COI-metadata-gap,not_supplied,True,False,False,False,pass

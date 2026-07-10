@@ -15,6 +15,10 @@ if str(BACKEND_ROOT) not in sys.path:
 from app.barcode.compiler import run_barcode_compiler
 from app.barcode.demo import AMBIGUOUS_RECORD, GOOD_RECORD, MISSING_METADATA_RECORD, WEAK_RECORD, request_with_records
 from app.barcode.schemas import BarcodeCompilerRequest
+from scripts.trusted_regression_fixture import (
+    attest_synthetic_regression_records,
+    synthetic_fixture_attestation_environment,
+)
 
 
 DEFAULT_OUTPUT_DIR = Path(__file__).resolve().parents[2] / "reports" / "synthetic-ambiguity-benchmark"
@@ -32,8 +36,12 @@ def main() -> None:
 def run_benchmark(*, output_dir: Path, record_count: int = 120) -> dict[str, Any]:
     output_dir.mkdir(parents=True, exist_ok=True)
     records = synthetic_records(record_count)
-    request = BarcodeCompilerRequest(**request_with_records("Synthetic ambiguous top-hit benchmark", records))
-    pack = run_barcode_compiler(request)
+    with synthetic_fixture_attestation_environment():
+        signed_records = attest_synthetic_regression_records(records)
+        request = BarcodeCompilerRequest(
+            **request_with_records("Synthetic ambiguous top-hit regression", signed_records)
+        )
+        pack = run_barcode_compiler(request)
     comparison_rows = naive_vs_ecogenesis_rows(pack)
     summary = benchmark_summary(pack, comparison_rows)
 
@@ -130,11 +138,14 @@ def benchmark_summary(pack: dict[str, Any], comparison_rows: list[dict[str, Any]
     safe_rank = pack["metrics"]["safe_rank_records"]
     hard_gate_failures = pack["metrics"]["hard_gate_failures"]
     return {
-        "status": "pass" if hard_gate_failures == 0 and unsafe_naive > 0 else "review",
+        "status": "regression_pass" if hard_gate_failures == 0 and unsafe_naive > 0 else "review",
+        "validation_scope": "repeated_synthetic_fixture_regression_only",
+        "release_eligible": False,
+        "release_blocker": "Independent specimen-backed holdout validation manifest is not attached.",
         "records": pack["metrics"]["processed_records"],
         "naive_species_claims": naive_species,
         "naive_unsafe_species_claims": unsafe_naive,
-        "ecogenesis_species_safe_claims": eco_species,
+        "ecogenesis_species_rule_pass_fixture_records": eco_species,
         "ecogenesis_safe_rank_records": safe_rank,
         "hard_gate_failures": hard_gate_failures,
         "overclaim_prevention_rate": pack["metrics"]["overclaim_prevention_rate"],
@@ -157,7 +168,7 @@ def summary_md(summary: dict[str, Any]) -> str:
 - Records processed: {summary['records']}
 - Naive top-hit species claims: {summary['naive_species_claims']}
 - Unsafe naive species claims under EcoGenesis rules: {summary['naive_unsafe_species_claims']}
-- EcoGenesis species-safe claims: {summary['ecogenesis_species_safe_claims']}
+- EcoGenesis species rule-pass fixture records: {summary['ecogenesis_species_rule_pass_fixture_records']}
 - EcoGenesis safe-rank records: {summary['ecogenesis_safe_rank_records']}
 - Hard-gate failures: {summary['hard_gate_failures']}
 - Overclaim prevention rate: {summary['overclaim_prevention_rate']}
@@ -166,7 +177,7 @@ def summary_md(summary: dict[str, Any]) -> str:
 
 {summary['main_result']}
 
-EcoGenesis не пытается угадать вид по лучшему hit. Если ambiguity/LCA, barcode gap, diagnostic k-mers или metadata gates не проходят, species-level publication claim блокируется, понижается до safe rank или отправляется в repair/review queue.
+Это повторяемый synthetic regression, а не оценка биологической точности. Публичная fixture-attestation нужна только для покрытия pass-path кода и не является внешним reference audit. Если ambiguity/LCA, barcode gap, diagnostic k-mers или metadata gates не проходят, species-level output блокируется, понижается по рангу или отправляется в repair/review queue.
 """
 
 

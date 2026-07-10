@@ -8,18 +8,18 @@ Goal: show inputs, process and outputs clearly enough for GBIF judges.
 
 Voiceover:
 
-> DNA barcode and metabarcoding workflows often return a top species hit. But a top hit is not automatically a safe GBIF-ready occurrence record. The sequence may be short, ambiguous, unsupported by barcode gap evidence, missing diagnostic signal, or blocked by missing publication metadata.
+> DNA barcode and metabarcoding workflows often return a top species hit. But a top hit is not automatically a validated species occurrence or a dataset accepted for GBIF publication. The sequence may be short, ambiguous, unsupported by representative barcode-gap evidence, missing locally unique sequence signal, or blocked by missing publication metadata.
 
 Visual:
 
 - Show title: Molecular Evidence Conversion & Repair Engine for GBIF.
-- Show short line: “From Sequence ID / BLAST-style outputs to safe GBIF-ready evidence.”
+- Show short line: “From Sequence ID / BLAST-style outputs to bounded results and GBIF validation candidates.”
 
 ## 0:20-0:45 — What The Tool Does
 
 Voiceover:
 
-> Barcode-to-GBIF Evidence Compiler is a deterministic downstream compiler. It does not replace GBIF Sequence ID. It takes Sequence ID, BLAST, BOLD, UNITE or lab-pipeline CSV results and tells the user what can safely be claimed, what must be downgraded, and what must be repaired before publication.
+> Barcode-to-GBIF Evidence Compiler is a deterministic downstream compiler. It does not replace GBIF Sequence ID or expert validation. It takes Sequence ID, BLAST, BOLD, UNITE or lab-pipeline CSV results and tells the user which configured rules passed, what must be downgraded, and what must be repaired before external validation or publication.
 
 Visual:
 
@@ -31,27 +31,27 @@ Visual:
 
 Voiceover:
 
-> The main workflow starts with a CSV upload. The required fields are sequenceID and sequence. Match fields such as topTaxon, topIdentity, topCoverage, competitor hit, barcode gap and diagnostic k-mers make safe-rank decisions possible.
+> The main workflow starts with a CSV upload. The required fields are sequenceID and sequence. Match fields such as topTaxon, topIdentity, topCoverage, competitor hit, barcode gap and locally unique k-mers make bounded-rank rule results possible. Reference completeness and sequence QC remain explicit requirements.
 
 Visual:
 
 - Open `Run compiler`.
 - Click `Download CSV template`.
 - Upload `examples/aedes_good.csv`.
-- Show preview and validation summary.
+- Show preview and input-check summary.
 
 ## 1:30-2:10 — Generate From CSV
 
 Voiceover:
 
-> After validation, the user generates an Evidence Pack. This example passes the frozen species-level gates: exact match, distinguishable competitor, positive barcode gap, diagnostic k-mer support and required metadata.
+> After the input checks, the user generates an Evidence Pack. The basic CSV remains review-only because audited reference-completeness and sequence-QC evidence are not supplied. This is deliberate fail-closed behavior, not a failed demo.
 
 Visual:
 
 - Click `Generate from CSV`.
 - Show decision memo.
-- Show `species-safe`.
-- Show publishable output and sequence decisions table.
+- Show the review-only `ambiguous` result and its blockers.
+- Show the validation-candidate count and sequence decisions table.
 
 ## 2:10-2:50 — Show Blocked And Downgraded Claims
 
@@ -62,10 +62,10 @@ Voiceover:
 Visual:
 
 - Briefly show or describe:
-  - `examples/aedes_ambiguous.csv` -> `genus-safe`
+  - `examples/aedes_ambiguous.csv` -> `genus rule-pass` (`genus-safe` compatibility token)
   - `examples/aedes_missing_metadata.csv` -> `not-publishable`
   - `examples/aedes_weak_coverage.csv` -> `weak`
-- Show filters: `Publishable`, `Review`, `Blocked`.
+- Show filters: `Validation candidates`, `Review`, `Blocked`.
 
 ## 2:50-3:30 — Evidence Pack Outputs
 
@@ -79,10 +79,10 @@ Visual:
 - Show `evidence_pack.zip`.
 - Show `sequence_safety_table.csv`.
 - Show `publication_blockers.csv`.
-- Show `dwc_occurrence_core_publishable.csv`.
+- Show `dwc_occurrence_core_validation_candidates.csv`.
 - Show `molecular_evidence_report.html`.
 
-## 3:30-4:10 — Math And Proof
+## 3:30-4:10 — Methods And Audits
 
 Voiceover:
 
@@ -90,25 +90,25 @@ Voiceover:
 
 Visual:
 
-- Open `Math & proof`.
-- Show formula sections and proof-by-failure-mode logic.
+- Open `Methods & Audits`.
+- Show formula sections and failure-mode invariants.
 
 ## 4:10-4:40 — GBIF Context
 
 Voiceover:
 
-> The repository also includes a GBIF occurrence-audit layer. It checks GBIF API availability when live network mode is enabled, uses GBIF-mediated records for evidence-context tests, and demonstrates safe claim language around no-evidence cells, sampling gaps and citation readiness.
+> The repository also includes a GBIF occurrence-audit layer. It checks GBIF API availability when live network mode is enabled, uses GBIF-mediated records for context tests, and demonstrates bounded claim language around no-evidence cells, sampling gaps and citation readiness. Those occurrence rows are not linked to the molecular rows.
 
 Visual:
 
-- Open `Research audit`.
+- Open `Regression & Audits`.
 - Show 1000 records / 100 claims summary.
 
 ## 4:40-5:00 — Closing
 
 Voiceover:
 
-> This project changes the workflow from “top hit equals species” to reproducible evidence conversion: safe rank, blockers, repair actions and GBIF-ready publication templates.
+> This project changes the workflow from “top hit equals species” to reproducible evidence conversion: bounded rank results, blockers, repair actions and candidates for external GBIF/IPT validation.
 
 Visual:
 

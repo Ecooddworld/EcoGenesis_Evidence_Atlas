@@ -18,7 +18,11 @@ if str(BACKEND_ROOT) not in sys.path:
     sys.path.insert(0, str(BACKEND_ROOT))
 
 from app.barcode.artifacts import build_barcode_artifacts
-from app.barcode.compiler import run_barcode_compiler
+from app.barcode.compiler import (
+    SELF_REFERENTIAL_EXPORTS,
+    embedded_artifact_checksums,
+    run_barcode_compiler,
+)
 from app.barcode.demo import (
     AEDES_ALBOPICTUS_LINEAGE,
     AMBIGUOUS_RECORD,
@@ -32,6 +36,11 @@ from app.barcode.demo import (
     top_hit,
 )
 from app.barcode.schemas import BarcodeCompilerRequest
+from scripts.trusted_regression_fixture import (
+    SYNTHETIC_FIXTURE_KEY_ID,
+    attest_synthetic_regression_records,
+    synthetic_fixture_attestation_environment,
+)
 
 
 REPORTS_ROOT = REPO_ROOT / "reports"
@@ -39,11 +48,11 @@ COMPETITION_DIR = REPORTS_ROOT / "competition-100-sequences"
 ADVERSARIAL_DIR = REPORTS_ROOT / "adversarial-100-sequences"
 
 REQUIRED_GSEG_GSIG_EXPORTS = {
-    "theorem_checklist.json",
+    "release_invariant_checklist.json",
     "math_viability_audit.json",
-    "verified_segment_evidence_array.csv",
-    "verified_segment_evidence_array.jsonl",
-    "verified_segment_evidence_array.parquet",
+    "rule_evidence_segment_array.csv",
+    "rule_evidence_segment_array.jsonl",
+    "rule_evidence_segment_array.parquet",
     "gseg_graph_schema.json",
     "gsig_graph_schema.yaml",
     "evidence_graph.jsonld",
@@ -57,6 +66,15 @@ REQUIRED_GSEG_GSIG_EXPORTS = {
     "ruleset_diff_report.json",
     "report_consistency_audit.csv",
     "judge_reproducibility_report.md",
+}
+
+# These adversarial rows intentionally keep a molecular species-rule result
+# while testing a separate publication/name-integrity blocker. They are
+# molecular-positive fixtures, not false species-rule-pass cases.
+MOLECULAR_POSITIVE_ADVERSARIAL_CLASSES = {
+    "true_species_safe_positive",
+    "metadata_blocked_taxonomy_safe",
+    "wrong_taxonomy_name_conflict",
 }
 
 
@@ -88,7 +106,7 @@ def clone_record(
     metadata.update(metadata_overrides or {})
     record["metadata"] = metadata
     if barcode_gap is not None:
-        record["barcode_gap"] = barcode_gap
+        record["barcode_gap"] = {**(record.get("barcode_gap") or {}), **barcode_gap}
     if diagnostic is not None:
         record["diagnostic"] = diagnostic
     return record
@@ -207,6 +225,44 @@ def write_artifacts(output_dir: Path, artifacts: dict[str, str | bytes]) -> str:
     return sha256_file(zip_path)
 
 
+def build_report_artifacts(pack: dict[str, Any]) -> tuple[dict[str, Any], dict[str, str | bytes]]:
+    """Build a report pack whose embedded checksum manifest is self-consistent."""
+    report_pack = deepcopy(pack)
+    report_pack.setdefault("run", {})["artifact_checksums"] = embedded_artifact_checksums(
+        report_pack.get("exports", [])
+    )
+    artifacts = build_barcode_artifacts(report_pack)
+    validate_embedded_artifact_checksums(artifacts)
+    return report_pack, artifacts
+
+
+def validate_embedded_artifact_checksums(artifacts: dict[str, str | bytes]) -> None:
+    payload = json.loads(str(artifacts["artifact_checksums.json"]))
+    checksums = payload.get("checksums", {})
+    expected_names = set(artifacts) - SELF_REFERENTIAL_EXPORTS
+    actual_names = set(checksums)
+    if actual_names != expected_names:
+        missing = sorted(expected_names - actual_names)
+        unexpected = sorted(actual_names - expected_names)
+        raise SystemExit(
+            "artifact_checksums.json inventory mismatch: "
+            f"missing={missing}, unexpected={unexpected}"
+        )
+
+    mismatches = []
+    for name, expected_sha256 in checksums.items():
+        content = artifacts[name]
+        payload_bytes = content if isinstance(content, bytes) else content.encode("utf-8")
+        actual_sha256 = hashlib.sha256(payload_bytes).hexdigest()
+        if expected_sha256 != actual_sha256:
+            mismatches.append(name)
+    if mismatches:
+        raise SystemExit(
+            "artifact_checksums.json does not match final report bytes: "
+            f"{sorted(mismatches)}"
+        )
+
+
 def sha256_file(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as handle:
@@ -234,6 +290,7 @@ def result_rows(pack: dict[str, Any], expected: dict[str, str], adversarial_clas
             "sequenceID": sequence_id,
             "expectedDecisionClass": expected[sequence_id],
             "actualDecisionClass": record["decision_class"],
+            "scientificDecisionState": record.get("scientific_decision_state", record["taxonomic_status"]),
             "taxonomicStatus": record["taxonomic_status"],
             "publicationBucket": record.get("publication_bucket"),
             "exportState": record.get("export_state"),
@@ -273,7 +330,7 @@ def summary_csv_rows(pack: dict[str, Any]) -> list[dict[str, Any]]:
     metrics = pack["metrics"]
     keys = [
         "processed_records",
-        "species_safe_records",
+        "species_rule_pass_records",
         "genus_safe_records",
         "ambiguous_records",
         "weak_records",
@@ -302,25 +359,31 @@ def render_report(
     zip_sha256: str,
     adversarial_class: dict[str, str] | None = None,
 ) -> str:
-    actual_counts = Counter(row["actualDecisionClass"] for row in rows)
+    actual_counts = Counter(row["scientificDecisionState"] for row in rows)
     bucket_counts = Counter(row["publicationBucket"] for row in rows)
     export_state_counts = Counter(row["exportState"] for row in rows)
     expected_matched = all(row["pass"] == "True" for row in rows)
     hard_gate_failures = pack["metrics"].get("hard_gate_failures", 0)
-    theorem = json.loads(str(artifacts["theorem_checklist.json"]))
+    unique_sequence_count = len(
+        {record.get("sequence") for record in pack.get("request", {}).get("records", [])}
+    )
+    invariant = json.loads(str(artifacts["release_invariant_checklist.json"]))
     math_viability = json.loads(str(artifacts["math_viability_audit.json"]))
     graph_roundtrip = json.loads(str(artifacts["graph_roundtrip_audit.json"]))
-    parquet_bytes = artifacts["verified_segment_evidence_array.parquet"]
+    parquet_bytes = artifacts["rule_evidence_segment_array.parquet"]
     parquet_status = "PAR1" if isinstance(parquet_bytes, bytes) and parquet_bytes[:4] == b"PAR1" else "not_parquet_magic"
     required_present = REQUIRED_GSEG_GSIG_EXPORTS.issubset(set(artifacts))
     zip_contains_required = zip_required_present(artifacts)
-    false_species_safe = 0
+    unexpected_species_rule_pass = 0
     by_class: dict[str, Counter[str]] = defaultdict(Counter)
     if adversarial_class is not None:
         for row in rows:
-            by_class[row["adversarialClass"]][row["actualDecisionClass"]] += 1
-            if row["adversarialClass"] != "true_species_safe_positive" and row["actualDecisionClass"] == "species-safe":
-                false_species_safe += 1
+            by_class[row["adversarialClass"]][row["scientificDecisionState"]] += 1
+            if (
+                row["adversarialClass"] not in MOLECULAR_POSITIVE_ADVERSARIAL_CLASSES
+                and row["scientificDecisionState"] == "species-rule-pass"
+            ):
+                unexpected_species_rule_pass += 1
 
     lines = [
         f"# {title}",
@@ -332,6 +395,7 @@ def render_report(
         "## Result",
         "",
         f"- Records submitted: {len(rows)}",
+        f"- Unique DNA sequence payloads: {unique_sequence_count}",
         "- API status: completed",
         f"- Exports returned: {len(export_names(pack, artifacts))}",
         f"- Expected decisions matched: {expected_matched}",
@@ -339,14 +403,23 @@ def render_report(
         f"- Evidence Pack ZIP SHA-256: `{zip_sha256}`",
         f"- GSEG/GSIG exports present: {required_present}",
         f"- ZIP contains GSEG/GSIG exports: {zip_contains_required}",
-        f"- VSEA Parquet magic: `{parquet_status}`",
+        f"- Rule-evidence Parquet magic: `{parquet_status}`",
         f"- Math viability audit: `{math_viability['summary']['status']}` "
         f"({math_viability['summary']['checks']} checks, {math_viability['summary']['failed']} failed)",
-        f"- Theorem checklist release gate: `{theorem['summary']['release_gate']}`",
+        f"- Release-invariant gate: `{invariant['summary']['release_gate']}`",
+        f"- External validation status: `{pack.get('scientific_release_gate', {}).get('status', 'missing')}` "
+        "(these are repeated regression fixtures, not independent specimens)",
+        f"- Per-record evidence attestation key: `{SYNTHETIC_FIXTURE_KEY_ID}` "
+        "(public synthetic regression key; not an external reference audit)",
+        f"- DwC-A local validation: `{pack.get('dwca_validation', {}).get('local_validation_status', 'missing')}`; "
+        f"release gate: `{pack.get('dwca_validation', {}).get('release_gate', 'missing')}`",
         f"- Graph roundtrip audit: `{graph_roundtrip['status']}`",
     ]
     if adversarial_class is not None:
-        lines.append(f"- False species-safe outside positive controls: {false_species_safe}")
+        lines.append(
+            "- Unexpected species rule-pass in molecular-negative fixtures: "
+            f"{unexpected_species_rule_pass}"
+        )
     lines.extend(
         [
             "",
@@ -385,7 +458,7 @@ def render_report(
             "",
             "## Interpretation",
             "",
-            "The run is fail-closed. Species-level output is allowed only when match gates, ambiguity/LCA, barcode gap, diagnostic k-mers, marker profile and publication gates agree. The GSEG/GSIG layer adds VSEA, graph provenance, theorem checklist, AI guardrails and roundtrip checks without claiming phenotype, function or production GraphDB/RDF behavior.",
+            "This is a repeated-fixture regression run, not an empirical validation set. Species-level rule-pass output is fail-closed under the current gates. The GSEG/GSIG layer adds rule-evidence exports, graph provenance, release invariants, AI guardrails and roundtrip checks without claiming biological truth, accuracy, phenotype/function inference or production GraphDB/RDF behavior.",
         ]
     )
     return "\n".join(lines) + "\n"
@@ -406,21 +479,21 @@ def write_report_set(
     adversarial_class: dict[str, str] | None = None,
 ) -> None:
     clean_dir(output_dir)
-    artifacts = build_barcode_artifacts(pack)
+    pack, artifacts = build_report_artifacts(pack)
     zip_sha256 = write_artifacts(output_dir, artifacts)
     rows = result_rows(pack, expected, adversarial_class)
     if not all(row["pass"] == "True" for row in rows):
         failures = [row for row in rows if row["pass"] != "True"]
         raise SystemExit(f"{report_prefix}: expected decisions failed: {failures[:5]}")
-    theorem = json.loads(str(artifacts["theorem_checklist.json"]))
-    if theorem["summary"]["fail"] != 0 or theorem["summary"]["release_gate"] != "pass":
-        raise SystemExit(f"{report_prefix}: theorem checklist failed")
+    invariant = json.loads(str(artifacts["release_invariant_checklist.json"]))
+    if invariant["summary"]["fail"] != 0 or invariant["summary"]["release_gate"] not in {"pass", "review"}:
+        raise SystemExit(f"{report_prefix}: release invariant checks failed")
     math_viability = json.loads(str(artifacts["math_viability_audit.json"]))
     if math_viability["summary"]["status"] != "pass" or math_viability["summary"]["failed"] != 0:
         raise SystemExit(f"{report_prefix}: math viability audit failed")
-    parquet_bytes = artifacts["verified_segment_evidence_array.parquet"]
+    parquet_bytes = artifacts["rule_evidence_segment_array.parquet"]
     if not isinstance(parquet_bytes, bytes) or parquet_bytes[:4] != b"PAR1":
-        raise SystemExit(f"{report_prefix}: VSEA parquet is not a real parquet file")
+        raise SystemExit(f"{report_prefix}: rule-evidence parquet is not a real parquet file")
 
     write_csv(output_dir / f"{report_prefix}_manifest.csv", manifest_rows(source_records, expected, adversarial_class))
     write_csv(output_dir / f"{report_prefix}_results.csv", rows)
@@ -453,30 +526,39 @@ def zip_report_dir(path: Path) -> None:
 
 
 def main() -> None:
-    competition_source, competition_expected = competition_records()
-    competition_pack = compile_pack("EcoGenesis competition 100-sequence GSEG/GSIG verification batch", competition_source)
-    write_report_set(
-        COMPETITION_DIR,
-        "competition_100_sequence",
-        "Competition 100-Sequence Atlas Run Report",
-        competition_pack,
-        competition_source,
-        competition_expected,
-    )
-    zip_report_dir(COMPETITION_DIR)
+    with synthetic_fixture_attestation_environment():
+        competition_source, competition_expected = competition_records()
+        competition_source = attest_synthetic_regression_records(competition_source)
+        competition_pack = compile_pack(
+            "EcoGenesis competition 100-row repeated-fixture regression batch",
+            competition_source,
+        )
+        write_report_set(
+            COMPETITION_DIR,
+            "competition_100_sequence",
+            "Competition 100-Row Repeated-Fixture Regression Report",
+            competition_pack,
+            competition_source,
+            competition_expected,
+        )
+        zip_report_dir(COMPETITION_DIR)
 
-    adversarial_source, adversarial_expected, adversarial_class = adversarial_records()
-    adversarial_pack = compile_pack("EcoGenesis adversarial 100-sequence fail-closed GSEG/GSIG stress batch", adversarial_source)
-    write_report_set(
-        ADVERSARIAL_DIR,
-        "adversarial_100_sequence",
-        "Adversarial 100-Sequence Fail-Closed Stress Report",
-        adversarial_pack,
-        adversarial_source,
-        adversarial_expected,
-        adversarial_class,
-    )
-    zip_report_dir(ADVERSARIAL_DIR)
+        adversarial_source, adversarial_expected, adversarial_class = adversarial_records()
+        adversarial_source = attest_synthetic_regression_records(adversarial_source)
+        adversarial_pack = compile_pack(
+            "EcoGenesis adversarial 100-row repeated-fixture regression batch",
+            adversarial_source,
+        )
+        write_report_set(
+            ADVERSARIAL_DIR,
+            "adversarial_100_sequence",
+            "Adversarial 100-Row Repeated-Fixture Regression Report",
+            adversarial_pack,
+            adversarial_source,
+            adversarial_expected,
+            adversarial_class,
+        )
+        zip_report_dir(ADVERSARIAL_DIR)
 
     print(
         json.dumps(

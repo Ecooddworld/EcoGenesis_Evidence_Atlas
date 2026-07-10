@@ -14,6 +14,16 @@ from app.barcode.schemas import BarcodeCompilerRequest
 from app.barcode.storage import barcode_artifact_path
 
 
+RETIRED_COMPATIBILITY_EXPORTS = {
+    "dwc_occurrence_core_gbif_ready.csv",
+    "dna_derived_extension_gbif_ready.csv",
+    "theorem_checklist.json",
+    "verified_segment_evidence_array.csv",
+    "verified_segment_evidence_array.jsonl",
+    "verified_segment_evidence_array.parquet",
+}
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run the Barcode-to-GBIF Evidence Compiler demo.")
     parser.add_argument("--demo-id", default="mixed-batch", help="Demo scenario id from /api/barcode/demo-scenarios.")
@@ -36,6 +46,10 @@ def main() -> None:
     request = BarcodeCompilerRequest(**load_request(args))
     pack = run_barcode_compiler(request)
     args.output_dir.mkdir(parents=True, exist_ok=True)
+    for name in RETIRED_COMPATIBILITY_EXPORTS:
+        stale_path = args.output_dir / name
+        if stale_path.is_file() or stale_path.is_symlink():
+            stale_path.unlink()
     for export in pack["exports"]:
         source = barcode_artifact_path(pack["run"]["run_id"], export["name"])
         shutil.copy2(source, args.output_dir / export["name"])

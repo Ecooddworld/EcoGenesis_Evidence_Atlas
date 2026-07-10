@@ -15,13 +15,34 @@ from typing import Any
 
 import requests
 
-from .schemas import BarcodeCompilerRequest, BarcodeGapEvidence, DiagnosticKmerEvidence, ReferenceHit, SequenceRecord, TaxonLineageItem
+from .schemas import (
+    BarcodeCompilerRequest,
+    BarcodeGapEvidence,
+    DiagnosticKmerEvidence,
+    ReferenceCompletenessEvidence,
+    ReferenceHit,
+    SequenceQCEvidence,
+    SequenceRecord,
+    TaxonLineageItem,
+)
+from .scientific_gates import (
+    MIN_TARGET_REFERENCE_SPECIMENS,
+    canonical_kmers,
+    global_alignment_distance,
+    intersection_all,
+    reverse_complement,
+)
 
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_REFERENCE_ID = "aedes_coi_mini"
 DNA_ALPHABET = set("ACGTRYSWKMBDHVN")
 GBIF_LINEAGE_RANKS = ["kingdom", "phylum", "class", "order", "family", "genus", "species"]
+DEFAULT_EXTERNAL_SEARCH_TIMEOUT_SECONDS = 30.0
+DEFAULT_MAX_REFERENCE_RECORDS = 20_000
+DEFAULT_MAX_REFERENCE_SEQUENCE_BASES = 25_000
+DEFAULT_MAX_REFERENCE_TOTAL_BASES = 8_000_000
+DEFAULT_MAX_PYTHON_SEARCH_COMPARISONS = 50_000_000
 
 
 @dataclass(frozen=True)
@@ -105,6 +126,7 @@ def create_user_reference_dataset(
     parsed = parse_fasta_text(fasta_text)
     if not parsed:
         raise ValueError("FASTA file does not contain any reference sequences.")
+    validate_uploaded_reference_size(parsed)
 
     digest = hashlib.sha256(fasta_text.encode("utf-8")).hexdigest()
     safe_id = unique_user_dataset_id(dataset_id or title or f"uploaded_reference_{digest[:10]}")
@@ -146,7 +168,14 @@ def create_user_reference_dataset(
         total_windows += max(len(normalized) - 14, 1)
 
     (directory / fasta_name).write_text("".join(normalized_fasta), encoding="utf-8")
-    barcode_gap_by_taxon, diagnostic_kmers_by_taxon = reference_evidence_from_sequences(sequences_by_taxon)
+    barcode_gap_by_taxon, diagnostic_kmer_evidence_by_taxon, reference_completeness_by_taxon = (
+        reference_evidence_from_sequences(sequences_by_taxon)
+    )
+    diagnostic_kmers_by_taxon = {
+        taxon: evidence["diagnostic_kmers"]
+        for taxon, evidence in diagnostic_kmer_evidence_by_taxon.items()
+        if evidence.get("diagnostic_kmers")
+    }
     diagnostic_kmer_k = next(
         (len(items[0]) for items in diagnostic_kmers_by_taxon.values() if items),
         None,
@@ -164,7 +193,10 @@ def create_user_reference_dataset(
         "references": references,
         "barcode_gap_by_taxon": barcode_gap_by_taxon,
         "diagnostic_kmers_by_taxon": diagnostic_kmers_by_taxon,
+        "diagnostic_kmer_evidence_by_taxon": diagnostic_kmer_evidence_by_taxon,
         "diagnostic_kmer_k": diagnostic_kmer_k,
+        "reference_completeness_by_taxon": reference_completeness_by_taxon,
+        "scientific_evidence_version": "alignment_sampling_canonical_kmer_v2",
         "gbif_backbone_enrichment": enrichment_summary,
         "created_at": datetime.now(timezone.utc).isoformat(),
         "sha256": sha256_file(directory / fasta_name),
@@ -192,6 +224,7 @@ def search_reference(
     elif selected_backend == "blastn":
         raw_hits = run_blastn(clean_sequence, sequence_id, fasta_path, max_hits=max_hits)
     else:
+        validate_python_search_workload(clean_sequence, entries)
         raw_hits = run_python_local_search(clean_sequence, entries, max_hits=max_hits)
 
     entry_by_id = {entry.reference_id: entry for entry in entries}
@@ -214,6 +247,7 @@ def search_reference(
                 "reference_end": raw.get("reference_end") or alignment["reference_end"],
                 "mismatch_count": raw.get("mismatch_count") if raw.get("mismatch_count") is not None else alignment["mismatch_count"],
                 "gap_count": raw.get("gap_count") if raw.get("gap_count") is not None else alignment["gap_count"],
+                "strand": raw.get("strand") or alignment.get("strand") or "unknown",
                 "bit_score": round(float(raw.get("bit_score") or raw["identity"] * raw["query_coverage"]), 6),
                 "evalue": raw.get("evalue"),
                 "reference_id": entry.reference_id,
@@ -223,6 +257,12 @@ def search_reference(
             }
         )
 
+    query_qc = reference_query_qc(
+        clean_sequence,
+        entries,
+        reference_sha256=sha256_file(fasta_path),
+        top_strand=hits[0].get("strand") if hits else "unknown",
+    )
     return {
         "query": {
             "sequence_id": sequence_id,
@@ -241,6 +281,7 @@ def search_reference(
         "backend_used": selected_backend,
         "searched_at": datetime.now(timezone.utc).isoformat(),
         "hits": hits,
+        "query_qc": query_qc,
         "warnings": backend_warnings(selected_backend),
     }
 
@@ -855,7 +896,7 @@ def compiler_request_from_search(
     metadata: dict[str, Any] | None = None,
 ) -> BarcodeCompilerRequest:
     reference_dataset = search_result["reference_dataset"]
-    manifest, _, _ = load_reference_dataset(reference_dataset["id"])
+    manifest, _, entries = load_reference_dataset(reference_dataset["id"])
     clean_sequence = normalize_sequence(sequence)
     top_taxon = search_result["hits"][0]["taxon"] if search_result["hits"] else ""
     record_metadata = {
@@ -875,6 +916,13 @@ def compiler_request_from_search(
             identity=hit["identity"],
             query_coverage=hit["query_coverage"],
             aligned_length=hit["aligned_length"],
+            query_start=hit.get("query_start"),
+            query_end=hit.get("query_end"),
+            reference_start=hit.get("reference_start"),
+            reference_end=hit.get("reference_end"),
+            strand=hit.get("strand") or "unknown",
+            mismatch_count=hit.get("mismatch_count"),
+            gap_count=hit.get("gap_count"),
             bit_score=hit["bit_score"],
             evalue=hit.get("evalue"),
             reference_id=hit["reference_id"],
@@ -887,22 +935,26 @@ def compiler_request_from_search(
     top = hits[0] if hits else None
     barcode_gap = None
     diagnostic = None
+    reference_completeness = None
     if top:
-        barcode_gap_values = manifest.get("barcode_gap_by_taxon", {}).get(top.taxon)
+        _fresh_gap, _fresh_diagnostic, _fresh_completeness = reference_evidence_for_manifest(manifest, entries)
+        barcode_gap_values = _fresh_gap.get(top.taxon)
         if barcode_gap_values:
-            barcode_gap = BarcodeGapEvidence(
-                intra_max_distance=barcode_gap_values.get("intra_max_distance"),
-                inter_min_distance=barcode_gap_values.get("inter_min_distance"),
-            )
-        kmers = manifest.get("diagnostic_kmers_by_taxon", {}).get(top.taxon, [])
-        if kmers:
-            diagnostic = DiagnosticKmerEvidence(
-                diagnostic_kmers=kmers,
-                reference_total_windows=manifest.get("reference_total_windows", 1_000),
-                epsilon=0.01,
-                alpha=0.01,
-                k=manifest.get("diagnostic_kmer_k"),
-            )
+            barcode_gap = BarcodeGapEvidence(**barcode_gap_values)
+        diagnostic_values = _fresh_diagnostic.get(top.taxon)
+        if diagnostic_values and diagnostic_values.get("diagnostic_kmers"):
+            diagnostic = DiagnosticKmerEvidence(**diagnostic_values)
+        completeness_values = _fresh_completeness.get(top.taxon)
+        if completeness_values:
+            reference_completeness = ReferenceCompletenessEvidence(**completeness_values)
+
+    query_qc = search_result.get("query_qc") or {}
+    sequence_qc = SequenceQCEvidence(
+        chimera_status=query_qc.get("chimera_status", "not_evaluated"),
+        chimera_method=query_qc.get("chimera_method"),
+        chimera_reference_sha256=query_qc.get("chimera_reference_sha256"),
+        supplied_orientation=query_qc.get("orientation", "unknown"),
+    )
 
     return BarcodeCompilerRequest(
         project_title=project_title or f"Reference search: {sequence_id}",
@@ -926,6 +978,8 @@ def compiler_request_from_search(
                 hits=hits,
                 barcode_gap=barcode_gap,
                 diagnostic=diagnostic,
+                reference_completeness=reference_completeness,
+                sequence_qc=sequence_qc,
             )
         ],
     )
@@ -999,7 +1053,7 @@ def run_vsearch(sequence: str, sequence_id: str, fasta_path: Path, *, max_hits: 
             "0",
             "--quiet",
         ]
-        subprocess.run(command, check=True, capture_output=True, text=True)
+        run_external_search_command(command, label="VSEARCH")
         return parse_external_tsv(out_path)
 
 
@@ -1018,8 +1072,77 @@ def run_blastn(sequence: str, sequence_id: str, fasta_path: Path, *, max_hits: i
             "-max_target_seqs",
             str(max_hits),
         ]
-        completed = subprocess.run(command, check=True, capture_output=True, text=True)
+        completed = run_external_search_command(command, label="BLASTN")
         return parse_external_lines(completed.stdout.splitlines())
+
+
+def run_external_search_command(command: list[str], *, label: str) -> subprocess.CompletedProcess[str]:
+    timeout = external_search_timeout_seconds()
+    try:
+        return subprocess.run(
+            command,
+            check=True,
+            capture_output=True,
+            text=True,
+            timeout=timeout,
+        )
+    except subprocess.TimeoutExpired as exc:
+        raise ValueError(f"{label} search exceeded the {timeout:g}-second execution limit.") from exc
+    except subprocess.CalledProcessError as exc:
+        stderr = " ".join((exc.stderr or "").split())[:500]
+        detail = f": {stderr}" if stderr else ""
+        raise ValueError(f"{label} search failed{detail}") from exc
+
+
+def external_search_timeout_seconds() -> float:
+    raw = os.getenv("BARCODE_SEARCH_TIMEOUT_SECONDS", str(DEFAULT_EXTERNAL_SEARCH_TIMEOUT_SECONDS))
+    try:
+        value = float(raw)
+    except ValueError:
+        return DEFAULT_EXTERNAL_SEARCH_TIMEOUT_SECONDS
+    return min(max(value, 1.0), 300.0)
+
+
+def validate_uploaded_reference_size(parsed: list[tuple[str, str]]) -> None:
+    max_records = positive_int_env("MAX_REFERENCE_RECORDS", DEFAULT_MAX_REFERENCE_RECORDS)
+    max_sequence_bases = positive_int_env("MAX_REFERENCE_SEQUENCE_BASES", DEFAULT_MAX_REFERENCE_SEQUENCE_BASES)
+    max_total_bases = positive_int_env("MAX_REFERENCE_TOTAL_BASES", DEFAULT_MAX_REFERENCE_TOTAL_BASES)
+    if len(parsed) > max_records:
+        raise ValueError(f"Reference FASTA contains {len(parsed)} records; limit is {max_records}.")
+    total_bases = 0
+    for header, sequence in parsed:
+        normalized = normalize_sequence(sequence)
+        if len(normalized) > max_sequence_bases:
+            reference_id = sanitize_reference_id(header.split()[0] if header else "reference")
+            raise ValueError(
+                f"Reference sequence {reference_id!r} contains {len(normalized)} bases; "
+                f"per-record limit is {max_sequence_bases}."
+            )
+        total_bases += len(normalized)
+        if total_bases > max_total_bases:
+            raise ValueError(f"Reference FASTA exceeds the {max_total_bases} total-base limit.")
+
+
+def validate_python_search_workload(sequence: str, entries: list[ReferenceEntry]) -> None:
+    max_comparisons = positive_int_env(
+        "MAX_PYTHON_SEARCH_COMPARISONS",
+        DEFAULT_MAX_PYTHON_SEARCH_COMPARISONS,
+    )
+    estimated_comparisons = len(sequence) * sum(len(entry.sequence) for entry in entries)
+    if estimated_comparisons > max_comparisons:
+        raise ValueError(
+            "python-local search workload exceeds the configured safety limit; "
+            "use VSEARCH/BLASTN or a smaller query/reference dataset."
+        )
+
+
+def positive_int_env(name: str, default: int) -> int:
+    raw = os.getenv(name, str(default))
+    try:
+        value = int(raw)
+    except ValueError:
+        return default
+    return value if value > 0 else default
 
 
 def parse_external_tsv(out_path: Path) -> list[dict[str, Any]]:
@@ -1052,7 +1175,10 @@ def parse_external_lines(lines: list[str]) -> list[dict[str, Any]]:
 def run_python_local_search(sequence: str, entries: list[ReferenceEntry], *, max_hits: int) -> list[dict[str, Any]]:
     hits = []
     for entry in entries:
-        identity, coverage, aligned_length = best_ungapped_identity(sequence, entry.sequence)
+        alignment = best_ungapped_alignment(sequence, entry.sequence)
+        identity = alignment["identity"]
+        coverage = alignment["query_coverage"]
+        aligned_length = alignment["aligned_length"]
         hits.append(
             {
                 "reference_id": entry.reference_id,
@@ -1061,6 +1187,13 @@ def run_python_local_search(sequence: str, entries: list[ReferenceEntry], *, max
                 "aligned_length": aligned_length,
                 "bit_score": identity * coverage,
                 "evalue": None,
+                "query_start": alignment["query_start"],
+                "query_end": alignment["query_end"],
+                "reference_start": alignment["reference_start"],
+                "reference_end": alignment["reference_end"],
+                "mismatch_count": alignment["mismatch_count"],
+                "gap_count": alignment["gap_count"],
+                "strand": alignment["strand"],
             }
         )
     return sorted(hits, key=lambda item: (item["bit_score"], item["identity"], item["query_coverage"]), reverse=True)[:max_hits]
@@ -1072,6 +1205,18 @@ def best_ungapped_identity(query: str, reference: str) -> tuple[float, float, in
 
 
 def best_ungapped_alignment(query: str, reference: str) -> dict[str, Any]:
+    forward = _best_ungapped_alignment_one_orientation(query, reference)
+    reverse = _best_ungapped_alignment_one_orientation(query, reverse_complement(reference))
+    if (reverse["match_count"], reverse["aligned_length"]) > (forward["match_count"], forward["aligned_length"]):
+        selected = dict(reverse)
+        selected["strand"] = "reverse"
+        return selected
+    selected = dict(forward)
+    selected["strand"] = "forward"
+    return selected
+
+
+def _best_ungapped_alignment_one_orientation(query: str, reference: str) -> dict[str, Any]:
     if not query or not reference:
         return {
             "identity": 0.0,
@@ -1084,6 +1229,7 @@ def best_ungapped_alignment(query: str, reference: str) -> dict[str, Any]:
             "match_count": 0,
             "mismatch_count": 0,
             "gap_count": 0,
+            "strand": "unknown",
         }
     best_matches = -1
     best_aligned = 0
@@ -1115,6 +1261,7 @@ def best_ungapped_alignment(query: str, reference: str) -> dict[str, Any]:
         "match_count": best_matches if best_matches > 0 else 0,
         "mismatch_count": mismatches,
         "gap_count": 0,
+        "strand": "forward",
     }
 
 
@@ -1312,57 +1459,174 @@ def gbif_base_url() -> str:
     return os.getenv("GBIF_BASE_URL", "https://api.gbif.org/v1").rstrip("/")
 
 
-def reference_evidence_from_sequences(sequences_by_taxon: dict[str, list[str]]) -> tuple[dict[str, dict[str, float]], dict[str, list[str]]]:
-    barcode_gap_by_taxon: dict[str, dict[str, float]] = {}
-    diagnostic_kmers_by_taxon: dict[str, list[str]] = {}
+def reference_evidence_for_manifest(
+    manifest: dict[str, Any],
+    entries: list[ReferenceEntry],
+) -> tuple[dict[str, dict[str, Any]], dict[str, dict[str, Any]], dict[str, dict[str, Any]]]:
+    sequences_by_taxon: dict[str, list[str]] = {}
+    for entry in entries:
+        sequences_by_taxon.setdefault(entry.taxon, []).append(entry.sequence)
+    computed = reference_evidence_from_sequences(sequences_by_taxon)
+    if manifest.get("scientific_evidence_version") != "alignment_sampling_canonical_kmer_v2":
+        return computed
+    return (
+        manifest.get("barcode_gap_by_taxon") or computed[0],
+        manifest.get("diagnostic_kmer_evidence_by_taxon") or computed[1],
+        manifest.get("reference_completeness_by_taxon") or computed[2],
+    )
+
+
+def reference_evidence_from_sequences(
+    sequences_by_taxon: dict[str, list[str]],
+) -> tuple[dict[str, dict[str, Any]], dict[str, dict[str, Any]], dict[str, dict[str, Any]]]:
+    barcode_gap_by_taxon: dict[str, dict[str, Any]] = {}
+    diagnostic_kmer_evidence_by_taxon: dict[str, dict[str, Any]] = {}
+    reference_completeness_by_taxon: dict[str, dict[str, Any]] = {}
     all_taxa = sorted(sequences_by_taxon)
     for taxon, sequences in sequences_by_taxon.items():
-        intra = 0.0
+        intra_alignments: list[dict[str, Any]] = []
         for index, first in enumerate(sequences):
             for second in sequences[index + 1 :]:
-                intra = max(intra, sequence_distance(first, second))
-        inter_values = [
-            sequence_distance(first, second)
+                intra_alignments.append(global_alignment_distance(first, second))
+        inter_alignments = [
+            global_alignment_distance(first, second)
             for other_taxon in all_taxa
             if other_taxon != taxon
             for first in sequences
             for second in sequences_by_taxon[other_taxon]
         ]
-        if inter_values:
+        valid_intra = [item for item in intra_alignments if item["status"] == "pass"]
+        valid_inter = [item for item in inter_alignments if item["status"] == "pass"]
+        target_reference_count = len(sequences)
+        inter_taxon_count = len(all_taxa) - 1
+        inter_reference_count = sum(len(sequences_by_taxon[item]) for item in all_taxa if item != taxon)
+        if valid_inter:
+            sufficient_intra = target_reference_count >= MIN_TARGET_REFERENCE_SPECIMENS and len(valid_intra) >= 3
             barcode_gap_by_taxon[taxon] = {
-                "intra_max_distance": round(intra, 6),
-                "inter_min_distance": round(min(inter_values), 6),
+                "intra_max_distance": round(max(item["distance"] for item in valid_intra), 6) if sufficient_intra else None,
+                "inter_min_distance": round(min(item["distance"] for item in valid_inter), 6),
+                "target_reference_count": target_reference_count,
+                "target_specimen_count": target_reference_count,
+                "intra_pair_count": len(valid_intra),
+                "inter_taxon_count": inter_taxon_count,
+                "inter_reference_count": inter_reference_count,
+                "inter_pair_count": len(valid_inter),
+                "distance_method": "global_alignment_needleman_wunsch_edit_p_distance_v1",
+                "minimum_aligned_sites": min(
+                    [item["comparable_sites"] for item in [*valid_intra, *valid_inter]] or [0]
+                ),
+                "gap_ci_lower": None,
+                "gap_ci_upper": None,
+                "bootstrap_replicates": 0,
+                "bootstrap_method": None,
             }
 
-        taxon_kmers = set().union(*(kmers_for_sequence(sequence) for sequence in sequences))
+        kmer_sets = [canonical_kmers(sequence, 15) for sequence in sequences]
+        taxon_kmers = intersection_all(kmer_sets)
         other_kmers = set().union(
             *(
-                kmers_for_sequence(sequence)
+                canonical_kmers(sequence, 15)
                 for other_taxon in all_taxa
                 if other_taxon != taxon
                 for sequence in sequences_by_taxon[other_taxon]
             )
         ) if len(all_taxa) > 1 else set()
         diagnostic = sorted(taxon_kmers - other_kmers)
-        if diagnostic:
-            diagnostic_kmers_by_taxon[taxon] = diagnostic[:50]
-    return barcode_gap_by_taxon, diagnostic_kmers_by_taxon
+        diagnostic_kmer_evidence_by_taxon[taxon] = {
+            "diagnostic_kmers": diagnostic[:50],
+            "reference_total_windows": sum(max(len(sequence) - 14, 1) for values in sequences_by_taxon.values() for sequence in values),
+            "epsilon": 0.01,
+            "alpha": 0.01,
+            "k": 15,
+            "target_sequence_count": target_reference_count,
+            "negative_taxon_count": inter_taxon_count,
+            "negative_sequence_count": inter_reference_count,
+            "conservation_fraction": 1.0 if diagnostic else 0.0,
+            "canonicalized": True,
+            "reverse_complement_checked": True,
+            "background_scope": "all_non_target_sequences_in_selected_reference_pack",
+        }
+        reference_completeness_by_taxon[taxon] = {
+            "status": "not_evaluated",
+            "target_taxon_reference_count": target_reference_count,
+            "target_taxon_specimen_count": target_reference_count,
+            "close_relative_taxa_expected": None,
+            "close_relative_taxa_represented": inter_taxon_count,
+            "negative_reference_taxa_count": inter_taxon_count,
+            "negative_reference_sequence_count": inter_reference_count,
+            "geographic_regions_count": 0,
+            "audit_source": None,
+            "audit_sha256": None,
+            "notes": "Counts are local-pack observations; expected close relatives and geographic completeness were not externally audited.",
+        }
+    return barcode_gap_by_taxon, diagnostic_kmer_evidence_by_taxon, reference_completeness_by_taxon
 
 
 def sequence_distance(first: str, second: str) -> float:
-    if not first or not second:
-        return 1.0
-    aligned = min(len(first), len(second))
-    mismatches = sum(1 for index in range(aligned) if first[index] != second[index])
-    mismatches += abs(len(first) - len(second))
-    return mismatches / max(len(first), len(second))
+    result = global_alignment_distance(first, second)
+    return float(result["distance"]) if result["distance"] is not None else 1.0
 
 
 def kmers_for_sequence(sequence: str, k: int = 15) -> set[str]:
-    if not sequence:
-        return set()
-    effective_k = min(k, len(sequence))
-    return {sequence[index : index + effective_k] for index in range(0, len(sequence) - effective_k + 1)}
+    return canonical_kmers(sequence, min(k, len(sequence))) if sequence else set()
+
+
+def reference_query_qc(
+    sequence: str,
+    entries: list[ReferenceEntry],
+    *,
+    reference_sha256: str | None,
+    top_strand: str,
+) -> dict[str, Any]:
+    if len(sequence) < 120 or len(entries) < 2:
+        return {
+            "chimera_status": "not_evaluated",
+            "chimera_method": "split_half_reference_taxon_concordance_v1",
+            "chimera_reference_sha256": reference_sha256,
+            "orientation": top_strand if top_strand in {"forward", "reverse"} else "unknown",
+            "reason": "at least two references and a 120 bp query are required",
+        }
+    midpoint = len(sequence) // 2
+    halves = (sequence[:midpoint], sequence[midpoint:])
+    top_halves = []
+    for half in halves:
+        ranked = sorted(
+            (
+                (best_ungapped_alignment(half, entry.sequence), entry)
+                for entry in entries
+            ),
+            key=lambda pair: (
+                pair[0]["identity"] * pair[0]["query_coverage"],
+                pair[0]["identity"],
+            ),
+            reverse=True,
+        )
+        alignment, entry = ranked[0]
+        top_halves.append((alignment, entry))
+    both_informative = all(
+        alignment["identity"] >= 97 and alignment["query_coverage"] >= 90
+        for alignment, _entry in top_halves
+    )
+    if not both_informative:
+        status = "not_evaluated"
+        reason = "one or both query halves lacked an informative reference match"
+    elif top_halves[0][1].taxon != top_halves[1][1].taxon:
+        status = "fail"
+        reason = f"query halves resolve to different taxa: {top_halves[0][1].taxon} vs {top_halves[1][1].taxon}"
+    else:
+        status = "pass"
+        reason = f"both query halves resolve to {top_halves[0][1].taxon}"
+    return {
+        "chimera_status": status,
+        "chimera_method": "split_half_reference_taxon_concordance_v1",
+        "chimera_reference_sha256": reference_sha256,
+        "orientation": top_strand if top_strand in {"forward", "reverse"} else "unknown",
+        "reason": reason,
+        "left_taxon": top_halves[0][1].taxon,
+        "right_taxon": top_halves[1][1].taxon,
+        "left_identity": top_halves[0][0]["identity"],
+        "right_identity": top_halves[1][0]["identity"],
+    }
 
 
 def backend_warnings(backend_used: str) -> list[str]:

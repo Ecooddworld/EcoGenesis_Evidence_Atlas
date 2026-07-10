@@ -9,7 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, HTMLResponse, Response
 
 from .analytics import AnalyticsPageview, analytics_summary, record_pageview
-from .barcode.compiler import run_barcode_compiler
+from .barcode.compiler import embedded_artifact_checksums, run_barcode_compiler
 from .barcode.csv_import import CSV_TEMPLATE_TEXT, parse_barcode_csv
 from .barcode.demo import BARCODE_DEMO_SCENARIOS, DEFAULT_BARCODE_REQUEST
 from .barcode.profiles import ASSAY_PROFILES, MARKER_PROFILES
@@ -27,7 +27,7 @@ from .barcode.search_backend import (
     search_reference,
     search_status,
 )
-from .barcode.storage import barcode_artifact_path, list_barcode_summaries, load_barcode_pack
+from .barcode.storage import barcode_artifact_path, barcode_export_manifest, list_barcode_summaries, load_barcode_pack
 from .competition_reports import (
     competition_report_path,
     competition_report_summary,
@@ -61,6 +61,7 @@ from .observatory.storage import (
     observatory_artifact_path,
 )
 from .observatory.verification import verification_report_markdown, verify_observatory_run_outputs
+from .security import ApiSecurityMiddleware, SecuritySettings, read_upload_limited
 
 
 app = FastAPI(
@@ -69,11 +70,13 @@ app = FastAPI(
     description="Deterministic barcode/metabarcoding compiler plus legacy GBIF Evidence Passport API.",
 )
 
+app.add_middleware(ApiSecurityMiddleware)
+
 origins = [item.strip() for item in os.getenv("CORS_ALLOW_ORIGINS", "*").split(",") if item.strip()]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins if origins != ["*"] else ["*"],
-    allow_credentials=True,
+    allow_credentials=origins != ["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -81,7 +84,23 @@ app.add_middleware(
 
 @app.get("/health")
 def health() -> dict:
-    return {"status": "ok", "service": "ecogenesis-barcode-gbif-compiler"}
+    security = SecuritySettings.from_env()
+    authentication = security.public_configuration()["authentication"]
+    return {
+        "status": "ok",
+        "service": "ecogenesis-barcode-gbif-compiler",
+        "security": {
+            "authentication": authentication,
+            "rate_limits_enabled": bool(
+                security.read_rate_limit_per_minute or security.write_rate_limit_per_minute
+            ),
+        },
+    }
+
+
+@app.get("/api/system/limits")
+def api_limits() -> dict:
+    return SecuritySettings.from_env().public_configuration()
 
 
 @app.post("/api/analytics/pageview")
@@ -165,7 +184,14 @@ async def upload_barcode_reference_dataset(
     license: str | None = Form(default=None),
     doi_or_url: str | None = Form(default=None),
 ) -> dict:
-    content = await file.read()
+    settings = SecuritySettings.from_env()
+    if not settings.reference_uploads_enabled:
+        raise HTTPException(status_code=403, detail="Reference FASTA uploads are disabled in this deployment.")
+    content = await read_upload_limited(
+        file,
+        max_bytes=settings.max_reference_upload_bytes,
+        label="Reference FASTA upload",
+    )
     try:
         fasta_text = content.decode("utf-8-sig")
         dataset = create_user_reference_dataset(
@@ -303,7 +329,12 @@ def run_barcode(request: BarcodeCompilerRequest) -> dict:
 
 
 async def read_uploaded_csv(file: UploadFile) -> str:
-    content = await file.read()
+    settings = SecuritySettings.from_env()
+    content = await read_upload_limited(
+        file,
+        max_bytes=settings.max_csv_upload_bytes,
+        label="CSV upload",
+    )
     try:
         return content.decode("utf-8-sig")
     except UnicodeDecodeError as exc:
@@ -318,9 +349,12 @@ def list_barcode_runs() -> list[dict]:
 @app.get("/api/barcode/runs/{run_id}")
 def get_barcode_run(run_id: str) -> dict:
     try:
-        return load_barcode_pack(run_id)
+        pack = load_barcode_pack(run_id)
     except FileNotFoundError as exc:
         raise HTTPException(status_code=404, detail="barcode run not found") from exc
+    pack["exports"] = barcode_export_manifest(run_id)
+    pack.setdefault("run", {})["artifact_checksums"] = embedded_artifact_checksums(pack["exports"])
+    return pack
 
 
 @app.get("/api/barcode/runs/{run_id}/report", response_class=HTMLResponse)

@@ -65,7 +65,7 @@ def build_math_viability_report() -> dict[str, Any]:
             "GSEG/GSIG claim-state viability as represented in generated evidence packs",
         ],
         "non_claim_boundaries": [
-            "This is an internal consistency and fail-closed proof over supplied inputs.",
+            "This is an internal formula-consistency and fail-closed check over supplied inputs.",
             "It is not an empirical species-delimitation validation over global biodiversity.",
             "It is not a claim that GBIF occurrence context upgrades molecular evidence.",
         ],
@@ -75,7 +75,12 @@ def build_math_viability_report() -> dict[str, Any]:
 
 def edge_case_request() -> dict[str, Any]:
     negative_gap = clone_record(GOOD_RECORD, "MATH-negative-gap")
-    negative_gap["barcode_gap"] = {"intra_max_distance": 0.02, "inter_min_distance": 0.015}
+    negative_gap["barcode_gap"] = negative_gap["barcode_gap"] | {
+        "intra_max_distance": 0.02,
+        "inter_min_distance": 0.015,
+        "gap_ci_lower": -0.01,
+        "gap_ci_upper": 0.0,
+    }
 
     missing_diagnostic = clone_record(GOOD_RECORD, "MATH-missing-diagnostic")
     missing_diagnostic["diagnostic"] = {

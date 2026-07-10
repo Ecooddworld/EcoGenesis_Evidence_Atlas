@@ -12,6 +12,7 @@
         "source_license_present",
         "source_rate_policy_present"
       ],
+      "execution_evidence": "source registry loaded",
       "status": "pass"
     },
     {
@@ -25,6 +26,7 @@
         "snapshot_hash_present",
         "api_policy_logged"
       ],
+      "execution_evidence": "snapshot hash present",
       "status": "pass"
     },
     {
@@ -39,7 +41,8 @@
         "occurrence_id_joinable",
         "dna_extension_schema_valid"
       ],
-      "status": "pass"
+      "execution_evidence": "no DwC-A input was parsed in this Observatory demo path",
+      "status": "not_executed_no_claim"
     },
     {
       "id": "normalize",
@@ -51,6 +54,7 @@
         "taxon_backbone_candidate_logged",
         "coordinate_uncertainty_logged"
       ],
+      "execution_evidence": "12 occurrence context rows normalized",
       "status": "pass"
     },
     {
@@ -64,13 +68,14 @@
         "canonical_hash_deterministic",
         "reverse_complement_policy_logged"
       ],
+      "execution_evidence": "4 rule-evidence rows segmentized",
       "status": "pass"
     },
     {
       "id": "compute_evidence",
       "module": "src/evidence/run_gseg_gates.py",
       "outputs": [
-        "vsea.parquet",
+        "rule_evidence.parquet",
         "hard_gate_audit.csv",
         "claim_boundaries.csv"
       ],
@@ -78,6 +83,7 @@
         "hard_gate_failures_zero",
         "species_overclaim_zero"
       ],
+      "execution_evidence": "4 rule-evidence rows computed",
       "status": "pass"
     },
     {
@@ -92,6 +98,7 @@
         "all_nodes_have_provenance",
         "claim_states_preserved"
       ],
+      "execution_evidence": "27 graph items built",
       "status": "pass"
     },
     {
@@ -105,7 +112,8 @@
         "visualization_read_only",
         "blocked_claims_visible"
       ],
-      "status": "pass"
+      "execution_evidence": "no persistent visual index is built by this backend path",
+      "status": "not_executed_no_claim"
     },
     {
       "id": "export_pack",
@@ -120,6 +128,7 @@
         "export_claim_states_preserved",
         "ai_labels_separated_from_hypotheses"
       ],
+      "execution_evidence": "artifact payloads prepared; filesystem verification runs after save",
       "status": "pass"
     }
   ]

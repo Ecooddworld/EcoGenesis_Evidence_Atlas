@@ -244,7 +244,7 @@ def parse_barcode_csv(
     if no_hit_count:
         warnings.append(f"{no_hit_count} row(s) have no reference hit metrics; they will compile as no-match/review.")
     if weak_or_no_hit_count:
-        warnings.append(f"{weak_or_no_hit_count} row(s) are weak or no-hit and cannot become species-safe.")
+        warnings.append(f"{weak_or_no_hit_count} row(s) are weak or no-hit and cannot reach a species-level rule pass.")
     if missing_recommended_fields:
         warnings.append("Some strongly recommended GBIF/DNA fields are missing; publication readiness may be blocked.")
 

@@ -1,0 +1,7 @@
+sequenceID,segmentStart,segmentEnd,segmentLength,referenceID,taxon,rank,identityPercent,queryCoveragePercent,alignedLength,safeTaxon,safeRank,claimBoundary
+AALB-COI-good,1,658,658,BOLD:Aedes_albopictus,Aedes albopictus,species,99.6,96.0,658,Aedes albopictus,species,Review-only candidate at species rank: Aedes albopictus.
+AALB-COI-good,1,658,658,BOLD:Aedes_aegypti,Aedes aegypti,species,98.2,95.0,658,Aedes albopictus,species,Review-only candidate at species rank: Aedes albopictus.
+AALB-COI-ambiguous,1,658,658,BOLD:Aedes_albopictus,Aedes albopictus,species,99.4,96.0,658,Aedes,genus,Genus-level molecular evidence for Aedes; species-level naming is blocked for this sequence.
+AALB-COI-ambiguous,1,658,658,BOLD:Aedes_aegypti,Aedes aegypti,species,99.3,96.0,658,Aedes,genus,Genus-level molecular evidence for Aedes; species-level naming is blocked for this sequence.
+AALB-COI-short,1,658,658,BOLD:Aedes_albopictus,Aedes albopictus,species,99.5,72.0,658,Aedes albopictus,species,"Review-only molecular hint; identity, coverage or marker profile is too weak for a safe taxonomic claim."
+AALB-COI-metadata-gap,1,658,658,BOLD:Aedes_albopictus,Aedes albopictus,species,99.6,96.0,658,Aedes albopictus,species,Review-only candidate at species rank: Aedes albopictus.

@@ -1,6 +1,6 @@
 # Judge Reproducibility Report
 
-Run ID: `70fbc9adfcab4cdaae0693fff8e21760`
+Run ID: `b2a2d9edb772432db11c6be440a5df05`
 
 ## One-command checks
 
@@ -12,11 +12,11 @@ scripts/docker_smoke.sh
 
 ## Required judge artifacts
 
-- `theorem_checklist.json`
-- `verified_segment_evidence_array.csv`
-- `verified_segment_evidence_array.parquet`
+- `release_invariant_checklist.json`
+- `rule_evidence_segment_array.csv`
+- `rule_evidence_segment_array.parquet`
 - `graph_provenance_audit.csv`
 - `molecular_evidence_report.html`
 - `evidence_pack.zip`
 
-The theorem checklist currently reports release gate `pass` with `0` blocking failures. Roadmap/no-claim items are allowed only because the corresponding stronger claim is not exported.
+The release invariant checklist currently reports release gate `review` with `0` blocking failures. Review/no-claim items are not proof obligations and should not be presented as external scientific validation.

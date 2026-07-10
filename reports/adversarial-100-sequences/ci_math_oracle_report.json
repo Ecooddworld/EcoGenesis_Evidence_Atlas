@@ -15,5 +15,6 @@
     "claim_state_preservation": "implemented",
     "bh_fdr": "implemented"
   },
-  "status": "pass"
+  "status": "reference_oracle_available",
+  "claim_boundary": "This local oracle is executable reference logic, not independent external CI evidence."
 }

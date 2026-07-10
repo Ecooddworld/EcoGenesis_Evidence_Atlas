@@ -16,21 +16,21 @@ Enter final submitter name, team members, affiliations, country and contact emai
 
 ## Abstract and Rationale
 
-Molecular Evidence Conversion & Repair Engine for GBIF is an open, deterministic workflow that turns DNA barcode, metabarcoding and Sequence ID-style outputs into safe, rank-aware and GBIF-ready molecular occurrence evidence. Its first working module, Barcode-to-GBIF Evidence Compiler, receives CSV or JSON results from tools such as GBIF Sequence ID, BLAST, BOLD, UNITE or a laboratory pipeline, then decides what can be safely claimed, what must be downgraded, and what must be repaired before publication.
+Molecular Evidence Conversion & Repair Engine for GBIF is an open, deterministic workflow that turns DNA barcode, metabarcoding and Sequence ID-style outputs into bounded rank results, GBIF validation candidates and explicit repair actions. Its first working module, Barcode-to-GBIF Evidence Compiler, receives CSV or JSON results from tools such as GBIF Sequence ID, BLAST, BOLD, UNITE or a laboratory pipeline, then reports which configured rules passed, which result must be downgraded and what must be repaired before external validation or publication.
 
-The problem is practical and common. Molecular workflows often produce a top taxonomic hit, but a top hit is not automatically a safe species-level occurrence record. A short sequence, weak coverage, ambiguous competitor, missing barcode gap, absent diagnostic k-mer support, incomplete reference evidence or missing metadata can turn an apparently strong species label into an unsafe claim. At the same time, weak or ambiguous molecular observations should not simply be discarded: they can remain useful at genus or higher rank, or as repair tasks for data publishers and GBIF nodes.
+The problem is practical and common. Molecular workflows often produce a top taxonomic hit, but a top hit is not automatically a validated species-level occurrence record. A short sequence, weak coverage, ambiguous competitor, missing barcode gap, absent locally unique k-mer support, incomplete reference evidence or missing metadata can turn an apparently strong species label into an unsupported claim. At the same time, weak or ambiguous molecular observations should not simply be discarded: they can remain useful as bounded genus/higher-rank candidates or as repair tasks for data publishers and GBIF nodes.
 
-The compiler addresses this gap with explicit evidence gates. It checks identity, query coverage, statistical ambiguity between top and competitor hits, lowest common ancestor, barcode gap, diagnostic k-mer support, diagnostic false-positive risk and GBIF/DNA-derived publication metadata. It separates taxonomic safety from publication readiness, so a record can be taxonomically species-safe while still blocked from publication by missing `occurrenceID`, `eventDate`, method/SOP or reference database metadata. This avoids overclaiming while preserving useful evidence.
+The compiler addresses this gap with explicit evidence gates. It checks identity, query coverage, statistical ambiguity between top and competitor hits, lowest common ancestor, barcode gap, locally unique k-mer support, configured collision-risk checks and GBIF/DNA-derived publication metadata. It separates the molecular rule result from metadata readiness and export eligibility, so a record can pass the configured species rules while still being blocked from a validation-candidate export by missing `occurrenceID`, `eventDate`, method/SOP or reference database metadata. Passing these run-local rules is not independent taxonomic validation.
 
-The output is not a black-box score. Each run produces decision classes such as `species-safe`, `genus-safe`, `higher-rank-safe`, `ambiguous`, `weak`, `no-match` and `not-publishable`. The generated Evidence Pack includes `sequence_safety_table.csv`, `safe_taxonomic_assignments.csv`, `publication_blockers.csv`, `barcode_gap_report.csv`, `diagnostic_kmer_report.csv`, `math_viability_audit.json`, Darwin Core Occurrence templates, DNA-derived extension templates, a molecular evidence HTML report, methods text, citations, an evidence graph, JSON and ZIP exports.
+The output is not a black-box score. The primary display uses `species rule-pass`, `genus rule-pass`, `higher-rank rule-pass`, `ambiguous`, `weak`, `no-match` and `not-publishable`; legacy `*-safe` tokens remain only for API compatibility. The generated Evidence Pack includes `sequence_safety_table.csv`, bounded taxonomic candidates, `publication_blockers.csv`, `barcode_gap_report.csv`, k-mer evidence, `math_viability_audit.json`, Darwin Core and DNA-derived validation-candidate templates, a molecular evidence HTML report, methods text, citations, an evidence graph, JSON and ZIP exports.
 
-The current Nexus V3 + GSEG/GSIG implementation also adds a hard-gate audit, naive top-hit overclaim report, reference gap index, metadata bottleneck table, repair plan, external tool adapter matrix, split GBIF-ready versus review/repair exports, Verified Segment Evidence Array, theorem checklist, graph provenance audit, graph roundtrip audit and AI output guardrails. The GSIG Observatory adds source-registry audits, hashed GBIF Aedes Spain snapshots, VSEA-to-graph visualization, Observatory proof obligations, GBIF export preview and AI-ready export guardrails. These files make the system useful not only as a classifier, but as a publication repair and evidence-conversion engine. Unsupported function, phenotype and production GraphDB/RDF claims remain explicitly blocked rather than implied.
+The advanced audit layer also adds hard-gate consistency checks, a naive top-hit overclaim report, reference-gap and metadata-bottleneck tables, repair plans, an external-tool adapter matrix, validation-candidate versus review/repair exports, a rule-evidence segment array, a release-invariant checklist, graph provenance/roundtrip checks and AI output guardrails. The Evidence Map adds source-registry audits, hashed GBIF snapshots, rule-evidence visualization, release checks, a GBIF validation-candidate preview and AI-export guardrails. These files support review and repair; they are not formal proofs, external scientific validation or evidence of GBIF acceptance.
 
-For data users, the tool answers: “Can I safely use this molecular detection as a species-level occurrence, or should I downgrade or review it?” For data publishers, it gives concrete repair actions such as adding required metadata, improving sequence coverage or attaching reference-set evidence. For GBIF nodes and reviewers, it provides a reproducible audit trail that separates supported claims from blocked claims and keeps publication templates aligned with GBIF-ready data practices.
+For data users, the tool answers: “Which configured rank rules did this molecular record pass, and where must it be downgraded or reviewed?” For data publishers, it gives concrete repair actions such as adding required metadata, improving sequence coverage or attaching reference-set evidence. For GBIF nodes and reviewers, it provides a reproducible audit trail that separates rule-supported candidates from blocked claims and prepares validation-candidate templates for external GBIF/IPT review.
 
-The project uses GBIF in two complementary ways. The molecular compiler is designed as a downstream safety layer for GBIF Sequence ID-style or BLAST-style results and for DNA-derived publication workflows. The repository also includes a GBIF occurrence-audit layer that tests API access when live network mode is enabled, uses GBIF-mediated occurrence data for evidence-context checks, and demonstrates safe claim language around no-evidence cells, sampling gaps and citation readiness. The system does not claim species absence, true distribution, trend or phenotype truth from occurrence points or molecular matches alone.
+The project uses GBIF in two complementary ways. The molecular compiler is designed as a downstream rule and repair layer for GBIF Sequence ID-style or BLAST-style results and DNA-derived publication workflows. The repository also includes a GBIF occurrence-audit layer that tests API access when live network mode is enabled, uses GBIF-mediated occurrence data for context checks, and demonstrates bounded claim language around no-evidence cells, sampling gaps and citation readiness. GBIF occurrence rows remain unlinked to molecular rows unless shared identifiers are supplied. The system does not claim species absence, true distribution, trend or phenotype truth from occurrence points or molecular matches alone.
 
-This submission matters to the GBIF community because it improves the utility and quality of biodiversity data before publication and reuse. It helps prevent unsafe species-level claims, keeps ambiguous molecular evidence usable at safe rank, makes blockers repairable, and creates transparent, repeatable evidence packages that judges, reviewers, publishers and future users can inspect at no cost.
+This submission matters to the GBIF community because it improves the utility and reviewability of biodiversity data before publication and reuse. It helps prevent unsupported species-level claims, keeps ambiguous molecular evidence usable at a bounded rank, makes blockers repairable, and creates transparent, repeatable candidate packages that judges, reviewers, publishers and future users can inspect at no cost.
 
 ## Operating Instructions
 
@@ -62,18 +62,18 @@ The local Docker stack is the reproducible judge-facing run path. It builds the 
 3. Use `Download CSV template` if you need the expected format.
 4. Review CSV preview and validation warnings.
 5. Click `Generate from CSV`.
-6. Inspect the decision dashboard, sequence table, safe/blocked claims and repair actions.
+6. Inspect the decision dashboard, sequence table, bounded/blocked results and repair actions.
 7. Download `evidence_pack.zip` or individual CSV/HTML exports.
-8. Open `Observatory`, run `Run GBIF-backed Aedes Spain`, inspect source snapshot, VSEA, graph, exports and Judge tabs, then download `observatory_evidence_pack.zip`.
+8. Open `Evidence Map`, run the reproducible judge demo, inspect the source snapshot, rule-evidence rows, graph, exports and Judge tabs, then download `observatory_evidence_pack.zip`.
 
-For sequence-search validation rather than CSV scoring, use the `Reference search` panel. Judges can upload a small curated FASTA reference dataset with headers like `>ref_id|Taxon name|rank|gbifTaxonKey`, select it in the dropdown, paste a query sequence, and run VSEARCH/BLAST+/fallback search through the same hard-gate compiler.
+For a reference-search workflow check rather than CSV scoring, use the `Reference search` panel. Judges can upload a small curated FASTA reference dataset with headers like `>ref_id|Taxon name|rank|gbifTaxonKey`, select it in the dropdown, paste a query sequence, and run VSEARCH/BLAST+/fallback search through the same configured gates. Small bundled FASTA packs demonstrate workflow behavior; they are not independent biological validation sets.
 
 ### Example CSV Runs
 
 The repository includes four small CSV examples:
 
-- `examples/aedes_good.csv` -> `species-safe`
-- `examples/aedes_ambiguous.csv` -> `genus-safe`
+- `examples/aedes_good.csv` -> input review currently remains `ambiguous` unless external reference-completeness and sequence-QC evidence are supplied
+- `examples/aedes_ambiguous.csv` -> primary display `genus rule-pass` (`genus-safe` compatibility token)
 - `examples/aedes_missing_metadata.csv` -> taxonomic evidence preserved, publication blocked
 - `examples/aedes_weak_coverage.csv` -> `weak`
 
@@ -89,8 +89,8 @@ In a second terminal:
 
 ```bash
 cd frontend
-npm install
-npm test -- --run
+npm ci
+npm test
 npm run dev -- --host 127.0.0.1 --port 13100
 ```
 
@@ -104,13 +104,13 @@ cd backend
 
 Expected current regression status:
 
-- Backend: `79 passed, 1 skipped`
+- Backend: full suite passed at the last local check; use exact-commit CI for the authoritative count
 - Math viability verifier: `pass`, `142 checks`, `0 failed`
-- Frontend: `14 passed`
+- Frontend: `16 passed`
 - Frontend build: passes
-- Contest readiness API: `pass`, 17 checks, 0 failed
-- Competition packs: two frozen 100-sequence reports pass with theorem and graph roundtrip checks
-- Observatory verifier: passes with zero failed checks
+- Contest readiness API: `review`, 18 checks, 0 failed and 1 external-validation review item
+- Competition packs: two frozen repeated-fixture 100-row regression reports pass internal invariant and graph-roundtrip checks; they are not empirical validation sets
+- Evidence Map integrity verifier: passes its run-local checks with zero failed checks
 - GBIF API status: checked when live network mode is enabled
 
 ## Video URL
@@ -135,7 +135,7 @@ Local final video file:
 - Submission documentation: `docs/submission.md`
 - Methodology: `docs/barcode-compiler-methodology.md`
 - Nexus V3 full project: `docs/nexus-v3/EcoGenesis_Nexus_V3_FULL_PROJECT_RU.md`
-- Proof by failure modes: `docs/proof-by-failure-modes.md`
+- Failure-mode invariants: `docs/proof-by-failure-modes.md`
 - GBIF DNA-derived readiness: `docs/gbif-dna-derived-readiness.md`
 - Production Caddy deployment: `docs/production-caddy-deployment.md`
 - Testing: `docs/testing.md`

@@ -1,2 +1,2 @@
 runID,contradictionsObserved,status,guardrail
-3b037205cc904c08a613a6ccea42f724,0,not_applicable_no_claim,No literature or trait contradiction aggregation is performed; future contradictions must be preserved as explicit graph edges.
+538da02248e942119c546a1cbfa10c9b,0,not_applicable_no_claim,No literature or trait contradiction aggregation is performed; future contradictions must be preserved as explicit graph edges.
