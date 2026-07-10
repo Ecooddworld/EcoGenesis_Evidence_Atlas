@@ -1,0 +1,141 @@
+1
+00:00:00,000 --> 00:00:05,200
+Molecular search result ≠ species claim
+
+2
+00:00:05,200 --> 00:00:11,400
+Input: Sequence ID / BLAST / BOLD / UNITE / lab CSV
+
+3
+00:00:11,400 --> 00:00:17,300
+Read identity, coverage, competitors,
+reference/QC evidence and metadata
+
+4
+00:00:17,300 --> 00:00:22,200
+Apply configured gates in a fixed order
+
+5
+00:00:22,200 --> 00:00:27,500
+Mixed demo: 4 records processed
+
+6
+00:00:27,500 --> 00:00:33,400
+Fail-closed result: 0 species rule-pass
+
+7
+00:00:33,400 --> 00:00:39,100
+1 genus rule-pass · 2 ambiguous · 1 weak
+
+8
+00:00:39,100 --> 00:00:44,400
+Run-local decisions — not confirmed identifications
+
+9
+00:00:44,400 --> 00:00:50,300
+Decision Memo: bounded outcome before export
+
+10
+00:00:50,300 --> 00:00:56,700
+Ledger: every count, denominator and rate remains visible
+
+11
+00:00:56,700 --> 00:01:03,600
+Naive workflow: 4 species-ranked top hits
+
+12
+00:01:03,600 --> 00:01:10,100
+EcoGenesis: 4 blocked or downgraded
+
+13
+00:01:10,100 --> 00:01:15,000
+A first-ranked hit does not become species truth
+
+14
+00:01:15,000 --> 00:01:20,200
+Each sequence keeps its decision reason
+
+15
+00:01:20,200 --> 00:01:25,700
+Indistinguishable competitor → LCA downgrade
+
+16
+00:01:25,700 --> 00:01:28,400
+Low coverage → weak result
+
+17
+00:01:28,400 --> 00:01:30,800
+Missing occurrence metadata blocks publication,
+not the underlying molecular evidence
+
+18
+00:01:30,800 --> 00:01:37,000
+Evidence Pack: inspectable files, not a hidden score
+
+19
+00:01:37,000 --> 00:01:43,000
+Decision table + publication blockers + repair plan
+
+20
+00:01:43,000 --> 00:01:49,300
+Human-readable report + machine-readable rule evidence
+
+21
+00:01:49,300 --> 00:01:55,400
+Graph provenance and audits preserve the path to result
+
+22
+00:01:55,400 --> 00:02:01,200
+Evidence Map: GBIF occurrence context beside molecular rules
+
+23
+00:02:01,200 --> 00:02:07,200
+Occurrence rows stay unlinked without shared identifiers
+
+24
+00:02:07,200 --> 00:02:13,300
+Spatial context cannot strengthen a molecular claim
+
+25
+00:02:13,300 --> 00:02:18,000
+Source mode, graph checks and release checks stay visible
+
+26
+00:02:18,000 --> 00:02:24,000
+Fragment Graph: query → hits → lineages → bounded taxon
+
+27
+00:02:24,000 --> 00:02:30,200
+Quercus robur and Q. petraea share the rbcL evidence
+
+28
+00:02:30,200 --> 00:02:36,000
+Lowest common ancestor: Quercus / genus
+
+29
+00:02:36,000 --> 00:02:41,400
+Valid only within this reference set and ruleset
+
+30
+00:02:41,400 --> 00:02:47,200
+Methods publish the decision contract
+
+31
+00:02:47,200 --> 00:02:53,400
+Identity + coverage + competitor/LCA + barcode gap
+
+32
+00:02:53,400 --> 00:02:59,700
+Diagnostic k-mers + assay + publication fields + provenance
+
+33
+00:02:59,700 --> 00:03:04,000
+Internal consistency ≠ independent scientific validation
+
+34
+00:03:04,000 --> 00:03:09,400
+EcoGenesis V2: bounded decisions, repair and review
+
+35
+00:03:09,400 --> 00:03:14,600
+Inspect the artifacts. Validate externally before publication.
