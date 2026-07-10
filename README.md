@@ -563,4 +563,4 @@ Prepared submission materials live in `submission-assets/`, especially:
 - `submission-assets/gbif-entry-form-draft.md`
 - `submission-assets/barcode-video-script.md`
 - `submission-assets/final-submission-checklist.md`
-- `submission-assets/contest-video-v2/video/ecogenesis-gbif-contest-demo-en-subs.mp4`
+- `submission-assets/contest-video-v3/video/ecogenesis-v2-scientific-walkthrough-en-subs.mp4`

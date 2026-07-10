@@ -22,11 +22,10 @@ RUN setcap -r /usr/bin/caddy \
 
 COPY frontend/Caddyfile /etc/caddy/Caddyfile
 COPY --chown=ecogenesis:ecogenesis --from=build /app/dist /srv
-COPY --chown=ecogenesis:ecogenesis submission-assets/contest-video-v2/video/ecogenesis-gbif-contest-demo-en-subs.mp4 /srv/submission-video/
-COPY --chown=ecogenesis:ecogenesis submission-assets/contest-video-v2/video/ecogenesis-gbif-contest-demo-en.srt /srv/submission-video/
-COPY --chown=ecogenesis:ecogenesis submission-assets/contest-video-v2/video/ecogenesis-gbif-contest-demo-english-voiceover.txt /srv/submission-video/
-COPY --chown=ecogenesis:ecogenesis submission-assets/contest-video-v2/video/ecogenesis-gbif-contest-demo-transcript.md /srv/submission-video/
-COPY --chown=ecogenesis:ecogenesis submission-assets/contest-video-v2/video/demo-thumbnail-contest-en.png /srv/submission-video/
+COPY --chown=ecogenesis:ecogenesis submission-assets/contest-video-v3/video/ecogenesis-v2-scientific-walkthrough-en-subs.mp4 /srv/submission-video/
+COPY --chown=ecogenesis:ecogenesis submission-assets/contest-video-v3/video/ecogenesis-v2-scientific-walkthrough-en.srt /srv/submission-video/
+COPY --chown=ecogenesis:ecogenesis submission-assets/contest-video-v3/video/ecogenesis-v2-scientific-walkthrough-voiceover-en.txt /srv/submission-video/
+COPY --chown=ecogenesis:ecogenesis submission-assets/contest-video-v3/video/ecogenesis-v2-scientific-walkthrough-thumbnail.png /srv/submission-video/
 
 USER 10001:10001
 

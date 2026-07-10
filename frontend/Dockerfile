@@ -16,11 +16,10 @@ FROM nginx:1.30.3-alpine3.23@sha256:0d3b80406a13a767339fbe2f41406d6c7da727ab89cf
 
 COPY frontend/nginx.conf /etc/nginx/conf.d/default.conf
 COPY --chown=nginx:nginx --from=build /app/dist /usr/share/nginx/html
-COPY --chown=nginx:nginx submission-assets/contest-video-v2/video/ecogenesis-gbif-contest-demo-en-subs.mp4 /usr/share/nginx/html/submission-video/
-COPY --chown=nginx:nginx submission-assets/contest-video-v2/video/ecogenesis-gbif-contest-demo-en.srt /usr/share/nginx/html/submission-video/
-COPY --chown=nginx:nginx submission-assets/contest-video-v2/video/ecogenesis-gbif-contest-demo-english-voiceover.txt /usr/share/nginx/html/submission-video/
-COPY --chown=nginx:nginx submission-assets/contest-video-v2/video/ecogenesis-gbif-contest-demo-transcript.md /usr/share/nginx/html/submission-video/
-COPY --chown=nginx:nginx submission-assets/contest-video-v2/video/demo-thumbnail-contest-en.png /usr/share/nginx/html/submission-video/
+COPY --chown=nginx:nginx submission-assets/contest-video-v3/video/ecogenesis-v2-scientific-walkthrough-en-subs.mp4 /usr/share/nginx/html/submission-video/
+COPY --chown=nginx:nginx submission-assets/contest-video-v3/video/ecogenesis-v2-scientific-walkthrough-en.srt /usr/share/nginx/html/submission-video/
+COPY --chown=nginx:nginx submission-assets/contest-video-v3/video/ecogenesis-v2-scientific-walkthrough-voiceover-en.txt /usr/share/nginx/html/submission-video/
+COPY --chown=nginx:nginx submission-assets/contest-video-v3/video/ecogenesis-v2-scientific-walkthrough-thumbnail.png /usr/share/nginx/html/submission-video/
 
 RUN sed -i 's|pid        /run/nginx.pid;|pid        /tmp/nginx.pid;|' /etc/nginx/nginx.conf \
     && mkdir -p /var/cache/nginx \

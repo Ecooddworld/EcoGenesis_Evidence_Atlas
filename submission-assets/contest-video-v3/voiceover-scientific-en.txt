@@ -1,0 +1,17 @@
+EcoGenesis starts with molecular search results, not with a species claim. Input can be a CSV from Sequence ID, BLAST, BOLD, UNITE, or a laboratory pipeline. For each sequence, the compiler reads the top hit, identity, coverage, competitors, reference and quality evidence, and publication metadata. It then applies configured gates in a fixed order.
+
+Here we run the bundled mixed demo. Four records are processed. Under the current fail-closed reference attestation, the result contains zero species rule-passes and one genus rule-pass. Two records remain ambiguous, one is bounded to genus, and one is weak. The metadata-gap case also carries publication blockers. These are run-local decisions, not confirmed identifications.
+
+The Decision Memo reports the bounded outcome before export. The Data Accounting Ledger keeps every count, denominator, and rate visible. In Naive versus EcoGenesis, the first bar represents species-ranked top hits that a naive workflow could promote directly. The remaining bars show claims blocked or downgraded, useful bounded ranks, and rows eligible for validation-candidate templates. Here, no top hit becomes a species rule-pass simply because it ranked first.
+
+The sequence table preserves the reason for each decision. An indistinguishable competitor triggers an LCA downgrade. Insufficient coverage produces a weak result. Missing occurrence metadata blocks publication without changing the molecular evidence. Review-only and repair-required records remain visible, but stay out of publishable occurrence templates.
+
+The Evidence Pack turns these decisions into inspectable files. The sequence safety table records each decision and its blockers. Publication blockers and the repair plan show what must change. The molecular evidence report provides a readable summary. Rule-evidence arrays, the evidence graph, and provenance audits preserve the machine-readable path from input to result. The ZIP bundles the run for review.
+
+The Evidence Map adds run-level GBIF occurrence context beside molecular rule evidence. Occurrence rows are not linked to molecular rows unless shared specimen or event identifiers are supplied. They provide spatial, dataset, and citation context, but cannot strengthen a molecular claim. The screen also exposes blocked exports, source mode, graph checks, and run-local release checks.
+
+The Fragment Graph follows one marker fragment through the selected reference dataset. It shows top and competing hits, their lineages, and the bounded taxon. When close taxa remain indistinguishable, the compiler takes their lowest common ancestor instead of forcing a species label. That rank is valid only within the supplied evidence, selected reference set, and configured rules.
+
+Methods and Audits publish the decision contract: identity and coverage, competitor and LCA logic, barcode gap, diagnostic k-mers, marker and assay checks, publication fields, and provenance. Tests and integrity reports check fail-closed behavior and internal consistency. They make the run reproducible; they do not replace independent multi-taxon validation, expert review, or GBIF and IPT acceptance.
+
+EcoGenesis V2 is a working evidence compiler for bounded decisions, repair, and review. Run the workflow, inspect the artifacts, and validate candidate records externally before publication.

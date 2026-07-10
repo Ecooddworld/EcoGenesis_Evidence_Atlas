@@ -1582,7 +1582,7 @@ const solvedRows = [
 ];
 
 const testAnalysisRows = [
-  ['Frontend unit tests', '16 passed', 'Overview, workbench, upload flow, reference search, methods pages and visual lecture render with the export contract.'],
+  ['Frontend unit tests', 'Recorded by CI', 'The exact current count belongs to the release run; overview, workbench, upload, reference search, methods and export-contract behavior are covered.'],
   ['Frontend production build', 'Passed', 'Vite build completed and the page can be shipped as a static frontend.'],
   ['Backend pytest', 'Full suite passed at last check', 'The exact test count is recorded by CI because the suite grows with new regression, security and export coverage.'],
   ['Barcode operability script', 'PASS', 'Expected decisions, API endpoint, ZIP bundle and required exports all passed.'],
@@ -4222,11 +4222,11 @@ const evidencePackCatalogGroups = [
     ],
   },
   {
-    title: 'Publication templates',
+    title: 'Validation-candidate and review templates',
     files: [
-      ['dwc_occurrence_core_publishable.csv', 'Darwin Core rows allowed by gates.', 'Use as publication candidate material.'],
+      ['dwc_occurrence_core_validation_candidates.csv', 'Locally eligible Darwin Core rows.', 'Submit only for external GBIF/IPT validation; this file does not imply acceptance or publication.'],
+      ['dna_derived_extension_validation_candidates.csv', 'Locally eligible DNA-derived extension rows.', 'Review together with the Darwin Core candidate table before any publisher workflow.'],
       ['dwc_occurrence_core_review.csv', 'Rows that need review or repair.', 'Use as repair queue.'],
-      ['dna_derived_extension_publishable.csv', 'DNA-derived extension candidate fields.', 'Use with GBIF DNA-derived publishing workflows.'],
     ],
   },
   {
@@ -5541,11 +5541,11 @@ function ProofAndFormulas() {
         </div>
         <div className="test-metrics">
           <Metric label="Processed records" value="4" />
-          <Metric label="Species rule-pass" value="1" />
+          <Metric label="Species rule-pass" value="0" />
           <Metric label="Genus rule-pass" value="1" />
-          <Metric label="Blocked species claims" value="3" />
-          <Metric label="Record-ready exports" value="2" />
-          <Metric label="Repair efficiency" value="1.0" />
+          <Metric label="Local template candidates" value="1" />
+          <Metric label="External validation candidates" value="0" />
+          <Metric label="Blocked/downgraded top species claims" value="4" />
         </div>
       </section>
 
@@ -7351,10 +7351,10 @@ function CompilerWorkbench({
 
             <section className="panel two-column">
               <div>
-                <p className="section-label">Validation-candidate output</p>
-                <h3>{publishableRecords.length} {pluralize('record', publishableRecords.length)} can enter publishable templates</h3>
+                <p className="section-label">Locally eligible template output</p>
+                <h3>{publishableRecords.length} {pluralize('record', publishableRecords.length)} can enter candidate review templates</h3>
                 <p className="hint">
-                  These records have a `published_taxon` candidate and are included in Darwin Core and DNA-derived validation-candidate templates. External GBIF/IPT validation and acceptance remain separate.
+                  These records have a bounded `published_taxon` candidate and are included in Darwin Core and DNA-derived candidate templates. This is local eligibility only; external GBIF/IPT validation and acceptance remain separate.
                 </p>
                 <ul className="record-list">
                   {publishableRecords.map((record) => (
@@ -7847,8 +7847,10 @@ function Metric({ label, value, detail }) {
 function buildRunExplanation(metrics, publishableCount, reviewCount) {
   const species = metrics.species_rule_pass_records ?? metrics.species_safe_records ?? 0;
   const genus = metrics.genus_safe_records || 0;
-  const blocked = metrics.blocked_species_claims || 0;
-  return `This run produces ${publishableCount} validation-candidate ${pluralize('record', publishableCount)}: ${species} at species rank and ${genus} downgraded to genus or a more bounded rank. ${reviewCount} ${pluralize('record', reviewCount)} stay in the review queue. ${blocked} unsupported species-level ${pluralize('claim', blocked)} were blocked before export. External GBIF validation and acceptance remain separate.`;
+  const blocked = metrics.blocked_or_downgraded_top_species_hits ?? metrics.blocked_species_claims ?? 0;
+  const localTemplateCount = metrics.publishable_template_records ?? metrics.publishable_candidate_records ?? publishableCount;
+  const validationCandidateCount = metrics.validation_candidate_records ?? metrics.gbif_ready_records ?? 0;
+  return `This run produces ${localTemplateCount} locally eligible template ${pluralize('record', localTemplateCount)}: ${species} at species rank and ${genus} downgraded to genus or a more bounded rank. ${validationCandidateCount} ${pluralize('record', validationCandidateCount)} passed local metadata checks for external GBIF/IPT validation. ${reviewCount} ${pluralize('record', reviewCount)} stay in the review or repair queue. ${blocked} top-hit species ${pluralize('claim', blocked)} were blocked or downgraded before export. External GBIF validation and acceptance remain separate.`;
 }
 
 function formatStage(stage) {
