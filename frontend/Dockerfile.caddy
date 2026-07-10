@@ -14,7 +14,8 @@ RUN npm run build
 
 FROM caddy:2.11.4-alpine@sha256:5f5c8640aae01df9654968d946d8f1a56c497f1dd5c5cda4cf95ab7c14d58648
 
-RUN addgroup -S -g 10001 ecogenesis \
+RUN setcap -r /usr/bin/caddy \
+    && addgroup -S -g 10001 ecogenesis \
     && adduser -S -D -H -u 10001 -G ecogenesis ecogenesis \
     && mkdir -p /srv /data /config \
     && chown -R ecogenesis:ecogenesis /srv /data /config

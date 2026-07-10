@@ -168,6 +168,12 @@ jobs:
         run: scripts/docker_smoke.sh
       - name: Build Caddy production frontend image
         run: docker build -f frontend/Dockerfile.caddy -t ecogenesis-docker-smoke-caddy .
+      - name: Run hardened Caddy executable smoke test
+        run: >-
+          docker run --rm --cap-drop=ALL
+          --security-opt no-new-privileges:true --read-only
+          --entrypoint /usr/bin/caddy
+          ecogenesis-docker-smoke-caddy:latest version
       - name: Scan backend image for fixable critical vulnerabilities
         run: >-
           docker run --rm -v /var/run/docker.sock:/var/run/docker.sock
